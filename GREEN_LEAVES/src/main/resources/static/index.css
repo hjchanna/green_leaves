@@ -55,7 +55,7 @@ body{
     line-height: 32px;
     cursor: pointer;
     list-style: square;
-    
+
 }
 
 .index-sidebar-navigation li a{
@@ -130,4 +130,64 @@ body{
 
 .smart-scroll::-webkit-scrollbar-thumb {
     background-color: #D1D7E9;
+}
+
+/** dialog */
+.dialog-overlay{
+    width: 100%;
+    height: 100vh;
+    background-color: #2F323A;
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+}
+
+.dialog-container{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top:0;
+
+    display: flex;
+    align-content: center;
+}
+
+.dialog-container .panel{
+    width: 30%;
+    margin: auto;
+}
+
+.btn-success{
+    background-image: none;
+    background-color: #50C14E
+}
+.btn-primary{
+    background-image: none;
+    background-color: #5093E1
+}
+.btn-danger{
+    background-image: none;
+    background-color: #F65177
+}
+.btn-default{
+    background-image: none;
+    background-color: #9DA5BE
+}
+
+/** panel */
+.panel-success{
+    background-image: none;
+    background-color: #50C14E
+}
+.panel-primary{
+    background-image: none;
+    background-color: #5093E1
+}
+.panel-danger{
+    background-image: none;
+    background-color: #F65177
+}
+.panel-default{
+    background-image: none;
+    background-color: #9DA5BE
 }

@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
         <link rel="stylesheet" href="index.css">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <!--<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">-->
 
     </head>
     <body ng-app="indexModule">
@@ -46,6 +46,31 @@
                 <!--CONTENT OF THE APP-->
             </div>
         </div>
+
+        <div class="dialog-overlay"></div>
+
+        <div class="dialog-container">
+            <div class="panel">
+                <div class="panel-heading panel-success">
+                    TITLE
+                </div>
+                <div class="panel-body">
+                    CONTENT
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a class="btn btn-lg btn-block btn-success">CANCEL</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a class="btn btn-lg btn-block btn-danger">OK</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <!--js dependencies-->
         <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
