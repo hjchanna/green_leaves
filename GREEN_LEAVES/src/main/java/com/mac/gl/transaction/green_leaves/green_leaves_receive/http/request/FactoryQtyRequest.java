@@ -5,7 +5,7 @@
  */
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.http.request;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *

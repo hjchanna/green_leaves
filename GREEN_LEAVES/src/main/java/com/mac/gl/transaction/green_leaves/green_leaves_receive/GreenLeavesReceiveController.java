@@ -44,17 +44,17 @@ public class GreenLeavesReceiveController {
     //Returns all active route officers
     @RequestMapping(value = "/route-officers", method = RequestMethod.GET)
     public HttpRespondModel routeOfficers() {
-        List<MEmployee> employeeResponds = greenLeavesReceiveService.getRouteOfficers(branch, type);
+        List<MEmployee> employeeResponds = greenLeavesReceiveService.getRouteOfficers();
         return HttpRespondBuilder.successRespond(employeeResponds);
     }
 
     //Returns all active route helper
     @RequestMapping(value = "/route-helpers", method = RequestMethod.GET)
     public HttpRespondModel routeHelpers() {
-        List<MEmployee> routeResponds = greenLeavesReceiveService.getRouteOfficers(branch, type);
+        List<MEmployee> routeResponds = greenLeavesReceiveService.getHelpers();
         return HttpRespondBuilder.successRespond(routeResponds);
     }
-
+    
     //Returns all active green leaves suppliers
     @RequestMapping(value = "/clients", method = RequestMethod.GET)
     public HttpRespondModel clients() {
@@ -63,27 +63,27 @@ public class GreenLeavesReceiveController {
     }
 
     //Returns total green leaves weigh summary for specified date and route
-    @RequestMapping(value = "/factory-quantity", method = RequestMethod.POST)
+    @RequestMapping(value = "/factory-quantity", method = RequestMethod.GET)
     public HttpRespondModel factoryQuantity(@RequestBody FactoryQtyRequest factoryQtyRequest) {
-        TGreenLeavesWeighDetail tGreenLeavesWeighDetail = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(factoryQtyRequest.getRoute(), factoryQtyRequest.getDate(), branch);
+        TGreenLeavesWeighDetail tGreenLeavesWeighDetail = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(1, java.sql.Date.valueOf("2016-09-14"), branch);
         return HttpRespondBuilder.successRespond(tGreenLeavesWeighDetail);
     }
-
+    
     //Returns green leaves receive information for specified date and route
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public HttpRespondModel get(@RequestBody FactoryQtyRequest factoryQtyRequest) {
-        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(factoryQtyRequest.getRoute(), factoryQtyRequest.getDate(), branch);
+        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(1, java.sql.Date.valueOf("2016-09-14"), branch);
         return HttpRespondBuilder.successRespond(tGreenLeavesReceiveDetails);
     }
-
-    //Save or update green leaves receive information
-    @RequestMapping(value = "/save-or-update", method = RequestMethod.POST)
-    public void saveOrUpdate(@RequestBody TGreenLeavesReceiveDetails tGreenLeavesReceiveDetails) {
-        boolean saveOrUpdate = greenLeavesReceiveService.updateTGreenLeavesReceiveDetails(tGreenLeavesReceiveDetails);
-        if (saveOrUpdate) {
-            System.out.println("saveOrUpdate sucsses");
-        } else {
-            System.out.println("saveOrUpdate fail");
-        }
-    }
+    
+//    //Save or update green leaves receive information
+//    @RequestMapping(value = "/save-or-update", method = RequestMethod.POST)
+//    public void saveOrUpdate(@RequestBody SaveOrUpdateGreenLeavesReceive saveOrUpdateGreenLeavesReceive) {
+//        boolean saveOrUpdate = greenLeavesReceiveService.updateTGreenLeavesReceiveDetails(saveOrUpdateGreenLeavesReceive);
+//        if (saveOrUpdate) {
+//            System.out.println("saveOrUpdate sucsses");
+//        } else {
+//            System.out.println("saveOrUpdate fail");
+//        }
+//    }
 }

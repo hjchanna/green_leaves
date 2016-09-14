@@ -7,14 +7,15 @@ package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
 @Entity
+@Table(name = "m_route")
 public class MRoute {
-
     @Id
     private Integer indexNo;
     private Integer branch;

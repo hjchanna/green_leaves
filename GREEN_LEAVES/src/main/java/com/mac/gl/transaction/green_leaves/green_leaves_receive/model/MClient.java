@@ -6,20 +6,24 @@
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
 @Entity
+@Table(name = "m_client")
 public class MClient {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer indexNo;
     private Integer branch;
     private String name;
-    private Integer route;
 
     public Integer getIndexNo() {
         return indexNo;
@@ -40,13 +44,4 @@ public class MClient {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Integer getRoute() {
-        return route;
-    }
-
-    public void setRoute(Integer route) {
-        this.route = route;
-    }
-
 }

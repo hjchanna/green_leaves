@@ -13,14 +13,14 @@ import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeav
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesWeighDetail;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.ClientRepository;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.EmployeeRepository;
+import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesReceiveDetailsRepository;
+import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesWeighDetailRepository;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.RouteRepository;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesReceiveDetailsRepository;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesWeighDetailRepository;
 
 /**
  *
@@ -50,13 +50,13 @@ public class GreenLeavesReceiveService {
         return routelist;
     }
 
-    public List<MEmployee> getRouteOfficers(Integer branch, String type) {
-        List<MEmployee> officerList = employeeRepository.findByBranchAndType(branch, type);
+    public List<MEmployee> getRouteOfficers() {
+        List<MEmployee> officerList = employeeRepository.findAllByRouteOfficer();
         return officerList;
     }
 
-    public List<MEmployee> getHelpers(Integer branch,String type) {
-        List<MEmployee> helpersList = employeeRepository.findByBranchAndType(branch, type);
+    public List<MEmployee> getHelpers() {
+        List<MEmployee> helpersList = employeeRepository.findByHelpers();
         return helpersList;
     }
 
@@ -73,12 +73,19 @@ public class GreenLeavesReceiveService {
     }
 
     public List<TGreenLeavesReceiveDetails> getLeavesInfoMaction(Integer routeIndexNo, Date date, Integer branch) {
-        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetailsRepositorys = tGreenLeavesReceiveDetailsRepository.getTotalLeaves(routeIndexNo, date, branch);
+        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetailsRepositorys = tGreenLeavesReceiveDetailsRepository.findByRouteAndDate(routeIndexNo, date, branch);
         return tGreenLeavesReceiveDetailsRepositorys;
     }
 
-    public boolean updateTGreenLeavesReceiveDetails(TGreenLeavesReceiveDetails tGreenLeavesReceiveDetails) {
-        tGreenLeavesReceiveDetailsRepository.save(tGreenLeavesReceiveDetails);
-        return true;
-    }
+//    public boolean updateTGreenLeavesReceiveDetails(SaveOrUpdateGreenLeavesReceive saveOrUpdateGreenLeavesReceive) {
+//        TGreenLeavesReceive tGreenLeavesReceive = new TGreenLeavesReceive();
+//        //tGreenLeavesReceive.setBranch(saveOrUpdateGreenLeavesReceive.get);
+//        tGreenLeavesReceive.setData(saveOrUpdateGreenLeavesReceive.getData());
+//        tGreenLeavesReceive.setIndexNo(saveOrUpdateGreenLeavesReceive.getIndexNo());
+//        tGreenLeavesReceive.setRoute(saveOrUpdateGreenLeavesReceive.getRoute());
+//
+////        tGreenLeavesReceive.settGreenLeavesReceiveDetailsList();
+//        tGreenLeavesReceiveDetailsRepository.save(tGreenLeavesReceive);
+//        return true;
+//    }
 }

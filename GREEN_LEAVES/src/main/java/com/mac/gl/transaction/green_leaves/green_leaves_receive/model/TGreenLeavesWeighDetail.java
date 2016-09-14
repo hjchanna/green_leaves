@@ -7,12 +7,14 @@ package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
 @Entity
+@Table(name = "t_green_leave_weigh_detail")
 public class TGreenLeavesWeighDetail {
 
     @Id

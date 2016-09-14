@@ -6,15 +6,21 @@
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
 @Entity
+@Table(name = "m_employee")
 public class MEmployee {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer indexNo;
     private String name;
     private String type;
