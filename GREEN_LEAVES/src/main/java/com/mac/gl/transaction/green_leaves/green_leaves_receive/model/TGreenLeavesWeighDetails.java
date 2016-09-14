@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "t_green_leave_weigh_detail")
-public class TGreenLeavesWeighDetail {
+public class TGreenLeavesWeighDetails {
 
     @Id
     private Integer indexNo;
@@ -24,12 +24,12 @@ public class TGreenLeavesWeighDetail {
     private Double normalLeavesQuantity;
     private Double superLeavesQuantity;
 
-    public TGreenLeavesWeighDetail(Double normalLeavesQuantity, Double superLeavesQuantity) {
+    public TGreenLeavesWeighDetails(Double normalLeavesQuantity, Double superLeavesQuantity) {
         this.normalLeavesQuantity = normalLeavesQuantity;
         this.superLeavesQuantity = superLeavesQuantity;
     }
 
-    public TGreenLeavesWeighDetail() {
+    public TGreenLeavesWeighDetails() {
     }
 
     public Integer getIndexNo() {

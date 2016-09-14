@@ -12,7 +12,7 @@ import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MClient;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MEmployee;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetails;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesWeighDetail;
+import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +32,8 @@ public class GreenLeavesReceiveController {
     private GreenLeavesReceiveService greenLeavesReceiveService;
 
     private static final int branch = 1;
-    private static final String type = "";
+    private static final int route = 1;
+    private static final Date date = java.sql.Date.valueOf("2016-09-14");
 
     //Returns all active routes
     @RequestMapping(value = "/routes", method = RequestMethod.GET)
@@ -54,28 +55,28 @@ public class GreenLeavesReceiveController {
         List<MEmployee> routeResponds = greenLeavesReceiveService.getHelpers();
         return HttpRespondBuilder.successRespond(routeResponds);
     }
-    
+
     //Returns all active green leaves suppliers
-    @RequestMapping(value = "/clients", method = RequestMethod.GET)
+    @RequestMapping(value = "/clients", method = RequestMethod.POST)
     public HttpRespondModel clients() {
         List<MClient> clientRespond = greenLeavesReceiveService.getSuppliers();
         return HttpRespondBuilder.successRespond(clientRespond);
     }
 
     //Returns total green leaves weigh summary for specified date and route
-    @RequestMapping(value = "/factory-quantity", method = RequestMethod.GET)
+    @RequestMapping(value = "/factory-quantity", method = RequestMethod.POST)
     public HttpRespondModel factoryQuantity(@RequestBody FactoryQtyRequest factoryQtyRequest) {
-        TGreenLeavesWeighDetail tGreenLeavesWeighDetail = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(1, java.sql.Date.valueOf("2016-09-14"), branch);
-        return HttpRespondBuilder.successRespond(tGreenLeavesWeighDetail);
+        List<Object> list = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(route, date, branch);
+        return HttpRespondBuilder.successRespond(list);
     }
-    
+
     //Returns green leaves receive information for specified date and route
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public HttpRespondModel get(@RequestBody FactoryQtyRequest factoryQtyRequest) {
-        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(1, java.sql.Date.valueOf("2016-09-14"), branch);
+        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(route, date, branch);
         return HttpRespondBuilder.successRespond(tGreenLeavesReceiveDetails);
     }
-    
+
 //    //Save or update green leaves receive information
 //    @RequestMapping(value = "/save-or-update", method = RequestMethod.POST)
 //    public void saveOrUpdate(@RequestBody SaveOrUpdateGreenLeavesReceive saveOrUpdateGreenLeavesReceive) {

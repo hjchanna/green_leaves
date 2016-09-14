@@ -10,14 +10,12 @@ import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MClient;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MEmployee;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetails;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesWeighDetail;
+import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesWeighDetails;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.ClientRepository;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.EmployeeRepository;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesReceiveDetailsRepository;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesWeighDetailRepository;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.RouteRepository;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,16 +32,10 @@ public class GreenLeavesReceiveService {
     private RouteRepository routeRepository;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
     private ClientRepository clientRepository;
 
     @Autowired
-    private GreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
-
-    @Autowired
-    private GreenLeavesReceiveDetailsRepository tGreenLeavesReceiveDetailsRepository;
+    private EntityManager entityManager;
 
     public List<MRoute> getRoutes(Integer branch) {
         List<MRoute> routelist = routeRepository.findByBranch(branch);
@@ -51,13 +43,15 @@ public class GreenLeavesReceiveService {
     }
 
     public List<MEmployee> getRouteOfficers() {
-        List<MEmployee> officerList = employeeRepository.findAllByRouteOfficer();
-        return officerList;
+        String hql = "SELECT m_employee.* from m_route  LEFT JOIN m_employee ON m_route.route_officer = m_employee.index_no";
+        List<MEmployee> results = entityManager.createNativeQuery(hql, MEmployee.class).getResultList();
+        return results;
     }
 
     public List<MEmployee> getHelpers() {
-        List<MEmployee> helpersList = employeeRepository.findByHelpers();
-        return helpersList;
+        String hql = "SELECT m_employee.* from m_route  LEFT JOIN m_employee ON m_route.route_helper = m_employee.index_no";
+        List<MEmployee> results = entityManager.createNativeQuery(hql, MEmployee.class).getResultList();
+        return results;
     }
 
     public List<MClient> getSuppliers() {
@@ -65,26 +59,19 @@ public class GreenLeavesReceiveService {
         return suppliersList;
     }
 
-    public TGreenLeavesWeighDetail getTotalLeavesWeighByNormalLeavesAndSuperLeaves(Integer routeIndexNo, Date date, Integer branch) {
-        List<Object[]> greenLeavesReceiveDetailsList = greenLeavesWeighDetailRepository.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(routeIndexNo, date, branch);
-        Double normalLeavesQuantity = Double.parseDouble(greenLeavesReceiveDetailsList.get(0).toString());
-        Double superLeavesQuantity = Double.parseDouble(greenLeavesReceiveDetailsList.get(1).toString());
-        return new TGreenLeavesWeighDetail(normalLeavesQuantity, superLeavesQuantity);
+    public List<Object> getTotalLeavesWeighByNormalLeavesAndSuperLeaves(Integer routeIndexNo, Date date, Integer branch) {
+        String hql = "SELECT sum(normal_leaves_quantity),sum(super_leaves_quantity) FROM t_green_leave_weigh LEFT JOIN t_green_leave_weigh_detail ON t_green_leave_weigh.index_no = t_green_leave_weigh_detail.green_leave_weigh where t_green_leave_weigh.index_no = :route and date = :date and t_green_leave_weigh.branch = :branch";
+        List<Object> results = entityManager.createNativeQuery(hql, TGreenLeavesWeighDetails.class).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
+        return results;
     }
-
-    public List<TGreenLeavesReceiveDetails> getLeavesInfoMaction(Integer routeIndexNo, Date date, Integer branch) {
-        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetailsRepositorys = tGreenLeavesReceiveDetailsRepository.findByRouteAndDate(routeIndexNo, date, branch);
-        return tGreenLeavesReceiveDetailsRepositorys;
+    
+    public List<TGreenLeavesReceiveDetails> getLeavesInfoMaction(Integer routeIndexNo,Date date,Integer branch) {
+        String hql = "SELECT t_green_leaves_receive_details.*  FROM t_green_leaves_receive LEFT JOIN t_green_leaves_receive_details ON t_green_leaves_receive.index_no = t_green_leaves_receive_details.green_leaves_receive where t_green_leaves_receive.index_no = :route and date = :date and t_green_leaves_receive.branch = :branch";
+        List<TGreenLeavesReceiveDetails> results = entityManager.createNativeQuery(hql, TGreenLeavesReceiveDetails.class).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
+        return results;
     }
-
+    
 //    public boolean updateTGreenLeavesReceiveDetails(SaveOrUpdateGreenLeavesReceive saveOrUpdateGreenLeavesReceive) {
-//        TGreenLeavesReceive tGreenLeavesReceive = new TGreenLeavesReceive();
-//        //tGreenLeavesReceive.setBranch(saveOrUpdateGreenLeavesReceive.get);
-//        tGreenLeavesReceive.setData(saveOrUpdateGreenLeavesReceive.getData());
-//        tGreenLeavesReceive.setIndexNo(saveOrUpdateGreenLeavesReceive.getIndexNo());
-//        tGreenLeavesReceive.setRoute(saveOrUpdateGreenLeavesReceive.getRoute());
-//
-////        tGreenLeavesReceive.settGreenLeavesReceiveDetailsList();
 //        tGreenLeavesReceiveDetailsRepository.save(tGreenLeavesReceive);
 //        return true;
 //    }

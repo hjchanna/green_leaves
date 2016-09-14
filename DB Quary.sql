@@ -10,6 +10,11 @@ SELECT sum(normal_leaves_quantity),sum(super_leaves_quantity) FROM t_green_leave
 SELECT sum(ts.normal_leaves_quantity),sum(ts.super_leaves_quantity) FROM t_green_leave_weigh t LEFT JOIN t_green_leave_weigh_detail ts ON t.index_no = ts.green_leave_weigh where t.index_no = 1 and t.date = "2016-09-14" and t.branch = 1;
 
 
-SELECT e.* from m_route r LEFT JOIN m_employee e ON r.route_officer = e.index_no;
+
+
+SELECT sum(normal_leaves_quantity),sum(super_leaves_quantity) FROM t_green_leave_weigh LEFT JOIN t_green_leave_weigh_detail ON t_green_leave_weigh.index_no = t_green_leave_weigh_detail.green_leave_weigh where t_green_leave_weigh.index_no = 1 and date = "2016-09-14" and t_green_leave_weigh.branch = 1;
+
+
+SELECT m_employee.* from m_route  LEFT JOIN m_employee ON m_route.route_officer = m_employee.index_no;
 
 SELECT e.* from m_route r LEFT JOIN m_employee e ON r.route_helper = e.index_no;
