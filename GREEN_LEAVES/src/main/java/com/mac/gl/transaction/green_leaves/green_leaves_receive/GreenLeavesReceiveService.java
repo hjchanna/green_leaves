@@ -59,18 +59,23 @@ public class GreenLeavesReceiveService {
         return suppliersList;
     }
 
-    public List<Object> getTotalLeavesWeighByNormalLeavesAndSuperLeaves(Integer routeIndexNo, Date date, Integer branch) {
+    public TGreenLeavesWeighDetails getTotalLeavesWeighByNormalLeavesAndSuperLeaves(Integer routeIndexNo, Date date, Integer branch) {
         String hql = "SELECT sum(normal_leaves_quantity) as total_normal_leaves_quantity, sum(super_leaves_quantity) as total_super_leaves_quantity FROM t_green_leave_weigh LEFT JOIN t_green_leave_weigh_detail ON t_green_leave_weigh.index_no = t_green_leave_weigh_detail.green_leave_weigh where t_green_leave_weigh.index_no = :route and date = :date and t_green_leave_weigh.branch = :branch";
-        List<Object> results = entityManager.createNativeQuery(hql).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
-        return results;
+        List<Object[]> results = entityManager.createNativeQuery(hql).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
+        TGreenLeavesWeighDetails tGreenLeavesWeighDetails = new TGreenLeavesWeighDetails();
+        for (Object[] greenLeavesWeighDetail : results) {
+            tGreenLeavesWeighDetails.setNormalLeavesQuantity(Double.parseDouble(greenLeavesWeighDetail[0].toString()));
+            tGreenLeavesWeighDetails.setSuperLeavesQuantity(Double.parseDouble(greenLeavesWeighDetail[1].toString()));
+        }
+        return tGreenLeavesWeighDetails;
     }
-    
-    public List<TGreenLeavesReceiveDetails> getLeavesInfoMaction(Integer routeIndexNo,Date date,Integer branch) {
+
+    public List<TGreenLeavesReceiveDetails> getLeavesInfoMaction(Integer routeIndexNo, Date date, Integer branch) {
         String hql = "SELECT t_green_leaves_receive_details.*  FROM t_green_leaves_receive LEFT JOIN t_green_leaves_receive_details ON t_green_leaves_receive.index_no = t_green_leaves_receive_details.green_leaves_receive where t_green_leaves_receive.index_no = :route and date = :date and t_green_leaves_receive.branch = :branch";
         List<TGreenLeavesReceiveDetails> results = entityManager.createNativeQuery(hql, TGreenLeavesReceiveDetails.class).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
         return results;
     }
-    
+
 //    public boolean updateTGreenLeavesReceiveDetails(SaveOrUpdateGreenLeavesReceive saveOrUpdateGreenLeavesReceive) {
 //        tGreenLeavesReceiveDetailsRepository.save(tGreenLeavesReceive);
 //        return true;

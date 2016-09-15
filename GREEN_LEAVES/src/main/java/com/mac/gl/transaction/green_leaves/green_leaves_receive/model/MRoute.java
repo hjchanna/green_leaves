@@ -7,21 +7,28 @@ package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
-@Entity
+@Entity(name = "com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute")
 @Table(name = "m_route")
 public class MRoute {
+
     @Id
     private Integer indexNo;
     private Integer branch;
     private String name;
-    private Integer routeOfficer;
-    private Integer routeHelper;
+    @ManyToOne
+    @JoinColumn(name = "route_officer")
+    private MEmployee routeOfficer;
+    @ManyToOne
+    @JoinColumn(name = "route_helper")
+    private MEmployee routeHelper;
 
     public MRoute() {
     }
@@ -50,20 +57,19 @@ public class MRoute {
         this.name = name;
     }
 
-    public Integer getRouteOfficer() {
+    public MEmployee getRouteOfficer() {
         return routeOfficer;
     }
 
-    public void setRouteOfficer(Integer routeOfficer) {
+    public void setRouteOfficer(MEmployee routeOfficer) {
         this.routeOfficer = routeOfficer;
     }
 
-    public Integer getRouteHelper() {
+    public MEmployee getRouteHelper() {
         return routeHelper;
     }
 
-    public void setRouteHelper(Integer routeHelper) {
+    public void setRouteHelper(MEmployee routeHelper) {
         this.routeHelper = routeHelper;
     }
-
 }

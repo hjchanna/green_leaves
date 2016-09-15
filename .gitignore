@@ -1,2 +1,5 @@
 /GREEN_LEAVES/target/
+/GREEN_LEAVES/bower_components/
+/GREEN_LEAVES/node_modules/
+/GREEN_LEAVES/src/main/resources/static/
 /GreenLeavesORM/build/

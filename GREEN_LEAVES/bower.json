@@ -1,11 +1,14 @@
 {
-    "name": "ng-spring-boot",
+    "name": "green-leaves",
+    "description": "tea factory management system",
+    "authors": [
+        "Channa Jayamuni <hjchanna@gmail.com>"
+    ],
     "dependencies": {
-        "angular": "1.5.8",
-        "angular-route": "1.5.8",
-        "angular-animate": "1.5.8",
-        "bootstrap": "3.3.7",
-        "animate.css": "latest",
-        "sockjs-client":"latest"
+        "angular": "^1.5.8",
+        "angular-route": "^1.5.8",
+        "angular-animate": "^1.5.8",
+        "bootstrap": "^3.3.7",
+        "animate.css": "latest"
     }
 }
