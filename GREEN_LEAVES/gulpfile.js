@@ -13,7 +13,7 @@ var
         clean = require('gulp-clean');
 
 gulp.task("build-html", function () {
-    return  gulp.src("src/main/webapp/**/*.html")
+    return  gulp.src("src/site/**/*.html")
             .pipe(debug())
             .pipe(inject(gulp.src([
                 "src/main/resources/static/js/vendor.js",
@@ -29,7 +29,7 @@ gulp.task("build-html", function () {
 
 gulp.task("build-js", function () {
     //app
-    gulp.src("src/main/webapp/**/*.js")
+    gulp.src("src/site/**/*.js")
             .pipe(debug())
             .pipe(concat("app.min.js"))
             .pipe(ngAnnotate())
@@ -49,7 +49,7 @@ gulp.task("build-js", function () {
 
 gulp.task("build-css", function () {
     //app
-    gulp.src("src/main/webapp/**/*.css")
+    gulp.src("src/site/**/*.css")
             .pipe(debug())
             .pipe(concat("app.min.css"))
             .pipe(cleanCSS())
@@ -69,7 +69,7 @@ gulp.task("build-css", function () {
 
 gulp.task("build-other", function () {
     //images
-    gulp.src("src/main/webapp/img/*.*")
+    gulp.src("src/site/img/*.*")
             .pipe(debug())
             .pipe(gulp.dest("src/main/resources/static/img"));
     //web fonts
@@ -86,7 +86,6 @@ gulp.task("serve", ["build", "watch"], function () {
             baseDir: "src/main/resources/static"
         }
     });
-
 });
 
 gulp.task("serve-html", ["build-html"], function (done) {
@@ -105,9 +104,9 @@ gulp.task("serve-css", ["build-css"], function (done) {
 });
 
 gulp.task("watch", function () {
-    gulp.watch("src/main/webapp/**/*.html", ["serve-html"]);
-    gulp.watch("src/main/webapp/**/*.js", ["serve-js"]);
-    gulp.watch("src/main/webapp/**/*.css", ["serve-css"]);
+    gulp.watch("src/site/**/*.html", ["serve-html"]);
+    gulp.watch("src/site/**/*.js", ["serve-js"]);
+    gulp.watch("src/site/**/*.css", ["serve-css"]);
 });
 
 gulp.task("clean", function () {
