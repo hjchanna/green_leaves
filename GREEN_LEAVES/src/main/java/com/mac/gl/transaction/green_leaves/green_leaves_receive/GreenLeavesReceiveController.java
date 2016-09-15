@@ -66,14 +66,14 @@ public class GreenLeavesReceiveController {
     //Returns total green leaves weigh summary for specified date and route
     @RequestMapping(value = "/factory-quantity", method = RequestMethod.POST)
     public HttpRespondModel factoryQuantity(@RequestBody FactoryQtyRequest factoryQtyRequest) {
-        List<Object> list = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(route, date, branch);
+        List<Object> list = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(factoryQtyRequest.getRoute(), factoryQtyRequest.getDate(), branch);
         return HttpRespondBuilder.successRespond(list);
     }
 
     //Returns green leaves receive information for specified date and route
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public HttpRespondModel get(@RequestBody FactoryQtyRequest factoryQtyRequest) {
-        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(route, date, branch);
+        List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(factoryQtyRequest.getRoute(), factoryQtyRequest.getDate(), branch);
         return HttpRespondBuilder.successRespond(tGreenLeavesReceiveDetails);
     }
 

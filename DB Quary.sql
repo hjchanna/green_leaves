@@ -18,3 +18,6 @@ SELECT sum(normal_leaves_quantity),sum(super_leaves_quantity) FROM t_green_leave
 SELECT m_employee.* from m_route  LEFT JOIN m_employee ON m_route.route_officer = m_employee.index_no;
 
 SELECT e.* from m_route r LEFT JOIN m_employee e ON r.route_helper = e.index_no;
+
+
+SELECT sum(normal_leaves_quantity),sum(super_leaves_quantity) FROM t_green_leave_weigh LEFT JOIN t_green_leave_weigh_detail ON t_green_leave_weigh.index_no = t_green_leave_weigh_detail.green_leave_weigh where t_green_leave_weigh.index_no = :route and date = :date and t_green_leave_weigh.branch = :branch

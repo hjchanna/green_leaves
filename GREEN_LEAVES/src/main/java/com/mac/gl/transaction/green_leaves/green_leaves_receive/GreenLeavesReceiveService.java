@@ -60,8 +60,8 @@ public class GreenLeavesReceiveService {
     }
 
     public List<Object> getTotalLeavesWeighByNormalLeavesAndSuperLeaves(Integer routeIndexNo, Date date, Integer branch) {
-        String hql = "SELECT sum(normal_leaves_quantity),sum(super_leaves_quantity) FROM t_green_leave_weigh LEFT JOIN t_green_leave_weigh_detail ON t_green_leave_weigh.index_no = t_green_leave_weigh_detail.green_leave_weigh where t_green_leave_weigh.index_no = :route and date = :date and t_green_leave_weigh.branch = :branch";
-        List<Object> results = entityManager.createNativeQuery(hql, TGreenLeavesWeighDetails.class).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
+        String hql = "SELECT sum(normal_leaves_quantity) as total_normal_leaves_quantity, sum(super_leaves_quantity) as total_super_leaves_quantity FROM t_green_leave_weigh LEFT JOIN t_green_leave_weigh_detail ON t_green_leave_weigh.index_no = t_green_leave_weigh_detail.green_leave_weigh where t_green_leave_weigh.index_no = :route and date = :date and t_green_leave_weigh.branch = :branch";
+        List<Object> results = entityManager.createNativeQuery(hql).setParameter("route", routeIndexNo).setParameter("date", date).setParameter("branch", branch).getResultList();
         return results;
     }
     
