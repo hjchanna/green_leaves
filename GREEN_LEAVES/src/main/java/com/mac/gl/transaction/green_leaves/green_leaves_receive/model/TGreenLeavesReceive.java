@@ -6,14 +6,10 @@
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import java.sql.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,8 +28,6 @@ public class TGreenLeavesReceive {
     private Date data;
     private Integer route;
     private Integer branch;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "greenLeavesReceive", fetch = FetchType.LAZY)
-    private List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetailsList;
 
     public TGreenLeavesReceive() {
     }
@@ -85,13 +79,4 @@ public class TGreenLeavesReceive {
     public void setBranch(Integer branch) {
         this.branch = branch;
     }
-
-    public List<TGreenLeavesReceiveDetails> gettGreenLeavesReceiveDetailsList() {
-        return tGreenLeavesReceiveDetailsList;
-    }
-
-    public void settGreenLeavesReceiveDetailsList(List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetailsList) {
-        this.tGreenLeavesReceiveDetailsList = tGreenLeavesReceiveDetailsList;
-    }
-
 }

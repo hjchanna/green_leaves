@@ -11,12 +11,12 @@ import java.sql.Date;
  *
  * @author Don
  */
-public class FactoryQtyRequest {
+public class FactoryQuantityRequest {
 
     private Integer route;
     private Date date;
 
-    public FactoryQtyRequest() {
+    public FactoryQuantityRequest() {
     }
 
     public Integer getRoute() {

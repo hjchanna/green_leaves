@@ -7,7 +7,7 @@ package com.mac.gl.transaction.green_leaves.green_leaves_receive;
 
 import com.mac.gl.system.http.HttpRespondBuilder;
 import com.mac.gl.system.http.HttpRespondModel;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.http.request.FactoryQtyRequest;
+import com.mac.gl.transaction.green_leaves.green_leaves_receive.http.request.FactoryQuantityRequest;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MClient;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MEmployee;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute;
@@ -65,14 +65,14 @@ public class GreenLeavesReceiveController {
 
     //Returns total green leaves weigh summary for specified date and route
     @RequestMapping(value = "/factory-quantity", method = RequestMethod.POST)
-    public HttpRespondModel factoryQuantity(@RequestBody FactoryQtyRequest factoryQtyRequest) {
+    public HttpRespondModel factoryQuantity(@RequestBody FactoryQuantityRequest factoryQtyRequest) {
         List<Object> list = greenLeavesReceiveService.getTotalLeavesWeighByNormalLeavesAndSuperLeaves(route, date, branch);
         return HttpRespondBuilder.successRespond(list);
     }
 
     //Returns green leaves receive information for specified date and route
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    public HttpRespondModel get(@RequestBody FactoryQtyRequest factoryQtyRequest) {
+    public HttpRespondModel get(@RequestBody FactoryQuantityRequest factoryQtyRequest) {
         List<TGreenLeavesReceiveDetails> tGreenLeavesReceiveDetails = greenLeavesReceiveService.getLeavesInfoMaction(route, date, branch);
         return HttpRespondBuilder.successRespond(tGreenLeavesReceiveDetails);
     }
