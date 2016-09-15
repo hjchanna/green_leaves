@@ -15,6 +15,7 @@ import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.Clien
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.RouteRepository;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,9 @@ public class GreenLeavesReceiveService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     public List<MRoute> getRoutes(Integer branch) {
         List<MRoute> routelist = routeRepository.findByBranch(branch);
