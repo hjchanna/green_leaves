@@ -7,12 +7,18 @@ package com.mac.gl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.*;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  *
  * @author Mohan
  */
 @SpringBootApplication
+@Configuration
+@EnableJpaRepositories
+@EnableTransactionManagement
 public class Application {
 
     public static void main(String[] args) {

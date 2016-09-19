@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,11 +19,11 @@ public class MRoute {
     private Integer indexNo;
     private Integer branch;
     private String name;
-    @ManyToOne
     @JoinColumn(name = "route_officer")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private MEmployee routeOfficer;
-    @ManyToOne
     @JoinColumn(name = "route_helper")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private MEmployee routeHelper;
 
     public MRoute() {

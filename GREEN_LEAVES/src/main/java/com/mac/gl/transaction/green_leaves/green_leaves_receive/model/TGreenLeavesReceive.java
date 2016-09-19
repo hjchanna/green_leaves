@@ -1,22 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
 import java.sql.Date;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
-@Entity
+@Entity(name = "com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesReceive")
 @Table(name = "t_green_leaves_receive")
 public class TGreenLeavesReceive {
 
@@ -25,9 +23,11 @@ public class TGreenLeavesReceive {
     private Integer indexNo;
     private Integer transaction;
     private Integer number;
-    private Date data;
-    private Integer route;
+    private Date date;
     private Integer branch;
+    @JoinColumn(name = "route")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private MRoute route;
 
     public TGreenLeavesReceive() {
     }
@@ -56,20 +56,12 @@ public class TGreenLeavesReceive {
         this.number = number;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDate() {
+        return date;
     }
 
-    public void setData(Date data) {
-        this.data = data;
-    }
-
-    public Integer getRoute() {
-        return route;
-    }
-
-    public void setRoute(Integer route) {
-        this.route = route;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Integer getBranch() {
@@ -79,4 +71,19 @@ public class TGreenLeavesReceive {
     public void setBranch(Integer branch) {
         this.branch = branch;
     }
+
+    public MRoute getRoute() {
+        return route;
+    }
+
+    public void setRoute(MRoute route) {
+        this.route = route;
+    }
+
+    @Override
+    public String toString() {
+        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + ", transaction=" + transaction + ", number=" + number + '}';
+    }
+
+    
 }
