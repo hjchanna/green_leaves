@@ -1,7 +1,5 @@
 var
         gulp = require("gulp"),
-        util = require("gulp-util"),
-        jshint = require("gulp-jshint"),
         concat = require("gulp-concat"),
         uglify = require("gulp-uglify"),
         cleanCSS = require('gulp-clean-css'),
