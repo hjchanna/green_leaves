@@ -165,7 +165,7 @@ body{
 }*/
 
 /*button*/
-/*.btn-success{
+.btn-success{
     background-image: none;
     background-color: #50C14E
 }
@@ -180,7 +180,7 @@ body{
 .btn-default{
     background-image: none;
     background-color: #9DA5BE
-}*/
+}
 
 /** panel */
 /*.panel-success{
@@ -310,4 +310,59 @@ body{
     margin: 24px 0 8px 0;
     outline: none;
     padding: 0px 16px 0 16px;
+}
+
+
+
+/*--kavish--*/
+
+.tabs {
+    position: relative;   
+    min-height: 300px; /* This part sucks */
+    clear: both;
+    margin: 35px 10px 25px;
+    background: white;
+}
+.tab {
+    float: left;
+
+}
+.tab label {
+    background: #cccccc; 
+    padding: 10px; 
+    margin-left: -1px; 
+    position: relative;
+    left: 1px; 
+    top: -29px;
+
+}
+.tab [type=radio] {
+    display: none;   
+}
+.content {
+    padding-top: 10px;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    background: white;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    opacity: 0;
+}
+
+[type=radio]:checked ~ label {
+    background: white;
+    border-bottom:none;
+    z-index: 2;
+}
+[type=radio]:checked ~ label ~ .content {
+    z-index: 1;
+    opacity: 1;
+}
+
+.color-dark{
+    background-color: #EDEFF5;
+    border-radius: 5px 0 0 5px;
+    margin-top: 5px;
 }
