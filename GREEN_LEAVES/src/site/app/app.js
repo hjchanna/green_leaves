@@ -1,9 +1,9 @@
 (function () {
     //index module
-    angular.module("indexModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule"]);
+    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule"]);
 
     //route config
-    angular.module("indexModule")
+    angular.module("appModule")
             .config(function ($routeProvider) {
                 $routeProvider
                         //system
