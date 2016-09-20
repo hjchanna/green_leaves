@@ -116,21 +116,28 @@ body{
     background-color: #FFFFFF;
 }
 
-.smart-scroll{
+/*-----------------start smart scroll--------------------*/
+
+.smart-scroll-x{
+    overflow-x: scroll;
+}
+
+.smart-scroll-y{
     overflow-y: scroll;
 }
 
-.smart-scroll::-webkit-scrollbar {
+.smart-scroll-x::-webkit-scrollbar, .smart-scroll-y::-webkit-scrollbar {
     width: 0.5em;
 }
 
-.smart-scroll::-webkit-scrollbar-track {
+.smart-scroll-x::-webkit-scrollbar-track, .smart-scroll-y::-webkit-scrollbar-track {
     background-color: #E6E8EE;
 }
 
-.smart-scroll::-webkit-scrollbar-thumb {
+.smart-scroll-x::-webkit-scrollbar-thumb, .smart-scroll-y::-webkit-scrollbar-thumb {
     background-color: #D1D7E9;
 }
+/*-----------------end smart scroll--------------------*/
 
 /** dialog */
 /*.dialog-overlay{
@@ -205,6 +212,11 @@ body{
 }*/
 
 
+/*-----------------start background colors--------------------*/
+.background-ultra-dark{
+    background-color: #2F323A;
+}
+
 .background-dark{
     background-color: #EDEFF5;
 }
@@ -212,8 +224,29 @@ body{
 .background-light{
     background-color: #FFFFFF;
 }
+/*-----------------end background colors--------------------*/
 
-/*table*/
+/*-----------------start borders--------------------*/
+.border-all{
+    border: #E4E4E4 1px solid;
+}
+.border-top{
+    border-top: #E4E4E4 1px solid;
+}
+.border-right{
+    border-right: #E4E4E4 1px solid;
+}
+.border-bottom{
+    border-bottom: #E4E4E4 1px solid;
+}
+.border-left{
+    border-left: #E4E4E4 1px solid;
+}
+/*-----------------end borders--------------------*/
+
+
+
+/*-----------------start table--------------------*/
 .table{
     display: table;
     max-width: 100%;
@@ -252,6 +285,14 @@ body{
     display: table-cell;
     padding: 0 10px 0 10px;
 }
+/*-----------------end table--------------------*/
+
+/*-----------------start clickable--------------------*/
+.clickable{
+    cursor: pointer;
+}
+
+/*-----------------end clickable--------------------*/
 
 .background-light .tbody .tr{
     background-color: #EDEFF5;
