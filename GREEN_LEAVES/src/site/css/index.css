@@ -7,6 +7,8 @@ body{
     font-family: 'Roboto', sans-serif !important;
     font-style: normal;
     font-weight: 300;
+    overflow-x: hidden;
+
 }
 
 .index-sidebar-left{
@@ -246,60 +248,53 @@ body{
 }
 /*-----------------end borders--------------------*/
 
-
-
 /*-----------------start table--------------------*/
-.table{
-    display: table;
-    max-width: 100%;
+table{
+    width: 100%;
+    border-collapse: separate;
     border-spacing:0 5px;
     margin-bottom: 0px;
 }
 
-.thead{
-    display: table-header-group;
+thead{
     font-weight: 500;
 }
 
-.tbody{
-    display: table-row-group;
+tbody{
 }
 
-.tr{
-    display: table-row;
+tr{
     line-height: 32px;
 }
 
-.tr > div:first-child{
+tr > td:first-child, tr > th:first-child{
     border-radius: 5px 0 0 5px;
 }
 
-.tr > div:last-child{
+tr > td:last-child, tr > th:last-child{
     border-radius: 0 5px 5px 0;
 }
 
-.th{
-    display: table-cell;
+th{
     padding: 0 10px 0 10px;
 }
 
-.td{
-    display: table-cell;
+td{
     padding: 0 10px 0 10px;
 }
 
-.background-light .tbody .tr{
+.background-light tbody tr{
     background-color: #EDEFF5;
 }
 
-.background-dark .tbody .tr{
+.background-dark tbody tr{
     background-color: #FFFFFF;
 }
 
-.th>label{
+th>label{
     margin-bottom: 0px;
 }
-.th>.form-control{
+th>.form-control{
     margin-bottom: 5px;
 }
 /*-----------------end table--------------------*/
@@ -362,70 +357,6 @@ label{
 
 
 /*--kavish--*/
-/*-----------------open tab--------------------*/
-.tabs {
-    position: relative;   
-    min-height: 455px;
-    clear: both;
-    margin: 35px 10px 25px;
-}
-.tab {
-    float: left;
-
-}
-.tab label {
-    background: #cccccc; 
-    padding: 10px; 
-    margin-left: -1px; 
-    position: relative;
-    left: 1px; 
-    top: -29px;
-
-}
-.tab [type=radio] {
-    display: none;   
-}
-.content {
-    padding-top: 10px;
-    position: absolute;
-    top: -1px;
-    left: 0;
-    background: white;
-    right: 0;
-    bottom: 0;
-    padding: 20px;
-    opacity: 0;
-}
-
-[type=radio]:checked ~ label {
-    background: white;
-    border-bottom:none;
-    z-index: 2;
-}
-[type=radio]:checked ~ label ~ .content {
-    z-index: 1;
-    opacity: 1;
-}
-
-.content .tbody .tr{
-    background-color: #EDEFF5;
-}
-/*-----------------end tab--------------------*/
-
-/*-----------------open total and blance--------------------*/
-.one-line {
-    border-bottom: 2px solid #cccccc;
-    position: absolute;
-    width: 370px;
-}
-
-.doubl-line{
-    border-bottom: 2px double #cccccc;
-    padding-top: 3px;
-    position: absolute;
-    width: 370px;
-}
-/*-----------------end total and blance--------------------*/
 
 /*-----------------open ripper--------------------*/
 
@@ -456,7 +387,3 @@ label{
     transition: 0s;
 }
 /*-----------------end ripper--------------------*/
-
-.nopadding {
-   padding: 1px !important;
-}
