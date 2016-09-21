@@ -40,6 +40,7 @@ gulp.task("build-js", function () {
         "bower_components/angular-route/angular-route.min.js",
         "bower_components/angular-animate/angular-animate.min.js",
         "bower_components/angular-bootstrap/ui-bootstrap.min.js",
+        "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
         "bower_components/chart.js/dist/Chart.min.js",
         "bower_components/angular-chart.js/dist/angular-chart.min.js"
     ])

@@ -132,10 +132,12 @@ body{
 
 .smart-scroll-x::-webkit-scrollbar-track, .smart-scroll-y::-webkit-scrollbar-track {
     background-color: #E6E8EE;
+    border-radius: 5px;
 }
 
 .smart-scroll-x::-webkit-scrollbar-thumb, .smart-scroll-y::-webkit-scrollbar-thumb {
     background-color: #D1D7E9;
+    border-radius: 5px;
 }
 /*-----------------end smart scroll--------------------*/
 
@@ -285,14 +287,6 @@ body{
     display: table-cell;
     padding: 0 10px 0 10px;
 }
-/*-----------------end table--------------------*/
-
-/*-----------------start clickable--------------------*/
-.clickable{
-    cursor: pointer;
-}
-
-/*-----------------end clickable--------------------*/
 
 .background-light .tbody .tr{
     background-color: #EDEFF5;
@@ -302,6 +296,23 @@ body{
     background-color: #FFFFFF;
 }
 
+.th>label{
+    margin-bottom: 0px;
+}
+.th>.form-control{
+    margin-bottom: 5px;
+}
+/*-----------------end table--------------------*/
+
+/*-----------------start clickable--------------------*/
+.clickable{
+    cursor: pointer;
+}
+
+/*-----------------end clickable--------------------*/
+
+
+/*-----------------start text fields--------------------*/
 .search-input{
     width: 100%;
     border-radius: 16px;
@@ -312,6 +323,42 @@ body{
     padding: 0px 16px 0 16px;
 }
 
+
+.form-control{
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: #E6E8E8 1px solid;
+}
+
+.form-control:focus{
+    border-color: #5093E1;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+/*-----------------end text fields--------------------*/
+
+/*-----------------start typeahead--------------------*/
+.dropdown-menu{
+    border: #B1B7CB 1px solid;
+    box-shadow: 1px 1px 5px  #AEB5C9;
+    -webkit-box-shadow: 1px 1px 5px  #AEB5C9;
+}
+
+.dropdown-menu>li>a{
+}
+
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover{
+    background-image: none;
+    background-color: #5093E1;
+}
+/*-----------------end typeahead--------------------*/
+
+/*-----------------start label--------------------*/
+label{
+    font-weight: 500;
+}
+/*-----------------end label--------------------*/
 
 
 /*--kavish--*/
