@@ -315,13 +315,12 @@ body{
 
 
 /*--kavish--*/
-
+/*-----------------open tab--------------------*/
 .tabs {
     position: relative;   
-    min-height: 300px; /* This part sucks */
+    min-height: 455px;
     clear: both;
     margin: 35px 10px 25px;
-    background: white;
 }
 .tab {
     float: left;
@@ -361,8 +360,56 @@ body{
     opacity: 1;
 }
 
-.color-dark{
+.content .tbody .tr{
     background-color: #EDEFF5;
-    border-radius: 5px 0 0 5px;
-    margin-top: 5px;
+}
+/*-----------------end tab--------------------*/
+
+/*-----------------open total and blance--------------------*/
+.one-line {
+    border-bottom: 2px solid #cccccc;
+    position: absolute;
+    width: 370px;
+}
+
+.doubl-line{
+    border-bottom: 2px double #cccccc;
+    padding-top: 3px;
+    position: absolute;
+    width: 370px;
+}
+/*-----------------end total and blance--------------------*/
+
+/*-----------------open ripper--------------------*/
+
+.ripper {
+    background: #cccccc;
+    position: relative;
+    overflow: hidden;
+}
+.ripper:after {
+    content: "";
+    background: #50C14E;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    padding-top: 240%;
+    padding-left: 240%;
+    margin-top: -120%;
+    margin-left: -120%;
+    opacity: 0;
+    transition: all 1s;
+}
+.ripper:active:after {
+    padding-top: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-left: 0;
+    opacity: 1;
+    transition: 0s;
+}
+/*-----------------end ripper--------------------*/
+
+.nopadding {
+   padding: 1px !important;
 }

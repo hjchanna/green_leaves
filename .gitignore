@@ -3,3 +3,4 @@
 /GREEN_LEAVES/node_modules/
 /GREEN_LEAVES/src/main/resources/static/
 /GreenLeavesORM/build/
+*.html
