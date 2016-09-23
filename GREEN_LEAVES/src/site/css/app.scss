@@ -1,0 +1,187 @@
+/* 
+    Created on : Sep 6, 2016, 10:49:46 PM
+    Author     : Mohan
+*/
+
+@import "mixins/variables.scss";
+
+body{
+    font-family: 'Roboto', sans-serif !important;
+    font-style: normal;
+    font-weight: 300;
+}
+
+.index-sidebar-left{
+    width: 250px;
+    height: 100vh;
+    background-color: #2F323A;
+    float: left;
+    border-right: #1F232B 1px solid;
+    display: flex;
+    flex-flow: column;
+}
+
+.index-sidebar-left-brand{
+    padding: 16px;
+    height: 64px;
+    align-content: center;
+    flex: 0 1 auto;
+}
+
+.index-sidebar-left-brand .brand-image{
+    background-image: url(../img/leaf.png);
+    height: 32px;
+    width:32px;
+    float: left;
+}
+
+.index-sidebar-left-brand .brand-text{
+    color: #E0E0E0;
+    float: left;
+    line-height: 32px;
+    margin-left: 8px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.index-sidebar-navigation{
+    flex: 1 1 auto;
+    color: #E0E0E0;
+}
+
+.index-sidebar-navigation ul{
+    padding-left: 0px;
+}
+
+.index-sidebar-navigation li{
+    line-height: 32px;
+    cursor: pointer;
+    list-style: square;
+
+}
+
+.index-sidebar-navigation li a{
+    display: block;
+    padding-left: 32px;
+
+    text-decoration: none;
+    color: #E0E0E0;
+}
+
+.index-sidebar-navigation li .menu-header{
+    padding-left: 16px;
+    font-weight: 500;
+}
+
+.index-sidebar-navigation .menu-collapsed ul{
+    display: none;
+}
+
+.index-sidebar-navigation li a:hover{
+    background-color: #5093E1;
+    color: #FFFFFF;
+}
+
+.index-middle{
+    height: 100vh;
+    display: flex;
+    flex-flow: column;
+}
+
+.index-header{
+    height: 50px;
+    flex: 0 1 auto;
+    float: left;
+}
+
+.index-header>div{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/*.index-menu-toggle{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 5px;
+    float: left;
+}
+
+.index-header-middle{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    float: left;
+    text-align: center;
+}
+
+.index-content-right{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    float: left;
+    text-align: center;
+}*/
+
+.index-content-right>table{
+    margin-top: 5px;
+}
+
+
+.index-content{
+    display: flex;
+    flex-flow: column;
+
+    flex: 1 1 auto;
+    /*background-color: #EDEFF5;*/
+}
+
+.index-content-header{
+    background-color: #FFFFFF;
+    border-bottom: #E4E4E4 1px solid;
+}
+
+.index-content-body{
+    flex: 1 1 auto;
+}
+
+.index-content-footer{
+    margin-top: auto;
+    height: 50px;
+    border-top: #E4E4E4 1px solid;
+    background-color: #FFFFFF;
+}
+
+/*-----------------start smart scroll--------------------*/
+
+
+/*-----------------end smart scroll--------------------*/
+
+
+/*-----------------start background colors--------------------*/
+
+/*-----------------end background colors--------------------*/
+
+/*-----------------start borders--------------------*/
+
+/*-----------------end borders--------------------*/
+
+
+/*-----------------start clickable--------------------*/
+.clickable{
+    cursor: pointer;
+}
+
+/*-----------------end clickable--------------------*/
+
+
+/*-----------------start text fields--------------------*/
+
+
+
+
+/*-----------------end text fields--------------------*/
+

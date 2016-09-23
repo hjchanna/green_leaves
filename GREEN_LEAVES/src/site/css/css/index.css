@@ -89,8 +89,45 @@ body{
 .index-header{
     height: 50px;
     flex: 0 1 auto;
-    background-color: #FFFFFF;
+    float: left;
 }
+
+.index-header>div{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/*.index-menu-toggle{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 5px;
+    float: left;
+}
+
+.index-header-middle{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    float: left;
+    text-align: center;
+}
+
+.index-content-right{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    float: left;
+    text-align: center;
+}*/
+
+.index-content-right>table{
+    margin-top: 5px;
+}
+
 
 .index-content{
     display: flex;
@@ -127,61 +164,78 @@ body{
 }
 
 .smart-scroll-x::-webkit-scrollbar, .smart-scroll-y::-webkit-scrollbar {
-    width: 0.5em;
+    width: 5px;
 }
 
 .smart-scroll-x::-webkit-scrollbar-track, .smart-scroll-y::-webkit-scrollbar-track {
-    background-color: #E6E8EE;
-    border-radius: 5px;
+    display: none;
 }
 
 .smart-scroll-x::-webkit-scrollbar-thumb, .smart-scroll-y::-webkit-scrollbar-thumb {
     background-color: #D1D7E9;
-    border-radius: 5px;
+    border-radius: 7px;
+
+    /*border: 1px solid rgba(0, 0, 0, 0);*/
+    /*background-clip: padding-box;*/
 }
 /*-----------------end smart scroll--------------------*/
 
-/** dialog */
-/*.dialog-overlay{
-    width: 100%;
-    height: 100vh;
-    background-color: #2F323A;
-    position: absolute;
-    top: 0;
-    opacity: 0.5;
-}
-
-.dialog-container{
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    top:0;
-
-    display: flex;
-    align-content: center;
-}
-
-.dialog-container .panel{
-    width: 30%;
-    margin: auto;
-}*/
-
 /*button*/
+.btn{
+    /*position: relative;*/
+  /*overflow: hidden;*/
+}
+.btn:after{
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    margin-top: -60px;
+    background: #3f51b5;
+    border-radius: 100%;
+    opacity: .6;
+
+    transform: scale(0);
+}
+
+.btn:not(:active):after {
+  animation: ripple 1s ease-out;
+}
+
+.btn:after {
+  visibility: hidden;
+}
+
+.btn:focus:after {
+  visibility: visible;
+}
+
+.btn{
+    
+}
+
+.btn-default{
+    background-color: #FFFFFF;
+}
+
+.btn-primary{
+    /*background-color: #5093E1*/
+}
+
 .btn-success{
-    background-image: none;
     background-color: #50C14E
 }
-.btn-primary{
-    background-image: none;
-    background-color: #5093E1
-}
+
 .btn-danger{
-    background-image: none;
     background-color: #F65177
 }
-.btn-default{
-    background-image: none;
-    background-color: #9DA5BE
+
+.btn-danger{
+    background-color: #F65177
 }
 
 /** panel */
@@ -249,57 +303,53 @@ body{
 
 
 /*-----------------start table--------------------*/
-.table{
-    display: table;
-    max-width: 100%;
+table{
+    width: 100%;
     border-spacing:0 5px;
+    border-collapse: separate;
     margin-bottom: 0px;
+    table-layout: fixed;
 }
 
-.thead{
-    display: table-header-group;
+thead{
     font-weight: 500;
 }
 
-.tbody{
-    display: table-row-group;
+tbody{
 }
 
-.tr{
-    display: table-row;
+tr{
     line-height: 32px;
 }
 
-.tr > div:first-child{
+tr > th:first-child, tr > td:first-child{
     border-radius: 5px 0 0 5px;
 }
 
-.tr > div:last-child{
+tr > th:last-child, tr > td:last-child{
     border-radius: 0 5px 5px 0;
 }
 
-.th{
-    display: table-cell;
+th{
     padding: 0 10px 0 10px;
 }
 
-.td{
-    display: table-cell;
+td{
     padding: 0 10px 0 10px;
 }
 
-.background-light .tbody .tr{
+.background-light tbody tr{
     background-color: #EDEFF5;
 }
 
-.background-dark .tbody .tr{
+.background-dark tbody tr{
     background-color: #FFFFFF;
 }
 
-.th>label{
+th > label, td > label{
     margin-bottom: 0px;
 }
-.th>.form-control{
+th > .form-control, td > .form-control{
     margin-bottom: 5px;
 }
 /*-----------------end table--------------------*/
@@ -358,7 +408,53 @@ body{
 label{
     font-weight: 500;
 }
+
+.label{
+    vertical-align: middle;
+    padding: 0.2em 0.6em 0.2em;
+    margin:  0 5px 0 0px;
+}
+
+.label-default{
+    background-color: #9DA5BE;
+    border: #959DB9 1px solid;
+}
+
+.label-primary{
+    background-color: #5093E1;
+    border: #488EE0 1px solid;
+}
+
+.label-success{
+    background-color: #50C14E;
+    border: #4ABF48 1px solid;
+}
+
+.label-warning{
+    background-color: #F5A623;
+    border: #F5A623 1px solid;
+}
+
+.label-danger{
+    background-color: #F65177;
+    border: #F5456E 1px solid;
+}
 /*-----------------end label--------------------*/
+
+/*-----------------start text--------------------*/
+.text-primary{
+    color: #5093E1;
+}
+.text-success{
+    color: #50C14E;
+}
+.text-warning{
+    color: #F5A623;
+}
+.text-danger{
+    color: #F65177;
+}
+/*-----------------end text--------------------*/
 
 
 /*--kavish--*/
@@ -458,5 +554,67 @@ label{
 /*-----------------end ripper--------------------*/
 
 .nopadding {
-   padding: 1px !important;
+    padding: 1px !important;
+}
+
+.fab-container{
+    position: absolute;
+    display: block;
+    right: 24px;
+    bottom: 24px;
+    margin: auto;
+
+    opacity: 0.1;
+}
+
+.fab{
+    display: block;
+
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+    margin: 15px auto auto;
+
+    box-shadow: 0 0 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.28);
+
+    background-color: #9DA5BE;
+
+    cursor: pointer;
+}
+
+.fab-primary{
+    background-color: #5093E1;
+}
+
+.fab-success{
+    background-color: #50C14E;
+}
+
+.fab-warning{
+    background-color: #F5A623;
+}
+
+.fab-danger{
+    background-color: #F65177;
+}
+
+.fab-lg{
+    width: 64px;
+    height: 64px;
+}
+
+.fab i{
+    color: #FFFFFF;
+
+    top: 50%;
+    left: 50%;
+    transform:  translate(-50%, -50%);
+}
+
+/*.fab:hover{
+    width: 64px;
+    height:  64px;
+}*/
+.fab-container:hover{
+    opacity: 1;
 }

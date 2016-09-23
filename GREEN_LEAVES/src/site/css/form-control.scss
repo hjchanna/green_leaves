@@ -1,0 +1,24 @@
+@import "mixins/variables.scss";
+
+.search-input{
+    width: 100%;
+    border-radius: 16px;
+    min-height: 32px;
+    border: $control-border-color 1px solid;
+    margin: 24px 0 8px 0;
+    outline: none;
+    padding: 0px 16px 0 16px;
+}
+
+.form-control{
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: $control-border-color 1px solid;
+}
+
+.form-control:focus{
+    border-color: $control-border-fous;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}

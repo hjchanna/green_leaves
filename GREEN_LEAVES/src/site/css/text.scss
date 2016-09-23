@@ -1,0 +1,14 @@
+@import "mixins/variables.scss";
+
+.text-primary{
+    color: $primary-color;
+}
+.text-success{
+    color: $success-color;
+}
+.text-warning{
+    color: $warning-color;
+}
+.text-danger{
+    color: $danger-color;
+}
