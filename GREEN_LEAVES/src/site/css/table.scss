@@ -67,3 +67,7 @@ th >  .btn, td > .btn{
     background-color: $bg-light-color !important;
     border-color:  $bg-light-color !important;
 }
+tbody tr:hover{
+    color: $bg-light-color;
+    background-color: $success-color;
+}

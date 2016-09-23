@@ -12,3 +12,14 @@
 .text-danger{
     color: $danger-color;
 }
+
+.text-bold{
+    font-weight: bold;
+}
+
+.text-right{
+    text-align: right;
+}
+.text-no-paddin{
+    padding: 2px !important;
+}
