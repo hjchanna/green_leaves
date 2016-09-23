@@ -12,6 +12,7 @@
     "bootstrap": "^3.3.7",
     "animate.css": "^3.5.2",
     "chart.js": "npm:chart.js#^2.2.2",
-    "angular-chart.js": "^1.0.2"
+    "angular-chart.js": "^1.0.2",
+    "angular-sanitize": "^1.5.8"
   }
 }

@@ -459,10 +459,10 @@ label{
 
 /*--kavish--*/
 
-/*-----------------open ripper--------------------*/
+/*-----------------start ripper--------------------*/
 
 .ripper {
-    background: #cccccc;
+    background: #E6E8E8;
     position: relative;
     overflow: hidden;
 }
@@ -486,4 +486,28 @@ label{
     margin-left: 0;
     opacity: 1;
     transition: 0s;
+}
+/*-----------------end ripper--------------------*/
+
+.text-bold{
+    font-weight: bold;
+}
+
+.nopadding {
+    padding: 1px !important;
+}
+
+.text-right{
+    text-align: right;
+}
+.text-center{
+    text-align: right;
+}
+.text-left{
+    text-align: right;
+}
+
+tbody tr:hover{
+    color: #ffffff;
+    background-color: #50C14E;
 }
