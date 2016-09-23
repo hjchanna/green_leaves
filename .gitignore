@@ -5,3 +5,4 @@
 /GreenLeavesORM/build/
 *.html
 !/GREEN_LEAVES/src/site/app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html
+!/GREEN_LEAVES/src/site/index.html
