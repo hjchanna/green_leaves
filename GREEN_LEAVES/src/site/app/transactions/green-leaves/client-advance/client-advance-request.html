@@ -27,10 +27,7 @@
             </div>
             <div class="col-xs-12" style="flex: 0 0 auto; height:50px;">
                 <div class="input-group">
-                    <div class="col-xs-2 nopadding">
-                        <input class="form-control" type="text" placeholder="Supplier ID">
-                    </div>                   
-                    <div class="col-xs-4 nopadding">
+                    <div class="col-xs-6 nopadding">
                         <input class="form-control" type="text" placeholder="Name">
                     </div>
                     <div class="col-xs-2 nopadding">
@@ -170,7 +167,7 @@
                         <div class="form-group">
                             <label for="total-text" class="col-xs-2 control-label">Total</label>
                             <div class="col-xs-10">
-                                <input class="form-control" id="total-text" type="text">
+                                <input class="form-control" id="total-text" type="text" style="text-align: right;">
                             </div>
                         </div>
                     </div>
@@ -187,7 +184,7 @@
                         <label for="tab-1">Summary</label>
                         <div class="content">
                             <div class="col-xs-12">
-                                <div class="table" >
+                                <div class="table" style="margin-top: -18px;">
                                     <div class="thead">
                                         <div class="tr">
                                             <div class="td">Description</div>
@@ -260,6 +257,13 @@
                                         <div class="one-line"></div>
                                     </div>
                                 </div>
+                                <br>
+                                <div class="col-xs-9">
+                                    <canvas id="base" class="chart-bar"
+                                            chart-data="data" chart-labels="labels" chart-colors="colors"
+                                            chart-dataset-override="datasetOverride" >
+                                    </canvas>
+                                </div>
                             </div>
                         </div> 
                     </div>
@@ -267,22 +271,14 @@
                     <input type="radio" id="tab-2" name="tab-group-1">
                     <label for="tab-2">Details</label>
                     <div class="content">
-                        <div class="table" >
-                            <div class="tbody">
-                                <div class="color-dark">
-                                    <div class="td">00001</div>
-                                    <div class="td">August</div>
-                                    <div class="td">00001</div>
-                                    <div class="td">September</div>
-                                </div>
-                            </div>
+                        <div class="col-xs-10">
+                            <canvas id="base" class="chart-bar"
+                                    chart-data="data" chart-labels="labels" chart-colors="colors"
+                                    chart-dataset-override="datasetOverride" >
+                            </canvas>
                         </div>
                     </div> 
                 </div>
-            </div>
-
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 50px;">
-
             </div>
         </div>
     </div>
