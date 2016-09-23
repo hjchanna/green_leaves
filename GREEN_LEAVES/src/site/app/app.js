@@ -1,6 +1,6 @@
 (function () {
     //index module
-    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule","clientAdvanceRequestModule","clientAdvanceApproveModule","greenLeavesWeighModule"]);
+    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule"]);
 
     //route config
     angular.module("appModule")
