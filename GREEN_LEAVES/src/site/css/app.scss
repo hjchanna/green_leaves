@@ -78,8 +78,8 @@ body{
 }
 
 .index-sidebar-navigation li a:hover{
-    background-color: #5093E1;
-    color: #FFFFFF;
+    background-color: $primary-color;
+    color: $light-font-color;
 }
 
 .index-middle{
@@ -157,4 +157,3 @@ body{
 .clickable{
     cursor: pointer;
 }
-
