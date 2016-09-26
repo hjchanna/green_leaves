@@ -4,9 +4,11 @@
     //controller
     angular.module("homeModule")
             .controller("homeController", function ($scope, $timeout) {
-//                angular.element(document.querySelectorAll(".btn")).on('click', function (event) {
-//                    event.preventDefault();
-//
+                angular.element(document.querySelectorAll(".btn")).on('click', function (event) {
+                    event.preventDefault();
+                    
+                    console.log("AAA");
+
 //                    var $div = angular.element('<div/>'),
 //                            btnOffset = this.getBoundingClientRect(),
 //                            xPos = event.pageX - btnOffset.left,
@@ -25,6 +27,6 @@
 //                        $div.remove();
 //                        console.log("removed");
 //                    }, 1800);
-//                });
+                });
             });
 }());

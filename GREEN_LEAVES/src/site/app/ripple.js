@@ -14,10 +14,10 @@
             });
 
     angular.module("appModule").service("rippleService", function ($timeout) {
-        this.ripple = function () {
-            angular.element(document.querySelectorAll(".btn,.fab")).on('click', function (event) {
+        this.ripple = function (scope, element, attrs) {
+            element.bind('click', function (event) {
                 event.preventDefault();
-            
+
                 var $div = angular.element('<div/>'),
                         btnOffset = this.getBoundingClientRect(),
                         xPos = event.pageX - btnOffset.left,
