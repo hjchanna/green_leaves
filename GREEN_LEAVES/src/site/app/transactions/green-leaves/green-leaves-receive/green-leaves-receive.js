@@ -34,5 +34,9 @@
                         });
                     });
                 };
+                
+                $scope.getStates = function(){
+                    return $scope.states;
+                };
             });
 }());
