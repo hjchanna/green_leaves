@@ -78,8 +78,8 @@ body{
 }
 
 .index-sidebar-navigation li a:hover{
-    background-color: #5093E1;
-    color: #FFFFFF;
+    background-color: $primary-color;
+    color: $light-font-color;
 }
 
 .index-middle{
@@ -154,34 +154,3 @@ body{
     border-top: #E4E4E4 1px solid;
     background-color: #FFFFFF;
 }
-
-/*-----------------start smart scroll--------------------*/
-
-
-/*-----------------end smart scroll--------------------*/
-
-
-/*-----------------start background colors--------------------*/
-
-/*-----------------end background colors--------------------*/
-
-/*-----------------start borders--------------------*/
-
-/*-----------------end borders--------------------*/
-
-
-/*-----------------start clickable--------------------*/
-.clickable{
-    cursor: pointer;
-}
-
-/*-----------------end clickable--------------------*/
-
-
-/*-----------------start text fields--------------------*/
-
-
-
-
-/*-----------------end text fields--------------------*/
-

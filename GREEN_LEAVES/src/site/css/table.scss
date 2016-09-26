@@ -13,6 +13,7 @@ thead{
 }
 
 tbody{
+    
 }
 
 tr{
@@ -27,12 +28,71 @@ tr > th:last-child, tr > td:last-child{
     border-radius: 0 5px 5px 0;
 }
 
+tr > td:first-child:last-child, tr > th:first-child:last-child{
+    border-radius: 5px 5px 5px 5px !important;
+}
+
 th{
     padding: 0 10px 0 10px;
+    text-transform: uppercase;
 }
 
 td{
     padding: 0 10px 0 10px;
+}
+
+/*-------------effects colors--------------*/
+.table-hover{
+    cursor: pointer;
+
+    tbody{
+        tr:hover{
+            background-color: $default-color;
+            color: $light-font-color !important;
+        }  
+    }
+}
+.table-hover.table-default{
+    tbody{
+        tr:hover{
+            background-color: $default-color !important;
+        }  
+    }
+}
+.table-hover.table-primary{
+    tbody{
+        tr:hover{
+            background-color: $primary-color !important;
+        }  
+    }
+}
+.table-hover.table-info{
+    tbody{
+        tr:hover{
+            background-color: $info-color !important;
+        }  
+    }
+}
+.table-hover.table-success{
+    tbody{
+        tr:hover{
+            background-color: $success-color !important;
+        }  
+    }
+}
+.table-hover.table-warning{
+    tbody{
+        tr:hover{
+            background-color: $warning-color !important;
+        }  
+    }
+}
+.table-hover.table-danger{
+    tbody{
+        tr:hover{
+            background-color: $danger-color !important;
+        }  
+    }
 }
 
 /*-------------background colors--------------*/
@@ -59,15 +119,36 @@ th >  .btn, td > .btn{
     padding: 0px;
     line-height: 24px;
 }
-.background-light tbody tr .btn{
-    background-color: $bg-dark-color !important;
-    border-color: $bg-dark-color !important;
+
+tbody tr .btn{
+    background-color: transparent;
+    border-color: transparent;
+    color: inherit;
 }
-.background-dark tbody tr .btn{
-    background-color: $bg-light-color !important;
-    border-color:  $bg-light-color !important;
+tbody tr .btn-default{
+    color: $default-color !important;
 }
-tbody tr:hover{
-    color: $bg-light-color;
-    background-color: $success-color;
+tbody tr .btn-primary{
+    color: $primary-color !important;
+}
+tbody tr .btn-info{
+    color: $info-color !important;
+}
+tbody tr .btn-success{
+    color: $success-color !important;
+}
+tbody tr .btn-warning{
+    color: $warning-color !important;
+}
+tbody tr .btn-danger{
+    color: $danger-color !important;
+}
+.table-hover{
+    tbody{
+        tr:hover{
+            .btn{
+                color: inherit !important;
+            }
+        }  
+    }
 }

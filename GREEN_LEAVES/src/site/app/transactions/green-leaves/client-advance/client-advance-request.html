@@ -2,396 +2,414 @@
 </div>
 
 <div class="index-content-body">
-
-    <!--<div class="row">-->
     <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 80px; padding-right: 22px;">
-                <br>
-                <div class="form-horizontal col-xs-6">
-                    <div class="form-group">
-                        <label for="no-text" class="col-xs-2 control-label">NO</label>
-                        <div class="col-xs-10">
-                            <input class="form-control" id="no-text" type="text">
+            <div class="col-xs-12" style="flex: 0 0 auto; margin-top: 24px;">
+                <div class="row">
+
+                    <div class="col-xs-6" style="margin-top: -5px;" >
+                        &nbsp;
+                    </div>
+
+                    <div class="col-xs-3">
+                        <div class="form-group">
+                            <input type="date" class="form-control" >
+                        </div>
+                    </div> 
+
+                    <div class="col-xs-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="transaction number">
                         </div>
                     </div>
-                </div> 
-                <div class="form-horizontal col-xs-6">
-                    <div class="form-group">
-                        <label for="date-text" class="col-xs-2 control-label">DATE</label>
-                        <div class="col-xs-10">
-                            <input class="form-control" id="date-text" type="date">
-                        </div>
-                    </div>
-                </div> 
-            </div>
-            <div class="col-xs-12 " style="flex: 0 0 auto; height:71px;">
-                <div class="background-dark" style="padding: 10px;border-radius: 5px;">
-                    <div class="input-group">
-                        <div class="col-xs-6 text-no-paddin">
-                            <label>NAME</label>
-                            <input class="form-control" type="text">
-                        </div>
-                        <div class="col-xs-2 text-no-paddin">
-                            <label>ROUTE</label>
-                            <input class="form-control" type="text">
-                        </div>
-                        <div class="col-xs-2 text-no-paddin">
-                            <label>MONTH</label>
-                            <input class="form-control" type="text">
-                        </div>                   
-                        <div class="col-xs-2 text-no-paddin">
-                            <label>AMOUNT</label>
-                            <input class="form-control" type="text">
-                        </div>
-                    </div>
+
                 </div>
             </div>
-            <div class="col-xs-12 smart-scroll-y" >
-                <table>
-                    <thead>
+
+            <div class="col-xs-12 " style="flex: 0 0 auto;">
+                <table style="padding-right: 5px;">
+                    <col style="width: 25%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col/>
+                    <thead class="background-dark">
                         <tr>
-                            <th style="width: 15%;">Supplier</th>
-                            <th style="width: 45%;"></th>
-                            <th style="width: 10%;">Route</th>
-                            <th style="width: 20%;">Month</th>
-                            <th style="width: 10%;">Amount</th>
+                            <th>
+                                <label>CLIENT</label>
+                                <input class="form-control" type="text">
+                            </th>
+                            <th>
+                                <label>ROUTE</label>
+                                <input class="form-control" type="text">
+                            </th>
+                            <th>
+                                <label>MONTH</label>
+                                <input class="form-control" type="text">
+                            </th>
+                            <th>
+                                <label>AMOUNT</label>
+                                <input class="form-control" type="text">
+                            </th>
+                            <th></th>
                         </tr>
                     </thead>
+                </table>
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 203px);">
+                <table class="table-hover">
+                    <col style="width: 25%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col/>
                     <tbody>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr class="clickable">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>Kavish Manjitha</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td>500.00</td>
+                        <tr>
+                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
+                            <td>Route 01</td>
+                            <td>2016-September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-right">
+                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 65px;">
-                <br>
-                <div class="row">
-                    <div class="col-xs-6" style="padding-left: 20px">
-                        <a class="btn btn-success">NEW</a>
-                        <a class="btn btn-default">EDIT</a>
-                        <a class="btn btn-default">SAVE</a>
-                    </div>
-                    <div class="form-horizontal col-xs-6" style="padding-left: 20px">
-                        <div class="form-group">
-                            <label for="total-text" class="col-xs-2 control-label">Total</label>
-                            <div class="col-xs-10">
-                                <input class="form-control" id="total-text" type="text" style="text-align: right;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-xs-12">
+                <table style="padding-right: 5px;">
+                    <col style="width: 70%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 10%"/>
+                    <thead class="background-dark">
+                        <tr class="clickable">
+                            <th>ADVANCE REQUEST SUMMARY</th>
+                            <th class="text-right">15500.00</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
     <div class="col-xs-4 background-dark">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
             <div class="col-xs-12">
                 <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col />
                     <thead>
                         <tr>
-                            <th style="width: 40%">Description</th>
-                            <th style="width: 40%">Credit</th>
-                            <th style="width: 30%">Debit</th>
+                            <th>DESCRIPTION</th>
+                            <th class="text-right">DEBIT</th>
+                            <th class="text-right">CREDIT</th>
+                            <th class="text-right">&nbsp;</th>
                         </tr>
                     </thead>
                 </table>
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
                 <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col />
+
                     <tbody>
                         <tr>
-                            <td style="width: 30%">B/F</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td class="text-right" style="width: 30%">300.00</td>
-                            <td><span class="glyphicon glyphicon-paste"></span></td>
+                            <td >B/F</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></a></td>
                         </tr>
                         <tr>
-                            <td style="width: 30%">GL Receive</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td class="text-right" style="width: 30%">300.00</td>
-                            <td><span class="glyphicon glyphicon-paste"></span></td>
+                            <td >B/F</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></a></td>
+                        </tr>
+                        <tr>
+                            <td >B/F</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></a></td>
+                        </tr>
+                        <tr>
+                            <td >B/F</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></a></td>
+                        </tr>
+                        <tr>
+                            <td >B/F</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></a></td>
+                        </tr>
+
+                        <tr>
+                            <td >B/F</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
+                        </tr>
+                        <tr>
+                            <td >GL Receive</td>
+                            <td class="text-right" >-</td>
+                            <td class="text-right" >300.00</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
                         <tr>
                             <td style="width: 40%">A /Payment</td>
-                            <td class="text-right" style="width: 30%">- (500.00)</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td><span class="glyphicon glyphicon-paste"></span></td>
+                            <td class="text-right" >500.00</td>
+                            <td class="text-right" >-</td>
+                            <td><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
                         <tr>
                             <td style="width: 40%">L/Installment</td>
-                            <td class="text-right" style="width: 30%">- (300.00)</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td ><span class="glyphicon glyphicon-paste"></span></td>
+                            <td class="text-right" >300.00</td>
+                            <td class="text-right" >-</td>
+                            <td ><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
                         <tr>
-                            <td style="width: 30%"><abbr title="Fertilizer (P) - Fertilizer Previous  Month">Fertilizer (P)</abbr></td>
-                            <td class="text-right" style="width: 30%">- (300.00)</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td ><span class="glyphicon glyphicon-paste"></span></td>
+                            <td >Fertilizer</td>
+                            <td class="text-right" >300.00</td>
+                            <td class="text-right" >-</td>
+                            <td ><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
                         <tr>
-                            <td style="width: 30%"><abbr title="Fertilizer (C) - Fertilizer Current Month">Fertilizer (C)</abbr></td>
-                            <td class="text-right" style="width: 30%">- (300.00)</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td ><span class="glyphicon glyphicon-paste"></span></td>
+                            <td >Fertilizer</td>
+                            <td class="text-right" >300.00</td>
+                            <td class="text-right" >-</td>
+                            <td ><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
                         <tr>
-                            <td style="width: 30%">Tea</td>
-                            <td  class="text-right"style="width: 30%">- (300.00)</td>
-                            <td  class="text-right"style="width: 30%">-</td>
-                            <td ><span class="glyphicon glyphicon-paste"></span></td>
+                            <td >Tea</td>
+                            <td  class="text-right">300.00</td>
+                            <td  class="text-right">-</td>
+                            <td ><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
                         <tr>
-                            <td style="width: 30%">Other</td>
-                            <td class="text-right" style="width: 30%">- (300.00)</td>
-                            <td class="text-right" style="width: 30%">-</td>
-                            <td ><span class="glyphicon glyphicon-paste"></span></td>
+                            <td >Other</td>
+                            <td class="text-right" >300.00</td>
+                            <td class="text-right" >-</td>
+                            <td ><a class="btn btn-default"><span class="glyphicon glyphicon-paste"></span></td>
                         </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col />
+
+                    <tbody>
                         <tr class="text-bold">
                             <td>Total</td>
-                            <td class="text-right">- (2000.00)</td>
+                            <td class="text-right">2000.00</td>
                             <td class="text-right">600.00</td>
                             <td></td>
                         </tr>
                         <tr class="text-bold">
                             <td>Balance</td>
-                            <td class="text-right">- (1400.00)</td>
+                            <td class="text-right">1400.00</td>
                             <td class="text-right">-</td>   
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-xs-12"  style="margin-top: 10px;">
+
+            <div class="col-xs-12"  style="margin-top: 10px; height: 170px;">
                 <canvas id="base" class="chart-bar"
                         chart-data="data" chart-labels="labels" chart-colors="colors"
                         chart-dataset-override="datasetOverride" >
@@ -399,4 +417,12 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="fab-container">
+    <a class="fab fab-default"></a>
+    <a class="fab fab-success"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
 </div>
