@@ -1,6 +1,6 @@
 (function () {
     //index module
-    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule"]);
+    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule","greenLeavesPaymentModule"]);
 
     //route config
     angular.module("appModule")
@@ -29,6 +29,10 @@
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "greenLeavesWeighController"
+                        })
+                        .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
+                            templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
+                            controller: "greenLeavesPaymentController"
                         })
 
                         .otherwise({
