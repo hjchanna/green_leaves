@@ -1,10 +1,10 @@
 (function () {
     //module
-    angular.module("clientAdvanceRequestModule", ["chart.js"]);
+    angular.module("clientAdvanceRequestModule", ["chart.js", "ngRoute"]);
 
     //controller
     angular.module("clientAdvanceRequestModule")
-            .controller("clientAdvanceRequestController", function ($scope) {
+            .controller("clientAdvanceRequestController", function ($scope, $location) {
                 $scope.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
                 $scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                 $scope.data = [
@@ -25,5 +25,13 @@
                         type: 'line'
                     }
                 ];
+
+                $scope.open = function () {
+                    $scope.showModal = true;
+                };
+                
+                $scope.cancel = function () {
+                    $scope.showModal = false;
+                };
             });
 }());

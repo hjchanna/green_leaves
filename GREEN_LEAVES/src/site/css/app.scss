@@ -81,6 +81,10 @@ body{
     background-color: $primary-color;
     color: $light-font-color;
 }
+.index-sidebar-navigation li a:focus{
+    background-color:#9DA5BE;
+    color: $light-font-color;
+}
 
 .index-middle{
     height: 100vh;
@@ -153,4 +157,7 @@ body{
     height: 50px;
     border-top: #E4E4E4 1px solid;
     background-color: #FFFFFF;
+}
+.clickable{
+    cursor: pointer;
 }

@@ -1,0 +1,313 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">
+    <!--start left div-->
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 100px;padding-top: 10px;">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option>Empyolee Advance Payment</option>
+                                <option>Green Leaves  Advance Payment</option>
+                                <option>Loan  Advance Payment</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="select route officer">
+                        </div>
+
+                    </div>
+                    <div class="col-xs-6" style="margin-top: 50px;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="search supplier id / name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--start table header div-->
+            <div class="col-xs-12" style="flex: 0 0 auto; height:35px;">
+                <table>
+                    <col style="width: 10%">
+                    <col style="width: 40%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                    <col style="width: 20%">
+                    <col style="width: 10%">
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>&nbsp;</th>
+                            <th>Route</th>
+                            <th>Month</th>
+                            <th class="text-right">Amount</th>
+                            <th class="text-center"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <!--end table header div-->
+            <!--end table body div-->
+            <div class="col-xs-12 smart-scroll-y">
+                <table class="table-hover">
+                    <col style="width: 10%">
+                    <col style="width: 40%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                    <col style="width: 20%">
+                    <col style="width: 10%">
+                    <tbody>
+                        <tr ng-repeat="item in Items">
+                            <td><span class="label label-default">00001</span></td>
+                            <td>{{item.Name}}</td>
+                            <td>00001</td>
+                            <td>September</td>
+                            <td class="text-right">500.00</td>
+                            <td class="text-center"><input id="chk" type="checkbox" ng-model="item.Selected" ng-click="setCheckAll(item)"/><label for="chk"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end table body div-->
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 50px;">
+                <table style="padding-right: 5px;">
+                    <col style="width: 70%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 10%"/>
+                    <thead class="background-dark">
+                        <tr class="clickable">
+                            <th>TOTAL</th>
+                            <th class="text-right">15500.00</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--end left div-->
+    <!--start right div-->
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12"  style="margin-top: 10px;height: 480px;">
+                <!--start cash - 1st tab-->
+                <uib-tabset>
+                    <uib-tab index="0" heading="Cash">
+                        <div class="col-xs-12" style="margin-top: 10px;">
+                            <div class="form-horizontal">
+                                <div class="form-group-sm">
+                                    <input  class="search-input" type="text" placeholder="search">
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="cashbook1" class="col-xs-4 control-label text-left">Cash Book</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="cashbook1" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="amount2" class="col-xs-4 control-label text-left">Amount</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="amount2" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <!--end cash - 1st tab-->
+                    <!--start cheque - 2nd tab-->
+                    <uib-tab index="1" heading="Cheque">
+                        <div class="col-xs-12" style="margin-top: 10px;">
+                            <div class="form-horizontal">
+                                <div class="form-group-sm">
+                                    <label for="bank" class="col-xs-4 control-label text-left">Bank</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="bank" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="branch" class="col-xs-4 control-label text-left">Branch</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="branch" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="accountno" class="col-xs-4 control-label text-left">Account No</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="accountno" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="chequeno" class="col-xs-4 control-label text-left">Cheque No</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="chequeno" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="date" class="col-xs-4 control-label text-left">Date</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="date" type="date">
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="amount" class="col-xs-4 control-label text-left">Amount</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="amount" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--start table header-->
+                        <div class="col-xs-12 smart-scroll-y">
+                            <table>
+                                <col style="width: 25%">
+                                <col style="width: 25%">
+                                <col style="width: 25%">
+                                <col style="width: 25%">
+                                <thead>
+                                    <tr>
+                                        <td>Banck</td>
+                                        <td>Branch</td>
+                                        <td>C/No</td>
+                                        <td>Amount</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <!--end table header-->
+                        <!--start table body-->
+                        <div class="col-xs-12 smart-scroll-y" style="height: 190px;">
+                            <table class="table-hover">
+                                <col style="width: 25%">
+                                <col style="width: 25%">
+                                <col style="width: 25%">
+                                <col style="width: 25%">
+                                <tbody>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smpath</td>
+                                        <td>Nugegoda</td>
+                                        <td>4646661</td>
+                                        <td>5000.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!--end table body-->
+                        </div>
+                    </uib-tab>
+                    <!--end cheque - 2nd tab-->
+                    <!--start transfer - 3rd tab-->
+                    <uib-tab index="2" heading="Transfer">
+                        <div class="col-xs-12" style="margin-top: 10px;">
+                            <div class="form-horizontal">
+                                <div class="form-group-sm">
+                                    <label class="col-xs-4 control-label text-left">Bank</label>
+                                    <div class="col-xs-8">
+                                        <select class="form-control" id="sel2">
+                                            <option>Sampath</option>
+                                            <option>BOC</option>
+                                            <option>HNB</option>
+                                            <option>Selan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label class="col-xs-4 control-label text-left">Account No</label>
+                                    <div class="col-xs-8">
+                                        <select class="form-control" id="sel2">
+                                            <option>123456</option>
+                                            <option>123456</option>
+                                            <option>123456</option>
+                                            <option>123456</option>
+                                            <option>123456</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group-sm">
+                                    <label for="amount1" class="col-xs-4 control-label text-left">Amount</label>
+                                    <div class="col-xs-8">
+                                        <input class="form-control" id="amount1" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+                <!--end transfer - 3rd tab-->
+            </div>
+            <!--start payemnt summry-->
+            <div class="col-xs-12" style="height: 110px;padding-top: 20px;">
+                <div class="form-horizontal">
+                    <div class="form-group-sm">
+                        <label for="total" class="col-xs-4 control-label text-left">Total</label>
+                        <div class="col-xs-8">
+                            <input class="form-control" id="total" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="payble" class="col-xs-4 control-label text-left">Payble</label>
+                        <div class="col-xs-8">
+                            <input class="form-control" id="payble" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group-sm">
+                        <label for="balance1" class="col-xs-4 control-label text-left">Blance</label>
+                        <div class="col-xs-8">
+                            <input class="form-control" id="balance1" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end payemnt summry-->
+        </div>
+    </div>
+    <!--end right div-->
+</div>
+<div class="fab-container">
+    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
+</div>

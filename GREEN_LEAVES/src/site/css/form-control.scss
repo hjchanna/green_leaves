@@ -22,3 +22,32 @@
     box-shadow: none;
     -webkit-box-shadow: none;
 }
+.calender-header{
+    display: inline-block;
+    margin-top: 10px;
+    height: 40px;
+    text-align: center;
+    padding-top: 10px;
+    border-bottom: $control-border-color 1px solid;
+}
+
+.calender-div{
+    display: inline-block;
+    border: #EFF1F9 1px solid;
+    height: 80px;
+}
+.calender-div:hover{
+    background: #DDDDDD;
+}
+.calender-div{
+    display: inline-block;
+    border: $control-border-color 1px solid;
+    height: 65px;
+}
+
+.date{
+    margin-top: 10px;
+    font-size: 15px;
+    color: #666666;
+    text-align: center;
+}

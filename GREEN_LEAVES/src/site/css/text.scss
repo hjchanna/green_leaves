@@ -18,8 +18,9 @@
 }
 
 .text-right{
-    text-align: right;
+    text-align: right !important;
 }
-.text-no-paddin{
-    padding: 2px !important;
+
+.text-left{
+    text-align: left !important;
 }
