@@ -5,7 +5,7 @@
     //controller
     angular.module("finalPaymentModule")
             .controller("finalPaymentModuleController", function ($scope) {
-                $scope.otherValues = true;
+                $scope.showBfAndCoinValues = true;
                 //A /Payment,L/Installment,Fertilizer(P),Fertilizer(C),Tea,Savings,Other
                 $scope.showOther = function () {
                     $scope.otherValues = true;

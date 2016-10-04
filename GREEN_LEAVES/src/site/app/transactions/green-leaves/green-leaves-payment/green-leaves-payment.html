@@ -108,7 +108,7 @@
                                             <label for="cashbook1" class="control-label text-left">Cash Book</label>  
                                         </td>
                                         <td>
-                                            <input class="form-control" id="cashbook1" type="text">
+                                            <input class="form-control text-right" id="cashbook1" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -116,7 +116,7 @@
                                             <label for="amount2" class="control-label text-left">Amount</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="amount2" type="text">
+                                            <input class="form-control text-right" id="amount2" type="text">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -137,7 +137,7 @@
                                             <label for="accountno" class="control-label text-left">A/No</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="accountno" type="text">  
+                                            <input class="form-control text-right" id="accountno" type="text">  
                                         </td>
                                     </tr>
                                     <tr>
@@ -145,7 +145,7 @@
                                             <label for="bank" class="control-label text-left">Bank</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="bank" type="text">
+                                            <input class="form-control text-right" id="bank" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -153,7 +153,7 @@
                                             <label for="chequeno" class="control-label text-left">Cheque No</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="chequeno" type="text">
+                                            <input class="form-control text-right" id="chequeno" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -161,7 +161,7 @@
                                             <label for="date" class="control-label text-left">Date</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="date" type="date">
+                                            <input class="form-control text-right" id="date" type="date">
                                         </td>
                                     </tr>
                                     <tr>
@@ -169,7 +169,7 @@
                                             <label for="amount" class="control-label text-left">Amount</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="amount" type="text">
+                                            <input class="form-control text-right" id="amount" type="text">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -263,7 +263,7 @@
                                             <label for="sendAccountNo" class="control-label text-left">A/ No</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="sendAccountNo" type="text">
+                                            <input class="form-control text-right" id="sendAccountNo" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -271,7 +271,7 @@
                                             <label for="sendBank" class="control-label text-left">Bank</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="sendBank" type="text">
+                                            <input class="form-control text-right" id="sendBank" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -279,7 +279,7 @@
                                             <label for="sendBranch" class="control-label text-left">Branch</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="sendBranch" type="text">
+                                            <input class="form-control text-right" id="sendBranch" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -290,15 +290,10 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label class="control-label text-left">Bank</label>
+                                            <label for="receiveBank" class="control-label text-left">Bank</label>
                                         </td>
                                         <td>
-                                            <select class="form-control" id="sel2">
-                                                <option>Sampath</option>
-                                                <option>BOC</option>
-                                                <option>HNB</option>
-                                                <option>Selan</option>
-                                            </select>
+                                            <input class="form-control text-right" id="receiveBank" type="text">
                                         </td>
                                     </tr>
                                     <tr>
@@ -320,7 +315,7 @@
                                             <label for="amount1" class="control-label text-left">Amount</label>
                                         </td>
                                         <td>
-                                            <input class="form-control" id="amount1" type="text">
+                                            <input class="form-control text-right" id="amount1" type="text">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -331,7 +326,7 @@
                 <!--end transfer - 3rd tab-->
             </div>
             <!--start payemnt summry-->
-            <div class="col-xs-12" style="height: 110px;">
+            <div class="col-xs-12" style="height: 110px;position: fixed;bottom: 0;">
                 <table class="control-table">
                     <col style="width: 35%"/>
                     <col style="width: 65%"/>
@@ -339,10 +334,10 @@
                     <tbody>
                         <tr>
                             <td>
-                                <label for="total" class="control-label text-left">Total</label>
+                                <label class="control-label text-left">Total</label>
                             </td>
                             <td>
-                                <input class="form-control" id="total" type="text">
+                                <label class="control-label text-left">10000.00</label>
                             </td>
                         </tr>
                         <tr>
@@ -350,7 +345,7 @@
                                 <label for="payble" class="control-label text-left">Payble</label>
                             </td>
                             <td>
-                                <input class="form-control" id="payble" type="text">
+                                <label for="total" class="control-label text-left">30000.00</label>
                             </td>
                         </tr>
                     </tbody>
