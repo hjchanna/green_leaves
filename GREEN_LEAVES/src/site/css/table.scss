@@ -13,7 +13,7 @@ thead{
 }
 
 tbody{
-    
+
 }
 
 tr{
@@ -111,6 +111,21 @@ th > label, td > label{
 th > .form-control, td > .form-control{
     margin-bottom: 5px;
 }
+
+.control-table  th ,.control-table  td {
+    text-transform: uppercase;
+}
+
+.control-table  th > .form-control,.control-table  td > .form-control{
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    background-color: $bg-dark-color;
+}
+.control-table > td > .btn:not(.btn){
+     background: #dfdfdf;
+     border-radius:none !important;
+}
+
 th >  .btn, td > .btn{
     height: 24px;
     width: 24px;

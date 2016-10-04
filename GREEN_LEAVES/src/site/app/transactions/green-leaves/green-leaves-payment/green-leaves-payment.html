@@ -92,69 +92,89 @@
     <!--start right div-->
     <div class="col-xs-4 background-dark">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12"  style="margin-top: 10px;height: 480px;">
+            <div class="col-xs-12"  style="margin-top: 10px;height: 520px;">
                 <!--start cash - 1st tab-->
                 <uib-tabset>
                     <uib-tab index="0" heading="Cash">
                         <div class="col-xs-12" style="margin-top: 10px;">
-                            <div class="form-horizontal">
-                                <div class="form-group-sm">
-                                    <input  class="search-input" type="text" placeholder="search">
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="cashbook1" class="col-xs-4 control-label text-left">Cash Book</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="cashbook1" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="amount2" class="col-xs-4 control-label text-left">Amount</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="amount2" type="text">
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+                                <col />
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label for="cashbook1" class="control-label text-left">Cash Book</label>  
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="cashbook1" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="amount2" class="control-label text-left">Amount</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="amount2" type="text">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </uib-tab>
                     <!--end cash - 1st tab-->
                     <!--start cheque - 2nd tab-->
                     <uib-tab index="1" heading="Cheque">
                         <div class="col-xs-12" style="margin-top: 10px;">
-                            <div class="form-horizontal">
-                                <div class="form-group-sm">
-                                    <label for="accountno" class="col-xs-4 control-label text-left">Account No</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="accountno" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="bank" class="col-xs-4 control-label text-left">Bank</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="bank" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="chequeno" class="col-xs-4 control-label text-left">Cheque No</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="chequeno" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="date" class="col-xs-4 control-label text-left">Date</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="date" type="date">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="amount" class="col-xs-4 control-label text-left">Amount</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="amount" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm" style="margin-top: 10px;float: right;padding-right: 15px;">
-                                    <input type="submit" value="ADD" class="btn btn-primary btn-sm"/>
-                                </div>
-                            </div>
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+                                <col />
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label for="accountno" class="control-label text-left">Account No</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="accountno" type="text">  
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="bank" class="control-label text-left">Bank</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="bank" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="chequeno" class="control-label text-left">Cheque No</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="chequeno" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="date" class="control-label text-left">Date</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="date" type="date">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="amount" class="control-label text-left">Amount</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="amount" type="text">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input style="float: right;padding-right: 15px;" type="submit" value="ADD" class="btn btn-primary btn-sm"/>
                         </div>
                         <!--start table header-->
                         <div class="col-xs-12 smart-scroll-y">
@@ -175,7 +195,7 @@
                         </div>
                         <!--end table header-->
                         <!--start table body-->
-                        <div class="col-xs-12 smart-scroll-y" style="height: 190px;">
+                        <div class="col-xs-12 smart-scroll-y" style="height: 110px;">
                             <table class="table-hover">
                                 <col style="width: 40%">
                                 <col style="width: 20%">
@@ -227,105 +247,114 @@
                     <!--start transfer - 3rd tab-->
                     <uib-tab index="2" heading="Transfer">
                         <div class="col-xs-12" style="margin-top: 10px;">
-                            <div class="form-horizontal">
-                                <label class="col-xs-12 text-left">SEND</label><br>
-                                <div class="form-group-sm">
-                                    <label for="sendAccountNo" class="col-xs-4 control-label text-left">Account No</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="sendAccountNo" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label class="col-xs-4 control-label text-left">Bank</label>
-                                    <div class="col-xs-8">
-                                        <select class="form-control" id="sel2">
-                                            <option>Sampath</option>
-                                            <option>BOC</option>
-                                            <option>HNB</option>
-                                            <option>Selan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group-sm"  style="margin-bottom: 60px;">
-                                    <label class="col-xs-4 control-label text-left">Branch</label>
-                                    <div class="col-xs-8">
-                                        <select class="form-control" id="sel2">
-                                            <option>Nugegoda</option>
-                                            <option>Panadura</option>
-                                            <option>Anuradapura</option>
-                                            <option>Kaluthara</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <label class="col-xs-12 text-left">RECEIVE</label><br>
-                                <div class="form-group-sm">
-                                    <label class="col-xs-4 control-label text-left">Bank</label>
-                                    <div class="col-xs-8">
-                                        <select class="form-control" id="sel2">
-                                            <option>Sampath</option>
-                                            <option>BOC</option>
-                                            <option>HNB</option>
-                                            <option>Selan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label class="col-xs-4 control-label text-left">Branch</label>
-                                    <div class="col-xs-8">
-                                        <select class="form-control" id="sel2">
-                                            <option>Nugegoda</option>
-                                            <option>Panadura</option>
-                                            <option>Anuradapura</option>
-                                            <option>Kaluthara</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label class="col-xs-4 control-label text-left">Account No</label>
-                                    <div class="col-xs-8">
-                                        <select class="form-control" id="sel2">
-                                            <option>123456</option>
-                                            <option>123456</option>
-                                            <option>123456</option>
-                                            <option>123456</option>
-                                            <option>123456</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group-sm">
-                                    <label for="amount1" class="col-xs-4 control-label text-left">Amount</label>
-                                    <div class="col-xs-8">
-                                        <input class="form-control" id="amount1" type="text">
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+                                <col />
+                                <tbody>
+                                    <tr class="background-dark">
+                                        <td class="background-dark">
+                                            <label class="text-left">SEND</label>
+                                        </td>
+                                        <td class="background-dark"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="sendAccountNo" class="control-label text-left">Account No</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="sendAccountNo" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="sendBank" class="control-label text-left">Bank</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="sendBank" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="sendBranch" class="control-label text-left">Branch</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="sendBranch" type="text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="background-dark">
+                                            <label class="text-left">RECEIVE</label>
+                                        </td>
+                                        <td class="background-dark"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label text-left">Bank</label>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="sel2">
+                                                <option>Sampath</option>
+                                                <option>BOC</option>
+                                                <option>HNB</option>
+                                                <option>Selan</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label text-left">Account No</label>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="sel2">
+                                                <option>123456</option>
+                                                <option>123456</option>
+                                                <option>123456</option>
+                                                <option>123456</option>
+                                                <option>123456</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="amount1" class="control-label text-left">Amount</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" id="amount1" type="text">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </uib-tab>
                 </uib-tabset>
                 <!--end transfer - 3rd tab-->
             </div>
             <!--start payemnt summry-->
-            <div class="col-xs-12" style="height: 110px;padding-top: 20px;">
-                <div class="form-horizontal">
-                    <div class="form-group-sm">
-                        <label for="total" class="col-xs-4 control-label text-left">Total</label>
-                        <div class="col-xs-8">
-                            <input class="form-control" id="total" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group-sm">
-                        <label for="payble" class="col-xs-4 control-label text-left">Payble</label>
-                        <div class="col-xs-8">
-                            <input class="form-control" id="payble" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group-sm">
-                        <label for="balance1" class="col-xs-4 control-label text-left">Blance</label>
-                        <div class="col-xs-8">
-                            <input class="form-control" id="balance1" type="text">
-                        </div>
-                    </div>
-                </div>
+            <div class="col-xs-12" style="height: 110px;">
+                <table class="control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+                    <col />
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="total" class="control-label text-left">Total</label>
+                            </td>
+                            <td>
+                                <input class="form-control" id="total" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="payble" class="control-label text-left">Payble</label>
+                            </td>
+                            <td>
+                                <input class="form-control" id="payble" type="text">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <!--end payemnt summry-->
         </div>
