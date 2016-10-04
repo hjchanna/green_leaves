@@ -11,37 +11,69 @@ body{
     font-weight: 300;
 }
 
-.index-sidebar-left{
-    width: 250px;
+.side-bar-left{
     height: 100vh;
-    background-color: #2F323A;
     float: left;
-    border-right: #1F232B 1px solid;
     display: flex;
     flex-flow: column;
+    white-space: nowrap;
+
+    width: 250px;
+    transition: .25s ease-in-out;
+
+    .brand{
+        padding: 16px;
+        height: 64px;
+        align-content: center;
+        flex: 0 1 auto;
+
+        .brand-image{
+            background-image: url(../img/leaf.png);
+            height: 32px;
+            width:32px;
+            float: left;
+        }
+
+        .brand-text{
+            color: #E0E0E0;
+            float: left;
+            line-height: 32px;
+            margin-left: 8px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+    }
+
+    .user{
+        padding: 0px 16px 16px 16px;
+
+        .avatar{
+            display: inline;
+            width: 48px;
+            height: 48px;
+        }
+        .name{
+            display: inline;
+            margin-left: 16px;
+        }
+    }
+    
+    .search{
+        margin: 8px 16px 8px 16px;
+        
+        input[type='text']{
+            background-color: lighten($bg-ultra-dark-color,20%);
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            outline: none;
+        }
+    }
 }
 
-.index-sidebar-left-brand{
-    padding: 16px;
-    height: 64px;
-    align-content: center;
-    flex: 0 1 auto;
-}
-
-.index-sidebar-left-brand .brand-image{
-    background-image: url(../img/leaf.png);
-    height: 32px;
-    width:32px;
-    float: left;
-}
-
-.index-sidebar-left-brand .brand-text{
-    color: #E0E0E0;
-    float: left;
-    line-height: 32px;
-    margin-left: 8px;
-    font-weight: 700;
-    font-size: 18px;
+.side-bar-hidden{
+    width: 0px !important;
 }
 
 .index-sidebar-navigation{

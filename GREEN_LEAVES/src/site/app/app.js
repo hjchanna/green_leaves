@@ -1,6 +1,6 @@
 (function () {
     //index module
-    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule","greenLeavesPaymentModule","priceSettingModule","finalPaymentModule","monthlyGreenLeavesSummryModule"]);
+    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule", "greenLeavesPaymentModule", "priceSettingModule", "finalPaymentModule", "monthlyGreenLeavesSummryModule"]);
 
     //route config
     angular.module("appModule")
@@ -50,5 +50,30 @@
                         .otherwise({
                             redirectTo: "/"
                         });
+            });
+
+    angular.module("appModule")
+            .config(function (ChartJsProvider) {
+                ChartJsProvider.setOptions({
+                    responsive: true,
+                    maintainAspectRatio: false
+                });
+            });
+
+    angular.module("appModule")
+            .controller("appController", function ($scope, $timeout) {
+                $scope.hamburgerOpen = false;
+
+                $scope.toggleHamburger = function () {
+                    $scope.hamburgerOpen = !$scope.hamburgerOpen;
+
+                    if ($scope.hamburgerOpen) {
+                        $timeout(function () {
+                            angular.element(document.querySelector(".side-bar-left")).css("display", "none");
+                        }, 600);
+                    } else {
+                        angular.element(document.querySelector(".side-bar-left")).css("display", "flex");
+                    }
+                };
             });
 }());

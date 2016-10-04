@@ -1,5 +1,8 @@
 @import "mixins/variables.scss";
 
+.text-default{
+    color: $default-color;
+}
 .text-primary{
     color: $primary-color;
 }

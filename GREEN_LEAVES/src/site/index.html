@@ -11,36 +11,66 @@
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     </head>
-    <body ng-app="appModule">
-        <div class="index-sidebar-left">
-            <div class="index-sidebar-left-brand">
-                <div class="brand-image"></div>
-                <div class="brand-text">Green Leaves</div>
-            </div>
+    <body ng-app="appModule" ng-controller="appController">
+        <div class="side-bar-left background-ultra-dark" ng-class="hamburgerOpen ? 'side-bar-hidden' : ''">
+            <div>
+                <div class="brand">
+                    <div class="brand-image"></div>
+                    <div class="brand-text">Green Leaves</div>
+                </div>
+                
+                <div class="user">
+                    <img src="img/avatar.jpg" class="avatar img-circle"/>
+                    <div class="name">
+                        <span>LOGIN USER</span>
+                    </div>
+                </div>
+                
+                <div class="search">
+                    <input type="text" placeholder="search">
+                </div>
 
-            <div class="index-sidebar-navigation">
-                <ul>
-                    <li> 
-                        <a class="menu-header">GREEN LEAVES</a>
-                        <ul>
-                            <li><a href="#/transactions/green-leaves/green-leaves-receive">Green leaves receive</a></li>
-                            <li><a href="#/transactions/green-leaves/client-advance/client-advance-request">Green leaves advance request</a></li>
-                            <li><a href="#/transactions/green-leaves/client-advance/client-advance-approve">Green leaves advance approve</a></li>
-                            <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh">Green leaves Weigh</a></li>
-                            <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-payment">Green leaves Payment</a></li>
-                            <li><a href="#/transactions/green-leaves/green-leaves-weigh/price-setting">Price Settings</a></li>
-                            <li><a href="#/transactions/green-leaves/green-leaves-weigh/final-payemnt">Final Payment</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <div class="index-sidebar-navigation">
+                    <ul>
+                        <li> 
+                            <a class="menu-header">GREEN LEAVES</a>
+                            <ul>
+                                <li><a href="#/transactions/green-leaves/green-leaves-receive">Green leaves receive</a></li>
+                                <li><a href="#/transactions/green-leaves/client-advance/client-advance-request">Green leaves advance request</a></li>
+                                <li><a href="#/transactions/green-leaves/client-advance/client-advance-approve">Green leaves advance approve</a></li>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh">Green leaves Weigh</a></li>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-payment">Green leaves Payment</a></li>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/price-setting">Price Settings</a></li>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/final-payemnt">Final Payment</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
 
         <div class="index-middle">
             <div class="index-header  background-light">
+                <div class="hamburger" ng-click="toggleHamburger();">
+                    <div ng-class="hamburgerOpen ? '' : 'open'">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                
                 <div class="col-xs-3">
-                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    <span class="text-primary">
+                        GREEN LEAVES 
+                    </span>
+                    <span class="text-default">
+                        |
+                    </span>
+                    <span class="text-default">
+                        Green Leaves Receive
+                    </span>
+                    
 
                 </div>
                 <div class="col-xs-6 text-center">
@@ -48,7 +78,7 @@
                     |
                     2016-01-01
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <table  style="width: auto; float: right;">
                         <tbody>
                             <tr>

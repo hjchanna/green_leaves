@@ -29,7 +29,7 @@
                 $scope.open = function () {
                     $scope.showModal = true;
                 };
-                
+
                 $scope.cancel = function () {
                     $scope.showModal = false;
                 };
