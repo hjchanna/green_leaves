@@ -2,6 +2,11 @@
     //index module
     angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule", "greenLeavesPaymentModule", "priceSettingModule", "finalPaymentModule", "monthlyGreenLeavesSummryModule"]);
 
+    //constants
+    angular.module("appModule").constant("systemConfig", {
+        apiUrl: "//localhost:8080"
+    });
+
     //route config
     angular.module("appModule")
             .config(function ($routeProvider) {
@@ -76,4 +81,5 @@
                     }
                 };
             });
+
 }());

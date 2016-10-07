@@ -44,7 +44,8 @@ gulp.task('build-js', function () {
         "bower_components/chart.js/dist/Chart.min.js",
         "bower_components/angular-chart.js/dist/angular-chart.min.js",
         "bower_components/angular-bootstrap/ui-bootstrap.min.js",
-        "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"
+        "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+        "bower_components/angular-ui-notification/dist/angular-ui-notification.min.js"
     ])
             .pipe(debug())
             .pipe(concat('vendor.js'))
@@ -68,7 +69,8 @@ gulp.task('build-css', function () {
     //vendor
     return gulp.src([
         'bower_components/bootstrap/dist/css/bootstrap.min.css',
-        'bower_components/animate.css/animate.min.css'
+        'bower_components/animate.css/animate.min.css',
+        'bower_components/angular-ui-notification/dist/angular-ui-notification.min.css'
     ])
             .pipe(debug())
             .pipe(concat('vendor.css'))

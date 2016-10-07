@@ -12,6 +12,7 @@ import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeav
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Don
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/green-leaves/green-leaves-receive")
 public class GreenLeavesReceiveController {
