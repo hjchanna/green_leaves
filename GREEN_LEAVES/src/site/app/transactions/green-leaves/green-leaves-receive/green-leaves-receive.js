@@ -117,10 +117,9 @@
 //                    console.log(JSON.stringify(model.indexNo));
                 };
 
-                $scope.keypressHandler = function (event, nextIdx) {
-                    if (event.keyCode == 13) {
-                        angular.element(document.querySelector('#f_' + nextIdx))[0].focus();
-                    }
+                $scope.selectedRow = null;
+                $scope.setClickedRow = function (index) {
+                    $scope.selectedRow = index;
                 };
             });
 }());
