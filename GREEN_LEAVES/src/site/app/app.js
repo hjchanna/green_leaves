@@ -3,7 +3,7 @@
     angular.module("appModule", [
         "ngRoute",
         "homeModule",
-//        "greenLeavesReceiveModule"
+        "greenLeavesReceiveModule",
         "clientAdvanceRequestModule",
         "clientAdvanceApproveModule",
         "greenLeavesWeighModule",
@@ -30,11 +30,10 @@
                         })
 
                         //green leaves
-//                        .when("/transactions/green-leaves/green-leaves-receive", {
-//                            templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
-//                            controller: "greenLeavesReceiveController"
-//                        })
-////
+                        .when("/transactions/green-leaves/green-leaves-receive", {
+                            templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
+                            controller: "greenLeavesReceiveController"
+                        })
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-request.html",
                             controller: "clientAdvanceRequestController"
@@ -68,13 +67,13 @@
                         });
             });
 
-//    angular.module("appModule")
-//            .config(function (ChartJsProvider) {
-//                ChartJsProvider.setOptions({
-//                    responsive: true,
-//                    maintainAspectRatio: false
-//                });
-//            });
+    angular.module("appModule")
+            .config(function (ChartJsProvider) {
+                ChartJsProvider.setOptions({
+                    responsive: true,
+                    maintainAspectRatio: false
+                });
+            });
 
     angular.module("appModule")
             .controller("appController", function ($scope, $timeout) {

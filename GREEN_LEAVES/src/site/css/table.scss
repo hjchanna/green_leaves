@@ -6,6 +6,14 @@ table{
     border-collapse: separate;
     margin-bottom: 0px;
     table-layout: fixed;
+    
+    //smart scroll
+    padding-right: 5px;
+}
+
+/*smart scroll*/
+.smart-scroll-y table{
+    padding-right: 0px !important; 
 }
 
 thead{
@@ -112,14 +120,17 @@ th > .form-control, td > .form-control{
     margin-bottom: 5px;
 }
 
-.control-table  th ,.control-table  td {
-    text-transform: uppercase;
-}
-
 .control-table  th > .form-control,.control-table  td > .form-control{
     margin-top: 5px !important;
     margin-bottom: 5px !important;
+}
+
+.background-dark .control-table .form-control{
     background-color: $bg-dark-color;
+}
+
+.background-light .control-table .form-control{
+    background-color: $bg-light-color;
 }
 
 th >  .btn, td > .btn{
@@ -163,3 +174,4 @@ tbody tr .btn-danger{
         }  
     }
 }
+
