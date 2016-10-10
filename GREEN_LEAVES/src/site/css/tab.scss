@@ -1,0 +1,56 @@
+@import "mixins/variables.scss";
+
+.nav-tabs > li > a{
+}
+
+
+
+.nav-tabs{
+    /*border: none;*/
+    border-color: #E4E4E4;
+
+    li{
+        a{
+            border: none;
+            border-bottom: 5px solid none;
+
+            padding: 10px 0 5px 0;
+            margin: 0px 10px 0px 10px;
+            text-transform: uppercase;
+            color: $dark-font-color;
+            
+            background-color: transparent !important;
+        }
+
+        a:hover{
+            background-color: transparent !important;
+        }
+    }
+
+    li.active{
+        a, a:hover, a:focus{
+            border: none;
+            border-bottom: 5px solid $primary-color;
+            font-weight: 500;
+        }
+    }
+}
+
+/*.background-dark{
+    .nav-tabs{
+        li, li.active{
+            a:hover{
+                background-color: $bg-dark-color !important;
+            }
+        }
+    }
+}
+.background-light{
+    .nav-tabs{
+        li, li.active{
+            a:hover{
+                background-color: $bg-light-color !important;
+            }
+        }
+    }
+}*/

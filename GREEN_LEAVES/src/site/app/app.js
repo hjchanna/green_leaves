@@ -28,6 +28,8 @@
                             templateUrl: "app/system/home/home.html",
                             controller: "homeController"
                         })
+
+                        //green leaves
                         .when("/transactions/green-leaves/green-leaves-receive", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
                             controller: "greenLeavesReceiveController"
@@ -65,13 +67,13 @@
                         });
             });
 
-//    angular.module("appModule")
-//            .config(function (ChartJsProvider) {
-//                ChartJsProvider.setOptions({
-//                    responsive: true,
-//                    maintainAspectRatio: false
-//                });
-//            });
+    angular.module("appModule")
+            .config(function (ChartJsProvider) {
+                ChartJsProvider.setOptions({
+                    responsive: true,
+                    maintainAspectRatio: false
+                });
+            });
 
     angular.module("appModule")
             .controller("appController", function ($scope, $timeout) {
