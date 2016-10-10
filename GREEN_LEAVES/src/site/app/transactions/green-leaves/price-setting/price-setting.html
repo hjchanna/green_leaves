@@ -39,12 +39,14 @@
                             <th>&nbsp;</th>
                             <th>
                                 <label>N/L RATE</label>
-                                <input class="form-control text-right" type="text">
+                                <input class="form-control text-right" ng-model="leaf.normal" value="50" type="text">
                             </th>
                             <th>&nbsp;</th>
                             <th>
                                 <label>S/L RATE</label>
-                                <input class="form-control text-right" type="text">
+                                <form ng-submit="leafLists()">
+                                    <input class="form-control text-right" ng-model="leaf.super" value="80" type="text">
+                                </form>
                             </th>
                             <th></th>
                         </tr>
@@ -88,147 +90,22 @@
                     <col style="width: 20%;"/>
                     <col style="width: 20%;"/>
                     <col/>
-                    <tbody>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
+                    <tbody ng-init="totalNormal=0,totalSuper=0">
+                        <tr ng-repeat="list in leafLists()">
+                            <td class="text-center"><span class="label label-default">{{list.indexNo}}</span></td>
+                            <td class="text-center">{{list.route}}</td>
+                            <td class="text-right">{{list.normalQty}}</td>
+                            <td class="text-right">{{list.superQty}}</td>
                             <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="{{leaf.normal}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
                             </td>
                             <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="{{leaf.super}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
                             </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
+                            <td class="text-right" ng-init="totalNormal+=list.normalQty*leaf.normal"> {{list.normalQty*leaf.normal}}</td>
+                            <td class="text-right" ng-init="totalSuper+=list.superQty*leaf.super">{{list.superQty*leaf.super}}</td>
                         </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -243,9 +120,10 @@
                     <col style="width: 20%;"/>
                     <thead class="background-dark">
                         <tr class="clickable">
-                            <td>TOTAL</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">200</td>
+                            
+                            <td >TOTAL</td>
+                            <td class="text-right">{{getTotalNormal()}}</td>
+                            <td class="text-right">{{getTotalSuper()}}</td>
                             <td class="text-right">&nbsp;</td>
                             <td class="text-right">&nbsp;</td>
                             <td class="text-right">10000.00</td>
