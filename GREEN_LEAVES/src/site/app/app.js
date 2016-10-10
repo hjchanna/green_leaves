@@ -1,11 +1,23 @@
 (function () {
     //index module
-    angular.module("appModule", ["ngRoute", "homeModule", "greenLeavesReceiveModule", "clientAdvanceRequestModule", "clientAdvanceApproveModule", "greenLeavesWeighModule", "greenLeavesPaymentModule", "priceSettingModule", "finalPaymentModule", "monthlyGreenLeavesSummryModule"]);
+    angular.module("appModule", [
+        "ngRoute",
+        "homeModule",
+//        "greenLeavesReceiveModule"
+        "clientAdvanceRequestModule",
+        "clientAdvanceApproveModule",
+        "greenLeavesWeighModule",
+        "greenLeavesPaymentModule",
+        "priceSettingModule",
+        "finalPaymentModule",
+        "monthlyGreenLeavesSummryModule"
+    ]);
 
     //constants
-    angular.module("appModule").constant("systemConfig", {
-        apiUrl: "//localhost:8080"
-    });
+    angular.module("appModule")
+            .constant("systemConfig", {
+                apiUrl: "http://localhost:8080"
+            });
 
     //route config
     angular.module("appModule")
@@ -18,11 +30,11 @@
                         })
 
                         //green leaves
-                        .when("/transactions/green-leaves/green-leaves-receive", {
-                            templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
-                            controller: "greenLeavesReceiveController"
-                        })
-
+//                        .when("/transactions/green-leaves/green-leaves-receive", {
+//                            templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
+//                            controller: "greenLeavesReceiveController"
+//                        })
+////
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-request.html",
                             controller: "clientAdvanceRequestController"
@@ -51,19 +63,18 @@
                             templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
                             controller: "monthlyGreenLeavesSummryController"
                         })
-
                         .otherwise({
                             redirectTo: "/"
                         });
             });
 
-    angular.module("appModule")
-            .config(function (ChartJsProvider) {
-                ChartJsProvider.setOptions({
-                    responsive: true,
-                    maintainAspectRatio: false
-                });
-            });
+//    angular.module("appModule")
+//            .config(function (ChartJsProvider) {
+//                ChartJsProvider.setOptions({
+//                    responsive: true,
+//                    maintainAspectRatio: false
+//                });
+//            });
 
     angular.module("appModule")
             .controller("appController", function ($scope, $timeout) {
