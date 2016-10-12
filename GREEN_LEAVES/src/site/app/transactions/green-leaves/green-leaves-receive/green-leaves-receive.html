@@ -100,16 +100,16 @@
                         <tr>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input type="text" class="form-control" ng-model="rowData.client" uib-typeahead="client as client.name for client in getClients($viewValue)" focus>
+                                <input type="text" class="form-control" ng-model="rowData.client" uib-typeahead="client as client.name for client in getClients($viewValue)">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
-                                <input type="text" class="form-control" ng-model="rowData.normalLeavesQuantity" focus>
+                                <input type="text" class="form-control text-right" ng-model="rowData.normalLeavesQuantity">
                             </th>
                             <th class="text-right">
                                 <label>SUPER</label>
                                 <form ng-submit="doAdd(rowData)">
-                                    <input type="text" class="form-control" ng-model="rowData.superLeavesQuantity" focus>
+                                    <input type="text" class="form-control text-right" ng-model="rowData.superLeavesQuantity">
                                 </form>
                             </th>
                             <th>&nbsp;</th>
@@ -128,7 +128,7 @@
                                 <td class="text-right">{{rowData.normalLeavesQuantity}}</td>
                                 <td class="text-right">{{rowData.superLeavesQuantity}}</td>
                                 <td>
-                                    <a class="btn btn-default" ng-click="doEdit(rowData);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="doDelete($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a class="btn btn-default" ng-click="doEdit(rowData,$index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="doDelete($index);"><span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                             </tr>
                         </tbody>

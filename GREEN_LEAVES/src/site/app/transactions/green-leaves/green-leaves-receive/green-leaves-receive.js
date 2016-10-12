@@ -61,20 +61,35 @@
                 };
 
                 $scope.doAdd = function (rowData) {
+                    $scope.vars = true;
                     if ($scope.rowData.client && $scope.rowData.normalLeavesQuantity && $scope.rowData.superLeavesQuantity) {
-                        $scope.greenLevesRecives.push(rowData);
-                        $scope.rowData = null;
+                        if ($scope.greenLevesRecives.length === 0) {
+                            $scope.greenLevesRecives.push(rowData);
+                            $scope.rowData = null;
+                        } else {
+                            for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
+                                if (angular.equals($scope.greenLevesRecives[i].client, rowData.client)) {
+                                    $scope.vars = false;
+                                    Notification.error('This Customer Is Already Exists');
+                                    break;
+                                }
+                            }
+                            if ($scope.vars) {
+                                $scope.greenLevesRecives.push(rowData);
+                                $scope.rowData = null;
+                            }
+                        }
                     } else {
-                        Notification.error('Must be filled all components to add');
+                        Notification.error('Must Be Filled All Components To Add');
                     }
                     $scope.getNormalLeavesQuantityTotal();
                     $scope.getSuperLeavesQuantity();
                 };
 
-                $scope.doEdit = function (rowData) {
+                $scope.doEdit = function (rowData,index) {
                     if (rowData) {
                         $scope.rowData = rowData;
-                        Notification.success('Edit Success');
+                        $scope.greenLevesRecives.splice(index, 1);
                     } else {
                         Notification.error('Edit Not Success');
                     }
@@ -109,7 +124,7 @@
                 //get route helpers and vehicles
                 $scope.getRoutehelperAndVehicle = function (model) {
                     for (var i = 0; i < $scope.routes.length; i++) {
-                        if ($scope.equals = angular.equals($scope.routes[i].routeOfficer, model)) {
+                        if (angular.equals($scope.routes[i].routeOfficer, model)) {
                             $scope.routeHelpers = $scope.routes[i].routeHelper;
                             return routeHelpers;
                         }

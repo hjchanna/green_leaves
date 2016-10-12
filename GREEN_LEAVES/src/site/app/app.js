@@ -10,7 +10,8 @@
         "greenLeavesPaymentModule",
         "priceSettingModule",
         "finalPaymentModule",
-        "monthlyGreenLeavesSummryModule"
+        "monthlyGreenLeavesSummryModule",
+        "routeDetailsModule"
     ]);
 
     //constants
@@ -64,9 +65,8 @@
                         })
                         .when("/transactions/green-leaves/route-details", {
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
-//                            controller: ""
+                            controller: "routeDetailsController"
                         })
-                        
                         .otherwise({
                             redirectTo: "/"
                         });
