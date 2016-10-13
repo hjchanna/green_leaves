@@ -6,186 +6,80 @@
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12" style="flex: 0 0 auto; ">
                 <table class="control-table">
-                        <col class="col-xs-4"/>
-                        <col class="col-xs-4"/>
-                        <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
 
-                        <tbody>
-                            <tr>
-                                <td>
-                                    &nbsp;
-                                </td>
-                                <td>
-                                    <input type="date" class="form-control" >
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" placeholder="transaction number">
-                                </td>
-                            </tr>
-                        </tbody>
+                    <tbody>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <input ng-model="date" smart-input="date" class="form-control" >
+                            </td>
+                            <td>
+                                <input ng-model="transaction" smart-input="integer" class="form-control" placeholder="transaction number">
+                            </td>
+                        </tr>
+                    </tbody>
 
-                    </table>
+                </table>
             </div>
 
             <div class="col-xs-12 " style="flex: 0 0 auto;">
                 <table>
-                    <col style="width: 55%"/>
-                    <col style="width: 18%"/>
-                    <col style="width: 18%"/>
-                    <col style="width: 18%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 35%"/>
+                    <col style="width: 25%"/>
                     <col style="width: 15%"/>
                     <col/>
                     <thead class="background-dark">
                         <tr>
-                            <th>
+                            <th class="text-right">
                                 <label>CLIENT</label>
-                                <input class="form-control" type="text">
+                                <input class="form-control" ng-model="rowData.client" type="text" uib-typeahead="client as client.name for client in getClients($viewValue)| limitTo:10" ng-disabled="ui.mode !== 'NEW'">
                             </th>
-                            <th>
+                            <th class="text-right">
                                 <label>ROUTE</label>
-                                <input class="form-control" type="text">
+                                <input class="form-control" ng-model="rowData.route" type="text" uib-typeahead="route as route.name for route in getRoutes($viewValue)| limitTo:10" ng-disabled="ui.mode !== 'NEW'">
                             </th>
-                            <th>
+                            <th class="text-right">
                                 <label>MONTH</label>
-                                <input class="form-control" type="text">
+                                <input class="form-control text-right" type="month" ng-model="rowData.month"  ng-disabled="ui.mode !== 'NEW'">
                             </th>
-                            <th>
+                            <th class="text-right">
                                 <label>AMOUNT</label>
-                                <input class="form-control" type="text">
+                                <form ng-submit="insertTable(rowData)">
+                                    <input class="form-control text-right" ng-model="rowData.amount"  smart-input="decimal" ng-disabled="ui.mode !== 'NEW'">
+                                </form>
                             </th>
-                            <th></th>
+                            <th class="text-center">
+                                <a class="btn btn-default" ng-click="insertTable(rowData)"><span class="glyphicon glyphicon-plus"></span></a>
+                            </th>
                         </tr>
                     </thead>
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 180px);">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 103px);">
                 <table class="table-hover">
-                    <col style="width: 55%"/>
-                    <col style="width: 18%"/>
-                    <col style="width: 18%"/>
-                    <col style="width: 18%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 35%"/>
+                    <col style="width: 25%"/>
                     <col style="width: 15%"/>
                     <col/>
                     <tbody>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
+                        <tr ng-repeat="rowData in getRowData(null)">
+                            <td><span class="label label-default">{{rowData.client.indexNo}}</span>{{rowData.client.name}}</td>
+                            <td class="text-right">{{rowData.route.name}}</td>
+                            <td class="text-right">{{rowData.month}}</td>
+                            <td class="text-right">{{rowData.amount}}</td>
                             <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="label label-default">00001</span> Kavish Manjitha</td>
-                            <td class="text-right">Route 01</td>
-                            <td class="text-right">2016-Sep</td>
-                            <td class="text-right">500.00</td>
-                            <td>
-                                <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                <a class="btn btn-default" ng-click="editSelectdRow(rowData, $index);"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger" ng-click="deleteSelectedRow($index);"><span class="glyphicon glyphicon-trash"></span></a>
                             </td>
                         </tr>
                     </tbody>
@@ -200,7 +94,7 @@
                     <thead class="background-dark">
                         <tr class="clickable">
                             <th>ADVANCE REQUEST SUMMARY</th>
-                            <th class="text-right">15500.00</th>
+                            <th class="text-right">{{getTotalAmount()}}</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -569,10 +463,8 @@
     </div>
 </div>
 
-
 <div class="fab-container">
-    <a class="fab fab-success"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
-</div>
+    <a class="fab fab-danger" ng-show="ui.mode === 'SELECTED'"><i class="glyphicon glyphicon-edit"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW'"  ng-click="ui.finish();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>F
