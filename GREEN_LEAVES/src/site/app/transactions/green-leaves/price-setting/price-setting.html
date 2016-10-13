@@ -4,28 +4,27 @@
 <div class="index-content-body">
     <div class="col-xs-12 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12" style="flex: 0 0 auto; margin-top: 24px;">
-                <div class="row">
+            <div class="col-xs-12 " style="flex: 0 0 auto;">
 
-                    <div class="col-xs-6" style="margin-top: -5px;" >
-                        &nbsp;
-                    </div>
+                <table style="padding-right: 5px;">
+                    <col style="width: 52%"/>
+                    <col style="width: 24%"/>
+                    <col style="width: 24%"/>
+                    <col/>
+                    <thead class="background-dark">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>
+                                <input style="margin-top: 5px" class="form-control text-right" type="text" placeholder="year">
+                            </th>
+                            <th>
+                                <input style="margin-top: 5px" class="form-control text-right" type="text" placeholder="month">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
 
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="year">
-                        </div>
-                    </div> 
-
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="month">
-                        </div>
-                    </div>
-
-                </div>
             </div>
-
             <div class="col-xs-12 " style="flex: 0 0 auto;">
                 <table style="padding-right: 5px;">
                     <col style="width: 52%"/>
@@ -39,12 +38,14 @@
                             <th>&nbsp;</th>
                             <th>
                                 <label>N/L RATE</label>
-                                <input class="form-control text-right" type="text">
+                                <input class="form-control text-right" ng-model="leaf.normal" value="50" type="text">
                             </th>
                             <th>&nbsp;</th>
                             <th>
                                 <label>S/L RATE</label>
-                                <input class="form-control text-right" type="text">
+                                <form ng-submit="leafLists()">
+                                    <input class="form-control text-right" ng-model="leaf.super" value="80" type="text">
+                                </form>
                             </th>
                             <th></th>
                         </tr>
@@ -88,148 +89,36 @@
                     <col style="width: 20%;"/>
                     <col style="width: 20%;"/>
                     <col/>
-                    
-                    <tbody>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
+                    <tbody >
+                        <tr style="height: 40px">
+                            <td class="text-center"><span class="label label-default">R00001</span></td>
+                            <td class="text-center">Thalawathugoda</td>
+                            <td class="text-right"> 350</td>
+                            <td class="text-right">760</td>
                             <td class="text-right">
                                 <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
                             </td>
                             <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="60.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
                             </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
+                            <td class="text-right">12000.00 </td>
+                            <td class="text-right">12000.00</td>
                         </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
+<!--                        <tr style="height: 40px" ng-repeat="list in leafLists()">
+                            <td class="text-center"><span class="label label-default">{{list.indexNo}}</span></td>
+                            <td class="text-center">{{list.route}}</td>
+                            <td class="text-right">{{list.normalQty}}</td>
+                            <td class="text-right">{{list.superQty}}</td>
                             <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="{{leaf.normal}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
                             </td>
                             <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="{{leaf.super}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
                             </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center"><span class="label label-default">00001</span></td>
-                            <td class="text-center">Route 01</td>
-                            <td class="text-right">100</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="80.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">5000.00</td>
-                            <td class="text-right">16000.00</td>
-                        </tr>
+                            <td class="text-right">12000.00 </td>
+                            <td class="text-right">12000.00</td>
+                        </tr>-->
+
                     </tbody>
                 </table>
             </div>
@@ -244,9 +133,10 @@
                     <col style="width: 20%;"/>
                     <thead class="background-dark">
                         <tr class="clickable">
-                            <td>TOTAL</td>
-                            <td class="text-right">200</td>
-                            <td class="text-right">200</td>
+
+                            <td >TOTAL</td>
+                            <td class="text-right">1200</td>
+                            <td class="text-right">300</td>
                             <td class="text-right">&nbsp;</td>
                             <td class="text-right">&nbsp;</td>
                             <td class="text-right">10000.00</td>
