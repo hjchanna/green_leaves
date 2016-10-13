@@ -1,3 +1,12 @@
+<style>
+    .btn-group:hover>.dropdown-menu {
+        display: block;
+        margin-top: -1px;
+    }
+    .dropdown-menu li a:hover{
+        background-color: #5093E1;
+    }
+</style>
 <div class="index-content-header">
 </div>
 
@@ -5,32 +14,38 @@
     <!--start left div-->
     <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 100px;padding-top: 10px;">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <select class="form-control" id="sel2">
-                                <option>Empyolee Advance Payment</option>
-                                <option>Green Leaves  Advance Payment</option>
-                                <option>Loan  Advance Payment</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="select route officer">
-                        </div>
-                    </div>
-                    <div class="col-xs-6" style="margin-top: 0px;">
-                        <div class="form-group">
-                            <select class="form-control">
-                                <option>Cash</option>
-                                <option>Cheque</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="search supplier id / name">
-                        </div>
-                    </div>
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 100px; padding: 10px 35px 0px 30px;">
+                <div class="row ">
+                    <table class="background-dark" style="border-radius: 5px">
+                        <col style="width: 50%">
+                        <col style="width: 50%">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <select class="form-control" id="sel2">
+                                        <option>Empyolee Advance Payment</option>
+                                        <option>Green Leaves  Advance Payment</option>
+                                        <option>Loan  Advance Payment</option>
+                                        <option>Other</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control">
+                                        <option>Cash</option>
+                                        <option>Cheque</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="select route officer">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="search supplier id / name">
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
             <!--start table header div-->
@@ -142,7 +157,7 @@
                                             <label for="accountno" class="control-label text-left">A/No</label>
                                         </td>
                                         <td>
-                                            <input class="form-control text-right" id="accountno" type="text">  
+                                            <input class="form-control text-right" id="accountno" type="number">  
                                         </td>
                                     </tr>
                                     <tr>
@@ -292,18 +307,33 @@
                                             <input class="form-control text-right" id="receiveBank" type="text">
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr style="height: 42px">
                                         <td>
                                             <label class="control-label text-left">A/No</label>
                                         </td>
                                         <td>
-                                            <select class="form-control" id="sel2">
-                                                <option>123456</option>
-                                                <option>123456</option>
-                                                <option>123456</option>
-                                                <option>123456</option>
-                                                <option>123456</option>
-                                            </select>
+                                            <!--                                            <select class="form-control" id="sel2">
+                                                                                            <option style="height:150px;">123456</option>
+                                                                                            <option style="height:150px;">123456</option>
+                                                                                            <option style="height:150px;">123456</option>
+                                                                                            <option style="height:150px;">123456</option>
+                                                                                            <option style="height:150px;">123456</option>
+                                                                                        </select>-->
+                                            <div class="btn-group" dropdown is-open="status.isopen" style="width:159px">
+                                                <button type="text" class="form-control  dropdown-toggle" >
+                                                   {{accNo}}<span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a ng-click="setAccNo(330200210035940)">330200210035940</a>
+                                                    </li>
+                                                    <li><a ng-click="setAccNo(330200140069227)" >330200140069227</a>
+                                                    </li>
+                                                    <li><a ng-click="setAccNo(185202054536789)" >185202054536789</a>
+                                                    </li>
+                                                    <li><a ng-click="setAccNo(454533367888445)" >454533367888445</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -322,8 +352,8 @@
                 <!--end transfer - 3rd tab-->
             </div>
             <!--start payemnt summry-->
-            <div class="col-xs-12" style="margin-left: 15px;height: 110px;position: fixed;bottom: -20px;width: 340px;">
-                <table class="control-table">
+            <div class="col-xs-12">
+                <table class="control-table" style="width:313px;position: fixed;bottom: 0px;">
                     <col style="width: 65%"/>
                     <col style="width: 35%"/>
                     <col />
