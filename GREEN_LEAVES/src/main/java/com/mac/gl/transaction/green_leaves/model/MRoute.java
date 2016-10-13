@@ -1,30 +1,24 @@
-package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
+package com.mac.gl.transaction.green_leaves.model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
  *
  * @author Don
  */
-@Entity(name = "com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute")
+@Entity(name = "com.mac.gl.transaction.green_leaves.model.MRoute")
 @Table(name = "m_route")
-public class MRoute {
+public class MRoute implements Serializable {
 
     @Id
     private Integer indexNo;
     private Integer branch;
     private String name;
-    @JoinColumn(name = "route_officer")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private MEmployee routeOfficer;
-    @JoinColumn(name = "route_helper")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private MEmployee routeHelper;
+    private Integer routeOfficer;
+    private Integer routeHelper;
 
     public MRoute() {
     }
@@ -53,19 +47,20 @@ public class MRoute {
         this.name = name;
     }
 
-    public MEmployee getRouteOfficer() {
+    public Integer getRouteOfficer() {
         return routeOfficer;
     }
 
-    public void setRouteOfficer(MEmployee routeOfficer) {
+    public void setRouteOfficer(Integer routeOfficer) {
         this.routeOfficer = routeOfficer;
     }
 
-    public MEmployee getRouteHelper() {
+    public Integer getRouteHelper() {
         return routeHelper;
     }
 
-    public void setRouteHelper(MEmployee routeHelper) {
+    public void setRouteHelper(Integer routeHelper) {
         this.routeHelper = routeHelper;
     }
+
 }

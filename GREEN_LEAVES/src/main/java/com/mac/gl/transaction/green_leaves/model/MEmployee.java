@@ -1,4 +1,4 @@
-package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
+package com.mac.gl.transaction.green_leaves.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.transaction.green_leaves.green_leaves_receive.repository;
+package com.mac.gl.transaction.green_leaves.repository;
 
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute;
-import java.util.List;
+import com.mac.gl.transaction.green_leaves.model.MRoute;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 /**
  *

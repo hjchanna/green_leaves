@@ -14,7 +14,7 @@ import java.util.List;
 public class HttpRespondBuilder {
 
     public static final int SUCCESS = 200;
-    public static final int ERROR = 503;
+    public static final int ERROR = 500;
     //
     private static final String SUCCESS_MESSAGE = "SUCCESS";
 

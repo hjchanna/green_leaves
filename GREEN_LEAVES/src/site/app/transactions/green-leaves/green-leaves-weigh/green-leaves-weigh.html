@@ -11,19 +11,19 @@
 
                     <tbody>
                         <tr>
-                            <td><input type="text" class="form-control" placeholder="route"></td>
-                            <td><input type="date" class="form-control"></td>
-                            <td><input type="number" class="form-control"></td>
+                            <td><input type="text" class="form-control" placeholder="select route" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-model="route" uib-typeahead="route as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10"></td>
+                            <td><input type="date" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input type="number" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-xs-12">        
                 <div class="row">
-                    
-                    
+
+
                     <uib-tabset>
-                        <uib-tab heading="NORMAL LEAVES">
+                        <uib-tab heading="NORMAL LEAVES" ng-click="ui.toggleType('NORMAL');">
                             <div class="col-xs-12">
                                 <table>
                                     <col style="width: 10%"/>
@@ -38,21 +38,23 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.quantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.crates" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.bags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.polyBags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
-                                            <th>&nbsp;</th>
+                                            <th class="text-right">
+                                                <a class="btn btn-default" ng-click="ui.insertNormal();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></a>
+                                            </th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -66,165 +68,15 @@
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col />
-                                    <tbody >
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
+                                    <tbody>
+                                        <tr ng-repeat="greenLeavesWeighDetail in model.weigh.greenLeavesWeighDetails|filter:{type:'NORMAL'}">
+                                            <td><span class="label label-default">{{$index + 1}}</span></td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.quantity}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.bags}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags}}</td>
                                             <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
+                                                <a class="btn btn-default" ng-click="ui.deleteNormal(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-trash"></span></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -243,10 +95,10 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>TOTAL</th>
-                                            <th class="text-right">200</th>
-                                            <th class="text-right">50</th>
-                                            <th class="text-right">0</th>
-                                            <th class="text-right">0</th>
+                                            <th class="text-right">{{model.weigh.normalTotalWeight}}</th>
+                                            <th class="text-right">{{model.weigh.normalCrates}}</th>
+                                            <th class="text-right">{{model.weigh.normalBags}}</th>
+                                            <th class="text-right">{{model.weigh.normalPolyBags}}</th>
                                             <th class="text-right">
                                                 &nbsp;
                                             </th>
@@ -256,7 +108,7 @@
                             </div>
                         </uib-tab>
 
-                        <uib-tab index="1" heading="SUPER LEAVES">
+                        <uib-tab heading="SUPER LEAVES" ng-click="ui.toggleType('SUPER');">
                             <div class="col-xs-12">
                                 <table>
                                     <col style="width: 10%"/>
@@ -269,24 +121,25 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>&nbsp;</th>
-
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.quantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.crates" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.bags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.polyBags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
-                                            <th>&nbsp;</th>
+                                            <th class="text-right">
+                                                <a class="btn btn-default" ng-click="ui.insertSuper();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></a>
+                                            </th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -301,164 +154,14 @@
                                     <col style="width: 20%"/>
                                     <col />
                                     <tbody >
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
+                                        <tr ng-repeat="greenLeavesWeighDetail in model.weigh.greenLeavesWeighDetails|filter:{type:'SUPER'}">
+                                            <td><span class="label label-default">{{$index + 1}}</span></td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.quantity}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.bags}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags}}</td>
                                             <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="label label-default">001</span></td>
-                                            <td class="text-right">25</td>
-                                            <td class="text-right">1</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">0</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
+                                                <a class="btn btn-default" ng-click="ui.deleteNormal(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-trash"></span></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -477,10 +180,10 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>TOTAL</th>
-                                            <th class="text-right">200</th>
-                                            <th class="text-right">50</th>
-                                            <th class="text-right">0</th>
-                                            <th class="text-right">0</th>
+                                            <th class="text-right">{{model.weigh.superTotalWeight}}</th>
+                                            <th class="text-right">{{model.weigh.superCrates}}</th>
+                                            <th class="text-right">{{model.weigh.superBags}}</th>
+                                            <th class="text-right">{{model.weigh.superPolyBags}}</th>
                                             <th class="text-right">
                                                 &nbsp;
                                             </th>
@@ -496,7 +199,8 @@
     </div>
 
     <div class="col-xs-4 background-dark">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'NORMAL'">
             <div class="col-xs-12">
                 <table>
                     <thead>
@@ -524,7 +228,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">TOTAL</label></td>
-                            <td><input class="form-control text-right" type="text"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalTotalWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -547,21 +251,21 @@
                         <tr>
                             <td><label class="control-label">TARE</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalTareCalculated" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalTareDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalGeneralDeductionPercent"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalGeneralDeduction" ng-disabled="true">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">WATER</label></td>
                             <td>
-                                <input class="form-control text-right" type="text">
+                                <input class="form-control text-right" type="text" ng-model="model.weigh.normalWaterDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
@@ -582,11 +286,11 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">COARSE LEAF</label></td>
-                            <td><input class="form-control" type="text"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalCoarseLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">BOILED LEAF</label></td>
-                            <td><input class="form-control" type="text"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalBoiledLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -606,19 +310,137 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">NET WEIGHT</label></td>
-                            <td><input class="form-control" type="text"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalNetWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'SUPER'">
+            <div class="col-xs-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="text-center">SUPER LEAVES</td>
+                        </tr>
+                    </thead>
+                </table>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>COLLECTION</td>
+                        </tr>
+                    </thead>
+                </table>
+
+
+
+                <table class="control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+
+                    <tbody>
+                        <tr>
+                            <td><label class="control-label">TOTAL</label></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superTotalWeight" ng-disabled="true"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>DEDUCTION</td>
+                        </tr>
+                    </thead>
+                </table>
+
+
+                <table class="control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+
+                    <tbody>
+                        <tr>
+                            <td><label class="control-label">TARE</label></td>
+                            <td>
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.superTareCalculated" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.superTareDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">DEDUCTION</label></td>
+                            <td>
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.superGeneralDeductionPercent" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.superGeneralDeduction" ng-disabled="true">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">WATER</label></td>
+                            <td>
+                                <input class="form-control text-right" type="text" ng-model="model.weigh.superWaterDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>RETURN</td>
+                        </tr>
+                    </thead>
+                </table>
+
+                <table class="control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+                    <tbody>
+                        <tr>
+                            <td><label class="control-label">COARSE LEAF</label></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superCoarseLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">BOILED LEAF</label></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superBoiledLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>BALANCE</td>
+                        </tr>
+                    </thead>
+                </table>
+
+                <table class="control-table">
+                    <col style="width: 35%"/>
+                    <col style="width: 65%"/>
+                    <tbody>
+                        <tr>
+                            <td><label class="control-label">NET WEIGHT</label></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superNetWeight" ng-disabled="true"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
 
     <div class="fab-container">
-        <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
-        <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
-        <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
+        <a class="fab fab-danger" ng-show="ui.mode === 'SELECTED'"><i class="glyphicon glyphicon-edit"></i></a>
+        <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode == 'EDIT'" ng-click="ui.finish();"><i class="glyphicon glyphicon-ok"></i></a>
     </div>
 
     <!--<div class="index-content-footer">

@@ -1,5 +1,6 @@
 package com.mac.gl.transaction.green_leaves.green_leaves_receive.model;
 
+import com.mac.gl.transaction.green_leaves.model.MRoute;
 import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

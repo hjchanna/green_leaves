@@ -1,18 +1,18 @@
 package com.mac.gl.transaction.green_leaves.green_leaves_receive;
 
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.http.request.SaveOrUpdateLeavesReceiveRequest;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MClient;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MEmployee;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.MRoute;
+import com.mac.gl.transaction.green_leaves.model.MClient;
+import com.mac.gl.transaction.green_leaves.model.MEmployee;
+import com.mac.gl.transaction.green_leaves.model.MRoute;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeaveWeighDetails;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetails;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.ClientRepository;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.EmployeeRepository;
+import com.mac.gl.transaction.green_leaves.repository.ClientRepository;
+import com.mac.gl.transaction.green_leaves.repository.EmployeeRepository;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesReceiveDetailsRepository;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesReceiveRepository;
 import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.GreenLeavesWeighRepository;
-import com.mac.gl.transaction.green_leaves.green_leaves_receive.repository.RouteRepository;
+import com.mac.gl.transaction.green_leaves.repository.RouteRepository;
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
