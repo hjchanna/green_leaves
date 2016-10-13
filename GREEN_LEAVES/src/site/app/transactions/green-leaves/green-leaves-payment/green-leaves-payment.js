@@ -36,6 +36,11 @@
                     }, {
                         Name: "Item 15"
                     }];
+                $scope.accNo="Select Acc No";
+                $scope.setAccNo=function (accNo){
+                    $scope.accNo=accNo;
+                };
+                
                 $scope.checkAll = function () {
                     if ($scope.selectedAll) {
                         $scope.selectedAll = true;
