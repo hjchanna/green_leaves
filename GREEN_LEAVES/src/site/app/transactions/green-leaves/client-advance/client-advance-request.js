@@ -4,12 +4,14 @@
 
     //controller
     angular.module("clientAdvanceRequestModule")
-            .controller("clientAdvanceRequestController", function ($scope, $http, systemConfig, Notification, $filter) {
+            .controller("clientAdvanceRequestController", function ($scope, $http, systemConfig, Notification) {
 
                 //ui models
                 $scope.ui = {};
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
+
                 $scope.ui.mode = null;
+                $scope.clientDetails = [];
 
                 //new function
                 $scope.ui.new = function () {
@@ -56,8 +58,7 @@
                     $scope.vars = true;
                     if ($scope.rowData.client.name && $scope.rowData.route.name && $scope.rowData.month && $scope.rowData.amount) {
                         //select month format
-                        $scope.rowData.month = $filter('date')(new Date(rowData.month), 'yy-MMMM');
-                        $scope.rowData.amount = parseFloat(rowData.amount);  
+                        $scope.rowData.amount = parseFloat(rowData.amount);
                         if ($scope.requestDetails.length === 0) {
                             $scope.requestDetails.push(rowData);
                             $scope.rowData = null;
@@ -80,8 +81,8 @@
                     }
                 };
 
-                $scope.editSelectdRow = function (rowData, index) {
-                    $scope.rowData = rowData;
+                $scope.editSelectdRow = function (requestRowData, index) {
+                    $scope.rowData = requestRowData;
                     $scope.requestDetails.splice(index, 1);
                     $scope.getTotalAmount();
                 };
@@ -102,38 +103,110 @@
                     return total;
                 };
 
-                //ui init function
-                $scope.ui.init = function () {
-                    //set ideal mode
-                    $scope.ui.mode = "IDEAL";
+                $scope.getClientDetails = function (model) {
+                    console.log(model);
                 };
-                $scope.ui.init();
 
+                //------- client details -----
+                $scope.getClientDetails = function () {
+                    $scope.clientDetails = [
+                        {
+                            indexNo: 1,
+                            discription: "B/F",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 2,
+                            discription: "Settlement",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 3,
+                            discription: "GL Value",
+                            debit: 50000.00,
+                            credit: 0
+                        },
+                        {
+                            indexNo: 4,
+                            discription: "A /Payment",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 5,
+                            discription: "L/Installment",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 6,
+                            discription: "Fertilizer(P)",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 7,
+                            discription: "Fertilizer(C)",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 8,
+                            discription: "Tea",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 9,
+                            discription: "Savings",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 10,
+                            discription: "Welfare",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 11,
+                            discription: "Transport",
+                            debit: 0,
+                            credit: 300.00
+                        },
+                        {
+                            indexNo: 12,
+                            discription: "Other",
+                            debit: 0,
+                            credit: 300.00
+                        }
+                    ];
+                    return $scope.clientDetails;
+                };
 
+                $scope.getTotalDebit = function () {
+                    var total = 0.0;
+                    for (var i = 0; i < $scope.clientDetails.length; i++) {
+                        total += parseFloat($scope.clientDetails[i].debit);
+                    }
+                    return total;
+                };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                $scope.getTotalCredit = function () {
+                    var total = 0.0;
+                    for (var i = 0; i < $scope.clientDetails.length; i++) {
+                        total += parseFloat($scope.clientDetails[i].credit);
+                    }
+                    return total;
+                };
+                $scope.getCreditBlance = function () {
+                    var totalDebit = $scope.getTotalDebit();
+                    var totalCredit = $scope.getTotalCredit();
+                    var blance = totalDebit - totalCredit;
+                    return blance;
+                };
 
                 $scope.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
                 $scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -156,12 +229,11 @@
                     }
                 ];
 
-                $scope.open = function () {
-                    $scope.showModal = true;
+                //ui init function
+                $scope.ui.init = function () {
+                    //set ideal mode
+                    $scope.ui.mode = "IDEAL";
                 };
-
-                $scope.cancel = function () {
-                    $scope.showModal = false;
-                };
+                $scope.ui.init();
             });
 }());
