@@ -48,8 +48,11 @@ $bg-ultra-dark-color-border:   darken(#2F323A,10%);
 $bg-dark-color-border:         darken(#EDEFF5,10%);
 $bg-light-color-border:        darken(#FFFFFF,10%);
 
-$control-border-color:  #E6E8E8;
-$control-border-fous:   #5093E1;
+/*$control-border-color:  #E6E8E8;
+$control-border-fous:   #5093E1;*/
+$control-border-color:  lighten($primary-color, 20%);
+$control-border-disabled:  lighten($default-color, 20%);
+$control-border-fous:   lighten($danger-color, 20%);
 
 $scrollbar-thumb-color:       #D1D7E9;
 

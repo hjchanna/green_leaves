@@ -150,13 +150,13 @@
                     angular.forEach($scope.model.weigh.greenLeavesWeighDetails, function (value, key) {
                         if (value.type === 'NORMAL') {
                             normalTotalWeight = normalTotalWeight + parseFloat(value.quantity);
-                            
+
                             normalCrates = normalCrates + parseInt(value.crates);
                             normalBags = normalBags + parseInt(value.bags);
                             normalPolyBags = normalPolyBags + parseInt(value.polyBags);
                         } else if (value.type === 'SUPER') {
                             superTotalWeight = superTotalWeight + parseFloat(value.quantity);
-                            
+
                             superCrates = superCrates + parseInt(value.crates);
                             superBags = superBags + parseInt(value.bags);
                             superPolyBags = superPolyBags + parseInt(value.polyBags);
@@ -165,11 +165,11 @@
 
                     //general deduction
                     var normalGeneralDeductionPercent = parseFloat($scope.model.weigh.normalGeneralDeductionPercent);
-                    var normalGeneralDeduction = normalGeneralDeductionPercent * normalTotalWeight / 100;
+                    var normalGeneralDeduction = parseInt(normalGeneralDeductionPercent * normalTotalWeight / 100);
                     $scope.model.weigh.normalGeneralDeduction = normalGeneralDeduction;
 
                     var superGeneralDeductionPercent = parseFloat($scope.model.weigh.superGeneralDeductionPercent);
-                    var superGeneralDeduction = superGeneralDeductionPercent * superTotalWeight / 100;
+                    var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
                     $scope.model.weigh.superGeneralDeduction = superGeneralDeduction;
 
                     //net value
@@ -192,12 +192,12 @@
 
                     $scope.model.weigh.superTotalWeight = superTotalWeight;
                     $scope.model.weigh.superNetWeight = superNetWeight;
-                    
+
                     //tare count
                     $scope.model.weigh.normalCrates = normalCrates;
                     $scope.model.weigh.normalBags = normalBags;
                     $scope.model.weigh.normalPolyBags = normalPolyBags;
-                    
+
                     $scope.model.weigh.superCrates = superCrates;
                     $scope.model.weigh.superBags = superBags;
                     $scope.model.weigh.superPolyBags = superPolyBags;
