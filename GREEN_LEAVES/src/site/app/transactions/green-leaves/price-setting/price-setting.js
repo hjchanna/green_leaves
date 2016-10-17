@@ -5,36 +5,78 @@
     //controller
     angular.module("priceSettingModule")
             .controller("priceSettingController", function ($scope) {
-                $scope.leafList = [{}];
-              
-                $scope.leafLists = function (value) {
-                    $scope.leafList = [
-                        {
-                            indexNo: "00001",
-                            route: "batuwana route",
-                            normalQty: "200",
-                            superQty: "100"
 
-                        },
-                        {
-                            indexNo: "00002",
-                            route: "batuwana route",
-                            normalQty: "300",
-                            superQty: "400"
+                $scope.ui = {};
+                $scope.leafList = [];
+                $scope.totalNormalValue = 0.00;
+                $scope.totalSuperValue = 0.00;
 
-                        },
-                        {
-                            indexNo: "00003",
-                            route: "batuwana route",
-                            normalQty: "340",
-                            superQty: "190"
+                $scope.insertNormal = function () {
+                    if ($scope.leaf.normalRate & $scope.leaf.superRate) {
+                        if ($scope.ui.mode === "EDIT") {
+                            $scope.leaf = {};
+                        } else {
+                            $scope.leafList = [
+                                {
+                                    indexNo: "00001",
+                                    route: "batuwana route",
+                                    normalQty: "200",
+                                    superQty: "100",
+                                    normalRate: "0.00",
+                                    superRate: "0.00",
+                                    normalValue: "0.00",
+                                    superValue: "0.00"
 
+                                },
+                                {
+                                    indexNo: "00002",
+                                    route: "batuwana route",
+                                    normalQty: "300",
+                                    superQty: "400",
+                                    normalRate: "0.00",
+                                    superRate: "0.00",
+                                    normalValue: "0.00",
+                                    superValue: "0.00"
+
+                                },
+                                {
+                                    indexNo: "00003",
+                                    route: "batuwana route",
+                                    normalQty: "340",
+                                    superQty: "190",
+                                    normalRate: "0.00",
+                                    superRate: "0.00",
+                                    normalValue: "0.00",
+                                    superValue: "0.00"
+
+                                }
+                            ];
+                            for (i = 0; i < $scope.leafList.length; i++) {
+                                $scope.leafList[i].normalRate = $scope.leaf.normalRate;
+                                $scope.leafList[i].superRate = $scope.leaf.superRate;
+                                $scope.leafList[i].normalValue = $scope.leaf.normalRate * $scope.leafList[i].normalQty;
+                                $scope.leafList[i].superValue = $scope.leaf.superRate * $scope.leafList[i].superQty;
+                            }
+//                            
                         }
-                    ];
-                    console.log($scope.leafList.length);
+                    }
+                    $scope.getTotalNormalValue();
+                    $scope.getTotalSuperValue();
+                    $scope.ui.mode = "IDEAL";
+                    console.log($scope.leafList);
                     return $scope.leafList;
                 };
-                $scope.getTotalNormal = function () {
+                $scope.setTotalValue = function (index) {
+                    for (var i = 0; i < $scope.leafList.length; i++) {
+                        $scope.leafList[index].normalValue = $scope.leaf.normal;
+                        $scope.leafList[index].superValue = $scope.leaf.super;
+                    }
+                };
+                $scope.doEdit = function (list, index) {
+                    $scope.ui.mode = "EDIT";
+                    $scope.leaf = list;
+                };
+                $scope.getTotalNormalQty = function () {
                     var totalNormal = 0;
                     for (var i = 0; i < $scope.leafList.length; i++) {
                         var route = $scope.leafList[i];
@@ -42,7 +84,7 @@
                     }
                     return totalNormal;
                 };
-                $scope.getTotalSuper = function () {
+                $scope.getTotalSuperQty = function () {
                     var totalSuper = 0;
                     for (var i = 0; i < $scope.leafList.length; i++) {
                         var route = $scope.leafList[i];
@@ -50,7 +92,41 @@
                     }
                     return totalSuper;
                 };
-
-
+                $scope.getTotalNormalValue = function () {
+                    var totalNormalValue = 0;
+                    for (var i = 0; i < $scope.leafList.length; i++) {
+                        var list = $scope.leafList[i];
+                        totalNormalValue += parseFloat(list.normalValue);
+                    }
+                    $scope.totalNormalValue = totalNormalValue;
+                };
+                $scope.getTotalSuperValue = function () {
+                    var totalSuperValue = 0;
+                    for (var i = 0; i < $scope.leafList.length; i++) {
+                        var list = $scope.leafList[i];
+                        totalSuperValue += parseFloat(list.superValue);
+                    }
+                    $scope.totalSuperValue = totalSuperValue;
+                };
+                $scope.doChangeNormal = function (leaf) {
+                    
+               
+                    console.log($scope.leafList);
+                    console.log($scope.leafList[0].indexNo);
+                    console.log(leaf);
+                    for (var i = 0; i < $scope.leafList.length; i++) {
+                        if ($scope.leafList[i].indexNo === leaf.indexNo) {
+                            console.log($scope.leaf.normalRate+" normal rate");
+                            $scope.leafList[i].normalRate=$scope.leaf.normalRate;
+                            console.log($scope.leafList[i].normalRate+" normal rate after");
+                            
+                            $scope.leafList[i].normalValue = $scope.leaf.normalRate * $scope.leafList[i].normalQty;
+                            console.log($scope.leafList[i].normalValue+" normal value");
+                        }
+                    }
+                    $scope.getTotalNormalValue();
+                    console.log($scope.totalNormalValue+" total normal value");
+                    console.log($scope.leafList+" list 2");
+                };
             });
 }());
