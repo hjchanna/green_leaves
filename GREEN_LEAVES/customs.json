@@ -1,0 +1,10 @@
+{
+    "elements": {
+        "uib-tabset": {
+            "attributes": {
+                "class": {}
+            }
+        }
+    },
+    "attributes": {}
+}

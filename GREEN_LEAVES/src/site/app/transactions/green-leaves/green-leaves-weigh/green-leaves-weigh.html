@@ -11,9 +11,9 @@
 
                     <tbody>
                         <tr>
-                            <td><input type="text" class="form-control" placeholder="select route" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-model="route" uib-typeahead="route as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10"></td>
-                            <td><input type="date" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            <td><input type="number" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control" smart-input="text"  ng-model="model.weigh.route" placeholder="select route" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-model="route" uib-typeahead="route as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10"></td>
+                            <td><input class="form-control" smart-input="date"  ng-model="model.weigh.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control" smart-input="integer" ng-model="model.weigh.number" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -23,11 +23,11 @@
 
 
                     <uib-tabset>
-                        <uib-tab heading="NORMAL LEAVES" ng-click="ui.toggleType('NORMAL');">
+                        <uib-tab heading="NORMAL LEAVES" select="ui.toggleType('NORMAL');">
                             <div class="col-xs-12">
-                                <table>
+                                <table class="control-table with-label">
                                     <col style="width: 10%"/>
-                                    <col style="width: 18%"/>
+                                    <col style="width: 25%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
@@ -38,55 +38,59 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.quantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.quantity" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.crates" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.crates" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.bags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.bags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.polyBags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
-                                            <th class="text-right">
-                                                <a class="btn btn-default" ng-click="ui.insertNormal();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
+                                                <a class="btn btn-primary" ng-click="ui.insertNormal();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></a>
                                             </th>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
 
-                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 270px);">
+                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 270px);" ng-show="normalLeaves.length">
                                 <table class="table-hover">
                                     <col style="width: 10%"/>
-                                    <col style="width: 18%"/>
+                                    <col style="width: 25%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col />
                                     <tbody>
-                                        <tr ng-repeat="greenLeavesWeighDetail in model.weigh.greenLeavesWeighDetails|filter:{type:'NORMAL'}">
-                                            <td><span class="label label-default">{{$index + 1}}</span></td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.quantity}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.bags}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags}}</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default" ng-click="ui.deleteNormal(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.weigh.greenLeavesWeighDetails|filter:{type:'NORMAL'});">
+                                            <td><span class="label label-primary">{{$index + 1|fixedLength:4}}</span></td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
+                                            <td class="text-center" style="padding-left: 5px;">
+                                                <a class="btn btn-danger" ng-click="ui.deleteNormal(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-minus"></span></a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
+                            <div class="placeholder col-xs-12" style="height: calc(100vh - 270px);" ng-hide="normalLeaves.length">
+                                <h1>PLEASE ADD NORMAL LEAVES TO DISPLAY :(</h1>
+                            </div>
+
                             <div class="col-xs-12" style="flex: 0 0 auto;">
                                 <table class="table-hover">
                                     <col style="width: 10%"/>
-                                    <col style="width: 18%"/>
+                                    <col style="width: 25%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
@@ -95,11 +99,11 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>TOTAL</th>
-                                            <th class="text-right">{{model.weigh.normalTotalWeight}}</th>
-                                            <th class="text-right">{{model.weigh.normalCrates}}</th>
-                                            <th class="text-right">{{model.weigh.normalBags}}</th>
-                                            <th class="text-right">{{model.weigh.normalPolyBags}}</th>
-                                            <th class="text-right">
+                                            <th class="text-right">{{model.weigh.normalTotalWeight|number:2}}</th>
+                                            <th class="text-right">{{model.weigh.normalCrates|number:2}}</th>
+                                            <th class="text-right">{{model.weigh.normalBags|number:2}}</th>
+                                            <th class="text-right">{{model.weigh.normalPolyBags|number:2}}</th>
+                                            <th class="text-center">
                                                 &nbsp;
                                             </th>
                                         </tr>
@@ -108,11 +112,11 @@
                             </div>
                         </uib-tab>
 
-                        <uib-tab heading="SUPER LEAVES" ng-click="ui.toggleType('SUPER');">
+                        <uib-tab heading="SUPER LEAVES" select="ui.toggleType('SUPER');">
                             <div class="col-xs-12">
-                                <table>
+                                <table class="control-table with-label">
                                     <col style="width: 10%"/>
-                                    <col style="width: 18%"/>
+                                    <col style="width: 25%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
@@ -123,55 +127,59 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.quantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.quantity" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.crates" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.crates" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.bags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.bags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input type="text" class="form-control text-right" ng-model="model.tempWeigh.polyBags" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempWeigh.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
-                                            <th class="text-right">
-                                                <a class="btn btn-default" ng-click="ui.insertSuper();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
+                                                <a class="btn btn-primary" ng-click="ui.insertSuper();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></a>
                                             </th>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
 
-                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 270px);">
+                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 270px);" ng-show="superLeaves.length">
                                 <table class="table-hover">
                                     <col style="width: 10%"/>
-                                    <col style="width: 18%"/>
+                                    <col style="width: 25%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col />
                                     <tbody >
-                                        <tr ng-repeat="greenLeavesWeighDetail in model.weigh.greenLeavesWeighDetails|filter:{type:'SUPER'}">
-                                            <td><span class="label label-default">{{$index + 1}}</span></td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.quantity}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.bags}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags}}</td>
-                                            <td class="text-right">
-                                                <a class="btn btn-default" ng-click="ui.deleteNormal(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <tr ng-repeat="greenLeavesWeighDetail in superLeaves = (model.weigh.greenLeavesWeighDetails|filter:{type:'SUPER'});">
+                                            <td><span class="label label-danger">{{$index + 1|fixedLength:4}}</span></td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
+                                            <td class="text-center" style="padding-left: 5px;">
+                                                <a class="btn btn-danger" ng-click="ui.deleteNormal(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-minus"></span></a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
+                            <div class="placeholder col-xs-12" style="height: calc(100vh - 270px);" ng-hide="superLeaves.length">
+                                <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
+                            </div>
+
                             <div class="col-xs-12" style="flex: 0 0 auto;">
                                 <table class="table-hover">
                                     <col style="width: 10%"/>
-                                    <col style="width: 18%"/>
+                                    <col style="width: 25%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
                                     <col style="width: 20%"/>
@@ -180,10 +188,10 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>TOTAL</th>
-                                            <th class="text-right">{{model.weigh.superTotalWeight}}</th>
-                                            <th class="text-right">{{model.weigh.superCrates}}</th>
-                                            <th class="text-right">{{model.weigh.superBags}}</th>
-                                            <th class="text-right">{{model.weigh.superPolyBags}}</th>
+                                            <th class="text-right">{{model.weigh.superTotalWeight|number:2}}</th>
+                                            <th class="text-right">{{model.weigh.superCrates|number:2}}</th>
+                                            <th class="text-right">{{model.weigh.superBags|number:2}}</th>
+                                            <th class="text-right">{{model.weigh.superPolyBags|number:2}}</th>
                                             <th class="text-right">
                                                 &nbsp;
                                             </th>
@@ -200,12 +208,12 @@
 
     <div class="col-xs-4 background-dark">
 
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'NORMAL'">
+        <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'NORMAL'">
             <div class="col-xs-12">
                 <table>
                     <thead>
                         <tr>
-                            <td class="text-center">NORMAL LEAVES</td>
+                            <td class="text-center"><h4>NORMAL LEAVES</h4></td>
                         </tr>
                     </thead>
                 </table>
@@ -228,7 +236,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">TOTAL</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalTotalWeight" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" ng-model="model.weigh.normalTotalWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -252,20 +260,20 @@
                             <td><label class="control-label">TARE</label></td>
                             <td>
                                 <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalTareCalculated" ng-disabled="true">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalTareDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalTareDeduction" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalGeneralDeductionPercent"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalGeneralDeductionPercent"  smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                 <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalGeneralDeduction" ng-disabled="true">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">WATER</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" ng-model="model.weigh.normalWaterDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" ng-model="model.weigh.normalWaterDeduction" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
@@ -286,11 +294,11 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">COARSE LEAF</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalCoarseLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalCoarseLeaves" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">BOILED LEAF</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalBoiledLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalBoiledLeaves" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -317,12 +325,12 @@
             </div>
         </div>
 
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'SUPER'">
+        <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'SUPER'">
             <div class="col-xs-12">
                 <table>
                     <thead>
                         <tr>
-                            <td class="text-center">SUPER LEAVES</td>
+                            <td class="text-center"><h4>SUPER LEAVES</h4></td>
                         </tr>
                     </thead>
                 </table>

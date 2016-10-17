@@ -22,6 +22,10 @@
     box-shadow: none;
     -webkit-box-shadow: none;
 }
+.form-control:disabled{
+    border-color: $control-border-disabled;
+}
+
 .calender-header{
     display: inline-block;
     margin-top: 10px;

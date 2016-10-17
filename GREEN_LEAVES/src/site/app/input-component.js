@@ -62,7 +62,7 @@
                                 var decimalPrecision;
                                 if (type === 'decimal') {
                                     inputVal = inputVal.replace(/[^\d.\',']/g, '');
-                                    decimalPrecision = parseInt(attrs.inputDecimal);
+                                    decimalPrecision = parseInt(attrs.decimalPrecision);
                                     if (isNaN(decimalPrecision)) {
                                         decimalPrecision = 2;
                                     }
@@ -117,13 +117,14 @@
                                     inputVal = inputVal.substr(1);
                                 }
 
-                                inputVal = inputVal.replace(/[^\d\-\'#']/g, '');
-                                console.log(inputVal);
+                                inputVal = inputVal.replace(/[^\d\'#'\-]/g, '');
+                                console.log(inputVal+"---");
 
                                 var split = inputVal.split("-");
-                                var year = split[0];
-                                var month = split[1];
-                                var day = split[2];
+                                var year = split[0];//inputVal.substr(0,4);//
+                                var month = split[1];//inputVal.substr(5,7);// 
+                                var day = split[2];//inputVal.substr(8,10);//
+                                console.log(year +"+"+month+"+"+day);
 
                                 var caretPos = -1;
 
@@ -165,6 +166,7 @@
 
                                 var res = year + "-" + month + "-" + day;
                                 if (res !== inputVal) {
+                                    console.log(res);
                                     modelCtrl.$setViewValue(res);
                                     modelCtrl.$render();
                                     setCaretPosition(element[0], caretPos);

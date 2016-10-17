@@ -125,6 +125,11 @@ th > .form-control, td > .form-control{
     margin-bottom: 5px !important;
 }
 
+.control-table.with-label  th > .form-control,.control-table.with-label  td > .form-control{
+    margin-top: 0px !important;
+    margin-bottom: 5px !important;
+}
+
 .background-dark .control-table .form-control{
     background-color: $bg-dark-color;
 }
@@ -178,4 +183,12 @@ tbody tr .btn-danger{
 .selected {
     background-color:#5093E1 !important;
     color:white;
+}
+
+/*animation*/
+tr.ng-enter{
+    animation: 0.5s bounceIn;
+}
+tr.ng-leave{
+    animation: 0.5s bounceOut;
 }

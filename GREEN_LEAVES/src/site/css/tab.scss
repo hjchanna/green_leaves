@@ -18,7 +18,7 @@
             margin: 0px 10px 0px 10px;
             text-transform: uppercase;
             color: $dark-font-color;
-            
+
             background-color: transparent !important;
         }
 
@@ -36,21 +36,15 @@
     }
 }
 
-/*.background-dark{
-    .nav-tabs{
-        li, li.active{
-            a:hover{
-                background-color: $bg-dark-color !important;
-            }
-        }
-    }
+/*animation*/
+
+/* set reference point */
+.tab-content {
+    position: relative;
 }
-.background-light{
-    .nav-tabs{
-        li, li.active{
-            a:hover{
-                background-color: $bg-light-color !important;
-            }
-        }
-    }
-}*/
+
+/* set animate effect */
+ .tab-content > .tab-pane{
+    /*transition: 0.2s linear opacity;*/
+    animation: 1s fadeIn;
+}
