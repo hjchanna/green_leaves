@@ -1,6 +1,6 @@
 (function () {
     //module
-    angular.module("clientAdvanceRequestModule", ["chart.js", "ngAnimate", "ui.bootstrap", "ui-notification"]);
+    angular.module("clientAdvanceRequestModule", ["ngAnimate", "chart.js", "ui.bootstrap", "ui-notification"]);
 
     //controller
     angular.module("clientAdvanceRequestModule")
@@ -9,10 +9,10 @@
                 //ui models
                 $scope.ui = {};
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
-                
+
                 $scope.ui.mode = null;
                 $scope.clientDetails = [];
-                
+
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
