@@ -11,7 +11,8 @@
         "priceSettingModule",
         "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
-        "routeDetailsModule"
+        "routeDetailsModule",
+        "supplierModule"
     ]);
 
     //constants
@@ -65,6 +66,10 @@
                         })
                         .when("/transactions/green-leaves/route-details", {
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
+                            controller: "routeDetailsController"
+                        })
+                        .when("/master/supplier/manage-supplier", {
+                            templateUrl: "app/master/supplier/supplier.html",
                             controller: "routeDetailsController"
                         })
                         .otherwise({
