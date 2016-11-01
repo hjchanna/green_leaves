@@ -13,7 +13,7 @@
 
                     $http.get(url)
                             .success(function (data, status, headers) {
-                                callback(data.values);
+                                callback(data);
                             })
                             .error(function (data, status, headers) {
 
@@ -21,28 +21,51 @@
                 };
 
                 //load recent weigh
-                factory.loadWeigh = function (number, callback) {
+                factory.loadSummary = function (number, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/" + number;
+                    $http.get(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
 
+                            });
                 };
 
-                //insert normal leaves weigh
-                factory.insertNormal = function () {
+                //update or save summary
+                factory.saveSummary = function (summary, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/save-summary";
+                    $http.post(url, summary)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
 
+                            });
                 };
 
-                //insert super leaves weigh
-                factory.insertSuper = function () {
+                //insert 
+                factory.insertDetail = function (detail, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/insert-detail";
+                    $http.post(url, detail)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
 
+                            });
                 };
 
-                //delete normal weigh
-                factory.deleteNormal = function () {
+                //delete 
+                factory.deleteDetail = function (indexNo, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/delete-detail/" + indexNo;
+                    $http.delete(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
 
-                };
-
-                //delete super weigh
-                factory.deleteSuper = function () {
-
+                            });
                 };
 
                 return factory;
@@ -50,12 +73,15 @@
 
     //controller
     angular.module("greenLeavesWeighModule")
-            .controller("greenLeavesWeighController", function ($scope, greenLeavesWeighFactory) {
+            .controller("greenLeavesWeighController", function ($scope, $timeout, greenLeavesWeighFactory) {
                 //data models 
                 $scope.model = {};
 
                 //ui models
                 $scope.ui = {};
+
+                //http models
+                $scope.http = {};
 
                 //contains all route objects, should be assigned at init
                 $scope.model.routes = null;
@@ -120,7 +146,6 @@
                     };
 
                     $scope.model.resetTemp();
-
                     $scope.model.validate();
                 };
 
@@ -203,54 +228,117 @@
                     $scope.model.weigh.superPolyBags = superPolyBags;
                 };
 
+                //------------------ http functions ------------------------------
+                $scope.http.loadSummary = function (number) {
+                    greenLeavesWeighFactory.loadSummary(number, function (data) {
+                        $scope.model.weigh = data;
+                        $scope.ui.mode = 'SELECTED';
+                    });
+                };
+
+                $scope.http.saveSummary = function () {
+                    var summary = JSON.stringify($scope.model.weigh);
+
+                    greenLeavesWeighFactory.saveSummary(summary, function (data) {
+                        $scope.model.weigh.indexNo = data;
+                    });
+                };
+
+                $scope.http.checkSummaryAndInsertDetail = function () {
+                    //insert summary
+                    if (!$scope.model.weigh.indexNo) {
+                        //save summary first
+                        var summary = JSON.stringify($scope.model.weigh);
+                        greenLeavesWeighFactory.saveSummary(summary, function (data) {
+                            $scope.model.weigh.indexNo = data;
+
+                            $scope.model.tempWeigh.greenLeavesWeigh = $scope.model.weigh.indexNo;
+
+                            $scope.http.insertWeigh();
+                        });
+                    } else {
+                        $scope.http.insertWeigh();
+                    }
+                };
+
+                $scope.http.insertWeigh = function () {
+                    var detail = $scope.model.tempWeigh;
+                    var detailJSON = JSON.stringify(detail);
+                    //save detail dirrectly
+                    greenLeavesWeighFactory.insertDetail(detailJSON, function (data) {
+                        detail.indexNo = data;
+                        $scope.model.weigh.greenLeavesWeighDetails.push(detail);
+
+                        $scope.model.resetTemp();
+                        $scope.model.validate();
+                        $scope.ui.toggleType(detail.type);
+                    });
+                };
+
+                $scope.http.deleteWeigh = function (indexNo) {
+                    greenLeavesWeighFactory.deleteDetail(indexNo, function () {
+                        var id = -1;
+                        for (var i = 0; i < $scope.model.weigh.greenLeavesWeighDetails.length; i++) {
+                            if ($scope.model.weigh.greenLeavesWeighDetails[i].indexNo === indexNo) {
+                                id = i;
+                            }
+                        }
+
+                        $scope.model.weigh.greenLeavesWeighDetails.splice(id, 1);
+                    });
+                };
+
+
                 //------------------ ui functions ------------------------------
                 //load recent weigh
-                $scope.ui.load = function () {
-                    $scope.ui.mode = 'SELECTED';
+                $scope.ui.load = function (e) {
+                    var code = e.keyCode || e.which;
+                    if (code === 13) {
+                        $scope.http.loadSummary($scope.model.weigh.number);
+                    }
                 };
 
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
-                    console.log("NEW");
+
+                    $timeout(function () {
+                        document.querySelectorAll("#route")[0].focus();
+                    }, 10);
                 };
 
                 //edit function
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
 
+                    $timeout(function () {
+                        document.querySelectorAll("#route")[0].focus();
+                    }, 10);
                 };
 
                 //add function
                 $scope.ui.insertNormal = function () {
-                    console.log("insert normal");
                     if ($scope.ui.validateWeighInput()) {
                         $scope.model.tempWeigh.indexNo = null;
+                        $scope.model.tempWeigh.greenLeavesWeigh = $scope.model.weigh.indexNo;
                         $scope.model.tempWeigh.type = 'NORMAL';
 
-                        $scope.model.weigh.greenLeavesWeighDetails.push($scope.model.tempWeigh);
-                        console.log("insert normal");
+                        $scope.http.checkSummaryAndInsertDetail();//send to server and add to collection
                     }
-                    $scope.model.resetTemp();
-                    $scope.model.validate();
                 };
                 $scope.ui.insertSuper = function () {
                     if ($scope.ui.validateWeighInput()) {
                         $scope.model.tempWeigh.indexNo = null;
+                        $scope.model.tempWeigh.greenLeavesWeigh = $scope.model.weigh.indexNo;
                         $scope.model.tempWeigh.type = 'SUPER';
 
-                        $scope.model.weigh.greenLeavesWeighDetails.push($scope.model.tempWeigh);
+                        $scope.http.checkSummaryAndInsertDetail();//send to server and add to collection
                     }
-                    $scope.model.resetTemp();
-                    $scope.model.validate();
                 };
 
                 //delete function
-                $scope.ui.deleteNormal = function (indexNo) {
-
-                };
-                $scope.ui.deleteSuper = function () {
-
+                $scope.ui.deleteDetail = function (indexNo) {
+                    $scope.http.deleteWeigh(indexNo);
                 };
 
                 //finish edits
@@ -262,6 +350,17 @@
                 //toggle normal or super
                 $scope.ui.toggleType = function (type) {
                     $scope.ui.type = type;
+
+                    //key focus route
+                    if (type === 'NORMAL') {
+                        $timeout(function () {
+                            document.querySelectorAll("#normal-qty")[0].focus();
+                        }, 10);
+                    } else if (type === 'SUPER') {
+                        $timeout(function () {
+                            document.querySelectorAll("#super-qty")[0].focus();
+                        }, 10);
+                    }
                 };
 
                 //ui validation functions
@@ -271,11 +370,19 @@
                             + $scope.model.tempWeigh.bags
                             + $scope.model.tempWeigh.polyBags;
 
-                    console.log(tareCount + "," + quantity + "," + (tareCount > 0 && quantity > 0));
-
                     return (tareCount > 0 && quantity > 0);
                 };
 
+                $scope.ui.getRouteLabel = function (route) {
+                    var label;
+                    angular.forEach($scope.model.routes, function (value, key) {
+                        if (value.indexNo === route) {
+                            label = value.indexNo + "-" + value.name;
+                            return;
+                        }
+                    });
+                    return label;
+                };
 
                 //ui init function
                 $scope.ui.init = function () {

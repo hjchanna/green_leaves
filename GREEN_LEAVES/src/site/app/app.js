@@ -3,6 +3,7 @@
     angular.module("appModule", [
         "ngRoute",
         "homeModule",
+        "ui.bootstrap",
         "greenLeavesReceiveModule",
         "clientAdvanceRequestModule",
         "clientAdvanceApproveModule",

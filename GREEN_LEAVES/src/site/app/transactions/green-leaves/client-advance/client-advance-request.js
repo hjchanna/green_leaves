@@ -4,7 +4,7 @@
 
     //controller
     angular.module("clientAdvanceRequestModule")
-            .controller("clientAdvanceRequestController", function ($scope, $http, systemConfig, Notification) {
+            .controller("clientAdvanceRequestController", function ($scope, $http, systemConfig, Notification) {/*
 
                 //ui models
                 $scope.ui = {};
@@ -236,5 +236,5 @@
                     $scope.ui.mode = "IDEAL";
                 };
                 $scope.ui.init();
-            });
+            */});
 }());
