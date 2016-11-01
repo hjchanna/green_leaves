@@ -1,6 +1,4 @@
-<div class="index-content-header">
-</div>
-
+<div class="index-content-header"></div>
 <div class="index-content-body">
     <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
@@ -63,8 +61,8 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 176px);">
-                <table class="table-hover">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 176px);" ng-show="getRowData().length">
+                <table class="table-hover animation-fade">
                     <col style="width: 25%"/>
                     <col style="width: 25%"/>
                     <col style="width: 35%"/>
@@ -75,7 +73,7 @@
                         <tr ng-repeat="requestRowData in getRowData(null)">
                             <td><span class="label label-default">{{requestRowData.client.indexNo}}</span>{{requestRowData.client.name}}</td>
                             <td class="text-right">{{requestRowData.route.name}}</td>
-                            <td class="text-right">{{requestRowData.month | date:'yy-MMMM'}}</td>
+                            <td class="text-right">{{requestRowData.month| date:'yy-MMMM'}}</td>
                             <td class="text-right">{{requestRowData.amount}}</td>
                             <td>
                                 <a class="btn btn-default" ng-click="editSelectdRow(requestRowData, $index);"><span class="glyphicon glyphicon-edit"></span></a>
@@ -85,7 +83,9 @@
                     </tbody>
                 </table>
             </div>
-
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 229px);" ng-hide="getRowData().length">
+                <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
+            </div>
             <div class="col-xs-12">
                 <table>
                     <col style="width: 70%"/>
@@ -156,7 +156,7 @@
                         </tr>
                         <tr class="text-bold">
                             <td>Balance</td>
-                            <!--<td class="text-right">{{getCreditBlance() < 0 ? getCreditBlance() : '- (' + (getCreditBlance() * -1) + ')'}}</td>-->
+                            <td class="text-right">{{getCreditBlance()}}</td>
                             <td class="text-right">-</td>      
                             <td></td>
                         </tr>

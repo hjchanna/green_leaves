@@ -27,7 +27,10 @@
             </div>
             <div class="col-xs-12 " style="flex: 0 0 auto;">
                 <table style="padding-right: 5px;">
-                    <col style="width: 52%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 16%"/>
+                    <col style="width: 13%"/>
+                    <col style="width: 13%"/>
                     <col style="width: 9%"/>
                     <col style="width: 5%"/>
                     <col style="width: 9%"/>
@@ -35,19 +38,37 @@
                     <col/>
                     <thead class="background-dark">
                         <tr>
-                            <th>&nbsp;</th>
+                            <th>
+                                <label></label>
+                                <input type="text" ng-model="leaf.indexNo" class="form-control" ng-disabled="true"/>
+                            </th>
+                            <th>
+                                <label></label>
+                                <input type="text" ng-model="leaf.route" class="form-control"  ng-disabled="true"/>
+                            </th>
+                            <th>
+                                <label></label>
+                                <input type="text" ng-model="leaf.normalQty" class="form-control"  ng-disabled="true"/>
+                            </th>
+                            <th>
+                                <label></label>
+                                <input type="text" ng-model="leaf.superQty" class="form-control"  ng-disabled="true"/>
+                            </th>
                             <th>
                                 <label>N/L RATE</label>
-                                <input class="form-control text-right" ng-model="leaf.normal" value="50" type="text">
+                                <input class="form-control text-right" ng-model="leaf.normalRate" ng-change="doChangeNormal($viewValue,leaf)" type="text">
                             </th>
                             <th>&nbsp;</th>
                             <th>
                                 <label>S/L RATE</label>
                                 <form ng-submit="leafLists()">
-                                    <input class="form-control text-right" ng-model="leaf.super" value="80" type="text">
+                                    <input class="form-control text-right" ng-model="leaf.superRate" ng-change="doChange($viewValue,leaf)" type="text">
                                 </form>
                             </th>
-                            <th></th>
+                            <th>
+                                <br>
+                                <a class="btn btn-default" ng-click="insertNormal();"><span class="glyphicon glyphicon-plus"></span></a>
+                            </th>
                         </tr>
                     </thead>
                 </table>
@@ -89,35 +110,21 @@
                     <col style="width: 20%;"/>
                     <col style="width: 20%;"/>
                     <col/>
-                    <tbody >
-                        <tr style="height: 40px">
-                            <td class="text-center"><span class="label label-default">R00001</span></td>
-                            <td class="text-center">Thalawathugoda</td>
-                            <td class="text-right"> 350</td>
-                            <td class="text-right">760</td>
+                    <tbody >                       
+                        <tr style="height: 40px" ng-repeat="leaf in leafList"ng-click="doEdit(leaf,$index);">
+                            <td class="text-center"><span class="label label-default">{{leaf.indexNo}}</span></td>
+                            <td class="text-center">{{leaf.route}}</td>
+                            <td class="text-right">{{leaf.normalQty}}</td>
+                            <td class="text-right">{{leaf.superQty}}</td>
                             <td class="text-right">
-                                <input type="text" value="50.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="{{leaf.normalRate}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"  ng-disabled="true"/>
                             </td>
                             <td class="text-right">
-                                <input type="text" value="60.00" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
+                                <input type="text" value="{{leaf.superRate}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"  ng-disabled="true"/>
                             </td>
-                            <td class="text-right">12000.00 </td>
-                            <td class="text-right">12000.00</td>
+                            <td class="text-right">{{leaf.normalQty*leaf.normalRate}}</td>
+                            <td class="text-right">{{leaf.superQty*leaf.superRate}}</td>
                         </tr>
-<!--                        <tr style="height: 40px" ng-repeat="list in leafLists()">
-                            <td class="text-center"><span class="label label-default">{{list.indexNo}}</span></td>
-                            <td class="text-center">{{list.route}}</td>
-                            <td class="text-right">{{list.normalQty}}</td>
-                            <td class="text-right">{{list.superQty}}</td>
-                            <td class="text-right">
-                                <input type="text" value="{{leaf.normal}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="{{leaf.super}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"/>
-                            </td>
-                            <td class="text-right">12000.00 </td>
-                            <td class="text-right">12000.00</td>
-                        </tr>-->
 
                     </tbody>
                 </table>
@@ -135,12 +142,12 @@
                         <tr class="clickable">
 
                             <td >TOTAL</td>
-                            <td class="text-right">1200</td>
-                            <td class="text-right">300</td>
+                            <td class="text-right">{{getTotalNormalQty()}}</td>
+                            <td class="text-right">{{getTotalSuperQty()}}</td>
                             <td class="text-right">&nbsp;</td>
                             <td class="text-right">&nbsp;</td>
-                            <td class="text-right">10000.00</td>
-                            <td class="text-right">16000.00</td>
+                            <td class="text-right">{{totalNormalValue}}</td>
+                            <td class="text-right">{{totalSuperValue}}</td>
                         </tr>
                     </thead>
                 </table>

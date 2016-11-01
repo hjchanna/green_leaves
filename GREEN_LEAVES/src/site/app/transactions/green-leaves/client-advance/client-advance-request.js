@@ -1,6 +1,6 @@
 (function () {
     //module
-    angular.module("clientAdvanceRequestModule", ["chart.js", "ngAnimate", "ui.bootstrap", "ui-notification"]);
+    angular.module("clientAdvanceRequestModule", ["ngAnimate", "chart.js", "ui.bootstrap", "ui-notification"]);
 
     //controller
     angular.module("clientAdvanceRequestModule")
@@ -9,10 +9,10 @@
                 //ui models
                 $scope.ui = {};
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
-                
+
                 $scope.ui.mode = null;
                 $scope.clientDetails = [];
-                
+
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
@@ -57,8 +57,6 @@
                 $scope.insertTable = function (rowData) {
                     $scope.vars = true;
                     if ($scope.rowData.client.name && $scope.rowData.route.name && $scope.rowData.month && $scope.rowData.amount) {
-                        console.log($scope.rowData.month);
-                        //select month format
                         $scope.rowData.amount = parseFloat(rowData.amount);
                         if ($scope.requestDetails.length === 0) {
                             $scope.requestDetails.push(rowData);
