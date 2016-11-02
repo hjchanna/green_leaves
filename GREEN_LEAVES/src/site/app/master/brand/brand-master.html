@@ -1,0 +1,77 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">
+    <div class="col-xs-4 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12" style="margin-top: 25px;">
+                <label> Name: </label>
+                <input type="text" class="form-control" ng-model="" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-8 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-8" style="flex: 0 0 auto; height: 60px; padding-right: 22px;">
+                <input type="text" class="search-input" placeholder="search" ng-model="search">
+            </div>
+            <div class="col-xs-12">
+                <div class="smart-scroll-y" style="padding-right: 5px; height: 50px;">
+                    <table class="table-hover">
+                        <col style="width: 15%">
+                        <col style="width: 70%">
+                        <col style="width: 15%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 220px);">
+                    <table class="table-hover">
+                        <col style="width: 15%">
+                        <col style="width: 70%">
+                        <col style="width: 15%">
+                        <tbody>
+                            <tr ng-repeat="brand in brand|filter:search">
+                                <td><div class="label label-default">{{brand.indexNo|fixedLength:5}}</div></td>
+                                <td>{{brand.name}}</td>
+                                <td>
+                                    <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="smart-scroll-y" style="padding-right: 5px; height: 50px;">
+                    <table class="table-hover">
+                        <col style="width: 15%">
+                        <col style="width: 70%">
+                        <col style="width: 15%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
+</div>
