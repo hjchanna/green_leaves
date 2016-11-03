@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.master.category.model;
+package com.mac.gl.master.model.category;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
