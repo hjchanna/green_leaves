@@ -38,10 +38,10 @@
                 <tr>
                     <td>&nbsp;</td>
                     <td>
-                        <input ng-model="transaction" smart-input="integer" class="form-control" placeholder="select transaction number" ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
+                        <input ng-model="model.data.transaction" smart-input="integer" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                     </td>
                     <td>
-                        <input ng-model="date" smart-input="date" class="form-control" placeholder="select transaction date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                        <input ng-model="model.data.date" smart-input="date" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                     </td>
                 </tr>
             </tbody>
@@ -66,14 +66,12 @@
                             </th>
                             <th class="text-right">
                                 <label>SUPER</label>
-                                <form ng-submit="insertTable(rowData)">
+                                <form ng-submit="ui.insertDetail();">
                                     <input type="text" smart-input="integer" class="form-control text-right" ng-model="model.tempData.superLeavesQuantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                 </form>
                             </th>
-                            <th class="text-center">
-                                <button class="btn btn-default" ng-click="ui.insert();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
+                            <th>
+                                <button class="btn btn-primary" ng-click="ui.insertDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
                             </th>
                         </tr>
                     </thead>
@@ -85,20 +83,20 @@
                         <col style="width: 20%">
                         <col style="width: 10%">
                         <tbody>
-                            <tr ng-repeat="rowData in model.data.greenLeavesReceiveDetails">
-                                <td><div class="label label-default">{{rowData.clientModel.indexNo|fixedLength:5}}</div> {{rowData.clientModel.name}}</td>
-                                <td class="text-right">{{rowData.normalLeavesQuantity}}</td>
-                                <td class="text-right">{{rowData.superLeavesQuantity}}</td>
+                            <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails">
+                                <td><div class="label label-default">{{greenLeavesReceiveDetails.clientModel.indexNo|fixedLength:5}}</div> {{greenLeavesReceiveDetails.clientModel.name}}</td>
+                                <td class="text-right">{{greenLeavesReceiveDetails.normalLeavesQuantity}}</td>
+                                <td class="text-right">{{greenLeavesReceiveDetails.superLeavesQuantity}}</td>
                                 <td>
-                                    <a class="btn btn-default" ng-click="editSelectdRow(rowData, $index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="deleteSelectedRow($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a class="btn btn-default" ng-click="ui.editDetail(greenLeavesReceiveDetails, $index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteDetail($index);"><span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);margin-left: -15px;width: 104%;" ng-hide="getRowData().length">
+<!--                <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);" ng-hide="getRowData().length">
                     <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
-                </div>
+                </div>-->
 
                 <table style="padding-right: 10px;">
                     <col style="width: 50%">
@@ -109,7 +107,7 @@
                         <tr>
                             <th>TOTAL QUANTITY</th>
                             <th class="text-right">{{getNormalLeavesQuantityTotal()}}</th>
-                            <th class="text-right">{{getSuperLeavesQuantity()}}</th>
+                            <th class="text-right">{{getSuperLeavesQuantityTotal()}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
@@ -130,6 +128,7 @@
         </div>
     </div>
     <div class="fab-container">
+        <a class="fab fab-danger" ng-click="http.saveBrand();"><i class="glyphicon glyphicon-edit"></i></a>
         <a class="fab fab-danger" ng-show="ui.mode === 'SELECTED'"><i class="glyphicon glyphicon-edit"></i></a>
         <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
         <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW'"  ng-click="ui.finish();"><i class="glyphicon glyphicon-ok"></i></a>

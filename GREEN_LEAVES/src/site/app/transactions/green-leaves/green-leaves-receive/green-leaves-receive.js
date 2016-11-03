@@ -5,7 +5,7 @@
     angular.module("greenLeavesReceiveModule")
             .factory("greenLeavesReceiveFactory", function ($http, systemConfig) {
                 var factory = {};
-
+                //load routes
                 factory.loadRoutes = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/routes";
 
@@ -14,12 +14,25 @@
                     });
                 };
 
+                //load clients
                 factory.loadClients = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/clients";
 
                     $http.get(url).success(function (data) {
                         callback(data);
                     });
+                };
+
+                //insert 
+                factory.insertGreenLeavesDetail = function (detail, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/save-green-leaves-receive";
+                    $http.post(url, detail)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
                 };
 
                 return factory;
@@ -31,12 +44,15 @@
 
                 //ui models
                 $scope.ui = {};
-                //current ui mode IDEAL, SELECTED, NEW, EDIT
 
+                //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.model = {};
 
+                //http models
                 $scope.http = {};
 
+                //------------------ model functions ---------------------------
+                //reset model
                 $scope.model.reset = function () {
                     $scope.model.data = {
                         "indexNo": null,
@@ -44,31 +60,31 @@
                         "route": null,
                         "number": null,
                         "date": null,
-//                        "transaction": null,//nor required
+                        "transaction": null,
                         "greenLeavesReceiveDetails": [
 //                            {
 //                                "indexNo": null,
+//                                "branch": null,
 //                                "greenLeavesReceive": null,
-//                                "client": null,
-//                                "normalLeavesQuantity": null,
-//                                "superLeavesQuantity": null
-//                                "clientModel":null//temparary purpose
+//                                "normalLeavesQuantity": 0,
+//                                "superLeavesQuantity": 0,
+//                                "client": null
 //                            }
                         ]
                     };
 
                     $scope.model.tempData = {
                         "indexNo": null,
+                        "branch": null,
                         "greenLeavesReceive": null,
-                        "client": null,
                         "normalLeavesQuantity": 0,
-                        "superLeavesQuantity": 0
+                        "superLeavesQuantity": 0,
+                        "client": null
                     };
                 };
 
                 //ui functions--------------------------------------------------
                 $scope.ui.load = function (indexNo) {
-
                 };
 
                 $scope.ui.new = function () {
@@ -84,39 +100,60 @@
                     $scope.ui.mode = "IDEAL";
                 };
 
-//                $scope.getRowData = function () {
-//                    if (!$scope.greenLevesRecives) {
-//                        $scope.greenLevesRecives = [];
-//                    }
-//                    return $scope.greenLevesRecives;
-//                };
-
-                $scope.ui.insert = function () {
-                    if ($scope.validateInput()) {
-                        $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
-                        $scope.model.data.greenLeavesReceiveDetails.push($scope.model.tempData);
-
-                        console.log($scope.ui.getClient($scope.model.tempData.client));
-
-                        $scope.model.tempData = {
-                            "indexNo": null,
-                            "greenLeavesReceive": null,
-                            "client": null,
-                            "normalLeavesQuantity": 0,
-                            "superLeavesQuantity": 0
-                        };
-
-                        $timeout(function () {
-                            document.querySelectorAll("#client")[0].focus();
-                        }, 10);
+                $scope.validateInput = function () {
+                    if ($scope.model.tempData.client !== null && ($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0) {
+                        return true;
+                    } else {
+                        return false;
                     }
                 };
 
-                $scope.validateInput = function () {
-                    return true;
-//                    $scope.model.tempData.client !== null
-//                            && 
-//                            ($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0;
+                //insert
+                $scope.ui.insertDetail = function () {
+                    if ($scope.validateInput()) {
+                        $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
+
+                        $scope.model.data.greenLeavesReceiveDetails.push($scope.model.tempData);
+                        console.log($scope.model.data.greenLeavesReceiveDetails);
+//                      console.log($scope.ui.getClient($scope.model.tempData.client));
+                        $scope.model.tempData = {
+                            "indexNo": null,
+                            "branch": null,
+                            "greenLeavesReceive": null,
+                            "normalLeavesQuantity": 0,
+                            "superLeavesQuantity": 0,
+                            "client": null
+                        };
+                    }
+                };
+
+                //edit detail
+                $scope.ui.editDetail = function (greenLeavesReceiveDetails, indexNo) {
+                    $scope.model.tempData = greenLeavesReceiveDetails;
+                    $scope.model.data.greenLeavesReceiveDetails.splice(indexNo, 1);
+                };
+
+                //delete detail
+                $scope.ui.deleteDetail = function (indexNo) {
+                    $scope.model.data.greenLeavesReceiveDetails.splice(indexNo, 1);
+                };
+
+                //get super leaves total qty
+                $scope.getSuperLeavesQuantityTotal = function () {
+                    var total = 0;
+                    for (var i = 0; i < $scope.model.data.greenLeavesReceiveDetails.length; i++) {
+                        total += parseInt($scope.model.data.greenLeavesReceiveDetails[i].superLeavesQuantity);
+                    }
+                    return total;
+                };
+
+                //get normal leaves total qty
+                $scope.getNormalLeavesQuantityTotal = function () {
+                    var total = 0;
+                    for (var i = 0; i < $scope.model.data.greenLeavesReceiveDetails.length; i++) {
+                        total += parseInt($scope.model.data.greenLeavesReceiveDetails[i].normalLeavesQuantity);
+                    }
+                    return total;
                 };
 
                 $scope.ui.getClientLabel = function (client) {
@@ -141,72 +178,22 @@
                     return client;
                 };
 
-                /*$scope.insertTable = function (rowData) {
-                 $scope.vars = true;
-                 if ($scope.rowData.client.name && $scope.rowData.normalLeavesQuantity && $scope.rowData.superLeavesQuantity) {
-                 if ($scope.greenLevesRecives.length === 0) {
-                 $scope.greenLevesRecives.push(rowData);
-                 $scope.rowData = null;
-                 } else {
-                 for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
-                 if (angular.equals($scope.greenLevesRecives[i].client, rowData.client)) {
-                 $scope.vars = false;
-                 Notification.error('This Customer Is Already Exists');
-                 break;
-                 }
-                 }
-                 if ($scope.vars) {
-                 $scope.greenLevesRecives.push(rowData);
-                 $scope.rowData = null;
-                 }
-                 }
-                 } else {
-                 Notification.error('Must Be Filled All Components To Add');
-                 }
-                 $scope.getNormalLeavesQuantityTotal();
-                 $scope.getSuperLeavesQuantity();
-                 };
-                 
-                 $scope.editSelectdRow = function (rowData, index) {
-                 if (rowData) {
-                 $scope.rowData = rowData;
-                 $scope.greenLevesRecives.splice(index, 1);
-                 } else {
-                 Notification.error('Edit Not Success');
-                 }
-                 };
-                 
-                 $scope.deleteSelectedRow = function (index) {
-                 $scope.greenLevesRecives.splice(index, 1);
-                 $scope.rowData = null;
-                 $scope.getNormalLeavesQuantityTotal();
-                 $scope.getSuperLeavesQuantity();
-                 Notification.success('Delete Success');
-                 };
-                 
-                 //get Normal Leaves Qty
-                 $scope.getNormalLeavesQuantityTotal = function () {
-                 var total = 0;
-                 for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
-                 total += parseInt($scope.greenLevesRecives[i].normalLeavesQuantity);
-                 }
-                 return total;
-                 };
-                 
-                 //get Total Super Leaves Qty
-                 $scope.getSuperLeavesQuantity = function () {
-                 var total = 0;
-                 for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
-                 total += parseInt($scope.greenLevesRecives[i].superLeavesQuantity);
-                 }
-                 return total;
-                 };*/
-
                 //table selection function
                 $scope.selectedRow = null;
                 $scope.setClickedRow = function (index, route) {
                     $scope.selectedRow = index;
-                    console.log(route);
+                    $scope.model.data.route = route.indexNo;
+                    $scope.model.data.branch = route.branch;
+                };
+
+                //------------------ http functions ------------------------------
+
+                $scope.http.insertGreenLeavesDetail = function () {
+                    var detail = $scope.model.data;
+                    var detailJSON = JSON.stringify(detail);
+                    greenLeavesReceiveFactory.insertGreenLeavesDetail(detailJSON, function (data) {
+                        console.log(data);
+                    });
                 };
 
                 //ui init function

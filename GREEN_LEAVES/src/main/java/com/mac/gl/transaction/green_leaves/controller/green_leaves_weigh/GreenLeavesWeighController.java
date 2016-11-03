@@ -42,14 +42,12 @@ public class GreenLeavesWeighController {
     @RequestMapping(value = "/save-summary", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeaveWeigh greenLeaveWeigh) {
         greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
-
         return greenLeaveWeigh.getIndexNo();
     }
 
     @RequestMapping(value = "/insert-detail", method = RequestMethod.POST)
     public Integer insertWeigh(@RequestBody TGreenLeaveWeighDetail greenLeaveWeighDetail) {
         greenLeaveWeighDetail = greenLeavesWeighService.insertWeigh(greenLeaveWeighDetail);
-
         return greenLeaveWeighDetail.getIndexNo();
     }
 

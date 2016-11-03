@@ -9,7 +9,7 @@
 
                 //load routes
                 factory.loadRoutes = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/routes";
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/routes";
 
                     $http.get(url)
                             .success(function (data, status, headers) {

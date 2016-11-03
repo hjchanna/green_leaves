@@ -14,7 +14,8 @@
         "monthlyGreenLeavesSummryModule",
         "routeDetailsModule",
         "supplierModule",
-        "categoryModule"
+        "categoryModule",
+        "brandMasterModule"
     ]);
 
     //constants
@@ -77,6 +78,10 @@
                         .when("/master/category/category", {
                             templateUrl: "app/master/category/category.html",
                             controller: "categoryController"
+                         })   
+                        .when("/master/brand/brand-master", {
+                            templateUrl: "app/master/brand/brand-master.html",
+                            controller: "brandMasterController"
                         })
                         .otherwise({
                             redirectTo: "/"
