@@ -32,36 +32,36 @@
                     <col style="width: 35%"/>
                     <col style="width: 25%"/>
                     <col style="width: 15%"/>
-                    <col/>
+                    
                     <thead class="background-dark">
                         <tr>
                             <th class="text-right">
                                 <label>CLIENT</label>
-                                <input class="form-control" ng-model="rowData.client" type="text" uib-typeahead="client as client.name for client in getClients($viewValue)| limitTo:10" typeahead-on-select="getClientDetails($model);" ng-disabled="ui.mode !== 'NEW'">
+                                <input class="form-control" ng-model="tempDate.client" type="text" uib-typeahead="client as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW'">
                             </th>
                             <th class="text-right">
                                 <label>ROUTE</label>
-                                <input class="form-control" ng-model="rowData.route" type="text" uib-typeahead="route as route.name for route in getRoutes($viewValue)| limitTo:10" ng-disabled="ui.mode !== 'NEW'">
+                                <input class="form-control" ng-model="tempDate.route" type="text" uib-typeahead="route as route.name for route in model.routes|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW'">
                             </th>
                             <th class="text-right">
                                 <label>MONTH</label>
-                                <input class="form-control text-right" type="month" ng-model="rowData.month"  ng-disabled="ui.mode !== 'NEW'">
+                                <input class="form-control text-right" type="month" ng-model="tempDate.month"  ng-disabled="ui.mode !== 'NEW'">
                             </th>
                             <th class="text-right">
                                 <label>AMOUNT</label>
-                                <form ng-submit="insertTable(rowData)">
-                                    <input class="form-control text-right" ng-model="rowData.amount"  smart-input="decimal" ng-disabled="ui.mode !== 'NEW'">
+                                <form ng-submit="ui.insertTable(tempDate)">
+                                    <input class="form-control text-right" ng-model="tempDate.amount"  smart-input="decimal" ng-disabled="ui.mode !== 'NEW'">
                                 </form>
                             </th>
                             <th class="text-center">
-                                <a class="btn btn-default" ng-click="insertTable(rowData)"><span class="glyphicon glyphicon-plus"></span></a>
+                                <a class="btn btn-default" ng-click="ui.insertTable(tempDate)"><span class="glyphicon glyphicon-plus"></span></a>
                             </th>
                         </tr>
                     </thead>
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 176px);" ng-show="getRowData().length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 176px);" ng-show="model.data.clientAdvanceRequestDetail.length">
                 <table class="table-hover animation-fade">
                     <col style="width: 25%"/>
                     <col style="width: 25%"/>
@@ -70,7 +70,7 @@
                     <col style="width: 15%"/>
                     <col/>
                     <tbody>
-                        <tr ng-repeat="requestRowData in getRowData(null)">
+                        <tr ng-repeat="requestRowData in model.data.clientAdvanceRequestDetail">
                             <td><span class="label label-default">{{requestRowData.client.indexNo}}</span>{{requestRowData.client.name}}</td>
                             <td class="text-right">{{requestRowData.route.name}}</td>
                             <td class="text-right">{{requestRowData.month| date:'yy-MMMM'}}</td>
@@ -83,8 +83,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="placeholder col-xs-12" style="height: calc(100vh - 229px);" ng-hide="getRowData().length">
-                <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 229px);" ng-hide="model.data.clientAdvanceRequestDetail.length">
+                <h1>PLEASE ADD ADVANCE REQUEST TO DISPLAY :(</h1>
             </div>
             <div class="col-xs-12">
                 <table>
@@ -94,7 +94,7 @@
                     <thead class="background-dark">
                         <tr class="clickable">
                             <th>ADVANCE REQUEST SUMMARY</th>
-                            <th class="text-right">{{getTotalAmount()}}</th>
+                            <th class="text-right">{{ui.advanceRequestTotal}}</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
