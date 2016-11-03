@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.master.service;
+package com.mac.gl.master.brand.service;
 
-import com.mac.gl.master.model.brand.MBrand;
-import com.mac.gl.master.repository.BrandRepository;
+import com.mac.gl.master.brand.model.brand.MBrand;
+import com.mac.gl.master.brand.repository.BrandRepository;
 import com.mac.gl.system.exception.DuplicateEntityException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
