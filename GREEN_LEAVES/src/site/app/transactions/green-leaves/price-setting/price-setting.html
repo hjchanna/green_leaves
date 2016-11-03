@@ -34,7 +34,9 @@
                     <col style="width: 9%"/>
                     <col style="width: 5%"/>
                     <col style="width: 9%"/>
-                    <col style="width: 25%"/>
+                    <col style="width: 5%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
                     <col/>
                     <thead class="background-dark">
                         <tr>
@@ -62,12 +64,20 @@
                             <th>
                                 <label>S/L RATE</label>
                                 <form ng-submit="leafLists()">
-                                    <input class="form-control text-right" ng-model="leaf.superRate" ng-change="doChange($viewValue,leaf)" type="text">
+                                    <input class="form-control text-right" ng-model="leaf.superRate" ng-change="doChangeSuper($viewValue,leaf)" type="text">
                                 </form>
                             </th>
                             <th>
                                 <br>
                                 <a class="btn btn-default" ng-click="insertNormal();"><span class="glyphicon glyphicon-plus"></span></a>
+                            </th>
+                            <th>
+                                <label></label>
+                                <input type="text" ng-model="leaf.normalValue" class="form-control"  ng-hide="true" />
+                            </th>
+                            <th>
+                                <label></label>
+                                <input type="text" ng-model="leaf.superValue" class="form-control"  ng-hide="true"/>
                             </th>
                         </tr>
                     </thead>

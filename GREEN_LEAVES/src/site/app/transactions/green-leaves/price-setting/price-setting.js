@@ -63,7 +63,6 @@
                     $scope.getTotalNormalValue();
                     $scope.getTotalSuperValue();
                     $scope.ui.mode = "IDEAL";
-                    console.log($scope.leafList);
                     return $scope.leafList;
                 };
                 $scope.setTotalValue = function (index) {
@@ -108,25 +107,25 @@
                     }
                     $scope.totalSuperValue = totalSuperValue;
                 };
-                $scope.doChangeNormal = function (leaf) {
-                    
-               
-                    console.log($scope.leafList);
-                    console.log($scope.leafList[0].indexNo);
-                    console.log(leaf);
+                $scope.doChangeNormal = function (value,leaf) {
                     for (var i = 0; i < $scope.leafList.length; i++) {
                         if ($scope.leafList[i].indexNo === leaf.indexNo) {
-                            console.log($scope.leaf.normalRate+" normal rate");
-                            $scope.leafList[i].normalRate=$scope.leaf.normalRate;
-                            console.log($scope.leafList[i].normalRate+" normal rate after");
+                            $scope.leaf.normalValue=leaf.normalRate*leaf.normalQty;
                             
-                            $scope.leafList[i].normalValue = $scope.leaf.normalRate * $scope.leafList[i].normalQty;
-                            console.log($scope.leafList[i].normalValue+" normal value");
+                            $scope.leafList[i]=leaf;
                         }
                     }
                     $scope.getTotalNormalValue();
-                    console.log($scope.totalNormalValue+" total normal value");
-                    console.log($scope.leafList+" list 2");
+                };
+                $scope.doChangeSuper = function (value,leaf) {
+                    for (var i = 0; i < $scope.leafList.length; i++) {
+                        if ($scope.leafList[i].indexNo === leaf.indexNo) {
+                            $scope.leaf.superValue=leaf.superRate*leaf.superQty;
+                            
+                            $scope.leafList[i]=leaf;
+                        }
+                    }
+                    $scope.getTotalSuperValue();
                 };
             });
 }());
