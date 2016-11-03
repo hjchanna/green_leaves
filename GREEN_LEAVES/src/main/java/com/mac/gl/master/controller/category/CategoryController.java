@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.master.category.controller;
+package com.mac.gl.master.controller.category;
 
-import com.mac.gl.master.category.model.MCategory;
-import com.mac.gl.master.category.service.CategoryService;
+import com.mac.gl.master.model.category.MCategory;
+import com.mac.gl.master.service.category.CategoryService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

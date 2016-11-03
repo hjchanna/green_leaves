@@ -2,21 +2,81 @@
     //module
     angular.module("clientAdvanceRequestModule", ["ngAnimate", "chart.js", "ui.bootstrap", "ui-notification"]);
 
+    angular.module("clientAdvanceRequestModule")
+            .factory("clientAdvanceRequestFactory", function ($http, systemConfig) {
+                var factory = {};
+
+                factory.loadRoutes = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/routes";
+
+                    $http.get(url).success(function (data) {
+                        callback(data);
+                    });
+                };
+
+                factory.loadClients = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/clients";
+
+                    $http.get(url).success(function (data) {
+                        callback(data);
+                    });
+                };
+
+                return factory;
+            });
+
     //controller
     angular.module("clientAdvanceRequestModule")
-            .controller("clientAdvanceRequestController", function ($scope, $http, systemConfig, Notification) {/*
+            .controller("clientAdvanceRequestController", function ($scope, $http, $timeout, clientAdvanceRequestFactory, Notification) {
 
                 //ui models
                 $scope.ui = {};
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
 
-                $scope.ui.mode = null;
-                $scope.clientDetails = [];
+                $scope.model = {};
 
-                //new function
+                $scope.http = {};
+
+                $scope.model.reset = function () {
+                    $scope.model.data = {
+                        "indexNo": null,
+                        "branch": null,
+                        "date": null,
+                        "number": null,
+//                        "transaction": null,//nor required
+                        "clientAdvanceRequestDetail": [
+//                            {
+//                                "indexNo": null,
+//                                "client": null,
+//                                "route": null,
+//                                "month": null,
+//                                "amount": null,
+//                                "status": null
+//                            }
+                        ]
+                    };
+
+                    $scope.model.tempDate = {
+                        "indexNo": null,
+                        "client": null,
+                        "route": null,
+                        "month": null,
+                        "amount": null,
+                        "status": null
+                    };
+                };
+
+                //ui functions--------------------------------------------------
+                $scope.ui.load = function (indexNo) {
+
+                };
+
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
-                    console.log("NEW");
+                };
+
+                $scope.ui.edit = function () {
+                    $scope.ui.mode = "EDIT";
                 };
 
                 //finish edits
@@ -24,215 +84,179 @@
                     $scope.ui.mode = "IDEAL";
                 };
 
-                //get route
-                var routeUrl = systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/routes";
-                $http.get(routeUrl).success(function (data) {
-                    $scope.routeList = [];
-                    $scope.routeList = data.values;
-                });
+//                $scope.getRowData = function () {
+//                    if (!$scope.greenLevesRecives) {
+//                        $scope.greenLevesRecives = [];
+//                    }
+//                    return $scope.greenLevesRecives;
+//                };
 
-                var clientUrl = systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/clients";
-                $http.get(clientUrl).success(function (data) {
-                    $scope.clientList = [];
-                    $scope.clientList = data.values;
-                });
+                $scope.ui.insert = function () {
+                    if ($scope.validateInput()) {
+                        $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
+                        $scope.model.data.greenLeavesReceiveDetails.push($scope.model.tempData);
 
-                //get client
-                $scope.getClients = function (hint) {
-                    return $scope.clientList;
-                };
+                        console.log($scope.ui.getClient($scope.model.tempData.client));
 
-                //get route
-                $scope.getRoutes = function (hint) {
-                    return $scope.routeList;
-                };
+                        $scope.model.tempData = {
+                            "indexNo": null,
+                            "greenLeavesReceive": null,
+                            "client": null,
+                            "normalLeavesQuantity": 0,
+                            "superLeavesQuantity": 0
+                        };
 
-                $scope.getRowData = function () {
-                    if (!$scope.requestDetails) {
-                        $scope.requestDetails = [];
+                        $timeout(function () {
+                            document.querySelectorAll("#client")[0].focus();
+                        }, 10);
                     }
-                    return $scope.requestDetails;
                 };
 
-                $scope.insertTable = function (rowData) {
-                    $scope.vars = true;
-                    if ($scope.rowData.client.name && $scope.rowData.route.name && $scope.rowData.month && $scope.rowData.amount) {
-                        $scope.rowData.amount = parseFloat(rowData.amount);
-                        if ($scope.requestDetails.length === 0) {
-                            $scope.requestDetails.push(rowData);
-                            $scope.rowData = null;
-                        } else {
-                            for (var i = 0; i < $scope.requestDetails.length; i++) {
-                                if (angular.equals($scope.requestDetails[i].month, rowData.month) && angular.equals($scope.requestDetails[i].client, rowData.client)) {
-                                    $scope.vars = false;
-                                    Notification.error('This Client Is This Month Request All Rady');
-                                    break;
-                                }
-                            }
-                            if ($scope.vars) {
-                                $scope.requestDetails.push(rowData);
-                                $scope.rowData = null;
-                            }
+                $scope.validateInput = function () {
+                    return true;
+//                    $scope.model.tempData.client !== null
+//                            && 
+//                            ($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0;
+                };
+
+                $scope.ui.getClientLabel = function (client) {
+                    var label;
+                    angular.forEach($scope.model.clients, function (value, key) {
+                        if (value.indexNo === client) {
+                            label = value.indexNo + "-" + value.name;
+                            return;
                         }
-                        $scope.getTotalAmount();
-                    } else {
-                        Notification.error('Must Be Filled All Components To Add');
-                    }
+                    });
+                    return label;
                 };
 
-                $scope.editSelectdRow = function (requestRowData, index) {
-                    $scope.rowData = requestRowData;
-                    $scope.requestDetails.splice(index, 1);
-                    $scope.getTotalAmount();
-                };
-
-                $scope.deleteSelectedRow = function (index) {
-                    $scope.requestDetails.splice(index, 1);
-                    $scope.rowData = null;
-                    Notification.success('Delete Success');
-                    $scope.getTotalAmount();
-                };
-
-                //get Total Amount
-                $scope.getTotalAmount = function () {
-                    var total = 0.0;
-                    for (var i = 0; i < $scope.requestDetails.length; i++) {
-                        total += parseFloat($scope.requestDetails[i].amount);
-                    }
-                    return total;
-                };
-
-                $scope.getClientDetails = function (model) {
-                    console.log(model);
-                };
-
-                //------- client details -----
-                $scope.getClientDetails = function () {
-                    $scope.clientDetails = [
-                        {
-                            indexNo: 1,
-                            discription: "B/F",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 2,
-                            discription: "Settlement",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 3,
-                            discription: "GL Value",
-                            debit: 50000.00,
-                            credit: 0
-                        },
-                        {
-                            indexNo: 4,
-                            discription: "A /Payment",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 5,
-                            discription: "L/Installment",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 6,
-                            discription: "Fertilizer(P)",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 7,
-                            discription: "Fertilizer(C)",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 8,
-                            discription: "Tea",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 9,
-                            discription: "Savings",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 10,
-                            discription: "Welfare",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 11,
-                            discription: "Transport",
-                            debit: 0,
-                            credit: 300.00
-                        },
-                        {
-                            indexNo: 12,
-                            discription: "Other",
-                            debit: 0,
-                            credit: 300.00
+                $scope.ui.getClient = function (clientId) {
+                    var client;
+                    angular.forEach($scope.model.clients, function (value, key) {
+                        if (value.indexNo === clientId) {
+                            client = value;
+                            return;
                         }
-                    ];
-                    return $scope.clientDetails;
+                    });
+                    return client;
                 };
 
-                $scope.getTotalDebit = function () {
-                    var total = 0.0;
-                    for (var i = 0; i < $scope.clientDetails.length; i++) {
-                        total += parseFloat($scope.clientDetails[i].debit);
+                $scope.ui.insertTable = function (rowDate) {
+                    if (true) {
+                        $scope.tempDate=rowDate;
+                        $scope.tempDate.status="PENDING";
+                        $scope.model.data.clientAdvanceRequestDetail.push(rowDate);
+                        console.log(rowDate);
+                        $scope.tempDate={};
                     }
-                    return total;
                 };
 
-                $scope.getTotalCredit = function () {
-                    var total = 0.0;
-                    for (var i = 0; i < $scope.clientDetails.length; i++) {
-                        total += parseFloat($scope.clientDetails[i].credit);
+                $scope.ui.rowDataValidate = function () {
+                    if ($scope.rowData.client
+                            && $scope.rowData.route
+                            && $scope.rowData.month
+                            && $scope.rowData.amount) {
+                        return true;
                     }
-                    return total;
-                };
-                $scope.getCreditBlance = function () {
-                    var totalDebit = $scope.getTotalDebit();
-                    var totalCredit = $scope.getTotalCredit();
-                    var blance = totalDebit - totalCredit;
-                    return blance;
+                    return false;
                 };
 
-                $scope.colors = ['#45b7cd', '#ff6384', '#ff8e72'];
-                $scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                $scope.data = [
-                    [65, -59, 80, 81, -56, 55, -40],
-                    [28, 48, -40, 19, 86, 27, 90]
-                ];
-                $scope.datasetOverride = [
-                    {
-                        label: "Bar chart",
-                        borderWidth: 1,
-                        type: 'bar'
-                    },
-                    {
-                        label: "Line chart",
-                        borderWidth: 3,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                        type: 'line'
-                    }
-                ];
+                /*$scope.insertTable = function (rowData) {
+                 $scope.vars = true;
+                 if ($scope.rowData.client.name && $scope.rowData.normalLeavesQuantity && $scope.rowData.superLeavesQuantity) {
+                 if ($scope.greenLevesRecives.length === 0) {
+                 $scope.greenLevesRecives.push(rowData);
+                 $scope.rowData = null;
+                 } else {
+                 for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
+                 if (angular.equals($scope.greenLevesRecives[i].client, rowData.client)) {
+                 $scope.vars = false;
+                 Notification.error('This Customer Is Already Exists');
+                 break;
+                 }
+                 }
+                 if ($scope.vars) {
+                 $scope.greenLevesRecives.push(rowData);
+                 $scope.rowData = null;
+                 }
+                 }
+                 } else {
+                 Notification.error('Must Be Filled All Components To Add');
+                 }
+                 $scope.getNormalLeavesQuantityTotal();
+                 $scope.getSuperLeavesQuantity();
+                 };
+                 
+                 $scope.editSelectdRow = function (rowData, index) {
+                 if (rowData) {
+                 $scope.rowData = rowData;
+                 $scope.greenLevesRecives.splice(index, 1);
+                 } else {
+                 Notification.error('Edit Not Success');
+                 }
+                 };
+                 
+                 $scope.deleteSelectedRow = function (index) {
+                 $scope.greenLevesRecives.splice(index, 1);
+                 $scope.rowData = null;
+                 $scope.getNormalLeavesQuantityTotal();
+                 $scope.getSuperLeavesQuantity();
+                 Notification.success('Delete Success');
+                 };
+                 
+                 //get Normal Leaves Qty
+                 $scope.getNormalLeavesQuantityTotal = function () {
+                 var total = 0;
+                 for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
+                 total += parseInt($scope.greenLevesRecives[i].normalLeavesQuantity);
+                 }
+                 return total;
+                 };
+                 
+                 //get Total Super Leaves Qty
+                 $scope.getSuperLeavesQuantity = function () {
+                 var total = 0;
+                 for (var i = 0; i < $scope.greenLevesRecives.length; i++) {
+                 total += parseInt($scope.greenLevesRecives[i].superLeavesQuantity);
+                 }
+                 return total;
+                 };*/
+
+                //table selection function
+                $scope.selectedRoute = null;
+                $scope.http.getClientDetails = function (client) {
+//                 for (var i = 0; i < $scope.model.routes.length; i++) {
+//                        if ($scope.model.routes[i].indexNo===client.route) {
+//                            $scope.selectedRoute=$scope.model.routes[i];
+//                        }
+//                 }
+                    console.log(client.route);
+                    console.log($scope.model.routes);
+                };
+
+
 
                 //ui init function
                 $scope.ui.init = function () {
                     //set ideal mode
                     $scope.ui.mode = "IDEAL";
+
+                    //reset model
+                    $scope.model.reset();
+
+                    //load routes
+                    clientAdvanceRequestFactory.loadRoutes(function (data) {
+                        $scope.model.routes = data;
+                        console.log(data);
+                    });
+
+                    //load clients
+                    clientAdvanceRequestFactory.loadClients(function (data) {
+                        $scope.model.clients = data;
+                    });
+
                 };
                 $scope.ui.init();
-            */});
+            });
+
 }());
