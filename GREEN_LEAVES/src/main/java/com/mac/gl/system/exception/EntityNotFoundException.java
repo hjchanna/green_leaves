@@ -11,6 +11,7 @@
  */
 package com.mac.gl.system.exception;
 
+import com.mac.gl.system.exception.handler.SystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Mohan
  */
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends SystemException {
 
     public EntityNotFoundException(String message) {
         super(message);

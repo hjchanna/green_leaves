@@ -89,16 +89,10 @@
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
-                    $timeout(function () {
-                        document.querySelectorAll("#client")[0].focus();
-                    }, 10);
                 };
 
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
-                    $timeout(function () {
-                        document.querySelectorAll("#client")[0].focus();
-                    }, 10);
                 };
 
                 //finish edits

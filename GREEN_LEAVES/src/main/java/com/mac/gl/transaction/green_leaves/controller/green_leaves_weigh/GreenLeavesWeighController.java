@@ -48,7 +48,6 @@ public class GreenLeavesWeighController {
     @RequestMapping(value = "/insert-detail", method = RequestMethod.POST)
     public Integer insertWeigh(@RequestBody TGreenLeaveWeighDetail greenLeaveWeighDetail) {
         greenLeaveWeighDetail = greenLeavesWeighService.insertWeigh(greenLeaveWeighDetail);
-
         return greenLeaveWeighDetail.getIndexNo();
     }
 
