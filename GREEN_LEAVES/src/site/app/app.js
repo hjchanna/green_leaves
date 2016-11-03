@@ -15,7 +15,8 @@
         "routeDetailsModule",
         "supplierModule",
         "categoryModule",
-        "brandMasterModule"
+        "brandMasterModule",
+        "itemDepartmentModule"
     ]);
 
     //constants
@@ -82,6 +83,11 @@
                         .when("/master/brand/brand-master", {
                             templateUrl: "app/master/brand/brand-master.html",
                             controller: "brandMasterController"
+                        })
+                        //item department
+                        .when("/master/item/manage-item-department", {
+                            templateUrl: "app/master/item-department/item-department.html",
+                            controller: "itemDepartmentController"
                         })
                         .otherwise({
                             redirectTo: "/"
