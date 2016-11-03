@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.master.controller;
+package com.mac.gl.master.controller.brand;
 
 import com.mac.gl.master.model.brand.MBrand;
-import com.mac.gl.master.service.BrandService;
+import com.mac.gl.master.service.brand.BrandService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

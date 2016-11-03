@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.master.repository;
+package com.mac.gl.master.repository.brand;
 
 import com.mac.gl.master.model.brand.MBrand;
 import java.util.List;
