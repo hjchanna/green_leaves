@@ -6,11 +6,14 @@
 package com.mac.gl.master.model.category;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -21,8 +24,14 @@ import javax.persistence.Table;
 public class MCategory implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "index_no")
     private Integer indexNo;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "name")
     private String name;
 
     public MCategory() {

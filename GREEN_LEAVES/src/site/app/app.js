@@ -16,7 +16,8 @@
         "supplierModule",
         "categoryModule",
         "brandMasterModule",
-        "itemDepartmentModule"
+        "itemDepartmentModule",
+        "vehicleModule"
     ]);
 
     //constants
@@ -72,6 +73,7 @@
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
                             controller: "routeDetailsController"
                         })
+                        //master
                         .when("/master/supplier/manage-supplier", {
                             templateUrl: "app/master/supplier/supplier.html",
                             controller: "routeDetailsController"
@@ -84,10 +86,13 @@
                             templateUrl: "app/master/brand/brand-master.html",
                             controller: "brandMasterController"
                         })
-                        //item department
                         .when("/master/item/manage-item-department", {
                             templateUrl: "app/master/item-department/item-department.html",
                             controller: "itemDepartmentController"
+                        })
+                        .when("/master/vehicle/vehicle", {
+                            templateUrl: "app/master/vehicle/vehicle.html",
+                            controller: "vehicleController"
                         })
                         .otherwise({
                             redirectTo: "/"
