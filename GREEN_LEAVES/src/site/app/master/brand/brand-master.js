@@ -70,6 +70,10 @@
                     $scope.ui.mode = "NEW";
                 };
 
+                $scope.ui.save = function () {
+                    $scope.http.saveBrand();
+                };
+
                 //edit
                 $scope.ui.edit = function (brand, index) {
                     $scope.ui.mode = "EDIT";
@@ -77,11 +81,7 @@
                     $scope.model.brand.splice(index, 1);
                 };
 
-                //finish edits
-                $scope.ui.finish = function () {
-                    $scope.ui.mode = "IDEAL";
-                    $scope.model.reset();
-                };
+
 
                 //------------------ validation functions ------------------------------
                 $scope.validateInput = function () {

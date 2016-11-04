@@ -29,8 +29,11 @@ public class CategoryService {
     }
 
     public MCategory findByName(String name) {
-        MCategory mCategory = categoryRepository.findByName(name);
-        return mCategory;
+        List<MCategory> categorys = categoryRepository.findByName(name);
+        if (categorys.isEmpty()) {
+            return null;
+        }
+        return categorys.get(0);
     }
 
     public MCategory saveCategory(MCategory category) {
@@ -38,8 +41,10 @@ public class CategoryService {
         if (mCategory == null) {
             return categoryRepository.save(category);
         } else {
-            System.out.println("already exists");
-            return null;
+            if (mCategory.getIndexNo().equals(category.getIndexNo())) {//is update get update Object?
+                return category;
+            }
+            throw new RuntimeException("duplicate");
         }
     }
 

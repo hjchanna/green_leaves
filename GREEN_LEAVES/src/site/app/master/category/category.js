@@ -53,6 +53,16 @@
 
     angular.module("categoryModule")
             .controller("categoryController", function ($scope, categoryFactory, Notification) {
+                $scope.totalItems = 64;
+                $scope.currentPage = 4;
+
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+
+                $scope.pageChanged = function () {
+                    $log.log('Page changed to: ' + $scope.currentPage);
+                };
                 //data models 
                 $scope.model = {};
 
@@ -65,7 +75,6 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
-                $scope.model.category = [];
 
 
 
@@ -78,36 +87,42 @@
                     };
                 };
 
+                //------------------ validation functions ------------------------------
+                $scope.validateInput = function () {
+                    if ($scope.model.category !== null) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
 
                 //<-----------------http funtiion------------------->
                 $scope.http.saveCategory = function () {
-                    var detailJSON = JSON.stringify($scope.model.category);
-                    console.log(detailJSON);
-
-                    categoryFactory.saveCategory(detailJSON, function (data) {
-                        if (data !== "") {
-                            $scope.model.category.indexNo = data;
-                            $scope.model.categorys.push($scope.model.category);
-                            Notification.success("Successfully Added");
-
-                            $scope.ui.mode = "IDEAL";
-                            $scope.model.category = {};
-                        } else {
-                            Notification.error("Category is already exists");
-                        }
-                    });
+                    if ($scope.validateInput()) {
+                        var detail = $scope.model.category;
+                        var detailJSON = JSON.stringify(detail);
+                        //save
+                        categoryFactory.saveCategory(
+                                detailJSON,
+                                function (data) {
+                                    Notification.success("success");
+                                    $scope.model.categorys.push(data);
+                                    $scope.model.reset();
+                                },
+                                function (data) {
+                                    Notification.error(data.message);
+                                }
+                        );
+                    } else {
+                        Notification.error("please input category name");
+                    }
                 };
 
-                $scope.http.deleteCategory = function (indexNo) {
+                $scope.http.deleteCategory = function (indexNo, index) {
                     categoryFactory.deleteCategory(indexNo, function () {
-                        var id = -1;
-                        for (var i = 0; i < $scope.model.categorys.length; i++) {
-                            if ($scope.model.categorys[i].indexNo === indexNo) {
-                                id = i;
-                            }
-                        }
-
-                        $scope.model.categorys.splice(id, 1);
+                        Notification.success("delete success");
+                        $scope.model.categorys.splice(index, 1);
                     });
                 };
 
@@ -115,13 +130,6 @@
                 //save function
                 $scope.ui.save = function () {
                     $scope.http.saveCategory();
-
-                };
-
-                //delete function
-                $scope.ui.delete = function (indexNo) {
-                    $scope.http.deleteCategory(indexNo);
-
                 };
 
                 //new function
@@ -130,15 +138,10 @@
                 };
 
                 //edit funtion
-                $scope.ui.edit = function (categorys) {
-                     $scope.ui.mode = "EDIT";
-                     
+                $scope.ui.edit = function (categorys, index) {
+                    $scope.ui.mode = "EDIT";
                     $scope.model.category = categorys;
-                    for (var i = 0; $scope.model.categorys.length; i++) {
-                        if ($scope.model.categorys[i].indexNo === $scope.model.category.indexNo) {
-                            $scope.model.categorys.splice(i, 1);
-                        }
-                    }
+                    $scope.model.categorys.splice(index, 1);
                 };
 
 

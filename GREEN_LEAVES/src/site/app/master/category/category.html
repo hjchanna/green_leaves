@@ -12,55 +12,50 @@
     </div>
     <div class="col-xs-8 background-light">
         <div class="row col-xs-5">
-            <input type="text" class="search-input" ng-model="model.search.name" placeholder="Search">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <table class="control-table">
-                    <col style="width: 10%">
-                    <col style="width: 70%">
-                    <col style="width: 20%">
-                    <thead class="background-dark">
-                        <tr>
-                            <th>
-                                <label>#</label>
-                            </th>
-                            <th>
-                                <label>category</label>
-                            </th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                </table>
-                <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 315px);">
-                    <table class="table-hover">
-                        <col style="width: 10%">
-                        <col style="width: 70%">
-                        <col style="width: 20%">
-                        <tbody>
-                            <tr ng-repeat="category in model.categorys| filter:model.search.name">
-                                <td>{{category.indexNo}}</td>
-                                <td>{{category.name}}</td>
-                                <td class="text-right" style="padding-left: 5px;">
-                                    <a class="btn btn-primary" ng-click="ui.edit(category)"><span class="glyphicon glyphicon-edit"></span></a>
-                                    <a class="btn btn-danger" ng-click="ui.delete(category.indexNo)"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div  class="col-xs-12">
-                    <!--<ul  class="pull-right" uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>-->
-                </div>
-            </div>
+        <table class="control-table">
+            <col style="width: 10%">
+            <col style="width: 70%">
+            <col style="width: 20%">
+            <thead class="background-dark">
+                <tr>
+                    <th>
+                        <label>#</label>
+                    </th>
+                    <th>
+                        <label>category</label>
+                    </th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 315px);">
+            <table class="table-hover">
+                <col style="width: 10%">
+                <col style="width: 70%">
+                <col style="width: 20%">
+                <tbody>
+                    <tr ng-repeat="category in model.categorys| filter:model.search.name | orderBy:'indexNo'">
+                        <td><span class="label label-default">{{category.indexNo|fixedLength:5}}</span></td>
+                        <td>{{category.name}}</td>
+                        <td class="text-right" style="padding-left: 5px;">
+                            <a class="btn btn-primary" ng-click="ui.edit(category,$index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="http.deleteCategory(category.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 background-light" style="position: fixed;bottom: 1px;margin-left: -15px">
+            <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize"
+                class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
         </div>
     </div>
 </div>
 <div class="fab-container">
-    <a class="fab fab-danger" ng-show="ui.mode === 'NEW' || ui.mode == 'EDIT'" ng-click="ui.save()"><i class="glyphicon glyphicon-edit"></i></a>
     <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode == 'EDIT'" ng-click="ui.finish();"><i class="glyphicon glyphicon-ok"></i></a>
-    <!--<a class="fab fab-lg fab-primary" ng-click="ui.save()"><i class="glyphicon glyphicon-ok"></i></a>-->
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>
 <!--<div class="index-content-footer">
     content footer

@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author Nidura Prageeth
  */
 @Entity
-@Table(name = "category")
+@Table(name = "m_category")
 public class MCategory implements Serializable {
 
     @Id
