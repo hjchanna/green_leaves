@@ -89,6 +89,10 @@
                             templateUrl: "app/master/item-department/item-department.html",
                             controller: "itemDepartmentController"
                         })
+                        .when("/master/category/sub-category", {
+                            templateUrl: "app/master/sub-category/sub-category.html",
+                            controller: "subCategoryController"
+                         })  
                         .otherwise({
                             redirectTo: "/"
                         });
