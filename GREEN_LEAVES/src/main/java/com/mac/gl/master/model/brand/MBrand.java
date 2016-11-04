@@ -23,7 +23,6 @@ import javax.validation.constraints.Size;
 @Table(name = "m_brand")
 public class MBrand implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

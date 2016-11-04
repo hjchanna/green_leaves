@@ -94,6 +94,10 @@
                             templateUrl: "app/master/vehicle/vehicle.html",
                             controller: "vehicleController"
                         })
+                        .when("/master/category/sub-category", {
+                            templateUrl: "app/master/sub-category/sub-category.html",
+                            controller: "subCategoryController"
+                         })  
                         .otherwise({
                             redirectTo: "/"
                         });
