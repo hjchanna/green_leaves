@@ -90,7 +90,7 @@
 
                 //------------------ validation functions ------------------------------
                 $scope.validateInput = function () {
-                    if ($scope.model.category !== null) {
+                    if ($scope.model.category.name !== null) {
                         return true;
                     } else {
                         return false;
@@ -100,24 +100,20 @@
 
                 //<-----------------http funtiion------------------->
                 $scope.http.saveCategory = function () {
-                    if ($scope.validateInput()) {
-                        var detail = $scope.model.category;
-                        var detailJSON = JSON.stringify(detail);
-                        //save
-                        categoryFactory.saveCategory(
-                                detailJSON,
-                                function (data) {
-                                    Notification.success("success");
-                                    $scope.model.categorys.push(data);
-                                    $scope.model.reset();
-                                },
-                                function (data) {
-                                    Notification.error(data.message);
-                                }
-                        );
-                    } else {
-                        Notification.error("please input category name");
-                    }
+                    var detail = $scope.model.category;
+                    var detailJSON = JSON.stringify(detail);
+                    //save
+                    categoryFactory.saveCategory(
+                            detailJSON,
+                            function (data) {
+                                Notification.success("success");
+                                $scope.model.categorys.push(data);
+                                $scope.model.reset();
+                            },
+                            function (data) {
+                                Notification.error(data.message);
+                            }
+                    );
                 };
 
                 $scope.http.deleteCategory = function (indexNo, index) {
@@ -130,7 +126,11 @@
                 //<-----------------ui funtiion--------------------->
                 //save function
                 $scope.ui.save = function () {
-                    $scope.http.saveCategory();
+                    if ($scope.validateInput()) {
+                        $scope.http.saveCategory();
+                    } else {
+                        Notification.error("please input category name");
+                    }
                 };
 
                 //new function

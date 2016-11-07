@@ -1,0 +1,57 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body ">
+    <div class="col-xs-4 background-dark">
+        <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">Vehicle No</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Make</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Engine No</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Chassis No</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Model</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Register Date</label></td>
+                        <td> <input class="date form-control text-right" type="date"  ng-model="model.vehicle.regDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Owner Name</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.ownerName" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Type</label></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>
+<!--<div class="index-content-footer">
+    content footer
+</div>-->

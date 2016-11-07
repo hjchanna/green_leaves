@@ -11,35 +11,35 @@
                 <tbody>
                     <tr>
                         <td><label class="control-label">Vehicle No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.vehicleNo"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Make</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.make"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Engine No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.engineNo"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Chassis No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.chassisNo"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Model</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.model"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Register Date</label></td>
-                        <td><input type="date" class="form-control text-right" ng-model="model.vehicle.regDate"></td>
+                        <td> <input class="date form-control text-right" type="date"  ng-model="model.vehicle.regDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Owner Name</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.ownerName"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.ownerName" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Type</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.type"></td>
+                        <td><input class="form-control text-right" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                 </tbody>
             </table>
@@ -102,7 +102,7 @@
                         <td>{{vehicle.engineNo}}</td>
                         <td>{{vehicle.chassisNo}}</td>
                         <td>{{vehicle.model}}</td>
-                        <td>{{vehicle.regDate | date : "dd.MM.y"}}</td>
+                        <td>{{vehicle.regDate| date : "dd.MM.yyyy"}}</td>
                         <td>{{vehicle.ownerName}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(vehicle, $index)"><span class="glyphicon glyphicon-edit"></span></a>

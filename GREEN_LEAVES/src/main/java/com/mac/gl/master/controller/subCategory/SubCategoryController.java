@@ -30,15 +30,13 @@ public class SubCategoryController {
 //    public SubCategory saveCategory(@RequestBody SubCategory subCategory){
 //        return subCategoryService.SaveSubCategory(subCategory);
 //    }
-    
-    
     //Save subCategory
-    @RequestMapping (value ="/save-subCategory",method = RequestMethod.POST)
-    public SubCategory saveSubCategory(SubCategory subCategory){
-        return subCategoryService.SaveSubCategory(subCategory);
+    @RequestMapping(value = "/save-subCategory", method = RequestMethod.POST)
+    public SubCategory saveSubCategory(SubCategory subCategory) {
+//        return subCategoryService.SaveSubCategory(subCategory);
+        return null;
     }
-    
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public List<SubCategory> findAllCategory() {
         return subCategoryService.findAllSubCategory();

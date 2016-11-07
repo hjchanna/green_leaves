@@ -66,22 +66,29 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
-                $scope.model.category = [];
+
 
 
                 //------------------ model functions ---------------
                 //reset model
-//                $scope.model.reset = function () {
-//                    $scope.model.Vehicle = {
-//                        "indexNo": null,
-//                        "name": null
-//                    };
-//                };
+                $scope.model.reset = function () {
+                    $scope.model.vehicle = {
+                        "indexNo": null,
+                        "vehicleNo": null,
+                        "make": null,
+                        "engineNo": null,
+                        "chassisNo": null,
+                        "model": null,
+                        "regDate": null,
+                        "ownerName": null,
+                        "type": null
+                    };
+                };
 
 
                 //----------------- validation functions -----------
                 $scope.validateInput = function () {
-                    if ($scope.model.category !== null) {
+                    if ($scope.model.vehicle.vehicleNo !== null) {
                         return true;
                     } else {
                         return false;
@@ -92,25 +99,22 @@
                 //-------------------http function-------------------
 
                 $scope.http.saveVehicle = function () {
-                    if ($scope.validateInput()) {
-                        var detail = $scope.model.vehicle;
-                        var detailJSON = JSON.stringify(detail);
-                        console.log(detailJSON);
-                        //save
-                        vehicleFactory.saveVehicle(
-                                detailJSON,
-                                function (data) {
-                                    Notification.success("success");
-                                    $scope.model.vehicles.push(data);
-                                    // $scope.model.reset();
-                                },
-                                function (data) {
-                                    Notification.error(data.message);
-                                }
-                        );
-                    } else {
-                        Notification.error("please input vehicle name");
-                    }
+                    var detail = $scope.model.vehicle;
+                    var detailJSON = JSON.stringify(detail);
+                    console.log(detailJSON);
+                    //save
+                    vehicleFactory.saveVehicle(
+                            detailJSON,
+                            function (data) {
+                                Notification.success("success");
+                                $scope.model.vehicles.push(data);
+                                $scope.model.reset();
+                            },
+                            function (data) {
+                                Notification.error(data.message);
+                            }
+                    );
+
                 };
 
 
@@ -125,7 +129,11 @@
                 //-------------------ui funtiion---------------------
                 //save function
                 $scope.ui.save = function () {
-                    $scope.http.saveVehicle();
+                    if ($scope.validateInput()) {
+                        $scope.http.saveVehicle();
+                    } else {
+                        Notification.error("please input vehicle Details");
+                    }
                 };
 
                 //new function
@@ -145,7 +153,8 @@
                     //set ideal mode
                     $scope.ui.mode = "IDEAL";
 
-//                    $scope.model.reset();
+                    $scope.model.reset();
+
                     //load category
                     vehicleFactory.loadVehicle(function (data) {
                         $scope.model.vehicles = data;

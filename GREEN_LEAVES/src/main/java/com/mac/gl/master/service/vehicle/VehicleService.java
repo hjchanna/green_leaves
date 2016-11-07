@@ -7,6 +7,7 @@ package com.mac.gl.master.service.vehicle;
 
 import com.mac.gl.master.model.vehicle.MVehicle;
 import com.mac.gl.master.repository.vehicle.VehicleRepository;
+import com.mac.gl.system.exception.DuplicateEntityException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,24 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
+    private MVehicle findByVehicleNo(String name) {
+        List<MVehicle> vehicles = vehicleRepository.findByVehicleNo(name);
+        if (vehicles.isEmpty()) {
+            return null;
+        }
+        return vehicles.get(0);
+    }
+
     public MVehicle saveVehicle(MVehicle vehicle) {
-        return vehicleRepository.save(vehicle);
+        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo());
+        if (mVehicle == null) {
+            return vehicleRepository.save(vehicle);
+        } else {
+            if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
+                return vehicle;
+            }
+            throw new DuplicateEntityException("Vehicle already exists");
+        }
     }
 
     public void deleteVehicle(Integer indexNo) {
