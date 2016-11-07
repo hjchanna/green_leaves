@@ -24,12 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubCategoryController {
 
     @Autowired
-    SubCategoryService subCategoryService;
+    private SubCategoryService subCategoryService;
 
 //    @RequestMapping(value = "/save-subCategory",method = RequestMethod. POST)
 //    public SubCategory saveCategory(@RequestBody SubCategory subCategory){
 //        return subCategoryService.SaveSubCategory(subCategory);
 //    }
+    
+    
+    //Save subCategory
+    @RequestMapping (value ="/save-subCategory",method = RequestMethod.POST)
+    public SubCategory saveSubCategory(SubCategory subCategory){
+        return subCategoryService.SaveSubCategory(subCategory);
+    }
+    
     
     @RequestMapping(method = RequestMethod.GET)
     public List<SubCategory> findAllCategory() {

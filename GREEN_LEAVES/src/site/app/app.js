@@ -17,7 +17,8 @@
         "categoryModule",
         "brandMasterModule",
         "itemDepartmentModule",
-        "vehicleModule"
+        "vehicleModule",
+        "subCategoryModule"
     ]);
 
     //constants

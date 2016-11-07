@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SubCategoryService {
     
     @Autowired
-    SubCategoryRepository subCategoryRepository;
+    private SubCategoryRepository subCategoryRepository;
     
     public List<SubCategory> findAllSubCategory() {
         return subCategoryRepository.findAll();

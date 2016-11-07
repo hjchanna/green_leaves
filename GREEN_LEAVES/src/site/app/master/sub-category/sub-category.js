@@ -17,6 +17,7 @@
 
                             });
                 };
+                
                 factory.loadSubCategory = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/subCategory";
 
@@ -43,12 +44,7 @@
                 //http models
                 $scope.http = {};
 
-                $scope.model.categoryList = [
-                    {indexNo: 1, name: "Category 01"},
-                    {indexNo: 2, name: "Category 02"},
-                    {indexNo: 3, name: "Category 03"},
-                    {indexNo: 4, name: "Category 04"}
-                ];
+                $scope.model.categoryList = [];
                 
                 $scope.model.subCategoryList=[
                     {indexNo: 1, name:"Sub Category name", category:"Category 01"},
@@ -61,10 +57,10 @@
                     $scope.ui.mode = "IDEAL";
                     //load category
                     subCategoryFactory.loadCategory(function (data) {
-                        console.log(data);
+                        $scope.model.categoryList = data;
                     });
                     subCategoryFactory.loadSubCategory(function (data) {
-                        console.log(data);
+                        //console.log(data);
                     });
 
 
