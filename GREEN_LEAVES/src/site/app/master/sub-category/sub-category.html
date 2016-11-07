@@ -2,21 +2,24 @@
 </div>
 
 <div class="index-content-body">
-    <div class="col-xs-4 background-light">
+    <div class="col-xs-4 background-dark">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+
+            <div class="col-xs-12" style="margin-top: 25px;">
+                <label> Category </label>{{categoryList.length}}
+                <input type="text" class="form-control" ng-model="category" uib-typeahead="category as ( category.name) for category in model.categoryList | filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+
+            </div>
+
             <div class="col-xs-12" style="margin-top: 25px;">
                 <label> Name: </label>
                 <input type="text" class="form-control" ng-model="model.subCategory.name" />
             </div>
-                
-            <div class="col-xs-12" style="margin-top: 25px;">
-                <label> Category </label>
-                <input type="text" class="form-control" ng-model="model.category.category" />
-            </div>
+
         </div>
-        
+
     </div>
-    <div class="col-xs-8 background-dark">
+    <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12">
                 <div class="smart-scroll-y" style="padding-right: 5px; height: 50px;">
@@ -40,11 +43,12 @@
                     <table class="table-hover">
                         <col style="width: 15%">
                         <col style="width: 40%">
-                        <col style="width: 40%">
+                        <col style="width: 35%">
                         <tbody>
-                            <tr ng-repeat="brand in model.category|filter:search">
-                                <td><div class="label label-default">{{brand.indexNo|fixedLength:5}}</div></td>
-                                <td>{{brand.name}}</td>
+                            <tr ng-repeat="subCategoryList in model.subCategoryList|filter:search">
+                                <td><div class="label label-default">{{subCategoryList.indexNo|fixedLength:5}}</div></td>
+                                <td>{{subCategoryList.name}}</td>
+                                <td>{{subCategoryList.category}}</td>
                                 <td>
                                     <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
                                     <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
@@ -60,7 +64,7 @@
                         <col style="width: 15%">
                         <col style="width: 40%">
                         <col style="width: 40%">
-                        
+
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -76,7 +80,6 @@
     </div>
 </div>
 <div class="fab-container">
-    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-lg fab-primary" ng-click="ui.save()"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>
