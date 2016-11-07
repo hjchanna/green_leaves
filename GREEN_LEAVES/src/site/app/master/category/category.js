@@ -20,17 +20,18 @@
                 };
 
                 //save or update
-                factory.saveCategory = function (category, callback) {
+                factory.saveCategory = function (category, callback, errorCallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/category/save-category";
 
 
                     $http.post(url, category)
                             .success(function (data, status, headers) {
                                 callback(data);
-                                console.log(data + "save category");
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorCallback) {
+                                    errorCallback(data);
+                                }
                             });
 
                 };

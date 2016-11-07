@@ -7,6 +7,7 @@ package com.mac.gl.master.service.category;
 
 import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.repository.category.CategoryRepository;
+import com.mac.gl.system.exception.DuplicateEntityException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class CategoryService {
             if (mCategory.getIndexNo().equals(category.getIndexNo())) {//is update get update Object?
                 return category;
             }
-            throw new RuntimeException("duplicate");
+            throw new DuplicateEntityException("Category already exists");
         }
     }
 

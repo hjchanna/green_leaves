@@ -5,6 +5,7 @@
  */
 package com.mac.gl.master.controller.category;
 
+import com.mac.gl.master.model.brand.MBrand;
 import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.service.category.CategoryService;
 import java.util.List;
@@ -34,9 +35,8 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/save-category", method = RequestMethod.POST)
-    public Integer saveCategory(@RequestBody MCategory category) {
-        category = categoryService.saveCategory(category);
-        return category.getIndexNo();
+    public MCategory saveCategory(@RequestBody MCategory category) {
+        return categoryService.saveCategory(category);
     }
 
     @RequestMapping(value = "/delete-category/{indexNo}", method = RequestMethod.DELETE)

@@ -53,10 +53,10 @@
             <col style="width: 10%">
             <col style="width: 10%">
             <col style="width: 10%">
+            <col style="width: 15%">
             <col style="width: 10%">
-            <col style="width: 10%">
+            <col style="width: 15%">
             <col style="width: 20%">
-            <col style="width: 10%">
             <col style="width: 10%">
             <thead class="background-dark">
                 <tr>
@@ -90,10 +90,10 @@
                 <col style="width: 10%">
                 <col style="width: 10%">
                 <col style="width: 10%">
+                <col style="width: 15%">
                 <col style="width: 10%">
-                <col style="width: 10%">
+                <col style="width: 15%">
                 <col style="width: 20%">
-                <col style="width: 10%">
                 <col style="width: 10%">
                 <tbody>
                     <tr ng-repeat="vehicle in model.vehicles| filter:model.search.name">
@@ -102,7 +102,7 @@
                         <td>{{vehicle.engineNo}}</td>
                         <td>{{vehicle.chassisNo}}</td>
                         <td>{{vehicle.model}}</td>
-                        <td>{{vehicle.regDate}}</td>
+                        <td>{{vehicle.regDate | date : "dd.MM.y"}}</td>
                         <td>{{vehicle.ownerName}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(vehicle, $index)"><span class="glyphicon glyphicon-edit"></span></a>

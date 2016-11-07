@@ -35,7 +35,6 @@ public class VehicleController {
 
     @RequestMapping(value = "/save-vehicle", method = RequestMethod.POST)
     public MVehicle saveVehicle(@RequestBody MVehicle vehicle) {
-        System.out.println(vehicle);
         return vehicleService.saveVehicle(vehicle);
     }
 
