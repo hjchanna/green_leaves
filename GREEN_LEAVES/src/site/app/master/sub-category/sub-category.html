@@ -3,83 +3,65 @@
 
 <div class="index-content-body">
     <div class="col-xs-4 background-dark">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+        <div style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
 
             <div class="col-xs-12" style="margin-top: 25px;">
                 <label> Category </label>{{categoryList.length}}
-                <input type="text" class="form-control" ng-model="category" uib-typeahead="category as (category.name) for category in model.categoryList|filter:$viewValue|limitTo:10">
+                <input type="text" class="form-control" ng-model="model.data.category" uib-typeahead="category as (category.name) for category in model.categoryList|filter:$viewValue|limitTo:10">
 
             </div>
 
             <div class="col-xs-12" style="margin-top: 25px;">
                 <label> Name: </label>
-                <input type="text" class="form-control" ng-model="model.subCategory.name" />
+                <input type="text" class="form-control" ng-model="model.data.name" />
             </div>
 
         </div>
 
     </div>
     <div class="col-xs-8 background-light">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12">
-                <div class="smart-scroll-y" style="padding-right: 5px; height: 50px;">
-                    <table class="table-hover">
-                        <col style="width: 15%">
-                        <col style="width: 40%">
-                        <col style="width: 40%">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Sub Category</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 220px);">
-                    <table class="table-hover">
-                        <col style="width: 15%">
-                        <col style="width: 40%">
-                        <col style="width: 35%">
-                        <tbody>
-                            <tr ng-repeat="subCategoryList in model.subCategoryList|filter:search">
-                                <td><div class="label label-default">{{subCategoryList.indexNo|fixedLength:5}}</div></td>
-                                <td>{{subCategoryList.name}}</td>
-                                <td>{{subCategoryList.category}}</td>
-                                <td>
-                                    <a class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
-                                    <a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <div class="smart-scroll-y" style="padding-right: 5px; height: 50px;">
-                    <table class="table-hover">
-                        <col style="width: 15%">
-                        <col style="width: 40%">
-                        <col style="width: 40%">
+        <div class="col-xs-5">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+        </div>
+        <table class="table-hover">
+            <col style="width: 15%">
+            <col style="width: 35%">
+            <col style="width: 35%">
+            <col style="width: 15%">
+            <thead class="background-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="col-xs-12">
+            <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 220px);">
+                <table class="table-hover">
+                    <col style="width: 15%">
+                    <col style="width: 35%">
+                    <col style="width: 35%">
+                    <col style="width: 15%">
+                    <tbody>
+                        <tr ng-repeat="subCategory in model.subCategoryList|orderBy:'indexNo'">
+                            <td><span class="label label-default">{{subCategory.indexNo|fixedLength:5}}</span></td>
+                            <td>{{subCategory.subCategory}}</td>
+                            <td>{{subCategory.category.name}}</td>
+                            <td class="text-right" style="padding-left: 5px;">
+                                <a class="btn btn-primary" ng-click="ui.edit(subCategory, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger" ng-click="http.deleteSubCategory(subCategory.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
 
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Sub Category</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 <div class="fab-container">
-    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.save();"><i class="glyphicon glyphicon-plus"></i></a>
     <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

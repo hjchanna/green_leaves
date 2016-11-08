@@ -5,7 +5,8 @@
  */
 package com.mac.gl.master.repository.subCategory;
 
-import com.mac.gl.master.model.subCategory.SubCategory;
+import com.mac.gl.master.model.category.MCategory;
+import com.mac.gl.master.model.subCategory.MSubCategory;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,10 +14,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author kalum
  */
-public interface SubCategoryRepository extends JpaRepository<SubCategory,Integer>{
+public interface SubCategoryRepository extends JpaRepository<MSubCategory,Integer>{
     
-//    public List<SubCategory>findByName(String name);
-//    
-//    public List<SubCategory>FindByNameAndIndexNo(String name, Integer indexNo);
-    
+//    public List<MCategory> findByName(String name);    
+
 }

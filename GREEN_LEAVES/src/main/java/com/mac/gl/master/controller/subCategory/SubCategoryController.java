@@ -5,11 +5,13 @@
  */
 package com.mac.gl.master.controller.subCategory;
 
-import com.mac.gl.master.model.subCategory.SubCategory;
+import com.mac.gl.master.model.subCategory.MSubCategory;
 import com.mac.gl.master.service.subCategory.SubCategoryService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,19 +28,19 @@ public class SubCategoryController {
     @Autowired
     private SubCategoryService subCategoryService;
 
-//    @RequestMapping(value = "/save-subCategory",method = RequestMethod. POST)
-//    public SubCategory saveCategory(@RequestBody SubCategory subCategory){
-//        return subCategoryService.SaveSubCategory(subCategory);
-//    }
     //Save subCategory
     @RequestMapping(value = "/save-subCategory", method = RequestMethod.POST)
-    public SubCategory saveSubCategory(SubCategory subCategory) {
-//        return subCategoryService.SaveSubCategory(subCategory);
-        return null;
+    public MSubCategory saveSubCategory(@RequestBody MSubCategory subCategory) {
+        return subCategoryService.saveSubCategory(subCategory);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<SubCategory> findAllCategory() {
+    public List<MSubCategory> findAllCategory() {
         return subCategoryService.findAllSubCategory();
+    }
+
+    @RequestMapping(value = "/delete-sub-category/{indexNo}", method = RequestMethod.DELETE)
+    public void deleteSubCategory(@PathVariable Integer indexNo) {
+        subCategoryService.deleteSubCategory(indexNo);
     }
 }

@@ -5,7 +5,7 @@
  */
 package com.mac.gl.master.service.subCategory;
 
-import com.mac.gl.master.model.subCategory.SubCategory;
+import com.mac.gl.master.model.subCategory.MSubCategory;
 import com.mac.gl.master.repository.subCategory.SubCategoryRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,17 @@ public class SubCategoryService {
     @Autowired
     private SubCategoryRepository subCategoryRepository;
     
-    public List<SubCategory> findAllSubCategory() {
+    public List<MSubCategory> findAllSubCategory() {
         return subCategoryRepository.findAll();
     }
     
-//    public SubCategory SaveSubCategory(SubCategory subCategory){
-//        return subCategoryRepository.save(subCategory);
-//        
-//    }
+    public MSubCategory saveSubCategory(MSubCategory subCategory){
+        return subCategoryRepository.save(subCategory);
+        
+    }
+    public void deleteSubCategory(Integer indexNo){
+        subCategoryRepository.delete(indexNo);
+    }
     
 //    public boolean isNotDuplicate(SubCategory subCategory){
 //        
