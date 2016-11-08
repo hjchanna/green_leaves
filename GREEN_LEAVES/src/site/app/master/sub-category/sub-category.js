@@ -113,6 +113,7 @@
                     var detailJSON = JSON.stringify(detail);
                     console.log(detailJSON);
 
+
                     subCategoryFactory.saveSubCategory(
                             detailJSON,
                             function (data) {
