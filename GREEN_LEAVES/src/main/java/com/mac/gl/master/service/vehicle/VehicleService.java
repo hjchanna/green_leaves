@@ -38,15 +38,16 @@ public class VehicleService {
     }
 
     public MVehicle saveVehicle(MVehicle vehicle) {
-        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo());
-        if (mVehicle == null) {
-            return vehicleRepository.save(vehicle);
-        } else {
-            if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
-                return vehicle;
-            }
-            throw new DuplicateEntityException("Vehicle already exists");
-        }
+//        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo());
+//        if (mVehicle == null) {
+//            return vehicleRepository.save(vehicle);
+//        } else {
+//            if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
+//                return vehicle;
+//            }
+//            throw new DuplicateEntityException("Vehicle already exists");
+//        }
+        return null;
     }
 
     public void deleteVehicle(Integer indexNo) {

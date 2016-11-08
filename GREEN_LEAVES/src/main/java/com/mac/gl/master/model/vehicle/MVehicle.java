@@ -38,18 +38,19 @@ public class MVehicle implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "make")
-    private String make;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "engine_no")
     private String engineNo;
+
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "chassis_no")
     private String chassisNo;
+   
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "make")
+    private String make;
 
     @Basic(optional = false)
     @NotNull
@@ -58,18 +59,10 @@ public class MVehicle implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "reg_date")
-    private Date regDate;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "owner_name")
-    private String ownerName;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "type")
     private String type;
+
+    //TODO
 
     public MVehicle() {
     }
@@ -78,94 +71,4 @@ public class MVehicle implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MVehicle(Integer indexNo, String vehicleNo, String make, String engineNo, String chassisNo, String model, Date regDate, String ownerName, String type) {
-        this.indexNo = indexNo;
-        this.vehicleNo = vehicleNo;
-        this.make = make;
-        this.engineNo = engineNo;
-        this.chassisNo = chassisNo;
-        this.model = model;
-        this.regDate = regDate;
-        this.ownerName = ownerName;
-        this.type = type;
-    }
-
-    public Integer getIndexNo() {
-        return indexNo;
-    }
-
-    public void setIndexNo(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public String getVehicleNo() {
-        return vehicleNo;
-    }
-
-    public void setVehicleNo(String vehicleNo) {
-        this.vehicleNo = vehicleNo;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public String getEngineNo() {
-        return engineNo;
-    }
-
-    public void setEngineNo(String engineNo) {
-        this.engineNo = engineNo;
-    }
-
-    public String getChassisNo() {
-        return chassisNo;
-    }
-
-    public void setChassisNo(String chassisNo) {
-        this.chassisNo = chassisNo;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
-
-    public String getOwnerName() {
-        return ownerName;
-    }
-
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "MVehicle{" + "indexNo=" + indexNo + ", vehicleNo=" + vehicleNo + ", make=" + make + ", engineNo=" + engineNo + ", chassisNo=" + chassisNo + ", model=" + model + ", regDate=" + regDate + ", ownerName=" + ownerName + ", type=" + type + '}';
-    }
-
-    
 }

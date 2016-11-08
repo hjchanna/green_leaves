@@ -2,7 +2,7 @@
 </div>
 
 <div class="index-content-body ">
-    <div class="col-xs-4 background-dark">
+    <div class="col-xs-4 background-light">
         <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
             <table class="control-table">
                 <col style="width: 35%"/>
@@ -10,36 +10,44 @@
 
                 <tbody>
                     <tr>
-                        <td><label class="control-label">Vehicle No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Brand</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.brand" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Make</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Name</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Engine No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Vehicle</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.vehicle" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Chassis No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Route Officer</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.routeOfficer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Model</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Route Helper</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.routeHelper" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Register Date</label></td>
-                        <td> <input class="date form-control text-right" type="date"  ng-model="model.vehicle.regDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Driver</label></td>
+                        <td> <input class="date form-control text-right"  ng-model="model.route.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Owner Name</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.ownerName" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Transport Deduction Rate</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.deductionRate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Type</label></td>
-                        <td><input class="form-control text-right" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Registration Date</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.regDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Mileage</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.mileage" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Start Date</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.startDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                 </tbody>
             </table>
