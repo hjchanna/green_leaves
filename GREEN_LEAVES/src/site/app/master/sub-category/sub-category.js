@@ -72,26 +72,23 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
-                $scope.model.categoryList = [];
-                $scope.model.subCategoryList = [];
+                $scope.model.subCategory = [];
 
 
                 //----------- data models ------------------
                 //reset model
-
-
                 $scope.model.reset = function () {
-                    $scope.model.data = {
+                    $scope.model.subCategory = {
                         "indexNo": null,
-                        "name": null,
-                        "category": null
+                        "category": null,
+                        "subCategory": null
                     };
                 };
 
                 //----------validate funtion-------------
 
                 $scope.validateInput = function () {
-                    if ($scope.model.data !== null) {
+                    if ($scope.model.subCategory.category !== null) {
                         return true;
                     } else {
                         return false;
@@ -111,20 +108,38 @@
 
 
                 //save function 
-                $scope.ui.save = function () {
+                $scope.http.saveSubCategory = function () {
+                    var detail = $scope.model.subCategory;
+                    var detailJSON = JSON.stringify(detail);
+                    console.log(detailJSON);
+
+                    subCategoryFactory.saveSubCategory(
+                            detailJSON,
+                            function (data) {
+                                $scope.model.subCategoryList.push(data);
+                                Notification.success("Successfully Added");
+                                $scope.model.reset();
+                                $scope.ui.mode = "IDEAL";
+                                
+                            },
+                            function (data) {
+                                Notification.error(data.message);
+                            }
+                    );
 
                 };
 
-                //delete funtion
-//                $scope.ui.delete = function (indexNo, index) {
-//                    $scope.model.subCategoryList.splice(index, 1);
-//                    Notification.success("Delete Success");
-//                    subCategoryFactory.deleteSubCategory(indexNo, function () {
-//
-//                    });
-//                };
 
+
+                //----------------ui funtion--------------
                 //save function 
+                $scope.ui.save = function () {
+                    if ($scope.validateInput()) {
+                        $scope.http.saveSubCategory();
+                    } else {
+                        Notification.error("Please Input Details");
+                    }
+                };
 
 
                 //new function
@@ -135,8 +150,8 @@
                 //edit function 
                 $scope.ui.edit = function (subCategory, index) {
                     $scope.ui.mode = "EDIT";
-                    $scope.model.subCategoryList = subCategory;
-                    $scope.model.subCategory.splice(index, 1);
+                    $scope.model.subCategory = subCategory;
+                    $scope.model.subCategoryList.splice(index, 1);
                 };
 
 
@@ -146,14 +161,15 @@
                     //rest model data
                     $scope.model.reset();
                     //load category
-//                    subCategoryFactory.loadCategory(function (data) {
-//                        $scope.model.categoryList = data;
-//                    });
+                    subCategoryFactory.loadCategory(function (data) {
+                        $scope.model.categoryList = data;
+                    });
                     //lord subCategory
                     subCategoryFactory.loadSubCategory(function (data) {
                         $scope.model.subCategoryList = data;
                     });
                 };
+                
                 $scope.ui.init();
             });
 }());
