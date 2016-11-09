@@ -5,7 +5,7 @@
     <uib-tabset>
         <uib-tab index="0" heading="Vehicle">
             <div class="col-xs-4 background-dark">
-                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
+                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
                         <col style="width: 35%"/>
                         <col style="width: 65%"/>
@@ -37,7 +37,11 @@
                             </tr>
                             <tr>
                                 <td><label class="control-label">Owner Name</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.ownerName" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                                <td><input class="form-control text-right" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+'-'+owner.name) for owner in model.vehicleOwners|filter:$viewValue|limitTo:10"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Driver Name</label></td>
+                                <td><input class="form-control text-right" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+'-'+driver.name) for driver in model.drivers|filter:'DRIVER':$viewValue|limitTo:10"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -48,33 +52,40 @@
                     <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
                 </div>
                 <table class="control-table">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 20%">
+                    <col style="width: 5%">
+                    <col style="width: 14%">
+                    <col style="width: 14%">
+                    <col style="width: 14%">
                     <col style="width: 10%">
                     <col style="width: 10%">
-                    <col style="width: 20%">
+                    <col style="width: 13%">
+                    <col style="width: 10%">
                     <col style="width: 10%">
                     <thead class="background-dark">
                         <tr>
                             <th>
+                                <label>#</label>
+                            </th>
+                            <th>
                                 <label>Vehicle No</label>
                             </th>
                             <th>
-                                <label>Engine No</label>
+                                <label>Engine</label>
                             </th>
                             <th>
-                                <label>Chassis No</label>
+                                <label>Chassis</label>
                             </th>
                             <th>
                                 <label>Model</label>
                             </th>
-
                             <th>
                                 <label>Type</label>
                             </th>
                             <th>
                                 <label>Owner</label>
+                            </th>
+                            <th>
+                                <label>Driver</label>
                             </th>
                             <th>&nbsp;</th>
                         </tr>
@@ -82,21 +93,25 @@
                 </table>
                 <div class="smart-scroll-y" style="height: calc(100vh - 315px);">
                     <table class="table-hover">
-                        <col style="width: 15%">
-                        <col style="width: 15%">
-                        <col style="width: 20%">
+                        <col style="width: 5%">
+                        <col style="width: 14%">
+                        <col style="width: 14%">
+                        <col style="width: 14%">
                         <col style="width: 10%">
                         <col style="width: 10%">
-                        <col style="width: 20%">
+                        <col style="width: 13%">
+                        <col style="width: 10%">
                         <col style="width: 10%">
                         <tbody>
                             <tr ng-repeat="vehicle in model.vehicles| filter:model.search.name">
-                                <td><span class="label label-default">{{vehicle.vehicleNo}}</span></td>
+                                <td><span class="label label-default">{{vehicle.indexNo}}</span></td>
+                                <td>{{vehicle.vehicleNo}}</td>
                                 <td>{{vehicle.engineNo}}</td>
                                 <td>{{vehicle.chassisNo}}</td>
                                 <td>{{vehicle.model}}</td>
                                 <td>{{vehicle.type}}</td>
-                                <td>{{vehicle.ownerName}}</td>
+                                <td>{{vehicle.vehicleOwner.name}}</td>
+                                <td>{{vehicle.driver.name}}</td>
                                 <td class="text-right" style="padding-left: 5px;">
                                     <a class="btn btn-primary" ng-click="ui.edit(vehicle, $index)"><span class="glyphicon glyphicon-edit"></span></a>
                                     <a class="btn btn-danger" ng-click="http.deleteVehicle(vehicle.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
@@ -113,7 +128,7 @@
         </uib-tab>
         <uib-tab index="1" heading="Owner Details">
             <div class="col-xs-5 background-light">
-                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
+                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
                         <col style="width: 35%"/>
                         <col style="width: 65%"/>
@@ -164,7 +179,7 @@
                 </div>
             </div>
             <div class="col-xs-5 background-light">
-                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
+                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
                         <col style="width: 35%"/>
                         <col style="width: 65%"/>
@@ -174,56 +189,14 @@
                                 <td><label class="control-label">Image</label></td>
                                 <td><input type="file"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
             </div>
             <!--start table header-->
         </uib-tab>
-        <uib-tab index="3" heading="Driver Details">
-            <div class="col-xs-4 background-light">
-                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
-                    <table class="control-table">
-                        <col style="width: 35%"/>
-                        <col style="width: 65%"/>
 
-                        <tbody>
-                            <tr>
-                                <td><label class="control-label">Driver name</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.driverName" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Address</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.address" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">ID Number</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.idNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Birthday</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">License No</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.licenseNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Descriptiion</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.description" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                              <tr>
-                                <td><label class="control-label">Image</label></td>
-                                <td><input type="file"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--start table header-->
-
-        </uib-tab>
     </uib-tabset>
     <!--end cash - 1st tab-->
 

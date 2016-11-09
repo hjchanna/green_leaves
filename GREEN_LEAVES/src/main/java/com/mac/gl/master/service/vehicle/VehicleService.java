@@ -29,8 +29,8 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
-    private MVehicle findByVehicleNo(String name) {
-        List<MVehicle> vehicles = vehicleRepository.findByVehicleNo(name);
+    private MVehicle findByVehicleNo(String vehicleNo,String chassisNo,String engineNo) {
+        List<MVehicle> vehicles = vehicleRepository.findByVehicleNoOrChassisNoOrEngineNo(vehicleNo, chassisNo, engineNo);
         if (vehicles.isEmpty()) {
             return null;
         }
@@ -38,16 +38,15 @@ public class VehicleService {
     }
 
     public MVehicle saveVehicle(MVehicle vehicle) {
-//        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo());
-//        if (mVehicle == null) {
-//            return vehicleRepository.save(vehicle);
-//        } else {
-//            if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
-//                return vehicle;
-//            }
-//            throw new DuplicateEntityException("Vehicle already exists");
-//        }
-        return null;
+        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo(),vehicle.getChassisNo(),vehicle.getEngineNo());
+        if (mVehicle == null) {
+            return vehicleRepository.save(vehicle);
+        } else {
+            if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
+                return vehicle;
+            }
+            throw new DuplicateEntityException("Vehicle already exists");
+        }
     }
 
     public void deleteVehicle(Integer indexNo) {
