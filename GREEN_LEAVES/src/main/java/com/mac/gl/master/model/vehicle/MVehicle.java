@@ -5,8 +5,8 @@
  */
 package com.mac.gl.master.model.vehicle;
 
-import com.mac.gl.master.model.employee.MEmployee;
 import com.mac.gl.master.model.vehicle_owner.MVehicleOwner;
+import com.mac.gl.transaction.green_leaves.model.zmaster.MEmployee;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
