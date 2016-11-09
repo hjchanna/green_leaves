@@ -18,7 +18,8 @@
         "brandMasterModule",
         "itemDepartmentModule",
         "vehicleModule",
-        "subCategoryModule"
+        "subCategoryModule",
+        "vehicleOwnerModule"
     ]);
 
     //constants
@@ -98,6 +99,10 @@
                         .when("/master/category/sub-category", {
                             templateUrl: "app/master/sub-category/sub-category.html",
                             controller: "subCategoryController"
+                         })  
+                        .when("/master/vehicle-owner/vehicle-owner", {
+                            templateUrl: "app/master/vehicle-owner/vehicle-owner.html",
+                            controller: "vehicleOwnerController"
                          })  
                         .otherwise({
                             redirectTo: "/"
