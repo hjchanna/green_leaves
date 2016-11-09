@@ -3,7 +3,7 @@
 
 <div class="index-content-body ">
     <uib-tabset>
-        <uib-tab index="0" heading="Vehicle">
+        <uib-tab index="0" heading="Vehicle" ng-click="ui.setTabPane(0)">
             <div class="col-xs-4 background-dark">
                 <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
@@ -13,27 +13,27 @@
                         <tbody>
                             <tr>
                                 <td><label class="control-label">Vehicle No</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Engine No</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Chassis No</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Make</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Model</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Type</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Owner Name</label></td>
@@ -103,7 +103,7 @@
                         <col style="width: 10%">
                         <col style="width: 10%">
                         <tbody>
-                            <tr ng-repeat="vehicle in model.vehicles| filter:model.search.name">
+                            <tr ng-repeat="vehicle in model.vehicles| filter:model.search.name|orderBy:'indexNo'">
                                 <td><span class="label label-default">{{vehicle.indexNo}}</span></td>
                                 <td>{{vehicle.vehicleNo}}</td>
                                 <td>{{vehicle.engineNo}}</td>
@@ -126,8 +126,8 @@
                 </div>
             </div>
         </uib-tab>
-        <uib-tab index="1" heading="Owner Details">
-            <div class="col-xs-5 background-light">
+        <uib-tab index="1" heading="Vehicle Owner" ng-click="ui.setTabPane(1)">
+            <div class="col-xs-4 background-light">
                 <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
                         <col style="width: 35%"/>
@@ -135,63 +135,110 @@
 
                         <tbody>
                             <tr>
-                                <td><label class="control-label">Date</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.regDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><label class="control-label">name</label></td>
+                                <td><input class="form-control" ng-model="model.vehicleOwner.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
-                                <td><label class="control-label">Owner name</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.ownerName" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><label class="control-label">NIC Number</label></td>
+                                <td><input class="form-control" ng-model="model.vehicleOwner.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Mobile</label></td>
+                                <td><input class="form-control" ng-model="model.vehicleOwner.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">Telephone</label></td>
+                                <td><input class="form-control" ng-model="model.vehicleOwner.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Address</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.address" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>
+                                    <input class="form-control" ng-model="model.vehicleOwner.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <input class="form-control" ng-model="model.vehicleOwner.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <input class="form-control" ng-model="model.vehicleOwner.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                </td>
                             </tr>
-                            <tr>
-                                <td><label class="control-label">ID Number</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.idNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Tel Number</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.telNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Birthday</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">License No</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.licenseNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Insurance Company</label></td>
-                                <td> <input class="date form-control text-right" ng-model="model.vehicle.insuranceCompany" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Insurance Exp Date</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.insuranceExpDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
-                            <tr>
-                                <td><label class="control-label">Owner Experience</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.ownerExperience" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-xs-5 background-light">
-                <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
-                    <table class="control-table">
-                        <col style="width: 35%"/>
-                        <col style="width: 65%"/>
-
+            <div class="col-xs-8 background-light">
+                <div class="row col-xs-5">
+                    <input type="text" class="search-input" ng-model="search.name" placeholder="search..">
+                </div>
+                <table class="control-table">
+                    <col style="width: 5%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 12%">
+                    <col style="width: 15%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <thead class="background-dark">
+                        <tr>
+                            <th>
+                                <label>#</label>
+                            </th>
+                            <th>
+                                <label>Name</label>
+                            </th>
+                            <th>
+                                <label>NIC </label>
+                            </th>
+                            <th>
+                                <label>Mobile</label>
+                            </th>
+                            <th>
+                                <label>Telephone</label>
+                            </th>
+                            <th>
+                                <label>Address</label>
+                            </th>
+                            <th>
+                                <label>Address</label>
+                            </th>
+                            <th>
+                                <label>Address</label>
+                            </th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="smart-scroll-y" style="height: calc(100vh - 260px);">
+                    <table class="table-hover">
+                        <col style="width: 5%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 15%">
+                        <col style="width: 10%">
+                        <col style="width: 10%">
                         <tbody>
-                            <tr>
-                                <td><label class="control-label">Image</label></td>
-                                <td><input type="file"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <tr ng-repeat="vehicleOwner in model.vehicleOwnerList| filter:search.name|orderBy:'indexNo'">
+                                <td><span class="label label-default">{{vehicleOwner.indexNo}}</span></td>
+                                <td>{{vehicleOwner.name}}</td>
+                                <td>{{vehicleOwner.nicNumber}}</td>
+                                <td>{{vehicleOwner.mobileNumber}}</td>
+                                <td>{{vehicleOwner.telephoneNumber}}</td>
+                                <td>{{vehicleOwner.addressLine1}}</td>
+                                <td>{{vehicleOwner.addressLine2}}</td>
+                                <td>{{vehicleOwner.addressLine3}}</td>
+                                <td class="text-right" style="padding-left: 5px;">
+                                    <a class="btn btn-primary" ng-click="ui.edit(vehicleOwner, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a class="btn btn-danger" ng-click="http.deleteVehicleOwner(vehicleOwner.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
                             </tr>
-
                         </tbody>
                     </table>
+                </div>
+                <div class="col-xs-12 background-light" style="position: fixed;bottom: 1px;margin-left: -15px">
+                    <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize"
+                        class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
                 </div>
             </div>
             <!--start table header-->

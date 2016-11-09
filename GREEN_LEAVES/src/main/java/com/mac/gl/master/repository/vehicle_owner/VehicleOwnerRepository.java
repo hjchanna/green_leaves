@@ -15,6 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface VehicleOwnerRepository extends JpaRepository<MVehicleOwner, Integer> {
     
-     public List<MVehicleOwner> findByNameAndNicNumberAndMobileNumberAndTelephoneNumberAndAddressLine1AndAddressLine2AndAddressLine3(String name,String nic,String mobile,String telephone,String address1,String address2,String address3);
+     public List<MVehicleOwner> findByNicNumberOrMobileNumberOrTelephoneNumber(String nic,String mobile,String telephone);
      
 }

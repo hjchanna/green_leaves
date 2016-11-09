@@ -57,6 +57,48 @@
 
                             });
                 };
+
+                //Vehicle owner
+                //load Vehicle Owner
+                factory.loadVehicleOwner = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle-owner";
+
+                    $http.get(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
+                };
+
+
+
+                //insert Vehicle Owner
+                factory.insertVehicleOwner = function (detail, callback, errorcallback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle-owner/save";
+                    $http.post(url, detail)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
+                            });
+                };
+
+                //delete VehicleOwner
+                factory.deleteVehicleOwner = function (indexNo, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle-owner/delete-vehicle-owner/" + indexNo;
+                    $http.delete(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
+                };
                 return factory;
             });
 
@@ -69,8 +111,12 @@
                 $scope.model.drivers = [];
                 $scope.model.branch = 2;
 
+                $scope.model.vehicleOwner = {};
+                $scope.model.vehicleOwnerList = [];
+
                 //ui models
                 $scope.ui = {};
+                $scope.ui.tabPane = null;
 
                 //http models
                 $scope.http = {};
@@ -100,18 +146,33 @@
                 //-------------------ui funtiion---------------------
                 //save function
                 $scope.ui.save = function () {
-                    if ($scope.model.vehicle.vehicleOwner) {
-                        if ($scope.model.vehicle.driver) {
-                            if ($scope.model.vehicle.vehicleNo && $scope.model.vehicle.chassisNo && $scope.model.vehicle.engineNo) {
-                                $scope.http.saveVehicle();
+                    if ($scope.ui.tabPane === 0) {// is first tab selected 
+                        if ($scope.model.vehicle.vehicleOwner) {
+                            if ($scope.model.vehicle.driver) {
+                                if ($scope.model.vehicle.vehicleNo && $scope.model.vehicle.chassisNo && $scope.model.vehicle.engineNo) {
+                                    $scope.http.saveVehicle();
+                                } else {
+                                    Notification.error("please input vehicle Details to Save");
+                                }
                             } else {
-                                Notification.error("please input vehicle Details to Save");
+                                Notification.error("Select Default Driver to Save");
                             }
                         } else {
-                            Notification.error("Select Default Driver to Save");
+                            Notification.error("Select Vehicle Owner to Save");
                         }
-                    } else {
-                        Notification.error("Select Vehicle Owner to Save");
+                    } else if ($scope.ui.tabPane === 1) {// is second tab selected 
+                        if ($scope.model.vehicleOwner) {
+                            $scope.http.insertVehicleOwner();
+                            $scope.ui.mode = "IDEAL";
+                        } else {
+                            Notification.error('No Detail to Save ');
+                        }
+
+
+
+
+
+
                     }
                 };
 
@@ -120,13 +181,27 @@
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
                 };
+//               tab pane
+                $scope.ui.setTabPane = function (int) {
+                    $scope.ui.tabPane = int;
+                };
 
 //                edit funtion
+
                 $scope.ui.edit = function (details, index) {
-                    $scope.ui.mode = "EDIT";
-                    $scope.model.vehicle = details;
-                    $scope.model.vehicles.splice(index, 1);
+                    if ($scope.ui.tabPane === 0) {// is first tab selected 
+                        $scope.ui.mode = "EDIT";
+                        $scope.model.vehicle = details;
+                        $scope.model.vehicles.splice(index, 1);
+
+                    } else if ($scope.ui.tabPane === 1) {// is second tab selected 
+                        $scope.ui.mode = "EDIT";
+                        $scope.model.vehicleOwner = details;
+                        $scope.model.vehicleOwnerList.splice(index, 1);
+                    }
                 };
+
+
 
 
                 //----------------- validation functions -----------
@@ -169,15 +244,42 @@
                         $scope.model.vehicles.splice(index, 1);
                     });
                 };
+                $scope.http.insertVehicleOwner = function () {
+                    var detail = $scope.model.vehicleOwner;
+                    var detailJSON = JSON.stringify(detail);
+                    //save detail dirrectly
+                    vehicleFactory.insertVehicleOwner(
+                            detailJSON,
+                            function (data) {
+                                Notification.success('success !');
+                                $scope.model.vehicleOwnerList.push(data);
+                                $scope.model.vehicleOwner = {};
 
+                            }
+                    , function (data) {
+                        Notification.error(data.message);
+
+                    }
+                    );
+                };
+                $scope.http.deleteVehicleOwner = function (indexNo, index) {
+                    if (indexNo) {
+                        vehicleFactory.deleteVehicleOwner(indexNo, function () {
+                            $scope.model.vehicleOwnerList.splice(index, 1);
+
+                            Notification.error(indexNo + ' Delete Successfully');
+                        });
+                    }
+                };
 
 
 
                 $scope.ui.init = function () {
                     //set ideal mode
                     $scope.ui.mode = "IDEAL";
-
-                    $scope.model.reset();
+                    $scope.ui.tabPane = 0;
+                    $scope.model.vehicle = {};
+                    $scope.model.vehicles = [];
 
                     //load Vehicle
                     //load Vehicles
@@ -187,6 +289,10 @@
                     //load Vehicle Owners
                     vehicleFactory.loadVehicleOwner(function (data) {
                         $scope.model.vehicleOwners = data;
+                    });
+                    //load vehicle Owner
+                    vehicleFactory.loadVehicleOwner(function (data) {
+                        $scope.model.vehicleOwnerList = data;
                     });
                     $scope.model.drivers = [
                         {

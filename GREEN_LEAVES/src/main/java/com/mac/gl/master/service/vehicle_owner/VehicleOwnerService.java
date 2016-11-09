@@ -30,7 +30,7 @@ public class VehicleOwnerService {
     }
 
     private MVehicleOwner findByVehicleOwner(MVehicleOwner owner) {
-        List<MVehicleOwner> vehicleOwner = vehicleOwnerRepository.findByNameAndNicNumberAndMobileNumberAndTelephoneNumberAndAddressLine1AndAddressLine2AndAddressLine3(owner.getName(),owner.getNicNumber(),owner.getMobileNumber(),owner.getTelephoneNumber(),owner.getAddressLine1(),owner.getAddressLine2(),owner.getAddressLine3());
+        List<MVehicleOwner> vehicleOwner = vehicleOwnerRepository.findByNicNumberOrMobileNumberOrTelephoneNumber(owner.getNicNumber(),owner.getMobileNumber(),owner.getTelephoneNumber());
         if (vehicleOwner.isEmpty()) {
             return null;
         }
@@ -42,7 +42,7 @@ public class VehicleOwnerService {
         if (mVehicle == null) {
             return vehicleOwnerRepository.save(vehicleOwner);
         } else {
-            if (vehicleOwner.getIndexNo().equals(vehicleOwner.getIndexNo())) {//is update get update Object?
+            if (mVehicle.getIndexNo().equals(vehicleOwner.getIndexNo())) {//is update get update Object?
                 return mVehicle;
             }
             throw new DuplicateEntityException("Vehicle Owner already exists");
