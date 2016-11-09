@@ -12,6 +12,7 @@
 package com.mac.gl.transaction.green_leaves.model.zmaster;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -43,15 +43,48 @@ public class MEmployee implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "type")
     private String type;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "date_of_birth")
+    private Date birthday;
+   
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "nic_number")
+    private String nic;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "mobile_number")
+    private String mobileNo;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "telephone_number")
+    private String telephoneNo;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "address_line1")
+    private String address1;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "address_line2")
+    private String address2;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "address_line3")
+    private String address3;
 
     public MEmployee() {
     }
@@ -60,11 +93,26 @@ public class MEmployee implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MEmployee(Integer indexNo, int branch, String name, String type) {
+    public MEmployee(Integer indexNo, int branch, String name, String type, Date birthday, String nic, String mobileNo, String telephoneNo, String address1, String address2, String address3) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
         this.type = type;
+        this.birthday = birthday;
+        this.nic = nic;
+        this.mobileNo = mobileNo;
+        this.telephoneNo = telephoneNo;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.address3 = address3;
+    }
+
+    public String getAddress3() {
+        return address3;
+    }
+
+    public void setAddress3(String address3) {
+        this.address3 = address3;
     }
 
     public Integer getIndexNo() {
@@ -99,29 +147,52 @@ public class MEmployee implements Serializable {
         this.type = type;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MEmployee)) {
-            return false;
-        }
-        MEmployee other = (MEmployee) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
-    @Override
-    public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.zmaster.MEmployee[ indexNo=" + indexNo + " ]";
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getTelephoneNo() {
+        return telephoneNo;
+    }
+
+    public void setTelephoneNo(String telephoneNo) {
+        this.telephoneNo = telephoneNo;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 
 }

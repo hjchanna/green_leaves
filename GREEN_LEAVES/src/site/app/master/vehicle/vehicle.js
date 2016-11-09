@@ -155,7 +155,7 @@
 
                     $scope.model.reset();
 
-                    //load category
+                    //load Vehicle
                     vehicleFactory.loadVehicle(function (data) {
                         $scope.model.vehicles = data;
                     });
