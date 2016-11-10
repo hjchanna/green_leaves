@@ -19,7 +19,8 @@
         "vehicleModule",
         "subCategoryModule",
         "supplierModule",
-        "productModule"
+        "productModule",
+        "employeeModule"
     ]);
 
     //constants
@@ -104,6 +105,10 @@
                         .when("/master/product/product", {
                             templateUrl: "app/master/product/product.html",
                             controller: "productController"
+                         }) 
+                         .when("/master/employee/employee", {
+                            templateUrl: "app/master/employee/employee.html",
+                            controller: "employeeController"
                          })   
                         .otherwise({
                             redirectTo: "/"

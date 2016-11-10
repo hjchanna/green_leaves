@@ -86,13 +86,13 @@
                 <col style="width: 20%">
                 <col style="width: 20%">
                 <tbody>
-                    <tr ng-repeat="employee in model.employeeList | filter : model.search.name">
+                    <tr ng-repeat="employee in model.employeeList| filter : model.search.name">
                         <td>{{employee.name}}</td>
                         <td>{{employee.nic}}</td>
                         <td>{{employee.mobileNo}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(employee, $index)"><span class="glyphicon glyphicon-edit"></span></a>
-                            <a class="btn btn-danger" ng-click="http.deleteSubCategory(employee.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="btn btn-danger" ng-click="http.deleteEmployee(employee.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
 
@@ -100,12 +100,7 @@
             </table>
         </div>
     </div>
-
-
-
-
 </div>
-
 <div class="fab-container">
     <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
     <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>

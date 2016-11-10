@@ -10,6 +10,7 @@ import com.mac.gl.transaction.green_leaves.service.zmaster.EmployeeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,8 +39,11 @@ public class EmployeeController {
     }
     @RequestMapping(value = "/save-employee",method = RequestMethod.POST)
     public MEmployee saveEmployee(@RequestBody MEmployee employee){
-        System.out.println(employee.getName()+"ssssssssssssssssssssssssssssssssssssssssssssssssss");
         return employeeService.saveEmployee(employee);
     }
-    
+    @RequestMapping(value = "/delete-employee/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteEmployee(@PathVariable Integer indexNo){
+        employeeService.deleteEmployee(indexNo);
+        return indexNo;
+    }
 }

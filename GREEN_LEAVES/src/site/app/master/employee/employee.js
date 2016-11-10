@@ -7,7 +7,7 @@
                 var factory = {};
 
 
-                //----load employee
+                //load employee
                 factory.loadEmployee = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/employees";
                     $http.get(url)
@@ -20,17 +20,31 @@
                 };
 
 
-                //-----save employee
-                factory.saveEmployee = function (summary, callBack) {
+                //save employee
+                factory.saveEmployee = function (summary, callback, errorCallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/employees/save-employee";
 
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
-                                callBack(data);
+                                callback(data);
                             })
                             .error(function (data, status, headers) {
 
                             });
+                };
+
+                //delete employee
+                factory.deleteEmployee = function (IndexNo, callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/employees/delete-employee/" + IndexNo;
+
+                    $http.delete(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
+
                 };
 
 
@@ -73,6 +87,7 @@
                         "address3": null
                     };
                 };
+                //validate model
                 $scope.validateInput = function () {
                     if ($scope.model.employee.name !== null) {
                         return true;
@@ -81,6 +96,7 @@
                     }
                 };
 
+                //save model
                 $scope.http.saveEmployee = function () {
                     var details = $scope.model.employee;
                     var detailJSON = JSON.stringify(details);
@@ -89,9 +105,9 @@
                     employeeFactory.saveEmployee(
                             detailJSON,
                             function (data) {
-                                Notification.success("added success...");
                                 $scope.model.employeeList.push(data);
-//                                $scope.model.reset();
+                                Notification.success("added success...");
+                                $scope.model.reset();
                                 $scope.ui.mode = ("IDEAL");
                             },
                             function (data) {
@@ -99,6 +115,15 @@
                             }
                     );
                 };
+
+                //delete model
+                $scope.http.deleteEmployee = function (IndexNo, index) {
+                    employeeFactory.deleteEmployee(IndexNo, function () {
+                        Notification.success("Delete Success");
+                        $scope.model.employeeList.splice(index, 1);
+                    });
+                };
+
 
                 //----------------ui funtion--------------
                 //save function 
@@ -110,8 +135,6 @@
                     }
 
                 };
-
-
 
                 //new function
                 $scope.ui.new = function () {
@@ -127,7 +150,6 @@
 
 
                 $scope.ui.init = function () {
-
                     //set ideal mode
                     $scope.ui.mode = "IDEAL";
                     //reset text

@@ -31,5 +31,9 @@ public class EmployeeService {
     public MEmployee saveEmployee(MEmployee employee) {
         return employeeRepository.save(employee);
     }
+    
+    public void deleteEmployee(Integer indexNo){
+         employeeRepository.delete(indexNo);
+    }
 
 }
