@@ -47,7 +47,6 @@ public class MEmployee implements Serializable {
     private String name;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "type")
     private String type;
 
@@ -67,7 +66,6 @@ public class MEmployee implements Serializable {
     private String mobileNo;
     
     @Basic(optional = false)
-    @NotNull
     @Column(name = "telephone_number")
     private String telephoneNo;
     
@@ -77,12 +75,10 @@ public class MEmployee implements Serializable {
     private String address1;
     
     @Basic(optional = false)
-    @NotNull
     @Column(name = "address_line2")
     private String address2;
     
     @Basic(optional = false)
-    @NotNull
     @Column(name = "address_line3")
     private String address3;
 

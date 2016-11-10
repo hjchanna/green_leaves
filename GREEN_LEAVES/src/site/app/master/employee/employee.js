@@ -29,7 +29,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorCallback) {
+                                    errorCallback(data);
+                                }
                             });
                 };
 
@@ -89,7 +91,7 @@
                 };
                 //validate model
                 $scope.validateInput = function () {
-                    if ($scope.model.employee.name !== null) {
+                    if ($scope.model.employee.name && $scope.model.employee.nic && $scope.model.employee.birthday && $scope.model.employee.address1 && $scope.model.employee.mobileNo !== null) {
                         return true;
                     } else {
                         return false;
@@ -98,6 +100,7 @@
 
                 //save model
                 $scope.http.saveEmployee = function () {
+                    $scope.model.employee.branch = 1;
                     var details = $scope.model.employee;
                     var detailJSON = JSON.stringify(details);
                     console.log(detailJSON);
