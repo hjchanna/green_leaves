@@ -24,20 +24,20 @@
                                 <td><input class="form-control" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
-                                <td><label class="control-label">Make</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><label class="control-label">Make {{model.makeList.length}}</label></td>
+                                <td><input class="form-control" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="make as make for make in model.makeList|filter:$viewValue|limitTo:10"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Model</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="model as model for model in model.modelList|filter:$viewValue|limitTo:10"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Type</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as type for type in model.typeList|filter:$viewValue|limitTo:10"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Owner Name</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+'-'+owner.name) for owner in model.vehicleOwners|filter:$viewValue|limitTo:10"></td>
+                                <td><input class="form-control text-right" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+'-'+owner.name) for owner in model.vehicleOwnerList|filter:$viewValue|limitTo:10"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Driver Name</label></td>
@@ -158,14 +158,14 @@
                                     <input class="form-control" ng-model="model.vehicleOwner.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                 </td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="col-xs-8 background-light">
                 <div class="row col-xs-5">
-                    <input type="text" class="search-input" ng-model="search.name" placeholder="search..">
+                    <input type="text" class="search-input" ng-model="search" placeholder="search..">
                 </div>
                 <table class="control-table">
                     <col style="width: 5%">
@@ -219,7 +219,7 @@
                         <col style="width: 10%">
                         <col style="width: 10%">
                         <tbody>
-                            <tr ng-repeat="vehicleOwner in model.vehicleOwnerList| filter:search.name|orderBy:'indexNo'">
+                            <tr ng-repeat="vehicleOwner in model.vehicleOwnerList| filter: search|orderBy:'indexNo'">
                                 <td><span class="label label-default">{{vehicleOwner.indexNo}}</span></td>
                                 <td>{{vehicleOwner.name}}</td>
                                 <td>{{vehicleOwner.nicNumber}}</td>

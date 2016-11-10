@@ -99,6 +99,7 @@
 
                 //ui models
                 $scope.ui = {};
+                $scope.ui.event = "";
 
                 //http models
                 $scope.http = {};
@@ -115,6 +116,12 @@
                     $scope.ui.mode = "NEW";
 
 
+                };
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode===13) {
+                        $scope.ui.save();
+                                
+                    }
                 };
 
                 //edit function
@@ -133,7 +140,6 @@
                 $scope.ui.save = function () {
                     if ($scope.model.department) {
                         $scope.http.insertItemDepartment();
-                        $scope.ui.mode = "IDEAL";
                     }
                     else{
                         Notification.error('No Item Department Name to Save ');
