@@ -5,13 +5,17 @@
  */
 package com.mac.gl.master.model.category;
 
+import com.mac.gl.transaction.green_leaves.model.zmaster.MItemDepartment;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -33,6 +37,12 @@ public class MCategory implements Serializable {
     @NotNull
     @Column(name = "name")
     private String name;
+    
+    @Basic(optional = false)
+    @NotNull
+    @JoinColumn(name = "department")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private MItemDepartment department;
 
     public MCategory() {
     }
@@ -41,9 +51,18 @@ public class MCategory implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MCategory(Integer indexNo, String name) {
+    public MCategory(Integer indexNo, String name, MItemDepartment department) {
         this.indexNo = indexNo;
         this.name = name;
+        this.department = department;
+    }
+
+    public Integer getIndexNo() {
+        return indexNo;
+    }
+
+    public void setIndexNo(Integer indexNo) {
+        this.indexNo = indexNo;
     }
 
     public String getName() {
@@ -54,11 +73,15 @@ public class MCategory implements Serializable {
         this.name = name;
     }
 
-    public Integer getIndexNo() {
-        return indexNo;
+    public MItemDepartment getDepartment() {
+        return department;
     }
 
-    public void setIndexNo(Integer indexNo) {
-        this.indexNo = indexNo;
+    public void setDepartment(MItemDepartment department) {
+        this.department = department;
     }
+
+    
+    
+    
 }

@@ -2,58 +2,103 @@
 </div>
 
 <div class="index-content-body ">
-    <div class="col-xs-4 background-light">
-        <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px); margin-top: 15px">
+    <div class="col-xs-4 background-dark">
+        <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 66px); margin-top: 15px">
             <table class="control-table">
                 <col style="width: 35%"/>
                 <col style="width: 65%"/>
 
                 <tbody>
                     <tr>
-                        <td><label class="control-label">Brand</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.brand" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Name</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">Route</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Vehicle</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.vehicle" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" ng-model="model.route.vehicle" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="vehicle as (vehicle.vehicleNo) for vehicle in model.vehicleList | filter:$viewValue | limitTo: 7"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Route Officer</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.routeOfficer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" ng-model="model.route.routeOfficer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeOfficer as (routeOfficer.name) for routeOfficer in model.officerList | filter:$viewValue | limitTo: 7"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Route Helper</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.routeHelper" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" ng-model="model.route.routeHelper" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeHelper as (routeHelper.name) for routeHelper in model.officerList | filter:$viewValue | limitTo: 7"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Driver</label></td>
-                        <td> <input class="date form-control text-right"  ng-model="model.route.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><label class="control-label">TD Rate</label></td>
+                        <td><input class="form-control text-right" ng-model="model.route.tdRate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
-                    <tr>
-                        <td><label class="control-label">Transport Deduction Rate</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.deductionRate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Registration Date</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.regDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Mileage</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.mileage" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Start Date</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.startDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
     <div class="col-xs-8 background-light">
+        <div class="row col-xs-5">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+        </div>
+        <table class="control-table">
+            <col style="width: 10%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <col style="width: 10%">
+            <col style="width: 10%">
+            <thead class="background-dark">
+                <tr>
+                    <th>
+                        <label>Branch</label>
+                    </th>
+                    <th>
+                        <label>Route</label>
+                    </th>
+                    <th>
+                        <label>Vehicle</label>
+                    </th>
+                    <th>
+                        <label>Route Officer</label>
+                    </th>
+                    <th>
+                        <label>Route Helper</label>
+                    </th>
+                    <th>
+                        <label>TD rate</label>
+                    </th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 315px);">
+            <table class="table-hover">
+                <col style="width: 10%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 20%">
+                <col style="width: 20%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <tbody>
+                    <tr ng-repeat="route in model.routes| filter:model.search.name">
+                        <td>{{route.branch}}</td>
+                        <td>{{route.name}}</td>
+                        <td>{{route.vehicle.vehicleNo}}</td>
+                        <td>{{route.routeOfficer.name}}</td>
+                        <td>{{route.routeHelper.name}}</td>
+                        <td>{{route.tdRate}}</td>
+                        <td class="text-right" style="padding-left: 5px;">
+                            <a class="btn btn-primary" ng-click="ui.edit(route, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="http.deleteRoute(route.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 background-light" style="position: fixed;bottom: 1px;margin-left: -15px">
+            <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize"
+                class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
+        </div>
     </div>
 </div>
 <div class="fab-container">

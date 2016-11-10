@@ -11,13 +11,17 @@
  */
 package com.mac.gl.transaction.green_leaves.model.zmaster;
 
+import com.mac.gl.master.model.vehicle.MVehicle;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,19 +47,31 @@ public class MRoute implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "route_officer")
-    private int routeOfficer;
+    @JoinColumn(name = "vehicle")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private MVehicle vehicle;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "route_helper")
-    private int routeHelper;
+    @JoinColumn(name = "route_officer")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private MEmployee routeOfficer;
+
+    @Basic(optional = false)
+    @NotNull
+    @JoinColumn(name = "route_helper")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private MEmployee routeHelper;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "transport_deduction_rate")
+    private Double tdRate;
 
     public MRoute() {
     }
@@ -64,12 +80,14 @@ public class MRoute implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MRoute(Integer indexNo, int branch, String name, int routeOfficer, int routeHelper) {
+    public MRoute(Integer indexNo, int branch, String name, MVehicle vehicle, MEmployee routeOfficer, MEmployee routeHelper, Double tdRate) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
+        this.vehicle = vehicle;
         this.routeOfficer = routeOfficer;
         this.routeHelper = routeHelper;
+        this.tdRate = tdRate;
     }
 
     public Integer getIndexNo() {
@@ -96,20 +114,36 @@ public class MRoute implements Serializable {
         this.name = name;
     }
 
-    public int getRouteOfficer() {
+    public MVehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(MVehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public MEmployee getRouteOfficer() {
         return routeOfficer;
     }
 
-    public void setRouteOfficer(int routeOfficer) {
+    public void setRouteOfficer(MEmployee routeOfficer) {
         this.routeOfficer = routeOfficer;
     }
 
-    public int getRouteHelper() {
+    public MEmployee getRouteHelper() {
         return routeHelper;
     }
 
-    public void setRouteHelper(int routeHelper) {
+    public void setRouteHelper(MEmployee routeHelper) {
         this.routeHelper = routeHelper;
+    }
+
+    public Double getTdRate() {
+        return tdRate;
+    }
+
+    public void setTdRate(Double tdRate) {
+        this.tdRate = tdRate;
     }
 
     @Override
@@ -132,9 +166,8 @@ public class MRoute implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.zmaster.MRoute[ indexNo=" + indexNo + " ]";
-    }
-
+//    @Override
+//    public String toString() {
+//        return "com.mac.gl.transaction.green_leaves.model.zmaster.MRoute[ indexNo=" + indexNo + " ]";
+//    }
 }

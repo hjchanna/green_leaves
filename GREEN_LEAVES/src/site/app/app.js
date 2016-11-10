@@ -20,7 +20,8 @@
         "subCategoryModule",
         "supplierModule",
         "productModule",
-        "employeeModule"
+        "employeeModule",
+        "routeModule"
     ]);
 
     //constants
@@ -88,8 +89,8 @@
                         .when("/master/category/category", {
                             templateUrl: "app/master/category/category.html",
                             controller: "categoryController"
-                         })   
-                        
+                        })
+
                         .when("/master/item/manage-item-department", {
                             templateUrl: "app/master/item-department/item-department.html",
                             controller: "itemDepartmentController"
@@ -101,15 +102,20 @@
                         .when("/master/category/sub-category", {
                             templateUrl: "app/master/sub-category/sub-category.html",
                             controller: "subCategoryController"
-                         })   
+                        })
                         .when("/master/product/product", {
                             templateUrl: "app/master/product/product.html",
                             controller: "productController"
-                         }) 
-                         .when("/master/employee/employee", {
+                        })
+                        .when("/master/employee/employee", {
                             templateUrl: "app/master/employee/employee.html",
                             controller: "employeeController"
-                         })   
+                        })
+                        .when("/master/route/route", {
+                            templateUrl: "app/master/route/route.html",
+                            controller: "routeController"
+                        })
+
                         .otherwise({
                             redirectTo: "/"
                         });

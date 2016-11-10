@@ -16,4 +16,6 @@ import java.util.List;
 public interface RouteRepository extends JpaRepository<MRoute, Integer> {
 
     public List<MRoute> findByBranch(Integer branch);
+
+    public List<MRoute> findByName(String name);
 }
