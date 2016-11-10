@@ -5,7 +5,6 @@
  */
 package com.mac.gl.master.controller.category;
 
-import com.mac.gl.master.model.brand.MBrand;
 import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.service.category.CategoryService;
 import java.util.List;
@@ -42,7 +41,6 @@ public class CategoryController {
     @RequestMapping(value = "/delete-category/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteCategory(@PathVariable Integer indexNo) {
         categoryService.deleteCategory(indexNo);
-
         return indexNo;
     }
 

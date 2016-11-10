@@ -13,12 +13,13 @@
         "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
         "routeDetailsModule",
-        "supplierModule",
+        "clientModule",
         "categoryModule",
-        "brandMasterModule",
         "itemDepartmentModule",
         "vehicleModule",
-        "subCategoryModule"
+        "subCategoryModule",
+        "supplierModule",
+        "productModule"
     ]);
 
     //constants
@@ -75,18 +76,19 @@
                             controller: "routeDetailsController"
                         })
                         //master
+                        .when("/master/client/manage-client", {
+                            templateUrl: "app/master/client/client.html",
+                            controller: "clientController"
+                        })
                         .when("/master/supplier/manage-supplier", {
                             templateUrl: "app/master/supplier/supplier.html",
-                            controller: "routeDetailsController"
+                            controller: "supplierController"
                         })
                         .when("/master/category/category", {
                             templateUrl: "app/master/category/category.html",
                             controller: "categoryController"
                          })   
-                        .when("/master/brand/brand-master", {
-                            templateUrl: "app/master/brand/brand-master.html",
-                            controller: "brandMasterController"
-                        })
+                        
                         .when("/master/item/manage-item-department", {
                             templateUrl: "app/master/item-department/item-department.html",
                             controller: "itemDepartmentController"
@@ -98,7 +100,11 @@
                         .when("/master/category/sub-category", {
                             templateUrl: "app/master/sub-category/sub-category.html",
                             controller: "subCategoryController"
-                         })  
+                         })   
+                        .when("/master/product/product", {
+                            templateUrl: "app/master/product/product.html",
+                            controller: "productController"
+                         })   
                         .otherwise({
                             redirectTo: "/"
                         });

@@ -5,6 +5,7 @@
  */
 package com.mac.gl.master.service.subCategory;
 
+import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.model.subCategory.MSubCategory;
 import com.mac.gl.master.repository.subCategory.SubCategoryRepository;
 import java.util.List;
@@ -20,30 +21,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class SubCategoryService {
-    
+
     @Autowired
     private SubCategoryRepository subCategoryRepository;
-    
+
     public List<MSubCategory> findAllSubCategory() {
         return subCategoryRepository.findAll();
     }
-    
-    public MSubCategory saveSubCategory(MSubCategory subCategory){
+
+    public MSubCategory saveSubCategory(MSubCategory subCategory) {
         return subCategoryRepository.save(subCategory);
-        
+
     }
-    public void deleteSubCategory(Integer indexNo){
+
+    public void deleteSubCategory(Integer indexNo) {
         subCategoryRepository.delete(indexNo);
     }
-    
-//    public boolean isNotDuplicate(SubCategory subCategory){
-//        
-//        List<SubCategory>categorys;
-//        
-//        if (subCategory.getIndexNo()== null) {
-//            categorys=subCategoryRepository.findByName(subCategory.getName());
-//        }
-//        
-//    }
-    
+
+    public List<MSubCategory> findByCategory(MCategory category) {
+        return subCategoryRepository.findByCategory(category);
+    }
+
 }

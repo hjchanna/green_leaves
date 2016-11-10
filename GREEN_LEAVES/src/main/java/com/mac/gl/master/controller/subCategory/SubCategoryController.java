@@ -5,6 +5,7 @@
  */
 package com.mac.gl.master.controller.subCategory;
 
+import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.model.subCategory.MSubCategory;
 import com.mac.gl.master.service.subCategory.SubCategoryService;
 import java.util.List;
@@ -42,5 +43,10 @@ public class SubCategoryController {
     @RequestMapping(value = "/delete-sub-category/{indexNo}", method = RequestMethod.DELETE)
     public void deleteSubCategory(@PathVariable Integer indexNo) {
         subCategoryService.deleteSubCategory(indexNo);
+    }
+
+    @RequestMapping(value = "/get-sub-category", method = RequestMethod.POST)
+    public List<MSubCategory> findByCategory(@RequestBody MCategory category) {
+        return subCategoryService.findByCategory(category);
     }
 }

@@ -1,0 +1,199 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body ">
+    <div class="col-xs-12">        
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <uib-tabset>
+                <uib-tab heading="PERSONAL DETAIL">
+                    <div class="col-xs-12 background-dark" style="height: calc(100vh - 90px);">
+                        <div class="col-xs-4" style="margin-top: 10px;">
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+                                <tbody>
+                                    <tr>
+                                        <td><label class="control-label">Supplier No :</label></td>
+                                        <td><input class="form-control text-right" ng-model="model.data.suppplierNo" ng-keyup="ui.checkSupplierExists(model.data.suppplierNo, 'suppplierNo')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Route :</label></td>
+                                        <td><input class="form-control text-right" ng-model="model.data.route" type="text" uib-typeahead="route as route.name for route in model.routes|filter:$viewValue|limitTo:10"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Name:</label></td>
+                                        <td><input class="form-control text-right" ng-model="model.data.name"  ng-keyup="ui.checkSupplierExists(model.data.name, 'name')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">N.I.C :</label></td>
+                                        <td><input class="form-control text-right" ng-model="model.data.nicNumber" ng-keyup="ui.checkSupplierExists(model.data.nicNumber, 'nicNumber')"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Tele Phone:</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.telephoneNumber" ng-keyup="ui.checkSupplierExists(model.data.telephoneNumber, 'telephoneNumber')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Mobile:</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-keyup="ui.checkSupplierExists(model.data.mobileNumber, 'mobileNumber')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Date Of Birth :</label></td>
+                                        <td><input class="form-control text-right" smart-input="date" ng-model="model.data.dateOfBirth" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Register Date :</label></td>
+                                        <td><input class="form-control text-right" smart-input="date" ng-model="model.data.registerDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Dy Supplier :</label></td>
+                                        <td>
+                                            <select class="form-control" ng-model="model.data.dySupplier" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                              <option ng-repeat="dySupplier in model.dySupplier" value="{{dySupplier.value}}">{{dySupplier.name}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Dy Number :</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.dyNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Supplier Black Listed :</label></td>
+                                        <td>
+                                            <select class="form-control" ng-model="model.data.supplierBlackListed" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <option ng-repeat="supplierBlackListed in model.supplierBlackListed" value="{{supplierBlackListed.value}}">{{supplierBlackListed.name}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-4" style="margin-top: 10px;">
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+                                <tbody>
+                                    <tr>
+                                        <td><label class="control-label">Pass Book Issued Date :</label></td>
+                                        <td><input class="form-control text-right" smart-input="date" ng-model="model.data.passBookIssuedDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Address Line 1 :</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Address Line 2 :</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Address Line 3 :</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Religion :</label></td>
+                                        <td>
+                                            <select class="form-control" ng-model="model.data.religion" ng-options="religion for religion in model.religion" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Nationality :</label></td>
+                                        <td>
+                                            <select class="form-control" ng-model="model.data.nationality" ng-options="nationality as nationality for nationality in model.nationality" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <option>Sinhalese</option>
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Marital Status :</label></td>
+                                        <td>
+                                            <select  class="form-control" ng-model="model.data.maritalStatus" ng-options="maritalStatus as maritalStatus for maritalStatus in model.maritalStatus" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Client Type :</label></td>
+                                        <td>
+                                            <select class="form-control" ng-model="model.data.clientType" ng-options="clientType as clientType for clientType in model.clientType" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <option>None</option>
+                                                <option>iojjo</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label">Branch :</label></td>
+                                        <td><input class="form-control text-right" type="text" ng-model="model.data.branch" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-4 background-dark">
+
+                        </div>
+                    </div>
+                </uib-tab>
+
+                <uib-tab heading="VIEW">
+                    <div class="col-xs-12 background-dark" style="height: calc(100vh - 90px);">
+                        <div class="col-xs-5">
+                            <input type="text" class="search-input" placeholder="search" ng-model="search">
+                        </div>
+                        <table class="control-table">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <thead class="background-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Route</th>
+                                    <th>D.O.B</th>
+                                    <th>N.I.C</th>
+                                    <th>Reg Date</th>
+                                    <th>Tp Number</th>
+                                    <th>Pass Book Issue</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table class="table-hover table-primary">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <tbody class="background-dark">
+                                <tr ng-repeat="supplier in model.supplier|filter:search"  ng-class="{'selected':supplier == selectedRow}">
+                                    <td>{{supplier.suppplierNo}}</td>
+                                    <td>{{supplier.name}}</td>
+                                    <td>{{supplier.route.name}}</td>
+                                    <td>{{supplier.dateOfBirth}}</td>
+                                    <td>{{supplier.nicNumber}}</td>
+                                    <td>{{supplier.registerDate}}</td>
+                                    <td>{{supplier.telephoneNumber}}</td>
+                                    <td>{{supplier.passBookIssuedDate}}</td>
+                                    <td class="text-right">
+                                        <a class="btn btn-primary" ng-click="ui.edit(supplier, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                                        <a class="btn btn-danger" ng-click="ui.delete(supplier.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>

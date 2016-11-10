@@ -2,234 +2,104 @@
 </div>
 
 <div class="index-content-body ">
-    <div class="col-xs-12">        
-        <div class="row">
-
-
-            <uib-tabset>
-                <uib-tab heading="PERSONAL DETAIL" ng-click="ui.toggleType('NORMAL');">
-                    <div class="col-xs-12">
-                        <br>
-                        <div class="col-xs-4 background-dark">
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Supplier No :</label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.indexNo"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> NIC No: </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.nic"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Mobile :</label></td>
-                                        <td><input class="form-control text-right" smart-input="integer" ng-model="supplier."></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Name :</label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.name"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Address :</label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.address"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Reg Date: </label></td>
-                                        <td><input class="form-control text-right" type="date" ng-model="supplier.regDate"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="col-xs-4 background-dark">
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Ex Pay Rate : </label></td>
-                                        <td><input class="form-control text-right" smart-input="decimal" ng-model="supplier.exPayRate"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Transport : </label></td>
-                                        <td><input class="form-control text-right" smart-input="decimal" ng-model="supplier.transport"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-xs-4 background-dark">
-                            <br>
-                            <center>
-                                <div class="btn-group">
-                                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Left'">Cash/Cheque</label>
-                                    <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Middle'">Bank</label>
-                                </div>
-                            </center>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Bank Name : </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.bank.name"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Branch : </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.bank.branch"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Account No : </label></td>
-                                        <td><input class="form-control text-right" smart-input="integer" ng-model="supplier.bank.accNo"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Acc Name : </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.bank.accName"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Fix Amount : </label></td>
-                                        <td><input class="form-control text-right" smart-input="decimal" ng-model="supplier.fixAmount"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Bank Name : </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.bank2.name"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Branch : </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.bank2.branch"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Account No : </label></td>
-                                        <td><input class="form-control text-right" smart-input="integer" ng-model="supplier.bank2.accNo"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-
-                                <tbody>
-                                    <tr>
-                                        <td><label class="control-label"> Acc Name : </label></td>
-                                        <td><input class="form-control text-right" type="text" ng-model="supplier.bank2.accName"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-
-
-                </uib-tab>
-
-                <uib-tab heading="GENERAL DETAIL" ng-click="ui.toggleType('SUPER');">
-                    <label>GENERAL DETAIL </label>
-                </uib-tab>
-            </uib-tabset>
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">Supplier No :</label></td>
+                        <td><input class="form-control text-right" ng-model="model.data.suppplierNo" ng-keyup="ui.checkSupplierExists(model.data.suppplierNo, 'suppplierNo')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Name:</label></td>
+                        <td><input class="form-control text-right" ng-model="model.data.name"  ng-keyup="ui.checkSupplierExists(model.data.name, 'name')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">N.I.C :</label></td>
+                        <td><input class="form-control text-right" ng-model="model.data.nicNumber" ng-keyup="ui.checkSupplierExists(model.data.nicNumber, 'nicNumber')"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Tele Phone :</label></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.telephoneNumber" ng-keyup="ui.checkSupplierExists(model.data.telephoneNumber, 'telephoneNumber')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Mobile :</label></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-keyup="ui.checkSupplierExists(model.data.mobileNumber, 'mobileNumber')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Address 1 :</label></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Address 2 :</label></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Address 3 :</label></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Branch :</label></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.branch" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    <div class="col-xs-8 background-light">
+        <div class="col-xs-5">
+            <input type="text" class="search-input" placeholder="search" ng-model="search">
+        </div>
+        <table class="control-table">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 20%">
+            <thead class="background-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Supplier No</th>
+                    <th>Name</th>
+                    <th>N.I.C</th>
+                    <th>Mobile No</th>
+                    <th>T.P No</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 315px);">
+            <table class="table-hover table-primary" >
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 20%">
+                <tbody class="background-dark">
+                    <tr ng-repeat="supplier in model.suppliers|filter:search"  ng-class="{'selected':supplier == selectedRow}">
+                        <td>{{supplier.indexNo}}</td>
+                        <td>{{supplier.suppplierNo}}</td>
+                        <td>{{supplier.name}}</td>
+                        <td>{{supplier.nicNumber}}</td>
+                        <td>{{supplier.mobileNumber}}</td>
+                        <td>{{supplier.telephoneNumber}}</td>
+                        <td class="text-right">
+                            <a class="btn btn-primary" ng-click="ui.edit(supplier, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="ui.delete(supplier.indexNo)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

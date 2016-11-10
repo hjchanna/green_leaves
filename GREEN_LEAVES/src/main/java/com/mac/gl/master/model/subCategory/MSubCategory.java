@@ -40,7 +40,7 @@ public class MSubCategory implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "sub_category")
+    @Column(name = "name")
     private String subCategory;
 
     public MSubCategory() {
