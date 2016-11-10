@@ -37,11 +37,10 @@ public class MCategory implements Serializable {
     @NotNull
     @Column(name = "name")
     private String name;
-    
-    @Basic(optional = false)
+
     @NotNull
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "department")
-    @ManyToOne(fetch = FetchType.EAGER)
     private MItemDepartment department;
 
     public MCategory() {
@@ -82,6 +81,6 @@ public class MCategory implements Serializable {
     }
 
     
-    
-    
+   
+
 }

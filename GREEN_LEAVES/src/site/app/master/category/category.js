@@ -130,10 +130,12 @@
                 };
 
                 $scope.http.deleteCategory = function (indexNo, index) {
-                    categoryFactory.deleteCategory(indexNo, function () {
-                        Notification.success("delete success");
-                        $scope.model.categorys.splice(index, 1);
-                    });
+                    console.log(indexNo);
+                    Notification.error("Can't delete this category");
+//                    categoryFactory.deleteCategory(indexNo, function () {
+//                        $scope.model.categorys.splice(index, 1);
+//                        Notification.success("delete success");
+//                    });
                 };
 
                 //<-----------------ui funtiion--------------------->

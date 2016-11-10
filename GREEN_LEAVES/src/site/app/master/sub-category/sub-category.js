@@ -120,7 +120,6 @@
                                 $scope.model.subCategoryList.push(data);
                                 Notification.success("Successfully Added");
                                 $scope.model.reset();
-                                $scope.ui.mode = "IDEAL";
                                 
                             },
                             function (data) {
