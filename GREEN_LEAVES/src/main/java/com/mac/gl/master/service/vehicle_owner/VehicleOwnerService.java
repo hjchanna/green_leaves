@@ -30,7 +30,7 @@ public class VehicleOwnerService {
     }
 
     private MVehicleOwner findByVehicleOwner(MVehicleOwner owner) {
-        List<MVehicleOwner> vehicleOwner = vehicleOwnerRepository.findByNicNumberOrMobileNumberOrTelephoneNumber(owner.getNicNumber(),owner.getMobileNumber(),owner.getTelephoneNumber());
+        List<MVehicleOwner> vehicleOwner = vehicleOwnerRepository.findByNicNumberAndMobileNumber(owner.getNicNumber(),owner.getMobileNumber());
         if (vehicleOwner.isEmpty()) {
             return null;
         }
