@@ -6,7 +6,7 @@
             .factory("categoryFactory", function ($http, systemConfig) {
                 var factory = {};
 
-                //load
+                //load category
                 factory.loadCategory = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/category";
 
@@ -18,6 +18,7 @@
 
                             });
                 };
+                
                 //load item-department
                 factory.loadDepartments = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/item-departments";
@@ -30,7 +31,7 @@
 
                             });
                 };
-
+                
                 //save or update
                 factory.saveCategory = function (category, callback, errorCallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/category/save-category";
@@ -130,12 +131,10 @@
                 };
 
                 $scope.http.deleteCategory = function (indexNo, index) {
-                    console.log(indexNo);
-                    Notification.error("Can't delete this category");
-//                    categoryFactory.deleteCategory(indexNo, function () {
-//                        $scope.model.categorys.splice(index, 1);
-//                        Notification.success("delete success");
-//                    });
+                    categoryFactory.deleteCategory(indexNo, function () {
+                        $scope.model.categorys.splice(index, 1);
+                        Notification.success("delete success");
+                    });
                 };
 
                 //<-----------------ui funtiion--------------------->

@@ -51,6 +51,5 @@ public class CategoryService {
 
     public void deleteCategory(Integer indexNo) {
         categoryRepository.delete(indexNo);
-
     }
 }
