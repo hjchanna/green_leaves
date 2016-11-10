@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.transaction.green_leaves.controller.zmaster;
+package com.mac.gl.master.controller.itemdepartment;
 
-import com.mac.gl.transaction.green_leaves.model.zmaster.MItemDepartment;
-import com.mac.gl.transaction.green_leaves.service.zmaster.ItemDepartmentService;
+import com.mac.gl.master.model.itemdepartment.MItemDepartment;
+import com.mac.gl.master.service.itemDepartment.ItemDepartmentService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

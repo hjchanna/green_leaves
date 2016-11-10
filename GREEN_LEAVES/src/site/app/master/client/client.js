@@ -1,5 +1,5 @@
 (function () {
-    angular.module("clientModule", []);
+    angular.module("clientModule", ['ngAnimate', 'ui.bootstrap']);
     angular.module("clientModule")
             .factory("clientFactory", function ($http, systemConfig) {
                 var factory = {};
@@ -61,10 +61,10 @@
 
                 //data model
                 $scope.model = {};
-                
+
                 //ui model
                 $scope.ui = {};
-                
+
                 //http modal
                 $scope.http = {};
 
@@ -89,17 +89,6 @@
                     "none1",
                     "none2"
                 ];
-
-                $scope.model.supplierBlackListed = [
-                    {"name": "yes", "value": true},
-                    {"name": "no", "value": false}
-                ];
-                $scope.model.dySupplier = [
-                    {"name": "yes", "value": true},
-                    {"name": "no", "value": false}
-                ];
-
-
 
                 //------------------ model functions ---------------------------
                 //reset model
@@ -131,57 +120,62 @@
                         if (type === "nicNumber") {
                             if (text === $scope.model.supplier[i].nicNumber) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                $scope.model.data = $scope.model.supplier[i];
-                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
-                                //Notification.error("this supplier is alrady exists");
+                                //$scope.model.data = $scope.model.supplier[i];
+                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
+                                Notification.error("this supplier is alrady exists");
                             }
                         } else if (type === "telephoneNumber") {
-                            $scope.selectedRow = $scope.model.supplier[i];
                             if (text === $scope.model.supplier[i].telephoneNumber) {
-                                $scope.model.data = $scope.model.supplier[i];
-                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
-                                //Notification.error("this supplier is alrady exists");
+                                $scope.selectedRow = $scope.model.supplier[i];
+                                //$scope.model.data = $scope.model.supplier[i];
+                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
+                                Notification.error("this supplier is alrady exists");
                                 break;
                             }
                         } else if (type === "mobileNumber") {
-                            $scope.selectedRow = $scope.model.supplier[i];
                             if (text === $scope.model.supplier[i].mobileNumber) {
-                                $scope.model.data = $scope.model.supplier[i];
-                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
-                                //Notification.error("this supplier is alrady exists");
+                                $scope.selectedRow = $scope.model.supplier[i];
+                                //$scope.model.data = $scope.model.supplier[i];
+                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
+                                Notification.error("this supplier is alrady exists");
                             }
                         } else if (type === "name") {
                             if (text === $scope.model.supplier[i].name) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                $scope.model.data = $scope.model.supplier[i];
-                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
-                                //Notification.error("this supplier is alrady exists");
+//                                $scope.model.data = $scope.model.supplier[i];
+//                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
+                                Notification.error("this supplier is alrady exists");
                             }
-                        } else if (type === "suppplierNo") {
-                            if (text === $scope.model.supplier[i].suppplierNo) {
+                        } else if (type === "clientNo") {
+                            if (text === $scope.model.supplier[i].clientNo) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                $scope.model.data = $scope.model.supplier[i];
-                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
-                                //Notification.error("this supplier is alrady exists");
+                                //$scope.model.data = $scope.model.supplier[i];
+                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
+                                Notification.error("this supplier is alrady exists");
                             }
                         }
                     }
                 };
 
-
                 $scope.model.getSupplierBlackListed = function (supplier) {
                     //select supplierBlackListed boolean,dySupplier boolean
                     for (var i = 0; i < $scope.model.supplier.length; i++) {
+
                         if ($scope.model.supplier[i].supplierBlackListed) {
-                            $scope.model.data.supplierBlackListed = "true";
+                            $scope.model.data.supplierBlackListed = "Yes";
                         } else {
-                            $scope.model.data.supplierBlackListed = "false";
+                            $scope.model.data.supplierBlackListed = "No";
                         }
 
                         if ($scope.model.supplier[i].dySupplier) {
-                            $scope.model.data.dySupplier = "true";
+                            $scope.model.data.dySupplier = "Yes";
                         } else {
-                            $scope.model.data.dySupplier = "false";
+                            $scope.model.data.dySupplier = "No";
+                        }
+                        if ($scope.model.supplier[i].active) {
+                            $scope.model.data.active = "Yes";
+                        } else {
+                            $scope.model.data.active = "No";
                         }
                     }
                 };
@@ -189,10 +183,12 @@
                 //------------------ http functions ------------------------------
                 //save
                 $scope.http.saveSupplier = function () {
-                    console.log($scope.model.data.route);
+                    $scope.model.data.supplierBlackListed = false;
+                    $scope.model.data.dySupplier = false;
+                    $scope.model.data.active = true;
                     var detail = $scope.model.data;
                     var detailJSON = JSON.stringify(detail);
-                    console.log(detailJSON);
+
                     clientFactory.saveSupplier(
                             detailJSON,
                             function (data) {
@@ -237,6 +233,10 @@
                     clientFactory.loadSupplier(function (data) {
                         $scope.model.supplier = data;
                     });
+
+                    $scope.model.data.supplierBlackListed = "No";
+                    $scope.model.data.dySupplier = "No";
+                    $scope.model.data.active = "Yes";
                 };
                 $scope.init();
             });

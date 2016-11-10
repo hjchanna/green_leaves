@@ -29,21 +29,23 @@
                             });
                 };
 
-                //load category
-                factory.loadCategory = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/category";
-                    $http.get(url)
+                //load subcategory by selected category 
+                factory.loadSubCategoryByCategory = function (summary, callback, errorCallback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/get-sub-category";
+                    $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorCallback) {
+                                    errorCallback(data);
+                                }
                             });
                 };
-
-                //load subcategory by selected category 
-                factory.loadSubCategoryByCategory = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/get-sub-category";
+                
+                //load category by selected item department 
+                factory.loadCategory = function (summary, callback, errorCallback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/category/get-category";
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -144,6 +146,20 @@
                             }
                     );
                 };
+                
+                $scope.ui.getCategory = function (model) {
+                    var detailJSON = JSON.stringify(model);
+                    productFactory.loadCategory(
+                            detailJSON,
+                            function (data) {
+                                console.log(data);
+                                $scope.model.categorys = data;
+                            },
+                            function (data) {
+                                Notification.error(data.message);
+                            }
+                    );
+                };
 
                 //------------------ http functions ------------------------------
 
@@ -191,10 +207,7 @@
                     productFactory.loadSupplier(function (data) {
                         $scope.model.suppliers = data;
                     });
-                    //loadUnit
-                    productFactory.loadCategory(function (data) {
-                        $scope.model.categorys = data;
-                    });
+                    
                     //loadItemDepartment
                     productFactory.loadItemDepartment(function (data) {
                         $scope.model.itemDepartments = data;

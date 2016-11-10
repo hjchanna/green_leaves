@@ -6,6 +6,7 @@
 package com.mac.gl.master.service.category;
 
 import com.mac.gl.master.model.category.MCategory;
+import com.mac.gl.master.model.itemdepartment.MItemDepartment;
 import com.mac.gl.master.repository.category.CategoryRepository;
 import com.mac.gl.system.exception.DuplicateEntityException;
 import java.util.List;
@@ -51,6 +52,9 @@ public class CategoryService {
 
     public void deleteCategory(Integer indexNo) {
         categoryRepository.delete(indexNo);
+    }
 
+    public List<MCategory> findByItemDepartment(MItemDepartment itemDepartment) {
+        return categoryRepository.findByDepartment(itemDepartment);
     }
 }

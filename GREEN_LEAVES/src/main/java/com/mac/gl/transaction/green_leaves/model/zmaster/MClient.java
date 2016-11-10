@@ -26,7 +26,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -43,120 +42,92 @@ public class MClient implements Serializable {
     private Integer indexNo;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "branch")
     private int branch;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
+
+    @Basic(optional = false)
+    @Column(name = "client_no")
+    private String clientNo;
+
+    @Basic(optional = false)
+    @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
+
+    @Basic(optional = false)
+    @Column(name = "nic_number")
+    private String nicNumber;
+
+    @Basic(optional = false)
+    @Column(name = "register_date")
+    @Temporal(TemporalType.DATE)
+    private Date registerDate;
+
+    @Basic(optional = false)
+    @Column(name = "mobile_number")
+    private String mobileNumber;
+
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
+
+    @Basic(optional = false)
+    @Column(name = "dy_supplier")
+    private boolean dySupplier;
+
+    @Basic(optional = false)
+    @Column(name = "dy_number")
+    private String dyNumber;
+
+    @Basic(optional = false)
+    @Column(name = "supplier_black_listed")
+    private boolean supplierBlackListed;
+
+    @Column(name = "address_line1")
+    private String addressLine1;
+
+    @Column(name = "address_line2")
+    private String addressLine2;
+
+    @Column(name = "address_line3")
+    private String addressLine3;
+
+    @Basic(optional = false)
+    @Column(name = "religion")
+    private String religion;
+
+    @Basic(optional = false)
+    @Column(name = "nationality")
+    private String nationality;
+
+    @Basic(optional = false)
+    @Column(name = "marital_status")
+    private String maritalStatus;
+
+    @Basic(optional = false)
+    @Column(name = "client_type")
+    private String clientType;
+
+    @Basic(optional = false)
+    @Column(name = "active")
+    private boolean active;
 
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "route")
     private MRoute route;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "suppplier_no")
-    private String suppplierNo;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "nic_number")
-    private String nicNumber;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "register_date")
-    @Temporal(TemporalType.DATE)
-    private Date registerDate;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "mobile_number")
-    private String mobileNumber;
-
-    @Size(max = 25)
-    @Column(name = "telephone_number")
-    private String telephoneNumber;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "dy_supplier")
-    private boolean dySupplier;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "dy_number")
-    private String dyNumber;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "supplier_black_listed")
-    private boolean supplierBlackListed;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "pass_book_issued_date")
-    @Temporal(TemporalType.DATE)
-    private Date passBookIssuedDate;
-
-    @Size(max = 25)
-    @Column(name = "address_line1")
-    private String addressLine1;
-    @Size(max = 50)
-    @Column(name = "address_line2")
-    private String addressLine2;
-    @Size(max = 50)
-    @Column(name = "address_line3")
-    private String addressLine3;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "religion")
-    private String religion;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "nationality")
-    private String nationality;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "marital_status")
-    private String maritalStatus;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "client_type")
-    private String clientType;
-
     public MClient() {
     }
 
-    public MClient(Integer indexNo, int branch, String name, MRoute route, String suppplierNo, Date dateOfBirth, String nicNumber, Date registerDate, String mobileNumber, String telephoneNumber, boolean dySupplier, String dyNumber, boolean supplierBlackListed, Date passBookIssuedDate, String addressLine1, String addressLine2, String addressLine3, String religion, String nationality, String maritalStatus, String clientType) {
+    public MClient(Integer indexNo, int branch, String name, String clientNo, Date dateOfBirth, String nicNumber, Date registerDate, String mobileNumber, String telephoneNumber, boolean dySupplier, String dyNumber, boolean supplierBlackListed, String addressLine1, String addressLine2, String addressLine3, String religion, String nationality, String maritalStatus, String clientType, boolean active, MRoute route) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
-        this.route = route;
-        this.suppplierNo = suppplierNo;
+        this.clientNo = clientNo;
         this.dateOfBirth = dateOfBirth;
         this.nicNumber = nicNumber;
         this.registerDate = registerDate;
@@ -165,7 +136,6 @@ public class MClient implements Serializable {
         this.dySupplier = dySupplier;
         this.dyNumber = dyNumber;
         this.supplierBlackListed = supplierBlackListed;
-        this.passBookIssuedDate = passBookIssuedDate;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.addressLine3 = addressLine3;
@@ -173,6 +143,8 @@ public class MClient implements Serializable {
         this.nationality = nationality;
         this.maritalStatus = maritalStatus;
         this.clientType = clientType;
+        this.active = active;
+        this.route = route;
     }
 
     public Integer getIndexNo() {
@@ -199,14 +171,12 @@ public class MClient implements Serializable {
         this.name = name;
     }
 
-
-
-    public String getSuppplierNo() {
-        return suppplierNo;
+    public String getClientNo() {
+        return clientNo;
     }
 
-    public void setSuppplierNo(String suppplierNo) {
-        this.suppplierNo = suppplierNo;
+    public void setClientNo(String clientNo) {
+        this.clientNo = clientNo;
     }
 
     public Date getDateOfBirth() {
@@ -273,14 +243,6 @@ public class MClient implements Serializable {
         this.supplierBlackListed = supplierBlackListed;
     }
 
-    public Date getPassBookIssuedDate() {
-        return passBookIssuedDate;
-    }
-
-    public void setPassBookIssuedDate(Date passBookIssuedDate) {
-        this.passBookIssuedDate = passBookIssuedDate;
-    }
-
     public String getAddressLine1() {
         return addressLine1;
     }
@@ -335,6 +297,14 @@ public class MClient implements Serializable {
 
     public void setClientType(String clientType) {
         this.clientType = clientType;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public MRoute getRoute() {

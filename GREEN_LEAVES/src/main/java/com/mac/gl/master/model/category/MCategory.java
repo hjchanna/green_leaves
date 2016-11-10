@@ -5,7 +5,7 @@
  */
 package com.mac.gl.master.model.category;
 
-import com.mac.gl.transaction.green_leaves.model.zmaster.MItemDepartment;
+import com.mac.gl.master.model.itemdepartment.MItemDepartment;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;

@@ -8,7 +8,6 @@ package com.mac.gl.master.service.supplier;
 import com.mac.gl.master.model.supplier.MSupplier;
 import com.mac.gl.master.repository.supplier.SupplierRepository;
 import com.mac.gl.system.exception.DuplicateEntityException;
-import com.mac.gl.transaction.green_leaves.model.zmaster.MClient;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class SupplierService {
     private SupplierRepository supplierRepository;
 
     public List<MSupplier> getAllSupplier(Integer branch) {
-        return supplierRepository.findByBranch(branch);
+        return supplierRepository.findAll();
     }
 
     public MSupplier saveSupplier(MSupplier supplier) {
@@ -46,9 +45,9 @@ public class SupplierService {
     private boolean isNotDuplicate(MSupplier supplier) {
         List<MSupplier> suppliers;
         if (supplier.getIndexNo() == null) {
-            suppliers = supplierRepository.findByNicNumber(supplier.getNicNumber());
+            suppliers = supplierRepository.findByName(supplier.getName());
         } else {
-            suppliers = supplierRepository.findByNicNumberAndIndexNoNot(supplier.getNicNumber(), supplier.getIndexNo());
+            suppliers = supplierRepository.findByNameAndIndexNoNot(supplier.getName(), supplier.getIndexNo());
         }
         return suppliers.isEmpty();
     }

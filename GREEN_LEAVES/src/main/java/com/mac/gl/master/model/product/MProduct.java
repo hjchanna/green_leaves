@@ -8,7 +8,7 @@ package com.mac.gl.master.model.product;
 import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.model.subCategory.MSubCategory;
 import com.mac.gl.master.model.supplier.MSupplier;
-import com.mac.gl.transaction.green_leaves.model.zmaster.MItemDepartment;
+import com.mac.gl.master.model.itemdepartment.MItemDepartment;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
@@ -44,14 +44,11 @@ public class MProduct implements Serializable {
     @Column(name = "print_description")
     private String printDescription;
 
+    @Column(name = "branch")
+    private Integer branch;
+
     @Column(name = "brand")
     private String brand;
-
-    @Column(name = "make")
-    private Integer make;
-
-    @Column(name = "model")
-    private String model;
 
     @Column(name = "unit")
     private String unit;
@@ -81,13 +78,12 @@ public class MProduct implements Serializable {
     public MProduct() {
     }
 
-    public MProduct(Integer indexNo, String name, String printDescription, String brand, Integer make, String model, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
+    public MProduct(Integer indexNo, String name, String printDescription, Integer branch, String brand, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
         this.indexNo = indexNo;
         this.name = name;
         this.printDescription = printDescription;
+        this.branch = branch;
         this.brand = brand;
-        this.make = make;
-        this.model = model;
         this.unit = unit;
         this.costPrice = costPrice;
         this.salePrice = salePrice;
@@ -121,28 +117,20 @@ public class MProduct implements Serializable {
         this.printDescription = printDescription;
     }
 
+    public Integer getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Integer branch) {
+        this.branch = branch;
+    }
+
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public Integer getMake() {
-        return make;
-    }
-
-    public void setMake(Integer make) {
-        this.make = make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getUnit() {

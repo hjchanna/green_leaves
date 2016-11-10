@@ -24,23 +24,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/green-leaves/master/clients")
 public class ClientController {
-
+    
     @Autowired
     private ClientService clientService;
-
+    
     @RequestMapping(method = RequestMethod.GET)
     public List<MClient> listClients() {
         return clientService.findByBranch(1);
     }
-
+    
     @RequestMapping(value = "/save-client", method = RequestMethod.POST)
     public MClient saveSupplier(@RequestBody MClient client) {
+        client.setBranch(1);
         return clientService.saveSupplier(client);
     }
-
+    
     @RequestMapping(value = "/delete-client/{indexNo}", method = RequestMethod.DELETE)
     public void deleteSupplier(@PathVariable Integer indexNo) {
         clientService.deleteSupplier(indexNo);
     }
-
+    
 }

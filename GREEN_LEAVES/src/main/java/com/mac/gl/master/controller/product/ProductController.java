@@ -35,6 +35,7 @@ public class ProductController {
 
     @RequestMapping(value = "/save-product", method = RequestMethod.POST)
     public MProduct saveProduct(@RequestBody MProduct product) {
+        product.setBranch(1);
         return productService.saveProduct(product);
     }
 

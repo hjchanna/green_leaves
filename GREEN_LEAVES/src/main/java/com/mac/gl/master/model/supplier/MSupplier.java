@@ -31,18 +31,8 @@ public class MSupplier implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "branch")
-    private int branch;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "name")
     private String name;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "suppplier_no")
-    private String suppplierNo;
 
     @Basic(optional = false)
     @NotNull
@@ -65,7 +55,7 @@ public class MSupplier implements Serializable {
 
     @Column(name = "address_line3")
     private String addressLine3;
-    
+
     public MSupplier() {
     }
 
@@ -73,13 +63,15 @@ public class MSupplier implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MSupplier(Integer indexNo, int branch, String name, String suppplierNo, String nicNumber, String mobileNumber) {
+    public MSupplier(Integer indexNo, String name, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3) {
         this.indexNo = indexNo;
-        this.branch = branch;
         this.name = name;
-        this.suppplierNo = suppplierNo;
         this.nicNumber = nicNumber;
         this.mobileNumber = mobileNumber;
+        this.telephoneNumber = telephoneNumber;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.addressLine3 = addressLine3;
     }
 
     public Integer getIndexNo() {
@@ -90,28 +82,12 @@ public class MSupplier implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public int getBranch() {
-        return branch;
-    }
-
-    public void setBranch(int branch) {
-        this.branch = branch;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSuppplierNo() {
-        return suppplierNo;
-    }
-
-    public void setSuppplierNo(String suppplierNo) {
-        this.suppplierNo = suppplierNo;
     }
 
     public String getNicNumber() {

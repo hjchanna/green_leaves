@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.gl.transaction.green_leaves.model.zmaster;
+package com.mac.gl.master.model.itemdepartment;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
