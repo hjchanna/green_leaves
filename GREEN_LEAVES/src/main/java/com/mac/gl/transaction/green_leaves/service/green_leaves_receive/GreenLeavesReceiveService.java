@@ -6,6 +6,7 @@
 package com.mac.gl.transaction.green_leaves.service.green_leaves_receive;
 
 import com.mac.gl.transaction.green_leaves.model.green_leaves_receive.TGreenLeavesReceive;
+import com.mac.gl.transaction.green_leaves.model.green_leaves_receive.TGreenLeavesReceiveDetail;
 import com.mac.gl.transaction.green_leaves.repository.green_leaves_receive.GreenLeavesReceiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class GreenLeavesReceiveService {
     private GreenLeavesReceiveRepository greenLeavesReceiveRepository;
 
     public void saveGreenLeaveReceiveDetails(TGreenLeavesReceive greenLeavesReceive) {
+        System.out.println("----------------------------------------------");
+        for (TGreenLeavesReceiveDetail greenLeavesReceiveDetail : greenLeavesReceive.getGreenLeavesReceiveDetails()) {
+            System.out.println(greenLeavesReceiveDetail.getGreenLeavesReceive());
+        }
+        
         greenLeavesReceive = greenLeavesReceiveRepository.save(greenLeavesReceive);
     }
 }
