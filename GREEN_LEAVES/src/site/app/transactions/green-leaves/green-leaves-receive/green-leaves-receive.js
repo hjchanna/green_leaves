@@ -26,6 +26,7 @@
                 //insert 
                 factory.insertGreenLeavesDetail = function (detail, callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/save-green-leaves-receive";
+                    console.log(detail);
                     $http.post(url, detail)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -40,7 +41,7 @@
 
     //controller
     angular.module("greenLeavesReceiveModule")
-            .controller("greenLeavesReceiveController", function ($scope, $http, $timeout, systemConfig, greenLeavesReceiveFactory, Notification) {
+            .controller("greenLeavesReceiveController", function ($scope, $http, $timeout, greenLeavesReceiveFactory, Notification) {
 
                 //ui models
                 $scope.ui = {};
@@ -98,6 +99,7 @@
                 //finish edits
                 $scope.ui.finish = function () {
                     $scope.ui.mode = "IDEAL";
+                    $scope.http.insertGreenLeavesDetail();
                 };
 
                 $scope.validateInput = function () {
@@ -139,7 +141,7 @@
                 };
 
                 //get super leaves total qty
-                $scope.getSuperLeavesQuantityTotal = function () {
+                $scope.ui.getSuperLeavesQuantityTotal = function () {
                     var total = 0;
                     for (var i = 0; i < $scope.model.data.greenLeavesReceiveDetails.length; i++) {
                         total += parseInt($scope.model.data.greenLeavesReceiveDetails[i].superLeavesQuantity);
@@ -148,7 +150,7 @@
                 };
 
                 //get normal leaves total qty
-                $scope.getNormalLeavesQuantityTotal = function () {
+                $scope.ui.getNormalLeavesQuantityTotal = function () {
                     var total = 0;
                     for (var i = 0; i < $scope.model.data.greenLeavesReceiveDetails.length; i++) {
                         total += parseInt($scope.model.data.greenLeavesReceiveDetails[i].normalLeavesQuantity);

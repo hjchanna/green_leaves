@@ -47,7 +47,7 @@
                         })
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-request.html",
-                            controller: "clientAdvanceRequestController"
+                            controller: "ClientAdvanceRequestController"
                         })
                         .when("/transactions/green-leaves/client-advance/client-advance-approve", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-approve.html",
