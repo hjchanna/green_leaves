@@ -45,9 +45,9 @@
                 <col style="width: 15%">
                 <tbody>
                     <tr ng-repeat="subCategory in model.subCategoryList|filter : model.search.name">
-                        <td><span class="label label-default">{{subCategory.indexNo|fixedLength:5}}</span></td>
-                        <td>{{subCategory.subCategory}}</td>
+                        <td><span class="label label-default">{{subC ategory.indexNo|fixedLength:5}}</span></td>
                         <td>{{subCategory.category.name}}</td>
+                        <td>{{subCategory.subCategory}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(subCategory, $index)"><span class="glyphicon glyphicon-edit"></span></a>
                             <a class="btn btn-danger" ng-click="http.deleteSubCategory(subCategory.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>

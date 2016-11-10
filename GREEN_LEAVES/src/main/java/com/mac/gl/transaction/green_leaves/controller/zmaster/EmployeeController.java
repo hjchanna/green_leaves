@@ -5,8 +5,14 @@
  */
 package com.mac.gl.transaction.green_leaves.controller.zmaster;
 
+import com.mac.gl.transaction.green_leaves.model.zmaster.MEmployee;
+import com.mac.gl.transaction.green_leaves.service.zmaster.EmployeeService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,7 +21,25 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/employees")
+@RequestMapping("/api/green-leaves/master/employees")
 public class EmployeeController {
+      
+    @Autowired
+    private EmployeeService employeeService;
+    
+//    public List<MEmployee> findByBrach(@PathVariable Integer indexNo){
+//        
+//    }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<MEmployee> findAllEmployee(){
+        return employeeService.findEmployeesList();
+        
+    }
+    @RequestMapping(value = "/save-employee",method = RequestMethod.POST)
+    public MEmployee saveEmployee(@RequestBody MEmployee employee){
+        System.out.println(employee.getName()+"ssssssssssssssssssssssssssssssssssssssssssssssssss");
+        return employeeService.saveEmployee(employee);
+    }
+    
 }

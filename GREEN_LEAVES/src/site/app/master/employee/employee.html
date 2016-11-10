@@ -1,0 +1,112 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">
+    <div class="col-xs-4 background-dark">
+        <div style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">Branch</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.branch" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Name</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Type</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Birthday</label></td>
+                        <td><input type="date" class="form-control text-right" ng-model="model.employee.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">NIC</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.nic" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Mobile No</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.mobileNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Telephone No</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.telephoneNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Address 01</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.address1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Address 02</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.address2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Address 03</label></td>
+                        <td><input class="form-control text-right" ng-model="model.employee.address3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-xs-8 background-light">
+        <div class="row col-xs-5">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+        </div>
+        <table class="table-hover">
+            <col style="width: 30%">
+            <col style="width: 30%">
+            <col style="width: 20%">
+            <col style="width: 20%">
+            <thead class="background-dark">
+                <tr>
+                    <th>
+                        <label>Name</label>
+                    </th>
+                    <th>
+                        <label>NIC</label>
+                    </th>
+                    <th>
+                        <label>Mobile No</label>
+                    </th> 
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 220px);">
+            <table class="table-hover">
+                <col style="width: 30%">
+                <col style="width: 30%">
+                <col style="width: 20%">
+                <col style="width: 20%">
+                <tbody>
+                    <tr ng-repeat="employee in model.employeeList | filter : model.search.name">
+                        <td>{{employee.name}}</td>
+                        <td>{{employee.nic}}</td>
+                        <td>{{employee.mobileNo}}</td>
+                        <td class="text-right" style="padding-left: 5px;">
+                            <a class="btn btn-primary" ng-click="ui.edit(employee, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="http.deleteSubCategory(employee.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>

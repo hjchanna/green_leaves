@@ -29,8 +29,8 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
-    private MVehicle findByVehicleNo(String name) {
-        List<MVehicle> vehicles = vehicleRepository.findByVehicleNo(name);
+    private MVehicle findByVehicleNo(String vehicleNo,String chassisNo,String engineNo) {
+        List<MVehicle> vehicles = vehicleRepository.findByVehicleNoOrChassisNoOrEngineNo(vehicleNo, chassisNo, engineNo);
         if (vehicles.isEmpty()) {
             return null;
         }
@@ -38,7 +38,7 @@ public class VehicleService {
     }
 
     public MVehicle saveVehicle(MVehicle vehicle) {
-        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo());
+        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo(),vehicle.getChassisNo(),vehicle.getEngineNo());
         if (mVehicle == null) {
             return vehicleRepository.save(vehicle);
         } else {
