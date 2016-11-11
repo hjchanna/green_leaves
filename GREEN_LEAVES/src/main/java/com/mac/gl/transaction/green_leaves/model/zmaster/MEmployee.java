@@ -16,9 +16,12 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -47,40 +50,41 @@ public class MEmployee implements Serializable {
     private String name;
 
     @Basic(optional = false)
-    @Column(name = "type")
-    private String type;
-
-    @Basic(optional = false)
     @NotNull
     @Column(name = "date_of_birth")
     private Date birthday;
-   
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "nic_number")
     private String nic;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "mobile_number")
     private String mobileNo;
-    
+
     @Basic(optional = false)
     @Column(name = "telephone_number")
     private String telephoneNo;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "address_line1")
     private String address1;
-    
+
     @Basic(optional = false)
     @Column(name = "address_line2")
     private String address2;
-    
+
     @Basic(optional = false)
     @Column(name = "address_line3")
     private String address3;
+
+    @NotNull
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "type")
+    private MType type;
 
     public MEmployee() {
     }
@@ -89,11 +93,10 @@ public class MEmployee implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MEmployee(Integer indexNo, int branch, String name, String type, Date birthday, String nic, String mobileNo, String telephoneNo, String address1, String address2, String address3) {
+    public MEmployee(Integer indexNo, int branch, String name, Date birthday, String nic, String mobileNo, String telephoneNo, String address1, String address2, String address3, MType type) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
-        this.type = type;
         this.birthday = birthday;
         this.nic = nic;
         this.mobileNo = mobileNo;
@@ -101,14 +104,7 @@ public class MEmployee implements Serializable {
         this.address1 = address1;
         this.address2 = address2;
         this.address3 = address3;
-    }
-
-    public String getAddress3() {
-        return address3;
-    }
-
-    public void setAddress3(String address3) {
-        this.address3 = address3;
+        this.type = type;
     }
 
     public Integer getIndexNo() {
@@ -133,14 +129,6 @@ public class MEmployee implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Date getBirthday() {
@@ -189,6 +177,22 @@ public class MEmployee implements Serializable {
 
     public void setAddress2(String address2) {
         this.address2 = address2;
+    }
+
+    public String getAddress3() {
+        return address3;
+    }
+
+    public void setAddress3(String address3) {
+        this.address3 = address3;
+    }
+
+    public MType getType() {
+        return type;
+    }
+
+    public void setType(MType type) {
+        this.type = type;
     }
 
 }
