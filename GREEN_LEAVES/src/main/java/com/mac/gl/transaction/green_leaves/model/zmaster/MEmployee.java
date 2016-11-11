@@ -51,11 +51,14 @@ public class MEmployee implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Column(name = "gender")
+    private String gender;
+
+    @Basic(optional = false)
     @Column(name = "date_of_birth")
     private Date birthday;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "nic_number")
     private String nic;
 
@@ -93,10 +96,11 @@ public class MEmployee implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MEmployee(Integer indexNo, int branch, String name, Date birthday, String nic, String mobileNo, String telephoneNo, String address1, String address2, String address3, MType type) {
+    public MEmployee(Integer indexNo, int branch, String name, String gender, Date birthday, String nic, String mobileNo, String telephoneNo, String address1, String address2, String address3, MType type) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
+        this.gender = gender;
         this.birthday = birthday;
         this.nic = nic;
         this.mobileNo = mobileNo;
@@ -129,6 +133,14 @@ public class MEmployee implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Date getBirthday() {
@@ -194,5 +206,7 @@ public class MEmployee implements Serializable {
     public void setType(MType type) {
         this.type = type;
     }
+    
+    
 
 }

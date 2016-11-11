@@ -22,12 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/master/type")
+@RequestMapping("/api/green-leaves/master/types")
 public class TypeController {
 
     @Autowired
     private TypeService typeService;
 
+    @RequestMapping(method = RequestMethod.GET)
     public List<MType> findAll() {
         return typeService.findAll();
     }

@@ -18,7 +18,7 @@
 
                             });
                 };
-                
+
                 //load item-department
                 factory.loadDepartments = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/item-departments";
@@ -31,7 +31,7 @@
 
                             });
                 };
-                
+
                 //save or update
                 factory.saveCategory = function (category, callback, errorCallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/category/save-category";
@@ -66,7 +66,7 @@
             });
 
     angular.module("categoryModule")
-            .controller("categoryController", function ($scope, categoryFactory, Notification) {
+            .controller("categoryController", function ($scope, categoryFactory, Notification, $timeout) {
                 $scope.totalItems = 64;
                 $scope.currentPage = 4;
 
@@ -123,6 +123,7 @@
                                 Notification.success("success");
                                 $scope.model.categorys.push(data);
                                 $scope.model.reset();
+                                $scope.ui.focus();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -147,9 +148,18 @@
                     }
                 };
 
+                //focus
+                $scope.ui.focus = function () {
+                    $timeout(function () {
+                        document.querySelectorAll("#category")[0].focus();
+                    }, 10);
+                };
+
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+
+                    $scope.ui.focus();
                 };
 
                 //edit funtion
@@ -157,6 +167,8 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.category = categorys;
                     $scope.model.categorys.splice(index, 1);
+
+                    $scope.ui.focus();
                 };
 
 
