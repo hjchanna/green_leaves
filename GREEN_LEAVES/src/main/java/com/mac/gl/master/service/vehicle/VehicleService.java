@@ -43,7 +43,7 @@ public class VehicleService {
             return vehicleRepository.save(vehicle);
         } else {
             if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
-                return vehicle;
+                return vehicleRepository.save(vehicle);
             }
             throw new DuplicateEntityException("Vehicle already exists");
         }

@@ -8,40 +8,49 @@
                 <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
                         <col style="width: 35%"/>
-                        <col style="width: 65%"/>
+                        <col style="width: 58%"/>
+                        <col style="width: 7%"/>
 
                         <tbody>
                             <tr>
                                 <td><label class="control-label">Vehicle No</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="vehicleNo" class="form-control" ng-model="model.vehicle.vehicleNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Engine No</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="engineNo" class="form-control" ng-model="model.vehicle.engineNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Chassis No</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="chassisNo" class="form-control" ng-model="model.vehicle.chassisNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
-                                <td><label class="control-label">Make {{model.makeList.length}}</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="make as make for make in model.makeList|filter:$viewValue|limitTo:10"></td>
+                                <td><label class="control-label">Make</label></td>
+                                <td><input class="form-control" ng-model="model.vehicle.make" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="make as make for make in model.makeList|filter:$viewValue|limitTo:10|orderBy:distance"></td>
+                                <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Model</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="model as model for model in model.modelList|filter:$viewValue|limitTo:10"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="model as model for model in model.modelList|filter:$viewValue|limitTo:10|orderBy:distance"></td>
+                                <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Type</label></td>
-                                <td><input class="form-control" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as type for type in model.typeList|filter:$viewValue|limitTo:10"></td>
+                                <td><input class="form-control" ng-model="model.vehicle.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as type for type in model.typeList|filter:$viewValue|limitTo:10|orderBy:distance"></td>
+                                <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Owner Name</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+'-'+owner.name) for owner in model.vehicleOwnerList|filter:$viewValue|limitTo:10"></td>
+                                <td><input id="ownerName" class="form-control" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+' - '+owner.name) for owner in model.vehicleOwnerList|filter:$viewValue|limitTo:10"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Driver Name</label></td>
-                                <td><input class="form-control text-right" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+'-'+driver.name) for driver in model.drivers|filter:'DRIVER':$viewValue|limitTo:10"></td>
+                                <td><input id="driverName" class="form-control" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+' - '+driver.name) for driver in model.drivers|filter:$viewValue|limitTo:10"></td>
+                                <td>*</td>
                             </tr>
                         </tbody>
                     </table>
@@ -131,24 +140,29 @@
                 <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 108px); margin-top: 15px">
                     <table class="control-table">
                         <col style="width: 35%"/>
-                        <col style="width: 65%"/>
+                        <col style="width: 58%"/>
+                        <col style="width: 7%"/>
 
                         <tbody>
                             <tr>
                                 <td><label class="control-label">name</label></td>
-                                <td><input class="form-control" ng-model="model.vehicleOwner.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="name" class="form-control" ng-model="model.vehicleOwner.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">NIC Number</label></td>
-                                <td><input class="form-control" ng-model="model.vehicleOwner.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="nicNumber" class="form-control" ng-model="model.vehicleOwner.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Mobile</label></td>
-                                <td><input class="form-control" ng-model="model.vehicleOwner.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="mobileNo" class="form-control" ng-model="model.vehicleOwner.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>*</td>
                             </tr>
                             <tr>
-                                <td><label class="control-label">Telephone</label></td>
+                                <td><label class="control-label">T.P</label></td>
                                 <td><input class="form-control" ng-model="model.vehicleOwner.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td>&nbsp;</td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Address</label></td>
@@ -157,6 +171,7 @@
                                     <input class="form-control" ng-model="model.vehicleOwner.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                     <input class="form-control" ng-model="model.vehicleOwner.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                 </td>
+                                <td>&nbsp;</td>
                             </tr>
 
                         </tbody>
@@ -169,14 +184,12 @@
                 </div>
                 <table class="control-table">
                     <col style="width: 5%">
-                    <col style="width: 12%">
-                    <col style="width: 12%">
-                    <col style="width: 12%">
-                    <col style="width: 12%">
-                    <col style="width: 12%">
-                    <col style="width: 15%">
-                    <col style="width: 10%">
-                    <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 29%">
+                        <col style="width: 10%">
                     <thead class="background-dark">
                         <tr>
                             <th>
@@ -198,25 +211,20 @@
                                 <label>Address</label>
                             </th>
                             <th>
-                                <label>Address</label>
+                                <label>&nbsp;</label>
                             </th>
-                            <th>
-                                <label>Address</label>
-                            </th>
-                            <th>&nbsp;</th>
+                            
                         </tr>
                     </thead>
                 </table>
                 <div class="smart-scroll-y" style="height: calc(100vh - 260px);">
                     <table class="table-hover">
                         <col style="width: 5%">
+                        <col style="width: 20%">
                         <col style="width: 12%">
                         <col style="width: 12%">
                         <col style="width: 12%">
-                        <col style="width: 12%">
-                        <col style="width: 12%">
-                        <col style="width: 15%">
-                        <col style="width: 10%">
+                        <col style="width: 29%">
                         <col style="width: 10%">
                         <tbody>
                             <tr ng-repeat="vehicleOwner in model.vehicleOwnerList| filter: search|orderBy:'indexNo'">
@@ -225,9 +233,7 @@
                                 <td>{{vehicleOwner.nicNumber}}</td>
                                 <td>{{vehicleOwner.mobileNumber}}</td>
                                 <td>{{vehicleOwner.telephoneNumber}}</td>
-                                <td>{{vehicleOwner.addressLine1}}</td>
-                                <td>{{vehicleOwner.addressLine2}}</td>
-                                <td>{{vehicleOwner.addressLine3}}</td>
+                                <td>{{vehicleOwner.addressLine1}} {{vehicleOwner.addressLine2}} {{vehicleOwner.addressLine3}}</td>
                                 <td class="text-right" style="padding-left: 5px;">
                                     <a class="btn btn-primary" ng-click="ui.edit(vehicleOwner, $index)"><span class="glyphicon glyphicon-edit"></span></a>
                                     <a class="btn btn-danger" ng-click="http.deleteVehicleOwner(vehicleOwner.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>

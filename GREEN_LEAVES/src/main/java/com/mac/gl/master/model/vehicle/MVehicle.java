@@ -48,12 +48,10 @@ public class MVehicle implements Serializable {
     private String chassisNo;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "make")
     private String make;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "model")
     private String model;
 
@@ -63,7 +61,6 @@ public class MVehicle implements Serializable {
     private Integer branch;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "type")
     private String type;
 
