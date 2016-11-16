@@ -50,11 +50,10 @@ public class ClientService {
     private boolean isNotDuplicate(MClient client) {
         List<MClient> clients;
         if (client.getIndexNo() == null) {
-            clients = clientRepository.findByBranchAndClientNo(client.getBranch(), client.getClientNo());
+            clients = clientRepository.findByBranchAndClientNoOrNameOrNicNumber(client.getBranch(), client.getClientNo(), client.getName(), client.getNicNumber());
         } else {
             clients = clientRepository.findByBranchAndClientNoAndIndexNoNot(client.getBranch(), client.getClientNo(), client.getIndexNo());
         }
-
         return clients.isEmpty();
     }
 }

@@ -41,6 +41,18 @@ public class MProduct implements Serializable {
     private String name;
 
     @Basic(optional = false)
+    @Column(name = "barcode")
+    private String barCode;
+
+    @Basic(optional = false)
+    @Column(name = "model")
+    private String model;
+
+    @Basic(optional = false)
+    @Column(name = "product_no")
+    private String productNo;
+
+    @Basic(optional = false)
     @Column(name = "print_description")
     private String printDescription;
 
@@ -78,9 +90,12 @@ public class MProduct implements Serializable {
     public MProduct() {
     }
 
-    public MProduct(Integer indexNo, String name, String printDescription, Integer branch, String brand, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
+    public MProduct(Integer indexNo, String name, String barCode, String model, String productNo, String printDescription, Integer branch, String brand, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
         this.indexNo = indexNo;
         this.name = name;
+        this.barCode = barCode;
+        this.model = model;
+        this.productNo = productNo;
         this.printDescription = printDescription;
         this.branch = branch;
         this.brand = brand;
@@ -189,4 +204,27 @@ public class MProduct implements Serializable {
         this.supplier = supplier;
     }
 
+    public String getProductNo() {
+        return productNo;
+    }
+
+    public void setProductNo(String productNo) {
+        this.productNo = productNo;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 }

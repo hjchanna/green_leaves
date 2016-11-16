@@ -3,7 +3,7 @@
     angular.module("clientModule")
             .factory("clientFactory", function ($http, systemConfig) {
                 var factory = {};
-                //---------- data loding ---------- 
+
                 //load route
                 factory.loadRoute = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/routes";
@@ -57,7 +57,7 @@
                 return factory;
             });
     angular.module("clientModule")
-            .controller("clientController", function ($scope, clientFactory, Notification) {
+            .controller("clientController", function ($scope, $filter, $timeout, clientFactory, Notification) {
 
                 //data model
                 $scope.model = {};
@@ -89,6 +89,10 @@
                     "none1",
                     "none2"
                 ];
+                $scope.model.dySupplier = [
+                    "No",
+                    "Yes"
+                ];
 
                 //------------------ model functions ---------------------------
                 //reset model
@@ -99,6 +103,9 @@
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $timeout(function () {
+                        document.querySelectorAll("#clientNo")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.edit = function (supplier, index) {
@@ -112,7 +119,47 @@
                 };
 
                 $scope.ui.save = function () {
-                    $scope.http.saveSupplier();
+                    if ($scope.validateInput()) {
+                        $scope.http.saveSupplier();
+                    } else {
+                        Notification.error("Please Input Details");
+                    }
+                };
+
+                $scope.ui.save = function () {
+                    if ($scope.validateInput()) {
+                        $scope.http.saveSupplier();
+                    } else {
+                        Notification.error("Please Input Details");
+                    }
+                };
+
+                $scope.ui.setDyNumber = function (text) {
+                    if (text === "No") {
+                        $scope.status = true;
+                        $scope.model.data.dyNumber = null;
+                    } else {
+                        $scope.status = false;
+                    }
+                };
+
+                //validate model
+                $scope.validateInput = function () {
+                    if ($scope.model.data.name
+                            && $scope.model.data.clientNo
+                            && $scope.model.data.dateOfBirth
+                            && $scope.model.data.nicNumber
+                            && $scope.model.data.registerDate
+                            && $scope.model.data.mobileNumber
+                            && $scope.model.data.religion
+                            && $scope.model.data.nationality
+                            && $scope.model.data.maritalStatus
+                            && $scope.model.data.clientType
+                            && $scope.model.data.route.name !== null) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 };
 
                 $scope.ui.checkSupplierExists = function (text, type) {
@@ -120,37 +167,27 @@
                         if (type === "nicNumber") {
                             if (text === $scope.model.supplier[i].nicNumber) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                //$scope.model.data = $scope.model.supplier[i];
-                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
                                 Notification.error("this supplier is alrady exists");
                             }
                         } else if (type === "telephoneNumber") {
                             if (text === $scope.model.supplier[i].telephoneNumber) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                //$scope.model.data = $scope.model.supplier[i];
-                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
                                 Notification.error("this supplier is alrady exists");
                                 break;
                             }
                         } else if (type === "mobileNumber") {
                             if (text === $scope.model.supplier[i].mobileNumber) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                //$scope.model.data = $scope.model.supplier[i];
-                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
                                 Notification.error("this supplier is alrady exists");
                             }
                         } else if (type === "name") {
                             if (text === $scope.model.supplier[i].name) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-//                                $scope.model.data = $scope.model.supplier[i];
-//                                $scope.model.getSupplierBlackListed($scope.model.supplier[i]);
                                 Notification.error("this supplier is alrady exists");
                             }
                         } else if (type === "clientNo") {
                             if (text === $scope.model.supplier[i].clientNo) {
                                 $scope.selectedRow = $scope.model.supplier[i];
-                                //$scope.model.data = $scope.model.supplier[i];
-                                //$scope.model.getSupplierBlackListed($scope.model.supplier[i]);
                                 Notification.error("this supplier is alrady exists");
                             }
                         }
@@ -158,44 +195,72 @@
                 };
 
                 $scope.model.getSupplierBlackListed = function (supplier) {
-                    //select supplierBlackListed boolean,dySupplier boolean
-                    for (var i = 0; i < $scope.model.supplier.length; i++) {
+                    if (supplier.supplierBlackListed) {
+                        $scope.model.data.supplierBlackListed = "Yes";
+                    } else {
+                        $scope.model.data.supplierBlackListed = "No";
+                    }
 
-                        if ($scope.model.supplier[i].supplierBlackListed) {
-                            $scope.model.data.supplierBlackListed = "Yes";
-                        } else {
-                            $scope.model.data.supplierBlackListed = "No";
-                        }
+                    if (supplier.active) {
+                        $scope.model.data.active = "Yes";
+                    } else {
+                        $scope.model.data.active = "No";
+                    }
 
-                        if ($scope.model.supplier[i].dySupplier) {
-                            $scope.model.data.dySupplier = "Yes";
-                        } else {
-                            $scope.model.data.dySupplier = "No";
-                        }
-                        if ($scope.model.supplier[i].active) {
-                            $scope.model.data.active = "Yes";
-                        } else {
-                            $scope.model.data.active = "No";
-                        }
+                    if (supplier.dySupplier) {
+                        $scope.model.data.dySupplier = "Yes";
+                        $scope.status = false;
+                    } else {
+                        $scope.model.data.dySupplier = "No";
+                        $scope.status = true;
+                    }
+                };
+
+                $scope.ui.tabChnage = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.indextab = 1;
+                        $timeout(function () {
+                            document.querySelectorAll("#registerDate")[0].focus();
+                        }, 10);
+                    }
+                };
+
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
                     }
                 };
 
                 //------------------ http functions ------------------------------
                 //save
                 $scope.http.saveSupplier = function () {
+                    $scope.indextab = 0;
                     $scope.model.data.supplierBlackListed = false;
-                    $scope.model.data.dySupplier = false;
                     $scope.model.data.active = true;
+
+                    //set DySupplier
+                    var dySupplier = $scope.model.data.dySupplier;
+                    if (dySupplier === "No") {
+                        $scope.model.data.dySupplier = false;
+                    } else {
+                        $scope.model.data.dySupplier = true;
+                    }
+
                     var detail = $scope.model.data;
+                    console.log(detail);
                     var detailJSON = JSON.stringify(detail);
 
                     clientFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success("success");
+                                Notification.success("success" + data.indexNo);
                                 //reset model
                                 $scope.model.supplier.push(data);
                                 $scope.model.reset();
+                                $scope.ui.changeDefault();
+                                $timeout(function () {
+                                    document.querySelectorAll("#clientNo")[0].focus();
+                                }, 10);
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -216,6 +281,16 @@
                     });
                 };
 
+                //ui change default functions
+                $scope.ui.changeDefault = function () {
+                    $scope.model.data.supplierBlackListed = "No";
+                    var status = "No";
+                    $scope.model.data.dySupplier = status;
+                    $scope.ui.setDyNumber(status);
+                    $scope.model.data.active = "Yes";
+                    $scope.model.data.registerDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+                };
+
                 $scope.init = function () {
 
                     //set ideal mode
@@ -223,6 +298,7 @@
 
                     //reset model
                     $scope.model.reset();
+                    $scope.ui.changeDefault();
 
                     //loadRoute
                     clientFactory.loadRoute(function (data) {
@@ -233,10 +309,6 @@
                     clientFactory.loadSupplier(function (data) {
                         $scope.model.supplier = data;
                     });
-
-                    $scope.model.data.supplierBlackListed = "No";
-                    $scope.model.data.dySupplier = "No";
-                    $scope.model.data.active = "Yes";
                 };
                 $scope.init();
             });

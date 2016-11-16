@@ -45,9 +45,9 @@ public class SupplierService {
     private boolean isNotDuplicate(MSupplier supplier) {
         List<MSupplier> suppliers;
         if (supplier.getIndexNo() == null) {
-            suppliers = supplierRepository.findByName(supplier.getName());
+            suppliers = supplierRepository.findByCompanyName(supplier.getCompanyName());
         } else {
-            suppliers = supplierRepository.findByNameAndIndexNoNot(supplier.getName(), supplier.getIndexNo());
+            suppliers = supplierRepository.findByCompanyNameAndIndexNoNot(supplier.getCompanyName(), supplier.getIndexNo());
         }
         return suppliers.isEmpty();
     }
