@@ -79,7 +79,7 @@
             });
     //controller
     angular.module("itemDepartmentModule")
-            .controller("itemDepartmentController", function ($scope, $log, itemDepartmentFactory, Notification) {
+            .controller("itemDepartmentController", function ($scope, $log, itemDepartmentFactory, Notification, $timeout) {
                 $scope.totalItems = 64;
                 $scope.currentPage = 4;
 
@@ -110,17 +110,19 @@
 
                 $scope.model.departmentList = [];
 
-                
+
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
-
+                    $timeout(function () {
+                        document.querySelectorAll("#name")[0].focus();
+                    }, 10);
 
                 };
                 $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode===13) {
+                    if (event.keyCode === 13) {
                         $scope.ui.save();
-                                
+
                     }
                 };
 
@@ -131,6 +133,9 @@
                     for (var i = 0; i < $scope.model.departmentList.length; i++) {
                         if ($scope.model.departmentList[i].indexNo === $scope.model.department.indexNo) {
                             $scope.model.departmentList.splice(i, 1);
+                            $timeout(function () {
+                                document.querySelectorAll("#name")[0].focus();
+                            }, 10);
                         }
                     }
 
@@ -140,8 +145,10 @@
                 $scope.ui.save = function () {
                     if ($scope.model.department) {
                         $scope.http.insertItemDepartment();
-                    }
-                    else{
+                        $timeout(function () {
+                            document.querySelectorAll("#name")[0].focus();
+                        }, 10);
+                    } else {
                         Notification.error('No Item Department Name to Save ');
                     }
 
@@ -175,18 +182,24 @@
                                             break;
                                         }
                                     }
-                                    Notification.success('success !');
+                                    Notification.success(data.indexNo+' save successfylly !');
                                     $scope.model.departmentList.push(data);
                                     $scope.model.department = {};
+
                                 } else {
                                     Notification.error('Already Exists !');
                                 }
+                                $timeout(function () {
+                                    document.querySelectorAll("#name")[0].focus();
+                                }, 10);
                             }
                     , function (data) {
                         Notification.error(data.message);
-                        
+                        $timeout(function () {
+                            document.querySelectorAll("#name")[0].focus();
+                        }, 10);
                     }
-                            );
+                    );
                 };
                 $scope.http.deleteDepartment = function (indexNo) {
                     if (indexNo) {
@@ -199,6 +212,7 @@
                                 }
                             }
                             Notification.error(indexNo + ' Department Delete Successfully');
+                            $scope.ui.mode = "IDEAL";
                         });
                     }
                 };
