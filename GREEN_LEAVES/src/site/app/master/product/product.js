@@ -30,30 +30,26 @@
                 };
 
                 //load subcategory by selected category 
-                factory.loadSubCategoryByCategory = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/get-sub-category";
-                    $http.post(url, summary)
+                factory.loadSubCategory = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category";
+                    $http.get(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-                                if (errorCallback) {
-                                    errorCallback(data);
-                                }
+
                             });
                 };
-                
+
                 //load category by selected item department 
-                factory.loadCategory = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/category/get-category";
-                    $http.post(url, summary)
+                factory.loadCategory = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/category";
+                    $http.get(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-                                if (errorCallback) {
-                                    errorCallback(data);
-                                }
+
                             });
                 };
 
@@ -98,7 +94,7 @@
                 return factory;
             });
     angular.module("productModule")
-            .controller("productController", function ($scope, productFactory, Notification) {
+            .controller("productController", function ($scope, $timeout, productFactory, Notification) {
 
                 //data model
                 $scope.model = {};
@@ -119,10 +115,17 @@
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $timeout(function () {
+                        document.querySelectorAll("#productNo")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.save = function () {
-                    $scope.http.saveProduct();
+                    if ($scope.validateInput()) {
+                        $scope.http.saveProduct();
+                    } else {
+                        Notification.error("Please Input Details");
+                    }
                 };
 
                 $scope.ui.edit = function (product, index) {
@@ -130,35 +133,54 @@
                     $scope.model.products.splice(index, 1);
                 };
 
-                $scope.ui.delete = function (indexNo) {
-                    $scope.http.deleteProduct(indexNo);
+                $scope.ui.checkProductsExists = function (text, type) {
+                    for (var i = 0; i < $scope.model.products.length; i++) {
+                        if (type === "productNo") {
+                            if (text === $scope.model.products[i].productNo) {
+                                $scope.selectedRow = $scope.model.products[i];
+                                Notification.error("this product is alrady exists");
+                            }
+                        } else if (type === "name") {
+                            console.log(text);
+                            $scope.model.data.printDescription = text;
+                            if (text === $scope.model.products[i].name) {
+                                $scope.selectedRow = $scope.model.products[i];
+                                Notification.error("this product is alrady exists");
+                            }
+                        }
+                    }
                 };
 
-                $scope.ui.getSubCategory = function (model) {
-                    var detailJSON = JSON.stringify(model);
-                    productFactory.loadSubCategoryByCategory(
-                            detailJSON,
-                            function (data) {
-                                $scope.model.subCategorys = data;
-                            },
-                            function (data) {
-                                Notification.error(data.message);
-                            }
-                    );
+                $scope.ui.tabChnage = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.indextab = 1;
+                        $timeout(function () {
+                            document.querySelectorAll("#unit")[0].focus();
+                        }, 10);
+                    }
                 };
-                
-                $scope.ui.getCategory = function (model) {
-                    var detailJSON = JSON.stringify(model);
-                    productFactory.loadCategory(
-                            detailJSON,
-                            function (data) {
-                                console.log(data);
-                                $scope.model.categorys = data;
-                            },
-                            function (data) {
-                                Notification.error(data.message);
-                            }
-                    );
+
+                //validate model
+                $scope.validateInput = function () {
+                    if ($scope.model.data.name
+                            && $scope.model.data.productNo
+                            && $scope.model.data.printDescription
+                            && $scope.model.data.unit
+                            && $scope.model.data.costPrice
+                            && $scope.model.data.salePrice
+                            && $scope.model.data.itemDepartment
+                            && $scope.model.data.category
+                            && $scope.model.data.subCategory
+                            && $scope.model.data.supplier
+                            && $scope.model.data.brand !== null) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
+                $scope.ui.delete = function (indexNo) {
+                    $scope.http.deleteProduct(indexNo);
                 };
 
                 //------------------ http functions ------------------------------
@@ -170,10 +192,13 @@
                     productFactory.saveProduct(
                             detailJSON,
                             function (data) {
-                                Notification.success("success");
+                                Notification.success("success" + data.indexNo);
                                 //reset model
                                 $scope.model.products.push(data);
                                 $scope.model.reset();
+                                $timeout(function () {
+                                    document.querySelectorAll("#productNo")[0].focus();
+                                }, 10);
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -203,15 +228,25 @@
                     productFactory.loadProduct(function (data) {
                         $scope.model.products = data;
                     });
+
                     //loadRoute
                     productFactory.loadSupplier(function (data) {
                         $scope.model.suppliers = data;
                     });
-                    
+
+                    productFactory.loadSubCategory(function (data) {
+                        $scope.model.subCategorys = data;
+                    });
+
+                    productFactory.loadCategory(function (data) {
+                        $scope.model.categorys = data;
+                    });
+
                     //loadItemDepartment
                     productFactory.loadItemDepartment(function (data) {
                         $scope.model.itemDepartments = data;
                     });
+
                 };
                 $scope.init();
             });

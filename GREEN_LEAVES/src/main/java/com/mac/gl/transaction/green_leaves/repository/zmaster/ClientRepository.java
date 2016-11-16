@@ -14,7 +14,7 @@ public interface ClientRepository extends JpaRepository<MClient, Integer> {
 
     public List<MClient> findByBranch(Integer branch);
 
-    public List<MClient> findByBranchAndClientNo(Integer branch, String clientNo);
+    public List<MClient> findByBranchAndClientNoOrNameOrNicNumber(Integer branch, String clientNo, String name, String nicNumber);
 
     public List<MClient> findByBranchAndClientNoAndIndexNoNot(Integer branch, String clientNo, Integer indexNo);
 }
