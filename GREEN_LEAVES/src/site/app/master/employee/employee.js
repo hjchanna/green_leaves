@@ -91,6 +91,7 @@
                         "indexNo": null,
                         "branch": null,
                         "name": null,
+                        "gender": null,
                         "birthday": null,
                         "nic": null,
                         "mobileNo": null,
@@ -98,8 +99,7 @@
                         "address1": null,
                         "address2": null,
                         "address3": null,
-                        "type": null,
-                        "gender": null
+                        "type": null
                     };
                 };
                 //validate model
@@ -124,7 +124,7 @@
                                 $scope.model.employeeList.push(data);
                                 Notification.success("added success...");
                                 $scope.model.reset();
-                                $scope.ui.focus();
+//                                $scope.ui.focus();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -169,11 +169,15 @@
                 //edit function 
                 $scope.ui.edit = function (employee, index) {
                     $scope.ui.mode = "EDIT";
+                    console.log(employee.birthday);
                     $scope.model.employee = employee;
                     $scope.model.employeeList.splice(index, 1);
 
-                    $scope.ui.forcus();
+                    $scope.ui.focus();
                 };
+
+                //load gender
+
 
 
                 $scope.ui.init = function () {
@@ -182,13 +186,13 @@
                     //reset text
                     $scope.model.reset();
 
+
                     //load employee
                     employeeFactory.loadEmployee(function (data) {
                         $scope.model.employeeList = data;
 //                        console.log($scope.model.employeeList);
                     });
                     employeeFactory.loadEmployeeTypes(function (data) {
-                        console.log(data);
                         $scope.model.typeList = data;
 //                        console.log($scope.model.employeeList);
                     });

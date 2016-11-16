@@ -18,12 +18,13 @@
                         <td><input class="form-control" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as (type.name) for type in model.typeList |filter:$viewValue|limitTo:10"></td>
                     </tr>
                     <tr>
+                      
                         <td><label class="control-label">Birthday</label></td>
-                        <td><input type="date" class="form-control" ng-model="model.employee.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input smart-input="date" focus class="form-control" ng-model="model.employee.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Gender</label></td>
-                        <td><input class="form-control" ng-model="model.employee.gender" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control" ng-model="model.employee.gender" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">NIC</label></td>
@@ -74,7 +75,7 @@
                         <label>Type</label>
                     </th>
                     <th>
-                        <label>NIC</label>
+                        <label>date</label>
                     </th>
                     <th>
                         <label>Mobile No</label>
@@ -94,7 +95,7 @@
                     <tr ng-repeat="employee in model.employeeList| filter : model.search.name">
                         <td>{{employee.name}}</td>
                         <td>{{employee.type.name}}</td>
-                        <td>{{employee.nic}}</td>
+                        <td>{{employee.birthday | date:"dd-MM-yyyy"}}</td>
                         <td>{{employee.mobileNo}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(employee, $index)"><span class="glyphicon glyphicon-edit"></span></a>
