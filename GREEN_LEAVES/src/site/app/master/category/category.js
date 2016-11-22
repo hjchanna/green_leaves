@@ -123,14 +123,13 @@
                 //focus
                 $scope.ui.focus = function () {
                     $timeout(function () {
-                        document.querySelectorAll("#category")[0].focus();
+                        document.querySelectorAll("#item")[0].focus();
                     }, 10);
                 };
 
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
-
                     $scope.ui.focus();
                 };
 

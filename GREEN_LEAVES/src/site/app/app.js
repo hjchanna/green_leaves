@@ -21,7 +21,8 @@
         "supplierModule",
         "productModule",
         "employeeModule",
-        "routeModule"
+        "routeModule",
+        "fertilizerModule"
     ]);
 
     //constants
@@ -76,6 +77,10 @@
                         .when("/transactions/green-leaves/route-details", {
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
                             controller: "routeDetailsController"
+                        })
+                        .when("/transactions/green-leaves/fertilizer", {
+                            templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
+                            controller: "fertilizerController"
                         })
                         //master
                         .when("/master/client/manage-client", {

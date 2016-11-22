@@ -1,0 +1,142 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">
+    <div class="col-xs-12 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12 " style="flex: 0 0 auto;">
+
+                <table style="padding-right: 5px;">
+                    <col style="width: 52%"/>
+                    <col style="width: 24%"/>
+                    <col style="width: 24%"/>
+                    <col/>
+                    <thead class="background-dark">
+                        <tr>
+                            <th>
+                                <input style="margin-top: 5px" class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th>
+                                <input class="form-control" smart-input="date"  ng-model="model.weigh.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th>
+                                <input style="margin-top: 5px" class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table style="padding-right: 5px;">
+                    <col style="width: 50%"/>
+                    <col style="width: 50%"/>
+                    <col/>
+                    <thead class="background-dark">
+                        <tr>
+                            <th>
+                                <input style="margin-top: 5px" class="form-control text-right" type="text" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th>
+                                <input style="margin-top: 5px" class="form-control text-right" type="text" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+            <div class="col-xs-12 " style="flex: 0 0 auto;height: 80px;">
+                <table>
+                    <col style="width: 30%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col/>
+                    <thead class="background-dark">
+                        <tr>
+                            <th>
+                                <label>ITEM</label>
+                                <input id="item" type="text" ng-model="leaf.indexNo" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th>
+                                <label>ACCOUNT</label>
+                                <input type="text" ng-model="leaf.route" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th>
+                                <label>PRICE</label>
+                                <input type="text" ng-model="leaf.normalQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th>
+                                <label>QTY</label>
+                                <input type="text" ng-model="leaf.superQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th>
+                                <label>DISCOUNT</label>
+                                <input type="text" ng-model="leaf.superQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th>
+                                <label>AMOUNT</label>
+                                <input type="text" ng-model="leaf.superQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th>
+                                <button type="button" class="btn btn-primary" ng-click="ui.insertData();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);">
+                <table class="table-hover">
+                    <col style="width: 30%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col/>
+                    <tbody >                       
+                        <tr style="height: 40px" ng-repeat="leaf in leafList">
+                            <td class="text-center"><span class="label label-default">{{leaf.indexNo}}</span></td>
+                            <td class="text-center">{{leaf.route}}</td>
+                            <td class="text-center">{{leaf.route}}</td>
+                            <td class="text-center">{{leaf.route}}</td>
+                            <td class="text-center">{{leaf.route}}</td>
+                            <td class="text-center">{{leaf.route}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12">
+                <table style="padding-right: 5px;">
+                    <col style="width: 30%;"/>
+                    <col style="width: 70%;"/>
+                    <thead class="background-dark">
+                        <tr>
+                            <td >TOTAL</td>
+                            <td class="text-right">{{totalSuperValue}}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-xs-12">
+                <table style="padding-right: 5px;">
+                    <col style="width: 30%;"/>
+                    <col style="width: 70%;"/>
+                    <thead class="background-dark">
+                        <tr>
+                            <td >TOTAL</td>
+                            <td class="text-right">{{totalSuperValue}}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>
