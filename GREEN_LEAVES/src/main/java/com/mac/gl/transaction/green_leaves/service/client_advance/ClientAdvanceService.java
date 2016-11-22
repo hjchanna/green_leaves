@@ -5,11 +5,11 @@
  */
 package com.mac.gl.transaction.green_leaves.service.client_advance;
 
-import com.mac.gl.system.exception.EntityNotFoundException;
 import com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequest;
 import com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequestDetail;
 import com.mac.gl.transaction.green_leaves.repository.client_advance.ClientAdvanceRequestDetailRepository;
 import com.mac.gl.transaction.green_leaves.repository.client_advance.ClientAdvanceRequestRepository;
+import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -5,7 +5,6 @@
  */
 package com.mac.green_leaves.v1.transaction.zmaster.employee;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.transaction.zmaster.employee.model.MEmployee;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,29 +27,29 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    private MEmployee findByNic(String nic) {
-        List<MEmployee> employees = employeeRepository.findByNic(nic);
-        if (employees.isEmpty()) {
-            return null;
-        }
-        return employees.get(0);
-    }
-
-    public MEmployee saveEmployee(MEmployee employee) {
-        MEmployee mEmployee = findByNic(employee.getNic());
-        if (mEmployee == null) {
-            System.out.println(employee + "sssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-            return employeeRepository.save(employee);
-        } else {
-            if (mEmployee.getIndexNo().equals(employee.getIndexNo())) {//is update get update Object?
-                return employee;
-            }
-            throw new DuplicateEntityException("Employee already exists");
-        }
-    }
-
-    public void deleteEmployee(Integer indexNo) {
-        employeeRepository.delete(indexNo);
-    }
+//    private MEmployee findByNic(String nic) {
+//        List<MEmployee> employees = employeeRepository.findByNic(nic);
+//        if (employees.isEmpty()) {
+//            return null;
+//        }
+//        return employees.get(0);
+//    }
+//
+//    public MEmployee saveEmployee(MEmployee employee) {
+//        MEmployee mEmployee = findByNic(employee.getNic());
+//        if (mEmployee == null) {
+//            System.out.println(employee + "sssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+//            return employeeRepository.save(employee);
+//        } else {
+//            if (mEmployee.getIndexNo().equals(employee.getIndexNo())) {//is update get update Object?
+//                return employee;
+//            }
+//            throw new DuplicateEntityException("Employee already exists");
+//        }
+//    }
+//
+//    public void deleteEmployee(Integer indexNo) {
+//        employeeRepository.delete(indexNo);
+//    }
 
 }

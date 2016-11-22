@@ -49,46 +49,6 @@ public class MEmployee implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "gender")
-    private String gender;
-
-    @Basic(optional = false)
-    @Column(name = "date_of_birth")
-    private Date birthday;
-
-    @Basic(optional = false)
-    @Column(name = "nic_number")
-    private String nic;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "mobile_number")
-    private String mobileNo;
-
-    @Basic(optional = false)
-    @Column(name = "telephone_number")
-    private String telephoneNo;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "address_line1")
-    private String address1;
-
-    @Basic(optional = false)
-    @Column(name = "address_line2")
-    private String address2;
-
-    @Basic(optional = false)
-    @Column(name = "address_line3")
-    private String address3;
-
-    @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "type")
-    private MType type;
-
     public MEmployee() {
     }
 
@@ -96,19 +56,10 @@ public class MEmployee implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MEmployee(Integer indexNo, int branch, String name, String gender, Date birthday, String nic, String mobileNo, String telephoneNo, String address1, String address2, String address3, MType type) {
+    public MEmployee(Integer indexNo, int branch, String name) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.nic = nic;
-        this.mobileNo = mobileNo;
-        this.telephoneNo = telephoneNo;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.address3 = address3;
-        this.type = type;
     }
 
     public Integer getIndexNo() {
@@ -134,79 +85,5 @@ public class MEmployee implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getNic() {
-        return nic;
-    }
-
-    public void setNic(String nic) {
-        this.nic = nic;
-    }
-
-    public String getMobileNo() {
-        return mobileNo;
-    }
-
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
-    }
-
-    public String getTelephoneNo() {
-        return telephoneNo;
-    }
-
-    public void setTelephoneNo(String telephoneNo) {
-        this.telephoneNo = telephoneNo;
-    }
-
-    public String getAddress1() {
-        return address1;
-    }
-
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(String address2) {
-        this.address2 = address2;
-    }
-
-    public String getAddress3() {
-        return address3;
-    }
-
-    public void setAddress3(String address3) {
-        this.address3 = address3;
-    }
-
-    public MType getType() {
-        return type;
-    }
-
-    public void setType(MType type) {
-        this.type = type;
-    }
-    
-    
 
 }
