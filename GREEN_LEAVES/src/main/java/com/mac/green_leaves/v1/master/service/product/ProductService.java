@@ -47,11 +47,10 @@ public class ProductService {
     private boolean isNotDuplicate(MProduct product) {
         List<MProduct> products;
         if (product.getIndexNo() == null) {
-            products = productRepository.findByName(product.getName());
+            products = productRepository.findByProductNoOrBarCodeOrName(product.getProductNo(), product.getBarCode(), product.getName());
         } else {
-            products = productRepository.findByNameAndIndexNoNot(product.getName(), product.getIndexNo());
+            products = productRepository.findByProductNoAndIndexNoNot(product.getProductNo(), product.getIndexNo());
         }
-
         return products.isEmpty();
     }
 }

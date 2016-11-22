@@ -31,31 +31,18 @@ public class MSupplier implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "branch")
-    private int branch;
+    @Column(name = "company_name")
+    private String companyName;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "name")
-    private String name;
+    @Column(name = "contact_name")
+    private String contactName;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "suppplier_no")
-    private String suppplierNo;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "nic_number")
-    private String nicNumber;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "mobile_number")
-    private String mobileNumber;
-
-    @Column(name = "telephone_number")
-    private String telephoneNumber;
+    @Column(name = "contact_number")
+    private String contactNumber;
 
     @Column(name = "address_line1")
     private String addressLine1;
@@ -65,21 +52,18 @@ public class MSupplier implements Serializable {
 
     @Column(name = "address_line3")
     private String addressLine3;
-    
+
+    public MSupplier(Integer indexNo, String companyName, String contactName, String contactNumber, String addressLine1, String addressLine2, String addressLine3) {
+        this.indexNo = indexNo;
+        this.companyName = companyName;
+        this.contactName = contactName;
+        this.contactNumber = contactNumber;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.addressLine3 = addressLine3;
+    }
+
     public MSupplier() {
-    }
-
-    public MSupplier(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public MSupplier(Integer indexNo, int branch, String name, String suppplierNo, String nicNumber, String mobileNumber) {
-        this.indexNo = indexNo;
-        this.branch = branch;
-        this.name = name;
-        this.suppplierNo = suppplierNo;
-        this.nicNumber = nicNumber;
-        this.mobileNumber = mobileNumber;
     }
 
     public Integer getIndexNo() {
@@ -90,52 +74,28 @@ public class MSupplier implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public int getBranch() {
-        return branch;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setBranch(int branch) {
-        this.branch = branch;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getName() {
-        return name;
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
-    public String getSuppplierNo() {
-        return suppplierNo;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setSuppplierNo(String suppplierNo) {
-        this.suppplierNo = suppplierNo;
-    }
-
-    public String getNicNumber() {
-        return nicNumber;
-    }
-
-    public void setNicNumber(String nicNumber) {
-        this.nicNumber = nicNumber;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public String getTelephoneNumber() {
-        return telephoneNumber;
-    }
-
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getAddressLine1() {

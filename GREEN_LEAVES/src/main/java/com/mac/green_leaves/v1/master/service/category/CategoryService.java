@@ -29,28 +29,26 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public MCategory findByName(String name) {
-        List<MCategory> categorys = categoryRepository.findByName(name);
-        if (categorys.isEmpty()) {
-            return null;
-        }
-        return categorys.get(0);
-    }
-
+//    public MCategory findByName(String name) {
+//        List<MCategory> categorys = categoryRepository.findByName(name);
+//        if (categorys.isEmpty()) {
+//            return null;
+//        }
+//        return categorys.get(0);
+//    }
     public MCategory saveCategory(MCategory category) {
-        MCategory mCategory = findByName(category.getName());
-        if (mCategory == null) {
-            return categoryRepository.save(category);
-        } else {
-            if (mCategory.getIndexNo().equals(category.getIndexNo())) {//is update get update Object?
-                return category;
-            }
-            throw new DuplicateEntityException("Category already exists");
-        }
+//        MCategory mCategory = findByName(category.getName());
+//        if (mCategory == null) {
+        return categoryRepository.save(category);
+//        } else {
+//            if (mCategory.getIndexNo().equals(category.getIndexNo())) {//is update get update Object?
+//                return category;
+//            }
+//            throw new DuplicateEntityException("Category already exists");
+//        }
     }
 
     public void deleteCategory(Integer indexNo) {
         categoryRepository.delete(indexNo);
-
     }
 }

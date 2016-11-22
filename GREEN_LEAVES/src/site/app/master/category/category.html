@@ -3,13 +3,18 @@
 
 <div class="index-content-body ">
     <div class="col-xs-4 background-dark">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 95px; padding-right: 22px;">
-                <label>Category :</label>
-                <input type="text" class="form-control" ng-model="model.category.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                <label>Department :</label>
-                <input type="text" class="form-control" ng-model="model.category.department" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="department as (department.name) for department in model.departmentList | filter:$viewValue | limitTo: 7">
-            </div>
+        <div style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>                   
+                    <tr>
+                        <td><label class="control-label">Name</label></td>
+                        <td><input class="form-control" id="employee" ng-model="model.category.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="col-xs-8 background-light">
@@ -49,7 +54,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-12 background-light" style="position: fixed;bottom: 1px;margin-left: -15px">
+        <div class="col-xs-12 background-light" style="position: fixed;bottom: 1px;margin-left: -10px">
             <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize"
                 class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
         </div>

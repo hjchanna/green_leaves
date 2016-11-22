@@ -11,19 +11,24 @@
                 <tbody>                   
                     <tr>
                         <td><label class="control-label">Name</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control" id="employee" ng-model="model.employee.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Type</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as (type.name) for type in model.typeList |filter:$viewValue|limitTo:10"></td>
                     </tr>
                     <tr>
+
                         <td><label class="control-label">Birthday</label></td>
-                        <td><input type="date" class="form-control text-right" ng-model="model.employee.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input smart-input="date" focus class="form-control" ng-model="model.employee.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Gender</label></td>
+                        <td><input class="form-control" ng-model="model.employee.gender" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">NIC</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.nic" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control" ng-model="model.employee.nic" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Mobile No</label></td>
@@ -35,15 +40,15 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">Address 01</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.address1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><input class="form-control" ng-model="model.employee.address1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Address 02</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.address2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><input class="form-control" ng-model="model.employee.address2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Address 03</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.address3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><input class="form-control" ng-model="model.employee.address3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
                     </tr>
 
                 </tbody>
@@ -52,24 +57,28 @@
     </div>
 
     <div class="col-xs-8 background-light">
-        <div class="row col-xs-5">
+        <div class="col-xs-5">
             <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
         </div>
         <table class="table-hover">
-            <col style="width: 30%">
-            <col style="width: 30%">
+            <col style="width: 25%">
+            <col style="width: 25%">
             <col style="width: 20%">
             <col style="width: 20%">
-            <thead class="background-dark">
+            <col style="width: 10%">
+            <thead>
                 <tr>
                     <th>
-                        <label>Name</label>
+                        Name
                     </th>
                     <th>
-                        <label>NIC</label>
+                        Type
                     </th>
                     <th>
-                        <label>Mobile No</label>
+                        date
+                    </th>
+                    <th>
+                        Mobile No
                     </th> 
                     <th>&nbsp;</th>
                 </tr>
@@ -77,14 +86,16 @@
         </table>
         <div class="smart-scroll-y" style="height: calc(100vh - 220px);">
             <table class="table-hover">
-                <col style="width: 30%">
-                <col style="width: 30%">
+                <col style="width: 25%">
+                <col style="width: 25%">
                 <col style="width: 20%">
                 <col style="width: 20%">
+                <col style="width: 10%">
                 <tbody>
                     <tr ng-repeat="employee in model.employeeList| filter : model.search.name">
                         <td>{{employee.name}}</td>
-                        <td>{{employee.nic}}</td>
+                        <td>{{employee.type.name}}</td>
+                        <td>{{employee.birthday| date:"dd-MM-yyyy"}}</td>
                         <td>{{employee.mobileNo}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(employee, $index)"><span class="glyphicon glyphicon-edit"></span></a>

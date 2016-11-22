@@ -48,17 +48,19 @@ public class MVehicle implements Serializable {
     private String chassisNo;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "make")
     private String make;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "model")
     private String model;
 
     @Basic(optional = false)
     @NotNull
+    @Column(name = "branch")
+    private Integer branch;
+
+    @Basic(optional = false)
     @Column(name = "type")
     private String type;
 
@@ -73,18 +75,20 @@ public class MVehicle implements Serializable {
     public MVehicle() {
     }
 
-    public MVehicle(Integer indexNo, String vehicleNo, String engineNo, String chassisNo, String make, String model, String type, MVehicleOwner vehicleOwner, MEmployee driver) {
+    public MVehicle(Integer indexNo, String vehicleNo, String engineNo, String chassisNo, String make, String model, Integer branch, String type, MVehicleOwner vehicleOwner, MEmployee driver) {
         this.indexNo = indexNo;
         this.vehicleNo = vehicleNo;
         this.engineNo = engineNo;
         this.chassisNo = chassisNo;
         this.make = make;
         this.model = model;
+        this.branch = branch;
         this.type = type;
         this.vehicleOwner = vehicleOwner;
         this.driver = driver;
     }
 
+    
    
 
     public Integer getIndexNo() {
@@ -157,6 +161,14 @@ public class MVehicle implements Serializable {
 
     public void setDriver(MEmployee driver) {
         this.driver = driver;
+    }
+
+    public Integer getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Integer branch) {
+        this.branch = branch;
     }
 
     @Override

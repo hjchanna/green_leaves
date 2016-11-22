@@ -38,9 +38,10 @@ public class EmployeeService {
 
     public MEmployee saveEmployee(MEmployee employee) {
         MEmployee mEmployee = findByNic(employee.getNic());
-        if(mEmployee==null){
-        return employeeRepository.save(employee);
-        }  else {
+        if (mEmployee == null) {
+            System.out.println(employee + "sssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+            return employeeRepository.save(employee);
+        } else {
             if (mEmployee.getIndexNo().equals(employee.getIndexNo())) {//is update get update Object?
                 return employee;
             }

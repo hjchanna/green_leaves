@@ -19,6 +19,8 @@
                             });
                 };
 
+
+
                 //load vehicle
                 factory.loadVehicles = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle";
@@ -97,7 +99,7 @@
 
     //controller
     angular.module("routeModule")
-            .controller("routeController", function (routeFactory, $scope, Notification) {
+            .controller("routeController", function (routeFactory, $scope, Notification, $timeout) {
                 //data models 
                 $scope.model = {};
 
@@ -130,6 +132,9 @@
                 //save 
                 $scope.http.saveRoutes = function () {
                     $scope.model.route.branch = 1;
+                    if ($scope.model.route.tdRate === null) {
+                        $scope.model.route.tdRate = 0;
+                    }
                     var detail = $scope.model.route;
                     var detailJSON = JSON.stringify(detail);
 
@@ -139,6 +144,7 @@
                                 Notification.success("success");
                                 $scope.model.routes.push(data);
                                 $scope.model.reset();
+                                $scope.ui.focus();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -166,10 +172,17 @@
 
                 //------------ ui funtion----------------
 
+                //focus
+                $scope.ui.focus = function () {
+                    $timeout(function () {
+                        document.querySelectorAll("#route")[0].focus();
+                    }, 10);
+                };
 
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $scope.ui.focus();
                 };
 
                 //save
@@ -186,6 +199,8 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.route = details;
                     $scope.model.routes.splice(index, 1);
+                    $scope.ui.focus();
+
                 };
 
 

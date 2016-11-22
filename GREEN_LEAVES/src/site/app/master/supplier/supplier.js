@@ -45,7 +45,7 @@
                 return factory;
             });
     angular.module("supplierModule")
-            .controller("supplierController", function ($scope, supplierFactory, Notification) {
+            .controller("supplierController", function ($scope, $timeout, supplierFactory, Notification) {
 
                 //data model
                 $scope.model = {};
@@ -64,6 +64,9 @@
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $timeout(function () {
+                        document.querySelectorAll("#name")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.edit = function (supplier, index) {
@@ -76,43 +79,52 @@
                 };
 
                 $scope.ui.save = function () {
-                    $scope.http.saveSupplier();
+                    if ($scope.validateInput()) {
+                        $scope.http.saveSupplier();
+                    } else {
+                        Notification.error("Please Input Details");
+                    }
+                };
+
+                //validate model
+                $scope.validateInput = function () {
+                    if ($scope.model.data.companyName 
+                            && $scope.model.data.contactName 
+                            && $scope.model.data.contactNumber !== null) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 };
 
                 $scope.ui.checkSupplierExists = function (text, type) {
                     for (var i = 0; i < $scope.model.suppliers.length; i++) {
-                        if (type === "nicNumber") {
-                            if (text === $scope.model.suppliers[i].nicNumber) {
+                        if (type === "companyName") {
+                            if (text === $scope.model.suppliers[i].companyName) {
                                 $scope.selectedRow = $scope.model.suppliers[i];
-                                $scope.model.data = $scope.model.suppliers[i];
-                                //Notification.error("this supplier is alrady exists");
-                            }
-                        } else if (type === "telephoneNumber") {
-                            $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].telephoneNumber) {
-                                $scope.model.data = $scope.model.suppliers[i];
-                                //Notification.error("this supplier is alrady exists");
+                                Notification.error("this supplier is alrady exists");
                                 break;
                             }
-                        } else if (type === "mobileNumber") {
+                        } else if (type === "contactName") {
                             $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].mobileNumber) {
-                                $scope.model.data = $scope.model.suppliers[i];
-                                //Notification.error("this suppliers is alrady exists");
-                            }
-                        } else if (type === "name") {
-                            if (text === $scope.model.suppliers[i].name) {
+                            if (text === $scope.model.suppliers[i].contactName) {
                                 $scope.selectedRow = $scope.model.suppliers[i];
-                                $scope.model.data = $scope.model.suppliers[i];
-                                //Notification.error("this suppliers is alrady exists");
+                                Notification.error("this supplier is alrady exists");
+                                break;
                             }
-                        } else if (type === "suppplierNo") {
-                            if (text === $scope.model.suppliers[i].suppplierNo) {
+                        } else if (type === "contactNumber") {
+                            $scope.selectedRow = $scope.model.suppliers[i];
+                            if (text === $scope.model.suppliers[i].contactNumber) {
                                 $scope.selectedRow = $scope.model.suppliers[i];
-                                $scope.model.data = $scope.model.suppliers[i];
-                                //Notification.error("this suppliers is alrady exists");
+                                Notification.error("this suppliers is alrady exists");
                             }
                         }
+                    }
+                };
+
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
                     }
                 };
 
@@ -128,6 +140,9 @@
                                 //reset model
                                 $scope.model.suppliers.push(data);
                                 $scope.model.reset();
+                                $timeout(function () {
+                                    document.querySelectorAll("#name")[0].focus();
+                                }, 10);
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -146,7 +161,6 @@
                         }
                         $scope.model.suppliers.splice(id, 1);
                     });
-
                 };
 
                 $scope.init = function () {
@@ -161,6 +175,7 @@
                     supplierFactory.loadSupplier(function (data) {
                         $scope.model.suppliers = data;
                     });
+
                 };
                 $scope.init();
             });

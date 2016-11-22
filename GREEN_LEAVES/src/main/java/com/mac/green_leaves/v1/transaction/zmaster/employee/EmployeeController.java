@@ -28,10 +28,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
     
-//    public List<MEmployee> findByBrach(@PathVariable Integer indexNo){
-//        
-//    }
-
     @RequestMapping(method = RequestMethod.GET)
     public List<MEmployee> findAllEmployee(){
         return employeeService.findEmployeesList();
@@ -39,6 +35,7 @@ public class EmployeeController {
     }
     @RequestMapping(value = "/save-employee",method = RequestMethod.POST)
     public MEmployee saveEmployee(@RequestBody MEmployee employee){
+        System.out.println(employee.getIndexNo() +"ddddddddddddddddddddddddddddddddddddddd");
         return employeeService.saveEmployee(employee);
     }
     @RequestMapping(value = "/delete-employee/{indexNo}", method = RequestMethod.DELETE)

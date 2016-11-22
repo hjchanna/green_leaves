@@ -43,5 +43,4 @@ public class CategoryController {
         categoryService.deleteCategory(indexNo);
         return indexNo;
     }
-
 }

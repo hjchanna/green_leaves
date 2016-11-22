@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 /**
  *
@@ -59,6 +58,10 @@ public class MVehicleOwner {
     @Basic(optional = false)
     @Column(name = "address_line3")
     private String addressLine3;
+    
+    @Basic(optional = false)
+    @Column(name = "branch")
+    private Integer branch;
 
     public Integer getIndexNo() {
         return indexNo;
@@ -122,6 +125,14 @@ public class MVehicleOwner {
 
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
+    }
+
+    public Integer getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Integer branch) {
+        this.branch = branch;
     }
 
   

@@ -19,6 +19,18 @@
                             });
                 };
 
+                //load employee types
+                factory.loadEmployeeTypes = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/types";
+                    $http.get(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
+                };
+
 
                 //save employee
                 factory.saveEmployee = function (summary, callback, errorCallback) {
@@ -57,7 +69,7 @@
 
     //-----------http controller---------
     angular.module("employeeModule")
-            .controller("employeeController", function ($scope, employeeFactory, Notification) {
+            .controller("employeeController", function ($scope, employeeFactory, Notification, $timeout) {
                 //data models 
                 $scope.model = {};
 
@@ -79,19 +91,20 @@
                         "indexNo": null,
                         "branch": null,
                         "name": null,
-                        "type": null,
+                        "gender": null,
                         "birthday": null,
                         "nic": null,
                         "mobileNo": null,
                         "telephoneNo": null,
                         "address1": null,
                         "address2": null,
-                        "address3": null
+                        "address3": null,
+                        "type": null
                     };
                 };
                 //validate model
                 $scope.validateInput = function () {
-                    if ($scope.model.employee.name && $scope.model.employee.nic && $scope.model.employee.birthday && $scope.model.employee.address1 && $scope.model.employee.mobileNo !== null) {
+                    if ($scope.model.employee.name && $scope.model.employee.address1 && $scope.model.employee.mobileNo !== null) {
                         return true;
                     } else {
                         return false;
@@ -111,7 +124,7 @@
                                 $scope.model.employeeList.push(data);
                                 Notification.success("added success...");
                                 $scope.model.reset();
-                                $scope.ui.mode = ("IDEAL");
+//                                $scope.ui.focus();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -139,17 +152,32 @@
 
                 };
 
+                //focus
+                $scope.ui.focus = function () {
+                    $timeout(function () {
+                        document.querySelectorAll("#employee")[0].focus();
+                    }, 10);
+                };
+
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $scope.ui.focus();
+
                 };
 
                 //edit function 
                 $scope.ui.edit = function (employee, index) {
                     $scope.ui.mode = "EDIT";
+                    console.log(employee.birthday);
                     $scope.model.employee = employee;
                     $scope.model.employeeList.splice(index, 1);
+
+                    $scope.ui.focus();
                 };
+
+                //load gender
+
 
 
                 $scope.ui.init = function () {
@@ -158,10 +186,15 @@
                     //reset text
                     $scope.model.reset();
 
+
                     //load employee
                     employeeFactory.loadEmployee(function (data) {
                         $scope.model.employeeList = data;
-                        console.log($scope.model.employeeList);
+//                        console.log($scope.model.employeeList);
+                    });
+                    employeeFactory.loadEmployeeTypes(function (data) {
+                        $scope.model.typeList = data;
+//                        console.log($scope.model.employeeList);
                     });
                 };
 

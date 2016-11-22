@@ -15,9 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface SupplierRepository extends JpaRepository<MSupplier, Integer> {
 
-    public List<MSupplier> findByBranch(Integer branch);
+    public List<MSupplier> findByCompanyName(String companyName);
 
-    public List<MSupplier> findByNicNumber(String nicNumber);
-
-    public List<MSupplier> findByNicNumberAndIndexNoNot(String nicNumber, Integer indexNo);
+    public List<MSupplier> findByCompanyNameAndIndexNoNot(String companyName, Integer indexNo);
 }

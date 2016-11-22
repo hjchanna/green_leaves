@@ -11,23 +11,23 @@
                 <tbody>
                     <tr>
                         <td><label class="control-label">Route</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                        <td><input class="form-control" id="route" ng-model="model.route.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Vehicle</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.vehicle" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="vehicle as (vehicle.vehicleNo) for vehicle in model.vehicleList | filter:$viewValue | limitTo: 7"></td>
+                        <td><input class="form-control" ng-model="model.route.vehicle" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="vehicle as (vehicle.vehicleNo) for vehicle in model.vehicleList | filter:$viewValue | limitTo: 7"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Route Officer</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.routeOfficer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeOfficer as (routeOfficer.name) for routeOfficer in model.officerList | filter:$viewValue | limitTo: 7"></td>
+                        <td><input class="form-control" ng-model="model.route.routeOfficer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeOfficer as (routeOfficer.name) for routeOfficer in model.officerList | filter:'ROUTEOFFICER':$viewValue | limitTo: 7"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Route Helper</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.routeHelper" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeHelper as (routeHelper.name) for routeHelper in model.officerList | filter:$viewValue | limitTo: 7"></td>
+                        <td><input class="form-control" ng-model="model.route.routeHelper" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeHelper as (routeHelper.name) for routeHelper in model.officerList | filter:'ROUTEHELPER':$viewValue | limitTo: 7"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">TD Rate</label></td>
-                        <td><input class="form-control text-right" ng-model="model.route.tdRate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control" ng-model="model.route.tdRate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
 
                 </tbody>

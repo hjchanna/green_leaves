@@ -41,8 +41,23 @@ public class MProduct implements Serializable {
     private String name;
 
     @Basic(optional = false)
+    @Column(name = "barcode")
+    private String barCode;
+
+    @Basic(optional = false)
+    @Column(name = "model")
+    private String model;
+
+    @Basic(optional = false)
+    @Column(name = "product_no")
+    private String productNo;
+
+    @Basic(optional = false)
     @Column(name = "print_description")
     private String printDescription;
+
+    @Column(name = "branch")
+    private Integer branch;
 
     @Column(name = "brand")
     private String brand;
@@ -84,10 +99,12 @@ public class MProduct implements Serializable {
     public MProduct(Integer indexNo, String name, String printDescription, String brand, Integer make, String model, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
         this.indexNo = indexNo;
         this.name = name;
-        this.printDescription = printDescription;
-        this.brand = brand;
-        this.make = make;
+        this.barCode = barCode;
         this.model = model;
+        this.productNo = productNo;
+        this.printDescription = printDescription;
+        this.branch = branch;
+        this.brand = brand;
         this.unit = unit;
         this.costPrice = costPrice;
         this.salePrice = salePrice;
@@ -119,6 +136,14 @@ public class MProduct implements Serializable {
 
     public void setPrintDescription(String printDescription) {
         this.printDescription = printDescription;
+    }
+
+    public Integer getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Integer branch) {
+        this.branch = branch;
     }
 
     public String getBrand() {
@@ -201,4 +226,27 @@ public class MProduct implements Serializable {
         this.supplier = supplier;
     }
 
+    public String getProductNo() {
+        return productNo;
+    }
+
+    public void setProductNo(String productNo) {
+        this.productNo = productNo;
+    }
+
+    public String getBarCode() {
+        return barCode;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 }

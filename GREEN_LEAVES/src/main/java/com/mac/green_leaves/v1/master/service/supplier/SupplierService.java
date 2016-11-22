@@ -27,7 +27,7 @@ public class SupplierService {
     private SupplierRepository supplierRepository;
 
     public List<MSupplier> getAllSupplier(Integer branch) {
-        return supplierRepository.findByBranch(branch);
+        return supplierRepository.findAll();
     }
 
     public MSupplier saveSupplier(MSupplier supplier) {
@@ -46,9 +46,9 @@ public class SupplierService {
     private boolean isNotDuplicate(MSupplier supplier) {
         List<MSupplier> suppliers;
         if (supplier.getIndexNo() == null) {
-            suppliers = supplierRepository.findByNicNumber(supplier.getNicNumber());
+            suppliers = supplierRepository.findByCompanyName(supplier.getCompanyName());
         } else {
-            suppliers = supplierRepository.findByNicNumberAndIndexNoNot(supplier.getNicNumber(), supplier.getIndexNo());
+            suppliers = supplierRepository.findByCompanyNameAndIndexNoNot(supplier.getCompanyName(), supplier.getIndexNo());
         }
         return suppliers.isEmpty();
     }

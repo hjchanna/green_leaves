@@ -71,6 +71,18 @@
 
                             });
                 };
+                //load Vehicle Owner
+                factory.loadEmployeeList = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/employees";
+
+                    $http.get(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
+                };
 
 
 
@@ -104,7 +116,7 @@
 
     //controller
     angular.module("vehicleModule")
-            .controller("vehicleController", function ($scope, vehicleFactory, Notification) {
+            .controller("vehicleController", function ($scope, vehicleFactory, Notification, $filter, $timeout) {
                 //data models 
                 $scope.model = {};
                 $scope.model.vehicleOwners = [];
@@ -113,6 +125,9 @@
 
                 $scope.model.vehicleOwner = {};
                 $scope.model.vehicleOwnerList = [];
+                $scope.model.makeList = [];
+                $scope.model.modelList = [];
+                $scope.model.typeList = [];
 
                 //ui models
                 $scope.ui = {};
@@ -124,6 +139,14 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
+                //convert lovercase to uppercase 
+                $scope.$watch('model.vehicle.vehicleNo', function (val) {
+                    $scope.model.vehicle.vehicleNo = $filter('uppercase')(val);
+                }, true);
+
+                $scope.$watch('model.vehicleOwner.nicNumber', function (val) {
+                    $scope.model.vehicleOwner.nicNumber = $filter('uppercase')(val);
+                }, true);
 
 
 
@@ -147,32 +170,65 @@
                 //save function
                 $scope.ui.save = function () {
                     if ($scope.ui.tabPane === 0) {// is first tab selected 
-                        if ($scope.model.vehicle.vehicleOwner) {
-                            if ($scope.model.vehicle.driver) {
-                                if ($scope.model.vehicle.vehicleNo && $scope.model.vehicle.chassisNo && $scope.model.vehicle.engineNo) {
-                                    $scope.http.saveVehicle();
+                        if ($scope.model.vehicle.vehicleNo) {
+                            if ($scope.model.vehicle.engineNo) {
+                                if ($scope.model.vehicle.chassisNo) {
+                                    if ($scope.model.vehicle.vehicleOwner) {
+                                        if ($scope.model.vehicle.driver) {
+                                            $scope.http.saveVehicle();
+                                        } else {
+                                            Notification.error("Select a Default Driver to Save");
+                                            $timeout(function () {
+                                                document.querySelectorAll("#driverName")[0].focus();
+                                            }, 10);
+                                        }
+                                    } else {
+                                        Notification.error("Select a Vehicle Owner to Save");
+                                        $timeout(function () {
+                                            document.querySelectorAll("#ownerName")[0].focus();
+                                        }, 10);
+                                    }
                                 } else {
-                                    Notification.error("please input vehicle Details to Save");
+                                    Notification.error("Insert Chassis Number to Save");
+                                    $timeout(function () {
+                                        document.querySelectorAll("#chassisNo")[0].focus();
+                                    }, 10);
                                 }
                             } else {
-                                Notification.error("Select Default Driver to Save");
+                                Notification.error("Insert Engine Number to Save");
+                                $timeout(function () {
+                                    document.querySelectorAll("#engineNo")[0].focus();
+                                }, 10);
                             }
                         } else {
-                            Notification.error("Select Vehicle Owner to Save");
+                            Notification.error("Insert Vehicle Number to Save");
+                            $timeout(function () {
+                                document.querySelectorAll("#vehicleNo")[0].focus();
+                            }, 10);
                         }
                     } else if ($scope.ui.tabPane === 1) {// is second tab selected 
-                        if ($scope.model.vehicleOwner) {
-                            $scope.http.insertVehicleOwner();
-                            $scope.ui.mode = "IDEAL";
+                        if ($scope.model.vehicleOwner.name) {
+                            if ($scope.model.vehicleOwner.nicNumber) {
+                                if ($scope.model.vehicleOwner.mobileNumber) {
+                                    $scope.http.insertVehicleOwner();
+                                } else {
+                                    Notification.error('Insert Mobile Number to Save ');
+                                    $timeout(function () {
+                                            document.querySelectorAll("#mobileNo")[0].focus();
+                                        }, 10);
+                                }
+                            } else {
+                                Notification.error('Insert NIC Number to Save  ');
+                                $timeout(function () {
+                                            document.querySelectorAll("#nicNumber")[0].focus();
+                                        }, 10);
+                            }
                         } else {
-                            Notification.error('No Detail to Save ');
+                            Notification.error('Insert Owner Name to Save');
+                            $timeout(function () {
+                                            document.querySelectorAll("#name")[0].focus();
+                                        }, 10);
                         }
-
-
-
-
-
-
                     }
                 };
 
@@ -180,12 +236,29 @@
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    if ($scope.ui.tabPane === 0) {// is first tab selected 
+                        $timeout(function () {
+                            document.querySelectorAll("#vehicleNo")[0].focus();
+                        }, 10);
+
+                    } else if ($scope.ui.tabPane === 1) {// is second tab selected  
+                        $timeout(function () {
+                            document.querySelectorAll("#name")[0].focus();
+                        }, 10);
+
+                    }
+
+                    $timeout(function () {
+                        document.querySelectorAll("#name")[0].focus();
+                    }, 10);
                 };
 //               tab pane
                 $scope.ui.setTabPane = function (int) {
                     $scope.ui.tabPane = int;
                 };
-
+                $scope.ui.myFilter = function () {
+                    return name === $scope.search || nicNumber === $scope.search;
+                };
 //                edit funtion
 
                 $scope.ui.edit = function (details, index) {
@@ -217,6 +290,7 @@
                 //-------------------http function-------------------
 
                 $scope.http.saveVehicle = function () {
+                    $scope.model.vehicle.branch = 1;//defaule branch
                     var detail = $scope.model.vehicle;
                     var detailJSON = JSON.stringify(detail);
                     console.log(detailJSON);
@@ -226,9 +300,15 @@
                             function (data) {
                                 Notification.success("success");
                                 $scope.model.vehicles.push(data);
-                                $scope.model.vehicle = {};
-                                $scope.ui.mode = "IDEAL";
+                                
+                                $scope.model.makeList.push($scope.model.vehicle.make);
+                                $scope.model.modelList.push($scope.model.vehicle.model);
+                                $scope.model.typeList.push($scope.model.vehicle.type);
 
+                                $scope.model.vehicle = {};
+                                $timeout(function () {
+                        document.querySelectorAll("#vehicleNo")[0].focus();
+                    }, 10);
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -245,6 +325,7 @@
                     });
                 };
                 $scope.http.insertVehicleOwner = function () {
+                    $scope.model.vehicleOwner.branch = 1;
                     var detail = $scope.model.vehicleOwner;
                     var detailJSON = JSON.stringify(detail);
                     //save detail dirrectly
@@ -254,6 +335,9 @@
                                 Notification.success('success !');
                                 $scope.model.vehicleOwnerList.push(data);
                                 $scope.model.vehicleOwner = {};
+                                $timeout(function () {
+                                    document.querySelectorAll("#name")[0].focus();
+                                }, 10);
 
                             }
                     , function (data) {
@@ -266,8 +350,10 @@
                     if (indexNo) {
                         vehicleFactory.deleteVehicleOwner(indexNo, function () {
                             $scope.model.vehicleOwnerList.splice(index, 1);
-
                             Notification.error(indexNo + ' Delete Successfully');
+                            $timeout(function () {
+                                document.querySelectorAll("#name")[0].focus();
+                            }, 10);
                         });
                     }
                 };
@@ -281,58 +367,25 @@
                     $scope.model.vehicle = {};
                     $scope.model.vehicles = [];
 
-                    //load Vehicle
+
                     //load Vehicles
                     vehicleFactory.loadVehicle(function (data) {
                         $scope.model.vehicles = data;
+                        for (var i = 0; i < $scope.model.vehicles.length; i++) {
+                            $scope.model.makeList.push($scope.model.vehicles[i].make);
+                            $scope.model.modelList.push($scope.model.vehicles[i].model);
+                            $scope.model.typeList.push($scope.model.vehicles[i].type);
+                        }
                     });
                     //load Vehicle Owners
-                    vehicleFactory.loadVehicleOwner(function (data) {
-                        $scope.model.vehicleOwners = data;
+                    vehicleFactory.loadEmployeeList(function (data) {
+                        //driver filter
+                        $scope.model.drivers = data;
                     });
                     //load vehicle Owner
                     vehicleFactory.loadVehicleOwner(function (data) {
                         $scope.model.vehicleOwnerList = data;
                     });
-                    $scope.model.drivers = [
-                        {
-                            indexNo: 1,
-                            branch: 1,
-                            name: "kamal eranga",
-                            type: "DRIVER",
-                            nic_number: "8737359799V",
-                            mobile_number: "0777727374"
-
-                        },
-                        {
-                            indexNo: 2,
-                            branch: 1,
-                            name: "Jagath ariyarathna",
-                            type: "DRIVER",
-                            nic_number: "933910084V",
-                            mobile_number: "098454746"
-
-                        },
-                        {
-                            indexNo: 3,
-                            branch: 1,
-                            name: "rasika aberathna",
-                            type: "DRIVER",
-                            nic_number: "74449375V",
-                            mobile_number: "05362727374"
-
-                        },
-                        {
-                            indexNo: 4,
-                            branch: 2,
-                            name: "nuwan kumara",
-                            type: "ROUTE_OFFICER",
-                            nic_number: "6573474839V",
-                            mobile_number: "0713272664"
-
-                        }
-                    ]
-                            ;
 
                 };
 
