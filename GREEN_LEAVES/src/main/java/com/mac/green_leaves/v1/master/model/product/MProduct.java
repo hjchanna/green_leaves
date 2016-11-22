@@ -65,9 +65,6 @@ public class MProduct implements Serializable {
     @Column(name = "make")
     private Integer make;
 
-    @Column(name = "model")
-    private String model;
-
     @Column(name = "unit")
     private String unit;
 
@@ -96,7 +93,7 @@ public class MProduct implements Serializable {
     public MProduct() {
     }
 
-    public MProduct(Integer indexNo, String name, String printDescription, String brand, Integer make, String model, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
+    public MProduct(Integer indexNo, String name, String barCode, String model, String productNo, String printDescription, Integer branch, String brand, Integer make, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
         this.indexNo = indexNo;
         this.name = name;
         this.barCode = barCode;
@@ -105,6 +102,7 @@ public class MProduct implements Serializable {
         this.printDescription = printDescription;
         this.branch = branch;
         this.brand = brand;
+        this.make = make;
         this.unit = unit;
         this.costPrice = costPrice;
         this.salePrice = salePrice;
@@ -242,11 +240,4 @@ public class MProduct implements Serializable {
         this.barCode = barCode;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
 }

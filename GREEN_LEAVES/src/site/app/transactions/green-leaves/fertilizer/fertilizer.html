@@ -56,30 +56,30 @@
                         <tr>
                             <th>
                                 <label>ITEM</label>
-                                <input id="item" type="text" ng-model="leaf.indexNo" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input id="item" type="text" ng-model="model.tempData.item" uib-typeahead="client as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>ACCOUNT</label>
-                                <input type="text" ng-model="leaf.route" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input type="text" ng-model="model.tempData.account" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>PRICE</label>
-                                <input type="text" ng-model="leaf.normalQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="decimal" ng-model="model.tempData.price" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>QTY</label>
-                                <input type="text" ng-model="leaf.superQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-keydown="ui.getAmount()" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>DISCOUNT</label>
-                                <input type="text" ng-model="leaf.superQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="integer" ng-model="model.tempData.discount" ng-keydown="ui.getAmount()" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>AMOUNT</label>
-                                <input type="text" ng-model="leaf.superQty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="decimal" ng-model="model.tempData.amount" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
-                                <button type="button" class="btn btn-primary" ng-click="ui.insertData();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <button style="margin-top: 10px;" type="button" class="btn btn-primary" ng-click="ui.insertData();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
                             </th>
@@ -98,13 +98,16 @@
                     <col style="width: 10%"/>
                     <col/>
                     <tbody >                       
-                        <tr style="height: 40px" ng-repeat="leaf in leafList">
-                            <td class="text-center"><span class="label label-default">{{leaf.indexNo}}</span></td>
-                            <td class="text-center">{{leaf.route}}</td>
-                            <td class="text-center">{{leaf.route}}</td>
-                            <td class="text-center">{{leaf.route}}</td>
-                            <td class="text-center">{{leaf.route}}</td>
-                            <td class="text-center">{{leaf.route}}</td>
+                        <tr style="height: 40px" ng-repeat="detail in model.data.detail">
+                            <td class="text-center"><label class="label label-default">{{detail.item.indexNo}}</label>   {{detail.item.name}}</td>
+                            <td class="text-center">{{detail.account}}</td>
+                            <td class="text-center">{{detail.price}}</td>
+                            <td class="text-center">{{detail.qty}}</td>
+                            <td class="text-center">{{detail.discount}}</td>
+                            <td class="text-center">{{detail.amount}}</td>
+                            <td>
+                                <a class="btn btn-default" ng-click="ui.editData(detail, $index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteData($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -116,7 +119,7 @@
                     <thead class="background-dark">
                         <tr>
                             <td >TOTAL</td>
-                            <td class="text-right">{{totalSuperValue}}</td>
+                            <td class="text-right">{{ui.getTotal()}}</td>
                         </tr>
                     </thead>
                 </table>
@@ -127,7 +130,7 @@
                     <col style="width: 70%;"/>
                     <thead class="background-dark">
                         <tr>
-                            <td >TOTAL</td>
+                            <td>TOTAL</td>
                             <td class="text-right">{{totalSuperValue}}</td>
                         </tr>
                     </thead>
