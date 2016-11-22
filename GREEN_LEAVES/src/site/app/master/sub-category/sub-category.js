@@ -4,17 +4,6 @@
     angular.module("subCategoryModule")
             .factory("subCategoryFactory", function ($http, systemConfig) {
                 var factory = {};
-                //load
-                factory.loadCategory = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/category";
-                    $http.get(url)
-                            .success(function (data, status, headers) {
-                                callback(data);
-                            })
-                            .error(function (data, status, headers) {
-
-                            });
-                };
 
                 //load sub category
                 factory.loadSubCategory = function (callback) {
@@ -74,7 +63,6 @@
 
                 $scope.model.subCategory = [];
 
-
                 //----------- data models ------------------
                 //reset model
                 $scope.model.reset = function () {
@@ -86,18 +74,15 @@
                 };
 
                 //----------validate funtion-------------
-
                 $scope.validateInput = function () {
-                    if ($scope.model.subCategory.category !== null) {
+                    if ($scope.model.subCategory.subCategory !== null) {
                         return true;
                     } else {
                         return false;
                     }
                 };
 
-
                 //----------http funtion----------------
-
                 $scope.http.deleteSubCategory = function (IndexNo, index) {
                     subCategoryFactory.deleteSubCategory(IndexNo, function () {
                         Notification.success("delete success");
@@ -105,15 +90,10 @@
                     });
                 };
 
-
-
                 //save function 
                 $scope.http.saveSubCategory = function () {
                     var detail = $scope.model.subCategory;
                     var detailJSON = JSON.stringify(detail);
-                    console.log(detailJSON);
-
-
                     subCategoryFactory.saveSubCategory(
                             detailJSON,
                             function (data) {
@@ -129,8 +109,6 @@
 
                 };
 
-
-
                 //----------------ui funtion--------------
                 //save function 
                 $scope.ui.save = function () {
@@ -140,7 +118,6 @@
                         Notification.error("Please Input Details");
                     }
                 };
-
 
                 //new function
                 $scope.ui.new = function () {
@@ -154,16 +131,12 @@
                     $scope.model.subCategoryList.splice(index, 1);
                 };
 
-
                 $scope.ui.init = function () {
                     //set ideal mode
                     $scope.ui.mode = "IDEAL";
                     //rest model data
                     $scope.model.reset();
-                    //load category
-                    subCategoryFactory.loadCategory(function (data) {
-                        $scope.model.categoryList = data;
-                    });
+                    
                     //lord subCategory
                     subCategoryFactory.loadSubCategory(function (data) {
                         $scope.model.subCategoryList = data;

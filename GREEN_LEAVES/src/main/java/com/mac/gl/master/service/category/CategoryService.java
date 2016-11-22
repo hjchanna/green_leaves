@@ -37,11 +37,10 @@ public class CategoryService {
 //        }
 //        return categorys.get(0);
 //    }
-
     public MCategory saveCategory(MCategory category) {
 //        MCategory mCategory = findByName(category.getName());
 //        if (mCategory == null) {
-            return categoryRepository.save(category);
+        return categoryRepository.save(category);
 //        } else {
 //            if (mCategory.getIndexNo().equals(category.getIndexNo())) {//is update get update Object?
 //                return category;
@@ -52,9 +51,5 @@ public class CategoryService {
 
     public void deleteCategory(Integer indexNo) {
         categoryRepository.delete(indexNo);
-    }
-
-    public List<MCategory> findByItemDepartment(MItemDepartment itemDepartment) {
-        return categoryRepository.findByDepartment(itemDepartment);
     }
 }

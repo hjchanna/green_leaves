@@ -4,7 +4,6 @@
             .factory("productFactory", function ($http, systemConfig) {
                 var factory = {};
 
-                // ---------- data loding---------- 
                 //load product
                 factory.loadProduct = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/product";
@@ -236,6 +235,7 @@
 
                     productFactory.loadSubCategory(function (data) {
                         $scope.model.subCategorys = data;
+                        console.log(data);
                     });
 
                     productFactory.loadCategory(function (data) {

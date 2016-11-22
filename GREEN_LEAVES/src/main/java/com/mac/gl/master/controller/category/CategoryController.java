@@ -6,7 +6,6 @@
 package com.mac.gl.master.controller.category;
 
 import com.mac.gl.master.model.category.MCategory;
-import com.mac.gl.master.model.itemdepartment.MItemDepartment;
 import com.mac.gl.master.service.category.CategoryService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +43,4 @@ public class CategoryController {
         categoryService.deleteCategory(indexNo);
         return indexNo;
     }
-
-    @RequestMapping(value = "/get-category", method = RequestMethod.POST)
-    public List<MCategory> deleteCategory(@RequestBody MItemDepartment itemDepartment) {
-        return categoryService.findByItemDepartment(itemDepartment);
-    }
-
 }

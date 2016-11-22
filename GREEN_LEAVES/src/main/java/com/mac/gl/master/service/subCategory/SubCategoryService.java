@@ -5,7 +5,6 @@
  */
 package com.mac.gl.master.service.subCategory;
 
-import com.mac.gl.master.model.category.MCategory;
 import com.mac.gl.master.model.subCategory.MSubCategory;
 import com.mac.gl.master.repository.subCategory.SubCategoryRepository;
 import java.util.List;
@@ -36,10 +35,6 @@ public class SubCategoryService {
 
     public void deleteSubCategory(Integer indexNo) {
         subCategoryRepository.delete(indexNo);
-    }
-
-    public List<MSubCategory> findByCategory(MCategory category) {
-        return subCategoryRepository.findByCategory(category);
     }
 
 }

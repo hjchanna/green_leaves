@@ -20,28 +20,11 @@
                             });
                 };
 
-                //load recent weigh
-                factory.loadSummary = function (number, callback) {
-                    var url = systemConfig.apiUrl + "" + number;
-                    $http.get(url)
-                            .success(function (data, status, headers) {
-                                callback(data);
-                            })
-                            .error(function (data, status, headers) {
-
-                            });
-                };
-
                 //update or save summary
                 factory.saveSummary = function (summary, callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/save-summary";
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
-                                console.log('==========');
-                                console.log(data);
-                                console.log(status);
-                                console.log(headers);
-                                console.log('==========');
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
@@ -79,17 +62,8 @@
             });
     //controller
     angular.module("itemDepartmentModule")
-            .controller("itemDepartmentController", function ($scope, $log, itemDepartmentFactory, Notification, $timeout) {
-                $scope.totalItems = 64;
-                $scope.currentPage = 4;
+            .controller("itemDepartmentController", function ($scope, itemDepartmentFactory, Notification, $timeout) {
 
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-
-                $scope.pageChanged = function () {
-                    $log.log('Page changed to: ' + $scope.currentPage);
-                };
                 //data models 
                 $scope.model = {};
                 $scope.model.department = {};

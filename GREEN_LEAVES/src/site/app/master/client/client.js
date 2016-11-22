@@ -305,7 +305,7 @@
                         $scope.model.routes = data;
                     });
 
-                    //loadRoute
+                    //loadSupplier
                     clientFactory.loadSupplier(function (data) {
                         $scope.model.supplier = data;
                     });

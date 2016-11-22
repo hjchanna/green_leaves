@@ -18,7 +18,7 @@
                         <td><input class="form-control" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as (type.name) for type in model.typeList |filter:$viewValue|limitTo:10"></td>
                     </tr>
                     <tr>
-                      
+
                         <td><label class="control-label">Birthday</label></td>
                         <td><input smart-input="date" focus class="form-control" ng-model="model.employee.birthday" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="col-xs-8 background-light">
-        <div class="row col-xs-5">
+        <div class="col-xs-5">
             <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
         </div>
         <table class="table-hover">
@@ -66,19 +66,19 @@
             <col style="width: 20%">
             <col style="width: 20%">
             <col style="width: 10%">
-            <thead class="background-dark">
+            <thead>
                 <tr>
                     <th>
-                        <label>Name</label>
+                        Name
                     </th>
                     <th>
-                        <label>Type</label>
+                        Type
                     </th>
                     <th>
-                        <label>date</label>
+                        date
                     </th>
                     <th>
-                        <label>Mobile No</label>
+                        Mobile No
                     </th> 
                     <th>&nbsp;</th>
                 </tr>
@@ -95,7 +95,7 @@
                     <tr ng-repeat="employee in model.employeeList| filter : model.search.name">
                         <td>{{employee.name}}</td>
                         <td>{{employee.type.name}}</td>
-                        <td>{{employee.birthday | date:"dd-MM-yyyy"}}</td>
+                        <td>{{employee.birthday| date:"dd-MM-yyyy"}}</td>
                         <td>{{employee.mobileNo}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(employee, $index)"><span class="glyphicon glyphicon-edit"></span></a>

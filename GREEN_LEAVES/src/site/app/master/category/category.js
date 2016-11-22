@@ -19,19 +19,6 @@
                             });
                 };
 
-                //load item-department
-                factory.loadDepartments = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/item-departments";
-
-                    $http.get(url)
-                            .success(function (data, status, headers) {
-                                callback(data);
-                            })
-                            .error(function (data, status, headers) {
-
-                            });
-                };
-
                 //save or update
                 factory.saveCategory = function (category, callback, errorCallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/category/save-category";
@@ -67,16 +54,6 @@
 
     angular.module("categoryModule")
             .controller("categoryController", function ($scope, categoryFactory, Notification, $timeout) {
-                $scope.totalItems = 64;
-                $scope.currentPage = 4;
-
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-
-                $scope.pageChanged = function () {
-                    $log.log('Page changed to: ' + $scope.currentPage);
-                };
                 //data models 
                 $scope.model = {};
 
@@ -89,16 +66,12 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
-
-
-
                 //------------------ model functions ---------------------------
                 //reset model
                 $scope.model.reset = function () {
                     $scope.model.category = {
                         "indexNo": null,
-                        "name": null,
-                        "department": null
+                        "name": null
                     };
                 };
 
@@ -110,7 +83,6 @@
                         return false;
                     }
                 };
-
 
                 //<-----------------http funtiion------------------->
                 $scope.http.saveCategory = function () {
@@ -167,7 +139,6 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.category = categorys;
                     $scope.model.categorys.splice(index, 1);
-
                     $scope.ui.focus();
                 };
 
@@ -179,14 +150,8 @@
                     $scope.model.reset();
                     //load category
                     categoryFactory.loadCategory(function (data) {
-                        console.log(data);
                         $scope.model.categorys = data;
                     });
-
-                    categoryFactory.loadDepartments(function (data) {
-                        $scope.model.departmentList = data;
-                    });
-
                 };
 
                 $scope.ui.init();
