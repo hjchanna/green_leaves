@@ -2,10 +2,10 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.mac.gl_green-leaves_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.mac.gl.master.model.supplier.MSupplier</class>
-    <class>com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequestDetail</class>
-    <class>com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequest</class>
-    <class>com.mac.gl.transaction.green_leaves.model.zmaster.MClient</class>
+    <class>com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequest</class>
+    <class>com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequestDetail</class>
+    <class>com.mac.green_leaves.v1.transaction.zmaster.client.model.MClient</class>
+    <class>com.mac.green_leaves.v1.master.model.supplier.MSupplier</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
