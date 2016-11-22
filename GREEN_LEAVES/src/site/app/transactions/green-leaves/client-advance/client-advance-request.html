@@ -40,7 +40,7 @@
                             </th>
                             <th class="text-left">
                                 <label>AS AT DATE</label>
-                                <input smart-input="date" class="form-control" ng-model="model.tempData.month" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input smart-input="date" class="form-control" ng-model="model.tempData.asAtDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>AMOUNT</label>
@@ -54,19 +54,19 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.clientAdvanceRequestDetail.length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.clientAdvanceRequestDetails.length">
                 <table class="table-hover animation-fade">
                     <col style="width: auto"/>
                     <col style="width: 25%"/>
                     <col style="width: 20%"/>
                     <col style="width: 75px"/>
                     <tbody>
-                        <tr ng-repeat="requestDetail in model.data.clientAdvanceRequestDetail">
+                        <tr ng-repeat="requestDetail in model.data.clientAdvanceRequestDetails">
                             <td>
                                 <span class="label" ng-class="requestDetail.routeModel.indexNo === model.data.route ? 'label-default' : 'label-danger'">{{requestDetail.clientModel.indexNo|fixedLength:5}}</span>{{requestDetail.clientModel.name}}
                                 <span class="text-default">({{requestDetail.routeModel.name}})</span>
                             </td>
-                            <td class="text-left">{{requestDetail.month| date:'yy-MMMM'}}</td>
+                            <td class="text-left">{{requestDetail.asAtDate| date:'yy-MMMM'}}</td>
                             <td class="text-right">{{requestDetail.amount|number:2}}</td>
                             <td class="text-right">
                                 <a class="btn btn-default" ng-click="ui.editRequest($index);"><span class="glyphicon glyphicon-edit"></span></a>
@@ -76,7 +76,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="placeholder col-xs-12" style="height: calc(100vh - 234px);" ng-hide="model.data.clientAdvanceRequestDetail.length">
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 234px);" ng-hide="model.data.clientAdvanceRequestDetails.length">
                 <h1>PLEASE ADD ADVANCE REQUEST TO DISPLAY :(</h1>
             </div>
             <div class="col-xs-12">

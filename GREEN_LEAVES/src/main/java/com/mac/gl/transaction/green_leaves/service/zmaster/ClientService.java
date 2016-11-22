@@ -48,13 +48,14 @@ public class ClientService {
 
     //validation
     private boolean isNotDuplicate(MClient client) {
-        List<MClient> clients;
-        if (client.getIndexNo() == null) {
-            clients = clientRepository.findByNicNumber(client.getNicNumber());
-        } else {
-            clients = clientRepository.findByNicNumberAndIndexNoNot(client.getNicNumber(), client.getIndexNo());
-        }
-
-        return clients.isEmpty();
+//        List<MClient> clients;
+//        if (client.getIndexNo() == null) {
+//            clients = clientRepository.findByNicNumber(client.getNicNumber());
+//        } else {
+//            clients = clientRepository.findByNicNumberAndIndexNoNot(client.getNicNumber(), client.getIndexNo());
+//        }
+//
+//        return clients.isEmpty();
+        return false;
     }
 }

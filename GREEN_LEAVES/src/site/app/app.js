@@ -5,9 +5,9 @@
         "homeModule",
         "ui.bootstrap",
         "greenLeavesReceiveModule",
-        "clientAdvanceRequestModule",
-        "clientAdvanceApproveModule",
         "greenLeavesWeighModule",
+//        "clientAdvanceRequestModule",
+//        "clientAdvanceApproveModule",
         "greenLeavesPaymentModule",
         "priceSettingModule",
         "finalPaymentModule",
@@ -51,7 +51,7 @@
                         })
                         .when("/transactions/green-leaves/client-advance/client-advance-approve", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-approve.html",
-                            controller: "clientAdvanceApproveController"
+                            controller: "ClientAdvanceApproveController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh.html",
@@ -121,14 +121,14 @@
                         });
             });
 
-    angular.module("appModule")
-            .config(function (ChartJsProvider) {
-                ChartJsProvider.setOptions({
-                    responsive: true,
-                    maintainAspectRatio: false
-                });
-            });
-
+//    angular.module("appModule")
+//            .config(function (ChartJsProvider) {
+//                ChartJsProvider.setOptions({
+//                    responsive: true,
+//                    maintainAspectRatio: false
+//                });
+//            });
+//
     angular.module("appModule")
             .controller("appController", function ($scope, $timeout) {
                 $scope.hamburgerOpen = false;

@@ -47,6 +47,7 @@ public class GreenLeavesWeighService {
         return greenLeaveWeighs.isEmpty() ? null : greenLeaveWeighs.get(0);
     }
 
+    @Transactional(readOnly = false)
     public TGreenLeaveWeigh saveSummary(TGreenLeaveWeigh greenLeaveWeigh) {
         if (greenLeaveWeigh.getIndexNo() != null) {
             greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeigh.getIndexNo());
@@ -59,6 +60,7 @@ public class GreenLeavesWeighService {
         return greenLeavesWeighRepository.save(greenLeaveWeigh);
     }
 
+    @Transactional(readOnly = false)
     public TGreenLeaveWeighDetail insertWeigh(TGreenLeaveWeighDetail greenLeaveWeighDetail) {
         greenLeaveWeighDetail = validateWeighDetail(greenLeaveWeighDetail);
         greenLeavesWeighDetailRepository.save(greenLeaveWeighDetail);
@@ -70,6 +72,7 @@ public class GreenLeavesWeighService {
         return greenLeaveWeighDetail;
     }
 
+    @Transactional(readOnly = false)
     public void deleteWeigh(Integer indexNo) {
         TGreenLeaveWeighDetail greenLeaveWeighDetail = greenLeavesWeighDetailRepository.getOne(indexNo);
         greenLeavesWeighDetailRepository.delete(greenLeaveWeighDetail);

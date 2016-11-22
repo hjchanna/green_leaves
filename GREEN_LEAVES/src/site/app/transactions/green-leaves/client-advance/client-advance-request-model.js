@@ -13,17 +13,19 @@
                             "date": null,
                             "number": null,
                             "transaction": null, //nor required
-                            "clientAdvanceRequestDetail": [
+                            "status": "PENDING",
+                            "clientAdvanceRequestDetails": [
 //                            {
 //                                "indexNo": null,
 //                                "client": null,
-//                                "month": null,
+//                                "asAtDate": null,
 //                                "amount": null,
 //                                "status": null,
 //                                clientModel -> set by frontend,
 //                                routeModel -> set by frontend
 //                            }
                             ]
+
                         };
                     }
 
@@ -38,22 +40,22 @@
                     },
                     //add client advance request detail
                     addRequestDetail: function (detail) {
-                        this.clientAdvanceRequestDetail.push(detail);
+                        this.clientAdvanceRequestDetails.push(detail);
                         return true;
                     },
                     //edit client advance request detail
                     editRequestDetail: function (index) {
                         var requestDetail = this.clientAdvanceRequestDetail[index];
-                        this.clientAdvanceRequestDetail.splice(index, 1);
+                        this.clientAdvanceRequestDetails.splice(index, 1);
                         return requestDetail;
                     },
                     //delete client advance request detail
                     deleteRequestDetail: function (index) {
-                        this.clientAdvanceRequestDetail.splice(index, 1);
+                        this.clientAdvanceRequestDetails.splice(index, 1);
                     },
                     getSummary: function () {
                         var sum = 0.0;
-                        angular.forEach(this.clientAdvanceRequestDetail, function (value, key) {
+                        angular.forEach(this.clientAdvanceRequestDetails, function (value, key) {
                             sum = sum + value.amount;
                         });
                         return sum;

@@ -1,9 +1,8 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, ClientAdvanceRequestModel, ClientAdvanceRequestService) {
+    var controller = function ($scope, $timeout, optionPane, ClientAdvanceRequestModel, ClientAdvanceRequestService) {
         $scope.model = {};
-        $scope.model.data = new ClientAdvanceRequestModel();
         $scope.model.tempData = {};
         $scope.model.routes = [];
         $scope.model.clients = [];
@@ -19,7 +18,7 @@
         };
 
         $scope.ui.edit = function () {
-                $scope.ui.mode = "EDIT";
+            $scope.ui.mode = "EDIT";
             if ($scope.model.data.indexNo) {
                 $timeout(function () {
                     angular.element(document.querySelectorAll("#route"))[0].focus();
@@ -32,19 +31,46 @@
         };
 
         $scope.ui.load = function () {
-            $scope.ui.mode = "SELECTED";
+
+            var number = $scope.model.data.number;
+            ClientAdvanceRequestService.loadAdvanceRequestByNumber(number)
+                    .success(function (data, status, headers) {
+                        $scope.model.data = new ClientAdvanceRequestModel(data);
+                        //set optional models
+
+                        angular.forEach($scope.model.data.clientAdvanceRequestDetails, function (value) {
+                            value.clientModel = $scope.ui.getClient(value.client);
+                            value.routeModel = $scope.ui.getRoute(value.clientModel.route);
+                        });
+
+                        $scope.ui.mode = "SELECTED";
+                    })
+                    .error(function (data, status, headers) {
+                        optionPane.dangerMessage("Client advance request loading failed.");
+                    });
         };
-        
-        $scope.ui.clear = function(){
-            $scope.ui.mode = "IDEAL";
+
+        $scope.ui.clear = function () {
+            $scope.ui.init();
         };
 
         $scope.ui.save = function () {
-            $scope.ui.mode = "IDEAL";
+            var data = JSON.stringify($scope.model.data);
+
+            ClientAdvanceRequestService.saveAdvanceRequest(data)
+                    .success(function (data, status, headers) {
+                        $scope.ui.init();
+
+                        optionPane.successMessage("Client advance request saved successfully.");
+
+                    })
+                    .error(function (data, status, headers) {
+                        optionPane.dangerMessage("Client advance request save failed.");
+                    });
         };
-        
-        $scope.ui.discard = function(){
-            $scope.ui.mode = "IDEAL";
+
+        $scope.ui.discard = function () {
+            $scope.ui.init();
         };
 
         $scope.ui.resetTempRequest = function () {
@@ -52,7 +78,7 @@
                 "indexNo": null,
                 "client": null,
                 "route": null,
-                "month": null,
+                "asAtDate": null,
                 "amount": null,
                 "status": null
             };
@@ -62,6 +88,7 @@
             //set model values
             $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
             $scope.model.tempData.routeModel = $scope.ui.getRoute($scope.model.tempData.clientModel.route);
+            $scope.model.tempData.status = "PENDING";
 
             if ($scope.model.data.addRequestDetail($scope.model.tempData)) {
                 //validation succeed and added
@@ -126,6 +153,9 @@
         };
 
         $scope.ui.init = function () {
+            //create new model
+            $scope.model.data = new ClientAdvanceRequestModel();
+
             //load routes
             ClientAdvanceRequestService.loadRoutes()
                     .success(function (data, status, headers) {

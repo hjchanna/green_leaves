@@ -3,6 +3,9 @@
   <persistence-unit name="com.mac.gl_green-leaves_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.mac.gl.master.model.supplier.MSupplier</class>
+    <class>com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequestDetail</class>
+    <class>com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequest</class>
+    <class>com.mac.gl.transaction.green_leaves.model.zmaster.MClient</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
