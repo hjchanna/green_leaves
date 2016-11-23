@@ -29,32 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/green-leaves/green-leaves-receive")
 public class GreenLeavesReceiveController {
-    
+
     @Autowired
     private GreenLeavesReceiveService greenLeavesReceiveService;
-    
+
     @RequestMapping(value = "/save-green-leaves-receive", method = RequestMethod.POST)
-    public void saveGreenLeavesReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
-        greenLeavesReceive.setIndexNo(1);
-        System.out.println(greenLeavesReceive.getIndexNo());
-        System.out.println(greenLeavesReceive.getBranch());
-        System.out.println(greenLeavesReceive.getRoute());
-        System.out.println(greenLeavesReceive.getNumber());
-        System.out.println(greenLeavesReceive.getDate());
-        System.out.println(greenLeavesReceive.getTransaction());
-        
-//         List<TGreenLeavesReceiveDetail> getGreenLeavesReceiveDetailsList = greenLeavesReceive.getGreenLeavesReceiveDetails();
-//         for (TGreenLeavesReceiveDetail tGreenLeavesReceiveDetail : getGreenLeavesReceiveDetailsList) {
-//             System.out.println("--------green leaves details-------");
-//             System.out.println(tGreenLeavesReceiveDetail.getIndexNo());
-//             System.out.println(tGreenLeavesReceiveDetail.getBranch());
-//             System.out.println(tGreenLeavesReceiveDetail.getGreenLeavesReceive());
-//             System.out.println(tGreenLeavesReceiveDetail.getSuperLeavesQuantity());
-//             System.out.println(tGreenLeavesReceiveDetail.getNormalLeavesQuantity());
-//             System.out.println(tGreenLeavesReceiveDetail.getClient());
-//        }
-         
-        greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+    public TGreenLeavesReceive saveGreenLeavesReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
+        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
     }
-    
+
 }

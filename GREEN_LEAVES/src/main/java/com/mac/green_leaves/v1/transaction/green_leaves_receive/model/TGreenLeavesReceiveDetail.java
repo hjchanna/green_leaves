@@ -125,28 +125,8 @@ public class TGreenLeavesReceiveDetail implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TGreenLeavesReceiveDetail)) {
-            return false;
-        }
-        TGreenLeavesReceiveDetail other = (TGreenLeavesReceiveDetail) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.green_leaves_receive.TGreenLeavesReceiveDetails[ indexNo=" + indexNo + " ]";
+        return "TGreenLeavesReceiveDetail{" + "indexNo=" + indexNo + ", branch=" + branch + ", greenLeavesReceive=" + greenLeavesReceive + ", normalLeavesQuantity=" + normalLeavesQuantity + ", superLeavesQuantity=" + superLeavesQuantity + ", client=" + client + '}';
     }
 
 }

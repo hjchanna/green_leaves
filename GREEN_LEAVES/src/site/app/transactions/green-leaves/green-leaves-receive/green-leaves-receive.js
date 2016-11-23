@@ -24,15 +24,16 @@
                 };
 
                 //insert 
-                factory.insertGreenLeavesDetail = function (detail, callback) {
+                factory.insertGreenLeavesDetail = function (summary, callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/save-green-leaves-receive";
-                    console.log(detail);
-                    $http.post(url, detail)
+                    $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorCallback) {
+                                    errorCallback(data);
+                                }
                             });
                 };
 
@@ -41,7 +42,7 @@
 
     //controller
     angular.module("greenLeavesReceiveModule")
-            .controller("greenLeavesReceiveController", function ($scope, $http, $timeout, greenLeavesReceiveFactory, Notification) {
+            .controller("greenLeavesReceiveController", function ($scope, greenLeavesReceiveFactory, Notification) {
 
                 //ui models
                 $scope.ui = {};
@@ -85,8 +86,6 @@
                 };
 
                 //ui functions--------------------------------------------------
-                $scope.ui.load = function (indexNo) {
-                };
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
@@ -103,7 +102,7 @@
                 };
 
                 $scope.validateInput = function () {
-                    if ($scope.model.tempData.client !== null && ($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0) {
+                    if ($scope.model.tempData.client && ($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0) {
                         return true;
                     } else {
                         return false;
@@ -114,18 +113,10 @@
                 $scope.ui.insertDetail = function () {
                     if ($scope.validateInput()) {
                         $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
-
                         $scope.model.data.greenLeavesReceiveDetails.push($scope.model.tempData);
-                        console.log($scope.model.data.greenLeavesReceiveDetails);
-//                      console.log($scope.ui.getClient($scope.model.tempData.client));
-                        $scope.model.tempData = {
-                            "indexNo": null,
-                            "branch": null,
-                            "greenLeavesReceive": null,
-                            "normalLeavesQuantity": 0,
-                            "superLeavesQuantity": 0,
-                            "client": null
-                        };
+                        $scope.model.tempData = {};
+                    } else {
+                        Notification.error("plaese input all");
                     }
                 };
 
@@ -193,9 +184,15 @@
                 $scope.http.insertGreenLeavesDetail = function () {
                     var detail = $scope.model.data;
                     var detailJSON = JSON.stringify(detail);
-                    greenLeavesReceiveFactory.insertGreenLeavesDetail(detailJSON, function (data) {
-                        console.log(data);
-                    });
+                    greenLeavesReceiveFactory.insertGreenLeavesDetail(
+                            detailJSON,
+                            function (data) {
+                                Notification.success("success" + data.indexNo);
+                            },
+                            function (data) {
+                                Notification.error(data.message);
+                            }
+                    );
                 };
 
                 //ui init function

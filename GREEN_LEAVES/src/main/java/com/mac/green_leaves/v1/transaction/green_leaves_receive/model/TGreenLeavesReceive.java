@@ -43,28 +43,28 @@ public class TGreenLeavesReceive implements Serializable {
     private Integer indexNo;
 
     @Basic(optional = false)
-    @NotNull
+
     @Column(name = "branch")
     private int branch;
 
     @Basic(optional = false)
-    @NotNull
+
     @Column(name = "transaction")
     private int transaction;
 
     @Basic(optional = false)
-    @NotNull
+
     @Column(name = "number")
     private int number;
 
     @Basic(optional = false)
-    @NotNull
+
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @Basic(optional = false)
-    @NotNull
+
     @Column(name = "route")
     private int route;
 
@@ -144,28 +144,8 @@ public class TGreenLeavesReceive implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TGreenLeavesReceive)) {
-            return false;
-        }
-        TGreenLeavesReceive other = (TGreenLeavesReceive) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.green_leaves_receive.TGreenLeavesReceive[ indexNo=" + indexNo + " ]";
+        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + ", branch=" + branch + ", transaction=" + transaction + ", number=" + number + ", date=" + date + ", route=" + route + ", greenLeavesReceiveDetails=" + greenLeavesReceiveDetails + '}';
     }
 
 }

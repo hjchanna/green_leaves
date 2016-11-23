@@ -6,26 +6,11 @@
             <uib-tabset  active="indextab">
                 <uib-tab index="0" heading="DETAIL 01">
                     <div class="col-xs-12" style="margin-top: 10px;">
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <label class="control-label"> Product No*: </label>
-                                        <input id="productNo" type="text" class="form-control" ng-model="model.data.productNo" ng-keyup="ui.checkProductsExists(model.data.productNo, 'productNo')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                                    </td>
-                                    <td>
-                                        
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
                         <div class="col-xs-12" style="margin-top: 10px;">
                             <div class="col-xs-12" style="margin-top: 10px;">
                                 <div class="col-xs-12">
-
+                                    <label class="control-label"> Product No*: </label>
+                                    <input id="productNo" type="text" class="form-control" ng-model="model.data.productNo" ng-keyup="ui.checkProductsExists(model.data.productNo, 'productNo')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                                 </div>
                                 <div class="col-xs-12">
                                     <label> Model*: </label>
