@@ -36,7 +36,7 @@
                         <div class="col-xs-12" style="margin-top: 10px;">
                             <div class="col-xs-12">
                                 <label> Supplier* </label>
-                                <input type="text" class="form-control" ng-model="model.data.supplier" uib-typeahead="supliers as (supliers.indexNo + ' - ' + supliers.companyName) for supliers in model.suppliers|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input type="text" class="form-control" ng-model="model.data.supplier" uib-typeahead="suplier as (suplier.indexNo + ' - ' + suplier.name) for suplier in model.suppliers|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </div>
                             <div class="col-xs-12">
                                 <label> Brand* </label>

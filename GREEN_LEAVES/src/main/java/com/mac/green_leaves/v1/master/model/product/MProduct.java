@@ -41,7 +41,7 @@ public class MProduct implements Serializable {
     private String name;
 
     @Basic(optional = false)
-    @Column(name = "barcode")
+    @Column(name = "bar_code")
     private String barCode;
 
     @Basic(optional = false)
