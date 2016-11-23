@@ -140,7 +140,6 @@
                                 Notification.error("this product is alrady exists");
                             }
                         } else if (type === "name") {
-                            console.log(text);
                             $scope.model.data.printDescription = text;
                             if (text === $scope.model.products[i].name) {
                                 $scope.selectedRow = $scope.model.products[i];
@@ -235,7 +234,6 @@
 
                     productFactory.loadSubCategory(function (data) {
                         $scope.model.subCategorys = data;
-                        console.log(data);
                     });
 
                     productFactory.loadCategory(function (data) {

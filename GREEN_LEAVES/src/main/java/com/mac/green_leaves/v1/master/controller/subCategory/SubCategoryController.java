@@ -45,8 +45,8 @@ public class SubCategoryController {
         subCategoryService.deleteSubCategory(indexNo);
     }
 
-    @RequestMapping(value = "/get-sub-category", method = RequestMethod.POST)
-    public List<MSubCategory> findByCategory(@RequestBody MCategory category) {
-        return subCategoryService.findByCategory(category);
-    }
+//    @RequestMapping(value = "/get-sub-category", method = RequestMethod.POST)
+//    public List<MSubCategory> findByCategory(@RequestBody MCategory category) {
+//        return subCategoryService.findByCategory(category);
+//    }
 }

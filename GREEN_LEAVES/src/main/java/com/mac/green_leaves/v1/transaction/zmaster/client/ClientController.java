@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/clients")
+@RequestMapping("/api/green-leaves/master/clients")
 public class ClientController {
     
     @Autowired

@@ -18,7 +18,7 @@
 
                 //load supplier
                 factory.loadSupplier = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/clients";
+                    var url = systemConfig.apiUrl + "/api/green-leaves/clients";
                     $http.get(url)
                             .success(function (data, status, header) {
                                 callback(data);

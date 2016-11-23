@@ -163,7 +163,11 @@
 
                 //----------------- validation functions -----------
                 $scope.validateInput = function () {
-                    if ($scope.model.route.name !== null) {
+                    if ($scope.model.route.name
+                            && $scope.model.route.vehicle !== null
+                            && $scope.model.route.routeOfficer !== ""
+                            && $scope.model.route.routeHelper !== ""
+                            && $scope.model.route.tdRate) {
                         return true;
                     } else {
                         return false;
@@ -219,7 +223,7 @@
                     });
 
                     routeFactory.loadEmployees(function (data) {
-                        $scope.model.officerList = data;
+                        $scope.model.employees = data;
                     });
                 };
 

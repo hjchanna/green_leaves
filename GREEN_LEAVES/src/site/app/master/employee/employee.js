@@ -91,8 +91,6 @@
                         "indexNo": null,
                         "branch": null,
                         "name": null,
-                        "gender": null,
-                        "birthday": null,
                         "nic": null,
                         "mobileNo": null,
                         "telephoneNo": null,
@@ -104,7 +102,7 @@
                 };
                 //validate model
                 $scope.validateInput = function () {
-                    if ($scope.model.employee.name && $scope.model.employee.address1 && $scope.model.employee.mobileNo !== null) {
+                    if ($scope.model.employee.name && $scope.model.employee.mobileNo !== null) {
                         return true;
                     } else {
                         return false;

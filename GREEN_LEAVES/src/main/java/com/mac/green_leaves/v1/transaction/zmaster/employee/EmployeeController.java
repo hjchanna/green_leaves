@@ -33,14 +33,14 @@ public class EmployeeController {
         return employeeService.findEmployeesList();
     }
     
-//    @RequestMapping(value = "/save-employee",method = RequestMethod.POST)
-//    public MEmployee saveEmployee(@RequestBody MEmployee employee){
-//        System.out.println(employee.getIndexNo() +"ddddddddddddddddddddddddddddddddddddddd");
-//        return employeeService.saveEmployee(employee);
-//    }
-//    @RequestMapping(value = "/delete-employee/{indexNo}", method = RequestMethod.DELETE)
-//    public Integer deleteEmployee(@PathVariable Integer indexNo){
-//        employeeService.deleteEmployee(indexNo);
-//        return indexNo;
-//    }
+    @RequestMapping(value = "/save-employee",method = RequestMethod.POST)
+    public MEmployee saveEmployee(@RequestBody MEmployee employee){
+        return employeeService.saveEmployee(employee);
+    }
+    
+    @RequestMapping(value = "/delete-employee/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteEmployee(@PathVariable Integer indexNo){
+        employeeService.deleteEmployee(indexNo);
+        return indexNo;
+    }
 }

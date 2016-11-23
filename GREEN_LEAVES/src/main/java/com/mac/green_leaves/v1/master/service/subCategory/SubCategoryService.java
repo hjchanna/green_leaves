@@ -38,8 +38,8 @@ public class SubCategoryService {
         subCategoryRepository.delete(indexNo);
     }
 
-    public List<MSubCategory> findByCategory(MCategory category) {
-        return subCategoryRepository.findByCategory(category);
-    }
+//    public List<MSubCategory> findByCategory(MCategory category) {
+//        return subCategoryRepository.findByCategory(category);
+//    }
 
 }

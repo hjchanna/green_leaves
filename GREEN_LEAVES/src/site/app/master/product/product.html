@@ -6,67 +6,76 @@
             <uib-tabset  active="indextab">
                 <uib-tab index="0" heading="DETAIL 01">
                     <div class="col-xs-12" style="margin-top: 10px;">
-                        <div class="col-xs-12" style="margin-top: 10px;">
-                            <div class="col-xs-12" style="margin-top: 10px;">
-                                <div class="col-xs-12">
-                                    <label class="control-label"> Product No*: </label>
-                                    <input id="productNo" type="text" class="form-control" ng-model="model.data.productNo" ng-keyup="ui.checkProductsExists(model.data.productNo, 'productNo')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                                </div>
-                                <div class="col-xs-12">
-                                    <label> Model*: </label>
-                                    <input id="productNo" type="text" class="form-control" ng-model="model.data.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                                </div>
-                                <div class="col-xs-12">
-                                    <label> BarCode*: </label>
-                                    <input id="productNo" type="text" class="form-control" ng-model="model.data.barCode" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                                </div>
-                                <div class="col-xs-12">
-                                    <label> Name*: </label>
-                                    <input type="text" class="form-control" ng-model="model.data.name" ng-keyup="ui.checkProductsExists(model.data.name, 'name')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                                </div>
-                                <div class="col-xs-12">
-                                    <label> Print Description*: </label>
-                                    <input type="text" class="form-control" ng-model="model.data.printDescription" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.tabChnage($event)"/>
-                                </div>
-                            </div>
-                        </div>
+                        <table class="control-table">
+                            <col style="width: 35%"/>
+                            <col style="width: 58%"/>
+                            <col style="width: 7%"/>
+                            <tbody>
+                                <tr>
+                                    <td><label class="control-label"> Product No*: </label></td>
+                                    <td><input id="productNo" type="text" class="form-control" ng-model="model.data.productNo" ng-keyup="ui.checkProductsExists(model.data.productNo, 'productNo')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> BarCode*:  </label></td>
+                                    <td> <input id="productNo" type="text" class="form-control" ng-model="model.data.barCode" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Name*: </label></td>
+                                    <td> <input type="text" class="form-control" ng-model="model.data.name" ng-keyup="ui.checkProductsExists(model.data.name, 'name')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> P. Description*: </label></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.printDescription" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.tabChnage($event)"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Model*: </label></td>
+                                    <td><input id="productNo" type="text" class="form-control" ng-model="model.data.model" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </uib-tab>
                 <uib-tab index="1" heading="DETAIL 02">
                     <div class="col-xs-12" style="margin-top: 10px;">
-                        <div class="col-xs-12" style="margin-top: 10px;">
-                            <div class="col-xs-12">
-                                <label> Supplier* </label>
-                                <input type="text" class="form-control" ng-model="model.data.supplier" uib-typeahead="suplier as (suplier.indexNo + ' - ' + suplier.name) for suplier in model.suppliers|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Brand* </label>
-                                <input type="text" class="form-control" ng-model="model.data.brand" uib-typeahead="product.brand as (product.brand) for product in model.products|filter:$viewValue|orderBy:product.brand|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Item Department* </label>
-                                <input type="text" class="form-control" ng-model="model.data.itemDepartment" uib-typeahead="itemDepartments as itemDepartments.name for itemDepartments in model.itemDepartments|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Category* </label>
-                                <input type="text" class="form-control" ng-model="model.data.category" uib-typeahead="category as (category.indexNo + ' - ' + category.name) for category in model.categorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Sub Category </label>
-                                <input type="text" class="form-control" ng-model="model.data.subCategory" uib-typeahead="subCategorys as (subCategorys.indexNo + ' - ' + subCategorys.subCategory) for subCategorys in model.subCategorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" />
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Unit* </label>
-                                <input id="unit" type="text" class="form-control" ng-model="model.data.unit" uib-typeahead="product.unit as (product.unit) for product in model.products|filter:$viewValue|orderBy:product.unit|limitTo:10"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Cost Price* </label>
-                                <input smart-input="integer" class="form-control" ng-model="model.data.costPrice" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                            <div class="col-xs-12">
-                                <label> Sale Price* </label>
-                                <input smart-input="integer" class="form-control" ng-model="model.data.salePrice" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </div>
-                        </div>
+                        <table class="control-table">
+                            <col style="width: 35%"/>
+                            <col style="width: 58%"/>
+                            <col style="width: 7%"/>
+                            <tbody>
+                                <tr>
+                                    <td><label class="control-label"> Supplier* </label></td>
+                                    <td> <input type="text" class="form-control" ng-model="model.data.supplier" uib-typeahead="suppliers as (suppliers.indexNo + ' - ' + suppliers.name) for suppliers in model.suppliers|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Brand* </label></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.brand" uib-typeahead="product.brand as (product.brand) for product in model.products|filter:$viewValue|orderBy:product.brand|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> I.Department* </label></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.itemDepartment" uib-typeahead="itemDepartments as itemDepartments.name for itemDepartments in model.itemDepartments|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Category* </label></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.category" uib-typeahead="category as (category.indexNo + ' - ' + category.name) for category in model.categorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Sub Category </label></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.subCategory" uib-typeahead="subCategorys as (subCategorys.indexNo + ' - ' + subCategorys.subCategory) for subCategorys in model.subCategorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" /></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Unit* </label></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.unit" uib-typeahead="product.unit as (product.unit) for product in model.products|filter:$viewValue|orderBy:product.unit|limitTo:10"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Cost Price* </label></td>
+                                    <td><input smart-input="integer" class="form-control" ng-model="model.data.costPrice" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"> Sale Price* </label></td>
+                                    <td><input smart-input="integer" class="form-control" ng-model="model.data.salePrice" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </uib-tab>
             </uib-tabset>

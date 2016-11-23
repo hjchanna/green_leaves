@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface EmployeeRepository extends JpaRepository<MEmployee, Integer> {
 
-//public List<MEmployee> findByTypeAndBranch(String route_officer, Integer branch);
-//
-//    public List<MEmployee> findByNic(String nic);
+    public List<MEmployee> findByTypeAndBranch(String route_officer, Integer branch);
+
+    public List<MEmployee> findByNicNumber(String nic);
 
 }

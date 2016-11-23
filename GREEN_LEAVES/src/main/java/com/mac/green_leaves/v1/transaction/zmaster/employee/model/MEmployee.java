@@ -1,29 +1,13 @@
-/*
- *  MEmployee.java
- *  
- *  @author Channa Mohan
- *     hjchanna@gmail.com
- *  
- *  Created on Oct 25, 2016, 1:10:21 PM
- *  All rights reserved.
- *  Copyrights supervision technology (pvt.) ltd.
- *  
- */
 package com.mac.green_leaves.v1.transaction.zmaster.employee.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -40,26 +24,47 @@ public class MEmployee implements Serializable {
     private Integer indexNo;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "branch")
     private int branch;
 
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "name")
     private String name;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "nic_number")
+    private String nicNumber;
+
+    @Column(name = "mobile_number")
+    private String mobileNumber;
+
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
+
+    @Column(name = "address_line1")
+    private String addressLine1;
+
+    @Column(name = "address_line2")
+    private String addressLine2;
+
+    @Column(name = "address_line3")
+    private String addressLine3;
 
     public MEmployee() {
     }
 
-    public MEmployee(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public MEmployee(Integer indexNo, int branch, String name) {
+    public MEmployee(Integer indexNo, int branch, String name, String type, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.name = name;
+        this.type = type;
+        this.nicNumber = nicNumber;
+        this.mobileNumber = mobileNumber;
+        this.telephoneNumber = telephoneNumber;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.addressLine3 = addressLine3;
     }
 
     public Integer getIndexNo() {
@@ -86,4 +91,59 @@ public class MEmployee implements Serializable {
         this.name = name;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getNicNumber() {
+        return nicNumber;
+    }
+
+    public void setNicNumber(String nicNumber) {
+        this.nicNumber = nicNumber;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getAddressLine3() {
+        return addressLine3;
+    }
+
+    public void setAddressLine3(String addressLine3) {
+        this.addressLine3 = addressLine3;
+    }
 }
