@@ -30,19 +30,19 @@ public class MSupplier implements Serializable {
     private Integer indexNo;
 
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "company_name")
-    private String companyName;
+    @Column(name = "name")
+    private String name;
 
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "contact_name")
-    private String contactName;
+    @Column(name = "nic_number")
+    private String nicNumber;
 
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "contact_number")
-    private String contactNumber;
+    @Column(name = "mobile_number")
+    private String mobileNumber;
+
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     @Column(name = "address_line1")
     private String addressLine1;
@@ -53,17 +53,18 @@ public class MSupplier implements Serializable {
     @Column(name = "address_line3")
     private String addressLine3;
 
-    public MSupplier(Integer indexNo, String companyName, String contactName, String contactNumber, String addressLine1, String addressLine2, String addressLine3) {
+    public MSupplier() {
+    }
+
+    public MSupplier(Integer indexNo, String name, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3) {
         this.indexNo = indexNo;
-        this.companyName = companyName;
-        this.contactName = contactName;
-        this.contactNumber = contactNumber;
+        this.name = name;
+        this.nicNumber = nicNumber;
+        this.mobileNumber = mobileNumber;
+        this.telephoneNumber = telephoneNumber;
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.addressLine3 = addressLine3;
-    }
-
-    public MSupplier() {
     }
 
     public Integer getIndexNo() {
@@ -74,28 +75,36 @@ public class MSupplier implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getName() {
+        return name;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getContactName() {
-        return contactName;
+    public String getNicNumber() {
+        return nicNumber;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
+    public void setNicNumber(String nicNumber) {
+        this.nicNumber = nicNumber;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
     public String getAddressLine1() {
@@ -120,6 +129,11 @@ public class MSupplier implements Serializable {
 
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
+    }
+
+    @Override
+    public String toString() {
+        return "MSupplier{" + "indexNo=" + indexNo + ", name=" + name + ", nicNumber=" + nicNumber + ", mobileNumber=" + mobileNumber + ", telephoneNumber=" + telephoneNumber + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3=" + addressLine3 + '}';
     }
 
 }

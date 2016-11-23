@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.transaction.zmaster.client;
+package com.mac.green_leaves.v1.master.controller.client;
 
-import com.mac.green_leaves.v1.transaction.zmaster.client.model.MClient;
-import com.mac.green_leaves.v1.transaction.zmaster.client.ClientService;
+import com.mac.green_leaves.v1.master.model.client.MClient;
+import com.mac.green_leaves.v1.master.service.client.MasterClientService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Mohan
+ * @author Don
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/clients")
-public class ClientController {
-    
+@RequestMapping("/api/green-leaves/master/clients")
+public class MasterClientController {
+
     @Autowired
-    private ClientService clientService;
-    
+    private MasterClientService clientService;
+
     @RequestMapping(method = RequestMethod.GET)
     public List<MClient> listClients() {
         return clientService.findByBranch(1);
     }
-    
+
     @RequestMapping(value = "/save-client", method = RequestMethod.POST)
     public MClient saveSupplier(@RequestBody MClient client) {
         client.setBranch(1);
         return clientService.saveSupplier(client);
     }
-    
+
     @RequestMapping(value = "/delete-client/{indexNo}", method = RequestMethod.DELETE)
     public void deleteSupplier(@PathVariable Integer indexNo) {
         clientService.deleteSupplier(indexNo);
     }
-    
+
 }

@@ -88,9 +88,9 @@
 
                 //validate model
                 $scope.validateInput = function () {
-                    if ($scope.model.data.companyName 
-                            && $scope.model.data.contactName 
-                            && $scope.model.data.contactNumber !== null) {
+                    if ($scope.model.data.name
+                            && $scope.model.data.nicNumber
+                            && $scope.model.data.mobileNumber !== null) {
                         return true;
                     } else {
                         return false;
@@ -99,22 +99,22 @@
 
                 $scope.ui.checkSupplierExists = function (text, type) {
                     for (var i = 0; i < $scope.model.suppliers.length; i++) {
-                        if (type === "companyName") {
-                            if (text === $scope.model.suppliers[i].companyName) {
+                        if (type === "name") {
+                            if (text === $scope.model.suppliers[i].name) {
                                 $scope.selectedRow = $scope.model.suppliers[i];
                                 Notification.error("this supplier is alrady exists");
                                 break;
                             }
-                        } else if (type === "contactName") {
+                        } else if (type === "nicNumber") {
                             $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].contactName) {
+                            if (text === $scope.model.suppliers[i].nicNumber) {
                                 $scope.selectedRow = $scope.model.suppliers[i];
                                 Notification.error("this supplier is alrady exists");
                                 break;
                             }
-                        } else if (type === "contactNumber") {
+                        } else if (type === "mobileNumber") {
                             $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].contactNumber) {
+                            if (text === $scope.model.suppliers[i].mobileNumber) {
                                 $scope.selectedRow = $scope.model.suppliers[i];
                                 Notification.error("this suppliers is alrady exists");
                             }

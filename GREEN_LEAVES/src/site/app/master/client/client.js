@@ -79,19 +79,18 @@
                     "Sinhalese",
                     "Sri Lanka Tamil"
                 ];
-                $scope.model.maritalStatus = [
-                    "Single",
-                    "Married",
-                    "Divorced"
+                $scope.model.married = [
+                    "No",
+                    "Yes"
                 ];
                 $scope.model.clientType = [
                     "none",
                     "none1",
                     "none2"
                 ];
-                $scope.model.dySupplier = [
-                    "No",
-                    "Yes"
+                $scope.model.holder = [
+                    "Yes",
+                    "No"
                 ];
 
                 //------------------ model functions ---------------------------
@@ -126,18 +125,10 @@
                     }
                 };
 
-                $scope.ui.save = function () {
-                    if ($scope.validateInput()) {
-                        $scope.http.saveSupplier();
-                    } else {
-                        Notification.error("Please Input Details");
-                    }
-                };
-
                 $scope.ui.setDyNumber = function (text) {
                     if (text === "No") {
                         $scope.status = true;
-                        $scope.model.data.dyNumber = null;
+                        $scope.model.data.holderNumber = null;
                     } else {
                         $scope.status = false;
                     }
@@ -146,17 +137,18 @@
                 //validate model
                 $scope.validateInput = function () {
                     if ($scope.model.data.name
-                            && $scope.model.data.clientNo
-                            && $scope.model.data.dateOfBirth
+                            && $scope.model.data.clientNumber
+                            && $scope.model.data.name
                             && $scope.model.data.nicNumber
-                            && $scope.model.data.registerDate
+                            && $scope.model.data.dateOfBirth
                             && $scope.model.data.mobileNumber
                             && $scope.model.data.religion
                             && $scope.model.data.nationality
-                            && $scope.model.data.maritalStatus
-                            && $scope.model.data.clientType
+                            && $scope.model.data.married
+                            && $scope.model.data.type
+                            && $scope.model.data.registerDate
                             && $scope.model.data.route.name !== null) {
-                        return true;
+                    return true;
                     } else {
                         return false;
                     }
@@ -185,8 +177,8 @@
                                 $scope.selectedRow = $scope.model.supplier[i];
                                 Notification.error("this supplier is alrady exists");
                             }
-                        } else if (type === "clientNo") {
-                            if (text === $scope.model.supplier[i].clientNo) {
+                        } else if (type === "clientNumber") {
+                            if (text === $scope.model.supplier[i].clientNumber) {
                                 $scope.selectedRow = $scope.model.supplier[i];
                                 Notification.error("this supplier is alrady exists");
                             }
@@ -196,9 +188,9 @@
 
                 $scope.model.getSupplierBlackListed = function (supplier) {
                     if (supplier.supplierBlackListed) {
-                        $scope.model.data.supplierBlackListed = "Yes";
+                        $scope.model.data.blackListed = "Yes";
                     } else {
-                        $scope.model.data.supplierBlackListed = "No";
+                        $scope.model.data.blackListed = "No";
                     }
 
                     if (supplier.active) {
@@ -207,12 +199,17 @@
                         $scope.model.data.active = "No";
                     }
 
-                    if (supplier.dySupplier) {
-                        $scope.model.data.dySupplier = "Yes";
+                    if (supplier.holder) {
+                        $scope.model.data.holder = "Yes";
                         $scope.status = false;
                     } else {
-                        $scope.model.data.dySupplier = "No";
+                        $scope.model.data.holder = "No";
                         $scope.status = true;
+                    }
+                    if (supplier.married) {
+                        $scope.model.data.married = "Yes";
+                    } else {
+                        $scope.model.data.married = "No";
                     }
                 };
 
@@ -235,21 +232,27 @@
                 //save
                 $scope.http.saveSupplier = function () {
                     $scope.indextab = 0;
-                    $scope.model.data.supplierBlackListed = false;
+                    $scope.model.data.blackListed = false;
                     $scope.model.data.active = true;
 
-                    //set DySupplier
-                    var dySupplier = $scope.model.data.dySupplier;
-                    if (dySupplier === "No") {
-                        $scope.model.data.dySupplier = false;
+                    //set holder
+                    var holder = $scope.model.data.holder;
+                    if (holder === "No") {
+                        $scope.model.data.holder = false;
                     } else {
-                        $scope.model.data.dySupplier = true;
+                        $scope.model.data.holder = true;
+                    }
+                    
+                    //set married
+                    var married = $scope.model.data.married;
+                    if (married === "No") {
+                        $scope.model.data.married = false;
+                    } else {
+                        $scope.model.data.married = true;
                     }
 
                     var detail = $scope.model.data;
-                    console.log(detail);
                     var detailJSON = JSON.stringify(detail);
-
                     clientFactory.saveSupplier(
                             detailJSON,
                             function (data) {
@@ -283,9 +286,9 @@
 
                 //ui change default functions
                 $scope.ui.changeDefault = function () {
-                    $scope.model.data.supplierBlackListed = "No";
+                    $scope.model.data.blackListed = "No";
                     var status = "No";
-                    $scope.model.data.dySupplier = status;
+                    $scope.model.data.holder = status;
                     $scope.ui.setDyNumber(status);
                     $scope.model.data.active = "Yes";
                     $scope.model.data.registerDate = $filter('date')(new Date(), 'yyyy-MM-dd');

@@ -7,8 +7,6 @@ package com.mac.green_leaves.v1.transaction.green_leaves_receive;
 
 import com.mac.green_leaves.v1.transaction.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.transaction.green_leaves_receive.model.TGreenLeavesReceiveDetail;
-import com.mac.green_leaves.v1.transaction.green_leaves_receive.GreenLeavesReceiveRepository;
-import javax.xml.transform.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,12 +23,18 @@ public class GreenLeavesReceiveService {
     @Autowired
     private GreenLeavesReceiveRepository greenLeavesReceiveRepository;
 
-    public TGreenLeavesReceive saveGreenLeaveReceiveDetails(TGreenLeavesReceive greenLeavesReceive) {
-        for (TGreenLeavesReceiveDetail greenLeavesReceiveDetail : greenLeavesReceive.getGreenLeavesReceiveDetails()) {
-            greenLeavesReceiveDetail.setGreenLeavesReceive(0);
-            System.out.println(greenLeavesReceiveDetail.getGreenLeavesReceive());
-        }
-        return greenLeavesReceiveRepository.save(greenLeavesReceive);
+    @Autowired
+    private GreenLeavesReceiveDetailRepository greenLeavesReceiveDetailRepository;
 
+    public TGreenLeavesReceive saveGreenLeaveReceiveDetails(TGreenLeavesReceive greenLeavesReceive) {
+        TGreenLeavesReceive greenLeavesReceive1 = greenLeavesReceiveRepository.save(greenLeavesReceive);
+        System.out.println(greenLeavesReceive);
+        System.out.println(greenLeavesReceive1.getIndexNo());
+//        for (TGreenLeavesReceiveDetail greenLeavesReceiveDetail : greenLeavesReceive.getGreenLeavesReceiveDetails()) {
+//            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive1.getIndexNo());
+//            System.out.println(greenLeavesReceiveDetail);
+//            greenLeavesReceiveDetailRepository.save(greenLeavesReceiveDetail);
+//        }
+        return greenLeavesReceive;
     }
 }

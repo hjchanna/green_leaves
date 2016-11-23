@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
  *
  * @author Mohan
  */
-@Entity
+@Entity(name = "com.mac.green_leaves.v1.transaction.zmaster.client.model.MClient")
 @Table(name = "m_client")
 public class MClient implements Serializable {
 

@@ -35,6 +35,8 @@ public class GreenLeavesReceiveController {
 
     @RequestMapping(value = "/save-green-leaves-receive", method = RequestMethod.POST)
     public TGreenLeavesReceive saveGreenLeavesReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
+        greenLeavesReceive.setNumber(1);
+        greenLeavesReceive.setTransaction(1);
         return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
     }
 

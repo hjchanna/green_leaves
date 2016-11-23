@@ -4,7 +4,7 @@
     angular.module("fertilizerModule")
             .factory("fertilizerFactory", function ($http, systemConfig) {
                 var factory = {};
-        
+
                 factory.loadProduct = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/product";
                     $http.get(url)
@@ -15,7 +15,7 @@
 
                             });
                 };
-                
+
                 factory.loadCustomer = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/clients";
                     $http.get(url)
@@ -33,7 +33,7 @@
 
     //controller
     angular.module("fertilizerModule")
-            .controller("fertilizerController", function ($scope, $timeout, fertilizerFactory) {
+            .controller("fertilizerController", function ($scope, $timeout, $filter, fertilizerFactory, Notification) {
                 //data models 
                 $scope.model = {};
 
@@ -89,10 +89,13 @@
 
                 //insert funtion
                 $scope.ui.insertData = function () {
-                    console.log($scope.model.tempData);
-                    $scope.model.data.detail.push($scope.model.tempData);
-                    $scope.model.tempData = {};
-                    $scope.ui.getTotal();
+                    if ($scope.validateInput()) {
+                        $scope.model.data.detail.push($scope.model.tempData);
+                        $scope.model.tempData = {};
+                        $scope.ui.getTotal();
+                    } else {
+                        Notification.error("please input all");
+                    }
                 };
 
                 //edit funtion
@@ -115,6 +118,7 @@
                     }
                     return total;
                 };
+
                 //get total amount
                 $scope.ui.getAmount = function () {
                     var qty = $scope.model.tempData.qty;
@@ -124,7 +128,24 @@
                     $scope.model.tempData.amount = amount;
                 };
 
+                $scope.validateInput = function () {
+                    if ($scope.model.tempData.item
+                            && $scope.model.tempData.account
+                            && $scope.model.tempData.price
+                            && $scope.model.tempData.qty
+                            && $scope.model.tempData.discount
+                            && $scope.model.tempData.amount) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+
                 $scope.ui.init = function () {
+
+//                    $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+//                    console.log($scope.model.data.date);
+
                     //set ideal mode
                     $scope.ui.mode = "IDEAL";
 
@@ -134,7 +155,7 @@
                     fertilizerFactory.loadProduct(function (data) {
                         $scope.model.products = data;
                     });
-                    
+
                     //loadCustomer
                     fertilizerFactory.loadCustomer(function (data) {
                         $scope.model.clients = data;
