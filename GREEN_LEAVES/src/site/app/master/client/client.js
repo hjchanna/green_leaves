@@ -136,22 +136,22 @@
 
                 //validate model
                 $scope.validateInput = function () {
-                    if ($scope.model.data.name
-                            && $scope.model.data.clientNumber
-                            && $scope.model.data.name
-                            && $scope.model.data.nicNumber
-                            && $scope.model.data.dateOfBirth
-                            && $scope.model.data.mobileNumber
-                            && $scope.model.data.religion
-                            && $scope.model.data.nationality
-                            && $scope.model.data.married
-                            && $scope.model.data.type
-                            && $scope.model.data.registerDate
-                            && $scope.model.data.route.name !== null) {
+//                    if ($scope.model.data.name
+//                            && $scope.model.data.clientNumber
+//                            && $scope.model.data.name
+//                            && $scope.model.data.nicNumber
+//                            && $scope.model.data.dateOfBirth
+//                            && $scope.model.data.mobileNumber
+//                            && $scope.model.data.religion
+//                            && $scope.model.data.nationality
+//                            && $scope.model.data.married
+//                            && $scope.model.data.type
+//                            && $scope.model.data.registerDate
+//                            && $scope.model.data.route.name !== null) {
                     return true;
-                    } else {
-                        return false;
-                    }
+//                    } else {
+//                        return false;
+//                    }
                 };
 
                 $scope.ui.checkSupplierExists = function (text, type) {
