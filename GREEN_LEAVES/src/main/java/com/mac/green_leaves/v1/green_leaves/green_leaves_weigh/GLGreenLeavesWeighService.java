@@ -86,7 +86,6 @@ public class GLGreenLeavesWeighService {
         greenLeaveWeighDetail = greenLeavesWeighDetailRepository.save(greenLeaveWeighDetail);
 
         //validate and save weigh
-        greenLeaveWeigh.getGreenLeaveWeighDetails().add(greenLeaveWeighDetail);
         validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(greenLeaveWeigh);
 

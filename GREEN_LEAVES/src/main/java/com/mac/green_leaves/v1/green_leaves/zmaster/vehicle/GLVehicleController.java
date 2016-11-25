@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.green_leaves.zmaster.vehicle;
 import com.mac.green_leaves.v1.green_leaves.zmaster.vehicle.model.MVehicle;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Mohan
  */
 @RestController
-@RequestMapping("/api/v1/green-leaves/vehicle")
+@CrossOrigin
+@RequestMapping("/api/v1/green-leaves/master/vehicles")
 public class GLVehicleController {
     
     private static final Integer branch = 1;

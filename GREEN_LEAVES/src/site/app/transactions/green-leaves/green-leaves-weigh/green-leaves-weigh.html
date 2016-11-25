@@ -5,29 +5,29 @@
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12">
                 <table class="control-table">
-                    <col class="col-xs-5"/>
-                    <col class="col-xs-4"/>
+                    <col class="col-xs-6"/>
+                    <col class="col-xs-3"/>
                     <col class="col-xs-3"/>
 
                     <tbody>
                         <tr>
-                            <td><input id="route" class="form-control" smart-input="text"  ng-model="model.weigh.route" placeholder="select route" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.getRouteLabel($model)"></td>
-                            <td><input class="form-control" smart-input="date"  ng-model="model.weigh.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                            <td><input class="form-control" smart-input="integer" ng-model="model.weigh.number" ng-keypress="ui.load($event)" ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'"></td>
+                            <td><input id="route" class="form-control" smart-input="text"  ng-model="model.data.route" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)"></td>
+                            <td><input class="form-control" smart-input="date"  ng-model="model.data.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event)" ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
-                
+
                 <table class="control-table">
-                    <col class="col-xs-5"/>
                     <col class="col-xs-4"/>
-                    <col class="col-xs-3"/>
-                    
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+
                     <tbody>
                         <tr>
-                            <td><input class="form-control"/></td>
-                            <td><input class="form-control"/></td>
-                            <td><input class="form-control"/></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeHelper" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.vehicle" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -50,22 +50,22 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input id="normal-qty" class="form-control text-right" ng-model="model.tempWeigh.quantity" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input id="normal-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempWeigh.crates" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempWeigh.bags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempWeigh.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempData.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
-                                                <button type="button" class="btn btn-primary" ng-click="ui.insertNormal();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <button type="button" class="btn btn-primary" ng-click="ui.insertNormalDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </th>
@@ -83,7 +83,7 @@
                                     <col style="width: 20%"/>
                                     <col />
                                     <tbody>
-                                        <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.weigh.greenLeavesWeighDetails|filter:{type:'NORMAL'});">
+                                        <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'NORMAL'});">
                                             <td><span class="label label-primary">{{$index + 1|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
@@ -113,10 +113,10 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>TOTAL</th>
-                                            <th class="text-right">{{model.weigh.normalTotalWeight|number:2}}</th>
-                                            <th class="text-right">{{model.weigh.normalCrates|number:2}}</th>
-                                            <th class="text-right">{{model.weigh.normalBags|number:2}}</th>
-                                            <th class="text-right">{{model.weigh.normalPolyBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.normalTotalWeight|number:2}}</th>
+                                            <th class="text-right">{{model.data.normalCrates|number:2}}</th>
+                                            <th class="text-right">{{model.data.normalBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.normalPolyBags|number:2}}</th>
                                             <th class="text-center">
                                                 &nbsp;
                                             </th>
@@ -141,22 +141,22 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input id="super-qty" class="form-control text-right" ng-model="model.tempWeigh.quantity" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input id="super-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempWeigh.crates" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempWeigh.bags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempWeigh.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <input class="form-control text-right" ng-model="model.tempData.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
-                                                <button class="btn btn-primary" ng-click="ui.insertSuper();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                                <button class="btn btn-primary" ng-click="ui.insertSuperDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </th>
@@ -174,7 +174,7 @@
                                     <col style="width: 20%"/>
                                     <col />
                                     <tbody >
-                                        <tr ng-repeat="greenLeavesWeighDetail in superLeaves = (model.weigh.greenLeavesWeighDetails|filter:{type:'SUPER'});">
+                                        <tr ng-repeat="greenLeavesWeighDetail in superLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'SUPER'});">
                                             <td><span class="label label-danger">{{$index + 1|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
@@ -204,10 +204,10 @@
                                     <thead class="background-dark">
                                         <tr>
                                             <th>TOTAL</th>
-                                            <th class="text-right">{{model.weigh.superTotalWeight|number:2}}</th>
-                                            <th class="text-right">{{model.weigh.superCrates|number:2}}</th>
-                                            <th class="text-right">{{model.weigh.superBags|number:2}}</th>
-                                            <th class="text-right">{{model.weigh.superPolyBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.superTotalWeight|number:2}}</th>
+                                            <th class="text-right">{{model.data.superCrates|number:2}}</th>
+                                            <th class="text-right">{{model.data.superBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.superPolyBags|number:2}}</th>
                                             <th class="text-right">
                                                 &nbsp;
                                             </th>
@@ -252,7 +252,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">TOTAL</label></td>
-                            <td><input class="form-control text-right" ng-model="model.weigh.normalTotalWeight" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" ng-model="model.data.normalTotalWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -275,21 +275,21 @@
                         <tr>
                             <td><label class="control-label">TARE</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalTareCalculated" ng-disabled="true">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalTareDeduction" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalTareCalculated" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalTareDeduction" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.normalGeneralDeductionPercent"  smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.normalGeneralDeduction" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalGeneralDeductionPercent"  smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalGeneralDeduction" ng-disabled="true">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">WATER</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" ng-model="model.weigh.normalWaterDeduction" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" ng-model="model.data.normalWaterDeduction" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
@@ -310,11 +310,11 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">COARSE LEAF</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalCoarseLeaves" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.normalCoarseLeaves" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">BOILED LEAF</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalBoiledLeaves" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.normalBoiledLeaves" smart-input="integer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -334,7 +334,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">NET WEIGHT</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.normalNetWeight" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.normalNetWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -369,7 +369,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">TOTAL</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superTotalWeight" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.superTotalWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -392,21 +392,21 @@
                         <tr>
                             <td><label class="control-label">TARE</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.superTareCalculated" ng-disabled="true">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.superTareDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superTareCalculated" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superTareDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.weigh.superGeneralDeductionPercent" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.weigh.superGeneralDeduction" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superGeneralDeductionPercent" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superGeneralDeduction" ng-disabled="true">
                             </td>
                         </tr>
                         <tr>
                             <td><label class="control-label">WATER</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" ng-model="model.weigh.superWaterDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" ng-model="model.data.superWaterDeduction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
@@ -427,11 +427,11 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">COARSE LEAF</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superCoarseLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.superCoarseLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">BOILED LEAF</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superBoiledLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.superBoiledLeaves" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -451,7 +451,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">NET WEIGHT</label></td>
-                            <td><input class="form-control text-right" type="text" ng-model="model.weigh.superNetWeight" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" type="text" ng-model="model.data.superNetWeight" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>

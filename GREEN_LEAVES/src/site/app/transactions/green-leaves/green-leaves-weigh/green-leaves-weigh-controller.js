@@ -1,48 +1,83 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, GreenLeavesWeighModel) {
+            .controller("GreenLeavesWeighController", function ($scope, $timeout, GreenLeavesWeighModel) {
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
                     $scope.model.clear();
+
+                    $timeout(function () {
+                        document.querySelectorAll("#route")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
 
+                    $timeout(function () {
+                        document.querySelectorAll("#route")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.delete = function () {
 
                 };
 
-                $scope.ui.load = function () {
-                    $scope.ui.mode = "SELECTED";
+                $scope.ui.insertNormalDetail = function () {
+                    $scope.model.insertNormalDetail()
+                            .then(function () {
+                                $scope.ui.toggleType("NORMAL");
+                            });
 
                 };
 
-                $scope.ui.clear = function () {
+                $scope.ui.insertSuperDetail = function () {
+                    $scope.model.insertSuperDetail()
+                            .then(function () {
+                                $scope.ui.toggleType("SUPER");
+                            });
+                };
+
+                $scope.ui.deleteDetail = function (indexNo) {
+                    $scope.model.deleteDetail(indexNo);
+                };
+
+                $scope.ui.load = function (e) {
+                    var code = e.keyCode || e.which;
+                    if (code === 13) {
+                        $scope.model.load()
+                                .then(function () {
+                                    $scope.ui.mode = "SELECTED";
+                                });
+                    }
+                };
+
+                $scope.ui.finish = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.model.clear();
-
                 };
 
-                $scope.ui.save = function () {
+                $scope.ui.toggleType = function (type) {
+                    $scope.ui.type = type;
 
-                };
-
-                $scope.ui.discard = function () {
-                    $scope.ui.mode = "IDEAL";
-                    $scope.model.clear();
+                    if (type === 'NORMAL') {
+                        $timeout(function () {
+                            document.querySelectorAll("#normal-qty")[0].focus();
+                        }, 10);
+                    } else if (type === 'SUPER') {
+                        $timeout(function () {
+                            document.querySelectorAll("#super-qty")[0].focus();
+                        }, 10);
+                    }
                 };
 
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
+                    $scope.ui.type = "NORMAL";
+
                     $scope.model.clear();
-                    
-                    console.log($scope.model.routes);
                 };
                 $scope.ui.init();
 
