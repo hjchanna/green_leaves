@@ -8,7 +8,7 @@ package com.mac.green_leaves.v1.master.service.supplier;
 import com.mac.green_leaves.v1.master.model.supplier.MSupplier;
 import com.mac.green_leaves.v1.master.repository.supplier.SupplierRepository;
 import com.mac.green_leaves.v1.exception.DuplicateEntityException;
-import com.mac.green_leaves.v1.transaction.zmaster.client.model.MClient;
+import com.mac.green_leaves.v1.green_leaves.zmaster.client.model.MClient;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

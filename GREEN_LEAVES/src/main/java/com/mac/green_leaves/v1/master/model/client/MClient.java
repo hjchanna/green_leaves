@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.master.model.client;
 
-import com.mac.green_leaves.v1.transaction.zmaster.route.model.MRoute;
+import com.mac.green_leaves.v1.green_leaves.zmaster.route.model.MRoute;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
