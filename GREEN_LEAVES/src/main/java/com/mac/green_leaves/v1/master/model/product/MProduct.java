@@ -37,39 +37,36 @@ public class MProduct implements Serializable {
     private Integer indexNo;
 
     @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
-
-    @Basic(optional = false)
-    @Column(name = "bar_code")
-    private String barCode;
-
-    @Basic(optional = false)
-    @Column(name = "model")
-    private String model;
-
-    @Basic(optional = false)
     @Column(name = "product_no")
     private String productNo;
+
+    @Basic(optional = false)
+    @Column(name = "name")
+    private String name;
 
     @Basic(optional = false)
     @Column(name = "print_description")
     private String printDescription;
 
-    @Column(name = "branch")
-    private Integer branch;
-
+    @Basic(optional = false)
     @Column(name = "brand")
     private String brand;
 
+    @Basic(optional = false)
     @Column(name = "unit")
     private String unit;
 
+    @Basic(optional = false)
+    @Column(name = "sale_price")
+    private BigDecimal salePrice;
+
+    @Basic(optional = false)
     @Column(name = "cost_price")
     private BigDecimal costPrice;
 
-    @Column(name = "sale_price")
-    private BigDecimal salePrice;
+    @Basic(optional = false)
+    @Column(name = "branch")
+    private int branch;
 
     @JoinColumn(name = "sub_category", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -90,18 +87,16 @@ public class MProduct implements Serializable {
     public MProduct() {
     }
 
-    public MProduct(Integer indexNo, String name, String barCode, String model, String productNo, String printDescription, Integer branch, String brand, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
+    public MProduct(Integer indexNo, String productNo, String name, String printDescription, String brand, String unit, BigDecimal salePrice, BigDecimal costPrice, int branch, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
         this.indexNo = indexNo;
-        this.name = name;
-        this.barCode = barCode;
-        this.model = model;
         this.productNo = productNo;
+        this.name = name;
         this.printDescription = printDescription;
-        this.branch = branch;
         this.brand = brand;
         this.unit = unit;
-        this.costPrice = costPrice;
         this.salePrice = salePrice;
+        this.costPrice = costPrice;
+        this.branch = branch;
         this.subCategory = subCategory;
         this.category = category;
         this.itemDepartment = itemDepartment;
@@ -132,28 +127,12 @@ public class MProduct implements Serializable {
         this.printDescription = printDescription;
     }
 
-    public Integer getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Integer branch) {
-        this.branch = branch;
-    }
-
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getUnit() {
@@ -164,6 +143,14 @@ public class MProduct implements Serializable {
         this.unit = unit;
     }
 
+    public BigDecimal getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(BigDecimal salePrice) {
+        this.salePrice = salePrice;
+    }
+
     public BigDecimal getCostPrice() {
         return costPrice;
     }
@@ -172,12 +159,12 @@ public class MProduct implements Serializable {
         this.costPrice = costPrice;
     }
 
-    public BigDecimal getSalePrice() {
-        return salePrice;
+    public int getBranch() {
+        return branch;
     }
 
-    public void setSalePrice(BigDecimal salePrice) {
-        this.salePrice = salePrice;
+    public void setBranch(int branch) {
+        this.branch = branch;
     }
 
     public MSubCategory getSubCategory() {
@@ -220,12 +207,9 @@ public class MProduct implements Serializable {
         this.productNo = productNo;
     }
 
-    public String getBarCode() {
-        return barCode;
-    }
-
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
+    @Override
+    public String toString() {
+        return "MProduct{" + "indexNo=" + indexNo + ", productNo=" + productNo + ", name=" + name + ", printDescription=" + printDescription + ", brand=" + brand + ", unit=" + unit + ", salePrice=" + salePrice + ", costPrice=" + costPrice + ", branch=" + branch + ", subCategory=" + subCategory + ", category=" + category + ", itemDepartment=" + itemDepartment + ", supplier=" + supplier + '}';
     }
 
 }

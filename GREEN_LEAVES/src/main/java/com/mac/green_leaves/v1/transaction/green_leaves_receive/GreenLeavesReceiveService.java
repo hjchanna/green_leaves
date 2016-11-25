@@ -23,18 +23,12 @@ public class GreenLeavesReceiveService {
     @Autowired
     private GreenLeavesReceiveRepository greenLeavesReceiveRepository;
 
-    @Autowired
-    private GreenLeavesReceiveDetailRepository greenLeavesReceiveDetailRepository;
-
     public TGreenLeavesReceive saveGreenLeaveReceiveDetails(TGreenLeavesReceive greenLeavesReceive) {
-        TGreenLeavesReceive greenLeavesReceive1 = greenLeavesReceiveRepository.save(greenLeavesReceive);
-        System.out.println(greenLeavesReceive);
-        System.out.println(greenLeavesReceive1.getIndexNo());
-//        for (TGreenLeavesReceiveDetail greenLeavesReceiveDetail : greenLeavesReceive.getGreenLeavesReceiveDetails()) {
-//            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive1.getIndexNo());
-//            System.out.println(greenLeavesReceiveDetail);
-//            greenLeavesReceiveDetailRepository.save(greenLeavesReceiveDetail);
-//        }
-        return greenLeavesReceive;
+        for (TGreenLeavesReceiveDetail greenLeavesReceiveDetail : greenLeavesReceive.getGreenLeavesReceiveDetails()) {
+            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
+        }
+
+        TGreenLeavesReceive getGreenLeavesReceive = greenLeavesReceiveRepository.save(greenLeavesReceive);
+        return getGreenLeavesReceive;
     }
 }

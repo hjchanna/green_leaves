@@ -14,11 +14,11 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">N.I.C* :</label></td>
-                        <td><input class="form-control text-right" ng-model="model.data.nicNumber" ng-keyup="ui.checkSupplierExists(model.data.nicNumber, 'nicNumber')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" ng-model="model.data.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Mobile* :</label></td>
-                        <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-keyup="ui.checkSupplierExists(model.data.mobileNumber, 'mobileNumber')" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Telephone* :</label></td>
@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <td><label class="control-label"></label></td>
-                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event)"></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine3" ng-click="ui.keyEvent($event)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -69,7 +69,7 @@
                     <col style="width: 25%">
                     <col style="width: 15%">
                     <tbody class="background-light">
-                        <tr ng-repeat="supplier in model.suppliers|filter:search"  ng-class="{'selected':supplier == selectedRow}">
+                        <tr ng-repeat="supplier in model.suppliers|filter:search">
                             <td><div class="label label-default">{{supplier.indexNo}}</div></td>
                             <td>{{supplier.name}}</td>
                             <td>{{supplier.nicNumber}}</td>

@@ -1,44 +1,6 @@
 (function () {
     //module
-    angular.module("greenLeavesReceiveModule", ["ngAnimate", "ui.bootstrap", "ui-notification"]);
-
-    angular.module("greenLeavesReceiveModule")
-            .factory("greenLeavesReceiveFactory", function ($http, systemConfig) {
-                var factory = {};
-                //load routes
-                factory.loadRoutes = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/routes";
-
-                    $http.get(url).success(function (data) {
-                        callback(data);
-                    });
-                };
-
-                //load clients
-                factory.loadClients = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/clients";
-
-                    $http.get(url).success(function (data) {
-                        callback(data);
-                    });
-                };
-
-                //insert 
-                factory.insertGreenLeavesDetail = function (summary, callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/save-green-leaves-receive";
-                    $http.post(url, summary)
-                            .success(function (data, status, headers) {
-                                callback(data);
-                            })
-                            .error(function (data, status, headers) {
-                                if (errorCallback) {
-                                    errorCallback(data);
-                                }
-                            });
-                };
-
-                return factory;
-            });
+    angular.module("greenLeavesReceiveModule", []);
 
     //controller
     angular.module("greenLeavesReceiveModule")
@@ -85,16 +47,6 @@
                     };
                 };
 
-                //ui functions--------------------------------------------------
-
-                $scope.ui.new = function () {
-                    $scope.ui.mode = "NEW";
-                };
-
-                $scope.ui.edit = function () {
-                    $scope.ui.mode = "EDIT";
-                };
-
                 //finish edits
                 $scope.ui.finish = function () {
                     $scope.ui.mode = "IDEAL";
@@ -131,23 +83,6 @@
                     $scope.model.data.greenLeavesReceiveDetails.splice(indexNo, 1);
                 };
 
-                //get super leaves total qty
-                $scope.ui.getSuperLeavesQuantityTotal = function () {
-                    var total = 0;
-                    for (var i = 0; i < $scope.model.data.greenLeavesReceiveDetails.length; i++) {
-                        total += parseInt($scope.model.data.greenLeavesReceiveDetails[i].superLeavesQuantity);
-                    }
-                    return total;
-                };
-
-                //get normal leaves total qty
-                $scope.ui.getNormalLeavesQuantityTotal = function () {
-                    var total = 0;
-                    for (var i = 0; i < $scope.model.data.greenLeavesReceiveDetails.length; i++) {
-                        total += parseInt($scope.model.data.greenLeavesReceiveDetails[i].normalLeavesQuantity);
-                    }
-                    return total;
-                };
 
                 $scope.ui.getClientLabel = function (client) {
                     var label;
@@ -194,26 +129,5 @@
                             }
                     );
                 };
-
-                //ui init function
-                $scope.ui.init = function () {
-                    //set ideal mode
-                    $scope.ui.mode = "IDEAL";
-
-                    //reset model
-                    $scope.model.reset();
-
-                    //load routes
-                    greenLeavesReceiveFactory.loadRoutes(function (data) {
-                        $scope.model.routes = data;
-                    });
-
-                    //load clients
-                    greenLeavesReceiveFactory.loadClients(function (data) {
-                        $scope.model.clients = data;
-                    });
-
-                };
-                $scope.ui.init();
             });
 }());

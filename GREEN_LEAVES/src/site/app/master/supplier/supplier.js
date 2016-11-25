@@ -88,7 +88,7 @@
                     if ($scope.validateInput()) {
                         $scope.http.saveSupplier();
                     } else {
-                        Notification.error("Please Input Details");
+                        Notification.error("please input details");
                     }
                 };
 
@@ -100,24 +100,6 @@
                         return true;
                     } else {
                         return false;
-                    }
-                };
-
-                $scope.ui.checkSupplierExists = function (text, type) {
-                    for (var i = 0; i < $scope.model.suppliers.length; i++) {
-                        if (type === "nicNumber") {
-                            if (text === $scope.model.suppliers[i].nicNumber) {
-                                $scope.selectedRow = $scope.model.suppliers[i];
-                                Notification.error("this supplier is alrady exists");
-                                break;
-                            }
-                        } else if (type === "mobileNumber") {
-                            $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].mobileNumber) {
-                                $scope.selectedRow = $scope.model.suppliers[i];
-                                Notification.error("this suppliers is alrady exists");
-                            }
-                        }
                     }
                 };
 
@@ -159,6 +141,12 @@
                         Notification.success("delete successfully.");
                         $scope.model.suppliers.splice(id, 1);
                     });
+                };
+
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
+                    }
                 };
 
                 $scope.init = function () {

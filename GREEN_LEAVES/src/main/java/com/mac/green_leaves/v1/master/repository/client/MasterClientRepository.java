@@ -16,7 +16,7 @@ public interface MasterClientRepository extends JpaRepository<MClient, Integer> 
 
     public List<MClient> findByBranch(Integer branch);
 
-    public List<MClient> findByClientNumber(Integer clientNumber);
+    public List<MClient> findByClientNumberOrName(Integer clientNumber,String name);
 
-    public List<MClient> findByClientNumberAndIndexNoNot(Integer clientNumber, Integer indexNo);
+    public List<MClient> findByClientNumberOrNameAndIndexNoNot(Integer clientNumber,String name, Integer indexNo);
 }
