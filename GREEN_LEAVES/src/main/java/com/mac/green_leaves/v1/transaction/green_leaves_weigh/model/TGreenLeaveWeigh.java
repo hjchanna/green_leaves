@@ -183,7 +183,7 @@ public class TGreenLeaveWeigh implements Serializable {
     @NotNull
     @Column(name = "route")
     private int route;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
     private List<TGreenLeaveWeighDetail> greenLeavesWeighDetails;
 
@@ -484,7 +484,7 @@ public class TGreenLeaveWeigh implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.TGreenLeaveWeigh[ indexNo=" + indexNo + " ]";
+        return "TGreenLeaveWeigh{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", number=" + number + ", normalTotalWeight=" + normalTotalWeight + ", normalTareCalculated=" + normalTareCalculated + ", normalTareDeduction=" + normalTareDeduction + ", normalGeneralDeductionPercent=" + normalGeneralDeductionPercent + ", normalGeneralDeduction=" + normalGeneralDeduction + ", normalWaterDeduction=" + normalWaterDeduction + ", normalCoarseLeaves=" + normalCoarseLeaves + ", normalBoiledLeaves=" + normalBoiledLeaves + ", normalNetWeight=" + normalNetWeight + ", normalCrates=" + normalCrates + ", normalBags=" + normalBags + ", normalPolyBags=" + normalPolyBags + ", superTotalWeight=" + superTotalWeight + ", superTareCalculated=" + superTareCalculated + ", superTareDeduction=" + superTareDeduction + ", superGeneralDeductionPercent=" + superGeneralDeductionPercent + ", superGeneralDeduction=" + superGeneralDeduction + ", superWaterDeduction=" + superWaterDeduction + ", superCoarseLeaves=" + superCoarseLeaves + ", superBoiledLeaves=" + superBoiledLeaves + ", superNetWeight=" + superNetWeight + ", superCrates=" + superCrates + ", superBags=" + superBags + ", superPolyBags=" + superPolyBags + ", route=" + route + ", greenLeavesWeighDetails=" + greenLeavesWeighDetails + '}';
     }
 
 }

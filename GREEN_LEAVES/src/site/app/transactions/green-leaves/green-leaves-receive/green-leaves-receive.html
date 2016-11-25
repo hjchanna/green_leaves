@@ -106,20 +106,20 @@
                     <thead class="background-dark">
                         <tr>
                             <th>TOTAL QUANTITY</th>
-                            <th class="text-right">{{ui.totalSuperLevesQty()}}</th>
+                            <th class="text-right">{{ui.totalNormalLevesQty()}}</th>
                             <th class="text-right">{{ui.totalSuperLevesQty()}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>FACTORY QUANTITY</th>
-                            <th class="text-right">6.50</th>
-                            <th class="text-right">6.50</th>
+                            <th class="text-right">{{model.total.normalLeavesTotal}}</th>
+                            <th class="text-right">{{model.total.superLeavesTotal}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>DIFFERENCE QUANTITY</th>
-                            <th class="text-right">6.50</th>
-                            <th class="text-right">6.50</th>
+                            <th class="text-right">{{model.total.defaranceNormalLeavesTotal}}</th>
+                            <th class="text-right">{{model.total.defaranceSuperLeavesTotal}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                     </thead>

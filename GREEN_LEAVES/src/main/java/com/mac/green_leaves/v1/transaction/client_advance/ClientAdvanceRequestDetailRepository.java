@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.transaction.client_advance;
 
 import com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequestDetail;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ClientAdvanceRequestDetailRepository extends JpaRepository<TClientAdvanceRequestDetail, Integer> {
 
+    public List<TClientAdvanceRequestDetail> findByClientAdvanceRequestRoute(Integer route);
 }

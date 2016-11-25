@@ -5,9 +5,12 @@
 
         //current ui mode IDEAL, SELECTED, NEW, EDIT
         $scope.model = {};
+
+        //date store model
         $scope.model.tempData = {};
         $scope.model.routes = {};
         $scope.model.clients = {};
+        $scope.model.total = {};
 
         $scope.ui = {};
         $scope.ui.mode = "NEW";
@@ -41,18 +44,21 @@
             };
         };
 
+        //---------------- table functions -------------------
+
+        //insert data datable 
         $scope.ui.insertTableData = function () {
             if ($scope.model.tempData.client && parseInt($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0) {
                 if ($scope.model.data.checkGreenLeavesReseveDetailDuplicate($scope.model.tempData.client)) {
-                    Notification.error("this customer green leaves isa allrady exists!");
+                    Notification.error("this customer green leaves is already exists!");
                 } else {
                     $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
                     if ($scope.model.data.addReceiveDetail($scope.model.tempData)) {
                         //validation succeed and added
-                        $scope.ui.forcus();
-                        $scope.ui.resetTempRequest();
                         $scope.ui.totalSuperLevesQty;
                         $scope.ui.totalNormalLevesQty();
+                        $scope.ui.forcus();
+                        $scope.ui.resetTempRequest();
                     }
                 }
             } else {
@@ -60,38 +66,41 @@
             }
         };
 
+        //edit data table
         $scope.ui.editTableData = function (index) {
             $scope.model.tempData = $scope.model.data.editRecieveDetail(index);
             $scope.ui.totalSuperLevesQty;
             $scope.ui.totalNormalLevesQty();
         };
 
+        //delete row data table
         $scope.ui.deleteTableData = function (index) {
             $scope.model.data.deleteReceiveDetail(index);
             $scope.ui.totalSuperLevesQty;
             $scope.ui.totalNormalLevesQty();
         };
 
+        //---------------- ui fucntions -------------------
+        //green leaves data save
         $scope.ui.save = function () {
-//            if ($scope.model.data.route) {
-//                Notification.error("please select route");
-//            } else if ($scope.model.data.date) {
-//                Notification.error("please select date");
-//            } else {
+            console.log($scope.model.data.route);
+            if ($scope.model.data.route === null) {
+                Notification.error("please enter route");
+            } else {
                 var data = JSON.stringify($scope.model.data);
-                console.log($scope.model.data);
                 GreenLeavesReceiveService.saveGreenLeavesDetail(data)
                         .success(function (data, status, headers) {
                             $scope.ui.init();
-                            optionPane.successMessage("Client advance request saved successfully.");
-                            $scope.selectedRow = null;
+                            optionPane.successMessage("green leaves receive saved successfully.");
+                            $scope.selectedRow = -1;
                         })
                         .error(function (data, status, headers) {
-                            optionPane.dangerMessage("Client advance request save failed.");
+                            optionPane.dangerMessage("green leaves receive save failed.");
                         });
-//            }
+            }
         };
 
+        //---------------- validation functions -------------------
         $scope.ui.getClientLabel = function (client) {
             var label;
             angular.forEach($scope.model.clients, function (value, key) {
@@ -115,7 +124,16 @@
         };
 
         $scope.ui.totalSuperLevesQty = function () {
-            return  $scope.model.data.getSuperLeavesQuantityTotal();
+            var factorySuperLeavesTotal = $scope.model.total.superLeavesTotal;
+            var factoryNormalLeavesTotal = $scope.model.total.normalLeavesTotal;
+
+            var superLeavesTotal = $scope.model.data.getSuperLeavesQuantityTotal();
+            var factoryNormalTotal = $scope.model.data.getNormalLeavesQuantityTotal();
+
+            $scope.model.total.defaranceSuperLeavesTotal = parseFloat(factorySuperLeavesTotal - superLeavesTotal);
+            $scope.model.total.defaranceNormalLeavesTotal = parseFloat(factoryNormalLeavesTotal - factoryNormalTotal);
+
+            return $scope.model.data.getSuperLeavesQuantityTotal();
         };
 
         $scope.ui.totalNormalLevesQty = function () {
@@ -127,12 +145,28 @@
         $scope.ui.setClickedRow = function (index, route) {
             $scope.selectedRow = index;
             $scope.model.data.route = route.indexNo;
+
+            //get selected row green leaves weight super leaves totala and normal leaves total
+            var data = JSON.stringify($scope.model.data);
+            GreenLeavesReceiveService.getSuperLeavesTotalAndNormalLeavesTotal(data)
+                    .success(function (data, status, headers) {
+                        $scope.model.total.superLeavesTotal = parseFloat(data[0]);
+                        $scope.model.total.normalLeavesTotal = parseFloat(data[1]);
+                    })
+                    .error(function (data, status, headers) {
+                    });
         };
 
         $scope.ui.init = function () {
+
+            $scope.ui.mode = "IDEAL";
+
             //create new model
             $scope.model.data = new GreenLeavesReceiveModel();
+
+            //set deafault date
             $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+
             //load routes
             GreenLeavesReceiveService.loadRoutes()
                     .success(function (data, status, headers) {
@@ -151,7 +185,6 @@
 
                     });
 
-            $scope.ui.mode = "IDEAL";
         };
 
         $scope.ui.init();

@@ -8,8 +8,6 @@ package com.mac.green_leaves.v1.transaction.client_advance;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequestDetail;
-import com.mac.green_leaves.v1.transaction.client_advance.ClientAdvanceRequestDetailRepository;
-import com.mac.green_leaves.v1.transaction.client_advance.ClientAdvanceRequestRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +53,7 @@ public class ClientAdvanceService {
         for (TClientAdvanceRequestDetail clientAdvanceRequestDetail : clientAdvanceRequest.getClientAdvanceRequestDetails()) {
             clientAdvanceRequestDetail.setClientAdvanceRequest(clientAdvanceRequest);
         }
-        
+
         clientAdvanceRequest.setBranch(branch);
         clientAdvanceRequest = clientAdvanceRepository.save(clientAdvanceRequest);
         return clientAdvanceRequest.getIndexNo();
@@ -75,4 +73,8 @@ public class ClientAdvanceService {
         return clientAdvanceRepository.findByBranchAndStatus(branch, ADVANCE_REQUEST_STATUS_PENDING);
     }
 
+    //advance request approve
+    public List<TClientAdvanceRequestDetail> findByRoute(Integer route) {
+        return clientAdvanceRequestDetailRepository.findByClientAdvanceRequestRoute(route);
+    }
 }

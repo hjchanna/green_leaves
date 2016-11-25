@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.transaction.client_advance;
 
 import com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequest;
+import com.mac.green_leaves.v1.transaction.client_advance.model.TClientAdvanceRequestDetail;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,19 +25,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/green-leaves/client-advance")
 public class ClientAdvanceController {
 
-    private static final int branch = 1;
+    private static final int BRANCH = 1;
+    private static final int ROUTE = 1;
 
     @Autowired
     private ClientAdvanceService clientAdvanceService;
 
     @RequestMapping(value = "/{number}", method = RequestMethod.GET)
     public TClientAdvanceRequest getAdvanceRequestByNumber(@PathVariable Integer number) {
-        return clientAdvanceService.getAdvanceRequestByNumber(number, branch);
+        return clientAdvanceService.getAdvanceRequestByNumber(number, BRANCH);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
-        return clientAdvanceService.saveAdvanceRequest(advanceRequest, branch);
+        return clientAdvanceService.saveAdvanceRequest(advanceRequest, BRANCH);
     }
 
     @RequestMapping(value = "/delete/{indexNo}", method = RequestMethod.DELETE)
@@ -51,6 +53,11 @@ public class ClientAdvanceController {
 
     @RequestMapping(value = "/pending-requests")
     public List<TClientAdvanceRequest> getPendingAdvanceRequests() {
-        return clientAdvanceService.getPendingAdvanceRequests(branch);
+        return clientAdvanceService.getPendingAdvanceRequests(BRANCH);
+    }
+    
+    @RequestMapping(value = "/find-by-route")
+    public List<TClientAdvanceRequestDetail> findByRoute(){
+        return clientAdvanceService.findByRoute(ROUTE);
     }
 }

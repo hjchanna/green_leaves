@@ -13,6 +13,9 @@
         this.saveGreenLeavesDetail = function (data) {
             return $http.post(systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/save-green-leaves-receive", data);
         };
+        this.getSuperLeavesTotalAndNormalLeavesTotal = function (data) {
+            return $http.post(systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/get-total-leaves", data);
+        };
     };
 
     angular.module("appModule")

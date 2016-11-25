@@ -13,6 +13,7 @@ package com.mac.green_leaves.v1.transaction.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeigh;
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeighDetail;
+import java.math.BigDecimal;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -62,8 +63,8 @@ public class GreenLeavesWeighController {
         return indexNo;
     }
 
-//    @RequestMapping(value = "/get-total-leaves", method = RequestMethod.GET)
-//    public void getTotalLeaves() {
-//        greenLeavesWeighService.getTotalSuperLeavesAndNormalLeaves(BRANCH, ROUTE, DATE);
-//    }
+    @RequestMapping(value = "/get-total-leaves", method = RequestMethod.POST)
+    public Object[] getTotalLeaves(@RequestBody TGreenLeaveWeigh greenLeaveWeigh) { 
+        return greenLeavesWeighService.getTotalSuperLeavesAndNormalLeaves(BRANCH, greenLeaveWeigh.getRoute(), greenLeaveWeigh.getDate());
+    }
 }

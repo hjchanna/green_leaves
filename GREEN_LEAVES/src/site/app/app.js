@@ -4,7 +4,7 @@
         "ngRoute",
         "homeModule",
         "ui.bootstrap",
-        "greenLeavesReceiveModule",
+//        "greenLeavesReceiveModule",
         "greenLeavesWeighModule",
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",

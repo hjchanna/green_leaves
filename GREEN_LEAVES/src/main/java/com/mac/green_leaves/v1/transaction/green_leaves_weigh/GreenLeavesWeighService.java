@@ -16,6 +16,7 @@ import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveW
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeighDetail;
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeigh;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,20 +162,13 @@ public class GreenLeavesWeighService {
 
         return greenLeaveWeigh;
     }
-    
-    
-//    //green leaves get data
-//    public void getTotalSuperLeavesAndNormalLeaves(Integer branch,Integer route,Date date){
-//        Double superLeavesTotal = 0.00;
-//        Double normalLeaveTotal = 0.00;
-//
-//        List<TGreenLeaveWeigh> getTotalList = greenLeavesWeighRepository.findByBranchAndRouteAndDate(branch, route, date);
-//        for (TGreenLeaveWeigh tGreenLeaveWeigh : getTotalList) {
-//            superLeavesTotal += Double.parseDouble(tGreenLeaveWeigh.getSuperTotalWeight().toString());
-//            normalLeaveTotal += Double.parseDouble(tGreenLeaveWeigh.getNormalTotalWeight().toString());
-//        }
-//
-//        System.out.println("++++++++++++++++"+superLeavesTotal);
-//        System.out.println("++++++++++++++++"+normalLeaveTotal);
-//    }
+
+    //green leaves get data
+    public Object[] getTotalSuperLeavesAndNormalLeaves(Integer branch, Integer route, Date date) {
+        List<Object[]> getTotalList = greenLeavesWeighRepository.getTotalLeves(branch, route, date);
+        Object total[] = new Object[2];
+        total[0] = getTotalList.get(0)[0];
+        total[1] = getTotalList.get(0)[1];
+        return total;
+    }
 }
