@@ -11,14 +11,19 @@
  */
 package com.mac.green_leaves.v1.transaction.green_leaves_receive.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -41,10 +46,10 @@ public class TGreenLeavesReceiveDetail implements Serializable {
     @Column(name = "branch")
     private int branch;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "green_leaves_receive")
-    private int greenLeavesReceive;
+    @JsonIgnore
+    @JoinColumn(name = "green_leaves_receive", referencedColumnName = "index_no")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private TGreenLeavesReceive greenLeavesReceive;
 
     @Basic(optional = false)
     @NotNull
@@ -92,14 +97,6 @@ public class TGreenLeavesReceiveDetail implements Serializable {
         this.branch = branch;
     }
 
-    public int getGreenLeavesReceive() {
-        return greenLeavesReceive;
-    }
-
-    public void setGreenLeavesReceive(int greenLeavesReceive) {
-        this.greenLeavesReceive = greenLeavesReceive;
-    }
-
     public BigDecimal getNormalLeavesQuantity() {
         return normalLeavesQuantity;
     }
@@ -124,9 +121,16 @@ public class TGreenLeavesReceiveDetail implements Serializable {
         this.client = client;
     }
 
+    public TGreenLeavesReceive getGreenLeavesReceive() {
+        return greenLeavesReceive;
+    }
+
+    public void setGreenLeavesReceive(TGreenLeavesReceive greenLeavesReceive) {
+        this.greenLeavesReceive = greenLeavesReceive;
+    }
+
     @Override
     public String toString() {
         return "TGreenLeavesReceiveDetail{" + "indexNo=" + indexNo + ", branch=" + branch + ", greenLeavesReceive=" + greenLeavesReceive + ", normalLeavesQuantity=" + normalLeavesQuantity + ", superLeavesQuantity=" + superLeavesQuantity + ", client=" + client + '}';
     }
-
 }

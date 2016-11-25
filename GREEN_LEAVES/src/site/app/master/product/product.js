@@ -114,9 +114,7 @@
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
-                    $timeout(function () {
-                        document.querySelectorAll("#productNo")[0].focus();
-                    }, 10);
+                    $scope.ui.forcuse();
                 };
 
                 $scope.ui.save = function () {
@@ -127,33 +125,23 @@
                     }
                 };
 
-                $scope.ui.edit = function (product, index) {
-                    $scope.model.data = product;
-                    $scope.model.products.splice(index, 1);
+                $scope.ui.forcuse = function () {
+                    $timeout(function () {
+                        document.querySelectorAll("#productNo")[0].focus();
+                    }, 10);
                 };
 
-                $scope.ui.checkProductsExists = function (text, type) {
-                    for (var i = 0; i < $scope.model.products.length; i++) {
-                        if (type === "productNo") {
-                            if (text === $scope.model.products[i].productNo) {
-                                $scope.selectedRow = $scope.model.products[i];
-                                Notification.error("this product is alrady exists");
-                            }
-                        } else if (type === "name") {
-                            $scope.model.data.printDescription = text;
-                            if (text === $scope.model.products[i].name) {
-                                $scope.selectedRow = $scope.model.products[i];
-                                Notification.error("this product is alrady exists");
-                            }
-                        }
-                    }
+                $scope.ui.edit = function (product, index) {
+                    $scope.ui.mode = "EDIT";
+                    $scope.model.data = product;
+                    $scope.model.products.splice(index, 1);
                 };
 
                 $scope.ui.tabChnage = function (event) {
                     if (event.keyCode === 13) {
                         $scope.indextab = 1;
                         $timeout(function () {
-                            document.querySelectorAll("#unit")[0].focus();
+                            document.querySelectorAll("#costPrice")[0].focus();
                         }, 10);
                     }
                 };
@@ -190,13 +178,11 @@
                     productFactory.saveProduct(
                             detailJSON,
                             function (data) {
-                                Notification.success("success" + data.indexNo);
+                                Notification.success("saved successfully.");
                                 //reset model
                                 $scope.model.products.push(data);
                                 $scope.model.reset();
-                                $timeout(function () {
-                                    document.querySelectorAll("#productNo")[0].focus();
-                                }, 10);
+                                $scope.ui.forcuse();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -212,8 +198,15 @@
                                 id = i;
                             }
                         }
+                        Notification.success("delete successfully.");
                         $scope.model.products.splice(id, 1);
                     });
+                };
+
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        console.log("dkbfjabsjdbfas");
+                    }
                 };
 
                 //---------- inti fuctions ---------- 

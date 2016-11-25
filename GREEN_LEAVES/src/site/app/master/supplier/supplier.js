@@ -64,25 +64,31 @@
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $scope.ui.forcuse();
+                };
+
+                $scope.ui.forcuse = function () {
                     $timeout(function () {
                         document.querySelectorAll("#name")[0].focus();
                     }, 10);
                 };
 
                 $scope.ui.edit = function (supplier, index) {
+                    $scope.ui.mode = "EDIT";
                     $scope.model.data = supplier;
                     $scope.model.suppliers.splice(index, 1);
+                    $scope.ui.forcuse();
                 };
 
-                $scope.ui.delete = function (indexNo, index) {
-                    $scope.http.delete(indexNo, index);
+                $scope.ui.delete = function (indexNo) {
+                    $scope.http.delete(indexNo);
                 };
 
                 $scope.ui.save = function () {
                     if ($scope.validateInput()) {
                         $scope.http.saveSupplier();
                     } else {
-                        Notification.error("Please Input Details");
+                        Notification.error("please input details");
                     }
                 };
 
@@ -90,35 +96,10 @@
                 $scope.validateInput = function () {
                     if ($scope.model.data.name
                             && $scope.model.data.nicNumber
-                            && $scope.model.data.mobileNumber !== null) {
+                            && $scope.model.data.mobileNumber) {
                         return true;
                     } else {
                         return false;
-                    }
-                };
-
-                $scope.ui.checkSupplierExists = function (text, type) {
-                    for (var i = 0; i < $scope.model.suppliers.length; i++) {
-                        if (type === "name") {
-                            if (text === $scope.model.suppliers[i].name) {
-                                $scope.selectedRow = $scope.model.suppliers[i];
-                                Notification.error("this supplier is alrady exists");
-                                break;
-                            }
-                        } else if (type === "nicNumber") {
-                            $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].nicNumber) {
-                                $scope.selectedRow = $scope.model.suppliers[i];
-                                Notification.error("this supplier is alrady exists");
-                                break;
-                            }
-                        } else if (type === "mobileNumber") {
-                            $scope.selectedRow = $scope.model.suppliers[i];
-                            if (text === $scope.model.suppliers[i].mobileNumber) {
-                                $scope.selectedRow = $scope.model.suppliers[i];
-                                Notification.error("this suppliers is alrady exists");
-                            }
-                        }
                     }
                 };
 
@@ -136,13 +117,11 @@
                     supplierFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success("success");
+                                Notification.success("saved successfully.");
                                 //reset model
                                 $scope.model.suppliers.push(data);
                                 $scope.model.reset();
-                                $timeout(function () {
-                                    document.querySelectorAll("#name")[0].focus();
-                                }, 10);
+                                $scope.ui.forcuse();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -151,7 +130,7 @@
                 };
 
                 //delete
-                $scope.http.delete = function (indexNo, index) {
+                $scope.http.delete = function (indexNo) {
                     supplierFactory.deletesupplier(indexNo, function () {
                         var id = -1;
                         for (var i = 0; i < $scope.model.suppliers.length; i++) {
@@ -159,8 +138,15 @@
                                 id = i;
                             }
                         }
+                        Notification.success("delete successfully.");
                         $scope.model.suppliers.splice(id, 1);
                     });
+                };
+
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
+                    }
                 };
 
                 $scope.init = function () {

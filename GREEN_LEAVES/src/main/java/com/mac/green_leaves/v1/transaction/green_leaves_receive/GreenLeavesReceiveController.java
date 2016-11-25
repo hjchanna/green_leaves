@@ -12,8 +12,6 @@
 package com.mac.green_leaves.v1.transaction.green_leaves_receive;
 
 import com.mac.green_leaves.v1.transaction.green_leaves_receive.model.TGreenLeavesReceive;
-import com.mac.green_leaves.v1.transaction.green_leaves_receive.model.TGreenLeavesReceiveDetail;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +35,7 @@ public class GreenLeavesReceiveController {
     public TGreenLeavesReceive saveGreenLeavesReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
         greenLeavesReceive.setNumber(1);
         greenLeavesReceive.setTransaction(1);
+        System.out.println(greenLeavesReceive);
         return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
     }
 

@@ -30,7 +30,7 @@
 
                 //save supplier
                 factory.saveSupplier = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/clients/save-client";
+                    var url = systemConfig.apiUrl + "/api/green-leaves/clients/save-client";
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -79,38 +79,49 @@
                     "Sinhalese",
                     "Sri Lanka Tamil"
                 ];
-                $scope.model.married = [
-                    "No",
-                    "Yes"
-                ];
                 $scope.model.clientType = [
                     "none",
                     "none1",
                     "none2"
                 ];
-                $scope.model.holder = [
-                    "Yes",
-                    "No"
-                ];
 
                 //------------------ model functions ---------------------------
                 //reset model
                 $scope.model.reset = function () {
-                    $scope.model.data = {};
+                    $scope.model.data = {
+                        active:true,
+                        blackListed:true
+                    };
                 };
 
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                };
+
+                $scope.ui.forcuse = function () {
                     $timeout(function () {
                         document.querySelectorAll("#clientNo")[0].focus();
                     }, 10);
                 };
 
-                $scope.ui.edit = function (supplier, index) {
+                $scope.ui.edit = function (supplier,$index) {
+                    $scope.ui.mode = "EDIT";
                     $scope.model.data = supplier;
-                    $scope.model.getSupplierBlackListed(supplier);
-                    $scope.model.supplier.splice(index, 1);
+                    //holder set
+                    if($scope.model.data.holder){
+                        $scope.holder = true;
+                    }else{
+                        $scope.holder = false;
+                        $scope.model.data.holderNumber = null;
+                    }
+                    //married set
+                    if($scope.model.data.married){
+                        $scope.married = true;
+                    }else{
+                        $scope.married = false;
+                    }
+                    $scope.model.supplier.splice($index, 1);
                 };
 
                 $scope.ui.delete = function (indexNo, index) {
@@ -126,7 +137,7 @@
                 };
 
                 $scope.ui.setDyNumber = function (text) {
-                    if (text === "No") {
+                    if (text === "false") {
                         $scope.status = true;
                         $scope.model.data.holderNumber = null;
                     } else {
@@ -138,78 +149,17 @@
                 $scope.validateInput = function () {
                     if ($scope.model.data.name
                             && $scope.model.data.clientNumber
-                            && $scope.model.data.name
                             && $scope.model.data.nicNumber
-                            && $scope.model.data.dateOfBirth
+                            && $scope.model.data.name
                             && $scope.model.data.mobileNumber
+                            && $scope.model.data.dateOfBirth
                             && $scope.model.data.religion
                             && $scope.model.data.nationality
-                            && $scope.model.data.married
                             && $scope.model.data.type
-                            && $scope.model.data.registerDate
-                            && $scope.model.data.route.name !== null) {
-                    return true;
+                            && $scope.model.data.route) {
+                        return true;
                     } else {
                         return false;
-                    }
-                };
-
-                $scope.ui.checkSupplierExists = function (text, type) {
-                    for (var i = 0; i < $scope.model.supplier.length; i++) {
-                        if (type === "nicNumber") {
-                            if (text === $scope.model.supplier[i].nicNumber) {
-                                $scope.selectedRow = $scope.model.supplier[i];
-                                Notification.error("this supplier is alrady exists");
-                            }
-                        } else if (type === "telephoneNumber") {
-                            if (text === $scope.model.supplier[i].telephoneNumber) {
-                                $scope.selectedRow = $scope.model.supplier[i];
-                                Notification.error("this supplier is alrady exists");
-                                break;
-                            }
-                        } else if (type === "mobileNumber") {
-                            if (text === $scope.model.supplier[i].mobileNumber) {
-                                $scope.selectedRow = $scope.model.supplier[i];
-                                Notification.error("this supplier is alrady exists");
-                            }
-                        } else if (type === "name") {
-                            if (text === $scope.model.supplier[i].name) {
-                                $scope.selectedRow = $scope.model.supplier[i];
-                                Notification.error("this supplier is alrady exists");
-                            }
-                        } else if (type === "clientNumber") {
-                            if (text === $scope.model.supplier[i].clientNumber) {
-                                $scope.selectedRow = $scope.model.supplier[i];
-                                Notification.error("this supplier is alrady exists");
-                            }
-                        }
-                    }
-                };
-
-                $scope.model.getSupplierBlackListed = function (supplier) {
-                    if (supplier.supplierBlackListed) {
-                        $scope.model.data.blackListed = "Yes";
-                    } else {
-                        $scope.model.data.blackListed = "No";
-                    }
-
-                    if (supplier.active) {
-                        $scope.model.data.active = "Yes";
-                    } else {
-                        $scope.model.data.active = "No";
-                    }
-
-                    if (supplier.holder) {
-                        $scope.model.data.holder = "Yes";
-                        $scope.status = false;
-                    } else {
-                        $scope.model.data.holder = "No";
-                        $scope.status = true;
-                    }
-                    if (supplier.married) {
-                        $scope.model.data.married = "Yes";
-                    } else {
-                        $scope.model.data.married = "No";
                     }
                 };
 
@@ -232,26 +182,8 @@
                 //save
                 $scope.http.saveSupplier = function () {
                     $scope.indextab = 0;
-                    $scope.model.data.blackListed = false;
-                    $scope.model.data.active = true;
-
-                    //set holder
-                    var holder = $scope.model.data.holder;
-                    if (holder === "No") {
-                        $scope.model.data.holder = false;
-                    } else {
-                        $scope.model.data.holder = true;
-                    }
-                    
-                    //set married
-                    var married = $scope.model.data.married;
-                    if (married === "No") {
-                        $scope.model.data.married = false;
-                    } else {
-                        $scope.model.data.married = true;
-                    }
-
                     var detail = $scope.model.data;
+                    console.log(detail);
                     var detailJSON = JSON.stringify(detail);
                     clientFactory.saveSupplier(
                             detailJSON,
@@ -261,9 +193,7 @@
                                 $scope.model.supplier.push(data);
                                 $scope.model.reset();
                                 $scope.ui.changeDefault();
-                                $timeout(function () {
-                                    document.querySelectorAll("#clientNo")[0].focus();
-                                }, 10);
+                                $scope.ui.forcuse();
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -280,17 +210,14 @@
                                 id = i;
                             }
                         }
+                        Notification.success("delete successfully.");
                         $scope.model.supplier.splice(id, 1);
                     });
                 };
 
                 //ui change default functions
                 $scope.ui.changeDefault = function () {
-                    $scope.model.data.blackListed = "No";
-                    var status = "No";
-                    $scope.model.data.holder = status;
-                    $scope.ui.setDyNumber(status);
-                    $scope.model.data.active = "Yes";
+                    $scope.status = true;
                     $scope.model.data.registerDate = $filter('date')(new Date(), 'yyyy-MM-dd');
                 };
 
@@ -301,6 +228,7 @@
 
                     //reset model
                     $scope.model.reset();
+                    
                     $scope.ui.changeDefault();
 
                     //loadRoute

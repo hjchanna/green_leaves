@@ -48,7 +48,7 @@
                         })
                         .when("/transactions/green-leaves/green-leaves-receive", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
-                            controller: "greenLeavesReceiveController"
+                            controller: "GreenLeavesReceiveController"
                         })
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-request.html",

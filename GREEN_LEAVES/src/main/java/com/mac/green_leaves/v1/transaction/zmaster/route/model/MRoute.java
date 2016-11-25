@@ -30,7 +30,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author Mohan
  */
-@Entity
+@Entity(name = "com.mac.green_leaves.v1.transaction.zmaster.route.model.MRoute")
 @Table(name = "m_route")
 public class MRoute implements Serializable {
 
@@ -147,27 +147,8 @@ public class MRoute implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
+    public String toString() {
+        return "MRoute{" + "indexNo=" + indexNo + ", branch=" + branch + ", name=" + name + ", vehicle=" + vehicle + ", routeOfficer=" + routeOfficer + ", routeHelper=" + routeHelper + ", tdRate=" + tdRate + '}';
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MRoute)) {
-            return false;
-        }
-        MRoute other = (MRoute) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
-    }
-
-//    @Override
-//    public String toString() {
-//        return "com.mac.gl.transaction.green_leaves.model.zmaster.MRoute[ indexNo=" + indexNo + " ]";
-//    }
 }

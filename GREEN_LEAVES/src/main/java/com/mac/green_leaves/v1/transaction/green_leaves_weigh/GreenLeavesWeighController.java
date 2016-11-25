@@ -13,6 +13,7 @@ package com.mac.green_leaves.v1.transaction.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeigh;
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeighDetail;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,10 +34,15 @@ public class GreenLeavesWeighController {
     @Autowired
     private GreenLeavesWeighService greenLeavesWeighService;
 
+    private final Date DATE = new Date();
+    private final Integer BRANCH = 1;
+    private final Integer ROUTE = 1;
+
     @RequestMapping(value = "/{number}", method = RequestMethod.GET)
     public TGreenLeaveWeigh getSummary(@PathVariable Integer number) {
         return greenLeavesWeighService.getSummary(number);
     }
+//
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeaveWeigh greenLeaveWeigh) {
@@ -53,7 +59,11 @@ public class GreenLeavesWeighController {
     @RequestMapping(value = "/delete-detail/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteWeigh(@PathVariable Integer indexNo) {
         greenLeavesWeighService.deleteWeigh(indexNo);
-
         return indexNo;
     }
+
+//    @RequestMapping(value = "/get-total-leaves", method = RequestMethod.GET)
+//    public void getTotalLeaves() {
+//        greenLeavesWeighService.getTotalSuperLeavesAndNormalLeaves(BRANCH, ROUTE, DATE);
+//    }
 }

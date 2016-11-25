@@ -58,7 +58,6 @@ public class TGreenLeavesReceive implements Serializable {
     private int number;
 
     @Basic(optional = false)
-
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
