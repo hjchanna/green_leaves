@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.transaction.zmaster.employee;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
+import com.mac.green_leaves.v1.system.Types;
 import com.mac.green_leaves.v1.transaction.zmaster.employee.model.MEmployee;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,32 +24,15 @@ public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public List<MEmployee> findEmployeesList() {
-        return employeeRepository.findAll();
+    public List<MEmployee> findAllEmployees(Integer branch) {
+        return employeeRepository.findByBranch(branch);
     }
 
-    private MEmployee findByNic(String nic) {
-        List<MEmployee> employees = employeeRepository.findByNicNumber(nic);
-        if (employees.isEmpty()) {
-            return null;
-        }
-        return employees.get(0);
+    public List<MEmployee> findRouteOfficers(Integer branch) {
+        return employeeRepository.findByBranchAndType(branch, Types.EMPLOYEE_ROUTE_OFFICER);
     }
 
-    public MEmployee saveEmployee(MEmployee employee) {
-        MEmployee mEmployee = findByNic(employee.getNicNumber());
-        if (mEmployee == null) {
-            return employeeRepository.save(employee);
-        } else {
-            if (mEmployee.getIndexNo().equals(employee.getIndexNo())) {
-                return employee;
-            }
-            throw new DuplicateEntityException("Employee already exists");
-        }
+    public List<MEmployee> findRouteHelpers(Integer branch) {
+        return employeeRepository.findByBranchAndType(branch, Types.EMPLOYEE_ROUTE_HELPER);
     }
-
-    public void deleteEmployee(Integer indexNo) {
-        employeeRepository.delete(indexNo);
-    }
-
 }

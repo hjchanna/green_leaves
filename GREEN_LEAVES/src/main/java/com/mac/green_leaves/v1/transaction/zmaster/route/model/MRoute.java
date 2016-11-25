@@ -12,7 +12,7 @@
 package com.mac.green_leaves.v1.transaction.zmaster.route.model;
 
 import com.mac.green_leaves.v1.transaction.zmaster.employee.model.MEmployee;
-import com.mac.green_leaves.v1.master.model.vehicle.MVehicle;
+import com.mac.green_leaves.v1.transaction.zmaster.vehicle.model.MVehicle;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,7 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *

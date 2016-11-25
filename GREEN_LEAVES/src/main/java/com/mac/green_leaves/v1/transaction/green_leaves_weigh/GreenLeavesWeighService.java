@@ -14,8 +14,6 @@ package com.mac.green_leaves.v1.transaction.green_leaves_weigh;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeigh;
 import com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeighDetail;
-import com.mac.green_leaves.v1.transaction.green_leaves_weigh.GreenLeavesWeighDetailRepository;
-import com.mac.green_leaves.v1.transaction.green_leaves_weigh.GreenLeavesWeighRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class GreenLeavesWeighService {
 
+    private static final Integer branch = 1;
+
     @Autowired
     private GreenLeavesWeighRepository greenLeavesWeighRepository;
 
@@ -38,53 +38,74 @@ public class GreenLeavesWeighService {
     private GreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
 
     public TGreenLeaveWeigh getSummary(Integer number) {
-        List<TGreenLeaveWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumber(0, number);
+        List<TGreenLeaveWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumber(branch, number);
 
         if (greenLeaveWeighs.isEmpty()) {
-            throw new EntityNotFoundException(TGreenLeaveWeigh.class.getCanonicalName() + " is not found for number " + number);
+            throw new EntityNotFoundException("Green leaves receive information is not found for number " + number);
         }
 
-        return greenLeaveWeighs.isEmpty() ? null : greenLeaveWeighs.get(0);
+        return greenLeaveWeighs.get(0);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public TGreenLeaveWeigh saveSummary(TGreenLeaveWeigh greenLeaveWeigh) {
+        //assume that the green leave weigh does not have weigh details
         if (greenLeaveWeigh.getIndexNo() != null) {
             greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeigh.getIndexNo());
         } else {
+            //branch
+            greenLeaveWeigh.setBranch(branch);
+
             //generate new number
-            greenLeaveWeigh.setNumber(greenLeavesWeighRepository.getMaximumNumberByBranch(0) + 1);
+            Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(branch);
+            if (maxNumber == null) {
+                maxNumber = 0;
+            }
+            greenLeaveWeigh.setNumber(maxNumber + 1);
         }
         greenLeaveWeigh = validateWeighSummary(greenLeaveWeigh);
 
+        //TODO:transaction
         return greenLeavesWeighRepository.save(greenLeaveWeigh);
     }
 
-    @Transactional(readOnly = false)
-    public TGreenLeaveWeighDetail insertWeigh(TGreenLeaveWeighDetail greenLeaveWeighDetail) {
-        greenLeaveWeighDetail = validateWeighDetail(greenLeaveWeighDetail);
-        greenLeavesWeighDetailRepository.save(greenLeaveWeighDetail);
+    @Transactional
+    public TGreenLeaveWeighDetail insertWeigh(Integer weighIndexNo, TGreenLeaveWeighDetail greenLeaveWeighDetail) {
+        //read and set weigh
+        TGreenLeaveWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(weighIndexNo);
+        if (greenLeaveWeigh == null) {
+            throw new EntityNotFoundException("Green leaves receive information is not found for index number " + weighIndexNo);
+        }
+        greenLeaveWeighDetail.setGreenLeavesWeigh(greenLeaveWeigh);
 
-        TGreenLeaveWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeighDetail.getGreenLeavesWeigh());
+        //TODO:transaction
+        //validate and save detail
+        greenLeaveWeighDetail = validateWeighDetail(greenLeaveWeighDetail);
+        greenLeaveWeighDetail = greenLeavesWeighDetailRepository.save(greenLeaveWeighDetail);
+
+        //validate and save weigh
+        greenLeaveWeigh.getGreenLeaveWeighDetails().add(greenLeaveWeighDetail);
         validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(greenLeaveWeigh);
 
         return greenLeaveWeighDetail;
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void deleteWeigh(Integer indexNo) {
         TGreenLeaveWeighDetail greenLeaveWeighDetail = greenLeavesWeighDetailRepository.getOne(indexNo);
+        TGreenLeaveWeigh greenLeaveWeigh = greenLeaveWeighDetail.getGreenLeavesWeigh();
+
         greenLeavesWeighDetailRepository.delete(greenLeaveWeighDetail);
 
-        TGreenLeaveWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeighDetail.getGreenLeavesWeigh());
+        greenLeaveWeigh.getGreenLeaveWeighDetails().remove(greenLeaveWeighDetail);
         validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(greenLeaveWeigh);
     }
 
     //validations
     private TGreenLeaveWeighDetail validateWeighDetail(TGreenLeaveWeighDetail greenLeaveWeighDetail) {
-
+        //nothing to do as detail validations
         return greenLeaveWeighDetail;
     }
 
@@ -98,8 +119,8 @@ public class GreenLeavesWeighService {
         int superCrates = 0;
         int superBags = 0;
         int superPolyBags = 0;
-        if (greenLeaveWeigh.getGreenLeavesWeighDetails() != null) {
-            for (TGreenLeaveWeighDetail greenLeaveWeighDetail : greenLeaveWeigh.getGreenLeavesWeighDetails()) {
+        if (greenLeaveWeigh.getGreenLeaveWeighDetails() != null) {
+            for (TGreenLeaveWeighDetail greenLeaveWeighDetail : greenLeaveWeigh.getGreenLeaveWeighDetails()) {
                 if (greenLeaveWeighDetail.getType().equals("NORMAL")) {
                     normalTotalWeight += greenLeaveWeighDetail.getQuantity().doubleValue();
 

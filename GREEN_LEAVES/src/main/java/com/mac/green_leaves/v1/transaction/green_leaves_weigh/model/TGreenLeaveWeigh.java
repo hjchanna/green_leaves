@@ -1,22 +1,15 @@
 /*
- *  TGreenLeaveWeigh.java
- *  
- *  @author Channa Mohan
- *     hjchanna@gmail.com
- *  
- *  Created on Oct 20, 2016, 6:35:44 PM
- *  All rights reserved.
- *  Copyrights supervision technology (pvt.) ltd.
- *  
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.mac.green_leaves.v1.transaction.green_leaves_weigh.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +30,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "t_green_leave_weigh")
 public class TGreenLeaveWeigh implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -53,6 +48,11 @@ public class TGreenLeaveWeigh implements Serializable {
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "transaction")
+    private int transaction;
 
     @Basic(optional = false)
     @NotNull
@@ -183,9 +183,24 @@ public class TGreenLeaveWeigh implements Serializable {
     @NotNull
     @Column(name = "route")
     private int route;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
-    private List<TGreenLeaveWeighDetail> greenLeavesWeighDetails;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "route_officer")
+    private int routeOfficer;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "route_helper")
+    private int routeHelper;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "vehicle")
+    private int vehicle;
+
+    @OneToMany(mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
+    private Collection<TGreenLeaveWeighDetail> greenLeaveWeighDetails;
 
     public TGreenLeaveWeigh() {
     }
@@ -194,18 +209,21 @@ public class TGreenLeaveWeigh implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TGreenLeaveWeigh(Integer indexNo, int branch, Date date, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, int superCrates, int superBags, int superPolyBags, int route) {
+    public TGreenLeaveWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, int routeOfficer, int routeHelper, int vehicle) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
+        this.transaction = transaction;
         this.number = number;
         this.normalTotalWeight = normalTotalWeight;
         this.normalTareCalculated = normalTareCalculated;
         this.normalTareDeduction = normalTareDeduction;
         this.normalGeneralDeductionPercent = normalGeneralDeductionPercent;
         this.normalGeneralDeduction = normalGeneralDeduction;
+        this.normalWaterDeduction = normalWaterDeduction;
         this.normalCoarseLeaves = normalCoarseLeaves;
         this.normalBoiledLeaves = normalBoiledLeaves;
+        this.normalNetWeight = normalNetWeight;
         this.normalCrates = normalCrates;
         this.normalBags = normalBags;
         this.normalPolyBags = normalPolyBags;
@@ -214,12 +232,17 @@ public class TGreenLeaveWeigh implements Serializable {
         this.superTareDeduction = superTareDeduction;
         this.superGeneralDeductionPercent = superGeneralDeductionPercent;
         this.superGeneralDeduction = superGeneralDeduction;
+        this.superWaterDeduction = superWaterDeduction;
         this.superCoarseLeaves = superCoarseLeaves;
         this.superBoiledLeaves = superBoiledLeaves;
+        this.superNetWeight = superNetWeight;
         this.superCrates = superCrates;
         this.superBags = superBags;
         this.superPolyBags = superPolyBags;
         this.route = route;
+        this.routeOfficer = routeOfficer;
+        this.routeHelper = routeHelper;
+        this.vehicle = vehicle;
     }
 
     public Integer getIndexNo() {
@@ -244,6 +267,14 @@ public class TGreenLeaveWeigh implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(int transaction) {
+        this.transaction = transaction;
     }
 
     public int getNumber() {
@@ -454,12 +485,36 @@ public class TGreenLeaveWeigh implements Serializable {
         this.route = route;
     }
 
-    public List<TGreenLeaveWeighDetail> getGreenLeavesWeighDetails() {
-        return greenLeavesWeighDetails;
+    public int getRouteOfficer() {
+        return routeOfficer;
     }
 
-    public void setGreenLeavesWeighDetails(List<TGreenLeaveWeighDetail> greenLeaveWeighDetails) {
-        this.greenLeavesWeighDetails = greenLeaveWeighDetails;
+    public void setRouteOfficer(int routeOfficer) {
+        this.routeOfficer = routeOfficer;
+    }
+
+    public int getRouteHelper() {
+        return routeHelper;
+    }
+
+    public void setRouteHelper(int routeHelper) {
+        this.routeHelper = routeHelper;
+    }
+
+    public int getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(int vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public Collection<TGreenLeaveWeighDetail> getGreenLeaveWeighDetails() {
+        return greenLeaveWeighDetails;
+    }
+
+    public void setGreenLeaveWeighDetails(Collection<TGreenLeaveWeighDetail> greenLeaveWeighDetails) {
+        this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 
     @Override
@@ -484,7 +539,7 @@ public class TGreenLeaveWeigh implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.TGreenLeaveWeigh[ indexNo=" + indexNo + " ]";
+        return "com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeigh[ indexNo=" + indexNo + " ]";
     }
 
 }

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/green-leaves-weigh")
+@RequestMapping("/api/v1/green-leaves/green-leaves-weigh")
 public class GreenLeavesWeighController {
 
     @Autowired
@@ -38,15 +38,15 @@ public class GreenLeavesWeighController {
         return greenLeavesWeighService.getSummary(number);
     }
 
-    @RequestMapping(value = "/save-summary", method = RequestMethod.POST)
+    @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeaveWeigh greenLeaveWeigh) {
         greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
         return greenLeaveWeigh.getIndexNo();
     }
 
-    @RequestMapping(value = "/insert-detail", method = RequestMethod.POST)
-    public Integer insertWeigh(@RequestBody TGreenLeaveWeighDetail greenLeaveWeighDetail) {
-        greenLeaveWeighDetail = greenLeavesWeighService.insertWeigh(greenLeaveWeighDetail);
+    @RequestMapping(value = "/insert-detail/{weighIndexNo}", method = RequestMethod.POST)
+    public Integer insertWeigh(@PathVariable Integer weighIndexNo, @RequestBody TGreenLeaveWeighDetail greenLeaveWeighDetail) {
+        greenLeaveWeighDetail = greenLeavesWeighService.insertWeigh(weighIndexNo, greenLeaveWeighDetail);
         return greenLeaveWeighDetail.getIndexNo();
     }
 

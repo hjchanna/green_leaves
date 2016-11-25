@@ -1,4 +1,9 @@
-package com.mac.green_leaves.v1.transaction.zmaster.employee.model;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mac.green_leaves.v1.transaction.zmaster.vehicle.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -16,8 +21,8 @@ import javax.validation.constraints.Size;
  * @author Mohan
  */
 @Entity
-@Table(name = "m_employee")
-public class MEmployee implements Serializable {
+@Table(name = "m_vehicle")
+public class MVehicle implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,24 +37,28 @@ public class MEmployee implements Serializable {
     @Column(name = "branch")
     private int branch;
 
-    @Size(max = 50)
-    @Column(name = "name")
-    private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "vehicle_no")
+    private String vehicleNo;
 
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "type")
     private String type;
 
-    public MEmployee() {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "driver")
+    private int driver;
+
+    public MVehicle() {
     }
 
-    public MEmployee(Integer indexNo) {
+    public MVehicle(Integer indexNo) {
         this.indexNo = indexNo;
-    }
-
-    public MEmployee(Integer indexNo, int branch) {
-        this.indexNo = indexNo;
-        this.branch = branch;
     }
 
     public Integer getIndexNo() {
@@ -68,12 +77,12 @@ public class MEmployee implements Serializable {
         this.branch = branch;
     }
 
-    public String getName() {
-        return name;
+    public String getVehicleNo() {
+        return vehicleNo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVehicleNo(String vehicleNo) {
+        this.vehicleNo = vehicleNo;
     }
 
     public String getType() {
@@ -82,6 +91,14 @@ public class MEmployee implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getDriver() {
+        return driver;
+    }
+
+    public void setDriver(int driver) {
+        this.driver = driver;
     }
 
     @Override
@@ -94,10 +111,10 @@ public class MEmployee implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MEmployee)) {
+        if (!(object instanceof MVehicle)) {
             return false;
         }
-        MEmployee other = (MEmployee) object;
+        MVehicle other = (MVehicle) object;
         if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
             return false;
         }
@@ -106,6 +123,7 @@ public class MEmployee implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mac.green_leaves.v1.transaction.zmaster.employee.model.MEmployee[ indexNo=" + indexNo + " ]";
+        return "com.mac.green_leaves.v1.transaction.zmaster.vehicle.model.MVehicle[ indexNo=" + indexNo + " ]";
     }
+
 }

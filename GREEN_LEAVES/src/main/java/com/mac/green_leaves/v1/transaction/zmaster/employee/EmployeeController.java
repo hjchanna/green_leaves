@@ -6,12 +6,9 @@
 package com.mac.green_leaves.v1.transaction.zmaster.employee;
 
 import com.mac.green_leaves.v1.transaction.zmaster.employee.model.MEmployee;
-import com.mac.green_leaves.v1.transaction.zmaster.employee.EmployeeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,25 +19,27 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/master/employees")
+@RequestMapping("/api/v1/green-leaves/master")
 public class EmployeeController {
-      
+
+    private static final Integer branch = 1;
+
     @Autowired
     private EmployeeService employeeService;
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public List<MEmployee> findAllEmployee(){
-        return employeeService.findEmployeesList();
+
+    @RequestMapping(value = "/employees", method = RequestMethod.GET)
+    public List<MEmployee> findAllEmployee() {
+        return employeeService.findAllEmployees(branch);
     }
-    
-    @RequestMapping(value = "/save-employee",method = RequestMethod.POST)
-    public MEmployee saveEmployee(@RequestBody MEmployee employee){
-        return employeeService.saveEmployee(employee);
+
+    @RequestMapping(value = "/route-officers", method = RequestMethod.GET)
+    public List<MEmployee> findRouteOfficers() {
+        return employeeService.findRouteOfficers(branch);
     }
-    
-    @RequestMapping(value = "/delete-employee/{indexNo}", method = RequestMethod.DELETE)
-    public Integer deleteEmployee(@PathVariable Integer indexNo){
-        employeeService.deleteEmployee(indexNo);
-        return indexNo;
+
+    @RequestMapping(value = "/route-helpers", method = RequestMethod.GET)
+    public List<MEmployee> findRouteHelpers() {
+        return employeeService.findRouteHelpers(branch);
     }
+
 }

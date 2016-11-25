@@ -1,24 +1,22 @@
 /*
- *  TGreenLeaveWeighDetail.java
- *  
- *  @author Channa Mohan
- *     hjchanna@gmail.com
- *  
- *  Created on Oct 20, 2016, 6:35:44 PM
- *  All rights reserved.
- *  Copyrights supervision technology (pvt.) ltd.
- *  
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.mac.green_leaves.v1.transaction.green_leaves_weigh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,16 +29,13 @@ import javax.validation.constraints.Size;
 @Table(name = "t_green_leave_weigh_detail")
 public class TGreenLeaveWeighDetail implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "green_leaves_weigh")
-    private Integer greenLeavesWeigh;
 
     @Basic(optional = false)
     @NotNull
@@ -68,6 +63,11 @@ public class TGreenLeaveWeighDetail implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @JsonIgnore
+    @JoinColumn(name = "green_leaves_weigh", referencedColumnName = "index_no")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private TGreenLeaveWeigh greenLeavesWeigh;
+
     public TGreenLeaveWeighDetail() {
     }
 
@@ -90,14 +90,6 @@ public class TGreenLeaveWeighDetail implements Serializable {
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
-    }
-
-    public Integer getGreenLeavesWeigh() {
-        return greenLeavesWeigh;
-    }
-
-    public void setGreenLeavesWeigh(Integer greenLeavesWeigh) {
-        this.greenLeavesWeigh = greenLeavesWeigh;
     }
 
     public BigDecimal getQuantity() {
@@ -140,6 +132,14 @@ public class TGreenLeaveWeighDetail implements Serializable {
         this.type = type;
     }
 
+    public TGreenLeaveWeigh getGreenLeavesWeigh() {
+        return greenLeavesWeigh;
+    }
+
+    public void setGreenLeavesWeigh(TGreenLeaveWeigh greenLeavesWeigh) {
+        this.greenLeavesWeigh = greenLeavesWeigh;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -162,7 +162,7 @@ public class TGreenLeaveWeighDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.TGreenLeaveWeighDetail[ indexNo=" + indexNo + " ]";
+        return "com.mac.green_leaves.v1.transaction.green_leaves_weigh.model.TGreenLeaveWeighDetail[ indexNo=" + indexNo + " ]";
     }
 
 }

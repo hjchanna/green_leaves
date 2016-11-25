@@ -42,6 +42,10 @@
                         })
 
                         //green leaves
+                        .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh", {
+                            templateUrl: "app/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh.html",
+                            controller: "GreenLeavesWeighController"
+                        })
                         .when("/transactions/green-leaves/green-leaves-receive", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
                             controller: "greenLeavesReceiveController"
@@ -53,10 +57,6 @@
                         .when("/transactions/green-leaves/client-advance/client-advance-approve", {
                             templateUrl: "app/transactions/green-leaves/client-advance/client-advance-approve.html",
                             controller: "ClientAdvanceApproveController"
-                        })
-                        .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh", {
-                            templateUrl: "app/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh.html",
-                            controller: "greenLeavesWeighController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",

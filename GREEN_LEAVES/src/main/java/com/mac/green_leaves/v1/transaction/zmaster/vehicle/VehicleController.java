@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.transaction.zmaster.route;
+package com.mac.green_leaves.v1.transaction.zmaster.vehicle;
 
-import com.mac.green_leaves.v1.transaction.zmaster.route.model.MRoute;
+import com.mac.green_leaves.v1.transaction.zmaster.vehicle.model.MVehicle;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Mohan
  */
-@CrossOrigin
 @RestController
-@RequestMapping("/api/v1/green-leaves/master/routes")
-public class RouteController {
-
+@RequestMapping("/api/v1/green-leaves/vehicle")
+public class VehicleController {
+    
+    private static final Integer branch = 1;
+    
     @Autowired
-    private RouteService routeService;
-
+    private VehicleService vehicleService;
+    
     @RequestMapping(method = RequestMethod.GET)
-    public List<MRoute> findAll() {
-        return routeService.findAll();
+    public List<MVehicle> findAll() {
+        return vehicleService.findVehicleByBranch(branch);
     }
+    
 }
