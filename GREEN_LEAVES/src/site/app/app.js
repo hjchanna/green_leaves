@@ -122,6 +122,10 @@
                             controller: "routeController"
                         })
                         //reports
+                        .when("/reports/green-leaves-weigh", {
+                            templateUrl: "app/reports/report.html"
+                        })
+
                         .when("/reports/green-leave-weigh-report", {
                             templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighReportController"
