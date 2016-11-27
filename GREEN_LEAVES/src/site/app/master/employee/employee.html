@@ -15,7 +15,12 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">Type</label></td>
-                        <td><input class="form-control" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="type as (type.name) for type in model.typeList |filter:$viewValue|limitTo:10"></td>
+                        <td><select class="form-control" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <option value="ROUTE OFFICER">ROUTE OFFICER</option>
+                                <option value="ROUTE HELPER">ROUTE HELPER</option>
+                                <option value="DRIVER">DRIVER</option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td><label class="control-label">NIC</label></td>
@@ -23,7 +28,7 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">Mobile No</label></td>
-                        <td><input class="form-control text-right" ng-model="model.employee.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" smart-input="integer" ng-model="model.employee.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Telephone No</label></td>
@@ -87,10 +92,10 @@
                         <td>{{employee.name}}</td>
                         <td>{{employee.type}}</td>
                         <td>{{employee.nicNumber}}</td>
-                        <td>{{employee.mobileNo}}</td>
+                        <td>{{employee.mobileNumber}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(employee, $index)"><span class="glyphicon glyphicon-edit"></span></a>
-                            <a class="btn btn-danger" ng-click="http.deleteEmployee(employee.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="btn btn-danger" ng-click="ui.delete(employee.indexNo)"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
 

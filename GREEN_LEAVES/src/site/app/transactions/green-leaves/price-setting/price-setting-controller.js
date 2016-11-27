@@ -45,14 +45,6 @@
 
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
-
-//                    $scope.$watch("model.data.year", function () {
-//                        $scope.model.loadTotalLeaves();
-//                    });
-//
-//                    $scope.$watch("model.data.month", function () {
-//                        $scope.model.loadTotalLeaves();
-//                    });
                 };
                 $scope.ui.init();
             });

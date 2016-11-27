@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class GLClientAdvanceController {
 
     private static final int BRANCH = 1;
-    private static final int ROUTE = 1;
 
     @Autowired
     private GLClientAdvanceService clientAdvanceService;

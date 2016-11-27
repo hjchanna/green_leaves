@@ -7,19 +7,12 @@
 
                 GreenLeavesReceiveModel.prototype = {
                     data: {},
-
                     tempData: {},
-
                     totalQuantity: [],
-
                     factoryQuantity: [],
-
                     differenceQuantity: [],
-
                     routes: [],
-
                     clients: [],
-
                     constructor: function () {
                         var that = this;
                         GreenLeavesReceiveService.loadRoutes()
@@ -38,24 +31,19 @@
                     clear: function () {
                         this.data = GreenLeavesReceiveModelFactory.newData();
                         this.tempData = GreenLeavesReceiveModelFactory.newTempData();
+
+                        this.totalQuantity = [0, 0];
+                        this.factoryQuantity = [0, 0];
+                        this.differenceQuantity = [0, 0];
                     },
                     addDetail: function () {
                         var defer = $q.defer();
-                        console.log(this.data);
+                        console.log(this.tempData);
                         if (this.tempData.client
                                 && parseInt(this.tempData.normalLeavesQuantity + this.tempData.superLeavesQuantity) > 0) {
                             this.data.greenLeavesReceiveDetails.push(this.tempData);
 
-                            this.totalQuantity = [0, 0];
-                            var that = this;
-                            angular.forEach(this.data.greenLeavesReceiveDetails, function (value) {
-                                that.totalQuantity[0] = that.totalQuantity[0] + value.normalLeavesQuantity;
-                                that.totalQuantity[1] = that.totalQuantity[1] + value.superLeavesQuantity;
-                            });
-                            this.differenceQuantity = [
-                                this.factoryQuantity[0] - this.totalQuantity[0],
-                                this.factoryQuantity[1] - this.totalQuantity[1]
-                            ];
+                            this.refreshQuantity();
 
                             this.tempData = GreenLeavesReceiveModelFactory.newTempData();
                             defer.resolve();
@@ -69,9 +57,11 @@
                         var receiveDetail = this.data.greenLeavesReceiveDetails[index];
                         this.data.greenLeavesReceiveDetails.splice(index, 1);
                         this.tempData = receiveDetail;
+                        this.refreshQuantity();
                     },
                     deleteDetail: function (index) {
                         this.data.greenLeavesReceiveDetails.splice(index, 1);
+                        this.refreshQuantity();
                     },
                     load: function () {
                         var number = this.data.number;
@@ -80,17 +70,19 @@
                         GreenLeavesReceiveService.loadReceive(number)
                                 .success(function (data) {
                                     that.data = {};
-                                    angular.equals(that.data, data);
+                                    angular.extend(that.data, data);
+                                    that.refreshQuantity();
                                     defer.resolve();
                                 })
                                 .error(function () {
+                                    that.refreshQuantity();
                                     defer.reject();
                                 });
                         return defer.promise;
                     },
                     save: function () {
                         var defer = $q.defer();
-                        GreenLeavesReceiveService.saveData(JSON.stringify(this.data))
+                        GreenLeavesReceiveService.saveReceive(JSON.stringify(this.data))
                                 .success(function (data) {
                                     defer.resolve();
                                 })
@@ -98,6 +90,43 @@
                                     defer.reject();
                                 });
                         return defer.promise;
+                    },
+                    loadFactoryQuantity: function () {
+                        if (this.data.route && this.data.date) {
+                            var that = this;
+                            GreenLeavesReceiveService.getFactoryQuantity(this.data.route, this.data.date)
+                                    .success(function (data) {
+                                        if (!data[0]) {
+                                            data[0] = 0;
+                                        }
+                                        if (!data[1]) {
+                                            data[1] = 0;
+                                        }
+
+                                        that.factoryQuantity = data;
+                                        that.refreshQuantity();
+                                    })
+                                    .error(function () {
+                                        that.factoryQuantity = [0, 0];
+                                        that.refreshQuantity();
+                                    });
+                        }
+                    },
+                    refreshQuantity: function () {
+                        var that = this;
+                        this.totalQuantity = [0, 0];
+                        angular.forEach(this.data.greenLeavesReceiveDetails, function (value) {
+                            that.totalQuantity[0] = that.totalQuantity[0] + value.normalLeavesQuantity;
+                            that.totalQuantity[1] = that.totalQuantity[1] + value.superLeavesQuantity;
+                        });
+
+                        that.differenceQuantity = [
+                            that.factoryQuantity[0] - that.totalQuantity[0],
+                            that.factoryQuantity[1] - that.totalQuantity[1]
+                        ];
+                    },
+                    selectRoute: function (indexNo) {
+                        this.data.route = indexNo;
                     },
                     routeLabel: function (indexNo) {
                         var label;
@@ -118,6 +147,16 @@
                             }
                         });
                         return label;
+                    },
+                    client: function (indexNo) {
+                        var client;
+                        angular.forEach(this.clients, function (value) {
+                            if (value.indexNo === indexNo) {
+                                client = value;
+                                return;
+                            }
+                        });
+                        return client;
                     }
                 };
 

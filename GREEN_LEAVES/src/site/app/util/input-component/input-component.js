@@ -118,13 +118,11 @@
                                 }
 
                                 inputVal = inputVal.replace(/[^\d\'#'\-]/g, '');
-                                console.log(inputVal+"---");
 
                                 var split = inputVal.split("-");
                                 var year = split[0];//inputVal.substr(0,4);//
                                 var month = split[1];//inputVal.substr(5,7);// 
                                 var day = split[2];//inputVal.substr(8,10);//
-                                console.log(year +"+"+month+"+"+day);
 
                                 var caretPos = -1;
 

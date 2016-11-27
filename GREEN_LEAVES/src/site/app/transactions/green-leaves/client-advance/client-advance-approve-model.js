@@ -7,15 +7,10 @@
 
                 ClientAdvanceApproveModel.prototype = {
                     data: null,
-
                     detail: null,
-
                     requests: [],
-
                     routes: [],
-
                     clients: [],
-
                     selectData: function (indexNo) {
                         var that = this;
                         that.detail = null;
@@ -27,7 +22,6 @@
                             }
                         });
                     },
-
                     selectDetail: function (indexNo) {
                         var that = this;
                         angular.forEach(this.data.clientAdvanceRequestDetails, function (value) {
@@ -37,15 +31,12 @@
                             }
                         });
                     },
-
                     refresh: function () {
                     },
-
                     clear: function () {
                         this.data = null;
                         this.detail = null;
                     },
-
                     approve: function () {
                         var that = this;
                         if (this.detail) {
@@ -58,7 +49,6 @@
                                     });
                         }
                     },
-
                     reject: function () {
                         var that = this;
                         if (this.detail) {
@@ -71,7 +61,6 @@
                                     });
                         }
                     },
-
                     getRoute: function (indexNo) {
                         var route = null;
 
@@ -84,12 +73,10 @@
 
                         return route;
                     },
-
                     getClient: function (indexNo) {
                         var client = null;
 
                         angular.forEach(this.clients, function (value) {
-                            console.log(value);
                             if (value.indexNo === indexNo) {
                                 client = value;
                                 return;
@@ -98,35 +85,36 @@
 
                         return client;
                     },
-
-                    getRequestTotal: function () {
+                    getRequestTotal: function (indexNo) {
                         var total = 0.0;
 
-                        angular.forEach(this.data, function (valueData) {
-                            angular.forEach(valueData.clientAdvanceRequestDetails, function (valueDetail) {
-                                if (valueDetail.status === 'PENDING') {
-                                    total = total + valueDetail.amount;
-                                }
-                            });
+                        angular.forEach(this.requests, function (valueData) {
+                            if (indexNo ? valueData.indexNo === indexNo : true) {
+                                angular.forEach(valueData.clientAdvanceRequestDetails, function (valueDetail) {
+                                    if (valueDetail.status === 'PENDING') {
+                                        total = total + valueDetail.amount;
+                                    }
+                                });
+                            }
                         });
 
                         return total;
                     },
-
-                    getRequestCount: function () {
+                    getRequestCount: function (indexNo) {
                         var count = 0;
 
-                        angular.forEach(this.data, function (valueData) {
-                            angular.forEach(valueData.clientAdvanceRequestDetails, function (valueDetail) {
-                                if (valueDetail.status === 'PENDING') {
-                                    count = count + 1;
-                                }
-                            });
+                        angular.forEach(this.requests, function (valueData) {
+                            if (indexNo ? valueData.indexNo === indexNo : true) {
+                                angular.forEach(valueData.clientAdvanceRequestDetails, function (valueDetail) {
+                                    if (valueDetail.status === 'PENDING') {
+                                        count = count + 1;
+                                    }
+                                });
+                            }
                         });
 
                         return count;
                     },
-
                     constructor: function () {
                         var that = this;
 

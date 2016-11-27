@@ -35,11 +35,11 @@
                         <tbody>
                             <tr>
                                 <td><label class="control-label">NORMAL</label></td>
-                                <td><input class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[1]" ng-disabled="true"></td>
+                                <td><input class="form-control text-right" type="text" ng-value="model.getTotalLeaves(model.tempData.route)[1]|number:2" ng-disabled="true"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">SUPER</label></td>
-                                <td><input class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[2]" ng-disabled="true"></td>
+                                <td><input class="form-control text-right" type="text" ng-value="model.getTotalLeaves(model.tempData.route)[2]|number:2" ng-disabled="true"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -69,11 +69,11 @@
                         <tbody>
                             <tr>
                                 <td><label class="control-label">NORMAL</label></td>
-                                <td><input style="margin-top: 5px;" class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[1] * model.tempData.normalRate" ng-disabled="true"></td>
+                                <td><input style="margin-top: 5px;" class="form-control text-right" type="text" ng-value="(model.getTotalLeaves(model.tempData.route)[1] * model.tempData.normalRate)|number:2" ng-disabled="true"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">SUPER</label></td>
-                                <td><input style="margin-top: 5px;" class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[2] * model.tempData.superRate" ng-disabled="true"></td>
+                                <td><input style="margin-top: 5px;" class="form-control text-right" type="text" ng-value="(model.getTotalLeaves(model.tempData.route)[2] * model.tempData.superRate)|number:2" ng-disabled="true"></td>
                             </tr>
                         </tbody>
                     </table>

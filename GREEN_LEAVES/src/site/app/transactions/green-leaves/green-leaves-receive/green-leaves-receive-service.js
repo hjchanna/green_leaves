@@ -11,18 +11,15 @@
         };
 
         this.loadReceive = function (number) {
-
-        };
-        
-        this.saveReceive = function(data){
-            
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/" + number);
         };
 
-        this.saveGreenLeavesDetail = function (data) {
-            return $http.post(systemConfig.apiUrl + "/api/green-leaves/green-leaves-receive/save-green-leaves-receive", data);
+        this.saveReceive = function (data) {
+            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/save-receive", data);
         };
-        this.getSuperLeavesTotalAndNormalLeavesTotal = function (data) {
-            return $http.post(systemConfig.apiUrl + "/api/green-leaves/green-leaves-weigh/get-total-leaves", data);
+
+        this.getFactoryQuantity = function (route, date) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/get-factory-quantity/" + route + "/" + date.toISOString());
         };
     };
 

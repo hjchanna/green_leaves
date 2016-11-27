@@ -15,9 +15,9 @@
                     <col style="width: 30%"/>
                     <thead>
                         <tr>
-                            <th>Route</th>
-                            <th>Req.</th>
-                            <th class="text-right">Date</th>
+                            <th>REQUEST</th>
+                            <th class="text-right">#</th>
+                            <th class="text-right">AMOUNT</th>
                         </tr>
                     </thead>
                 </table>
@@ -29,9 +29,12 @@
                     <col style="width: 30%"/>
                     <tbody>
                         <tr ng-class="ui.selectedDataIndex === request.indexNo ? 'selected' : ''" ng-repeat="request in model.requests|filter:search" ng-click="ui.selectData(request.indexNo);">
-                            <td><span class="label label-primary">{{request.number|fixedLength:5}}</span> {{model.getRoute(request.route).name}}</td>
+                            <td>
+                                <span class="label label-success">{{request.date}}</span>
+                                <span class="label label-primary">{{request.number|fixedLength:5}}</span> {{model.getRoute(request.route).name}}
+                            </td>
                             <td class="text-right">{{(request.clientAdvanceRequestDetails|filter:{status:'PENDING'}).length}}</td>
-                            <td class="text-right">{{request.date}}</td>
+                            <td class="text-right">{{model.getRequestTotal(request.indexNo) | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -43,9 +46,9 @@
                     <col style="width: 30%"/>
                     <tbody>
                         <tr class="text-bold">
-                            <td>TOTAL</td>
-                            <td>{{model.getRequestCount();}}</td>
-                            <td class="text-right">{{model.getRequestTotal();}}</td>
+                            <td>SUMMARY</td>
+                            <td class="text-right">{{model.getRequestCount()}}</td>
+                            <th class="text-right">{{model.getRequestTotal() | number:2}}</th>
                         </tr>
                     </tbody>
                 </table>
@@ -54,32 +57,32 @@
     </div>
 
     <div class="col-xs-4 background-light">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
-            <div class="col-xs-12">
+        <div class="row" ng-show="model.data" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+            <div class="col-xs-12" >
                 <table>
-                    <col style="width: 20%;"/>
-                    <col style="width: 60%;"/>
+                    <col style="width: 70%;"/>
                     <col style="width: 30%;"/>
                     <col />
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Name</th>
-                            <th class="text-right">Amount</th>
+                            <th>CLIENT</th>
+                            <th class="text-right">AMOUNT</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
                 </table>
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 128px);">
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 78px);">
                 <table class="table-hover table-hover">
-                    <col style="width: 20%;"/>
-                    <col style="width: 60%;"/>
+                    <col style="width: 70%;"/>
                     <col style="width: 30%;"/>
                     <tbody>
                         <tr ng-class="ui.selectedDetailIndex === detail.indexNo ? 'selected' : ''" ng-repeat="detail in model.data.clientAdvanceRequestDetails|filter:{status:'PENDING'}" ng-click="ui.selectDetail(detail.indexNo);">
-                            <td><span class="label label-default">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span></td>
-                            <td>{{model.getClient(detail.client).name}}</td>
+                            <td>
+                                <span class="label label-primary">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span>
+                                {{model.getClient(detail.client).name}}
+                            </td>
                             <td class="text-right">{{detail.amount|number:2}}</td>
                         </tr>
                     </tbody>
@@ -88,18 +91,24 @@
 
             <div class="col-xs-12">
                 <table>
-                    <col style="width: 50%;"/>
-                    <col style="width: 38%;"/>
-                    <col style="width: 12%;"/>
+                    <col style="width: 40%;"/>
+                    <col style="width: 30%;"/>
+                    <col style="width: 30%;"/>
                     <tbody>
                         <tr class="text-bold">
-                            <td>TOTAL</td>
-                            <td class="text-right">50000.00</td>
-                            <th>&nbsp;</th>
+                            <td>SUMMARY</td>
+                            <td class="text-right">{{model.data?model.getRequestCount(model.data.indexNo):0}}</td>
+                            <td class="text-right">{{model.data?model.getRequestTotal(model.data.indexNo):0 | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+        </div>
+        
+        <div class="placeholder" ng-hide="model.data" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
+            <!--<div class="placeholder" >-->
+                <h1>PLEASE SELECT AN ADVANCE REQUEST TO DISPLAY :(</h1>
+            <!--</div>-->
         </div>
     </div>
 
@@ -465,7 +474,6 @@
     </div>
 </div>-->
 <div class="fab-container">
-    <a class="fab fab-warning" fab-show="model.detail" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
     <a class="fab fab-danger" fab-show="model.detail" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
     <a class="fab fab-lg fab-primary" fab-show="model.detail" ng-click="ui.approve();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

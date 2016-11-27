@@ -12,7 +12,9 @@
 package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +44,11 @@ public class GLGreenLeavesReceiveController {
     @RequestMapping(value = "/save-receive", method = RequestMethod.POST)
     public Integer saveReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
         return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive, branch);
+    }
+
+    @RequestMapping(value = "/get-factory-quantity/{route}/{date}", method = RequestMethod.GET)
+    public Object[] getTotalSuperLeavesAndNormalLeaves(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return greenLeavesReceiveService.getTotalSuperLeavesAndNormalLeaves(branch, route, date);
     }
 
 }

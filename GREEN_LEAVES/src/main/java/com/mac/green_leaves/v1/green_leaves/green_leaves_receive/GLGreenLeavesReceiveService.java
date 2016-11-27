@@ -8,6 +8,8 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.GLGreenLeavesWeighRepository;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,4 +54,18 @@ public class GLGreenLeavesReceiveService {
         greenLeavesReceive = greenLeavesReceiveRepository.save(greenLeavesReceive);
         return greenLeavesReceive.getIndexNo();
     }
+
+    public Object[] getTotalSuperLeavesAndNormalLeaves(Integer branch, Integer route, Date date) {
+        List<Object[]> getTotalList = greenLeavesReceiveRepository.findByBranchAndRouteAndDate(branch, route, date);
+
+        Object total[];
+        if (!getTotalList.isEmpty()) {
+            total = getTotalList.get(0);
+        } else {
+            total = new Object[]{0, 0};
+        }
+
+        return total;
+    }
+
 }

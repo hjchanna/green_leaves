@@ -205,7 +205,7 @@
 
                 $scope.ui.keyEvent = function (event) {
                     if (event.keyCode === 13) {
-                        console.log("dkbfjabsjdbfas");
+                       console.log("dasdsaas");
                     }
                 };
 

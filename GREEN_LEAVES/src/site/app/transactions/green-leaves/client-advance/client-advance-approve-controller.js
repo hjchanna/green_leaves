@@ -26,9 +26,9 @@
             $scope.model.reject();
         };
 
-        $scope.ui.clear = function () {
-            $scope.model.clear();
-        };
+//        $scope.ui.clear = function () {
+//            $scope.model.clear();
+//        };
     };
 
     angular.module("appModule")

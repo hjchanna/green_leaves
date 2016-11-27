@@ -41,11 +41,6 @@ public class TGreenLeavesReceiveDetail implements Serializable {
     @Column(name = "index_no")
     private Integer indexNo;
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "branch")
-    private int branch;
-
     @JsonIgnore
     @JoinColumn(name = "green_leaves_receive", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -73,28 +68,12 @@ public class TGreenLeavesReceiveDetail implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TGreenLeavesReceiveDetail(Integer indexNo, int branch, BigDecimal normalLeavesQuantity, BigDecimal superLeavesQuantity, int client) {
-        this.indexNo = indexNo;
-        this.branch = branch;
-        this.normalLeavesQuantity = normalLeavesQuantity;
-        this.superLeavesQuantity = superLeavesQuantity;
-        this.client = client;
-    }
-
     public Integer getIndexNo() {
         return indexNo;
     }
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
-    }
-
-    public int getBranch() {
-        return branch;
-    }
-
-    public void setBranch(int branch) {
-        this.branch = branch;
     }
 
     public BigDecimal getNormalLeavesQuantity() {
@@ -127,10 +106,5 @@ public class TGreenLeavesReceiveDetail implements Serializable {
 
     public void setGreenLeavesReceive(TGreenLeavesReceive greenLeavesReceive) {
         this.greenLeavesReceive = greenLeavesReceive;
-    }
-
-    @Override
-    public String toString() {
-        return "TGreenLeavesReceiveDetail{" + "indexNo=" + indexNo + ", branch=" + branch + ", greenLeavesReceive=" + greenLeavesReceive + ", normalLeavesQuantity=" + normalLeavesQuantity + ", superLeavesQuantity=" + superLeavesQuantity + ", client=" + client + '}';
     }
 }

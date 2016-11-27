@@ -22,7 +22,8 @@
         "productModule",
         "employeeModule",
         "routeModule",
-        "fertilizerModule"
+        "fertilizerModule",
+        "greenLeavesWeighReportModule"
     ]);
 
     //constants
@@ -119,6 +120,15 @@
                         .when("/master/route/route", {
                             templateUrl: "app/master/route/route.html",
                             controller: "routeController"
+                        })
+                        //reports
+                        .when("/reports/green-leaves-weigh", {
+                            templateUrl: "app/reports/report.html"
+                        })
+
+                        .when("/reports/green-leave-weigh-report", {
+                            templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
+                            controller: "GreenLeavesWeighReportController"
                         })
 
                         .otherwise({

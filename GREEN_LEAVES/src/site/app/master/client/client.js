@@ -18,7 +18,7 @@
 
                 //load supplier
                 factory.loadSupplier = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/clients";
+                    var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients";
                     $http.get(url)
                             .success(function (data, status, header) {
                                 callback(data);
@@ -30,7 +30,7 @@
 
                 //save supplier
                 factory.saveSupplier = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/clients/save-client";
+                    var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients/save-client";
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -44,7 +44,7 @@
 
                 //delete supplier
                 factory.deletesupplier = function (indexNo, callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/clients/delete-client/" + indexNo;
+                    var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients/delete-client/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
