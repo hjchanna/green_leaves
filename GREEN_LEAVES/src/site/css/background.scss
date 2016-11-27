@@ -15,24 +15,30 @@
 
 .background-default{
     background-color: $default-color !important; 
+    color: $light-font-color;
 }
 
 .background-primary{
     background-color: $primary-color !important; 
+    color: $light-font-color;
 }
 
 .background-info{
     background-color: $info-color !important; 
+    color: $light-font-color;
 }
 
 .background-success{
     background-color: $success-color !important; 
+    color: $light-font-color;
 }
 
 .background-warning{
     background-color: $warning-color !important; 
+    color: $light-font-color;
 }
 
 .background-danger{
     background-color: $danger-color !important; 
+    color: $light-font-color;
 }

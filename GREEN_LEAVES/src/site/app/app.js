@@ -64,7 +64,7 @@
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
                             templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
-                            controller: "priceSettingController"
+                            controller: "PriceSettingController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/final-payemnt", {
                             templateUrl: "app/transactions/green-leaves/final-payemnt/final-payemnt.html",

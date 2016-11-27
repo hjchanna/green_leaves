@@ -43,7 +43,6 @@ public class GLGreenLeavesWeighController {
     public TGreenLeavesWeigh getSummary(@PathVariable Integer number) {
         return greenLeavesWeighService.getSummary(number);
     }
-//
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeavesWeigh greenLeaveWeigh) {

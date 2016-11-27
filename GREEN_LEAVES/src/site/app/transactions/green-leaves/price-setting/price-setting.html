@@ -4,140 +4,190 @@
 <div class="index-content-body">
     <div class="col-xs-4 background-dark">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <table class="background-dark" style="border-radius: 5px">
-                <col style="width: 100%">
-                <thead>
-                    <tr>
-                        <td>
-                            <label>YEAR</label>
-                            <input style="margin-top: 5px" class="form-control text-right" type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>MONTH</label>
-                            <input style="margin-top: 5px" class="form-control text-right" type="text">
-                        </td>
-                    </tr>
-                </thead>
-            </table>
-            <table class="background-dark" style="border-radius: 5px">
-                <col style="width: 100%">
-                <thead>
-                    <tr>
-                        <td>
-                            <label>S/L RATE</label>
-                            <form ng-submit="leafLists()">
-                                <input class="form-control text-right" ng-model="leaf.superRate" ng-change="doChangeSuper($viewValue, leaf)" type="text">
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>N/L RATE</label>
-                            <input class="form-control text-right" ng-model="leaf.normalRate" ng-change="doChangeNormal($viewValue, leaf)" type="text">
-                        </td>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-    <div class="col-xs-8 background-light">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12 " style="flex: 0 0 auto;">
-                <div class="col-xs-12">
-                    <table class="background-dark">
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <thead>
-                            <tr>
-                                <th class="text-left">ROUTE</th>
-                                <th class="text-right">QUANTITY</th>
-                                <th class="text-right">RATE</th>
-                                <th class="text-right">VALUE</th>
+            <div class="col-xs-12">
+                <table class="control-table">
+                    <col style="width: 50%">
+                    <col style="width: 50%">
+                    <tbody>
+                        <tr>
+                            <td><input id="year" class="form-control" type="text" smart-input="integer" placeholder="year" ng-model="model.data.year" ng-keypress="ui.load($event)" ng-disabled="ui.mode === 'EDIT'"></td>
+                            <td><input class="form-control" type="text" smart-input="integer" placeholder="month"  ng-model="model.data.month" ng-keypress="ui.load($event)" ng-disabled="ui.mode === 'EDIT'"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div ng-show="model.tempData.indexNo">
+                    <table style="margin-top: 15px;">
+                        <tbody>
+                            <tr class="background-primary">
+                                <td class="text-center">ROUTE DETAILS</td>
                             </tr>
-                        </<thead>
+                        </tbody>
                     </table>
-                </div>
-                <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 240px);">
-                    <table class="table-hover">
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <tbody >                      
-                            <tr style="line-height: 24px;">
-                                <td><span class="label label-primary">00010</span> Route 01</td>
-                                <td>
-                                    <div class="col-xs-4">
-                                        <span class="label label-full-width label-default" >N</span>
-                                        <br/>
-                                        <span class="label label-full-width label-success ">S</span>
-                                    </div>
-                                    <div class="col-xs-8 text-right">
-                                        10000.00
-                                        <br/>
-                                        2000.00
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="col-xs-4">
-                                        <span class="label label-full-width label-default">N</span>
-                                        <br/>
-                                        <span class="label label-full-width label-success">S</span>
-                                    </div>
-                                    <div class="col-xs-8">
-                                        52.50
-                                        <br/>
-                                        60.80
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <div class="col-xs-4">
-                                        <span class="label label-full-width label-default">N</span>
-                                        <br/>
-                                        <span class="label label-full-width label-success">S</span>
-                                    </div>
-                                    <div class="col-xs-8">
-                                        10000.00
-                                        <br/>
-                                        20000.00
-                                    </div>
-                                </td>
+
+                    <div style="margin-top: 5px;">
+                        <label class="text-center">QUANTITY</label>
+                    </div>
+
+                    <table class="control-table">
+                        <col style="width: 35%"/>
+                        <col style="width: 65%"/>
+                        <tbody>
+                            <tr>
+                                <td><label class="control-label">NORMAL</label></td>
+                                <td><input class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[1]" ng-disabled="true"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">SUPER</label></td>
+                                <td><input class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[2]" ng-disabled="true"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 5px;">
+                        <label class="text-center">GREEN LEAVES RATE</label>
+                    </div>
+                    <table class="control-table">
+                        <col style="width: 35%"/>
+                        <col style="width: 65%"/>
+                        <tbody>
+                            <tr>
+                                <td><label class="control-label">NORMAL</label></td>
+                                <td><input class="form-control text-right" type="text" smart-input="decimal" ng-model="model.tempData.normalRate" ng-disabled="ui.mode !== 'EDIT'"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">SUPER</label></td>
+                                <td><input class="form-control text-right" type="text" smart-input="decimal" ng-model="model.tempData.superRate" ng-disabled="ui.mode !== 'EDIT'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 5px;">
+                        <label class="text-center">TOTAL VALUE</label>
+                    </div>
+                    <table class="control-table">
+                        <col style="width: 35%"/>
+                        <col style="width: 65%"/>
+                        <tbody>
+                            <tr>
+                                <td><label class="control-label">NORMAL</label></td>
+                                <td><input style="margin-top: 5px;" class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[1] * model.tempData.normalRate" ng-disabled="true"></td>
+                            </tr>
+                            <tr>
+                                <td><label class="control-label">SUPER</label></td>
+                                <td><input style="margin-top: 5px;" class="form-control text-right" type="text" smart-input="decimal" ng-model="model.getTotalLeaves(model.tempData.route)[2] * model.tempData.superRate" ng-disabled="true"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-xs-12">
-                    <table style="padding-right: 5px;">
-                        <col style="width: 30%;"/>
-                        <col style="width: 20%;"/>
-                        <col style="width: 20%;"/>
-                        <col style="width: 20%;"/>
-                        <col style="width: 20%;"/>
-                        <col style="width: 20%;"/>
-                        <col style="width: 20%;"/>
-                        <thead class="background-dark">
-                            <tr class="clickable">
 
-                                <td >TOTAL</td>
-                                <td class="text-right">{{getTotalNormalQty()}}</td>
-                                <td class="text-right">{{getTotalSuperQty()}}</td>
-                                <td class="text-right">&nbsp;</td>
-                                <td class="text-right">&nbsp;</td>
-                                <td class="text-right">{{totalNormalValue}}</td>
-                                <td class="text-right">{{totalSuperValue}}</td>
-                            </tr>
-                        </thead>
-                    </table>
+                <div class="placeholder col-xs-12" ng-hide="model.tempData.indexNo">
+                    <h1>PRICE SETTING IS NOT SELECTED :(</h1>
                 </div>
             </div>
         </div>
     </div>
-    <div class="fab-container">
-        <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
-        <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
-        <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="model.data.indexNo">
+            <div class="col-xs-12">
+                <table class="background-light">
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <thead>
+                        <tr>
+                            <th class="text-left">ROUTE</th>
+                            <th >QUANTITY</th>
+                            <th >RATE</th>
+                            <th >VALUE</th>
+                        </tr>
+                    </thead>
+                </table>  
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 84px);">
+                <table class="table-hover">
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <tbody >                      
+                        <tr style="line-height: 24px;" ng-class="priceSettingDetail.indexNo === model.tempData.indexNo?'selected':''" ng-repeat="priceSettingDetail in model.data.priceSettingDetails" ng-click="ui.selectDetail(priceSettingDetail.indexNo);">
+                            <td><span class="label label-primary">{{model.getRoute(priceSettingDetail.route).indexNo | fixedLength:5}}</span>{{model.getRoute(priceSettingDetail.route).name}}</td>
+                            <td>
+                                <div class="col-xs-4">
+                                    <span class="label label-full-width label-default" >N</span>
+                                    <br/>
+                                    <span class="label label-full-width label-success ">S</span>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    {{model.getTotalLeaves(priceSettingDetail.route)[1] | number:2}}
+                                    <br/>
+                                    {{model.getTotalLeaves(priceSettingDetail.route)[2] | number:2}}
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="col-xs-4">
+                                    <span class="label label-full-width label-default">N</span>
+                                    <br/>
+                                    <span class="label label-full-width label-success">S</span>
+                                </div>
+                                <div class="col-xs-8">
+                                    {{priceSettingDetail.normalRate|number:2}}
+                                    <br/>
+                                    {{priceSettingDetail.superRate|number:2}}
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="col-xs-4">
+                                    <span class="label label-full-width label-default">N</span>
+                                    <br/>
+                                    <span class="label label-full-width label-success">S</span>
+                                </div>
+                                <div class="col-xs-8">
+                                    {{model.getTotalLeaves(priceSettingDetail.route)[1] * priceSettingDetail.normalRate | number:2}}
+                                    <br/>
+                                    {{model.getTotalLeaves(priceSettingDetail.route)[2] * priceSettingDetail.superRate | number:2}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 30%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <thead class="background-dark">
+                        <tr class="clickable">
+
+                            <td >TOTAL</td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" ng-hide="model.data.indexNo">
+            <div class="placeholder" style="height: calc(100vh - 52px); padding: 5px 5px 5px 5px">
+                <h1>PRICE SETTING INFORMATION NOT AVAILABLE UNTIL YEAR AND MONTH ENTRY :(</h1>
+            </div>
+        </div>
     </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-default" fab-show="ui.mode === 'SELECTED' || ui.mode==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+    <a class="fab fab-success" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
+    <a class="fab fab-lg fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+</div>
