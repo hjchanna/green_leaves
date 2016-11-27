@@ -34,3 +34,9 @@ label{
     background-color: $danger-color;
     border: $danger-color;
 }
+
+.label-full-width{
+    display: inline-block !important;
+    width: 100%;
+    padding: 0.3em 0.6em;
+}

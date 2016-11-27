@@ -2,171 +2,142 @@
 </div>
 
 <div class="index-content-body">
-    <div class="col-xs-12 background-light">
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <table class="background-dark" style="border-radius: 5px">
+                <col style="width: 100%">
+                <thead>
+                    <tr>
+                        <td>
+                            <label>YEAR</label>
+                            <input style="margin-top: 5px" class="form-control text-right" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>MONTH</label>
+                            <input style="margin-top: 5px" class="form-control text-right" type="text">
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            <table class="background-dark" style="border-radius: 5px">
+                <col style="width: 100%">
+                <thead>
+                    <tr>
+                        <td>
+                            <label>S/L RATE</label>
+                            <form ng-submit="leafLists()">
+                                <input class="form-control text-right" ng-model="leaf.superRate" ng-change="doChangeSuper($viewValue, leaf)" type="text">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>N/L RATE</label>
+                            <input class="form-control text-right" ng-model="leaf.normalRate" ng-change="doChangeNormal($viewValue, leaf)" type="text">
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12 " style="flex: 0 0 auto;">
+                <div class="col-xs-12">
+                    <table class="background-dark">
+                        <col style="width: 25%;"/>
+                        <col style="width: 25%;"/>
+                        <col style="width: 25%;"/>
+                        <col style="width: 25%;"/>
+                        <thead>
+                            <tr>
+                                <th class="text-left">ROUTE</th>
+                                <th class="text-right">QUANTITY</th>
+                                <th class="text-right">RATE</th>
+                                <th class="text-right">VALUE</th>
+                            </tr>
+                        </<thead>
+                    </table>
+                </div>
+                <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 240px);">
+                    <table class="table-hover">
+                        <col style="width: 25%;"/>
+                        <col style="width: 25%;"/>
+                        <col style="width: 25%;"/>
+                        <col style="width: 25%;"/>
+                        <tbody >                      
+                            <tr style="line-height: 24px;">
+                                <td><span class="label label-primary">00010</span> Route 01</td>
+                                <td>
+                                    <div class="col-xs-4">
+                                        <span class="label label-full-width label-default" >N</span>
+                                        <br/>
+                                        <span class="label label-full-width label-success ">S</span>
+                                    </div>
+                                    <div class="col-xs-8 text-right">
+                                        10000.00
+                                        <br/>
+                                        2000.00
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="col-xs-4">
+                                        <span class="label label-full-width label-default">N</span>
+                                        <br/>
+                                        <span class="label label-full-width label-success">S</span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        52.50
+                                        <br/>
+                                        60.80
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="col-xs-4">
+                                        <span class="label label-full-width label-default">N</span>
+                                        <br/>
+                                        <span class="label label-full-width label-success">S</span>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        10000.00
+                                        <br/>
+                                        20000.00
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-12">
+                    <table style="padding-right: 5px;">
+                        <col style="width: 30%;"/>
+                        <col style="width: 20%;"/>
+                        <col style="width: 20%;"/>
+                        <col style="width: 20%;"/>
+                        <col style="width: 20%;"/>
+                        <col style="width: 20%;"/>
+                        <col style="width: 20%;"/>
+                        <thead class="background-dark">
+                            <tr class="clickable">
 
-                <table style="padding-right: 5px;">
-                    <col style="width: 52%"/>
-                    <col style="width: 24%"/>
-                    <col style="width: 24%"/>
-                    <col/>
-                    <thead class="background-dark">
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>
-                                <input style="margin-top: 5px" class="form-control text-right" type="text" placeholder="year">
-                            </th>
-                            <th>
-                                <input style="margin-top: 5px" class="form-control text-right" type="text" placeholder="month">
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-
-            </div>
-            <div class="col-xs-12 " style="flex: 0 0 auto;">
-                <table style="padding-right: 5px;">
-                    <col style="width: 10%"/>
-                    <col style="width: 16%"/>
-                    <col style="width: 13%"/>
-                    <col style="width: 13%"/>
-                    <col style="width: 9%"/>
-                    <col style="width: 5%"/>
-                    <col style="width: 9%"/>
-                    <col style="width: 5%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
-                    <col/>
-                    <thead class="background-dark">
-                        <tr>
-                            <th>
-                                <label></label>
-                                <input type="text" ng-model="leaf.indexNo" class="form-control" ng-disabled="true"/>
-                            </th>
-                            <th>
-                                <label></label>
-                                <input type="text" ng-model="leaf.route" class="form-control"  ng-disabled="true"/>
-                            </th>
-                            <th>
-                                <label></label>
-                                <input type="text" ng-model="leaf.normalQty" class="form-control"  ng-disabled="true"/>
-                            </th>
-                            <th>
-                                <label></label>
-                                <input type="text" ng-model="leaf.superQty" class="form-control"  ng-disabled="true"/>
-                            </th>
-                            <th>
-                                <label>N/L RATE</label>
-                                <input class="form-control text-right" ng-model="leaf.normalRate" ng-change="doChangeNormal($viewValue,leaf)" type="text">
-                            </th>
-                            <th>&nbsp;</th>
-                            <th>
-                                <label>S/L RATE</label>
-                                <form ng-submit="leafLists()">
-                                    <input class="form-control text-right" ng-model="leaf.superRate" ng-change="doChangeSuper($viewValue,leaf)" type="text">
-                                </form>
-                            </th>
-                            <th>
-                                <br>
-                                <a class="btn btn-default" ng-click="insertNormal();"><span class="glyphicon glyphicon-plus"></span></a>
-                            </th>
-                            <th>
-                                <label></label>
-                                <input type="text" ng-model="leaf.normalValue" class="form-control"  ng-hide="true" />
-                            </th>
-                            <th>
-                                <label></label>
-                                <input type="text" ng-model="leaf.superValue" class="form-control"  ng-hide="true"/>
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 10%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col />
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th class="text-center">Route</th>
-                            <th class="text-right">Normal Qty</th>
-                            <th class="text-right">Super Qty</th>
-                            <th class="text-right">Normal Rate</th>
-                            <th class="text-right">Super Rate</th>
-                            <th class="text-right">Normal Value</th>
-                            <th class="text-right">Super Value</th>
-                            <th class="text-right">&nbsp;</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 240px);">
-                <table class="table-hover">
-                    <col style="width: 10%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col/>
-                    <tbody >                       
-                        <tr style="height: 40px" ng-repeat="leaf in leafList"ng-click="doEdit(leaf,$index);">
-                            <td class="text-center"><span class="label label-default">{{leaf.indexNo}}</span></td>
-                            <td class="text-center">{{leaf.route}}</td>
-                            <td class="text-right">{{leaf.normalQty}}</td>
-                            <td class="text-right">{{leaf.superQty}}</td>
-                            <td class="text-right">
-                                <input type="text" value="{{leaf.normalRate}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"  ng-disabled="true"/>
-                            </td>
-                            <td class="text-right">
-                                <input type="text" value="{{leaf.superRate}}" class="form-control text-right" style="width: 70px;margin-left: 45%;margin-bottom: 0px;"  ng-disabled="true"/>
-                            </td>
-                            <td class="text-right">{{leaf.normalQty*leaf.normalRate}}</td>
-                            <td class="text-right">{{leaf.superQty*leaf.superRate}}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xs-12">
-                <table style="padding-right: 5px;">
-                    <col style="width: 30%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <thead class="background-dark">
-                        <tr class="clickable">
-
-                            <td >TOTAL</td>
-                            <td class="text-right">{{getTotalNormalQty()}}</td>
-                            <td class="text-right">{{getTotalSuperQty()}}</td>
-                            <td class="text-right">&nbsp;</td>
-                            <td class="text-right">&nbsp;</td>
-                            <td class="text-right">{{totalNormalValue}}</td>
-                            <td class="text-right">{{totalSuperValue}}</td>
-                        </tr>
-                    </thead>
-                </table>
+                                <td >TOTAL</td>
+                                <td class="text-right">{{getTotalNormalQty()}}</td>
+                                <td class="text-right">{{getTotalSuperQty()}}</td>
+                                <td class="text-right">&nbsp;</td>
+                                <td class="text-right">&nbsp;</td>
+                                <td class="text-right">{{totalNormalValue}}</td>
+                                <td class="text-right">{{totalSuperValue}}</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="fab-container">
-    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
-</div>
+    <div class="fab-container">
+        <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
+        <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
+        <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
+    </div>
