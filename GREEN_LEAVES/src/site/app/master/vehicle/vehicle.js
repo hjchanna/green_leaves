@@ -170,69 +170,109 @@
                 //save function
                 $scope.ui.save = function () {
                     if ($scope.ui.tabPane === 0) {// is first tab selected 
-                        if ($scope.model.vehicle.vehicleNo) {
-                            if ($scope.model.vehicle.engineNo) {
-                                if ($scope.model.vehicle.chassisNo) {
-                                    if ($scope.model.vehicle.vehicleOwner) {
-                                        if ($scope.model.vehicle.driver) {
-                                            $scope.http.saveVehicle();
-                                        } else {
-                                            Notification.error("Select a Default Driver to Save");
-                                            $timeout(function () {
-                                                document.querySelectorAll("#driverName")[0].focus();
-                                            }, 10);
-                                        }
-                                    } else {
-                                        Notification.error("Select a Vehicle Owner to Save");
-                                        $timeout(function () {
-                                            document.querySelectorAll("#ownerName")[0].focus();
-                                        }, 10);
-                                    }
-                                } else {
-                                    Notification.error("Insert Chassis Number to Save");
-                                    $timeout(function () {
-                                        document.querySelectorAll("#chassisNo")[0].focus();
-                                    }, 10);
-                                }
+                        if ($scope.ui.checkValidateVehicle()) {
+                            if ($scope.ui.validateInfo.isError) {
+                                Notification.error($scope.ui.validateInfo.errorMessage);
+                                $scope.ui.forcusFunction($scope.ui.validateInfo.textForcus);
+                                $scope.ui.validateInfo = {};
                             } else {
-                                Notification.error("Insert Engine Number to Save");
-                                $timeout(function () {
-                                    document.querySelectorAll("#engineNo")[0].focus();
-                                }, 10);
+                                $scope.http.saveVehicle();
                             }
-                        } else {
-                            Notification.error("Insert Vehicle Number to Save");
-                            $timeout(function () {
-                                document.querySelectorAll("#vehicleNo")[0].focus();
-                            }, 10);
                         }
+
                     } else if ($scope.ui.tabPane === 1) {// is second tab selected 
-                        if ($scope.model.vehicleOwner.name) {
-                            if ($scope.model.vehicleOwner.nicNumber) {
-                                if ($scope.model.vehicleOwner.mobileNumber) {
-                                    $scope.http.insertVehicleOwner();
-                                } else {
-                                    Notification.error('Insert Mobile Number to Save ');
-                                    $timeout(function () {
-                                            document.querySelectorAll("#mobileNo")[0].focus();
-                                        }, 10);
-                                }
-                            } else {
-                                Notification.error('Insert NIC Number to Save  ');
-                                $timeout(function () {
-                                            document.querySelectorAll("#nicNumber")[0].focus();
-                                        }, 10);
+                        if ($scope.ui.checkValidateVehicleOwner()) {
+                            if ($scope.ui.validateInfo.isError) {
+                                Notification.error($scope.ui.validateInfo.errorMessage);
+                                $scope.ui.forcusFunction($scope.ui.validateInfo.textForcus);
+                                $scope.ui.validateInfo = {};
+                            }else{
+                                $scope.http.insertVehicleOwner();
                             }
-                        } else {
-                            Notification.error('Insert Owner Name to Save');
-                            $timeout(function () {
-                                            document.querySelectorAll("#name")[0].focus();
-                                        }, 10);
                         }
                     }
                 };
-
-
+                $scope.ui.forcusFunction = function (textId) {
+                    $timeout(function () {
+                        document.querySelectorAll(textId)[0].focus();
+                    }, 10);
+                };
+                $scope.ui.checkValidateVehicle = function () {
+                    $scope.ui.validateInfo = {};
+                    if (!$scope.model.vehicle.vehicleNo) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert Vehicle No to Save";
+                        $scope.ui.validateInfo.textForcus = "#vehicleNo";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.engineNo) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert Engine No to Save";
+                        $scope.ui.validateInfo.textForcus = "#engineNo";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.chassisNo) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert chassis No to Save";
+                        $scope.ui.validateInfo.textForcus = "#chassisNo";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.make) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert chassis make to Save";
+                        $scope.ui.validateInfo.textForcus = "#make";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.model) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert Model to Save";
+                        $scope.ui.validateInfo.textForcus = "#model";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.type) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert Type to Save";
+                        $scope.ui.validateInfo.textForcus = "#type";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.vehicleOwner) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Select Vehicle Owner to Save";
+                        $scope.ui.validateInfo.textForcus = "#ownerName";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicle.driver) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Select Driver to Save";
+                        $scope.ui.validateInfo.textForcus = "#driverName";
+                        return $scope.ui.validateInfo;
+                    }
+                    $scope.ui.validateInfo.isError = false;
+                    return $scope.ui.validateInfo;
+                };
+                $scope.ui.checkValidateVehicleOwner=function(){
+                    $scope.ui.validateInfo = {};
+                    if (!$scope.model.vehicleOwner.name) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert Vehicle Owner Name to Save";
+                        $scope.ui.validateInfo.textForcus = "#name";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicleOwner.nicNumber) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert NIC No to Save";
+                        $scope.ui.validateInfo.textForcus = "#nicNumber";
+                        return $scope.ui.validateInfo;
+                    }
+                    if (!$scope.model.vehicleOwner.mobileNumber) {
+                        $scope.ui.validateInfo.isError = true;
+                        $scope.ui.validateInfo.errorMessage = "Insert Mobile No to Save";
+                        $scope.ui.validateInfo.textForcus = "#mobileNo";
+                        return $scope.ui.validateInfo;
+                    }
+                    $scope.ui.validateInfo.isError = false;
+                    return $scope.ui.validateInfo;
+                };
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
@@ -256,11 +296,8 @@
                 $scope.ui.setTabPane = function (int) {
                     $scope.ui.tabPane = int;
                 };
-                $scope.ui.myFilter = function () {
-                    return name === $scope.search || nicNumber === $scope.search;
-                };
-//                edit funtion
 
+//                edit funtion
                 $scope.ui.edit = function (details, index) {
                     if ($scope.ui.tabPane === 0) {// is first tab selected 
                         $scope.ui.mode = "EDIT";
@@ -274,19 +311,6 @@
                     }
                 };
 
-
-
-
-                //----------------- validation functions -----------
-                $scope.validateInput = function () {
-                    if ($scope.model.vehicle.vehicleNo !== null) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                };
-
-
                 //-------------------http function-------------------
 
                 $scope.http.saveVehicle = function () {
@@ -298,17 +322,17 @@
                     vehicleFactory.saveVehicle(
                             detailJSON,
                             function (data) {
-                                Notification.success("success");
+                                Notification.success(data.vehicleNo + " Vehicle Successfully Saved");
                                 $scope.model.vehicles.push(data);
-                                
+                                $scope.ui.validateInfo = {};
                                 $scope.model.makeList.push($scope.model.vehicle.make);
                                 $scope.model.modelList.push($scope.model.vehicle.model);
                                 $scope.model.typeList.push($scope.model.vehicle.type);
 
                                 $scope.model.vehicle = {};
                                 $timeout(function () {
-                        document.querySelectorAll("#vehicleNo")[0].focus();
-                    }, 10);
+                                    document.querySelectorAll("#vehicleNo")[0].focus();
+                                }, 10);
                             },
                             function (data) {
                                 Notification.error(data.message);
@@ -332,7 +356,7 @@
                     vehicleFactory.insertVehicleOwner(
                             detailJSON,
                             function (data) {
-                                Notification.success('success !');
+                                Notification.success(data.indexNo+'success !');
                                 $scope.model.vehicleOwnerList.push(data);
                                 $scope.model.vehicleOwner = {};
                                 $timeout(function () {
