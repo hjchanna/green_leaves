@@ -1,0 +1,84 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">
+    <!--start left div-->
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <!--start table header div-->
+            <uib-tabset>
+                <uib-tab index="0" heading="DETAILS">
+                    <div class="col-xs-12" style="flex: 0 0 auto; height:35px;">
+                        <table>
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Route</th>
+                                    <th>Date</th>
+                                    <th>Normal</th>
+                                    <th>Super</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!--end table header div-->
+                    <!--end table body div-->
+                    <div class="col-xs-12 smart-scroll-y">
+                        <table class="table-hover">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <tbody>
+                                <tr ng-repeat="detail in weighDetails">
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="SUMMARY">
+                    <div class="col-xs-12" style="flex: 0 0 auto; height:35px;">
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+            <!--end table body div-->
+        </div>
+    </div>
+    <!--end left div-->
+    <!--start right div-->
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12"  style="margin-top: 10px;height: 520px;">
+                <uib-tabset>
+                    <uib-tab index="0" heading="Daily">
+                        <div class="col-xs-12" style="margin-top: 20px;">
+                            <canvas id="bar" class="chart chart-bar"
+                                    chart-data="data" chart-labels="labels"> chart-series="series"
+                            </canvas>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="1" heading="Monthly">
+                        <div class="col-xs-12" style="margin-top: 10px;">
+
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+    <!--end right div-->
+</div>
+<div class="fab-container">
+    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
+</div>
