@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class MasterClientService {
-
-    @Autowired
+ @Autowired
     private MasterClientRepository masterClientRepository;
 
     public List<MClient> findByBranch(Integer branch) {
@@ -30,10 +29,14 @@ public class MasterClientService {
 
     //save supplier
     public MClient saveSupplier(MClient client) {
-        if (isNotDuplicate(client)) {
+        MClient getClient = findByClientNoAndNicNumber(client.getClientNumber(), client.getNicNumber());
+        if (getClient == null) {
             return masterClientRepository.save(client);
         } else {
-            throw new DuplicateEntityException("supplier already exists");
+            if (getClient.getIndexNo().equals(client.getIndexNo())) {
+                return masterClientRepository.save(client);
+            }
+            throw new DuplicateEntityException("client already exists");
         }
     }
 
@@ -46,13 +49,11 @@ public class MasterClientService {
     }
 
     //validation
-    private boolean isNotDuplicate(MClient client) {
-        List<MClient> clients;
-        if (client.getIndexNo() == null) {
-            clients = masterClientRepository.findByClientNumber(client.getClientNumber());
-        } else {
-            clients = masterClientRepository.findByClientNumberAndIndexNoNot(client.getClientNumber(), client.getIndexNo());
+    private MClient findByClientNoAndNicNumber(Integer clientNo, String name) {
+        List<MClient> clients = masterClientRepository.findByClientNumberOrNicNumber(clientNo, name);
+        if (clients.isEmpty()) {
+            return null;
         }
-        return clients.isEmpty();
+        return clients.get(0);
     }
 }

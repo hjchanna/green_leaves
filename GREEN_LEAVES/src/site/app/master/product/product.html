@@ -29,7 +29,7 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Brand* </label></td>
-                                    <td><input type="text" class="form-control" ng-model="model.data.brand" uib-typeahead="product.brand as (product.brand) for product in model.products|filter:$viewValue|orderBy:product.brand|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.brand" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> I.Department* </label></td>
@@ -45,7 +45,7 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Unit* </label></td>
-                                    <td><input type="text" class="form-control" ng-keypress="ui.tabChnage($event)" ng-model="model.data.unit" uib-typeahead="product.unit as (product.unit) for product in model.products|filter:$viewValue|orderBy:product.unit|limitTo:10"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input type="text" class="form-control" ng-keypress="ui.tabChnage($event)" ng-model="model.data.unit" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                             </tbody>
                         </table>

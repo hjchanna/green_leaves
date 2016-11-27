@@ -29,27 +29,27 @@ public class ProductService {
     }
 
     public MProduct saveProduct(MProduct product) {
-        if (isNotDuplicate(product)) {
+       MProduct mProduct = findByProductNo(product.getProductNo(),product.getName());
+        if (mProduct == null) {
             return productRepository.save(product);
         } else {
-            //this is a duplicate entry - checked by 
-            throw new DuplicateEntityException("Product already exists");
+            if (mProduct.getIndexNo().equals(product.getIndexNo())) {
+                return productRepository.save(product);
+            }
+            throw new DuplicateEntityException("product already exists");
         }
-
+    }
+    
+    //validation
+    private MProduct findByProductNo(String productNo, String name) {
+        List<MProduct> products = productRepository.findByProductNoOrName(productNo, name);
+        if (products.isEmpty()) {
+            return null;
+        }
+        return products.get(0);
     }
 
     public void deleteProduct(Integer indexNo) {
         productRepository.delete(indexNo);
-    }
-
-    //validation
-    private boolean isNotDuplicate(MProduct product) {
-        List<MProduct> products;
-        if (product.getIndexNo() == null) {
-            products = productRepository.findByProductNoOrBarCodeOrName(product.getProductNo(), product.getBarCode(), product.getName());
-        } else {
-            products = productRepository.findByProductNoAndIndexNoNot(product.getProductNo(), product.getIndexNo());
-        }
-        return products.isEmpty();
     }
 }

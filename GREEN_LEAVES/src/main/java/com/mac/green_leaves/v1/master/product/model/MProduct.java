@@ -41,14 +41,6 @@ public class MProduct implements Serializable {
     private String name;
 
     @Basic(optional = false)
-    @Column(name = "bar_code")
-    private String barCode;
-
-    @Basic(optional = false)
-    @Column(name = "model")
-    private String model;
-
-    @Basic(optional = false)
     @Column(name = "product_no")
     private String productNo;
 
@@ -90,11 +82,9 @@ public class MProduct implements Serializable {
     public MProduct() {
     }
 
-    public MProduct(Integer indexNo, String name, String barCode, String model, String productNo, String printDescription, Integer branch, String brand, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
+    public MProduct(Integer indexNo, String name, String productNo, String printDescription, Integer branch, String brand, String unit, BigDecimal costPrice, BigDecimal salePrice, MSubCategory subCategory, MCategory category, MItemDepartment itemDepartment, MSupplier supplier) {
         this.indexNo = indexNo;
         this.name = name;
-        this.barCode = barCode;
-        this.model = model;
         this.productNo = productNo;
         this.printDescription = printDescription;
         this.branch = branch;
@@ -124,6 +114,14 @@ public class MProduct implements Serializable {
         this.name = name;
     }
 
+    public String getProductNo() {
+        return productNo;
+    }
+
+    public void setProductNo(String productNo) {
+        this.productNo = productNo;
+    }
+
     public String getPrintDescription() {
         return printDescription;
     }
@@ -146,14 +144,6 @@ public class MProduct implements Serializable {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getUnit() {
@@ -210,22 +200,6 @@ public class MProduct implements Serializable {
 
     public void setSupplier(MSupplier supplier) {
         this.supplier = supplier;
-    }
-
-    public String getProductNo() {
-        return productNo;
-    }
-
-    public void setProductNo(String productNo) {
-        this.productNo = productNo;
-    }
-
-    public String getBarCode() {
-        return barCode;
-    }
-
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
     }
 
 }

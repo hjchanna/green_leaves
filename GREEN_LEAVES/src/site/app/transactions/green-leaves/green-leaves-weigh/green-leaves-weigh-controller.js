@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, $timeout, GreenLeavesWeighModel) {
+            .controller("GreenLeavesWeighController", function ($scope, $sce, $timeout, GreenLeavesWeighModel) {
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
@@ -77,7 +77,6 @@
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.ui.type = "NORMAL";
-
                     $scope.model.clear();
                 };
                 $scope.ui.init();
