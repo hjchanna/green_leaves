@@ -22,16 +22,14 @@
             <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
         </div>
         <table class="control-table">
-            <col style="width: 40%">
-            <col style="width: 40%">
+            <col style="width: 10%">
+            <col style="width: 70%">
             <col style="width: 20%">
             <thead class="background-dark">
                 <tr>
+                    <th>#</th>
                     <th>
                         <label>Category</label>
-                    </th>
-                    <th>
-                        <label>Department</label>
                     </th>
                     <th>&nbsp;</th>
                 </tr>
@@ -39,13 +37,13 @@
         </table>
         <div class="smart-scroll-y" style="height: calc(100vh - 315px);">
             <table class="table-hover">
-                <col style="width: 40%">
-                <col style="width: 40%">
+                <col style="width: 10%">
+                <col style="width: 70%">
                 <col style="width: 20%">
                 <tbody>
                     <tr ng-repeat="category in model.categorys| filter:model.search.name | orderBy:'indexNo'">
+                        <td><span class="label label-default">{{category.indexNo|fixedLength:5}}</span></td>
                         <td>{{category.name}}</td>
-                        <td>{{category.department.name}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(category, $index)"><span class="glyphicon glyphicon-edit"></span></a>
                             <a class="btn btn-danger" ng-click="http.deleteCategory(category.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>

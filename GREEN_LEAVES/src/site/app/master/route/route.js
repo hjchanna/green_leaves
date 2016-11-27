@@ -36,7 +36,7 @@
 
                 //load vehicle
                 factory.loadEmployees = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/employees";
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/employee";
 
                     $http.get(url)
                             .success(function (data, status, headers) {
