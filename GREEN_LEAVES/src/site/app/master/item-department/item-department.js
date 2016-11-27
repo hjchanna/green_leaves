@@ -89,7 +89,7 @@
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
                     $timeout(function () {
-                        document.querySelectorAll("#name")[0].focus();
+                        document.querySelectorAll("#item-department")[0].focus();
                     }, 10);
 
                 };
@@ -108,7 +108,7 @@
                         if ($scope.model.departmentList[i].indexNo === $scope.model.department.indexNo) {
                             $scope.model.departmentList.splice(i, 1);
                             $timeout(function () {
-                                document.querySelectorAll("#name")[0].focus();
+                                document.querySelectorAll("#item-department")[0].focus();
                             }, 10);
                         }
                     }
@@ -120,7 +120,7 @@
                     if ($scope.model.department) {
                         $scope.http.insertItemDepartment();
                         $timeout(function () {
-                            document.querySelectorAll("#name")[0].focus();
+                            document.querySelectorAll("#item-department")[0].focus();
                         }, 10);
                     } else {
                         Notification.error('No Item Department Name to Save ');
@@ -156,7 +156,7 @@
                                             break;
                                         }
                                     }
-                                    Notification.success(data.indexNo+' save successfylly !');
+                                    Notification.success('save successfully !');
                                     $scope.model.departmentList.push(data);
                                     $scope.model.department = {};
 
@@ -164,13 +164,13 @@
                                     Notification.error('Already Exists !');
                                 }
                                 $timeout(function () {
-                                    document.querySelectorAll("#name")[0].focus();
+                                    document.querySelectorAll("#item-department")[0].focus();
                                 }, 10);
                             }
                     , function (data) {
                         Notification.error(data.message);
                         $timeout(function () {
-                            document.querySelectorAll("#name")[0].focus();
+                            document.querySelectorAll("#item-department")[0].focus();
                         }, 10);
                     }
                     );
@@ -185,7 +185,7 @@
                                     break;
                                 }
                             }
-                            Notification.error(indexNo + ' Department Delete Successfully');
+                            Notification.success("Delete Successfully");
                             $scope.ui.mode = "IDEAL";
                         });
                     }

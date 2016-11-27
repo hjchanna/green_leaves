@@ -164,10 +164,9 @@
                 //----------------- validation functions -----------
                 $scope.validateInput = function () {
                     if ($scope.model.route.name
-                            && $scope.model.route.vehicle !== null
-                            && $scope.model.route.routeOfficer !== ""
-                            && $scope.model.route.routeHelper !== ""
-                            && $scope.model.route.tdRate) {
+                            && $scope.model.route.vehicle
+                            && $scope.model.route.routeOfficer
+                            && $scope.model.route.routeHelper) {
                         return true;
                     } else {
                         return false;

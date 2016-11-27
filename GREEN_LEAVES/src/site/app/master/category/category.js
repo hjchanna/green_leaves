@@ -98,6 +98,7 @@
                                 $scope.ui.focus();
                             },
                             function (data) {
+                                $scope.ui.focus();
                                 Notification.error(data.message);
                             }
                     );
@@ -123,8 +124,15 @@
                 //focus
                 $scope.ui.focus = function () {
                     $timeout(function () {
-                        document.querySelectorAll("#item")[0].focus();
+                        document.querySelectorAll("#category")[0].focus();
                     }, 10);
+                };
+                
+                //key event
+                 $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
+                    }
                 };
 
                 //new function

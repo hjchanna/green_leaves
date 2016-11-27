@@ -47,7 +47,7 @@
 
     //Controller
     angular.module("subCategoryModule")
-            .controller("subCategoryController", function ($scope, subCategoryFactory, Notification) {
+            .controller("subCategoryController", function ($scope, subCategoryFactory, Notification, $timeout) {
 
                 //data models 
                 $scope.model = {};
@@ -100,9 +100,11 @@
                                 $scope.model.subCategoryList.push(data);
                                 Notification.success("Successfully Added");
                                 $scope.model.reset();
-                                
+                                $scope.ui.focus();
+
                             },
                             function (data) {
+                                $scope.ui.focus();
                                 Notification.error(data.message);
                             }
                     );
@@ -122,6 +124,21 @@
                 //new function
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $scope.ui.focus();
+                };
+
+                //focus
+                $scope.ui.focus = function () {
+                    $timeout(function () {
+                        document.querySelectorAll("#sub-category")[0].focus();
+                    }, 10);
+                };
+
+                //key event
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
+                    }
                 };
 
                 //edit function 
@@ -136,13 +153,13 @@
                     $scope.ui.mode = "IDEAL";
                     //rest model data
                     $scope.model.reset();
-                    
+
                     //lord subCategory
                     subCategoryFactory.loadSubCategory(function (data) {
                         $scope.model.subCategoryList = data;
                     });
                 };
-                
+
                 $scope.ui.init();
             });
 }());

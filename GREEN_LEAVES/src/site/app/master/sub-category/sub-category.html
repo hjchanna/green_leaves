@@ -11,7 +11,7 @@
                 <tbody>                   
                     <tr>
                         <td><label class="control-label">Name</label></td>
-                        <td><input class="form-control" id="employee" ng-model="model.subCategory.subCategory" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control" id="sub-category" ng-model="model.subCategory.subCategory" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
         </table>
-        <div class="smart-scroll-y" style="height: calc(100vh - 220px);">
+        <div class="smart-scroll-y" style="height: calc(100vh - 270px);">
             <table class="table-hover">
                 <col style="width: 45%">
                 <col style="width: 45%">

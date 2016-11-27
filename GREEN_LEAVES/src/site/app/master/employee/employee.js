@@ -154,6 +154,13 @@
                         document.querySelectorAll("#employee")[0].focus();
                     }, 10);
                 };
+                
+                 //key event
+                 $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
+                    }
+                };
 
                 //new function
                 $scope.ui.new = function () {
