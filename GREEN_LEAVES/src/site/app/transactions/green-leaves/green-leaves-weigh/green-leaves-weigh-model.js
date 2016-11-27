@@ -8,6 +8,8 @@
         GreenLeavesWeighModel.prototype = {
             //weigh data
             data: {},
+            //temp input
+            tempData: {},
             //route information
             routes: [],
             //route officer information
@@ -16,8 +18,6 @@
             routeHelpers: [],
             //vehicle information
             vehicles: [],
-            //temp input
-            tempData: {},
 
             //constructor
             constructor: function () {
@@ -134,18 +134,27 @@
                 var that = this;
                 var defer = $q.defer();
 
-                GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
-                        .success(function (data) {
-                            that.tempData.indexNo = data;
-                            that.data.greenLeaveWeighDetails.push(that.tempData);
+                var quantity = this.tempData.quantity;
+                var tareCount = this.tempData.crates
+                        + this.tempData.bags
+                        + this.tempData.polyBags;
 
-                            that.tempData = GreenLeavesWeighModelFactory.newTempData();
-                            that.validate();
-                            defer.resolve();
-                        })
-                        .error(function (data) {
-                            defer.reject();
-                        });
+                if (tareCount > 0 && quantity > 0) {
+                    GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
+                            .success(function (data) {
+                                that.tempData.indexNo = data;
+                                that.data.greenLeaveWeighDetails.push(that.tempData);
+
+                                that.tempData = GreenLeavesWeighModelFactory.newTempData();
+                                that.validate();
+                                defer.resolve();
+                            })
+                            .error(function (data) {
+                                defer.reject();
+                            });
+                } else {
+                    defer.reject();
+                }
 
                 return defer.promise;
             },

@@ -5,7 +5,7 @@
         "homeModule",
         "ui.bootstrap",
 //        "greenLeavesReceiveModule",
-        "greenLeavesWeighModule",
+//        "greenLeavesWeighModule",
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",
         "greenLeavesPaymentModule",

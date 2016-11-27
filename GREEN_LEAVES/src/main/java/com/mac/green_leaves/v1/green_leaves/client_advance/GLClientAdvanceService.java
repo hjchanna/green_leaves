@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.mac.green_leaves.v1.green_leaves.client_advance.GLClientAdvanceRequestDetailRepository;
-import com.mac.green_leaves.v1.green_leaves.client_advance.GLClientAdvanceRequestRepository;
 
 /**
  *
@@ -74,4 +72,27 @@ public class GLClientAdvanceService {
     public List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch) {
         return clientAdvanceRepository.findByBranchAndStatus(branch, ADVANCE_REQUEST_STATUS_PENDING);
     }
+
+    //approve
+    @Transactional
+    public void approveAdvanceRequestDetail(Integer indexNo) {
+        TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
+        advanceRequestDetail.setStatus(ADVANCE_REQUEST_STATUS_APPROVED);
+        clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
+
+        //TODO:update summary
+        
+        //TODO:voucer entry
+    }
+
+    public void rejectAdvanceRequestDetail(Integer indexNo) {
+        TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
+        advanceRequestDetail.setStatus(ADVANCE_REQUEST_STATUS_REJECTED);
+        clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
+        
+        //TODO:update summary
+
+        //TODO:voucer entry
+    }
+
 }

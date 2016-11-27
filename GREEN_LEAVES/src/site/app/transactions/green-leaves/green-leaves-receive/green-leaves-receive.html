@@ -38,10 +38,10 @@
                 <tr>
                     <td>&nbsp;</td>
                     <td>
-                        <input ng-model="model.data.transaction" smart-input="integer" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                        <input id="date" class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                     </td>
                     <td>
-                        <input id="date" ng-model="model.data.date" smart-input="date" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                        <input class="form-control" smart-input="integer" ng-model="model.data.transaction" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                     </td>
                 </tr>
             </tbody>
@@ -58,7 +58,7 @@
                         <tr>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10"  typeahead-input-formatter="ui.getClientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
@@ -71,32 +71,34 @@
                                 </form>
                             </th>
                             <th>
-                                <button class="btn btn-primary" ng-click="ui.insertTableData();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button class="btn btn-primary" ng-click="ui.addDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
                             </th>
                         </tr>
                     </thead>
                 </table>
-                <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 315px);">
+                <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 315px);" ng-show="model.data.greenLeavesReceiveDetails.length">
                     <table class="table-hover">
                         <col style="width: 50%">
                         <col style="width: 20%">
                         <col style="width: 20%">
                         <col style="width: 10%">
                         <tbody>
-                            <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails">
+                            <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails" >
                                 <td><div class="label label-default">{{greenLeavesReceiveDetails.clientModel.indexNo|fixedLength:5}}</div> {{greenLeavesReceiveDetails.clientModel.name}}</td>
                                 <td class="text-right">{{greenLeavesReceiveDetails.normalLeavesQuantity}}</td>
                                 <td class="text-right">{{greenLeavesReceiveDetails.superLeavesQuantity}}</td>
                                 <td>
-                                    <a class="btn btn-default" ng-click="ui.editTableData($index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteTableData($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a class="btn btn-default" ng-click="ui.editDetail($index);"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a class="btn btn-danger"  ng-click="ui.deleteDetail($index);"><span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--                <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);" ng-hide="getRowData().length">
-                                    <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
-                                </div>-->
+                
+                <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);" ng-hide="model.data.greenLeavesReceiveDetails.length">
+                    <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
+                </div>
 
                 <table style="padding-right: 10px;">
                     <col style="width: 50%">
@@ -106,20 +108,20 @@
                     <thead class="background-dark">
                         <tr>
                             <th>TOTAL QUANTITY</th>
-                            <th class="text-right">{{ui.totalNormalLevesQty()}}</th>
-                            <th class="text-right">{{ui.totalSuperLevesQty()}}</th>
+                            <th class="text-right">{{model.totalQuantity[0]}}</th>
+                            <th class="text-right">{{model.totalQuantity[1]}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>FACTORY QUANTITY</th>
-                            <th class="text-right">{{model.total.normalLeavesTotal}}</th>
-                            <th class="text-right">{{model.total.superLeavesTotal}}</th>
+                            <th class="text-right">{{model.factoryQuantity[0]}}</th>
+                            <th class="text-right">{{model.factoryQuantity[1]}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>DIFFERENCE QUANTITY</th>
-                            <th class="text-right">{{model.total.defaranceNormalLeavesTotal}}</th>
-                            <th class="text-right">{{model.total.defaranceSuperLeavesTotal}}</th>
+                            <th class="text-right">{{model.differenceQuantity[0]}}</th>
+                            <th class="text-right">{{model.differenceQuantity[1]}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                     </thead>

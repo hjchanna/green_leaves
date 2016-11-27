@@ -1,49 +1,34 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, ClientAdvanceApproveService) {
-        $scope.model = {};
+    var controller = function ($scope, ClientAdvanceApproveModel) {
+        $scope.model = new ClientAdvanceApproveModel();
 
         $scope.ui = {};
-        $scope.model.requests = [];
-        $scope.model.routes = [];
+        $scope.ui.selectedDataIndex = null;
+        $scope.ui.selectedDetailIndex = null;
 
-        $scope.ui.getRoute = function () {
-            for (var i = 0; i < $scope.model.requests.length; i++) {
-                for (var i = 0; i < $scope.model.routes.length; i++) {
-                    if ($scope.model.requests[i].route === $scope.model.routes[i].indexNo) {
-                        return $scope.model.routes[i];
-                        console.log($scope.model.routes[i]);
-                    }
-                }
-            }
+        $scope.ui.selectData = function (indexNo) {
+            $scope.model.selectData(indexNo);
+            $scope.ui.selectedDataIndex = indexNo;
         };
 
-        //init
-        $scope.init = function () {
-            //  $scope.model.data = new ClientAdvanceApproveModel();
-            $scope.ui.mode = "IDEAL";
-
-            ClientAdvanceApproveService.loadRequests()
-                    .success(function (data, status, headers) {
-                        $scope.model.requests = data;
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-            ClientAdvanceApproveService.loadRoutes()
-                    .success(function (data, status, headers) {
-                        $scope.model.routes = data;
-                    })
-                    .error(function (data, status, headers) {
-
-                    });
-
-            $scope.ui.getRoute();
-
+        $scope.ui.selectDetail = function (indexNo) {
+            $scope.model.selectDetail(indexNo);
+            $scope.ui.selectedDetailIndex = indexNo;
         };
 
-        $scope.init();
+        $scope.ui.approve = function () {
+            $scope.model.approve();
+        };
+
+        $scope.ui.reject = function () {
+            $scope.model.reject();
+        };
+
+        $scope.ui.clear = function () {
+            $scope.model.clear();
+        };
     };
 
     angular.module("appModule")

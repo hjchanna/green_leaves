@@ -3,11 +3,19 @@
 
     var service = function (systemConfig, $http) {
         this.loadRoutes = function () {
-            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/routes");
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
         this.loadClients = function () {
-            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/clients");
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
+        };
+
+        this.loadReceive = function (number) {
+
+        };
+        
+        this.saveReceive = function(data){
+            
         };
 
         this.saveGreenLeavesDetail = function (data) {

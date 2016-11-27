@@ -462,9 +462,11 @@
 
 
     <div class="fab-container">
-        <a class="fab fab-danger" ng-show="ui.mode === 'SELECTED'"><i class="glyphicon glyphicon-edit"></i></a>
-        <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
-        <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode == 'EDIT'" ng-click="ui.finish();"><i class="glyphicon glyphicon-ok"></i></a>
+        <a class="fab fab-default" fab-show="ui.mode === 'NEW' || ui.mode == 'EDIT' || ui.mode === 'SELECTED'" ng-click="ui.discard();"><i class="glyphicon glyphicon-erase"></i></a>
+        <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+        <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode == 'EDIT'" ng-click="ui.finish();"><i class="glyphicon glyphicon-ok"></i></a>
     </div>
 </div>
 <!--<div class="index-content-footer">

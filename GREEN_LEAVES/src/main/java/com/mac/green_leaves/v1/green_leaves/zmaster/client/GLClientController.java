@@ -22,26 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/master/clients")
+@RequestMapping("/api/v1/green-leaves/master/clients")
 public class GLClientController {
+    
+    private static final Integer branch = 1;
     
     @Autowired
     private GLClientService clientService;
     
     @RequestMapping(method = RequestMethod.GET)
     public List<MClient> listClients() {
-        return clientService.findByBranch(1);
+        return clientService.findByBranch(branch);
     }
-    
-    @RequestMapping(value = "/save-client", method = RequestMethod.POST)
-    public MClient saveSupplier(@RequestBody MClient client) {
-        client.setBranch(1);
-        return clientService.saveSupplier(client);
-    }
-    
-    @RequestMapping(value = "/delete-client/{indexNo}", method = RequestMethod.DELETE)
-    public void deleteSupplier(@PathVariable Integer indexNo) {
-        clientService.deleteSupplier(indexNo);
-    }
-    
 }

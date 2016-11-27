@@ -14,6 +14,7 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,18 +26,22 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/green-leaves/green-leaves-receive")
+@RequestMapping("/api/v1/green-leaves/green-leaves-receive")
 public class GLGreenLeavesReceiveController {
+
+    private static final Integer branch = 1;
 
     @Autowired
     private GLGreenLeavesReceiveService greenLeavesReceiveService;
 
-    @RequestMapping(value = "/save-green-leaves-receive", method = RequestMethod.POST)
-    public TGreenLeavesReceive saveGreenLeavesReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
-        greenLeavesReceive.setNumber(1);
-        greenLeavesReceive.setTransaction(1);
-        System.out.println(greenLeavesReceive);
-        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
+    public TGreenLeavesReceive getReceive(@PathVariable Integer number) {
+        return greenLeavesReceiveService.getReceive(branch, number);
+    }
+
+    @RequestMapping(value = "/save-receive", method = RequestMethod.POST)
+    public Integer saveReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
+        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive, branch);
     }
 
 }

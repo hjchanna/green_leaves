@@ -28,33 +28,4 @@ public class GLClientService {
         return clientRepository.findByBranch(branch);
     }
 
-    //save supplier
-    public MClient saveSupplier(MClient client) {
-        if (isNotDuplicate(client)) {
-            return clientRepository.save(client);
-        } else {
-            throw new DuplicateEntityException("supplier already exists");
-        }
-    }
-
-    public List<MClient> getAllSuppliier() {
-        return clientRepository.findAll();
-    }
-
-    public void deleteSupplier(Integer indexNo) {
-        clientRepository.delete(indexNo);
-    }
-
-    //validation
-    private boolean isNotDuplicate(MClient client) {
-//        List<MClient> clients;
-//        if (client.getIndexNo() == null) {
-//            clients = clientRepository.findByNicNumber(client.getNicNumber());
-//        } else {
-//            clients = clientRepository.findByNicNumberAndIndexNoNot(client.getNicNumber(), client.getIndexNo());
-//        }
-//
-//        return clients.isEmpty();
-        return false;
-    }
 }

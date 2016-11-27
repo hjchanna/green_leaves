@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.transaction.client_advance;
+package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
-import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/api/green-leaves/client-advance")
-public class ClientAdvanceController {
+@RequestMapping("/api/v1/green-leaves/client-advance")
+public class GLClientAdvanceController {
 
     private static final int BRANCH = 1;
     private static final int ROUTE = 1;
@@ -51,8 +50,20 @@ public class ClientAdvanceController {
         clientAdvanceService.deleteAdvanceRequestDetail(indexNo);
     }
 
+//    approve ------------------------------------------------------------------
     @RequestMapping(value = "/pending-requests")
     public List<TClientAdvanceRequest> getPendingAdvanceRequests() {
         return clientAdvanceService.getPendingAdvanceRequests(BRANCH);
     }
+
+    @RequestMapping(value = "/approve-request-detail/{indexNo}")
+    public void approveAdvanceRequestDetail(@PathVariable Integer indexNo) {
+        clientAdvanceService.approveAdvanceRequestDetail(indexNo);
+    }
+
+    @RequestMapping(value = "/reject-request-detail/{indexNo}")
+    public void rejectAdvanceRequestDetail(@PathVariable Integer indexNo) {
+        clientAdvanceService.rejectAdvanceRequestDetail(indexNo);
+    }
+
 }

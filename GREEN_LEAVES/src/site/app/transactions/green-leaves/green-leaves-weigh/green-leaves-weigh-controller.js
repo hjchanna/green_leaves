@@ -21,8 +21,9 @@
                     }, 10);
                 };
 
-                $scope.ui.delete = function () {
-
+                $scope.ui.discard = function () {
+                    $scope.ui.mode = "IDEAL";
+                    $scope.model.clear();
                 };
 
                 $scope.ui.insertNormalDetail = function () {
@@ -45,7 +46,7 @@
                 };
 
                 $scope.ui.load = function (e) {
-                    var code = e.keyCode || e.which;
+                    var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
                         $scope.model.load()
                                 .then(function () {

@@ -14,7 +14,4 @@ public interface GLClientRepository extends JpaRepository<MClient, Integer> {
 
     public List<MClient> findByBranch(Integer branch);
 
-//    public List<MClient> findByNicNumber(String nicNumber);
-//
-//    public List<MClient> findByNicNumberAndIndexNoNot(String nicNumber, Integer indexNo);
 }
