@@ -187,7 +187,7 @@ public class GLGreenLeavesWeighService {
 
     //green leaves get data
     public Object[] getTotalSuperLeavesAndNormalLeaves(Integer branch, Integer route, Date date) {
-        List<Object[]> getTotalList = greenLeavesWeighRepository.getTotalLeves(branch, route, date);
+        List<Object[]> getTotalList = greenLeavesWeighRepository.findByBranchAndRouteAndDate(branch, route, date);
         Object total[] = new Object[2];
         total[0] = getTotalList.get(0)[0];
         total[1] = getTotalList.get(0)[1];

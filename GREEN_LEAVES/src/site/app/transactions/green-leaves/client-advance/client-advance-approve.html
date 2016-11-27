@@ -37,9 +37,9 @@
                     <col style="width: 30%"/>
                     <tbody>
                         <tr ng-repeat="requets in model.requests|filter:search">
-                            <td><span class="label label-primary">{{requets.indexNo}}</span> {{requets.name}}</td>
-                            <td class="text-right">13</td>
-                            <td class="text-right">1000.00</td>
+                            <td><span class="label label-primary">{{requets.indexNo}}</span> {{ui.getRoute(requets.route)}}</td>
+                            <td class="text-right">{{ui.getRequestCount(requets.route)}}</td>
+                            <td class="text-right">{{ui.getRequestAmount(requets.route)}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -3,10 +3,10 @@
 
     var service = function (systemConfig, $http) {
         this.loadRequests = function () {
-            return $http.get(systemConfig.apiUrl + "/api/green-leaves/client-advance//pending-requests");
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/pending-requests");
         };
         this.loadRoutes = function () {
-            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/routes");
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
     };
 

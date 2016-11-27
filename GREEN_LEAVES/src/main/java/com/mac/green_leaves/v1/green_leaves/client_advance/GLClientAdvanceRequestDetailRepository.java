@@ -13,6 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Mohan
  */
-public interface ClientAdvanceRequestDetailRepository extends JpaRepository<TClientAdvanceRequestDetail, Integer> {
+public interface GLClientAdvanceRequestDetailRepository extends JpaRepository<TClientAdvanceRequestDetail, Integer> {
 
 }

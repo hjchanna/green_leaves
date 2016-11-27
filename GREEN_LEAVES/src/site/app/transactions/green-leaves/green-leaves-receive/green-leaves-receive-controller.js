@@ -10,10 +10,17 @@
         $scope.model.tempData = {};
         $scope.model.routes = {};
         $scope.model.clients = {};
-        $scope.model.total = {};
+
+        $scope.model.total = {
+            "factorySuperLeavesTotal": 0,
+            "factoryNormalLeavesTotal": 0,
+            "defaranceSuperLeavesTotal": 0,
+            "defaranceNormalLeavesTotal": 0,
+            "insertSuperLeaveTotal": 0,
+            "insertNormalLeaveTotal": 0
+        };
 
         $scope.ui = {};
-        $scope.ui.mode = "NEW";
 
         $scope.ui.new = function () {
             $scope.ui.mode = "NEW";
@@ -39,8 +46,7 @@
                 "greenLeavesReceive": null,
                 "normalLeavesQuantity": 0,
                 "superLeavesQuantity": 0,
-                "client": null,
-                "clientModel": null
+                "client": null
             };
         };
 
@@ -48,15 +54,13 @@
 
         //insert data datable 
         $scope.ui.insertTableData = function () {
-            if ($scope.model.tempData.client && parseInt($scope.model.tempData.normalLeavesQuantity + $scope.model.tempData.superLeavesQuantity) > 0) {
+            if ($scope.model.tempData.client) {
                 if ($scope.model.data.checkGreenLeavesReseveDetailDuplicate($scope.model.tempData.client)) {
                     Notification.error("this customer green leaves is already exists!");
                 } else {
-                    $scope.model.tempData.clientModel = $scope.ui.getClient($scope.model.tempData.client);
                     if ($scope.model.data.addReceiveDetail($scope.model.tempData)) {
                         //validation succeed and added
-                        $scope.ui.totalSuperLevesQty;
-                        $scope.ui.totalNormalLevesQty();
+                        $scope.ui.getTotalLeaves();
                         $scope.ui.forcus();
                         $scope.ui.resetTempRequest();
                     }
@@ -69,34 +73,39 @@
         //edit data table
         $scope.ui.editTableData = function (index) {
             $scope.model.tempData = $scope.model.data.editRecieveDetail(index);
-            $scope.ui.totalSuperLevesQty;
-            $scope.ui.totalNormalLevesQty();
+            $scope.ui.getTotalLeaves();
         };
 
         //delete row data table
         $scope.ui.deleteTableData = function (index) {
             $scope.model.data.deleteReceiveDetail(index);
-            $scope.ui.totalSuperLevesQty;
-            $scope.ui.totalNormalLevesQty();
+            $scope.ui.getTotalLeaves();
         };
 
         //---------------- ui fucntions -------------------
         //green leaves data save
         $scope.ui.save = function () {
-            console.log($scope.model.data.route);
             if ($scope.model.data.route === null) {
                 Notification.error("please enter route");
             } else {
-                var data = JSON.stringify($scope.model.data);
-                GreenLeavesReceiveService.saveGreenLeavesDetail(data)
-                        .success(function (data, status, headers) {
-                            $scope.ui.init();
-                            optionPane.successMessage("green leaves receive saved successfully.");
-                            $scope.selectedRow = -1;
-                        })
-                        .error(function (data, status, headers) {
-                            optionPane.dangerMessage("green leaves receive save failed.");
-                        });
+                if ($scope.model.data.date) {
+                    if ($scope.model.data.validateGreenLeavesReseveDetail()) {
+                        var data = JSON.stringify($scope.model.data);
+                        GreenLeavesReceiveService.saveGreenLeavesDetail(data)
+                                .success(function (data, status, headers) {
+                                    $scope.ui.init();
+                                    optionPane.successMessage("green leaves receive saved successfully.");
+                                    $scope.selectedRow = -1;
+                                })
+                                .error(function (data, status, headers) {
+                                    optionPane.dangerMessage("green leaves receive save failed.");
+                                });
+                    } else {
+                        Notification.error("please enter green leaves receive");
+                    }
+                } else {
+                    Notification.error("please enter date");
+                }
             }
         };
 
@@ -122,40 +131,70 @@
             });
             return client;
         };
-
-        $scope.ui.totalSuperLevesQty = function () {
-            var factorySuperLeavesTotal = $scope.model.total.superLeavesTotal;
-            var factoryNormalLeavesTotal = $scope.model.total.normalLeavesTotal;
-
-            var superLeavesTotal = $scope.model.data.getSuperLeavesQuantityTotal();
-            var factoryNormalTotal = $scope.model.data.getNormalLeavesQuantityTotal();
-
-            $scope.model.total.defaranceSuperLeavesTotal = parseFloat(factorySuperLeavesTotal - superLeavesTotal);
-            $scope.model.total.defaranceNormalLeavesTotal = parseFloat(factoryNormalLeavesTotal - factoryNormalTotal);
-
-            return $scope.model.data.getSuperLeavesQuantityTotal();
+        $scope.ui.getClientName = function (clientId) {
+            var client;
+            angular.forEach($scope.model.clients, function (value, key) {
+                if (value.indexNo === clientId) {
+                    client = value.name;
+                    return;
+                }
+            });
+            return client;
         };
 
-        $scope.ui.totalNormalLevesQty = function () {
-            return $scope.model.data.getNormalLeavesQuantityTotal();
+        $scope.ui.getTotalLeaves = function () {
+            $scope.model.total.insertSuperLeaveTotal = $scope.model.data.getLeavesQuantityTotal("superLeaves");
+            $scope.model.total.insertNormalLeaveTotal = $scope.model.data.getLeavesQuantityTotal("normalLeaves");
+
+            var factorySuperLeavesTotal = $scope.model.total.factorySuperLeavesTotal;
+            var factoryNormalLeavesTotal = $scope.model.total.factoryNormalLeavesTotal;
+
+            var superLeavesTotal = $scope.model.total.insertSuperLeaveTotal;
+            var normalLeavesTotal = $scope.model.total.insertNormalLeaveTotal;
+
+            $scope.model.total.defaranceSuperLeavesTotal = factorySuperLeavesTotal - superLeavesTotal;
+            $scope.model.total.defaranceNormalLeavesTotal = factoryNormalLeavesTotal - normalLeavesTotal;
         };
 
         //table selection function
         $scope.selectedRow = null;
-        $scope.ui.setClickedRow = function (index, route) {
+        $scope.ui.setClickedRow = function (index, routeIndex) {
             $scope.selectedRow = index;
-            $scope.model.data.route = route.indexNo;
+            $scope.model.data.route = routeIndex;
 
             //get selected row green leaves weight super leaves totala and normal leaves total
             var data = JSON.stringify($scope.model.data);
             GreenLeavesReceiveService.getSuperLeavesTotalAndNormalLeavesTotal(data)
                     .success(function (data, status, headers) {
-                        $scope.model.total.superLeavesTotal = parseFloat(data[0]);
-                        $scope.model.total.normalLeavesTotal = parseFloat(data[1]);
+                        if ($scope.model.data.date) {
+                            $scope.model.total.factorySuperLeavesTotal = data[0];
+                            $scope.model.total.factoryNormalLeavesTotal = data[1];
+                        } else {
+                            Notification.error("please select date");
+                        }
                     })
                     .error(function (data, status, headers) {
                     });
         };
+
+        $scope.ui.getGreenLeavesDetail = function (event, number) {
+            if (event.keyCode === 13) {
+                GreenLeavesReceiveService.loadGreenLeaveReceive(number)
+                        .success(function (data, status, headers) {
+                            $scope.ui.mode = "IDEAL";
+                            $scope.model.data.date = data[0].date;
+//                            $scope.ui.setClickedRow('', data[0].route);
+                            $scope.ui.getTotalLeaves();
+                            $scope.model.data.greenLeavesReceiveDetails = data[0].greenLeavesReceiveDetails;
+                        })
+                        .error(function (data, status, headers) {
+
+                        });
+            }
+
+
+        };
+
 
         $scope.ui.init = function () {
 
@@ -165,7 +204,7 @@
             $scope.model.data = new GreenLeavesReceiveModel();
 
             //set deafault date
-            $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+            //$scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 
             //load routes
             GreenLeavesReceiveService.loadRoutes()

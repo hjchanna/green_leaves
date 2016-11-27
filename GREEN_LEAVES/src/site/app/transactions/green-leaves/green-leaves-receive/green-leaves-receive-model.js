@@ -10,16 +10,7 @@
                             "number": null,
                             "date": null,
                             "transaction": null,
-                            "greenLeavesReceiveDetails": [
-//                            {
-//                                "indexNo": null,
-//                                "branch": null,
-//                                "greenLeavesReceive": null,
-//                                "normalLeavesQuantity": 0,
-//                                "superLeavesQuantity": 0,
-//                                "client": null
-//                            }
-                            ]
+                            "greenLeavesReceiveDetails": []
                         };
                     }
                     this.setData(data);
@@ -34,6 +25,7 @@
                         this.greenLeavesReceiveDetails.push(data);
                         return true;
                     },
+                    //edit receive detail
                     editRecieveDetail: function (index) {
                         var receiveDetail = this.greenLeavesReceiveDetails[index];
                         this.greenLeavesReceiveDetails.splice(index, 1);
@@ -43,29 +35,40 @@
                     deleteReceiveDetail: function (index) {
                         this.greenLeavesReceiveDetails.splice(index, 1);
                     },
-                    getSuperLeavesQuantityTotal: function () {
-                        var total = 0;
-                        for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
-                            total += parseInt(this.greenLeavesReceiveDetails[i].superLeavesQuantity);
+                    //super leaves and normal leaves
+                    getLeavesQuantityTotal: function (greenLeavesType) {
+                        if (greenLeavesType === 'superLeaves') {
+                            var total = 0;
+                            for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
+                                total += parseInt(this.greenLeavesReceiveDetails[i].superLeavesQuantity);
+                            }
+                            return total;
+                        } else {
+                            var total = 0;
+                            for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
+                                total += parseInt(this.greenLeavesReceiveDetails[i].normalLeavesQuantity);
+                            }
+                            return total;
                         }
-                        return total;
                     },
-                    getNormalLeavesQuantityTotal: function () {
-                        var total = 0;
+                    //receive detail duplicate check
+                    checkGreenLeavesReseveDetailDuplicate: function (clientIndexNo) {
                         for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
-                            total += parseInt(this.greenLeavesReceiveDetails[i].normalLeavesQuantity);
-                        }
-                        return total;
-                    },
-                    checkGreenLeavesReseveDetailDuplicate:function (clientIndexNo){
-                       for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
-                            if(clientIndexNo ===this.greenLeavesReceiveDetails[i].client){
+                            if (clientIndexNo === this.greenLeavesReceiveDetails[i].client) {
                                 return true;
                                 break;
-                            }else{
+                            } else {
                                 return false;
                                 break;
                             }
+                        }
+                    },
+                    //validate recive detail null - save fuction
+                    validateGreenLeavesReseveDetail: function () {
+                        if (this.greenLeavesReceiveDetails.length === 0) {
+                            return false;
+                        } else {
+                            return true;
                         }
                     }
                 };

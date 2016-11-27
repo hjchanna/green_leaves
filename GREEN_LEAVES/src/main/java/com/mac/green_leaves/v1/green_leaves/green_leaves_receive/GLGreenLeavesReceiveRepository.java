@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -13,4 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Don
  */
 public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeavesReceive, Integer> {
+
+    public List<TGreenLeavesReceive> findByNumber(Integer number);
 }

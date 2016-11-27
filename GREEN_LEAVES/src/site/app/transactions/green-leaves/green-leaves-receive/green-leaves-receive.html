@@ -20,7 +20,7 @@
             <div class="col-xs-12 smart-scroll-y" style="flex: 1 1 auto;">
                 <table class="table-hover table-primary">
                     <tbody>
-                        <tr ng-repeat="route in model.routes|filter:search" ng-class="{'selected':$index == selectedRow}" ng-click="ui.setClickedRow($index, route)">
+                        <tr ng-repeat="route in model.routes|filter:search" ng-class="{'selected':$index == selectedRow}" ng-click="ui.setClickedRow($index, route.indexNo)">
                             <td><span class="label label-primary">{{route.indexNo|fixedLength:5}}</span>&nbsp;&nbsp;&nbsp;{{route.name}}</td>
                         </tr>
                     </tbody>
@@ -38,7 +38,7 @@
                 <tr>
                     <td>&nbsp;</td>
                     <td>
-                        <input ng-model="model.data.transaction" smart-input="integer" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                        <input ng-model="model.data.number" ng-keypress="ui.getGreenLeavesDetail($event, model.data.number);" smart-input="integer" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                     </td>
                     <td>
                         <input id="date" ng-model="model.data.date" smart-input="date" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
@@ -84,7 +84,7 @@
                         <col style="width: 10%">
                         <tbody>
                             <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails">
-                                <td><div class="label label-default">{{greenLeavesReceiveDetails.clientModel.indexNo|fixedLength:5}}</div> {{greenLeavesReceiveDetails.clientModel.name}}</td>
+                                <td><div class="label label-default">{{greenLeavesReceiveDetails.client|fixedLength:5}}</div> {{ui.getClientName(greenLeavesReceiveDetails.client);}}</td>
                                 <td class="text-right">{{greenLeavesReceiveDetails.normalLeavesQuantity}}</td>
                                 <td class="text-right">{{greenLeavesReceiveDetails.superLeavesQuantity}}</td>
                                 <td>
@@ -106,14 +106,14 @@
                     <thead class="background-dark">
                         <tr>
                             <th>TOTAL QUANTITY</th>
-                            <th class="text-right">{{ui.totalNormalLevesQty()}}</th>
-                            <th class="text-right">{{ui.totalSuperLevesQty()}}</th>
+                            <th class="text-right">{{model.total.insertNormalLeaveTotal}}</th>
+                            <th class="text-right">{{model.total.insertSuperLeaveTotal}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>FACTORY QUANTITY</th>
-                            <th class="text-right">{{model.total.normalLeavesTotal}}</th>
-                            <th class="text-right">{{model.total.superLeavesTotal}}</th>
+                            <th class="text-right">{{model.total.factoryNormalLeavesTotal}}</th>
+                            <th class="text-right">{{model.total.factorySuperLeavesTotal}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
@@ -128,8 +128,10 @@
         </div>
     </div>
     <div class="fab-container">
-        <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
-        <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+        <!--new-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <!--save-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
     </div>
 </div>
 

@@ -7,6 +7,7 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,8 +28,11 @@ public class GLGreenLeavesReceiveService {
         for (TGreenLeavesReceiveDetail greenLeavesReceiveDetail : greenLeavesReceive.getGreenLeavesReceiveDetails()) {
             greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
         }
-
         TGreenLeavesReceive getGreenLeavesReceive = greenLeavesReceiveRepository.save(greenLeavesReceive);
         return getGreenLeavesReceive;
+    }
+
+    public List<TGreenLeavesReceive> greenLeavesReceiveList(Integer number) {
+        return greenLeavesReceiveRepository.findByNumber(number);
     }
 }

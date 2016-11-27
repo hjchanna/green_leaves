@@ -8,15 +8,33 @@
         $scope.model.requests = [];
         $scope.model.routes = [];
 
-        $scope.ui.getRoute = function () {
+        $scope.ui.getRoute = function (routeIndexNo) {
+            for (var i = 0; i < $scope.model.routes.length; i++) {
+                if (routeIndexNo === $scope.model.routes[i].indexNo) {
+                    return $scope.model.routes[i].name;
+                }
+            }
+        };
+        $scope.ui.getRequestCount = function (routeIndexNo) {
             for (var i = 0; i < $scope.model.requests.length; i++) {
-                for (var i = 0; i < $scope.model.routes.length; i++) {
-                    if ($scope.model.requests[i].route === $scope.model.routes[i].indexNo) {
-                        return $scope.model.routes[i];
-                        console.log($scope.model.routes[i]);
+                if (routeIndexNo === $scope.model.requests[i].route) {
+                    return $scope.model.requests[i].clientAdvanceRequestDetails.length;
+                }
+            }
+        };
+        
+        $scope.ui.getRequestAmount = function (routeIndexNo) {
+            var requestCount = 0;
+            var requestTotalAmount = 0;
+            for (var i = 0; i < $scope.model.requests.length; i++) {
+                if (routeIndexNo === $scope.model.requests[i].route) {
+                    requestCount = $scope.model.requests[i].clientAdvanceRequestDetails.length;
+                    for (var x = 0; x < requestCount; x++) {
+                        requestTotalAmount += $scope.model.requests[i].clientAdvanceRequestDetails[x].amount;
                     }
                 }
             }
+            return requestTotalAmount;
         };
 
         //init

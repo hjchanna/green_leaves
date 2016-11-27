@@ -30,7 +30,8 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaveW
 
     @Query(value = "SELECT MAX(number) FROM t_green_leave_weigh WHERE branch=:branch", nativeQuery = true)
     public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
+
     @Query(value = "SELECT sum(normal_total_weight) as total_normal_leaves_quantity, sum(super_total_weight) as total_super_leaves_quantity FROM t_green_leave_weigh where branch =:branch and route =:route and date =:date", nativeQuery = true)
-    public List<TGreenLeaveWeigh> findByBranchAndRouteAndDate(Integer branch, Integer route,Date date);
+    public List<Object[]> findByBranchAndRouteAndDate(@Param("branch") Integer branch, @Param("route") Integer route, @Param("date")@Temporal(TemporalType.DATE) Date date);
 
 }
