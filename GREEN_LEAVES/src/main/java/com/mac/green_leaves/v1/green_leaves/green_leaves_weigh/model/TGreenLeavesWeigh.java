@@ -27,8 +27,8 @@ import javax.validation.constraints.NotNull;
  * @author Mohan
  */
 @Entity
-@Table(name = "t_green_leave_weigh")
-public class TGreenLeaveWeigh implements Serializable {
+@Table(name = "t_green_leaves_weigh")
+public class TGreenLeavesWeigh implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -200,16 +200,16 @@ public class TGreenLeaveWeigh implements Serializable {
     private int vehicle;
 
     @OneToMany(mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
-    private Collection<TGreenLeaveWeighDetail> greenLeaveWeighDetails;
+    private Collection<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
 
-    public TGreenLeaveWeigh() {
+    public TGreenLeavesWeigh() {
     }
 
-    public TGreenLeaveWeigh(Integer indexNo) {
+    public TGreenLeavesWeigh(Integer indexNo) {
         this.indexNo = indexNo;
     }
 
-    public TGreenLeaveWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, int routeOfficer, int routeHelper, int vehicle) {
+    public TGreenLeavesWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, int routeOfficer, int routeHelper, int vehicle) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
@@ -509,11 +509,11 @@ public class TGreenLeaveWeigh implements Serializable {
         this.vehicle = vehicle;
     }
 
-    public Collection<TGreenLeaveWeighDetail> getGreenLeaveWeighDetails() {
+    public Collection<TGreenLeavesWeighDetail> getGreenLeaveWeighDetails() {
         return greenLeaveWeighDetails;
     }
 
-    public void setGreenLeaveWeighDetails(Collection<TGreenLeaveWeighDetail> greenLeaveWeighDetails) {
+    public void setGreenLeaveWeighDetails(Collection<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
         this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 
@@ -527,10 +527,10 @@ public class TGreenLeaveWeigh implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TGreenLeaveWeigh)) {
+        if (!(object instanceof TGreenLeavesWeigh)) {
             return false;
         }
-        TGreenLeaveWeigh other = (TGreenLeaveWeigh) object;
+        TGreenLeavesWeigh other = (TGreenLeavesWeigh) object;
         if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
             return false;
         }

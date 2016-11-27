@@ -6,10 +6,10 @@
     <class>com.mac.green_leaves.v1.green_leaves.zmaster.client.model.MClient</class>
     <class>com.mac.green_leaves.v1.green_leaves.zmaster.employee.model.MEmployee</class>
     <class>com.mac.green_leaves.v1.green_leaves.zmaster.vehicle.model.MVehicle</class>
-    <class>com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeaveWeighDetail</class>
-    <class>com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeaveWeigh</class>
     <class>com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest</class>
     <class>com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail</class>
+    <class>com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh</class>
+    <class>com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

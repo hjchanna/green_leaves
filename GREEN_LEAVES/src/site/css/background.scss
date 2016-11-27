@@ -12,3 +12,27 @@
 .background-light{
     background-color: $bg-light-color;
 }
+
+.background-default{
+    background-color: $default-color !important; 
+}
+
+.background-primary{
+    background-color: $primary-color !important; 
+}
+
+.background-info{
+    background-color: $info-color !important; 
+}
+
+.background-success{
+    background-color: $success-color !important; 
+}
+
+.background-warning{
+    background-color: $warning-color !important; 
+}
+
+.background-danger{
+    background-color: $danger-color !important; 
+}

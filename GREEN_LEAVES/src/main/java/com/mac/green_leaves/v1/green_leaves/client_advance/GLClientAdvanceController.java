@@ -49,8 +49,20 @@ public class GLClientAdvanceController {
         clientAdvanceService.deleteAdvanceRequestDetail(indexNo);
     }
 
+//    approve ------------------------------------------------------------------
     @RequestMapping(value = "/pending-requests")
     public List<TClientAdvanceRequest> getPendingAdvanceRequests() {
         return clientAdvanceService.getPendingAdvanceRequests(BRANCH);
     }
+
+    @RequestMapping(value = "/approve-request-detail/{indexNo}")
+    public void approveAdvanceRequestDetail(@PathVariable Integer indexNo) {
+        clientAdvanceService.approveAdvanceRequestDetail(indexNo);
+    }
+
+    @RequestMapping(value = "/reject-request-detail/{indexNo}")
+    public void rejectAdvanceRequestDetail(@PathVariable Integer indexNo) {
+        clientAdvanceService.rejectAdvanceRequestDetail(indexNo);
+    }
+
 }

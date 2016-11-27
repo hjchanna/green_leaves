@@ -6,7 +6,6 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

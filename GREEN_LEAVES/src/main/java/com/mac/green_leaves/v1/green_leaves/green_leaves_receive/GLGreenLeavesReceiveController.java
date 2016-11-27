@@ -12,8 +12,9 @@
 package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
-import java.util.List;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,19 +31,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/green-leaves/green-leaves-receive")
 public class GLGreenLeavesReceiveController {
 
+    private static final Integer branch = 1;
+
     @Autowired
     private GLGreenLeavesReceiveService greenLeavesReceiveService;
 
-    @RequestMapping(value = "/get-detail/{number}",method = RequestMethod.GET)
-    public List<TGreenLeavesReceive> greenLeavesReceiveList(@PathVariable Integer number) {
-        return greenLeavesReceiveService.greenLeavesReceiveList(number);
+    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
+    public TGreenLeavesReceive getReceive(@PathVariable Integer number) {
+        return greenLeavesReceiveService.getReceive(branch, number);
     }
 
-    @RequestMapping(value = "/save-green-leaves-receive", method = RequestMethod.POST)
-    public TGreenLeavesReceive saveGreenLeavesReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
-        greenLeavesReceive.setNumber(1);
-        greenLeavesReceive.setTransaction(1);
-        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+    @RequestMapping(value = "/save-receive", method = RequestMethod.POST)
+    public Integer saveReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
+        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive, branch);
+    }
+
+    @RequestMapping(value = "/get-factory-quantity/{route}/{date}", method = RequestMethod.GET)
+    public Object[] getTotalSuperLeavesAndNormalLeaves(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return greenLeavesReceiveService.getTotalSuperLeavesAndNormalLeaves(branch, route, date);
     }
 
 }

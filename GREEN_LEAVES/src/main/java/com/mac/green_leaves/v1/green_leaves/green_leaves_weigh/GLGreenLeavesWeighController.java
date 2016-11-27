@@ -11,8 +11,8 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
-import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeaveWeigh;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeaveWeighDetail;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
 import java.math.BigDecimal;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +40,19 @@ public class GLGreenLeavesWeighController {
     private final Integer ROUTE = 1;
 
     @RequestMapping(value = "/{number}", method = RequestMethod.GET)
-    public TGreenLeaveWeigh getSummary(@PathVariable Integer number) {
+    public TGreenLeavesWeigh getSummary(@PathVariable Integer number) {
         return greenLeavesWeighService.getSummary(number);
     }
 //
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
-    public Integer saveSummary(@RequestBody TGreenLeaveWeigh greenLeaveWeigh) {
+    public Integer saveSummary(@RequestBody TGreenLeavesWeigh greenLeaveWeigh) {
         greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
         return greenLeaveWeigh.getIndexNo();
     }
 
     @RequestMapping(value = "/insert-detail/{weighIndexNo}", method = RequestMethod.POST)
-    public Integer insertWeigh(@PathVariable Integer weighIndexNo, @RequestBody TGreenLeaveWeighDetail greenLeaveWeighDetail) {
+    public Integer insertWeigh(@PathVariable Integer weighIndexNo, @RequestBody TGreenLeavesWeighDetail greenLeaveWeighDetail) {
         greenLeaveWeighDetail = greenLeavesWeighService.insertWeigh(weighIndexNo, greenLeaveWeighDetail);
         return greenLeaveWeighDetail.getIndexNo();
     }
@@ -61,10 +61,5 @@ public class GLGreenLeavesWeighController {
     public Integer deleteWeigh(@PathVariable Integer indexNo) {
         greenLeavesWeighService.deleteWeigh(indexNo);
         return indexNo;
-    }
-
-    @RequestMapping(value = "/get-total-leaves", method = RequestMethod.POST)
-    public Object[] getTotalLeaves(@RequestBody TGreenLeaveWeigh greenLeaveWeigh) { 
-        return greenLeavesWeighService.getTotalSuperLeavesAndNormalLeaves(BRANCH, greenLeaveWeigh.getRoute(), greenLeaveWeigh.getDate());
     }
 }

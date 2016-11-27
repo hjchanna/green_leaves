@@ -26,8 +26,8 @@ import javax.validation.constraints.Size;
  * @author Mohan
  */
 @Entity
-@Table(name = "t_green_leave_weigh_detail")
-public class TGreenLeaveWeighDetail implements Serializable {
+@Table(name = "t_green_leaves_weigh_detail")
+public class TGreenLeavesWeighDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -66,16 +66,16 @@ public class TGreenLeaveWeighDetail implements Serializable {
     @JsonIgnore
     @JoinColumn(name = "green_leaves_weigh", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private TGreenLeaveWeigh greenLeavesWeigh;
+    private TGreenLeavesWeigh greenLeavesWeigh;
 
-    public TGreenLeaveWeighDetail() {
+    public TGreenLeavesWeighDetail() {
     }
 
-    public TGreenLeaveWeighDetail(Integer indexNo) {
+    public TGreenLeavesWeighDetail(Integer indexNo) {
         this.indexNo = indexNo;
     }
 
-    public TGreenLeaveWeighDetail(Integer indexNo, BigDecimal quantity, int crates, int bags, int polyBags, String type) {
+    public TGreenLeavesWeighDetail(Integer indexNo, BigDecimal quantity, int crates, int bags, int polyBags, String type) {
         this.indexNo = indexNo;
         this.quantity = quantity;
         this.crates = crates;
@@ -132,11 +132,11 @@ public class TGreenLeaveWeighDetail implements Serializable {
         this.type = type;
     }
 
-    public TGreenLeaveWeigh getGreenLeavesWeigh() {
+    public TGreenLeavesWeigh getGreenLeavesWeigh() {
         return greenLeavesWeigh;
     }
 
-    public void setGreenLeavesWeigh(TGreenLeaveWeigh greenLeavesWeigh) {
+    public void setGreenLeavesWeigh(TGreenLeavesWeigh greenLeavesWeigh) {
         this.greenLeavesWeigh = greenLeavesWeigh;
     }
 
@@ -150,10 +150,10 @@ public class TGreenLeaveWeighDetail implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TGreenLeaveWeighDetail)) {
+        if (!(object instanceof TGreenLeavesWeighDetail)) {
             return false;
         }
-        TGreenLeaveWeighDetail other = (TGreenLeaveWeighDetail) object;
+        TGreenLeavesWeighDetail other = (TGreenLeavesWeighDetail) object;
         if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
             return false;
         }

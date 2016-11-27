@@ -20,7 +20,7 @@
             <div class="col-xs-12 smart-scroll-y" style="flex: 1 1 auto;">
                 <table class="table-hover table-primary">
                     <tbody>
-                        <tr ng-repeat="route in model.routes|filter:search" ng-class="{'selected':$index == selectedRow}" ng-click="ui.setClickedRow($index, route.indexNo)">
+                        <tr ng-repeat="route in model.routes|filter:search" ng-class="route.indexNo === model.data.route ? 'selected' : ''" ng-click="ui.selectRoute(route.indexNo)">
                             <td><span class="label label-primary">{{route.indexNo|fixedLength:5}}</span>&nbsp;&nbsp;&nbsp;{{route.name}}</td>
                         </tr>
                     </tbody>
@@ -38,10 +38,10 @@
                 <tr>
                     <td>&nbsp;</td>
                     <td>
-                        <input ng-model="model.data.number" ng-keypress="ui.getGreenLeavesDetail($event, model.data.number);" smart-input="integer" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                        <input id="date" class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">
                     </td>
                     <td>
-                        <input id="date" ng-model="model.data.date" smart-input="date" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                        <input class="form-control" smart-input="integer" ng-model="model.data.number" ng-disabled="ui.mode === 'EDIT'">
                     </td>
                 </tr>
             </tbody>
@@ -53,51 +53,56 @@
                     <col style="width: 50%">
                     <col style="width: 20%">
                     <col style="width: 20%">
-                    <col style="width: 12%">
+                    <col style="width: 10%">
                     <thead class="background-dark">
                         <tr>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10"  typeahead-input-formatter="ui.getClientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
-                                <input type="text" smart-input="integer" class="form-control text-right" ng-model="model.tempData.normalLeavesQuantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input type="text" smart-input="integer" class="form-control text-right" ng-model="model.tempData.normalLeavesQuantity" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>SUPER</label>
                                 <form ng-submit="ui.insertDetail();">
-                                    <input type="text" smart-input="integer" class="form-control text-right" ng-model="model.tempData.superLeavesQuantity" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <input type="text" smart-input="integer" class="form-control text-right" ng-model="model.tempData.superLeavesQuantity" ng-disabled="ui.mode !== 'EDIT'">
                                 </form>
                             </th>
-                            <th>
-                                <button class="btn btn-primary" ng-click="ui.insertTableData();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
+                            <th style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px">
+                                <button class="btn btn-primary" ng-click="ui.addDetail();" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
                             </th>
                         </tr>
                     </thead>
                 </table>
-                <div class="smart-scroll-y" style="padding-right: 5px; height: calc(100vh - 315px);">
-                    <table class="table-hover">
-                        <col style="width: 50%">
-                        <col style="width: 20%">
-                        <col style="width: 20%">
-                        <col style="width: 10%">
-                        <tbody>
-                            <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails">
-                                <td><div class="label label-default">{{greenLeavesReceiveDetails.client|fixedLength:5}}</div> {{ui.getClientName(greenLeavesReceiveDetails.client);}}</td>
-                                <td class="text-right">{{greenLeavesReceiveDetails.normalLeavesQuantity}}</td>
-                                <td class="text-right">{{greenLeavesReceiveDetails.superLeavesQuantity}}</td>
-                                <td>
-                                    <a class="btn btn-default" ng-click="ui.editTableData($index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteTableData($index);"><span class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!--                <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);" ng-hide="getRowData().length">
-                                    <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
-                                </div>-->
+            </div>
 
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 315px);" ng-show="model.data.greenLeavesReceiveDetails.length">
+                <table class="table-hover">
+                    <col style="width: 50%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                    <col style="width: 10%">
+                    <tbody>
+                        <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails" >
+                            <td><div class="label label-default">{{model.client(greenLeavesReceiveDetails.client).indexNo | fixedLength:5}}</div> {{model.client(greenLeavesReceiveDetails.client).name}}</td>
+                            <td class="text-right">{{greenLeavesReceiveDetails.normalLeavesQuantity|number:2}}</td>
+                            <td class="text-right">{{greenLeavesReceiveDetails.superLeavesQuantity|number:2}}</td>
+                            <td>
+                                <a class="btn btn-default" ng-click="ui.editDetail($index);"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger"  ng-click="ui.deleteDetail($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);" ng-hide="model.data.greenLeavesReceiveDetails.length">
+                <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
+            </div>
+
+            <div class="col-xs-12">
                 <table style="padding-right: 10px;">
                     <col style="width: 50%">
                     <col style="width: 20%">
@@ -106,20 +111,20 @@
                     <thead class="background-dark">
                         <tr>
                             <th>TOTAL QUANTITY</th>
-                            <th class="text-right">{{model.total.insertNormalLeaveTotal}}</th>
-                            <th class="text-right">{{model.total.insertSuperLeaveTotal}}</th>
+                            <th class="text-right">{{model.totalQuantity[0]|number:2}}</th>
+                            <th class="text-right">{{model.totalQuantity[1]|number:2}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>FACTORY QUANTITY</th>
-                            <th class="text-right">{{model.total.factoryNormalLeavesTotal}}</th>
-                            <th class="text-right">{{model.total.factorySuperLeavesTotal}}</th>
+                            <th class="text-right">{{model.factoryQuantity[0]|number:2}}</th>
+                            <th class="text-right">{{model.factoryQuantity[1]|number:2}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                         <tr>
                             <th>DIFFERENCE QUANTITY</th>
-                            <th class="text-right">{{model.total.defaranceNormalLeavesTotal}}</th>
-                            <th class="text-right">{{model.total.defaranceSuperLeavesTotal}}</th>
+                            <th class="text-right">{{model.differenceQuantity[0]|number:2}}</th>
+                            <th class="text-right">{{model.differenceQuantity[1]|number:2}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
                     </thead>
@@ -128,14 +133,11 @@
         </div>
     </div>
     <div class="fab-container">
-        <!--new-->
-        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
-        <!--save-->
-        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+        <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+        <a class="fab fab-danger" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
     </div>
 </div>
-
-
-<!--<div class="index-content-footer">
-    content footer
-</div>-->
