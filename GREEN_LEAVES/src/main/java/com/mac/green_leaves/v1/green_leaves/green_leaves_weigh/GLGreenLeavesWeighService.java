@@ -95,10 +95,12 @@ public class GLGreenLeavesWeighService {
         TGreenLeavesWeighDetail greenLeaveWeighDetail = greenLeavesWeighDetailRepository.getOne(indexNo);
         Integer greenLeaveWeighIndexNo = greenLeaveWeighDetail.getGreenLeavesWeigh().getIndexNo();
 
-        greenLeavesWeighDetailRepository.delete(greenLeaveWeighDetail);
 
         TGreenLeavesWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeighIndexNo);
+
         greenLeaveWeigh.getGreenLeaveWeighDetails().remove(greenLeaveWeighDetail);
+        greenLeavesWeighDetailRepository.delete(greenLeaveWeighDetail);
+
         validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(greenLeaveWeigh);
     }

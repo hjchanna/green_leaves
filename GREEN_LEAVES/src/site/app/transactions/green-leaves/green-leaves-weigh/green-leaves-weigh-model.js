@@ -99,6 +99,7 @@
                             }
 
                             that.data.greenLeaveWeighDetails.splice(id, 1);
+                            that.validate();
                         });
             },
 

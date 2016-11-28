@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -200,7 +201,7 @@ public class TGreenLeavesWeigh implements Serializable {
     private int vehicle;
 
     @OneToMany(mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
-    private Collection<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
+    private Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
 
     public TGreenLeavesWeigh() {
     }
@@ -509,11 +510,11 @@ public class TGreenLeavesWeigh implements Serializable {
         this.vehicle = vehicle;
     }
 
-    public Collection<TGreenLeavesWeighDetail> getGreenLeaveWeighDetails() {
+    public Set<TGreenLeavesWeighDetail> getGreenLeaveWeighDetails() {
         return greenLeaveWeighDetails;
     }
 
-    public void setGreenLeaveWeighDetails(Collection<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
+    public void setGreenLeaveWeighDetails(Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
         this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 

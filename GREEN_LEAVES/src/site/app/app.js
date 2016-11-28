@@ -144,8 +144,24 @@
 //                });
 //            });
 //
+
+//    angular.module("appModule")
+//            .service("ScheduleService", function ($http, $interval, $rootScope, systemConfig) {
+//                this.start = function () {
+//                    $interval(function () {
+//                        $http.get(systemConfig.apiUrl + "/api/v1/system/environment/system-date")
+//                                .success(function (data) {
+//                                    $rootScope.date = new Date(data);
+//                                    console.log($rootScope.date);
+//                                });
+//                    }, 1000);
+//                };
+//            });
+
     angular.module("appModule")
-            .controller("appController", function ($scope, $timeout) {
+            .controller("appController", function ($scope, $interval) {
+//                ScheduleService.start();
+
                 $scope.hamburgerOpen = false;
 
                 $scope.toggleHamburger = function () {

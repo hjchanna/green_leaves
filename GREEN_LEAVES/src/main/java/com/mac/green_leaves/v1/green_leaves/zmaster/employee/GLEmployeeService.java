@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.zmaster.employee;
 
-import com.mac.green_leaves.v1.system.Types;
+import com.mac.green_leaves.v1.master.Types;
 import com.mac.green_leaves.v1.green_leaves.zmaster.employee.model.MEmployee;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -90,7 +90,7 @@
                                             <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
                                             <td class="text-center" style="padding-left: 5px;">
-                                                <a class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-minus"></span></a>
+                                                <button class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-minus"></span></button>
                                             </td>
                                         </tr>
                                     </tbody>
