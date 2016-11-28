@@ -13,7 +13,7 @@
                             <tbody>
                                 <tr>
                                     <td><label class="control-label"> Product No*: </label></td>
-                                    <td><input id="productNo" type="text" class="form-control" ng-model="model.data.productNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input id="productNo" smart-input="integer" class="form-control" ng-model="model.data.productNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Name*: </label></td>
@@ -64,7 +64,7 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Sale Price* </label></td>
-                                    <td><input smart-input="integer" class="form-control" ng-model="model.data.salePrice" ng-click="ui.keyEvent($event)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input smart-input="integer" class="form-control" ng-model="model.data.salePrice" ng-keypress="ui.keyEvent($event)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                             </tbody>
                         </table>

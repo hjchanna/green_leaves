@@ -5,7 +5,6 @@
  */
 package com.mac.green_leaves.v1.green_leaves.zmaster.client;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.green_leaves.zmaster.client.model.MClient;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,11 @@ public class GLClientService {
 
     public List<MClient> findByBranch(Integer branch) {
         return clientRepository.findByBranch(branch);
+    }
+
+    public Integer deleteCustomer(Integer indexNo) {
+        clientRepository.delete(indexNo);
+        return indexNo;
     }
 
 }

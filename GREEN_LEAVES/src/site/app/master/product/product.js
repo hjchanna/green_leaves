@@ -203,9 +203,10 @@
                     });
                 };
 
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
-                       console.log("dasdsaas");
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
+                        $scope.ui.save();
                     }
                 };
 

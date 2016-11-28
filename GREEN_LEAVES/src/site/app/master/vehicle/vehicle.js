@@ -73,7 +73,7 @@
                 };
                 //load Vehicle Owner
                 factory.loadEmployeeList = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/employees";
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/employee";
 
                     $http.get(url)
                             .success(function (data, status, headers) {
@@ -408,6 +408,7 @@
                     });
                     //load vehicle Owner
                     vehicleFactory.loadVehicleOwner(function (data) {
+                        console.log(data);
                         $scope.model.vehicleOwnerList = data;
                     });
 

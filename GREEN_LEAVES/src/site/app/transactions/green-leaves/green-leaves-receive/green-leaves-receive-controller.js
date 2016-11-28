@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, GreenLeavesReceiveModel) {
+    var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel) {
         $scope.model = new GreenLeavesReceiveModel();
 
         $scope.ui = {};
@@ -19,11 +19,15 @@
 
         };
 
-        $scope.ui.load = function () {
-            $scope.model.load()
-                    .then(function () {
-                        $scope.ui.mode = "SELECTED";
-                    });
+        $scope.ui.load = function (e) {
+            var code = e ? e.keyCode || e.which : 13;
+
+            if (code === 13) {
+                $scope.model.load()
+                        .then(function () {
+                            $scope.ui.mode = "SELECTED";
+                        });
+            }
         };
 
         $scope.ui.save = function () {
@@ -77,8 +81,6 @@
             $scope.ui.mode = "IDEAL";
 
             $scope.$watch("model.data.route", function (newValue, oldValue) {
-                console.log('route chaanged' + newValue + "," + oldValue);
-                console.log($scope.model.route);
                 $scope.ui.loadFactoryQuantity();
             });
 

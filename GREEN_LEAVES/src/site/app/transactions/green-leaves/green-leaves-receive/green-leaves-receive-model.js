@@ -38,7 +38,6 @@
                     },
                     addDetail: function () {
                         var defer = $q.defer();
-                        console.log(this.tempData);
                         if (this.tempData.client
                                 && parseInt(this.tempData.normalLeavesQuantity + this.tempData.superLeavesQuantity) > 0) {
                             this.data.greenLeavesReceiveDetails.push(this.tempData);

@@ -89,8 +89,8 @@
                 //reset model
                 $scope.model.reset = function () {
                     $scope.model.data = {
-                        active:true,
-                        blackListed:true
+                        active: true,
+                        blackListed: true
                     };
                 };
 
@@ -106,20 +106,20 @@
                     }, 10);
                 };
 
-                $scope.ui.edit = function (supplier,$index) {
+                $scope.ui.edit = function (supplier, $index) {
                     $scope.ui.mode = "EDIT";
                     $scope.model.data = supplier;
                     //holder set
-                    if($scope.model.data.holder){
+                    if ($scope.model.data.holder) {
                         $scope.holder = true;
-                    }else{
+                    } else {
                         $scope.holder = false;
                         $scope.model.data.holderNumber = null;
                     }
                     //married set
-                    if($scope.model.data.married){
+                    if ($scope.model.data.married) {
                         $scope.married = true;
-                    }else{
+                    } else {
                         $scope.married = false;
                     }
                     $scope.model.supplier.splice($index, 1);
@@ -164,8 +164,9 @@
                     }
                 };
 
-                $scope.ui.tabChnage = function (event) {
-                    if (event.keyCode === 13) {
+                $scope.ui.tabChnage = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
                         $scope.indextab = 1;
                         $timeout(function () {
                             document.querySelectorAll("#registerDate")[0].focus();
@@ -173,8 +174,9 @@
                     }
                 };
 
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
                         $scope.ui.save();
                     }
                 };
@@ -229,7 +231,7 @@
 
                     //reset model
                     $scope.model.reset();
-                    
+
                     $scope.ui.changeDefault();
 
                     //loadRoute

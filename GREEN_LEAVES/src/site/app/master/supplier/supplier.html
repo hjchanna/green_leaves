@@ -18,7 +18,7 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">Mobile* :</label></td>
-                        <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" onlyDigits></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Telephone* :</label></td>
