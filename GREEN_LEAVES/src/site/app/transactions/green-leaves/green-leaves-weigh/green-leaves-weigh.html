@@ -11,7 +11,7 @@
 
                     <tbody>
                         <tr>
-                            <td><input id="route" class="form-control" smart-input="text"  ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)"></td>
+                            <td><input id="route" class="form-control" smart-input="text" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)"></td>
                             <td><input class="form-control" smart-input="date"  ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'"></td>
                             <td><input class="form-control" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event)" ng-disabled="ui.mode === 'EDIT'"></td>
                         </tr>

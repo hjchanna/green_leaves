@@ -1,7 +1,7 @@
 <h1>HOME PAGE</h1>
 
 <div class="">
-    <a class="btn btn-default" ng-click="default();">DEFAULT</a>
+    <a class="btn btn-default" ng-click="defaultA();" tooltip="Iudico aperiam scripserit">DEFAULT</a>
     <a class="btn btn-primary" ng-click="primary();">PRIMARY</a>
     <a class="btn btn-info" ng-click="info();">INFO</a>
     <a class="btn btn-success" ng-click="success();">SUCCESS</a>
@@ -12,7 +12,7 @@
 <br>
 
 <div class="col-xs-3">
-    <input smart-input="decimal" class="form-control" ng-model="a" focus>
+    <input smart-input="decimal" class="form-control" ng-model="a" focus tooltip="Iudico aperiam scripserit">
     {{a}}
     <input smart-input="integer" class="form-control" ng-model="b" focus>
     {{b}}

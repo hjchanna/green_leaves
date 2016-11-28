@@ -18,7 +18,6 @@
 
     angular.module("appModule").service("rippleService", function ($timeout) {
         this.ripple = function (scope, element, attrs) {
-
             if (typeof scope.show === 'undefined') {
                 element.bind('click', function (event) {
                     event.preventDefault();

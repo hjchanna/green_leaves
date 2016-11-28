@@ -1,0 +1,39 @@
+@import "mixins/variables.scss";
+
+.input-hint {
+    display: none;
+    position: absolute;
+    background-color: $bg-ultra-dark-color;
+    padding: 7px 10px;
+    max-width: 250px;
+    border-radius: 4px;
+    color: $light-font-color;
+}
+
+.input-hint-show {
+    display: inherit;
+}
+
+.input-hint-arrow {
+    position: absolute;
+    width: 0;
+    height: 0; 
+}
+
+.input-hint-down .input-hint-arrow {
+    top: -5px;
+    left: 50%;
+    margin-left: -5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid $bg-ultra-dark-color-border;
+}
+
+.input-hint-up .input-hint-arrow {
+    bottom: -5px;
+    left: 50%;
+    margin-left: -5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid $bg-ultra-dark-color-border;
+}
