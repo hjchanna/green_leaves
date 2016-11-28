@@ -97,6 +97,7 @@
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
+                    $scope.ui.forcuse();
                 };
 
                 $scope.ui.forcuse = function () {

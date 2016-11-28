@@ -11,13 +11,13 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input id="route" class="form-control" smart-input="text" ng-model="model.data.route" uib-typeahead="route.indexNo as (route.indexNo + '-' + route.name) for route in model.routes|filter:$viewValue|limitTo:10"  typeahead-input-formatter="ui.getRouteLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="route" class="form-control" smart-input="text" ng-model="model.data.route"  input-hint="route"  uib-typeahead="route.indexNo as (route.indexNo + '-' + route.name) for route in model.routes|filter:$viewValue|limitTo:10"  typeahead-input-formatter="ui.getRouteLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
                                 <input class="form-control" smart-input="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
-                                <input class="form-control" smart-input="integer" ng-model="model.data.number" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
+                                <input class="form-control"  input-hint="transaction number" smart-input="integer" ng-model="model.data.number" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
