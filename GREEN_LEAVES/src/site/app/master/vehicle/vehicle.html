@@ -37,11 +37,11 @@
                             </tr>
                             <tr>
                                 <td><label class="control-label">Owner Name *</label></td>
-                                <td><input id="ownerName" class="form-control" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+' - '+owner.name) for owner in model.vehicleOwnerList|filter:$viewValue|limitTo:10"></td>
+                                <td><input id="ownerName" class="form-control" ng-model="model.vehicle.vehicleOwner" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (owner.indexNo+' - '+owner.name) for owner in model.vehicleOwnerList|filter:{name:$viewValue}|limitTo:10"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Driver Name *</label></td>
-                                <td><input id="driverName" class="form-control" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+' - '+driver.name) for driver in model.drivers|filter:$viewValue|filter:{type:'DRIVER'}|limitTo:10"></td>
+                                <td><input id="driverName" class="form-control" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+' - '+driver.name) for driver in model.drivers|filter:{name:$viewValue}|filter:{type:'DRIVER'}|limitTo:10"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -128,18 +128,18 @@
                             </tr>
                             <tr>
                                 <td><label class="control-label">Mobile *</label></td>
-                                <td><input id="mobileNo" smart-input="integer" class="form-control" ng-model="model.vehicleOwner.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><input id="mobileNo" smart-input="integer" class="form-control text-right" ng-model="model.vehicleOwner.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
-                                <td><label class="control-label">T.P</label></td>
-                                <td><input class="form-control" ng-model="model.vehicleOwner.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                <td><label class="control-label">Telephone</label></td>
+                                <td><input class="form-control text-right" smart-input="integer"  ng-model="model.vehicleOwner.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                             </tr>
                             <tr>
                                 <td><label class="control-label">Address</label></td>
                                 <td>
                                     <input class="form-control" ng-model="model.vehicleOwner.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                     <input class="form-control" ng-model="model.vehicleOwner.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                                    <input class="form-control" ng-model="model.vehicleOwner.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <input class="form-control" ng-model="model.vehicleOwner.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event)">
                                 </td>
                             </tr>
 
