@@ -77,7 +77,7 @@
 
                 //------------------ validation functions ------------------------------
                 $scope.validateInput = function () {
-                    if ($scope.model.category.name !== null) {
+                    if ($scope.model.category.name) {
                         return true;
                     } else {
                         return false;
