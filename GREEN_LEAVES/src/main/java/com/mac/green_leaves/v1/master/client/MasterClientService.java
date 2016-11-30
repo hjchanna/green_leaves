@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class MasterClientService {
- @Autowired
+
+    @Autowired
     private MasterClientRepository masterClientRepository;
 
     public List<MClient> findByBranch(Integer branch) {
@@ -35,6 +36,8 @@ public class MasterClientService {
         } else {
             if (getClient.getIndexNo().equals(client.getIndexNo())) {
                 return masterClientRepository.save(client);
+            } else if (getClient.getClientNumber() == client.getClientNumber()) {
+                throw new DuplicateEntityException("client already exists");
             }
             throw new DuplicateEntityException("client already exists");
         }

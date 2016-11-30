@@ -85,6 +85,11 @@
                     "none2"
                 ];
 
+                //convert lovercase to uppercase 
+                $scope.$watch('model.data.nicNumber', function (val) {
+                    $scope.model.data.nicNumber = $filter('uppercase')(val);
+                }, true);
+
                 //------------------ model functions ---------------------------
                 //reset model
                 $scope.model.reset = function () {
@@ -123,6 +128,7 @@
                         $scope.married = false;
                     }
                     $scope.model.supplier.splice($index, 1);
+                    $scope.ui.forcuse();
                 };
 
                 $scope.ui.delete = function (indexNo, index) {
@@ -191,7 +197,7 @@
                     clientFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success("success" + data.indexNo);
+                                Notification.success(data.indexNo +"-"+ "Client Save Successfully.");
                                 //reset model
                                 $scope.model.supplier.push(data);
                                 $scope.model.reset();
@@ -199,6 +205,7 @@
                                 $scope.ui.forcuse();
                             },
                             function (data) {
+                                $scope.ui.forcuse();
                                 Notification.error(data.message);
                             }
                     );
@@ -213,7 +220,7 @@
                                 id = i;
                             }
                         }
-                        Notification.success("delete successfully.");
+                        Notification.success(indexNo +"-"+ "Client Delete Successfully.");
                         $scope.model.supplier.splice(id, 1);
                     });
                 };
