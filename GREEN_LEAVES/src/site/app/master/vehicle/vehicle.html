@@ -41,7 +41,7 @@
                             </tr>
                             <tr>
                                 <td><label class="control-label">Driver Name *</label></td>
-                                <td><input id="driverName" class="form-control" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+' - '+driver.name) for driver in model.drivers|filter:{name:$viewValue}|filter:{type:'DRIVER'}|limitTo:10"></td>
+                                <td><input id="driverName" class="form-control" ng-model="model.vehicle.driver" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="driver as (driver.indexNo+' - '+driver.name) for driver in model.drivers|filter:{name:$viewValue}|filter:{type:'DRIVER'}|limitTo:10" ng-keypress="ui.keyEvent($event)"></td>
                             </tr>
                         </tbody>
                     </table>

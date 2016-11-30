@@ -235,15 +235,15 @@
                         $scope.ui.validateInfo.textForcus = "#type";
                         return $scope.ui.validateInfo;
                     }
-                    if (!$scope.model.vehicle.vehicleOwner) {
+                    if (!$scope.model.vehicle.vehicleOwner.indexNo) {
                         $scope.ui.validateInfo.isError = true;
-                        $scope.ui.validateInfo.errorMessage = "Select Vehicle Owner to Save";
+                        $scope.ui.validateInfo.errorMessage = "Please select valid Vehicle Owner to Save";
                         $scope.ui.validateInfo.textForcus = "#ownerName";
                         return $scope.ui.validateInfo;
                     }
-                    if (!$scope.model.vehicle.driver) {
+                    if (!$scope.model.vehicle.driver.indexNo) {
                         $scope.ui.validateInfo.isError = true;
-                        $scope.ui.validateInfo.errorMessage = "Select Driver to Save";
+                        $scope.ui.validateInfo.errorMessage = "Please select valid Select Driver to Save";
                         $scope.ui.validateInfo.textForcus = "#driverName";
                         return $scope.ui.validateInfo;
                     }
@@ -344,7 +344,7 @@
 
                 $scope.http.deleteVehicle = function (indexNo, index) {
                     vehicleFactory.deleteVehicle(indexNo, function () {
-                        Notification.success("delete success");
+                        Notification.success(indexNo + "-" + 'Vehilce Delete Successfully.');
                         $scope.model.vehicles.splice(index, 1);
                     });
                 };
