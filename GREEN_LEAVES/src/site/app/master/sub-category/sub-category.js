@@ -32,14 +32,16 @@
                 };
 
                 //delete funtion
-                factory.deleteSubCategory = function (indexNo, callback) {
+                factory.deleteSubCategory = function (indexNo, callback,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/delete-sub-category/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
                 return factory;
@@ -68,7 +70,6 @@
                 $scope.model.reset = function () {
                     $scope.model.subCategory = {
                         "indexNo": null,
-                        "category": null,
                         "name": null
                     };
                 };
@@ -84,9 +85,13 @@
 
                 //----------http funtion----------------
                 $scope.http.deleteSubCategory = function (IndexNo, index) {
-                    subCategoryFactory.deleteSubCategory(IndexNo, function () {
+                    subCategoryFactory.deleteSubCategory(IndexNo
+                    , function () {
                         Notification.success(IndexNo+" - " +"Sub Category Delete Successfully");
                         $scope.model.subCategoryList.splice(index, 1);
+                    }
+                    ,function (data){
+                        Notification.error(data);
                     });
                 };
 
@@ -118,6 +123,7 @@
                         $scope.http.saveSubCategory();
                     } else {
                         Notification.error("Please Input Details");
+                        $scope.ui.focus();
                     }
                 };
 

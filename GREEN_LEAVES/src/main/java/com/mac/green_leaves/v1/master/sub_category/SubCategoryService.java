@@ -50,6 +50,10 @@ public class SubCategoryService {
     }
 
     public void deleteSubCategory(Integer indexNo) {
-        subCategoryRepository.delete(indexNo);
+        try {
+            subCategoryRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw  new RuntimeException("Cannot delete this sub category because there are details in other transaction");
+        }
     }
 }

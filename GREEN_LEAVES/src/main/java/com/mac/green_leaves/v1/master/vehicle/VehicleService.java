@@ -5,7 +5,6 @@
  */
 package com.mac.green_leaves.v1.master.vehicle;
 
-
 import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.vehicle.model.MVehicle;
 import java.util.List;
@@ -29,7 +28,7 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
-    private MVehicle findByVehicleNo(String vehicleNo,String chassisNo,String engineNo) {
+    private MVehicle findByVehicleNo(String vehicleNo, String chassisNo, String engineNo) {
         List<MVehicle> vehicles = vehicleRepository.findByVehicleNoOrChassisNoOrEngineNo(vehicleNo, chassisNo, engineNo);
         if (vehicles.isEmpty()) {
             return null;
@@ -38,19 +37,25 @@ public class VehicleService {
     }
 
     public MVehicle saveVehicle(MVehicle vehicle) {
-        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo(),vehicle.getChassisNo(),vehicle.getEngineNo());
+        MVehicle mVehicle = findByVehicleNo(vehicle.getVehicleNo(), vehicle.getChassisNo(), vehicle.getEngineNo());
+
         if (mVehicle == null) {
             return vehicleRepository.save(vehicle);
         } else {
             if (mVehicle.getIndexNo().equals(vehicle.getIndexNo())) {//is update get update Object?
                 return vehicleRepository.save(vehicle);
             }
-            throw new DuplicateEntityException("Vehicle already exists");
+            throw new DuplicateEntityException("This Vehicle already exists to " + mVehicle.getVehicleNo());
         }
     }
 
     public void deleteVehicle(Integer indexNo) {
-        vehicleRepository.delete(indexNo);
+        try {
+            vehicleRepository.delete(indexNo);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this Vehicle because there are details in other transaction");
+        }
     }
 
 }

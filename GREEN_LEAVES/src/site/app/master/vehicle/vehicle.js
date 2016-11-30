@@ -46,7 +46,7 @@
 
 
                 //delete
-                factory.deleteVehicle = function (indexNo, callback) {
+                factory.deleteVehicle = function (indexNo, callback,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle/delete-vehicle/" + indexNo;
 
                     $http.delete(url)
@@ -54,7 +54,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback){
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -101,14 +103,16 @@
                 };
 
                 //delete VehicleOwner
-                factory.deleteVehicleOwner = function (indexNo, callback) {
+                factory.deleteVehicleOwner = function (indexNo, callback,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle-owner/delete-vehicle-owner/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
                 return factory;
@@ -343,10 +347,14 @@
 
 
                 $scope.http.deleteVehicle = function (indexNo, index) {
-                    vehicleFactory.deleteVehicle(indexNo, function () {
+                    vehicleFactory.deleteVehicle(indexNo
+                    , function () {
                         Notification.success(indexNo + "-" + 'Vehilce Delete Successfully.');
                         $scope.model.vehicles.splice(index, 1);
-                    });
+                    }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
                 $scope.http.insertVehicleOwner = function () {
                     $scope.model.vehicleOwner.branch = 1;
@@ -378,6 +386,8 @@
                             $timeout(function () {
                                 document.querySelectorAll("#name")[0].focus();
                             }, 10);
+                        },function (data){
+                            Notification.error(data);
                         });
                     }
                 };
