@@ -35,10 +35,11 @@ public class MasterClientService {
             return masterClientRepository.save(client);
         } else {
             if (getClient.getIndexNo().equals(client.getIndexNo())) {
-                return masterClientRepository.save(client);
-            } else if (getClient.getClientNumber() == client.getClientNumber()) {
-                throw new DuplicateEntityException("client already exists");
-            }
+                if (getClient.getClientNumber()==client.getClientNumber()) {
+                    return masterClientRepository.save(client);
+                    
+                }
+            } 
             throw new DuplicateEntityException("client already exists");
         }
     }

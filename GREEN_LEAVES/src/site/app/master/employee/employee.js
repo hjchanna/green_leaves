@@ -48,7 +48,7 @@
                 };
 
                 //delete employee
-                factory.deleteEmployee = function (IndexNo, callback) {
+                factory.deleteEmployee = function (IndexNo, callback,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/employee/delete-employee/" + IndexNo;
 
                     $http.delete(url)
@@ -56,7 +56,7 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                errorcallback(data);
                             });
 
                 };
@@ -122,13 +122,15 @@
                             },
                             function (data) {
                                 Notification.error(data.message);
+                                $scope.ui.focus();
                             }
                     );
                 };
 
                 //delete
                 $scope.http.deleteEmployee = function (indexNo) {
-                    employeeFactory.deleteEmployee(indexNo, function () {
+                    employeeFactory.deleteEmployee(indexNo
+                    , function () {
                         var id = -1;
                         for (var i = 0; i < $scope.model.employeeList.length; i++) {
                             if ($scope.model.employeeList[i].indexNo === indexNo) {
@@ -137,7 +139,10 @@
                         }
                         Notification.success(indexNo + "-" + "Employee Delete Successfully.");
                         $scope.model.employeeList.splice(id, 1);
-                    });
+                    }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
 
 

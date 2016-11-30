@@ -51,7 +51,11 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Integer indexNo) {
-        employeeRepository.delete(indexNo);
+        try {
+            employeeRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this Employee because there are details in other transaction");
+        }
     }
 
 }
