@@ -58,7 +58,7 @@
                         <tr>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:{indexNo:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
@@ -86,7 +86,7 @@
                     <col style="width: 10%">
                     <tbody>
                         <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails" >
-                            <td><div class="label label-default">{{model.client(greenLeavesReceiveDetails.client).indexNo | fixedLength:5}}</div> {{model.client(greenLeavesReceiveDetails.client).name}}</td>
+                            <td><div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route===model.data.route?'label-default':'label-danger'">{{model.client(greenLeavesReceiveDetails.client).indexNo | fixedLength:5}}</div> {{model.client(greenLeavesReceiveDetails.client).name}}</td>
                             <td class="text-right">{{greenLeavesReceiveDetails.normalLeavesQuantity|number:2}}</td>
                             <td class="text-right">{{greenLeavesReceiveDetails.superLeavesQuantity|number:2}}</td>
                             <td>

@@ -45,14 +45,14 @@
                 return factory;
             });
     angular.module("supplierModule")
-            .controller("supplierController", function ($scope, $timeout, supplierFactory, Notification) {
+            .controller("supplierController", function ($scope, $timeout, $filter, supplierFactory, Notification) {
 
                 //data model
                 $scope.model = {};
-                
+
                 //ui model
                 $scope.ui = {};
-                
+
                 //http modal
                 $scope.http = {};
 
@@ -62,6 +62,11 @@
                 $scope.model.reset = function () {
                     $scope.model.data = {};
                 };
+
+                //convert lovercase to uppercase 
+                $scope.$watch('model.data.nicNumber', function (val) {
+                    $scope.model.data.nicNumber = $filter('uppercase')(val);
+                }, true);
 
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
@@ -91,6 +96,7 @@
                         $scope.http.saveSupplier();
                     } else {
                         Notification.error("please input details");
+                        $scope.ui.forcuse();
                     }
                 };
 
@@ -129,6 +135,7 @@
                             },
                             function (data) {
                                 Notification.error(data.message);
+                                $scope.ui.forcuse();
                             }
                     );
                 };
