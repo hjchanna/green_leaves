@@ -8,7 +8,6 @@ package com.mac.green_leaves.v1.master.item_department;
 import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.item_department.model.MItemDepartment;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -55,7 +54,7 @@ public class ItemDepartmentService {
         try {
             departmentRepository.delete(indexNo);       
         } catch (Exception e) {
-           throw new RuntimeException("Cannot delete or update a parent row");
+           throw new RuntimeException("Cannot delete this item department because there are details in other transaction");
         }
     }
 }

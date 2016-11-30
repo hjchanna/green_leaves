@@ -49,7 +49,11 @@ public class RouteService {
     }
 
     public void deleteRoute(Integer indexNo) {
-        routeRepostory.delete(indexNo);
+        try {
+            routeRepostory.delete(indexNo);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this route because there are details in other transaction");
+        }
     }
 
 }

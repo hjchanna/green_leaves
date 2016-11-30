@@ -79,14 +79,14 @@
                 };
 
                 //delete  product
-                factory.deleteProduct = function (indexNo, callback) {
+                factory.deleteProduct = function (indexNo, callback ,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/product/delete-product/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                errorcallback(data);
                             });
                 };
 
@@ -197,7 +197,8 @@
                 };
 
                 $scope.http.deleteProduct = function (indexNo) {
-                    productFactory.deleteProduct(indexNo, function () {
+                    productFactory.deleteProduct(indexNo
+                    , function () {
                         var id = -1;
                         for (var i = 0; i < $scope.model.products.length; i++) {
                             if ($scope.model.products[i].indexNo === indexNo) {
@@ -208,7 +209,10 @@
                         $scope.model.products.splice(id, 1);
                         $scope.ui.forcuse();
                         $scope.indextab = 0;
-                    });
+                    }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
 
                 $scope.ui.keyEvent = function (e) {

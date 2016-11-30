@@ -79,7 +79,7 @@
                 };
 
                 //delete 
-                factory.deleteRoute = function (indexNo, callback) {
+                factory.deleteRoute = function (indexNo, callback,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/routes/delete-route/" + indexNo;
 
                     $http.delete(url)
@@ -87,7 +87,7 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                errorcallback(data);
                             });
 
                 };
@@ -152,11 +152,15 @@
 
                 //delete
                 $scope.http.deleteRoute = function (indexNo, index) {
-                    routeFactory.deleteRoute(indexNo, function () {
-                        Notification.success(indexNo +"-"+ "Route Delete Successfully.");
+                    routeFactory.deleteRoute(indexNo
+                    , function () {
+                        Notification.success(indexNo +" - "+ "Route Delete Successfully.");
                         $scope.model.routes.splice(index, 1);
                         $scope.model.route={};
-                    });
+                    }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
 
 
