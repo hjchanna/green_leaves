@@ -186,7 +186,7 @@
                                 Notification.error($scope.ui.validateInfo.errorMessage);
                                 $scope.ui.forcusFunction($scope.ui.validateInfo.textForcus);
                                 $scope.ui.validateInfo = {};
-                            }else{
+                            } else {
                                 $scope.http.insertVehicleOwner();
                             }
                         }
@@ -250,7 +250,7 @@
                     $scope.ui.validateInfo.isError = false;
                     return $scope.ui.validateInfo;
                 };
-                $scope.ui.checkValidateVehicleOwner=function(){
+                $scope.ui.checkValidateVehicleOwner = function () {
                     $scope.ui.validateInfo = {};
                     if (!$scope.model.vehicleOwner.name) {
                         $scope.ui.validateInfo.isError = true;
@@ -322,7 +322,7 @@
                     vehicleFactory.saveVehicle(
                             detailJSON,
                             function (data) {
-                                Notification.success(data.vehicleNo + " Vehicle Successfully Saved");
+                                Notification.success(data.indexNo +" - "+ "Vehicle Successfully Saved");
                                 $scope.model.vehicles.push(data);
                                 $scope.ui.validateInfo = {};
                                 $scope.model.makeList.push($scope.model.vehicle.make);
@@ -356,7 +356,7 @@
                     vehicleFactory.insertVehicleOwner(
                             detailJSON,
                             function (data) {
-                                Notification.success(data.indexNo+'success !');
+                                Notification.success(data.indexNo + "-" + 'Vehicle Owner Save Successfully.');
                                 $scope.model.vehicleOwnerList.push(data);
                                 $scope.model.vehicleOwner = {};
                                 $timeout(function () {
@@ -374,11 +374,18 @@
                     if (indexNo) {
                         vehicleFactory.deleteVehicleOwner(indexNo, function () {
                             $scope.model.vehicleOwnerList.splice(index, 1);
-                            Notification.error(indexNo + ' Delete Successfully');
+                            Notification.success(indexNo + "-" + 'Vehilce Owner Delete Successfully.');
                             $timeout(function () {
                                 document.querySelectorAll("#name")[0].focus();
                             }, 10);
                         });
+                    }
+                };
+
+                //key event
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
                     }
                 };
 
