@@ -10,24 +10,24 @@
 
                 <tbody>                   
                     <tr>
-                        <td><label class="control-label">Name</label></td>
+                        <td><label class="control-label">Name*</label></td>
                         <td><input class="form-control" id="employee" ng-model="model.employee.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Type</label></td>
+                        <td><label class="control-label">Type*</label></td>
                         <td><select class="form-control" ng-model="model.employee.type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                                <option value="ROUTE OFFICER">ROUTE OFFICER</option>
-                                <option value="ROUTE HELPER">ROUTE HELPER</option>
+                                <option value="ROUTE_OFFICER">ROUTE OFFICER</option>
+                                <option value="ROUTE_HELPER">ROUTE HELPER</option>
                                 <option value="DRIVER">DRIVER</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">NIC</label></td>
+                        <td><label class="control-label">NIC*</label></td>
                         <td><input class="form-control" ng-model="model.employee.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Mobile No</label></td>
+                        <td><label class="control-label">Mobile No*</label></td>
                         <td><input class="form-control text-right" smart-input="integer" ng-model="model.employee.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>

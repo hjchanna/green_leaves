@@ -90,7 +90,7 @@
                     $scope.model.employee = {
                     };
                 };
-                
+
                 //validate model
                 $scope.validateInput = function () {
                     if ($scope.model.employee.name
@@ -112,7 +112,7 @@
                             detailJSON,
                             function (data) {
                                 $scope.model.employeeList.push(data);
-                                Notification.success("saved successfully.");
+                                Notification.success(data.indexNo + "-" + "Employee Saved Successfully.");
                                 $scope.model.reset();
                                 $scope.ui.focus();
                             },
@@ -131,7 +131,7 @@
                                 id = i;
                             }
                         }
-                        Notification.success("delete successfully.");
+                        Notification.success(indexNo + "-" + "Employee Delete Successfully.");
                         $scope.model.employeeList.splice(id, 1);
                     });
                 };
@@ -144,6 +144,7 @@
                         $scope.http.saveEmployee();
                     } else {
                         Notification.error("Please input details");
+                         $scope.ui.focus();
                     }
 
                 };
@@ -154,9 +155,9 @@
                         document.querySelectorAll("#employee")[0].focus();
                     }, 10);
                 };
-                
-                 //key event
-                 $scope.ui.keyEvent = function (event) {
+
+                //key event
+                $scope.ui.keyEvent = function (event) {
                     if (event.keyCode === 13) {
                         $scope.ui.save();
                     }
