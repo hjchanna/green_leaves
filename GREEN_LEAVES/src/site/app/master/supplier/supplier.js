@@ -49,8 +49,10 @@
 
                 //data model
                 $scope.model = {};
+                
                 //ui model
                 $scope.ui = {};
+                
                 //http modal
                 $scope.http = {};
 
@@ -103,13 +105,15 @@
                     }
                 };
 
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
                         $scope.ui.save();
                     }
                 };
 
                 //------------------ http functions ------------------------------
+                //save supplier
                 $scope.http.saveSupplier = function () {
                     var detail = $scope.model.data;
                     var detailJSON = JSON.stringify(detail);
@@ -129,7 +133,7 @@
                     );
                 };
 
-                //delete
+                //delete supplier
                 $scope.http.delete = function (indexNo) {
                     supplierFactory.deletesupplier(indexNo, function () {
                         var id = -1;
@@ -141,12 +145,6 @@
                         Notification.success("delete successfully.");
                         $scope.model.suppliers.splice(id, 1);
                     });
-                };
-
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
-                        $scope.ui.save();
-                    }
                 };
 
                 $scope.init = function () {
