@@ -11,7 +11,7 @@
                 <tbody>                   
                     <tr>
                         <td><label class="control-label">Name</label></td>
-                        <td><input class="form-control" id="sub-category" ng-model="model.subCategory.subCategory" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event)"></td>
+                        <td><input class="form-control" id="sub-category" ng-model="model.subCategory.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event)"></td>
                     </tr>
                 </tbody>
             </table>
@@ -42,7 +42,7 @@
                 <tbody>
                     <tr ng-repeat="subCategory in model.subCategoryList|filter : model.search.name">
                         <td>{{subCategory.indexNo}}</td>
-                        <td>{{subCategory.subCategory}}</td>
+                        <td>{{subCategory.name}}</td>
                         <td class="text-right" style="padding-left: 5px;">
                             <a class="btn btn-primary" ng-click="ui.edit(subCategory, $index)"><span class="glyphicon glyphicon-edit"></span></a>
                             <a class="btn btn-danger" ng-click="http.deleteSubCategory(subCategory.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>

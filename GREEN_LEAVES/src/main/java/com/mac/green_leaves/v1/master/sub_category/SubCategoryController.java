@@ -27,7 +27,7 @@ public class SubCategoryController {
     @Autowired
     private SubCategoryService subCategoryService;
 
-    //Save subCategory
+
     @RequestMapping(value = "/save-subCategory", method = RequestMethod.POST)
     public MSubCategory saveSubCategory(@RequestBody MSubCategory subCategory) {
         return subCategoryService.saveSubCategory(subCategory);
@@ -42,9 +42,5 @@ public class SubCategoryController {
     public void deleteSubCategory(@PathVariable Integer indexNo) {
         subCategoryService.deleteSubCategory(indexNo);
     }
-
-//    @RequestMapping(value = "/get-sub-category", method = RequestMethod.POST)
-//    public List<MSubCategory> findByCategory(@RequestBody MCategory category) {
-//        return subCategoryService.findByCategory(category);
-//    }
+    
 }

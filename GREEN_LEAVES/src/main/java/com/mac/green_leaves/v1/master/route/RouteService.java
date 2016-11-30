@@ -42,14 +42,18 @@ public class RouteService {
             return routeRepostory.save(mRoute);
         } else {//is already exsist by name
             if (findByName.getIndexNo().equals(mRoute.getIndexNo())) {//is update get update Object?
-                return mRoute;
+                return routeRepostory.save(mRoute);
             }
-            throw new RuntimeException("duplicate");
+            throw new RuntimeException("This Route is already exists");
         }
     }
 
     public void deleteRoute(Integer indexNo) {
-        routeRepostory.delete(indexNo);
+        try {
+            routeRepostory.delete(indexNo);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this route because there are details in other transaction");
+        }
     }
 
 }
