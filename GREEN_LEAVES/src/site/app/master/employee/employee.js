@@ -69,7 +69,7 @@
 
     //-----------http controller---------
     angular.module("employeeModule")
-            .controller("employeeController", function ($scope, employeeFactory, Notification, $timeout) {
+            .controller("employeeController", function ($scope, employeeFactory, Notification, $timeout, $filter) {
                 //data models 
                 $scope.model = {};
 
@@ -82,6 +82,11 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
+
+                //convert lovercase to uppercase 
+                $scope.$watch('model.employee.nicNumber', function (val) {
+                    $scope.model.employee.nicNumber = $filter('uppercase')(val);
+                }, true);
 
                 //-----------model function--------------
 
@@ -106,7 +111,6 @@
                 $scope.http.saveEmployee = function () {
                     var details = $scope.model.employee;
                     var detailJSON = JSON.stringify(details);
-                    console.log(detailJSON);
 
                     employeeFactory.saveEmployee(
                             detailJSON,
@@ -144,7 +148,7 @@
                         $scope.http.saveEmployee();
                     } else {
                         Notification.error("Please input details");
-                         $scope.ui.focus();
+                        $scope.ui.focus();
                     }
 
                 };
@@ -157,8 +161,9 @@
                 };
 
                 //key event
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
                         $scope.ui.save();
                     }
                 };

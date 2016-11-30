@@ -32,19 +32,19 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">Telephone No</label></td>
-                        <td><input class="form-control text-right" smart-input="integer" ng-model="model.employee.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><input class="form-control text-right" smart-input="integer" ng-model="model.employee.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Address 01</label></td>
-                        <td><input class="form-control" ng-model="model.employee.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><label class="control-label">Address</label></td>
+                        <td><input class="form-control" ng-model="model.employee.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Address 02</label></td>
-                        <td><input class="form-control" ng-model="model.employee.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><label class="control-label"></label></td>
+                        <td><input class="form-control" ng-model="model.employee.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Address 03</label></td>
-                        <td><input class="form-control" ng-model="model.employee.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="owner as (model.vehicle.ownerName) for owner in model.vehicle.ownerName |filter:$viewValue|limitTo:10"></td>
+                        <td><label class="control-label"></label></td>
+                        <td><input class="form-control" ng-model="model.employee.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.keyEvent($event);"></td>
                     </tr>
                 </tbody>
             </table>
