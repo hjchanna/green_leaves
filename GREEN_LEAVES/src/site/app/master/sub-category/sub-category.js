@@ -69,13 +69,13 @@
                     $scope.model.subCategory = {
                         "indexNo": null,
                         "category": null,
-                        "subCategory": null
+                        "name": null
                     };
                 };
 
                 //----------validate funtion-------------
                 $scope.validateInput = function () {
-                    if ($scope.model.subCategory.subCategory !== null) {
+                    if ($scope.model.subCategory.name !== null) {
                         return true;
                     } else {
                         return false;
@@ -85,7 +85,7 @@
                 //----------http funtion----------------
                 $scope.http.deleteSubCategory = function (IndexNo, index) {
                     subCategoryFactory.deleteSubCategory(IndexNo, function () {
-                        Notification.success("delete success");
+                        Notification.success(IndexNo+" - " +"Sub Category Delete Successfully");
                         $scope.model.subCategoryList.splice(index, 1);
                     });
                 };
@@ -98,14 +98,14 @@
                             detailJSON,
                             function (data) {
                                 $scope.model.subCategoryList.push(data);
-                                Notification.success("Successfully Added");
+                                Notification.success(data.indexNo+" - " +"Sub Category Save Successfully");
                                 $scope.model.reset();
                                 $scope.ui.focus();
 
                             },
                             function (data) {
+                                Notification.error(data);
                                 $scope.ui.focus();
-                                Notification.error(data.message);
                             }
                     );
 
@@ -146,6 +146,7 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.subCategory = subCategory;
                     $scope.model.subCategoryList.splice(index, 1);
+                    $scope.ui.focus();
                 };
 
                 $scope.ui.init = function () {
