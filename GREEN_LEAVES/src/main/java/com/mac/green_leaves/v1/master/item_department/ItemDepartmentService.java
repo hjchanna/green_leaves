@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.master.item_department;
 
+import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.item_department.model.MItemDepartment;
 import java.util.List;
 import java.util.Objects;
@@ -46,11 +47,15 @@ public class ItemDepartmentService {
             if (findByName.getIndexNo().equals(departmentModal.getIndexNo())) {//is update get update Object?
                 return departmentModal;
             }
-            throw new RuntimeException("duplicate");
+            throw new DuplicateEntityException("This ItemDepartment is Already Exists !");
         }
     }
 
     public void deleteItemDepartment(Integer indexNo) {
-        departmentRepository.delete(indexNo);
+        try {
+            departmentRepository.delete(indexNo);       
+        } catch (Exception e) {
+           throw new RuntimeException("Cannot delete or update a parent row");
+        }
     }
 }
