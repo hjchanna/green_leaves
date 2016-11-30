@@ -132,22 +132,20 @@
                 //save 
                 $scope.http.saveRoutes = function () {
                     $scope.model.route.branch = 1;
-                    if ($scope.model.route.tdRate === null) {
-                        $scope.model.route.tdRate = 0;
-                    }
                     var detail = $scope.model.route;
                     var detailJSON = JSON.stringify(detail);
 
                     routeFactory.saveRoute(
                             detailJSON,
                             function (data) {
-                                Notification.success("success");
+                                Notification.success(data.indexNo +"-"+ "Route Save Successfully ");
                                 $scope.model.routes.push(data);
                                 $scope.model.reset();
                                 $scope.ui.focus();
                             },
                             function (data) {
                                 Notification.error(data.message);
+                                $scope.ui.focus();
                             }
                     );
                 };
@@ -155,18 +153,20 @@
                 //delete
                 $scope.http.deleteRoute = function (indexNo, index) {
                     routeFactory.deleteRoute(indexNo, function () {
-                        Notification.success("delete success");
+                        Notification.success(indexNo +"-"+ "Route Delete Successfully.");
                         $scope.model.routes.splice(index, 1);
+                        $scope.model.route={};
                     });
                 };
 
 
                 //----------------- validation functions -----------
                 $scope.validateInput = function () {
+                    console.log($scope.model.route);
                     if ($scope.model.route.name
-                            && $scope.model.route.vehicle
-                            && $scope.model.route.routeOfficer
-                            && $scope.model.route.routeHelper) {
+                            && $scope.model.route.vehicle.indexNo
+                            && $scope.model.route.routeOfficer.indexNo
+                            && $scope.model.route.routeHelper.indexNo) {
                         return true;
                     } else {
                         return false;
@@ -194,6 +194,7 @@
                         $scope.http.saveRoutes();
                     } else {
                         Notification.error("Please input Details");
+                         $scope.ui.focus();
                     }
                 };
 
@@ -203,6 +204,14 @@
                     $scope.model.route = details;
                     $scope.model.routes.splice(index, 1);
                     $scope.ui.focus();
+
+                };
+                //kwy event
+                $scope.ui.keyEvent = function (event) {
+                    console.log(event);
+                     if(event.which === 13) {
+                         $scope.ui.save();
+                    }
 
                 };
 
