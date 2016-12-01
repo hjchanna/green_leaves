@@ -34,12 +34,12 @@ public class VehicleOwnerController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public MVehicleOwner saveVehicleOwner(@RequestBody MVehicleOwner vehicleOwner) {
+        vehicleOwner.setBranch(1);
         return vehicleOwnerService.saveVehicleOwner(vehicleOwner);
     }
 
     @RequestMapping(value = "/delete-vehicle-owner/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteVehicleOwner(@PathVariable Integer indexNo) {
-        System.out.println(indexNo);
         vehicleOwnerService.deleteVehicleOwner(indexNo);
         return indexNo;
 

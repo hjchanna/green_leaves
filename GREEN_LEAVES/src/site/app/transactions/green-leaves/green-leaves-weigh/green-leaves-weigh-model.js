@@ -12,13 +12,14 @@
             tempData: {},
             //route information
             routes: [],
+            //branch information
+            branchs: [],
             //route officer information
             routeOfficers: [],
             //route helper information
             routeHelpers: [],
             //vehicle information
             vehicles: [],
-
             //constructor
             constructor: function () {
                 var that = this;
@@ -45,21 +46,24 @@
                         .success(function (data) {
                             that.vehicles = data;
                         });
+                GreenLeavesWeighService.loadBranch()
+                        .success(function (data) {
+                            that.branchs = data;
+                        });
             },
-
             //clear all data
             clear: function () {
                 this.data = GreenLeavesWeighModelFactory.newData();
                 this.tempData = GreenLeavesWeighModelFactory.newTempData();
             },
-
             //load from server
             load: function () {
                 var defer = $q.defer();
 
                 var that = this;
                 var number = this.data.number;
-                GreenLeavesWeighService.loadWeigh(number)
+                var branch = this.data.branch;
+                GreenLeavesWeighService.loadWeigh(branch,number)
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
@@ -72,21 +76,18 @@
 
                 return defer.promise;
             },
-
             insertNormalDetail: function () {
                 this.tempData.indexNo = null;
                 this.tempData.type = 'NORMAL';
 
                 return this.checkSummaryAndInsertDetail();
             },
-
             insertSuperDetail: function () {
                 this.tempData.indexNo = null;
                 this.tempData.type = 'SUPER';
 
                 return this.checkSummaryAndInsertDetail();
             },
-
             deleteDetail: function (indexNo) {
                 var that = this;
                 GreenLeavesWeighService.deleteDetail(indexNo)
@@ -102,7 +103,6 @@
                             that.validate();
                         });
             },
-
             checkSummaryAndInsertDetail: function () {
                 var that = this;
                 var defer = $q.defer();
@@ -130,7 +130,6 @@
 
                 return defer.promise;
             },
-
             insertDetail: function () {
                 var that = this;
                 var defer = $q.defer();
@@ -159,7 +158,6 @@
 
                 return defer.promise;
             },
-
             validate: function () {
                 var normalTotalWeight = 0.0;
                 var superTotalWeight = 0.0;
@@ -226,7 +224,6 @@
                 this.data.superBags = superBags;
                 this.data.superPolyBags = superPolyBags;
             },
-
             //return label for route
             routeLabel: function (indexNo) {
                 var label;
@@ -238,7 +235,16 @@
                 });
                 return label;
             },
-
+            bracnhLable: function (indexNo) {
+                var lable;
+                angular.forEach(this.branchs, function (value) {
+                    if (value.indexNo === indexNo) {
+                        lable = value.indexNo + "-" + value.name;
+                        return;
+                    }
+                });
+                return lable;
+            },
             //return label for route officer
             routeOfficerLabel: function (indexNo) {
                 var label;
@@ -250,7 +256,6 @@
                 });
                 return label;
             },
-
             //return label for route helpers
             routeHelperLabel: function (indexNo) {
                 var label;
@@ -262,7 +267,6 @@
                 });
                 return label;
             },
-
             //return label for route officer
             vehicleLabel: function (indexNo) {
                 var label;

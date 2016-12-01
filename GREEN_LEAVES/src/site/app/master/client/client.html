@@ -13,43 +13,43 @@
                             <tbody>
                                 <tr>
                                     <td><label class="control-label">Client No :*</label></td>
-                                    <td><input id="clientNo" smart-input="integer" class="form-control text-right" ng-model="model.data.clientNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input id="clientNo" smart-input="integer" class="form-control" ng-model="model.data.clientNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">N.I.C :*</label></td>
-                                    <td><input class="form-control text-right" ng-model="model.data.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control" ng-model="model.data.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Route :*</label></td>
-                                    <td><input class="form-control text-right" ng-model="model.data.route" type="text" uib-typeahead="route as route.name for route in model.routes|filter:$viewValue|limitTo:10"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control" ng-model="model.data.route" type="text" uib-typeahead="route as route.name for route in model.routes|filter:$viewValue|limitTo:10"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Name:*</label></td>
-                                    <td><input class="form-control text-right" ng-model="model.data.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control" ng-model="model.data.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Mobile:*</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control text-right" smart-input="integer" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Date Of Birth :*</label></td>
-                                    <td><input class="form-control text-right" smart-input="date" ng-model="model.data.dateOfBirth" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control" smart-input="date" ng-model="model.data.dateOfBirth" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Tele Phone:</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><label class="control-label">Telephone No:</label></td>
+                                    <td><input class="form-control text-right" smart-input="integer" ng-model="model.data.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Address:</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"></label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"></label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.tabChnage($event)"></td>
+                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.tabChnage($event)"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -101,7 +101,7 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Holder Number :</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.holderNumber" ng-disabled="status"></td>
+                                    <td><input class="form-control text-right" smart-input="integer" ng-model="model.data.holderNumber" ng-disabled="status"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Sup B.Listed :</label></td>
@@ -127,14 +127,14 @@
             <div class="col-xs-5">
                 <input type="text" class="search-input" placeholder="search" ng-model="search" ng-keypress="ui.keyEvent($event);">
             </div>
-            <table class="control-table">
+            <table class="table-hover">
                 <col style="width: 15%">
                 <col style="width: 20%">
                 <col style="width: 30%">
                 <col style="width: 15%">
                 <col style="width: 15%">
                 <col style="width: 15%">
-                <thead>
+                <thead class="background-dark">
                     <tr>
                         <th>Client No</th>
                         <th>Name</th>
@@ -146,7 +146,7 @@
                 </thead>
             </table>
             <div class="smart-scroll-y" style="height: calc(100vh - 315px);">
-                <table class="table-hover table-primary">
+                <table class="table-hover">
                     <col style="width: 15%">
                     <col style="width: 20%">
                     <col style="width: 30%">

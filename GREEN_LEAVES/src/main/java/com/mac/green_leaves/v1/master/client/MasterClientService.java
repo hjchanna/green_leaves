@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class MasterClientService {
- @Autowired
+
+    @Autowired
     private MasterClientRepository masterClientRepository;
 
     public List<MClient> findByBranch(Integer branch) {
@@ -34,8 +35,11 @@ public class MasterClientService {
             return masterClientRepository.save(client);
         } else {
             if (getClient.getIndexNo().equals(client.getIndexNo())) {
-                return masterClientRepository.save(client);
-            }
+                if (getClient.getClientNumber()==client.getClientNumber()) {
+                    return masterClientRepository.save(client);
+                    
+                }
+            } 
             throw new DuplicateEntityException("client already exists");
         }
     }
@@ -45,7 +49,11 @@ public class MasterClientService {
     }
 
     public void deleteSupplier(Integer indexNo) {
-        masterClientRepository.delete(indexNo);
+        try {
+            masterClientRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw  new RuntimeException("Cannot delete this Client because there are details in other transaction");
+        }
     }
 
     //validation

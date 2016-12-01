@@ -5,6 +5,10 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
+        this.loadBranch = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/branch");
+        };
+
         this.loadRouteOfficers = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
         };
@@ -18,8 +22,8 @@
         };
 
         //green leaves weigh
-        this.loadWeigh = function (number) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + number);
+        this.loadWeigh = function (branch, number) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + branch + "/" + number);
         };
 
         this.saveWeigh = function (weigh) {

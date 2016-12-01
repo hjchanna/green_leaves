@@ -29,15 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class GLGreenLeavesWeighService {
 
-    private static final Integer branch = 1;
-
     @Autowired
     private GLGreenLeavesWeighRepository greenLeavesWeighRepository;
 
     @Autowired
     private GLGreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
 
-    public TGreenLeavesWeigh getSummary(Integer number) {
+    public TGreenLeavesWeigh getSummary(Integer branch,Integer number) {
         List<TGreenLeavesWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumber(branch, number);
 
         if (greenLeaveWeighs.isEmpty()) {
@@ -53,11 +51,9 @@ public class GLGreenLeavesWeighService {
         if (greenLeaveWeigh.getIndexNo() != null) {
             greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeigh.getIndexNo());
         } else {
-            //branch
-            greenLeaveWeigh.setBranch(branch);
 
             //generate new number
-            Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(branch);
+            Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(greenLeaveWeigh.getBranch());
             if (maxNumber == null) {
                 maxNumber = 0;
             }

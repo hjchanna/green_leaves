@@ -49,6 +49,10 @@ public class VehicleOwnerService {
     }
 
     public void deleteVehicleOwner(Integer indexNo) {
+        try {
         vehicleOwnerRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this Vehicle Owner because there are details in other transaction");
+        }
     }
 }

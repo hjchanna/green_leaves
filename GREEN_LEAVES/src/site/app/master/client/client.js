@@ -43,14 +43,16 @@
                 };
 
                 //delete supplier
-                factory.deletesupplier = function (indexNo, callback) {
+                factory.deletesupplier = function (indexNo, callback,errorcallback) {
                     var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients/delete-client/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -84,6 +86,11 @@
                     "none1",
                     "none2"
                 ];
+
+                //convert lovercase to uppercase 
+                $scope.$watch('model.data.nicNumber', function (val) {
+                    $scope.model.data.nicNumber = $filter('uppercase')(val);
+                }, true);
 
                 //------------------ model functions ---------------------------
                 //reset model
@@ -123,6 +130,7 @@
                         $scope.married = false;
                     }
                     $scope.model.supplier.splice($index, 1);
+                    $scope.ui.forcuse();
                 };
 
                 $scope.ui.delete = function (indexNo, index) {
@@ -191,7 +199,7 @@
                     clientFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success("success" + data.indexNo);
+                                Notification.success(data.indexNo +" - "+ "Client Save Successfully.");
                                 //reset model
                                 $scope.model.supplier.push(data);
                                 $scope.model.reset();
@@ -199,6 +207,7 @@
                                 $scope.ui.forcuse();
                             },
                             function (data) {
+                                $scope.ui.forcuse();
                                 Notification.error(data.message);
                             }
                     );
@@ -206,16 +215,20 @@
 
                 //delete
                 $scope.http.delete = function (indexNo) {
-                    clientFactory.deletesupplier(indexNo, function () {
+                    clientFactory.deletesupplier(indexNo
+                    , function () {
                         var id = -1;
                         for (var i = 0; i < $scope.model.supplier.length; i++) {
                             if ($scope.model.supplier[i].indexNo === indexNo) {
                                 id = i;
                             }
                         }
-                        Notification.success("delete successfully.");
+                        Notification.success(indexNo +" - "+ "Client Delete Successfully.");
                         $scope.model.supplier.splice(id, 1);
-                    });
+                    }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
 
                 //ui change default functions

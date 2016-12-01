@@ -48,7 +48,7 @@
                 };
 
                 //delete employee
-                factory.deleteEmployee = function (IndexNo, callback) {
+                factory.deleteEmployee = function (IndexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/employee/delete-employee/" + IndexNo;
 
                     $http.delete(url)
@@ -56,7 +56,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
 
                 };
@@ -69,7 +71,7 @@
 
     //-----------http controller---------
     angular.module("employeeModule")
-            .controller("employeeController", function ($scope, employeeFactory, Notification, $timeout) {
+            .controller("employeeController", function ($scope, employeeFactory, Notification, $timeout, $filter) {
                 //data models 
                 $scope.model = {};
 
@@ -83,6 +85,11 @@
                 $scope.ui.mode = null;
 
 
+                //convert lovercase to uppercase 
+                $scope.$watch('model.employee.nicNumber', function (val) {
+                    $scope.model.employee.nicNumber = $filter('uppercase')(val);
+                }, true);
+
                 //-----------model function--------------
 
                 //reset model
@@ -90,7 +97,7 @@
                     $scope.model.employee = {
                     };
                 };
-                
+
                 //validate model
                 $scope.validateInput = function () {
                     if ($scope.model.employee.name
@@ -106,33 +113,37 @@
                 $scope.http.saveEmployee = function () {
                     var details = $scope.model.employee;
                     var detailJSON = JSON.stringify(details);
-                    console.log(detailJSON);
 
                     employeeFactory.saveEmployee(
                             detailJSON,
                             function (data) {
                                 $scope.model.employeeList.push(data);
-                                Notification.success("saved successfully.");
+                                Notification.success(data.indexNo + " - " + "Employee Saved Successfully.");
                                 $scope.model.reset();
                                 $scope.ui.focus();
                             },
                             function (data) {
                                 Notification.error(data.message);
+                                $scope.ui.focus();
                             }
                     );
                 };
 
                 //delete
                 $scope.http.deleteEmployee = function (indexNo) {
-                    employeeFactory.deleteEmployee(indexNo, function () {
-                        var id = -1;
-                        for (var i = 0; i < $scope.model.employeeList.length; i++) {
-                            if ($scope.model.employeeList[i].indexNo === indexNo) {
-                                id = i;
+                    employeeFactory.deleteEmployee(indexNo
+                            , function () {
+                                var id = -1;
+                                for (var i = 0; i < $scope.model.employeeList.length; i++) {
+                                    if ($scope.model.employeeList[i].indexNo === indexNo) {
+                                        id = i;
+                                    }
+                                }
+                                Notification.success(indexNo + " - " + "Employee Delete Successfully.");
+                                $scope.model.employeeList.splice(id, 1);
                             }
-                        }
-                        Notification.success("delete successfully.");
-                        $scope.model.employeeList.splice(id, 1);
+                    , function (data) {
+                        Notification.error(data);
                     });
                 };
 
@@ -144,6 +155,7 @@
                         $scope.http.saveEmployee();
                     } else {
                         Notification.error("Please input details");
+                        $scope.ui.focus();
                     }
 
                 };
@@ -154,10 +166,11 @@
                         document.querySelectorAll("#employee")[0].focus();
                     }, 10);
                 };
-                
-                 //key event
-                 $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
+
+                //key event
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
                         $scope.ui.save();
                     }
                 };

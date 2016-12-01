@@ -47,14 +47,16 @@
                 };
 
                 //delete 
-                factory.deleteDepartmemt = function (indexNo, callback) {
+                factory.deleteDepartmemt = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/item-departments/delete-detail/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -73,14 +75,9 @@
 
                 //ui models
                 $scope.ui = {};
-                $scope.ui.event = "";
 
                 //http models
                 $scope.http = {};
-
-                $scope.maxSize = 5;
-                $scope.bigTotalItems = 175;
-                $scope.bigCurrentPage = 1;
 
                 $scope.model.departmentList = [];
 
@@ -93,12 +90,20 @@
                     }, 10);
 
                 };
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
-                        $scope.ui.save();
 
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
+                        $scope.ui.save();
                     }
                 };
+                $scope.ui.forcus = function () {
+                    $timeout(function () {
+                        document.querySelectorAll("#item-department")[0].focus();
+                    }, 10);
+                };
+
+
 
                 //edit function
                 $scope.ui.edit = function (department) {
@@ -107,9 +112,7 @@
                     for (var i = 0; i < $scope.model.departmentList.length; i++) {
                         if ($scope.model.departmentList[i].indexNo === $scope.model.department.indexNo) {
                             $scope.model.departmentList.splice(i, 1);
-                            $timeout(function () {
-                                document.querySelectorAll("#item-department")[0].focus();
-                            }, 10);
+                            $scope.ui.forcus();
                         }
                     }
 
@@ -119,11 +122,10 @@
                 $scope.ui.save = function () {
                     if ($scope.model.department) {
                         $scope.http.insertItemDepartment();
-                        $timeout(function () {
-                            document.querySelectorAll("#item-department")[0].focus();
-                        }, 10);
+                        $scope.ui.forcus();
                     } else {
                         Notification.error('No Item Department Name to Save ');
+                        $scope.ui.forcus();
                     }
 
                 };
@@ -156,37 +158,43 @@
                                             break;
                                         }
                                     }
-                                    Notification.success('save successfully !');
+                                    Notification.success(data.indexNo + " - " + "Save Successfully !");
                                     $scope.model.departmentList.push(data);
                                     $scope.model.department = {};
+                                    $scope.ui.forcus();
 
                                 } else {
                                     Notification.error('Already Exists !');
                                 }
-                                $timeout(function () {
-                                    document.querySelectorAll("#item-department")[0].focus();
-                                }, 10);
+                                $scope.ui.forcus();
                             }
                     , function (data) {
                         Notification.error(data.message);
-                        $timeout(function () {
-                            document.querySelectorAll("#item-department")[0].focus();
-                        }, 10);
+                        $scope.ui.forcus();
                     }
                     );
                 };
                 $scope.http.deleteDepartment = function (indexNo) {
                     if (indexNo) {
-                        itemDepartmentFactory.deleteDepartmemt(indexNo, function () {
-                            console.log('delete success');
-                            for (var i = 0; i < $scope.model.departmentList.length; i++) {
-                                if ($scope.model.departmentList[i].indexNo === indexNo) {
-                                    $scope.model.departmentList.splice(i, 1);
-                                    break;
+                        itemDepartmentFactory.deleteDepartmemt(indexNo,
+                                function () {
+                                    for (var i = 0; i < $scope.model.departmentList.length; i++) {
+                                        if ($scope.model.departmentList[i].indexNo === indexNo) {
+                                            $scope.model.departmentList.splice(i, 1);
+                                            break;
+                                        }
+                                    }
+                                    Notification.success(indexNo + " - " + "Delete Successfully");
+                                    $scope.ui.mode = "IDEAL";
+                                    $scope.model.department = {};
+                                    $scope.ui.forcus();
+                                    $timeout(function () {
+                                        document.querySelectorAll("#item-department")[0].focus();
+                                    }, 10);
                                 }
-                            }
-                            Notification.success("Delete Successfully");
-                            $scope.ui.mode = "IDEAL";
+                        , function (data) {
+                            Notification.error(data);
+                            $scope.model.department = {};
                         });
                     }
                 };

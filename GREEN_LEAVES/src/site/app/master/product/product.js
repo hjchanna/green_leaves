@@ -79,14 +79,16 @@
                 };
 
                 //delete  product
-                factory.deleteProduct = function (indexNo, callback) {
+                factory.deleteProduct = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/product/delete-product/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -115,6 +117,7 @@
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
                     $scope.ui.forcuse();
+                    $scope.indextab = 0;
                 };
 
                 $scope.ui.save = function () {
@@ -122,6 +125,8 @@
                         $scope.http.saveProduct();
                     } else {
                         Notification.error("Please Input Details");
+                        $scope.ui.forcuse();
+                        $scope.indextab = 0;
                     }
                 };
 
@@ -154,10 +159,10 @@
                             && $scope.model.data.unit
                             && $scope.model.data.costPrice
                             && $scope.model.data.salePrice
-                            && $scope.model.data.itemDepartment
-                            && $scope.model.data.category
-                            && $scope.model.data.subCategory
-                            && $scope.model.data.supplier
+                            && $scope.model.data.itemDepartment.indexNo
+                            && $scope.model.data.category.indexNo
+                            && $scope.model.data.subCategory.indexNo
+                            && $scope.model.data.supplier.indexNo
                             && $scope.model.data.brand !== null) {
                         return true;
                     } else {
@@ -178,28 +183,37 @@
                     productFactory.saveProduct(
                             detailJSON,
                             function (data) {
-                                Notification.success("saved successfully.");
+                                Notification.success(data.indexNo + " - " + "saved successfully.");
                                 //reset model
                                 $scope.model.products.push(data);
                                 $scope.model.reset();
                                 $scope.ui.forcuse();
+                                $scope.indextab = 0;
                             },
                             function (data) {
                                 Notification.error(data.message);
+                                $scope.ui.forcuse();
+                                $scope.indextab = 0;
                             }
                     );
                 };
 
                 $scope.http.deleteProduct = function (indexNo) {
-                    productFactory.deleteProduct(indexNo, function () {
-                        var id = -1;
-                        for (var i = 0; i < $scope.model.products.length; i++) {
-                            if ($scope.model.products[i].indexNo === indexNo) {
-                                id = i;
+                    productFactory.deleteProduct(indexNo
+                            , function () {
+                                var id = -1;
+                                for (var i = 0; i < $scope.model.products.length; i++) {
+                                    if ($scope.model.products[i].indexNo === indexNo) {
+                                        id = i;
+                                    }
+                                }
+                                Notification.success(indexNo + " - " + "Delete Successfully.");
+                                $scope.model.products.splice(id, 1);
+                                $scope.ui.forcuse();
+                                $scope.indextab = 0;
                             }
-                        }
-                        Notification.success("delete successfully.");
-                        $scope.model.products.splice(id, 1);
+                    , function (data) {
+                        Notification.error(data);
                     });
                 };
 

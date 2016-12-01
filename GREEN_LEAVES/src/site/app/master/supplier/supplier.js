@@ -31,26 +31,30 @@
                 };
 
                 //delete supplier
-                factory.deletesupplier = function (indexNo, callback) {
+                factory.deletesupplier = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/supplier/delete-supplier/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
                 return factory;
             });
     angular.module("supplierModule")
-            .controller("supplierController", function ($scope, $timeout, supplierFactory, Notification) {
+            .controller("supplierController", function ($scope, $timeout, $filter, supplierFactory, Notification) {
 
                 //data model
                 $scope.model = {};
+
                 //ui model
                 $scope.ui = {};
+
                 //http modal
                 $scope.http = {};
 
@@ -60,6 +64,11 @@
                 $scope.model.reset = function () {
                     $scope.model.data = {};
                 };
+
+                //convert lovercase to uppercase 
+                $scope.$watch('model.data.nicNumber', function (val) {
+                    $scope.model.data.nicNumber = $filter('uppercase')(val);
+                }, true);
 
                 //------------------ ui functions ------------------------------
                 $scope.ui.new = function () {
@@ -89,6 +98,7 @@
                         $scope.http.saveSupplier();
                     } else {
                         Notification.error("please input details");
+                        $scope.ui.forcuse();
                     }
                 };
 
@@ -103,13 +113,15 @@
                     }
                 };
 
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
+                $scope.ui.keyEvent = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
                         $scope.ui.save();
                     }
                 };
 
                 //------------------ http functions ------------------------------
+                //save supplier
                 $scope.http.saveSupplier = function () {
                     var detail = $scope.model.data;
                     var detailJSON = JSON.stringify(detail);
@@ -117,7 +129,7 @@
                     supplierFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success("saved successfully.");
+                                Notification.success(data.indexNo + " - " + "Saved Successfully.");
                                 //reset model
                                 $scope.model.suppliers.push(data);
                                 $scope.model.reset();
@@ -125,28 +137,27 @@
                             },
                             function (data) {
                                 Notification.error(data.message);
+                                $scope.ui.forcuse();
                             }
                     );
                 };
 
-                //delete
+                //delete supplier
                 $scope.http.delete = function (indexNo) {
-                    supplierFactory.deletesupplier(indexNo, function () {
+                    supplierFactory.deletesupplier(indexNo
+                    , function () {
                         var id = -1;
                         for (var i = 0; i < $scope.model.suppliers.length; i++) {
                             if ($scope.model.suppliers[i].indexNo === indexNo) {
                                 id = i;
                             }
                         }
-                        Notification.success("delete successfully.");
+                        Notification.success(indexNo + " - " + "Delete Successfully.");
                         $scope.model.suppliers.splice(id, 1);
-                    });
-                };
-
-                $scope.ui.keyEvent = function (event) {
-                    if (event.keyCode === 13) {
-                        $scope.ui.save();
                     }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
 
                 $scope.init = function () {

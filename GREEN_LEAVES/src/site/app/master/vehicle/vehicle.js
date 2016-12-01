@@ -46,7 +46,7 @@
 
 
                 //delete
-                factory.deleteVehicle = function (indexNo, callback) {
+                factory.deleteVehicle = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle/delete-vehicle/" + indexNo;
 
                     $http.delete(url)
@@ -54,7 +54,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -101,14 +103,16 @@
                 };
 
                 //delete VehicleOwner
-                factory.deleteVehicleOwner = function (indexNo, callback) {
+                factory.deleteVehicleOwner = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/vehicle-owner/delete-vehicle-owner/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
                 return factory;
@@ -186,7 +190,7 @@
                                 Notification.error($scope.ui.validateInfo.errorMessage);
                                 $scope.ui.forcusFunction($scope.ui.validateInfo.textForcus);
                                 $scope.ui.validateInfo = {};
-                            }else{
+                            } else {
                                 $scope.http.insertVehicleOwner();
                             }
                         }
@@ -235,22 +239,22 @@
                         $scope.ui.validateInfo.textForcus = "#type";
                         return $scope.ui.validateInfo;
                     }
-                    if (!$scope.model.vehicle.vehicleOwner) {
+                    if (!$scope.model.vehicle.vehicleOwner.indexNo) {
                         $scope.ui.validateInfo.isError = true;
-                        $scope.ui.validateInfo.errorMessage = "Select Vehicle Owner to Save";
+                        $scope.ui.validateInfo.errorMessage = "Please select valid Vehicle Owner to Save";
                         $scope.ui.validateInfo.textForcus = "#ownerName";
                         return $scope.ui.validateInfo;
                     }
-                    if (!$scope.model.vehicle.driver) {
+                    if (!$scope.model.vehicle.driver.indexNo) {
                         $scope.ui.validateInfo.isError = true;
-                        $scope.ui.validateInfo.errorMessage = "Select Driver to Save";
+                        $scope.ui.validateInfo.errorMessage = "Please select valid Select Driver to Save";
                         $scope.ui.validateInfo.textForcus = "#driverName";
                         return $scope.ui.validateInfo;
                     }
                     $scope.ui.validateInfo.isError = false;
                     return $scope.ui.validateInfo;
                 };
-                $scope.ui.checkValidateVehicleOwner=function(){
+                $scope.ui.checkValidateVehicleOwner = function () {
                     $scope.ui.validateInfo = {};
                     if (!$scope.model.vehicleOwner.name) {
                         $scope.ui.validateInfo.isError = true;
@@ -322,7 +326,7 @@
                     vehicleFactory.saveVehicle(
                             detailJSON,
                             function (data) {
-                                Notification.success(data.vehicleNo + " Vehicle Successfully Saved");
+                                Notification.success(data.indexNo + " - " + "Vehicle Successfully Saved");
                                 $scope.model.vehicles.push(data);
                                 $scope.ui.validateInfo = {};
                                 $scope.model.makeList.push($scope.model.vehicle.make);
@@ -343,9 +347,13 @@
 
 
                 $scope.http.deleteVehicle = function (indexNo, index) {
-                    vehicleFactory.deleteVehicle(indexNo, function () {
-                        Notification.success("delete success");
-                        $scope.model.vehicles.splice(index, 1);
+                    vehicleFactory.deleteVehicle(indexNo
+                            , function () {
+                                Notification.success(indexNo + " - " + 'Vehilce Delete Successfully.');
+                                $scope.model.vehicles.splice(index, 1);
+                            }
+                    , function (data) {
+                        Notification.error(data);
                     });
                 };
                 $scope.http.insertVehicleOwner = function () {
@@ -356,7 +364,7 @@
                     vehicleFactory.insertVehicleOwner(
                             detailJSON,
                             function (data) {
-                                Notification.success(data.indexNo+'success !');
+                                Notification.success(data.indexNo + " - " + 'Vehicle Owner Save Successfully.');
                                 $scope.model.vehicleOwnerList.push(data);
                                 $scope.model.vehicleOwner = {};
                                 $timeout(function () {
@@ -366,19 +374,29 @@
                             }
                     , function (data) {
                         Notification.error(data.message);
-
                     }
                     );
                 };
                 $scope.http.deleteVehicleOwner = function (indexNo, index) {
                     if (indexNo) {
-                        vehicleFactory.deleteVehicleOwner(indexNo, function () {
-                            $scope.model.vehicleOwnerList.splice(index, 1);
-                            Notification.error(indexNo + ' Delete Successfully');
-                            $timeout(function () {
-                                document.querySelectorAll("#name")[0].focus();
-                            }, 10);
+                        vehicleFactory.deleteVehicleOwner(indexNo
+                                , function () {
+                                    $scope.model.vehicleOwnerList.splice(index, 1);
+                                    Notification.success(indexNo + " - " + 'Vehilce Owner Delete Successfully.');
+                                    $timeout(function () {
+                                        document.querySelectorAll("#name")[0].focus();
+                                    }, 10);
+                                }
+                                , function (data) {
+                            Notification.error(data);
                         });
+                    }
+                };
+
+                //key event
+                $scope.ui.keyEvent = function (event) {
+                    if (event.keyCode === 13) {
+                        $scope.ui.save();
                     }
                 };
 

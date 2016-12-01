@@ -50,6 +50,10 @@ public class ProductService {
     }
 
     public void deleteProduct(Integer indexNo) {
-        productRepository.delete(indexNo);
+        try {
+            productRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw  new RuntimeException("Cannot delete this product because there are details in other transaction");
+        }
     }
 }

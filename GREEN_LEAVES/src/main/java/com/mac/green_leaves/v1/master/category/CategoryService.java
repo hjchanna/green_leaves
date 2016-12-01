@@ -49,6 +49,10 @@ public class CategoryService {
     }
 
     public void deleteCategory(Integer indexNo) {
-        categoryRepository.delete(indexNo);
+        try {
+            categoryRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw  new RuntimeException("Cannot delete this category because there are details in other transaction");
+        }
     }
 }

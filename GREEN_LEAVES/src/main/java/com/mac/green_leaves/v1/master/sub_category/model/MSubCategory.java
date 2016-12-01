@@ -32,18 +32,14 @@ public class MSubCategory implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "name")
-    private String subCategory;
+    private String name;
 
     public MSubCategory() {
     }
 
-    public MSubCategory(Integer indexNo) {
+    public MSubCategory(Integer indexNo, String name) {
         this.indexNo = indexNo;
-    }
-
-    public MSubCategory(Integer indexNo, String subCategory) {
-        this.indexNo = indexNo;
-        this.subCategory = subCategory;
+        this.name = name;
     }
 
     public Integer getIndexNo() {
@@ -54,12 +50,12 @@ public class MSubCategory implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public String getSubCategory() {
-        return subCategory;
+    public String getName() {
+        return name;
     }
 
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

@@ -13,7 +13,7 @@
                             <tbody>
                                 <tr>
                                     <td><label class="control-label"> Product No*: </label></td>
-                                    <td><input id="productNo" smart-input="integer" class="form-control" ng-model="model.data.productNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input id="productNo" smart-input="integer" class="form-control text-right" ng-model="model.data.productNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Name*: </label></td>
@@ -41,7 +41,7 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Sub Category* </label></td>
-                                    <td><input type="text" class="form-control" ng-model="model.data.subCategory" uib-typeahead="subCategorys as (subCategorys.indexNo + ' - ' + subCategorys.subCategory) for subCategorys in model.subCategorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" /></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.subCategory" uib-typeahead="subCategorys as (subCategorys.indexNo + ' - ' + subCategorys.name) for subCategorys in model.subCategorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Unit* </label></td>
@@ -60,11 +60,11 @@
                             <tbody>
                                 <tr>
                                     <td><label class="control-label"> Cost Price* </label></td>
-                                    <td><input id="costPrice" smart-input="integer" class="form-control" ng-model="model.data.costPrice" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input id="costPrice" smart-input="integer" class="form-control text-right" ng-model="model.data.costPrice" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Sale Price* </label></td>
-                                    <td><input smart-input="integer" class="form-control" ng-model="model.data.salePrice" ng-keypress="ui.keyEvent($event)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
+                                    <td><input smart-input="integer" class="form-control text-right" ng-model="model.data.salePrice" ng-keypress="ui.keyEvent($event)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/></td>
                                 </tr>
                             </tbody>
                         </table>

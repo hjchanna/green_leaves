@@ -34,7 +34,7 @@ public class SupplierController {
     }
 
     @RequestMapping(value = "/save-supplier", method = RequestMethod.POST)
-    public MSupplier saveSupplier(@RequestBody MSupplier supplier) {
+    public MSupplier saveSupplier(@RequestBody MSupplier supplier) {        
         return supplierService.saveSupplier(supplier);
     }
 

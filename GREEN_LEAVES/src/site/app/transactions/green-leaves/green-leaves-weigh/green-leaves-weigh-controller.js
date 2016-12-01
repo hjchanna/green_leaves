@@ -9,7 +9,7 @@
                     $scope.model.clear();
 
                     $timeout(function () {
-                        document.querySelectorAll("#route")[0].focus();
+                        document.querySelectorAll("#branch")[0].focus();
                     }, 10);
                 };
 
@@ -17,7 +17,7 @@
                     $scope.ui.mode = "EDIT";
 
                     $timeout(function () {
-                        document.querySelectorAll("#route")[0].focus();
+                        document.querySelectorAll("#branch")[0].focus();
                     }, 10);
                 };
 

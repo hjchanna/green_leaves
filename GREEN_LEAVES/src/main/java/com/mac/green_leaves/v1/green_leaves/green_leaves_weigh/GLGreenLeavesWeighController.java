@@ -35,13 +35,9 @@ public class GLGreenLeavesWeighController {
     @Autowired
     private GLGreenLeavesWeighService greenLeavesWeighService;
 
-    private final Date DATE = new Date();
-    private final Integer BRANCH = 1;
-    private final Integer ROUTE = 1;
-
-    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
-    public TGreenLeavesWeigh getSummary(@PathVariable Integer number) {
-        return greenLeavesWeighService.getSummary(number);
+    @RequestMapping(value = "/{branch}/{number}", method = RequestMethod.GET)
+    public TGreenLeavesWeigh getSummary(@PathVariable Integer number,@PathVariable Integer branch) {
+        return greenLeavesWeighService.getSummary(branch, number);
     }
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)

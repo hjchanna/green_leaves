@@ -37,14 +37,16 @@
                 };
 
                 //delete
-                factory.deleteCategory = function (indexNo, callback) {
+                factory.deleteCategory = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/category/delete-category/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -77,7 +79,7 @@
 
                 //------------------ validation functions ------------------------------
                 $scope.validateInput = function () {
-                    if ($scope.model.category.name !== null) {
+                    if ($scope.model.category.name) {
                         return true;
                     } else {
                         return false;
@@ -92,7 +94,7 @@
                     categoryFactory.saveCategory(
                             detailJSON,
                             function (data) {
-                                Notification.success("success");
+                                Notification.success(data.indexNo + " - " + "Save Successfully");
                                 $scope.model.categorys.push(data);
                                 $scope.model.reset();
                                 $scope.ui.focus();
@@ -105,10 +107,14 @@
                 };
 
                 $scope.http.deleteCategory = function (indexNo, index) {
-                    categoryFactory.deleteCategory(indexNo, function () {
-                        $scope.model.categorys.splice(index, 1);
-                        Notification.success("delete success");
-                    });
+                    categoryFactory.deleteCategory(indexNo
+                            , function () {
+                                $scope.model.categorys.splice(index, 1);
+                                Notification.success(indexNo + " - " + "Delete Successfully");
+                            },
+                            function (data) {
+                                Notification.error(data);
+                            });
                 };
 
                 //<-----------------ui funtiion--------------------->
@@ -118,6 +124,7 @@
                         $scope.http.saveCategory();
                     } else {
                         Notification.error("please input category name");
+                        $scope.ui.focus();
                     }
                 };
 
@@ -127,9 +134,9 @@
                         document.querySelectorAll("#category")[0].focus();
                     }, 10);
                 };
-                
+
                 //key event
-                 $scope.ui.keyEvent = function (event) {
+                $scope.ui.keyEvent = function (event) {
                     if (event.keyCode === 13) {
                         $scope.ui.save();
                     }
