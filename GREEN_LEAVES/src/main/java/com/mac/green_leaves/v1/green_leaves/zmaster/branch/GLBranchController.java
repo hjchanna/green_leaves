@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/green-leaves/master/branch")
-public class BranchController {
+public class GLBranchController {
 
     @Autowired
-    private BranchService branchService;
+    private GLBranchService branchService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<MBranch> findAll() {

@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Don
  */
-public interface BranchRepository extends JpaRepository<MBranch, Integer>{
+public interface GLBranchRepository extends JpaRepository<MBranch, Integer>{
     
 }
