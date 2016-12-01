@@ -28,7 +28,7 @@ public class SubCategoryService {
         return subCategoryRepository.findAll();
     }
 
-    public MSubCategory findByName(String name) {
+    private  MSubCategory findByName(String name) {
         List<MSubCategory> subCategorysList = subCategoryRepository.findByName(name);
         if (subCategorysList.isEmpty()) {
             return null;

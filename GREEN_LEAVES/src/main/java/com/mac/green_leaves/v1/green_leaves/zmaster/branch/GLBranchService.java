@@ -18,10 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class BranchService {
+public class GLBranchService {
 
     @Autowired
-    private BranchRepository branchRepository;
+    private GLBranchRepository branchRepository;
 
     public List<MBranch> findAll() {
         return branchRepository.findAll();
