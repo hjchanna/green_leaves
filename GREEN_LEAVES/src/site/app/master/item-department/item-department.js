@@ -54,7 +54,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-                                errorcallback(data);
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -156,7 +158,7 @@
                                             break;
                                         }
                                     }
-                                    Notification.success(data.indexNo + "-" + "Save Successfully !");
+                                    Notification.success(data.indexNo + " - " + "Save Successfully !");
                                     $scope.model.departmentList.push(data);
                                     $scope.model.department = {};
                                     $scope.ui.forcus();
@@ -182,7 +184,7 @@
                                             break;
                                         }
                                     }
-                                    Notification.success(indexNo + "-" + "Delete Successfully");
+                                    Notification.success(indexNo + " - " + "Delete Successfully");
                                     $scope.ui.mode = "IDEAL";
                                     $scope.model.department = {};
                                     $scope.ui.forcus();

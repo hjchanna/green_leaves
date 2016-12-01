@@ -44,7 +44,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-                                errorcallback(data);
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 

@@ -49,7 +49,11 @@ public class MasterClientService {
     }
 
     public void deleteSupplier(Integer indexNo) {
-        masterClientRepository.delete(indexNo);
+        try {
+            masterClientRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw  new RuntimeException("Cannot delete this Client because there are details in other transaction");
+        }
     }
 
     //validation

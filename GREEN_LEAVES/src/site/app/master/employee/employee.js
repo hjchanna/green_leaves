@@ -48,7 +48,7 @@
                 };
 
                 //delete employee
-                factory.deleteEmployee = function (IndexNo, callback,errorcallback) {
+                factory.deleteEmployee = function (IndexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/employee/delete-employee/" + IndexNo;
 
                     $http.delete(url)
@@ -56,7 +56,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-                                errorcallback(data);
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
 
                 };
@@ -116,7 +118,7 @@
                             detailJSON,
                             function (data) {
                                 $scope.model.employeeList.push(data);
-                                Notification.success(data.indexNo + "-" + "Employee Saved Successfully.");
+                                Notification.success(data.indexNo + " - " + "Employee Saved Successfully.");
                                 $scope.model.reset();
                                 $scope.ui.focus();
                             },
@@ -130,19 +132,19 @@
                 //delete
                 $scope.http.deleteEmployee = function (indexNo) {
                     employeeFactory.deleteEmployee(indexNo
-                    , function () {
-                        var id = -1;
-                        for (var i = 0; i < $scope.model.employeeList.length; i++) {
-                            if ($scope.model.employeeList[i].indexNo === indexNo) {
-                                id = i;
+                            , function () {
+                                var id = -1;
+                                for (var i = 0; i < $scope.model.employeeList.length; i++) {
+                                    if ($scope.model.employeeList[i].indexNo === indexNo) {
+                                        id = i;
+                                    }
+                                }
+                                Notification.success(indexNo + " - " + "Employee Delete Successfully.");
+                                $scope.model.employeeList.splice(id, 1);
                             }
-                        }
-                        Notification.success(indexNo + "-" + "Employee Delete Successfully.");
-                        $scope.model.employeeList.splice(id, 1);
-                    }
-                            ,function (data){
-                                Notification.error(data);
-                            });
+                    , function (data) {
+                        Notification.error(data);
+                    });
                 };
 
 

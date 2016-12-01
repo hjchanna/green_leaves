@@ -34,6 +34,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/save-employee", method = RequestMethod.POST)
     public MEmployee saveEmployee(@RequestBody MEmployee mEmployee) {
+        mEmployee.setBranch(1);
         return employeeService.saveEmployee(mEmployee);
     }
 

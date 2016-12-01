@@ -41,7 +41,7 @@
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Sub Category* </label></td>
-                                    <td><input type="text" class="form-control" ng-model="model.data.subCategory" uib-typeahead="subCategorys as (subCategorys.indexNo + ' - ' + subCategorys.subCategory) for subCategorys in model.subCategorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" /></td>
+                                    <td><input type="text" class="form-control" ng-model="model.data.subCategory" uib-typeahead="subCategorys as (subCategorys.indexNo + ' - ' + subCategorys.name) for subCategorys in model.subCategorys|filter:$viewValue|limitTo:10" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label"> Unit* </label></td>

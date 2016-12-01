@@ -31,14 +31,16 @@
                 };
 
                 //delete supplier
-                factory.deletesupplier = function (indexNo, callback) {
+                factory.deletesupplier = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/supplier/delete-supplier/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
                 };
 
@@ -127,7 +129,7 @@
                     supplierFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success("saved successfully.");
+                                Notification.success(data.indexNo + " - " + "Saved Successfully.");
                                 //reset model
                                 $scope.model.suppliers.push(data);
                                 $scope.model.reset();
@@ -142,16 +144,20 @@
 
                 //delete supplier
                 $scope.http.delete = function (indexNo) {
-                    supplierFactory.deletesupplier(indexNo, function () {
+                    supplierFactory.deletesupplier(indexNo
+                    , function () {
                         var id = -1;
                         for (var i = 0; i < $scope.model.suppliers.length; i++) {
                             if ($scope.model.suppliers[i].indexNo === indexNo) {
                                 id = i;
                             }
                         }
-                        Notification.success("delete successfully.");
+                        Notification.success(indexNo + " - " + "Delete Successfully.");
                         $scope.model.suppliers.splice(id, 1);
-                    });
+                    }
+                            ,function (data){
+                                Notification.error(data);
+                            });
                 };
 
                 $scope.init = function () {

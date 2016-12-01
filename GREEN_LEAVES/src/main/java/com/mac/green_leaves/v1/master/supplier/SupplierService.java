@@ -37,7 +37,11 @@ public class SupplierService {
     }
 
     public void deleteSupplier(Integer indexNo) {
-        supplierRepository.delete(indexNo);
+        try {
+            supplierRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this Supplier because there are details in other transaction");
+        }
     }
 
     //validation

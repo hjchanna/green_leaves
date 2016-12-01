@@ -33,12 +33,12 @@ public class RouteController {
 
     @RequestMapping(value = "/save-route", method = RequestMethod.POST)
     public MRoute saveRoute(@RequestBody MRoute mRoute) {
+        mRoute.setBranch(1);
         return routeService.saveRoute(mRoute);
     }
 
     @RequestMapping(value = "/delete-route/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteRoute(@PathVariable Integer indexNo) {
-        System.out.println(indexNo + "sssssssssssssssssssssssssssssssss");
         routeService.deleteRoute(indexNo);
         return indexNo;
     }

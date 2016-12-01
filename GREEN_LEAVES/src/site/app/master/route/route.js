@@ -79,7 +79,7 @@
                 };
 
                 //delete 
-                factory.deleteRoute = function (indexNo, callback,errorcallback) {
+                factory.deleteRoute = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/routes/delete-route/" + indexNo;
 
                     $http.delete(url)
@@ -87,7 +87,9 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
-                                errorcallback(data);
+                                if (errorcallback) {
+                                    errorcallback(data);
+                                }
                             });
 
                 };
@@ -138,7 +140,7 @@
                     routeFactory.saveRoute(
                             detailJSON,
                             function (data) {
-                                Notification.success(data.indexNo +"-"+ "Route Save Successfully ");
+                                Notification.success(data.indexNo + " - " + "Route Save Successfully ");
                                 $scope.model.routes.push(data);
                                 $scope.model.reset();
                                 $scope.ui.focus();
@@ -153,14 +155,14 @@
                 //delete
                 $scope.http.deleteRoute = function (indexNo, index) {
                     routeFactory.deleteRoute(indexNo
-                    , function () {
-                        Notification.success(indexNo +" - "+ "Route Delete Successfully.");
-                        $scope.model.routes.splice(index, 1);
-                        $scope.model.route={};
-                    }
-                            ,function (data){
-                                Notification.error(data);
-                            });
+                            , function () {
+                                Notification.success(indexNo + " - " + "Route Delete Successfully.");
+                                $scope.model.routes.splice(index, 1);
+                                $scope.model.route = {};
+                            }
+                    , function (data) {
+                        Notification.error(data);
+                    });
                 };
 
 
@@ -198,7 +200,7 @@
                         $scope.http.saveRoutes();
                     } else {
                         Notification.error("Please input Details");
-                         $scope.ui.focus();
+                        $scope.ui.focus();
                     }
                 };
 
@@ -213,8 +215,8 @@
                 //kwy event
                 $scope.ui.keyEvent = function (event) {
                     console.log(event);
-                     if(event.which === 13) {
-                         $scope.ui.save();
+                    if (event.which === 13) {
+                        $scope.ui.save();
                     }
 
                 };

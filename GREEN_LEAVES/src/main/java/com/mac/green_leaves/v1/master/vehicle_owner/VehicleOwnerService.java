@@ -52,7 +52,7 @@ public class VehicleOwnerService {
         try {
         vehicleOwnerRepository.delete(indexNo);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot delete this sub category because there are details in other transaction");
+            throw new RuntimeException("Cannot delete this Vehicle Owner because there are details in other transaction");
         }
     }
 }

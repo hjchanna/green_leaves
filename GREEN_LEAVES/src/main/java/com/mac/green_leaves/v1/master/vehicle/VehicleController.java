@@ -34,6 +34,7 @@ public class VehicleController {
 
     @RequestMapping(value = "/save-vehicle", method = RequestMethod.POST)
     public MVehicle saveVehicle(@RequestBody MVehicle vehicle) {
+        vehicle.setBranch(1);
         return vehicleService.saveVehicle(vehicle);
     }
 
