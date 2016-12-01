@@ -1,17 +1,8 @@
-/* 
- *  option-pane.js
- *  
- *  @author Channa Mohan
- *     hjchanna@gmail.com
- *  
- *  Created on Oct 18, 2016, 10:32:25 AM
- *  All rights reserved.
- *  Copyrights supervision technology (pvt.) ltd.
- *  
- */
 (function () {
     angular.module("appModule")
-            .service("optionPane", function ($uibModal) {
+            .service("ConfirmPane", function ($uibModal, $q) {
+                var defer;
+
                 var ctrl = function (type, message, title) {
                     function Controller(modalInstance, $timeout) {
                         //modal instance
@@ -29,7 +20,7 @@
                             case 'primary':
                                 this.optionPaneClass = 'option-pane-primary';
                                 this.optionPaneIcon = 'glyphicon glyphicon-tag';
-                                this.title = typeof this.title === 'undefined' ? 'Message' : this.title;
+                                this.title = typeof this.title === 'undefined' ? 'Confirm' : this.title;
                                 break;
                             case 'info':
                                 this.optionPaneClass = 'option-pane-info';
@@ -61,10 +52,18 @@
                     }
 
                     Controller.prototype = {
-                        continue: function () {
+                        confirm: function () {
                             var scope = this;
                             this.timeout(function () {
                                 scope.modalInstance.close();
+                                defer.resolve();
+                            }, 250);
+                        },
+                        discard: function () {
+                            var scope = this;
+                            this.timeout(function () {
+                                scope.modalInstance.close();
+                                defer.reject();
                             }, 250);
                         }
                     };
@@ -72,43 +71,54 @@
                     return ['$uibModalInstance', '$timeout', Controller];
                 };
 
-                this.message = function (optionType, message, title) {
+                this.confirm = function (optionType, message, title) {
+                    defer = $q.defer();
+
                     $uibModal.open({
                         animation: true,
                         backdrop: 'static',
                         ariaLabelledBy: 'modal-title',
                         ariaDescribedBy: 'modal-body',
-                        templateUrl: './app/util/option-pane/option-pane.html',
+                        templateUrl: './app/util/dialog/confirm-pane.html',
                         controller: ctrl(optionType, message, title),
                         controllerAs: '$ctrl',
                         size: 'md'
                     });
+
+                    return {
+                        confirm: function (callback) {
+                            defer.promise.then(callback, null);
+                            return this;
+                        },
+                        discard: function (callback) {
+                            defer.promise.then(null, callback);
+                            return this;
+                        }
+                    };
                 };
 
-                this.primaryMessage = function (message, title) {
-                    this.message('primary', message, title);
+                this.primaryConfirm = function (message, title) {
+                    return this.confirm('primary', message, title);
                 };
 
-                this.infoMessage = function (message, title) {
-                    this.message('info', message, title);
+                this.infoConfirm = function (message, title) {
+                    return this.confirm('info', message, title);
                 };
 
-                this.successMessage = function (message, title) {
-                    this.message('success', message, title);
+                this.successConfirm = function (message, title) {
+                    return this.confirm('success', message, title);
                 };
 
-                this.warningMessage = function (message, title) {
-                    this.message('warning', message, title);
+                this.warningConfirm = function (message, title) {
+                    return this.confirm('warning', message, title);
                 };
 
-                this.dangerMessage = function (message, title) {
-                    this.message('danger', message, title);
+                this.dangerConfirm = function (message, title) {
+                    return this.confirm('danger', message, title);
                 };
 
-                this.defaultMessage = function (message, title) {
-                    this.message('default', message, title);
+                this.defaultConfirm = function (message, title) {
+                    return this.confirm('default', message, title);
                 };
-
             });
 }());
-

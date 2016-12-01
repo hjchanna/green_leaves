@@ -39,6 +39,14 @@
             padding: 10px 20px 10px 20px;
             border-radius: 0px;
         }
+
+        .btn.clear{
+            background: transparent !important;
+        }
+
+        .progress{
+            margin-bottom: 0px !important;
+        }
     }
 }
 
@@ -60,6 +68,11 @@
 
         .btn{
             background:$default-color-dark-border;
+            border: $default-color-dark-border 2px solid;
+        }
+
+        .progress-bar{
+            background-color:$default-color-dark-border;
         }
     }
 }
@@ -82,6 +95,11 @@
 
         .btn{
             background:$primary-color-dark-border;
+            border: $primary-color-dark-border 2px solid;
+        }
+
+        .progress-bar{
+            background-color:$primary-color-dark-border;
         }
     }
 }
@@ -104,6 +122,11 @@
 
         .btn{
             background:$info-color-dark-border;
+            border: $info-color-dark-border 2px solid;
+        }
+
+        .progress-bar{
+            background-color:$info-color-dark-border;
         }
     }
 }
@@ -126,6 +149,11 @@
 
         .btn{
             background:$warning-color-dark-border;
+            border: $warning-color-dark-border 2px solid;
+        }
+
+        .progress-bar{
+            background-color:$warning-color-dark-border;
         }
     }
 }
@@ -148,6 +176,11 @@
 
         .btn{
             background:$success-color-dark-border;
+            border: $success-color-dark-border 2px solid;
+        }
+
+        .progress-bar{
+            background-color:$success-color-dark-border;
         }
     }
 }
@@ -170,6 +203,11 @@
 
         .btn{
             background:$danger-color-dark-border;
+            border: $danger-color-dark-border 2px solid;
+        }
+
+        .progress-bar{
+            background-color:$danger-color-dark-border;
         }
     }
 }
