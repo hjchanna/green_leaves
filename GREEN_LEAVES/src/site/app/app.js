@@ -23,6 +23,7 @@
         "employeeModule",
         "routeModule",
         "fertilizerModule",
+        "branchModule",
         "greenLeavesWeighReportModule"
     ]);
 
@@ -120,6 +121,10 @@
                         .when("/master/route/route", {
                             templateUrl: "app/master/route/route.html",
                             controller: "routeController"
+                        })
+                        .when("/master/branch/branch", {
+                            templateUrl: "app/master/branch/branch.html",
+                            controller: "branchController"
                         })
                         //reports
                         .when("/reports/green-leaves-weigh", {
