@@ -55,6 +55,7 @@ $control-border-disabled:  lighten($default-color, 20%);
 $control-border-fous:   lighten($danger-color, 20%);
 
 $scrollbar-thumb-color:       #D1D7E9;
+$scrollbar-thumb-color-dark:  lighten($bg-ultra-dark-color, 20%);
 
 $dark-font-color: #333;
 $light-font-color: #FFFFFF;
