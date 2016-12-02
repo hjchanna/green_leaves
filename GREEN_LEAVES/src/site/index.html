@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     </head>
     <body ng-app="appModule" ng-controller="appController">
-        <div class="side-bar-left background-ultra-dark" ng-class="hamburgerOpen ? 'side-bar-hidden' : ''">
+        <div class="side-bar-left background-ultra-dark smart-scroll-y" ng-class="hamburgerOpen ? 'side-bar-hidden' : ''">
             <div>
                 <div class="brand">
                     <div class="brand-image"></div>
@@ -49,6 +49,9 @@
                         <li> 
                             <a class="menu-header">REGISTRATION</a>
                             <ul>
+                                <li><a href="#/master/cheque-book/cheque-book">Cheque Book</a></li>
+                                <li><a href="#/master/bank/bank">Bank</a></li>
+                                <li><a href="#/master/bank-branch/bank-branch">Bank Branch</a></li>
                                 <li><a href="#/master/employee/employee">Employee</a></li>
                                 <li><a href="#/master/client/manage-client">Client</a></li>
                                 <li><a href="#/master/category/category">Category</a></li>

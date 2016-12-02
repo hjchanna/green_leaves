@@ -24,13 +24,16 @@
         "routeModule",
         "fertilizerModule",
         "branchModule",
-        "greenLeavesWeighReportModule"
+        "greenLeavesWeighReportModule",
+        "chequeBookModule",
+        "bankModule",
+        "bankBranchModule"
     ]);
 
     //constants
     angular.module("appModule")
             .constant("systemConfig", {
-                apiUrl: "http://localhost:8080"
+                apiUrl: location.protocol + "//" + window.location.hostname + ":8080"
             });
 
     //route config
@@ -125,6 +128,18 @@
                         .when("/master/branch/branch", {
                             templateUrl: "app/master/branch/branch.html",
                             controller: "branchController"
+                        })
+                        .when("/master/cheque-book/cheque-book", {
+                            templateUrl: "app/master/cheque-book/cheque-book.html",
+                            controller: "chequeBookController"
+                        })
+                        .when("/master/bank/bank", {
+                            templateUrl: "app/master/bank/bank.html",
+                            controller: "bankController"
+                        })
+                        .when("/master/bank-branch/bank-branch", {
+                            templateUrl: "app/master/bank-branch/bank-branch.html",
+                            controller: "bankBranchController"
                         })
                         //reports
                         .when("/reports/green-leaves-weigh", {

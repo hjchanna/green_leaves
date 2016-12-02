@@ -1,0 +1,107 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body ">
+    <div class="col-xs-4 background-dark">
+        <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 66px); margin-top: 15px">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">Issue No *</label></td>
+                        <td><input class="form-control" smart-input="integer" id="chequeBookIssueNo" ng-model="model.chequeBook.indexNo" ng-disabled="true" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Bank Account *</label></td>
+                        <td><input class="form-control" id="bankAccount" ng-model="model.chequeBook.bankAccount" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="bankAccount as (bankAccount.accountNumber+' - '+bankAccount.name) for bankAccount in model.bankAccountList|filter:{accountNumber:$viewValue}|filter:{active:'true'}|limitTo:10"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Start No *</label></td>
+                        <td><input class="form-control" smart-input="integer" ng-model="model.chequeBook.startNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">No of Pages *</label></td>
+                        <td><input class="form-control" smart-input="integer" ng-model="model.chequeBook.noOfPages"ng-keypress="ui.keyEvent($event)" ng-keyup="ui.setLastPage()" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Last No</label></td>
+                        <td><input smart-input="integer" class="form-control" ng-model="model.chequeBook.lastNo" ng-disabled="true"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
+        <div class="row col-xs-5">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+        </div>
+        <table class="control-table">
+            <col style="width: 10%">
+            <col style="width: 13%">
+            <col style="width: 29%">
+            <col style="width: 12%">
+            <col style="width: 13%">
+            <col style="width: 13%">
+            <col style="width: 10%">
+            <thead class="background-dark">
+                <tr>
+                    <th>
+                        <label>#</label>
+                    </th>
+                    <th>
+                        <label>Date</label>
+                    </th>
+                    <th>
+                        <label>Account</label>
+                    </th>
+                    <th>
+                        <label>start No</label>
+                    </th>
+                    <th>
+                        <label>Pages</label>
+                    </th>
+                    <th>
+                        <label>Active</label>
+                    </th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 270px);">
+            <table class="table-hover">
+                <col style="width: 10%">
+            <col style="width: 13%">
+            <col style="width: 29%">
+            <col style="width: 12%">
+            <col style="width: 13%">
+            <col style="width: 13%">
+            <col style="width: 10%">
+                <tbody>
+                    <tr ng-repeat="chequeBook in model.chequeBookList|filter:model.search.name|orderBy:'indexNo'">
+                        <td><span class="label label-default">{{chequeBook.indexNo|fixedLength:5}}</span></td>
+                        <td>{{chequeBook.date| date :  "yyyy-MM-dd"}}</td>
+                        <td>{{chequeBook.bankAccount.accountNumber}}</td>
+                        <td>{{chequeBook.startNo}}</td>
+                        <td>{{chequeBook.noOfPages}}</td>
+                        <td ng-show="chequeBook.active===true"><span class="label label-success">Active</span></td>
+                        <td ng-show="chequeBook.active===false"><span class="label label-danger">Inactive</span></td>
+                        <td class="text-right" style="padding-left: 5px;">
+                            <a class="btn btn-primary" ng-click="ui.edit(chequeBook,$index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="http.delete(chequeBook.indexNo,$index)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>        
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>
+<!--<div class="index-content-footer">
+    content footer
+</div>-->
