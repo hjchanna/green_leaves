@@ -54,6 +54,19 @@
                                 });
                     }
                 };
+                
+                //load weight
+                $scope.ui.loadWeight = function (number) {
+                    $scope.model.data.number = number;
+                    $scope.model.load()
+                            .then(function () {
+                                $scope.ui.mode = "SELECTED";
+                            });
+                };
+
+                $scope.ui.serchWeight = function (model) {
+                    $scope.model.searchGreenLeavesWeight(model);
+                };
 
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";

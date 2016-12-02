@@ -12,6 +12,7 @@
                         "routeHelper": null,
                         "vehicle": null,
                         "number": null,
+                        "status": null,
                         "greenLeaveWeighDetails": [
                             /*{
                              "indexNo": 0,

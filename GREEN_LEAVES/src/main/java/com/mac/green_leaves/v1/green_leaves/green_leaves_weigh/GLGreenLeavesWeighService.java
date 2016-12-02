@@ -29,13 +29,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class GLGreenLeavesWeighService {
 
+    private final String PENDING_STATUS = "PENDING";
+    private final String APPROVE_STATUS = "APPROVE";
     @Autowired
     private GLGreenLeavesWeighRepository greenLeavesWeighRepository;
 
     @Autowired
     private GLGreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
 
-    public TGreenLeavesWeigh getSummary(Integer branch,Integer number) {
+    public TGreenLeavesWeigh getSummary(Integer branch, Integer number) {
         List<TGreenLeavesWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumber(branch, number);
 
         if (greenLeaveWeighs.isEmpty()) {
@@ -59,6 +61,7 @@ public class GLGreenLeavesWeighService {
             }
             greenLeaveWeigh.setNumber(maxNumber + 1);
         }
+        greenLeaveWeigh.setStatus(PENDING_STATUS);
         greenLeaveWeigh = validateWeighSummary(greenLeaveWeigh);
 
         //TODO:transaction
@@ -90,7 +93,6 @@ public class GLGreenLeavesWeighService {
     public void deleteWeigh(Integer indexNo) {
         TGreenLeavesWeighDetail greenLeaveWeighDetail = greenLeavesWeighDetailRepository.getOne(indexNo);
         Integer greenLeaveWeighIndexNo = greenLeaveWeighDetail.getGreenLeavesWeigh().getIndexNo();
-
 
         TGreenLeavesWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(greenLeaveWeighIndexNo);
 
@@ -179,5 +181,9 @@ public class GLGreenLeavesWeighService {
         greenLeaveWeigh.setSuperPolyBags(superPolyBags);
 
         return greenLeaveWeigh;
+    }
+
+    public List<TGreenLeavesWeigh> findByBranch(Integer branch) {
+        return greenLeavesWeighRepository.findByBranch(branch);
     }
 }

@@ -23,7 +23,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -57,11 +56,23 @@ public class TGreenLeavesReceiveDetail implements Serializable {
     private BigDecimal superLeavesQuantity;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "client")
-    private int client;
+    private Integer client;
+
+    @Basic(optional = false)
+    @Column(name = "remark")
+    private String remark;
 
     public TGreenLeavesReceiveDetail() {
+    }
+
+    public TGreenLeavesReceiveDetail(Integer indexNo, TGreenLeavesReceive greenLeavesReceive, BigDecimal normalLeavesQuantity, BigDecimal superLeavesQuantity, Integer client, String remark) {
+        this.indexNo = indexNo;
+        this.greenLeavesReceive = greenLeavesReceive;
+        this.normalLeavesQuantity = normalLeavesQuantity;
+        this.superLeavesQuantity = superLeavesQuantity;
+        this.client = client;
+        this.remark = remark;
     }
 
     public TGreenLeavesReceiveDetail(Integer indexNo) {
@@ -92,19 +103,32 @@ public class TGreenLeavesReceiveDetail implements Serializable {
         this.superLeavesQuantity = superLeavesQuantity;
     }
 
-    public int getClient() {
-        return client;
-    }
-
-    public void setClient(int client) {
-        this.client = client;
-    }
-
     public TGreenLeavesReceive getGreenLeavesReceive() {
         return greenLeavesReceive;
     }
 
     public void setGreenLeavesReceive(TGreenLeavesReceive greenLeavesReceive) {
         this.greenLeavesReceive = greenLeavesReceive;
+    }
+
+    public Integer getClient() {
+        return client;
+    }
+
+    public void setClient(Integer client) {
+        this.client = client;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "TGreenLeavesReceiveDetail{" + "indexNo=" + indexNo + ", greenLeavesReceive=" + greenLeavesReceive + ", normalLeavesQuantity=" + normalLeavesQuantity + ", superLeavesQuantity=" + superLeavesQuantity + ", client=" + client + ", remark=" + remark + '}';
     }
 }

@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -28,38 +27,54 @@ public class MBranch implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "index_no")
-    private Integer indexNo;
-    
+    private int indexNo;
+
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 25)
     @Column(name = "branch_code")
     private String branchCode;
-    
+
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Column(name = "register_number")
+    private String registerNumber;
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "name")
     private String name;
+
+    @Column(name = "address_line1")
+    private String addressLine1;
+
+    @Column(name = "address_line2")
+    private String addressLine2;
+
+    @Column(name = "address_line3")
+    private String addressLine3;
+
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
 
     public MBranch() {
     }
 
-    public MBranch(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public MBranch(Integer indexNo, String branchCode, String name) {
+    public MBranch(int indexNo, String branchCode, String registerNumber, String name, String addressLine1, String addressLine2, String addressLine3, String telephoneNumber) {
         this.indexNo = indexNo;
         this.branchCode = branchCode;
+        this.registerNumber = registerNumber;
         this.name = name;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.addressLine3 = addressLine3;
+        this.telephoneNumber = telephoneNumber;
     }
 
-    public Integer getIndexNo() {
+    public int getIndexNo() {
         return indexNo;
     }
 
-    public void setIndexNo(Integer indexNo) {
+    public void setIndexNo(int indexNo) {
         this.indexNo = indexNo;
     }
 
@@ -71,6 +86,14 @@ public class MBranch implements Serializable {
         this.branchCode = branchCode;
     }
 
+    public String getRegisterNumber() {
+        return registerNumber;
+    }
+
+    public void setRegisterNumber(String registerNumber) {
+        this.registerNumber = registerNumber;
+    }
+
     public String getName() {
         return name;
     }
@@ -79,29 +102,41 @@ public class MBranch implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
+    public String getAddressLine1() {
+        return addressLine1;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MBranch)) {
-            return false;
-        }
-        MBranch other = (MBranch) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getAddressLine3() {
+        return addressLine3;
+    }
+
+    public void setAddressLine3(String addressLine3) {
+        this.addressLine3 = addressLine3;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
     @Override
     public String toString() {
-        return "com.mac.green_leaves.v1.green_leaves.zmaster.branch.model.MBranch[ indexNo=" + indexNo + " ]";
+        return "MBranch{" + "indexNo=" + indexNo + ", branchCode=" + branchCode + ", registerNumber=" + registerNumber + ", name=" + name + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3=" + addressLine3 + ", telephoneNumber=" + telephoneNumber + '}';
     }
-    
+
 }

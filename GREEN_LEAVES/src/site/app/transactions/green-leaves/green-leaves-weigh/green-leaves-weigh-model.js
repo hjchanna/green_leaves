@@ -20,6 +20,8 @@
             routeHelpers: [],
             //vehicle information
             vehicles: [],
+            //weight information
+            greenLeavesWeight: [],
             //constructor
             constructor: function () {
                 var that = this;
@@ -63,7 +65,7 @@
                 var that = this;
                 var number = this.data.number;
                 var branch = this.data.branch;
-                GreenLeavesWeighService.loadWeigh(branch,number)
+                GreenLeavesWeighService.loadWeigh(branch, number)
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
@@ -277,8 +279,30 @@
                     }
                 });
                 return label;
+            },
+            searchGreenLeavesWeight: function (branch) {
+                var defer = $q.defer();
+                var that = this;
+                GreenLeavesWeighService.loadWeighByBranch(branch)
+                        .success(function (data) {
+                            that.greenLeavesWeight = [];
+                            angular.extend(that.greenLeavesWeight, data);
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+                        });
+            },
+            route: function (indexNo) {
+                var route;
+                angular.forEach(this.routes, function (value) {
+                    if (value.indexNo === parseInt(indexNo)) {
+                        route = value;
+                        return;
+                    }
+                });
+                return route;
             }
-
         };
 
         return GreenLeavesWeighModel;
