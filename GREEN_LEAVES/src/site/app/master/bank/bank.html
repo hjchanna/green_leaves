@@ -1,0 +1,76 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body ">
+    <div class="col-xs-4 background-dark">
+        <div class="animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 66px); margin-top: 15px">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">Bank Code *</label></td>
+                        <td><input class="form-control" smart-input="integer" id="code" ng-model="model.bank.bankCode" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Bank Name *</label></td>
+                        <td><input class="form-control" id="name" ng-model="model.bank.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-8 background-light">
+        <div class="row col-xs-5">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+        </div>
+        <table class="control-table">
+            <col style="width: 20%">
+            <col style="width: 35%">
+            <col style="width: 35%">
+            <col style="width: 10%">
+            <thead class="background-dark">
+                <tr>
+                    <th>
+                        <label>#</label>
+                    </th>
+                    <th>
+                        <label>Code</label>
+                    </th>
+                    <th>
+                        <label>Name</label>
+                    </th>
+                    <th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 270px);">
+            <table class="table-hover">
+                <col style="width: 20%">
+                <col style="width: 35%">
+                <col style="width: 35%">
+                <col style="width: 10%">
+                <tbody>
+                    <tr ng-repeat="bank in model.bankList|filter:model.search.name|orderBy:'indexNo'">
+                        <td><span class="label label-default">{{bank.indexNo|fixedLength:5}}</span></td>
+                        <td>{{bank.bankCode}}</td>
+                        <td>{{bank.name}}</td>
+                        <td class="text-right" style="padding-left: 5px;">
+                            <a class="btn btn-primary" ng-click="ui.edit(bank, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="http.delete(bank.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>        
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>
+<!--<div class="index-content-footer">
+    content footer
+</div>-->
