@@ -25,6 +25,8 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
 
     public List<TGreenLeavesWeigh> findByBranchAndNumber(Integer branch, Integer number);
 
+    public List<TGreenLeavesWeigh> findByBranch(Integer branch);
+
     @Query(value = "SELECT MAX(number) FROM t_green_leaves_weigh WHERE branch=:branch", nativeQuery = true)
     public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
 }

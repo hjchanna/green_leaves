@@ -13,8 +13,7 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +35,7 @@ public class GLGreenLeavesWeighController {
     private GLGreenLeavesWeighService greenLeavesWeighService;
 
     @RequestMapping(value = "/{branch}/{number}", method = RequestMethod.GET)
-    public TGreenLeavesWeigh getSummary(@PathVariable Integer number,@PathVariable Integer branch) {
+    public TGreenLeavesWeigh getSummary(@PathVariable Integer number, @PathVariable Integer branch) {
         return greenLeavesWeighService.getSummary(branch, number);
     }
 
@@ -56,5 +55,10 @@ public class GLGreenLeavesWeighController {
     public Integer deleteWeigh(@PathVariable Integer indexNo) {
         greenLeavesWeighService.deleteWeigh(indexNo);
         return indexNo;
+    }
+
+    @RequestMapping(value = "/find-by-branch/{branch}", method = RequestMethod.GET)
+    public List<TGreenLeavesWeigh> findByBranch(@PathVariable Integer branch) {
+        return greenLeavesWeighService.findByBranch(branch);
     }
 }

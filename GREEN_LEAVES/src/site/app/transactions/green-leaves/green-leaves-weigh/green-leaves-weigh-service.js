@@ -22,6 +22,9 @@
         };
 
         //green leaves weigh
+        this.loadWeighByBranch = function (branch) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-by-branch/" + branch);
+        };
         this.loadWeigh = function (branch, number) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + branch + "/" + number);
         };

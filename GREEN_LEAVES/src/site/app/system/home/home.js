@@ -3,7 +3,7 @@
     angular.module("homeModule", []);
     //controller
     angular.module("homeModule")
-            .controller("homeController", function ($scope, $timeout, optionPane, ConfirmPane, ProgressPane) {
+            .controller("homeController", function ($scope, InputPane, optionPane, ConfirmPane, ProgressPane) {
                 $scope.informationMessage = function () {
 //                    optionPane.open('danger');
                     optionPane.defaultMessage("My message should be here");
@@ -22,6 +22,19 @@
                                 console.log("ReJECT");
                             });
                 };
+                
+                $scope.input = function () {
+                    InputPane.primaryInput("Input ")
+                            .confirm(function (data) {
+                                console.log(data);
+                                console.log("DONE");
+                            })
+                            .discard(function () {
+                                console.log("CANCEL");
+                            });
+                };
+                
+                
                 $scope.info = function () {
                     optionPane.infoMessage("My message should be here");
                 };

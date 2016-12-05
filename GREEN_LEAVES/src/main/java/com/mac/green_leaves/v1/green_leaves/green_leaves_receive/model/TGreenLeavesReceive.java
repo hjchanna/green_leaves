@@ -26,7 +26,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -63,9 +62,12 @@ public class TGreenLeavesReceive implements Serializable {
     private Date date;
 
     @Basic(optional = false)
-
     @Column(name = "route")
     private int route;
+
+    @Basic(optional = false)
+    @Column(name = "status")
+    private String status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "greenLeavesReceive", fetch = FetchType.EAGER)
     private List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails;
@@ -73,17 +75,15 @@ public class TGreenLeavesReceive implements Serializable {
     public TGreenLeavesReceive() {
     }
 
-    public TGreenLeavesReceive(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public TGreenLeavesReceive(Integer indexNo, int branch, int transaction, int number, Date date, int route) {
+    public TGreenLeavesReceive(Integer indexNo, int branch, int transaction, int number, Date date, int route, String status, List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.transaction = transaction;
         this.number = number;
         this.date = date;
         this.route = route;
+        this.status = status;
+        this.greenLeavesReceiveDetails = greenLeavesReceiveDetails;
     }
 
     public Integer getIndexNo() {
@@ -142,9 +142,17 @@ public class TGreenLeavesReceive implements Serializable {
         this.greenLeavesReceiveDetails = greenLeavesReceiveDetails;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + ", branch=" + branch + ", transaction=" + transaction + ", number=" + number + ", date=" + date + ", route=" + route + ", greenLeavesReceiveDetails=" + greenLeavesReceiveDetails + '}';
+        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + ", branch=" + branch + ", transaction=" + transaction + ", number=" + number + ", date=" + date + ", route=" + route + ", status=" + status + ", greenLeavesReceiveDetails=" + greenLeavesReceiveDetails + '}';
     }
 
 }

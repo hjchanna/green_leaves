@@ -7,7 +7,6 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -200,6 +199,11 @@ public class TGreenLeavesWeigh implements Serializable {
     @Column(name = "vehicle")
     private int vehicle;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "status")
+    private String status;
+
     @OneToMany(mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
     private Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
 
@@ -210,7 +214,7 @@ public class TGreenLeavesWeigh implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TGreenLeavesWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, int routeOfficer, int routeHelper, int vehicle) {
+    public TGreenLeavesWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, int routeOfficer, int routeHelper, int vehicle, String status, Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
@@ -244,6 +248,8 @@ public class TGreenLeavesWeigh implements Serializable {
         this.routeOfficer = routeOfficer;
         this.routeHelper = routeHelper;
         this.vehicle = vehicle;
+        this.status = status;
+        this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 
     public Integer getIndexNo() {
@@ -518,29 +524,17 @@ public class TGreenLeavesWeigh implements Serializable {
         this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
+    public String getStatus() {
+        return status;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TGreenLeavesWeigh)) {
-            return false;
-        }
-        TGreenLeavesWeigh other = (TGreenLeavesWeigh) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        return "com.mac.gl.transaction.green_leaves.model.TGreenLeaveWeigh[ indexNo=" + indexNo + " ]";
+        return "TGreenLeavesWeigh{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", transaction=" + transaction + ", number=" + number + ", normalTotalWeight=" + normalTotalWeight + ", normalTareCalculated=" + normalTareCalculated + ", normalTareDeduction=" + normalTareDeduction + ", normalGeneralDeductionPercent=" + normalGeneralDeductionPercent + ", normalGeneralDeduction=" + normalGeneralDeduction + ", normalWaterDeduction=" + normalWaterDeduction + ", normalCoarseLeaves=" + normalCoarseLeaves + ", normalBoiledLeaves=" + normalBoiledLeaves + ", normalNetWeight=" + normalNetWeight + ", normalCrates=" + normalCrates + ", normalBags=" + normalBags + ", normalPolyBags=" + normalPolyBags + ", superTotalWeight=" + superTotalWeight + ", superTareCalculated=" + superTareCalculated + ", superTareDeduction=" + superTareDeduction + ", superGeneralDeductionPercent=" + superGeneralDeductionPercent + ", superGeneralDeduction=" + superGeneralDeduction + ", superWaterDeduction=" + superWaterDeduction + ", superCoarseLeaves=" + superCoarseLeaves + ", superBoiledLeaves=" + superBoiledLeaves + ", superNetWeight=" + superNetWeight + ", superCrates=" + superCrates + ", superBags=" + superBags + ", superPolyBags=" + superPolyBags + ", route=" + route + ", routeOfficer=" + routeOfficer + ", routeHelper=" + routeHelper + ", vehicle=" + vehicle + ", status=" + status + ", greenLeaveWeighDetails=" + greenLeaveWeighDetails + '}';
     }
 
 }

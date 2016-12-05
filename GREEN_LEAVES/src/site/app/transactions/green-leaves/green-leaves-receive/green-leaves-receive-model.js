@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("GreenLeavesReceiveModel", function (GreenLeavesReceiveService, GreenLeavesReceiveModelFactory, $q) {
+            .factory("GreenLeavesReceiveModel", function (GreenLeavesReceiveService, GreenLeavesReceiveModelFactory, $q, Notification) {
                 function GreenLeavesReceiveModel() {
                     this.constructor();
                 }
@@ -11,7 +11,11 @@
                     totalQuantity: [],
                     factoryQuantity: [],
                     differenceQuantity: [],
+                    //route information
                     routes: [],
+                    //branch information
+                    branchs: [],
+                    //client information
                     clients: [],
                     constructor: function () {
                         var that = this;
@@ -19,9 +23,15 @@
                                 .success(function (data) {
                                     that.routes = data;
                                 });
+
                         GreenLeavesReceiveService.loadClients()
                                 .success(function (data) {
                                     that.clients = data;
+                                });
+
+                        GreenLeavesReceiveService.loadBranch()
+                                .success(function (data) {
+                                    that.branchs = data;
                                 });
 
                         that.totalQuantity = [0, 0];
@@ -38,12 +48,9 @@
                     },
                     addDetail: function () {
                         var defer = $q.defer();
-                        if (this.tempData.client
-                                && parseInt(this.tempData.normalLeavesQuantity + this.tempData.superLeavesQuantity) > 0) {
+                        if (parseInt(this.tempData.normalLeavesQuantity + this.tempData.superLeavesQuantity) > 0) {
                             this.data.greenLeavesReceiveDetails.push(this.tempData);
-
                             this.refreshQuantity();
-
                             this.tempData = GreenLeavesReceiveModelFactory.newTempData();
                             defer.resolve();
                         } else {
@@ -64,9 +71,10 @@
                     },
                     load: function () {
                         var number = this.data.number;
+                        var branch = this.data.branch;
                         var that = this;
                         var defer = $q.defer();
-                        GreenLeavesReceiveService.loadReceive(number)
+                        GreenLeavesReceiveService.loadReceive(branch, number)
                                 .success(function (data) {
                                     that.data = {};
                                     angular.extend(that.data, data);
@@ -93,7 +101,7 @@
                     loadFactoryQuantity: function () {
                         if (this.data.route && this.data.date) {
                             var that = this;
-                            GreenLeavesReceiveService.getFactoryQuantity(this.data.route, this.data.date)
+                            GreenLeavesReceiveService.getFactoryQuantity(this.data.route, this.data.date,this.data.branch)
                                     .success(function (data) {
                                         if (!data[0]) {
                                             data[0] = 0;
@@ -150,82 +158,25 @@
                     client: function (indexNo) {
                         var client;
                         angular.forEach(this.clients, function (value) {
-                            if (value.indexNo === indexNo) {
+                            if (value.indexNo === parseInt(indexNo)) {
                                 client = value;
                                 return;
                             }
                         });
                         return client;
+                    },
+                    bracnhLable: function (indexNo) {
+                        var lable;
+                        angular.forEach(this.branchs, function (value) {
+                            if (value.indexNo === indexNo) {
+                                lable = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return lable;
                     }
                 };
 
                 return GreenLeavesReceiveModel;
-                /*function GreenLeavesReceiveModel(data) {
-                 if (!data) {
-                 data = {
-                 "indexNo": null,
-                 "branch": null,
-                 "route": null,
-                 "number": null,
-                 "date": null,
-                 "transaction": null,
-                 "greenLeavesReceiveDetails": [
-                 //                            {
-                 //                                "indexNo": null,
-                 //                                "branch": null,
-                 //                                "greenLeavesReceive": null,
-                 //                                "normalLeavesQuantity": 0,
-                 //                                "superLeavesQuantity": 0,
-                 //                                "client": null
-                 //                            }
-                 ]
-                 };
-                 }
-                 this.setData(data);
-                 }
-                 
-                 GreenLeavesReceiveModel.prototype = {
-                 setData: function (data) {
-                 angular.extend(this, data);
-                 },
-                 //add receive detail
-                 addReceiveDetail: function (data) {
-                 this.greenLeavesReceiveDetails.push(data);
-                 return true;
-                 },
-                 editRecieveDetail: function (index) {
-                 
-                 },
-                 //delete receive detail
-                 deleteReceiveDetail: function (index) {
-                 this.greenLeavesReceiveDetails.splice(index, 1);
-                 },
-                 getSuperLeavesQuantityTotal: function () {
-                 var total = 0;
-                 for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
-                 total += parseInt(this.greenLeavesReceiveDetails[i].superLeavesQuantity);
-                 }
-                 return total;
-                 },
-                 getNormalLeavesQuantityTotal: function () {
-                 var total = 0;
-                 for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
-                 total += parseInt(this.greenLeavesReceiveDetails[i].normalLeavesQuantity);
-                 }
-                 return total;
-                 },
-                 checkGreenLeavesReseveDetailDuplicate:function (clientIndexNo){
-                 for (var i = 0; i < this.greenLeavesReceiveDetails.length; i++) {
-                 if(clientIndexNo ===this.greenLeavesReceiveDetails[i].client){
-                 return true;
-                 break;
-                 }else{
-                 return false;
-                 break;
-                 }
-                 }
-                 }
-                 };
-                 return GreenLeavesReceiveModel;*/
             });
 }());

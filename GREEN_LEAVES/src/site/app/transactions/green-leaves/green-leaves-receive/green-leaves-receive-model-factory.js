@@ -2,7 +2,7 @@
     angular.module("appModule")
             .factory("GreenLeavesReceiveModelFactory", function ($filter) {
                 var factory = {};
-                
+
                 //new date subtract one day
                 var newDate = new Date();
                 newDate.setDate(newDate.getDate() - 1);
@@ -16,6 +16,7 @@
                         "number": null,
                         "date": formatedDate,
                         "transaction": null,
+                        "status": null,
                         "greenLeavesReceiveDetails": [
 //                            {
 //                                "indexNo": null,
@@ -35,7 +36,8 @@
                         "indexNo": null,
                         "client": null,
                         "normalLeavesQuantity": 0,
-                        "superLeavesQuantity": 0
+                        "superLeavesQuantity": 0,
+                        "remark": null
                     };
 
                     return tempData;

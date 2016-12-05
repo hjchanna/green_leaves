@@ -31,23 +31,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/green-leaves/green-leaves-receive")
 public class GLGreenLeavesReceiveController {
 
-    private static final Integer branch = 1;
-
     @Autowired
     private GLGreenLeavesReceiveService greenLeavesReceiveService;
 
-    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
-    public TGreenLeavesReceive getReceive(@PathVariable Integer number) {
+    @RequestMapping(value = "/{branch}/{number}", method = RequestMethod.GET)
+    public TGreenLeavesReceive getReceive(@PathVariable Integer number, @PathVariable Integer branch) {
         return greenLeavesReceiveService.getReceive(branch, number);
     }
 
     @RequestMapping(value = "/save-receive", method = RequestMethod.POST)
     public Integer saveReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
-        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive, branch);
+        System.out.println(greenLeavesReceive);
+        return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
     }
 
-    @RequestMapping(value = "/get-factory-quantity/{route}/{date}", method = RequestMethod.GET)
-    public Object[] getTotalSuperLeavesAndNormalLeaves(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    @RequestMapping(value = "/get-factory-quantity/{route}/{date}/{branch}", method = RequestMethod.GET)
+    public Object[] getTotalSuperLeavesAndNormalLeaves(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer branch) {
         return greenLeavesReceiveService.getTotalSuperLeavesAndNormalLeaves(branch, route, date);
     }
 

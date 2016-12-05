@@ -29,6 +29,16 @@
 
         .option-pane-message{
         }
+
+        .option-pane-input{
+            margin-top: 10px;
+        }
+        input{
+            height: 45px;
+            border-color: $primary-color-border;
+            font-weight: normal !important;
+            border-radius: 0 !important;
+        }
     }
 
     .option-pane-footer{
