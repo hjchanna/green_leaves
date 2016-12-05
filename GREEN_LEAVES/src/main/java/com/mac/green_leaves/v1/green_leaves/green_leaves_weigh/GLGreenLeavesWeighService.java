@@ -15,6 +15,7 @@ import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -184,6 +185,20 @@ public class GLGreenLeavesWeighService {
     }
 
     public List<TGreenLeavesWeigh> findByBranch(Integer branch) {
-        return greenLeavesWeighRepository.findByBranch(branch);
+        return greenLeavesWeighRepository.findByBranchAndStatus(branch, PENDING_STATUS);
+    }
+
+    @Transactional
+    public void confirmWeigh(Integer indexNo) {
+        greenLeavesWeighRepository.updateConfirmation(indexNo);
+    }
+
+    public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
+        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDate(branch, route, date);
+        if (greenLeavesWeigh != null) {
+            return greenLeavesWeigh;
+        } else {
+            return null;
+        }
     }
 }

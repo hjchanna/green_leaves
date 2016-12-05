@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (GreenLeavesWeighService, GreenLeavesWeighModelFactory, $q) {
+    var factory = function (GreenLeavesWeighService, GreenLeavesWeighModelFactory, $q, $filter) {
         function GreenLeavesWeighModel() {
             this.constructor();
         }
@@ -302,6 +302,44 @@
                     }
                 });
                 return route;
+            },
+            defaultBranch: function () {
+                return this.branchs[0];
+            },
+            confirmWeight: function (indexNo) {
+                var that = this;
+                GreenLeavesWeighService.confirmWeigh(indexNo)
+                        .success(function () {
+                            var id = -1;
+                            for (var i = 0; i < that.data.greenLeaveWeighDetails.length; i++) {
+                                if (that.data.greenLeaveWeighDetails[i].indexNo === indexNo) {
+                                    id = i;
+                                }
+                            }
+                            that.greenLeavesWeight.splice(id, 1);
+                            that.validate();
+                        });
+            },
+            findByBranchAndRouteAndDate: function () {
+                var defer = $q.defer();
+
+                var that = this;
+                var route = this.data.route;
+                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                var branch = this.data.branch;
+
+                GreenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date)
+                        .success(function (data) {
+                            if (data) {
+                                that.data = {};
+                                angular.extend(that.data, data);
+                                defer.resolve();
+                            } else {
+                                defer.reject();
+                            }
+                        });
+
+                return defer.promise;
             }
         };
 

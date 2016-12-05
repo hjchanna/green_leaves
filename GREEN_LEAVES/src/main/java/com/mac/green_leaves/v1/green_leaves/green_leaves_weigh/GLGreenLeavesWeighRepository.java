@@ -12,8 +12,10 @@
 package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -25,8 +27,14 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
 
     public List<TGreenLeavesWeigh> findByBranchAndNumber(Integer branch, Integer number);
 
-    public List<TGreenLeavesWeigh> findByBranch(Integer branch);
+    public List<TGreenLeavesWeigh> findByBranchAndStatus(Integer branch,String status);
 
     @Query(value = "SELECT MAX(number) FROM t_green_leaves_weigh WHERE branch=:branch", nativeQuery = true)
     public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
+    
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update t_green_leaves_weigh set status = 'APPROVE' where index_no = :indexNo", nativeQuery = true)
+    public Integer updateConfirmation(@Param("indexNo") Integer indexNo);
+
+    public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date);
 }

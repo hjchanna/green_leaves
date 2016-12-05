@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, $sce, $timeout, GreenLeavesWeighModel) {
+            .controller("GreenLeavesWeighController", function ($scope, $filter, optionPane, $timeout, GreenLeavesWeighModel) {
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
@@ -8,6 +8,13 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
 
+                    //set current date
+                    $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+
+                    //set default branch
+                    $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
+                    $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                    
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
@@ -54,18 +61,33 @@
                                 });
                     }
                 };
-                
+
                 //load weight
-                $scope.ui.loadWeight = function (number) {
-                    $scope.model.data.number = number;
+                $scope.ui.loadWeight = function (greenLeavesWeight) {
+                    $scope.model.data.number = greenLeavesWeight.number;
+                    $scope.indextab = 0;
                     $scope.model.load()
                             .then(function () {
                                 $scope.ui.mode = "SELECTED";
                             });
                 };
 
+                $scope.ui.confirm = function () {
+                    var indexNo = $scope.model.data.indexNo;
+                    $scope.model.confirmWeight(indexNo);
+                    optionPane.successMessage("APPROVE" + indexNo);
+                    $scope.ui.mode = "EDIT";
+                    $scope.model.clear();
+                    $scope.indextab = 0;
+                };
+
                 $scope.ui.serchWeight = function (model) {
                     $scope.model.searchGreenLeavesWeight(model);
+                };
+
+
+                $scope.ui.findByBranchAndRouteAndDate = function () {
+                    $scope.model.findByBranchAndRouteAndDate();
                 };
 
                 $scope.ui.save = function () {
@@ -75,7 +97,6 @@
 
                 $scope.ui.toggleType = function (type) {
                     $scope.ui.type = type;
-
                     if (type === 'NORMAL') {
                         $timeout(function () {
                             document.querySelectorAll("#normal-qty")[0].focus();

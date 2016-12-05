@@ -29,13 +29,21 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + branch + "/" + number);
         };
 
+        this.confirmWeigh = function (indexNo) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/confirm-detail/" + indexNo);
+        };
+        
+        this.findByBranchAndRouteAndDate = function (branch, route, date) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/findBy/" + branch + "/" + route + "/" +  date);
+        };
+
         this.saveWeigh = function (weigh) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/save-weigh", weigh);
         };
 
         this.insertDetail = function (detail, weighIndexNo) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/insert-detail/" + weighIndexNo, detail);
-        };
+        };  
 
         this.deleteDetail = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-detail/" + indexNo);

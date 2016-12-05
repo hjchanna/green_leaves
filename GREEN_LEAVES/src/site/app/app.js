@@ -30,10 +30,15 @@
         "bankBranchModule"
     ]);
 
+//    //constants
+//    angular.module("appModule")
+//            .constant("systemConfig", {
+//                apiUrl: location.protocol + "//" + window.location.hostname
+//            });
     //constants
     angular.module("appModule")
             .constant("systemConfig", {
-                apiUrl: location.protocol + "//" + window.location.hostname
+                apiUrl: "http://localhost:8080"
             });
 
     //route config

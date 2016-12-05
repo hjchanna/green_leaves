@@ -27,7 +27,7 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
 
     @Query(value = "select\n"
             + "	sum(t_green_leaves_weigh.normal_net_weight),\n"
-            + "	sum(t_green_leaves_weigh.super_total_weight)\n"
+            + "	sum(t_green_leaves_weigh.super_net_weight)\n"
             + "from\n"
             + "	t_green_leaves_weigh\n"
             + "where\n"

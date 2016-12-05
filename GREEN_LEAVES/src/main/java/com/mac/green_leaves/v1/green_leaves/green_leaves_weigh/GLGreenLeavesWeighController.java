@@ -13,8 +13,10 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,8 +41,14 @@ public class GLGreenLeavesWeighController {
         return greenLeavesWeighService.getSummary(branch, number);
     }
 
+    @RequestMapping(value = "/findBy/{branch}/{route}/{date}", method = RequestMethod.GET)
+    public TGreenLeavesWeigh getSummaryBranchAndRouteAndDate(@PathVariable Integer branch, @PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return greenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date);
+    }
+
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeavesWeigh greenLeaveWeigh) {
+        System.out.println(greenLeaveWeigh);
         greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
         return greenLeaveWeigh.getIndexNo();
     }
@@ -54,6 +62,12 @@ public class GLGreenLeavesWeighController {
     @RequestMapping(value = "/delete-detail/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteWeigh(@PathVariable Integer indexNo) {
         greenLeavesWeighService.deleteWeigh(indexNo);
+        return indexNo;
+    }
+
+    @RequestMapping(value = "/confirm-detail/{indexNo}", method = RequestMethod.GET)
+    public Integer confirmWeigh(@PathVariable Integer indexNo) {
+        greenLeavesWeighService.confirmWeigh(indexNo);
         return indexNo;
     }
 
