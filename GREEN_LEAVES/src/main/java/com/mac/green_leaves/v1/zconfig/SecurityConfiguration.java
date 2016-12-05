@@ -39,11 +39,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().and()
-                .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
+                .httpBasic()
                 .and()
+//                .authorizeRequests()
+//                .antMatchers("/api/**").authenticated()
+//                .and()
                 .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                ;
     }
 }
