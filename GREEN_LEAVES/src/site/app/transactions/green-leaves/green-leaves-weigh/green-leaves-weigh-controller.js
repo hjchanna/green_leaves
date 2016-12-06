@@ -40,12 +40,12 @@
                             });
 
                 };
-                $scope.ui.insertNormalDetail = function () {
-                    $scope.model.insertNormalDetail()
-                            .then(function () {
-                                $scope.ui.toggleType("NORMAL");
-                            });
 
+                $scope.ui.insertSuperDetail = function () {
+                    $scope.model.insertSuperDetail()
+                            .then(function () {
+                                $scope.ui.toggleType("SUPER");
+                            });
                 };
 
                 $scope.ui.deleteDetail = function (indexNo) {

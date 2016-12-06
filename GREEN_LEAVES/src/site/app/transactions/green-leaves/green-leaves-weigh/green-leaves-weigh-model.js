@@ -21,13 +21,12 @@
             //vehicle information
             vehicles: [],
             //weight information
-            greenLeavesWeight: [],
+            pendingGreenLeavesWeigh: [],
             //constructor
             constructor: function () {
                 var that = this;
                 that.data = GreenLeavesWeighModelFactory.newData();
                 that.tempData = GreenLeavesWeighModelFactory.newTempData();
-
                 //load default values
                 GreenLeavesWeighService.loadRoutes()
                         .success(function (data) {
@@ -110,7 +109,6 @@
                 var defer = $q.defer();
                 GreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
                         .success(function (data) {
-                            console.log(data);
                             defer.resolve();
                         })
                         .error(function (data) {
@@ -157,6 +155,8 @@
                     GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
                             .success(function (data) {
                                 that.tempData.indexNo = data;
+                                //console.log(that.data);
+
                                 that.data.greenLeaveWeighDetails.push(that.tempData);
 
                                 that.tempData = GreenLeavesWeighModelFactory.newTempData();
@@ -297,8 +297,7 @@
                 var that = this;
                 GreenLeavesWeighService.loadWeighByBranch(branch)
                         .success(function (data) {
-                            that.greenLeavesWeight = [];
-                            angular.extend(that.greenLeavesWeight, data);
+                            angular.extend(that.pendingGreenLeavesWeigh, data);
                             defer.resolve();
                         })
                         .error(function () {
@@ -328,8 +327,8 @@
                                     id = i;
                                 }
                             }
-                            that.greenLeavesWeight.splice(id, 1);
-                            that.validate();
+                            that.pendingGreenLeavesWeigh.splice(id, 1);
+                            that.clear();
                         });
             },
             findByBranchAndRouteAndDate: function () {
@@ -342,17 +341,18 @@
 
                 GreenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date)
                         .success(function (data) {
-                            that.data = GreenLeavesWeighModelFactory;
+                            that.data = GreenLeavesWeighModelFactory.newData();
                             angular.extend(that.data, data);
                             defer.resolve();
                         })
                         .error(function () {
                             defer.reject();
 
+                            that.data.indexNo = null;
                             that.data.routeOfficer = that.route(that.data.route).routeOfficer;
                             that.data.routeHelper = that.route(that.data.route).routeHelper;
                             that.data.vehicle = that.route(that.data.route).vehicle;
-                            that.data.greenLeaveWeighDetails = that.route(that.data.route).greenLeaveWeighDetails;
+                            that.data.greenLeaveWeighDetails = [];
                         });
 
                 return defer.promise;
