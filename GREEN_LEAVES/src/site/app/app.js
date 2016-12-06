@@ -33,7 +33,7 @@
 //    //constants
 //    angular.module("appModule")
 //            .constant("systemConfig", {
-//                apiUrl: location.protocol + "//" + window.location.hostname
+//                apiUrl: location.protocol + "//" + window.location.hostname 
 //            });
     //constants
     angular.module("appModule")
@@ -43,12 +43,17 @@
 
     //route config
     angular.module("appModule")
-            .config(function ($routeProvider) {
+            .config(function ($routeProvider, $httpProvider) {
                 $routeProvider
                         //system
                         .when("/", {
                             templateUrl: "app/system/home/home.html",
                             controller: "homeController"
+                        })
+
+                        .when("/login", {
+                            templateUrl: "app/system/login/login.html",
+                            controller: "LoginController"
                         })
 
                         //green leaves
@@ -163,6 +168,19 @@
                         .otherwise({
                             redirectTo: "/"
                         });
+
+                $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+                $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+            });
+
+    angular.module("appModule")
+            .run(function ($rootScope, $location, LoginService) {
+                $rootScope.$on("$routeChangeStart", function (event, next, current) {
+                    if (!$rootScope.authenticated) {
+                        $location.path("/login");
+                    }
+                });
             });
 
 //    angular.module("appModule")
@@ -188,7 +206,7 @@
 //            });
 
     angular.module("appModule")
-            .controller("appController", function ($scope, $interval) {
+            .controller("appController", function ($scope, $rootScope, $interval) {
 //                ScheduleService.start();
 
                 $scope.hamburgerOpen = false;

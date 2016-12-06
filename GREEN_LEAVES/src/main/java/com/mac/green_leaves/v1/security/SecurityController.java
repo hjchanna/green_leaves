@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Mohan
  */
-@RestController
 @CrossOrigin
+@RestController
 @RequestMapping("/api/v1/security")
 public class SecurityController {
 
