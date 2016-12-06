@@ -195,10 +195,10 @@ public class GLGreenLeavesWeighService {
 
     public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
         TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDate(branch, route, date);
-        if (greenLeavesWeigh != null) {
-            return greenLeavesWeigh;
-        } else {
-            return null;
+        if (greenLeavesWeigh == null) {
+            throw new EntityNotFoundException("green leave weight not found branch,route and date" + branch + " , " + route + " and " + date);
         }
+        return greenLeavesWeigh;
+
     }
 }

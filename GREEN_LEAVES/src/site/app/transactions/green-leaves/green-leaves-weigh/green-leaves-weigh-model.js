@@ -330,13 +330,12 @@
 
                 GreenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date)
                         .success(function (data) {
-                            if (data) {
-                                that.data = {};
-                                angular.extend(that.data, data);
-                                defer.resolve();
-                            } else {
-                                defer.reject();
-                            }
+                            that.data = GreenLeavesWeighModelFactory;
+                            angular.extend(that.data, data);
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
                         });
 
                 return defer.promise;
