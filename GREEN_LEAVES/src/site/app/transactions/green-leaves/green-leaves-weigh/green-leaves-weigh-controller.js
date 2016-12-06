@@ -14,7 +14,7 @@
                     //set default branch
                     $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
                     $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
-                    
+
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
@@ -40,12 +40,12 @@
                             });
 
                 };
-
-                $scope.ui.insertSuperDetail = function () {
-                    $scope.model.insertSuperDetail()
+                $scope.ui.insertNormalDetail = function () {
+                    $scope.model.insertNormalDetail()
                             .then(function () {
-                                $scope.ui.toggleType("SUPER");
+                                $scope.ui.toggleType("NORMAL");
                             });
+
                 };
 
                 $scope.ui.deleteDetail = function (indexNo) {
@@ -92,6 +92,7 @@
 
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";
+                    $scope.model.saveWeight();
                     $scope.model.clear();
                 };
 

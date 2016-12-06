@@ -48,7 +48,7 @@ public class GLGreenLeavesWeighController {
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeavesWeigh greenLeaveWeigh) {
-        System.out.println(greenLeaveWeigh);
+        System.out.println("dfnasdjnfsdj");
         greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
         return greenLeaveWeigh.getIndexNo();
     }

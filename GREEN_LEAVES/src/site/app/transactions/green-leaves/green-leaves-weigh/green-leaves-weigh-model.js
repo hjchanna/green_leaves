@@ -105,6 +105,18 @@
                             that.validate();
                         });
             },
+            saveWeight: function () {
+                var that = this;
+                var defer = $q.defer();
+                GreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
+                        .success(function (data) {
+                            console.log(data);
+                            defer.resolve();
+                        })
+                        .error(function (data) {
+                            defer.reject();
+                        });
+            },
             checkSummaryAndInsertDetail: function () {
                 var that = this;
                 var defer = $q.defer();
@@ -336,6 +348,11 @@
                         })
                         .error(function () {
                             defer.reject();
+
+                            that.data.routeOfficer = that.route(that.data.route).routeOfficer;
+                            that.data.routeHelper = that.route(that.data.route).routeHelper;
+                            that.data.vehicle = that.route(that.data.route).vehicle;
+                            that.data.greenLeaveWeighDetails = that.route(that.data.route).greenLeaveWeighDetails;
                         });
 
                 return defer.promise;

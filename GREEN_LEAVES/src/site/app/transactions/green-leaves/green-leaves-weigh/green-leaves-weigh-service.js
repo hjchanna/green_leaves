@@ -40,7 +40,6 @@
         this.saveWeigh = function (weigh) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/save-weigh", weigh);
         };
-
         this.insertDetail = function (detail, weighIndexNo) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/insert-detail/" + weighIndexNo, detail);
         };  
