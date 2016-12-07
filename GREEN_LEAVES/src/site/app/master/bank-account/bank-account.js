@@ -1,13 +1,13 @@
 (function () {
-    angular.module("subCategoryModule", ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-notification']);
+    angular.module("bankAccountModule", ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-notification']);
     //http factory
-    angular.module("subCategoryModule")
-            .factory("subCategoryFactory", function ($http, systemConfig) {
+    angular.module("bankAccountModule")
+            .factory("bankAccountFactory", function ($http, systemConfig) {
                 var factory = {};
 
                 //load sub category
-                factory.loadSubCategory = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category";
+                factory.loadBankAccount = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/bank-account";
                     $http.get(url)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -18,8 +18,8 @@
                 };
 
                 //save sub category
-                factory.saveSubCategory = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/save-subCategory";
+                factory.saveBankAccount = function (summary, callback, errorCallback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/bank-account/save-bankAccount";
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -32,8 +32,8 @@
                 };
 
                 //delete funtion
-                factory.deleteSubCategory = function (indexNo, callback,errorcallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/delete-sub-category/" + indexNo;
+                factory.deleteBankAccount = function (indexNo, callback,errorcallback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/bank-account/delete-bankAccount/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -48,8 +48,8 @@
             });
 
     //Controller
-    angular.module("subCategoryModule")
-            .controller("subCategoryController", function ($scope, subCategoryFactory, Notification, $timeout) {
+    angular.module("bankAccountModule")
+            .controller("bankAccountController", function ($scope, bankAccountFactory, Notification, $timeout) {
 
                 //data models 
                 $scope.model = {};
@@ -63,20 +63,19 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
-                $scope.model.subCategory = [];
+                $scope.model.bankAccount = [];
 
                 //----------- data models ------------------
                 //reset model
                 $scope.model.reset = function () {
-                    $scope.model.subCategory = {
-                        "indexNo": null,
-                        "name": null
+                    $scope.model.bankAccount = {
+                        active : true                
                     };
                 };
 
                 //----------validate funtion-------------
                 $scope.validateInput = function () {
-                    if ($scope.model.subCategory.name !== null) {
+                    if ($scope.model.bankAccount.name !== null) {
                         return true;
                     } else {
                         return false;
@@ -84,11 +83,11 @@
                 };
 
                 //----------http funtion----------------
-                $scope.http.deleteSubCategory = function (IndexNo, index) {
-                    subCategoryFactory.deleteSubCategory(IndexNo
+                $scope.http.deleteBankAccount = function (IndexNo, index) {
+                    bankAccountFactory.deleteBankAccount(IndexNo
                     , function () {
-                        Notification.success(IndexNo+" - " +"Sub Category Delete Successfully");
-                        $scope.model.subCategoryList.splice(index, 1);
+                        Notification.success(IndexNo+" - " +"Bank Account Delete Successfully");
+                        $scope.model.bankAccountList.splice(index, 1);
                     }
                     ,function (data){
                         Notification.error(data);
@@ -96,13 +95,13 @@
                 };
 
                 //save function 
-                $scope.http.saveSubCategory = function () {
-                    var detail = $scope.model.subCategory;
+                $scope.http.saveBankAccount = function () {
+                    var detail = $scope.model.bankAccount;
                     var detailJSON = JSON.stringify(detail);
-                    subCategoryFactory.saveSubCategory(
+                    bankAccountFactory.saveBankAccount(
                             detailJSON,
                             function (data) {
-                                $scope.model.subCategoryList.push(data);
+                                $scope.model.bankAccountList.push(data);
                                 Notification.success(data.indexNo+" - " +"Sub Category Save Successfully");
                                 $scope.model.reset();
                                 $scope.ui.focus();
@@ -120,7 +119,7 @@
                 //save function 
                 $scope.ui.save = function () {
                     if ($scope.validateInput()) {
-                        $scope.http.saveSubCategory();
+                        $scope.http.saveBankAccount();
                     } else {
                         Notification.error("Please Input Details");
                         $scope.ui.focus();
@@ -136,7 +135,7 @@
                 //focus
                 $scope.ui.focus = function () {
                     $timeout(function () {
-                        document.querySelectorAll("#sub-category")[0].focus();
+                        document.querySelectorAll("#nameText")[0].focus();
                     }, 10);
                 };
 
@@ -150,8 +149,8 @@
                 //edit function 
                 $scope.ui.edit = function (subCategory, index) {
                     $scope.ui.mode = "EDIT";
-                    $scope.model.subCategory = subCategory;
-                    $scope.model.subCategoryList.splice(index, 1);
+                    $scope.model.bankAccount = subCategory;
+                    $scope.model.bankAccountList.splice(index, 1);
                     $scope.ui.focus();
                 };
 
@@ -162,8 +161,8 @@
                     $scope.model.reset();
 
                     //lord subCategory
-                    subCategoryFactory.loadSubCategory(function (data) {
-                        $scope.model.subCategoryList = data;
+                    bankAccountFactory.loadBankAccount(function (data) {
+                        $scope.model.bankAccountList = data;
                     });
                 };
                 
