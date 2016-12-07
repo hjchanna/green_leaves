@@ -1,13 +1,13 @@
 (function () {
-    angular.module("subCategoryModule", ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-notification']);
+    angular.module("subDistributionModule", ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ui-notification']);
     //http factory
-    angular.module("subCategoryModule")
-            .factory("subCategoryFactory", function ($http, systemConfig) {
+    angular.module("subDistributionModule")
+            .factory("subDistributionFactory", function ($http, systemConfig) {
                 var factory = {};
 
-                //load sub category
-                factory.loadSubCategory = function (callback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category";
+                //load sub subDistribution
+                factory.loadSubDistribution = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-distribution";
                     $http.get(url)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -18,8 +18,8 @@
                 };
 
                 //save sub category
-                factory.saveSubCategory = function (summary, callback, errorCallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/save-subCategory";
+                factory.saveSubDistribution = function (summary, callback, errorCallback) {
+                        var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-distribution/save-sub-distribution";
                     $http.post(url, summary)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -32,8 +32,8 @@
                 };
 
                 //delete funtion
-                factory.deleteSubCategory = function (indexNo, callback,errorcallback) {
-                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-category/delete-sub-category/" + indexNo;
+                factory.deleteSubDistribution = function (indexNo, callback,errorcallback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/sub-distribution/delete-sub-distribution/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
                                 callback(data);
@@ -48,8 +48,8 @@
             });
 
     //Controller
-    angular.module("subCategoryModule")
-            .controller("subCategoryController", function ($scope, subCategoryFactory, Notification, $timeout) {
+    angular.module("subDistributionModule")
+            .controller("subDistributionController", function ($scope, subDistributionFactory, Notification, $timeout) {
 
                 //data models 
                 $scope.model = {};
@@ -63,12 +63,12 @@
                 //current ui mode IDEAL, SELECTED, NEW, EDIT
                 $scope.ui.mode = null;
 
-                $scope.model.subCategory = [];
+                $scope.model.subDistribution = [];
 
                 //----------- data models ------------------
                 //reset model
                 $scope.model.reset = function () {
-                    $scope.model.subCategory = {
+                    $scope.model.subDistribution = {
                         "indexNo": null,
                         "name": null
                     };
@@ -76,7 +76,7 @@
 
                 //----------validate funtion-------------
                 $scope.validateInput = function () {
-                    if ($scope.model.subCategory.name !== null) {
+                    if ($scope.model.subDistribution.name !== null) {
                         return true;
                     } else {
                         return false;
@@ -84,11 +84,11 @@
                 };
 
                 //----------http funtion----------------
-                $scope.http.deleteSubCategory = function (IndexNo, index) {
-                    subCategoryFactory.deleteSubCategory(IndexNo
+                $scope.http.deleteSubDistribution = function (IndexNo, index) {
+                    subDistributionFactory.deleteSubDistribution(IndexNo
                     , function () {
                         Notification.success(IndexNo+" - " +"Sub Category Delete Successfully");
-                        $scope.model.subCategoryList.splice(index, 1);
+                        $scope.model.subDistributionList.splice(index, 1);
                     }
                     ,function (data){
                         Notification.error(data);
@@ -96,14 +96,14 @@
                 };
 
                 //save function 
-                $scope.http.saveSubCategory = function () {
-                    var detail = $scope.model.subCategory;
+                $scope.http.saveSubDistribution  = function () {
+                    var detail = $scope.model.subDistribution;
                     var detailJSON = JSON.stringify(detail);
-                    subCategoryFactory.saveSubCategory(
+                    subDistributionFactory.saveSubDistribution(
                             detailJSON,
                             function (data) {
-                                $scope.model.subCategoryList.push(data);
-                                Notification.success(data.indexNo+" - " +"Sub Category Save Successfully");
+                                $scope.model.subDistributionList.push(data);
+                                Notification.success(data.indexNo+" - " +"Sub Distribution Save Successfully");
                                 $scope.model.reset();
                                 $scope.ui.focus();
 
@@ -120,7 +120,7 @@
                 //save function 
                 $scope.ui.save = function () {
                     if ($scope.validateInput()) {
-                        $scope.http.saveSubCategory();
+                        $scope.http.saveSubDistribution();
                     } else {
                         Notification.error("Please Input Details");
                         $scope.ui.focus();
@@ -136,7 +136,7 @@
                 //focus
                 $scope.ui.focus = function () {
                     $timeout(function () {
-                        document.querySelectorAll("#sub-category")[0].focus();
+                        document.querySelectorAll("#sub-distribution")[0].focus();
                     }, 10);
                 };
 
@@ -148,10 +148,10 @@
                 };
 
                 //edit function 
-                $scope.ui.edit = function (subCategory, index) {
+                $scope.ui.edit = function (subDistribution, index) {
                     $scope.ui.mode = "EDIT";
-                    $scope.model.subCategory = subCategory;
-                    $scope.model.subCategoryList.splice(index, 1);
+                    $scope.model.subDistribution = subDistribution;
+                    $scope.model.subDistributionList.splice(index, 1);
                     $scope.ui.focus();
                 };
 
@@ -162,11 +162,11 @@
                     $scope.model.reset();
 
                     //lord subCategory
-                    subCategoryFactory.loadSubCategory(function (data) {
-                        $scope.model.subCategoryList = data;
+                    subDistributionFactory.loadSubDistribution(function (data) {
+                        $scope.model.subDistributionList = data;
                     });
                 };
-                
+
                 $scope.ui.init();
             });
 }());

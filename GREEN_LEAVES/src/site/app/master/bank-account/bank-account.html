@@ -1,0 +1,93 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">        
+    <div class="col-xs-4 background-dark">
+        <div style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>                   
+                    <tr>
+                        <td><label class="control-label">Name</label></td>
+                        <td><input class="form-control" id="nameText" ng-model="model.bankAccount.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Bank</label></td>
+                        <td><input class="form-control" ng-model="model.bankAccount.bank" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Branch</label></td>
+                        <td><input class="form-control" ng-model="model.bankAccount.branch" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Account Number</label></td>
+                        <td><input class="form-control" ng-model="model.bankAccount.accountNo" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">Active</label></td>
+                        <td>
+                            <input type="checkbox"  ng-checked="{{model.bankAccount.active === true}}" ng-model="model.bankAccount.active" ng-true-value="'true'" ng-false-value="'false'" ng-keypress="ui.keyEvent($event)">
+                        </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-xs-8 background-light">
+        <div class="row col-xs-5">
+            <input type="text" class="search-input" ng-model="model.search.name" placeholder="search">
+        </div>
+        <table class="table-hover">
+            <col style="width: 10%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 20%">
+            <col style="width: 15%">
+            <col style="width: 10%">
+            <thead class="background-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Bank</th>
+                    <th>Branch</th>
+                    <th>Account No</th>
+                    <th>active</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="smart-scroll-y" style="height: calc(100vh - 270px);">
+            <table class="table-hover">
+                <col style="width: 10%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 20%">
+                <col style="width: 15%">
+                <col style="width: 10%">
+                <tbody>
+                    <tr ng-repeat="bankAccount in model.bankAccountList|filter : model.search.name">
+                        <td><span class="label label-default">{{bankAccount.indexNo|fixedLength:5}}</span></td>
+                        <td>{{bankAccount.name}}</td>
+                        <td>{{bankAccount.bank.name}}</td>
+                        <td>{{bankAccount.branch.name}}</td>
+                        <td>{{bankAccount.accountNo}}</td>
+                        <td>{{bankAccount.active}}</td>
+                        <td class="text-right" style="padding-left: 5px;">
+                            <a class="btn btn-primary" ng-click="ui.edit(bankAccount, $index)"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" ng-click="http.deleteBankAccount(bankAccount.indexNo, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>
