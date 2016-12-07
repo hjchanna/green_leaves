@@ -5,6 +5,10 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
+        this.loadClient = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
+        };
+
         this.loadBranch = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/branch");
         };
@@ -21,7 +25,11 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/vehicles");
         };
 
-        //green leaves weigh
+        this.saveReceive = function (data) {
+            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/save-receive", data);
+        };
+        
+        //pending weight
         this.loadWeighByBranchAndType = function (branch, type) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-by-branch/" + branch + "/" + type);
         };
@@ -34,7 +42,7 @@
         };
         
         this.findByBranchAndRouteAndDate = function (branch, route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/findBy/" + branch + "/" + route + "/" +  date);
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/findBy/" + branch + "/" + route + "/" + date);
         };
 
         this.saveWeigh = function (weigh) {
@@ -42,7 +50,7 @@
         };
         this.insertDetail = function (detail, weighIndexNo) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/insert-detail/" + weighIndexNo, detail);
-        };  
+        };
 
         this.deleteDetail = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-detail/" + indexNo);
@@ -50,5 +58,5 @@
     };
 
     angular.module("appModule")
-            .service("GreenLeavesWeighService", service);
+            .service("SupplierGreenLeavesWeighService", service);
 }());

@@ -1,6 +1,6 @@
-(function () {
+-+(function () {
     angular.module("appModule")
-            .factory("GreenLeavesWeighModelFactory", function () {
+            .factory("SupplierGreenLeavesWeighModelFactory", function () {
                 var factory = {};
                 factory.newData = function () {
                     var data = {
@@ -14,7 +14,7 @@
                         "vehicle": null,
                         "number": null,
                         "status": null,
-                        "type": "BULK",
+                        "type": "SUPPLIER",
                         "greenLeaveWeighDetails": [
                             /*{
                              "indexNo": 0,
@@ -70,7 +70,6 @@
 
                     return tempData;
                 };
-
                 return factory;
             });
 }());

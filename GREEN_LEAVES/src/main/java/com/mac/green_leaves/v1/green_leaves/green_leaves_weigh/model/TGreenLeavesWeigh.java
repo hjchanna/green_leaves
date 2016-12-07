@@ -185,24 +185,29 @@ public class TGreenLeavesWeigh implements Serializable {
     private int route;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "route_officer")
-    private int routeOfficer;
+    private Integer routeOfficer;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "route_helper")
-    private int routeHelper;
+    private Integer routeHelper;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "vehicle")
-    private int vehicle;
+    private Integer vehicle;
+
+    @Basic(optional = false)
+    @Column(name = "client")
+    private Integer client;
 
     @Basic(optional = false)
     @NotNull
     @Column(name = "status")
     private String status;
+
+    @Basic(optional = false)
+    @Column(name = "type")
+    private String type;
 
     @OneToMany(mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
     private Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
@@ -210,11 +215,7 @@ public class TGreenLeavesWeigh implements Serializable {
     public TGreenLeavesWeigh() {
     }
 
-    public TGreenLeavesWeigh(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public TGreenLeavesWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, int routeOfficer, int routeHelper, int vehicle, String status, Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
+    public TGreenLeavesWeigh(Integer indexNo, int branch, Date date, int transaction, int number, BigDecimal normalTotalWeight, BigDecimal normalTareCalculated, BigDecimal normalTareDeduction, BigDecimal normalGeneralDeductionPercent, BigDecimal normalGeneralDeduction, BigDecimal normalWaterDeduction, BigDecimal normalCoarseLeaves, BigDecimal normalBoiledLeaves, BigDecimal normalNetWeight, int normalCrates, int normalBags, int normalPolyBags, BigDecimal superTotalWeight, BigDecimal superTareCalculated, BigDecimal superTareDeduction, BigDecimal superGeneralDeductionPercent, BigDecimal superGeneralDeduction, BigDecimal superWaterDeduction, BigDecimal superCoarseLeaves, BigDecimal superBoiledLeaves, BigDecimal superNetWeight, int superCrates, int superBags, int superPolyBags, int route, Integer routeOfficer, Integer routeHelper, Integer vehicle, Integer client, String status, String type, Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
@@ -248,7 +249,9 @@ public class TGreenLeavesWeigh implements Serializable {
         this.routeOfficer = routeOfficer;
         this.routeHelper = routeHelper;
         this.vehicle = vehicle;
+        this.client = client;
         this.status = status;
+        this.type = type;
         this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 
@@ -492,36 +495,36 @@ public class TGreenLeavesWeigh implements Serializable {
         this.route = route;
     }
 
-    public int getRouteOfficer() {
+    public Integer getRouteOfficer() {
         return routeOfficer;
     }
 
-    public void setRouteOfficer(int routeOfficer) {
+    public void setRouteOfficer(Integer routeOfficer) {
         this.routeOfficer = routeOfficer;
     }
 
-    public int getRouteHelper() {
+    public Integer getRouteHelper() {
         return routeHelper;
     }
 
-    public void setRouteHelper(int routeHelper) {
+    public void setRouteHelper(Integer routeHelper) {
         this.routeHelper = routeHelper;
     }
 
-    public int getVehicle() {
+    public Integer getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(int vehicle) {
+    public void setVehicle(Integer vehicle) {
         this.vehicle = vehicle;
     }
 
-    public Set<TGreenLeavesWeighDetail> getGreenLeaveWeighDetails() {
-        return greenLeaveWeighDetails;
+    public Integer getClient() {
+        return client;
     }
 
-    public void setGreenLeaveWeighDetails(Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
-        this.greenLeaveWeighDetails = greenLeaveWeighDetails;
+    public void setClient(Integer client) {
+        this.client = client;
     }
 
     public String getStatus() {
@@ -532,9 +535,24 @@ public class TGreenLeavesWeigh implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "TGreenLeavesWeigh{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", transaction=" + transaction + ", number=" + number + ", normalTotalWeight=" + normalTotalWeight + ", normalTareCalculated=" + normalTareCalculated + ", normalTareDeduction=" + normalTareDeduction + ", normalGeneralDeductionPercent=" + normalGeneralDeductionPercent + ", normalGeneralDeduction=" + normalGeneralDeduction + ", normalWaterDeduction=" + normalWaterDeduction + ", normalCoarseLeaves=" + normalCoarseLeaves + ", normalBoiledLeaves=" + normalBoiledLeaves + ", normalNetWeight=" + normalNetWeight + ", normalCrates=" + normalCrates + ", normalBags=" + normalBags + ", normalPolyBags=" + normalPolyBags + ", superTotalWeight=" + superTotalWeight + ", superTareCalculated=" + superTareCalculated + ", superTareDeduction=" + superTareDeduction + ", superGeneralDeductionPercent=" + superGeneralDeductionPercent + ", superGeneralDeduction=" + superGeneralDeduction + ", superWaterDeduction=" + superWaterDeduction + ", superCoarseLeaves=" + superCoarseLeaves + ", superBoiledLeaves=" + superBoiledLeaves + ", superNetWeight=" + superNetWeight + ", superCrates=" + superCrates + ", superBags=" + superBags + ", superPolyBags=" + superPolyBags + ", route=" + route + ", routeOfficer=" + routeOfficer + ", routeHelper=" + routeHelper + ", vehicle=" + vehicle + ", status=" + status + ", greenLeaveWeighDetails=" + greenLeaveWeighDetails + '}';
+    public String getType() {
+        return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Set<TGreenLeavesWeighDetail> getGreenLeaveWeighDetails() {
+        return greenLeaveWeighDetails;
+    }
+
+    public void setGreenLeaveWeighDetails(Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails) {
+        this.greenLeaveWeighDetails = greenLeaveWeighDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "TGreenLeavesWeigh{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", transaction=" + transaction + ", number=" + number + ", normalTotalWeight=" + normalTotalWeight + ", normalTareCalculated=" + normalTareCalculated + ", normalTareDeduction=" + normalTareDeduction + ", normalGeneralDeductionPercent=" + normalGeneralDeductionPercent + ", normalGeneralDeduction=" + normalGeneralDeduction + ", normalWaterDeduction=" + normalWaterDeduction + ", normalCoarseLeaves=" + normalCoarseLeaves + ", normalBoiledLeaves=" + normalBoiledLeaves + ", normalNetWeight=" + normalNetWeight + ", normalCrates=" + normalCrates + ", normalBags=" + normalBags + ", normalPolyBags=" + normalPolyBags + ", superTotalWeight=" + superTotalWeight + ", superTareCalculated=" + superTareCalculated + ", superTareDeduction=" + superTareDeduction + ", superGeneralDeductionPercent=" + superGeneralDeductionPercent + ", superGeneralDeduction=" + superGeneralDeduction + ", superWaterDeduction=" + superWaterDeduction + ", superCoarseLeaves=" + superCoarseLeaves + ", superBoiledLeaves=" + superBoiledLeaves + ", superNetWeight=" + superNetWeight + ", superCrates=" + superCrates + ", superBags=" + superBags + ", superPolyBags=" + superPolyBags + ", route=" + route + ", routeOfficer=" + routeOfficer + ", routeHelper=" + routeHelper + ", vehicle=" + vehicle + ", client=" + client + ", status=" + status + ", type=" + type + ", greenLeaveWeighDetails=" + greenLeaveWeighDetails + '}';
+    }
 }

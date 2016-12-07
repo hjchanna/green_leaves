@@ -1,7 +1,7 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, $filter, optionPane, $timeout, GreenLeavesWeighModel) {
-                $scope.model = new GreenLeavesWeighModel();
+            .controller("SupplierGreenLeavesWeighController", function ($scope, $filter, optionPane, $timeout, SupplierGreenLeavesWeighModel, Notification, ConfirmPane, InputPane) {
+                $scope.model = new SupplierGreenLeavesWeighModel();
                 $scope.ui = {};
 
                 $scope.ui.new = function () {
@@ -18,6 +18,55 @@
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
+                };
+
+                $scope.ui.searchClient = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
+                        var client = $scope.model.client($scope.model.data.client);
+                        $scope.model.data.route = client.route;
+                        if (angular.isUndefined(client)) {
+                            Notification.error("client not found,you are new client");
+                        } else {
+                            $scope.model.data.client = client.indexNo;
+                            $timeout(function () {
+                                document.querySelectorAll("#normal-qty")[0].focus();
+                            }, 10);
+                        }
+                    }
+                };
+
+                $scope.ui.findRoute = function () {
+                    var client = $scope.model.client($scope.model.data.client);
+                    $scope.model.data.route = client.route;
+                    $scope.model.findByBranchAndDateAndClient();
+                };
+
+                $scope.ui.checkCustomer = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
+                        var client = $scope.model.client($scope.model.data.client);
+                        if (angular.isUndefined(client)) {
+                            ConfirmPane.primaryConfirm("Client Not Found And Add New Client")
+                                    .confirm(function () {
+                                        InputPane.primaryInput("Input Client Name")
+                                                .confirm(function (data) {
+                                                    console.log(data);
+                                                    if (angular.isUndefined(data)) {
+
+                                                    } else {
+
+                                                    }
+                                                })
+                                                .discard(function () {
+                                                    console.log("CANCEL");
+                                                });
+                                    })
+                                    .discard(function () {
+                                        console.log("REJECT");
+                                    });
+                        }
+                    }
                 };
 
                 $scope.ui.edit = function () {
@@ -61,7 +110,6 @@
                                 });
                     }
                 };
-
                 var tempIndexSave = 0;
                 //load weight
                 $scope.ui.loadWeight = function (greenLeavesWeight) {
@@ -88,14 +136,10 @@
                     $scope.model.searchGreenLeavesWeight(model);
                 };
 
-
-                $scope.ui.findByBranchAndRouteAndDate = function () {
-                    $scope.model.findByBranchAndRouteAndDate();
-                };
-
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.model.saveWeight();
+                    $scope.model.saveReceive();
                     $scope.model.clear();
                 };
 

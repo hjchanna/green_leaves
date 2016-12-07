@@ -46,9 +46,13 @@ public class GLGreenLeavesWeighController {
         return greenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date);
     }
 
+    @RequestMapping(value = "/find-weight/{branch}/{date}/{client}", method = RequestMethod.GET)
+    public TGreenLeavesWeigh getSummaryBranchAndDateAndClient(@PathVariable Integer branch, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+        return greenLeavesWeighService.findByBranchAndDateAndClient(branch, date,client);
+    }
+
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeavesWeigh greenLeaveWeigh) {
-        System.out.println("dfnasdjnfsdj");
         greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
         return greenLeaveWeigh.getIndexNo();
     }
@@ -71,8 +75,8 @@ public class GLGreenLeavesWeighController {
         return indexNo;
     }
 
-    @RequestMapping(value = "/find-by-branch/{branch}", method = RequestMethod.GET)
-    public List<TGreenLeavesWeigh> findByBranch(@PathVariable Integer branch) {
-        return greenLeavesWeighService.findByBranch(branch);
+    @RequestMapping(value = "/find-by-branch/{branch}/{type}", method = RequestMethod.GET)
+    public List<TGreenLeavesWeigh> findByBranchAndType(@PathVariable Integer branch, @PathVariable String type) {
+        return greenLeavesWeighService.findByBranchAndType(branch, type);
     }
 }

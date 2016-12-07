@@ -1,61 +1,49 @@
 (function () {
-    var factory = function (GreenLeavesWeighService, GreenLeavesWeighModelFactory, $q, $filter) {
-        function GreenLeavesWeighModel() {
+    var factory = function (SupplierGreenLeavesWeighService, SupplierGreenLeavesWeighModelFactory, $q, $filter) {
+        function SupplierGreenLeavesWeighModel() {
             this.constructor();
         }
 
         //prototype functions
-        GreenLeavesWeighModel.prototype = {
+        SupplierGreenLeavesWeighModel.prototype = {
             //weigh data
             data: {},
             //temp input
             tempData: {},
+            //green leaves temp data
+            greenLeavesTempData: {},
             //route information
             routes: [],
             //branch information
             branchs: [],
-            //route officer information
-            routeOfficers: [],
-            //route helper information
-            routeHelpers: [],
-            //vehicle information
-            vehicles: [],
             //weight information
             pendingGreenLeavesWeigh: [],
+            //client information
+            clients: [],
             //constructor
             constructor: function () {
                 var that = this;
-                that.data = GreenLeavesWeighModelFactory.newData();
-                that.tempData = GreenLeavesWeighModelFactory.newTempData();
+                that.data = SupplierGreenLeavesWeighModelFactory.newData();
+                that.tempData = SupplierGreenLeavesWeighModelFactory.newTempData();
                 //load default values
-                GreenLeavesWeighService.loadRoutes()
+                SupplierGreenLeavesWeighService.loadRoutes()
                         .success(function (data) {
                             that.routes = data;
                         });
 
-                GreenLeavesWeighService.loadRouteOfficers()
-                        .success(function (data) {
-                            that.routeOfficers = data;
-                        });
-
-                GreenLeavesWeighService.loadRouteHelpers()
-                        .success(function (data) {
-                            that.routeHelpers = data;
-                        });
-
-                GreenLeavesWeighService.loadVehicles()
-                        .success(function (data) {
-                            that.vehicles = data;
-                        });
-                GreenLeavesWeighService.loadBranch()
+                SupplierGreenLeavesWeighService.loadBranch()
                         .success(function (data) {
                             that.branchs = data;
+                        });
+                SupplierGreenLeavesWeighService.loadClient()
+                        .success(function (data) {
+                            that.clients = data;
                         });
             },
             //clear all data
             clear: function () {
-                this.data = GreenLeavesWeighModelFactory.newData();
-                this.tempData = GreenLeavesWeighModelFactory.newTempData();
+                this.data = SupplierGreenLeavesWeighModelFactory.newData();
+                this.tempData = SupplierGreenLeavesWeighModelFactory.newTempData();
             },
             //load from server
             load: function () {
@@ -64,7 +52,7 @@
                 var that = this;
                 var number = this.data.number;
                 var branch = this.data.branch;
-                GreenLeavesWeighService.loadWeigh(branch, number)
+                SupplierGreenLeavesWeighService.loadWeigh(branch, number)
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
@@ -91,7 +79,7 @@
             },
             deleteDetail: function (indexNo) {
                 var that = this;
-                GreenLeavesWeighService.deleteDetail(indexNo)
+                SupplierGreenLeavesWeighService.deleteDetail(indexNo)
                         .success(function () {
                             var id = -1;
                             for (var i = 0; i < that.data.greenLeaveWeighDetails.length; i++) {
@@ -107,7 +95,7 @@
             saveWeight: function () {
                 var that = this;
                 var defer = $q.defer();
-                GreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
+                SupplierGreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
                         .success(function (data) {
                             defer.resolve();
                         })
@@ -120,7 +108,7 @@
                 var defer = $q.defer();
 
                 if (this.data.indexNo === null) {
-                    GreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
+                    SupplierGreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
                             .success(function (data) {
                                 that.data.indexNo = data;
 
@@ -152,14 +140,11 @@
                         + this.tempData.polyBags;
 
                 if (tareCount > 0 && quantity > 0) {
-                    GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
+                    SupplierGreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
                             .success(function (data) {
                                 that.tempData.indexNo = data;
-                                //console.log(that.data);
-
                                 that.data.greenLeaveWeighDetails.push(that.tempData);
-
-                                that.tempData = GreenLeavesWeighModelFactory.newTempData();
+                                that.tempData = SupplierGreenLeavesWeighModelFactory.newTempData();
                                 that.validate();
                                 defer.resolve();
                             })
@@ -259,10 +244,10 @@
                 });
                 return lable;
             },
-            //return label for route officer
-            routeOfficerLabel: function (indexNo) {
+            //return lable for client
+            clientLabel: function (indexNo) {
                 var label;
-                angular.forEach(this.routeOfficers, function (value) {
+                angular.forEach(this.clients, function (value) {
                     if (value.indexNo === indexNo) {
                         label = value.indexNo + "-" + value.name;
                         return;
@@ -270,10 +255,19 @@
                 });
                 return label;
             },
-            //return label for route helpers
-            routeHelperLabel: function (indexNo) {
+            client: function (indexNo) {
+                var client;
+                angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === parseInt(indexNo)) {
+                        client = value;
+                        return;
+                    }
+                });
+                return client;
+            },
+            routeLabel: function (indexNo) {
                 var label;
-                angular.forEach(this.routeHelpers, function (value) {
+                angular.forEach(this.routes, function (value) {
                     if (value.indexNo === indexNo) {
                         label = value.indexNo + "-" + value.name;
                         return;
@@ -281,24 +275,23 @@
                 });
                 return label;
             },
-            //return label for route officer
-            vehicleLabel: function (indexNo) {
-                var label;
-                angular.forEach(this.vehicles, function (value) {
-                    if (value.indexNo === indexNo) {
-                        label = value.indexNo + "-" + value.vehicleNo;
-                        return;
-                    }
-                });
-                return label;
-            },
+                    //return label for route officer
+                    vehicleLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.vehicles, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.vehicleNo;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
             searchGreenLeavesWeight: function (branch) {
                 var defer = $q.defer();
                 var that = this;
-                var type = "BULK";
-                GreenLeavesWeighService.loadWeighByBranchAndType(branch, type)
+                var type = "SUPPLIER";
+                SupplierGreenLeavesWeighService.loadWeighByBranchAndType(branch, type)
                         .success(function (data) {
-                            console.log(data);
                             angular.extend(that.pendingGreenLeavesWeigh, data);
                             defer.resolve();
                         })
@@ -306,22 +299,12 @@
                             defer.reject();
                         });
             },
-            route: function (indexNo) {
-                var route;
-                angular.forEach(this.routes, function (value) {
-                    if (value.indexNo === parseInt(indexNo)) {
-                        route = value;
-                        return;
-                    }
-                });
-                return route;
-            },
             defaultBranch: function () {
                 return this.branchs[0];
             },
             confirmWeight: function (indexNo) {
                 var that = this;
-                GreenLeavesWeighService.confirmWeigh(indexNo)
+                SupplierGreenLeavesWeighService.confirmWeigh(indexNo)
                         .success(function () {
                             var id = -1;
                             for (var i = 0; i < that.data.greenLeaveWeighDetails.length; i++) {
@@ -333,37 +316,39 @@
                             that.clear();
                         });
             },
-            findByBranchAndRouteAndDate: function () {
-                var defer = $q.defer();
-
-                var that = this;
-                var route = this.data.route;
+            findByBranchAndDateAndClient: function () {
+//                var defer = $q.defer();
+//                var that = this;
                 var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                 var branch = this.data.branch;
+                var client = this.data.client;
+                console.log(date);
+                console.log(branch);
+                console.log(client);
 
-                GreenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date)
-                        .success(function (data) {
-                            that.data = GreenLeavesWeighModelFactory.newData();
-                            angular.extend(that.data, data);
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            defer.reject();
-
-                            that.data.indexNo = null;
-                            that.data.routeOfficer = that.route(that.data.route).routeOfficer;
-                            that.data.routeHelper = that.route(that.data.route).routeHelper;
-                            that.data.vehicle = that.route(that.data.route).vehicle;
-                            that.data.greenLeaveWeighDetails = [];
-                        });
-
-                return defer.promise;
-            }
+//                SupplierGreenLeavesWeighService.findByBranchAndDateAndClient(branch, route, date)
+//                        .success(function (data) {
+//                            that.data = SupplierGreenLeavesWeighModelFactory.newData();
+//                            angular.extend(that.data, data);
+//                            defer.resolve();
+//                        })
+//                        .error(function () {
+//                            defer.reject();
+//
+//                            that.data.indexNo = null;
+//                            that.data.routeOfficer = that.route(that.data.route).routeOfficer;
+//                            that.data.routeHelper = that.route(that.data.route).routeHelper;
+//                            that.data.vehicle = that.route(that.data.route).vehicle;
+//                            that.data.greenLeaveWeighDetails = [];
+//                        });
+//
+//                return defer.promise;
+            },
         };
 
-        return GreenLeavesWeighModel;
+        return SupplierGreenLeavesWeighModel;
     };
 
     angular.module("appModule")
-            .factory("GreenLeavesWeighModel", factory);
+            .factory("SupplierGreenLeavesWeighModel", factory);
 }());
