@@ -56,6 +56,10 @@
                             templateUrl: "app/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighController"
                         })
+                        .when("/transactions/green-leaves/supplier-green-leaves-weigh/supplier-green-leaves-weigh", {
+                            templateUrl: "app/transactions/green-leaves/supplier-green-leaves-weigh/supplier-green-leaves-weigh.html",
+                            controller: "SupplierGreenLeavesWeighController"
+                        })
                         .when("/transactions/green-leaves/green-leaves-receive", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
                             controller: "GreenLeavesReceiveController"

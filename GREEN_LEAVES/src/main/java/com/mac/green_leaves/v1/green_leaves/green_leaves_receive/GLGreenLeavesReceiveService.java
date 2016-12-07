@@ -50,13 +50,13 @@ public class GLGreenLeavesReceiveService {
         //green leaves approve status change
         List<TGreenLeavesReceiveDetail> list = greenLeavesReceive.getGreenLeavesReceiveDetails();
         String status = APPROVE_STATUS;
-        
+
         for (int i = 0; i < list.size(); i++) {
-           if(list.get(i).getClient() == null){
-               status = PENDING_STATUS;
-           }
+            if (list.get(i).getClient() == null) {
+                status = PENDING_STATUS;
+            }
         }
-        
+
         greenLeavesReceive.setStatus(status);
 
         //TODO:transaction
@@ -79,6 +79,10 @@ public class GLGreenLeavesReceiveService {
         }
 
         return total;
+    }
+
+    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Integer route, Date date, Integer client) {
+        return greenLeavesReceiveRepository.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(branch, route, date, client);
     }
 
 }

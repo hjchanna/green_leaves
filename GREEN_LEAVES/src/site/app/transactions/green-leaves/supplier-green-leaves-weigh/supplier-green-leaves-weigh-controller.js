@@ -29,6 +29,7 @@
                             Notification.error("client not found,you are new client");
                         } else {
                             $scope.model.data.client = client.indexNo;
+                            $scope.model.findByBranchAndDateAndClient();
                             $timeout(function () {
                                 document.querySelectorAll("#normal-qty")[0].focus();
                             }, 10);
@@ -51,11 +52,14 @@
                                     .confirm(function () {
                                         InputPane.primaryInput("Input Client Name")
                                                 .confirm(function (data) {
-                                                    console.log(data);
                                                     if (angular.isUndefined(data)) {
-
                                                     } else {
-
+                                                        $scope.model.data.remark = data;
+                                                        $scope.model.data.client = null;
+                                                        $timeout(function () {
+                                                            document.querySelectorAll("#normal-qty")[0].focus();
+                                                        }, 10);
+                                                        console.log(data);
                                                     }
                                                 })
                                                 .discard(function () {
@@ -139,7 +143,6 @@
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.model.saveWeight();
-                    $scope.model.saveReceive();
                     $scope.model.clear();
                 };
 

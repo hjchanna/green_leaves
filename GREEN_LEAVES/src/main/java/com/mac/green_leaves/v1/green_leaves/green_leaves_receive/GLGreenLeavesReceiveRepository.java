@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 
+import ch.qos.logback.core.pattern.color.GreenCompositeConverter;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import java.util.Date;
 import java.util.List;
@@ -35,4 +36,6 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
             + "	and t_green_leaves_weigh.route = :route\n"
             + "	and t_green_leaves_weigh.date = :date", nativeQuery = true)
     public List<Object[]> findByBranchAndRouteAndDate(@Param("branch") Integer branch, @Param("route") Integer route, @Param("date") @Temporal(TemporalType.DATE) Date date);
+
+    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Integer route, Date date, Integer client);
 }

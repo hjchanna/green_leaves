@@ -118,24 +118,36 @@ public class GLGreenLeavesWeighService {
         validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(greenLeaveWeigh);
 
-        TGreenLeavesReceive greenLeavesReceive = new TGreenLeavesReceive();
-        greenLeavesReceive.setBranch(greenLeaveWeigh.getBranch());
-        greenLeavesReceive.setDate(greenLeaveWeigh.getDate());
-        greenLeavesReceive.setRoute(greenLeaveWeigh.getRoute());
+        if ("SUPPLIER".equals(greenLeaveWeigh.getType())) {
 
-        TGreenLeavesReceiveDetail greenLeavesReceiveDetail = new TGreenLeavesReceiveDetail();
-        greenLeavesReceiveDetail.setClient(greenLeaveWeigh.getClient());
-        greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeaveWeigh.getNormalNetWeight());
-        greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeaveWeigh.getSuperNetWeight());
-//        greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
-//
-//        List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
-//        greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
-//
-//        greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
+            TGreenLeavesReceive greenLeavesReceive = new TGreenLeavesReceive();
+            greenLeavesReceive.setBranch(greenLeaveWeigh.getBranch());
+            greenLeavesReceive.setDate(greenLeaveWeigh.getDate());
 
-//        greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
-        System.out.println(greenLeavesReceive);
+            TGreenLeavesReceiveDetail greenLeavesReceiveDetail = new TGreenLeavesReceiveDetail();
+            greenLeavesReceiveDetail.setClient(greenLeaveWeigh.getClient());
+            greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeaveWeigh.getNormalNetWeight());
+            greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeaveWeigh.getSuperNetWeight());
+            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
+
+            if (greenLeaveWeigh.getRoute() == null) {
+                if (greenLeaveWeigh.getClient() == null) {
+                    greenLeavesReceiveDetail.setRemark(greenLeaveWeigh.getRemark());
+                }
+            } else {
+                greenLeavesReceive.setRoute(greenLeaveWeigh.getRoute());
+
+            }
+
+            List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
+            greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
+            greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
+            
+            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getRoute(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
+            if (greenLeavesList.isEmpty()) {
+                greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+            }
+        }
 
         return greenLeaveWeighDetail;
     }

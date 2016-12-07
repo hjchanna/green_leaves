@@ -13,22 +13,10 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/branch");
         };
 
-        this.loadRouteOfficers = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
-        };
-
-        this.loadRouteHelpers = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-helpers");
-        };
-
-        this.loadVehicles = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/vehicles");
-        };
-
         this.saveReceive = function (data) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/save-receive", data);
         };
-        
+
         //pending weight
         this.loadWeighByBranchAndType = function (branch, type) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-by-branch/" + branch + "/" + type);
@@ -40,9 +28,9 @@
         this.confirmWeigh = function (indexNo) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/confirm-detail/" + indexNo);
         };
-        
-        this.findByBranchAndRouteAndDate = function (branch, route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/findBy/" + branch + "/" + route + "/" + date);
+
+        this.findByBranchAndRouteAndDate = function (branch, date, client) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight/" + branch + "/" + date + "/" + client);
         };
 
         this.saveWeigh = function (weigh) {

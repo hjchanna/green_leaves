@@ -63,7 +63,7 @@ public class TGreenLeavesReceive implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "route")
-    private int route;
+    private Integer route;
 
     @Basic(optional = false)
     @Column(name = "status")
@@ -75,7 +75,7 @@ public class TGreenLeavesReceive implements Serializable {
     public TGreenLeavesReceive() {
     }
 
-    public TGreenLeavesReceive(Integer indexNo, int branch, int transaction, int number, Date date, int route, String status, List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
+    public TGreenLeavesReceive(Integer indexNo, int branch, int transaction, int number, Date date, Integer route, String status, List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.transaction = transaction;
@@ -126,11 +126,11 @@ public class TGreenLeavesReceive implements Serializable {
         this.date = date;
     }
 
-    public int getRoute() {
+    public Integer getRoute() {
         return route;
     }
 
-    public void setRoute(int route) {
+    public void setRoute(Integer route) {
         this.route = route;
     }
 
@@ -152,7 +152,7 @@ public class TGreenLeavesReceive implements Serializable {
 
     @Override
     public String toString() {
-        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + ", branch=" + branch + ", transaction=" + transaction + ", number=" + number + ", date=" + date + ", route=" + route + ", status=" + status + ", greenLeavesReceiveDetails=" + greenLeavesReceiveDetails + '}';
+        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + '}';
     }
 
 }

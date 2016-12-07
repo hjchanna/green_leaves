@@ -317,8 +317,8 @@
                         });
             },
             findByBranchAndDateAndClient: function () {
-//                var defer = $q.defer();
-//                var that = this;
+                var defer = $q.defer();
+                var that = this;
                 var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                 var branch = this.data.branch;
                 var client = this.data.client;
@@ -326,23 +326,20 @@
                 console.log(branch);
                 console.log(client);
 
-//                SupplierGreenLeavesWeighService.findByBranchAndDateAndClient(branch, route, date)
-//                        .success(function (data) {
-//                            that.data = SupplierGreenLeavesWeighModelFactory.newData();
-//                            angular.extend(that.data, data);
-//                            defer.resolve();
-//                        })
-//                        .error(function () {
-//                            defer.reject();
-//
-//                            that.data.indexNo = null;
-//                            that.data.routeOfficer = that.route(that.data.route).routeOfficer;
-//                            that.data.routeHelper = that.route(that.data.route).routeHelper;
-//                            that.data.vehicle = that.route(that.data.route).vehicle;
-//                            that.data.greenLeaveWeighDetails = [];
-//                        });
-//
-//                return defer.promise;
+                SupplierGreenLeavesWeighService.findByBranchAndRouteAndDate(branch, date, client)
+                        .success(function (data) {
+                            that.data = SupplierGreenLeavesWeighModelFactory.newData();
+                            angular.extend(that.data, data);
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+
+                            that.data.indexNo = null;
+                            that.data.greenLeaveWeighDetails = [];
+                        });
+
+                return defer.promise;
             },
         };
 
