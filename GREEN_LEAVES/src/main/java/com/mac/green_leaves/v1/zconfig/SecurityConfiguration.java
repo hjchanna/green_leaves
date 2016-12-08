@@ -10,8 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +24,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsUtils;
 
 /**
  *
@@ -44,34 +45,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic()
-                .and()
+                    .and()
                 .authorizeRequests()
-//                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
-//                .and()
-//                .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
-                
-                .and()
-//                .exceptionHandling().authenticationEntryPoint(new BasicAuthenticationEntryPoint(){
-//                    @Override
-//                    public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException) throws IOException, ServletException {
-//                        if (HttpMethod.OPTIONS.matches(request.getMethod())) {
-//                            response.setStatus(HttpServletResponse.SC_OK);
-//                            response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, request.getHeader(HttpHeaders.ORIGIN));
-//                            response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, request.getHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS));
-//                            response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, request.getHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD));
-//                            response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-//                        } else {
-//                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-//                        }
-//                    }
-//                })
-//                .and()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .antMatchers("/api/**").authenticated()
+                    .and()
                 .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-//        CorsUtils.isPreFlightRequest(request)
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                ;
     }
 }
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/security/**").fullyAuthenticated()

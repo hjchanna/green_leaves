@@ -8,11 +8,14 @@ package com.mac.green_leaves.v1.master.sub_category;
 import com.mac.green_leaves.v1.master.sub_category.model.MSubCategory;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,7 +29,6 @@ public class SubCategoryController {
 
     @Autowired
     private SubCategoryService subCategoryService;
-
 
     @RequestMapping(value = "/save-subCategory", method = RequestMethod.POST)
     public MSubCategory saveSubCategory(@RequestBody MSubCategory subCategory) {
@@ -42,5 +44,5 @@ public class SubCategoryController {
     public void deleteSubCategory(@PathVariable Integer indexNo) {
         subCategoryService.deleteSubCategory(indexNo);
     }
-    
+
 }

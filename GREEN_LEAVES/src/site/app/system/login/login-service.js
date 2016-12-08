@@ -1,5 +1,5 @@
 (function () {
-    var service = function ($http, $rootScope, systemConfig) {
+    var service = function ($http, $rootScope, systemConfig, $cookies) {
 
         this.login = function (credentials, callback) {
             var headers =
@@ -7,7 +7,7 @@
                         authorization: "Basic " + btoa(credentials.username + ":" + credentials.password)
                     } : {};
 
-            $http.get(systemConfig.apiUrl + "/api/v1/security/login",
+            $http.get(systemConfig.apiUrl + "/security/login",
                     {
                         headers: headers
                     })

@@ -11,15 +11,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  *
  * @author Mohan
  */
-@Configuration
+//@Configuration
 public class SecurityCorsFilter {
 
 //    @Bean
@@ -28,7 +25,7 @@ public class SecurityCorsFilter {
 //
 //        CorsConfiguration config = new CorsConfiguration();
 //        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("*");
+//        config.addAllowedOrigin("http://localhost:3000");
 //        config.addAllowedHeader("*");
 //        config.addAllowedMethod("*");
 //        source.registerCorsConfiguration("/api/**", config);
@@ -39,14 +36,19 @@ public class SecurityCorsFilter {
 //        return bean;
 //    }
 //
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurerAdapter() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/api/**")
-//                        .allowedOrigins("*");
-//            }
-//        };
-//    }
+    /*@Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("*");
+//                response.setHeader("Access-Control-Allow-Origin", "*");
+//                response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+//                response.setHeader("Access-Control-Max-Age", "3600");
+//                response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }*/
 }
