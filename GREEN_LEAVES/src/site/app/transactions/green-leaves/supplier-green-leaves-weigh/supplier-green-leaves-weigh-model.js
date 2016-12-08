@@ -301,8 +301,8 @@
                 var that = this;
                 var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                 var branch = this.data.branch;
-
-                SupplierGreenLeavesWeighService.findByBranchAndRouteAndDate(branch, date, client)
+                var client = this.data.client;
+                SupplierGreenLeavesWeighService.findByBranchAndDateAndClient(branch, date, client)
                         .success(function (data) {
                             that.data = SupplierGreenLeavesWeighModelFactory.newData();
                             angular.extend(that.data, data);

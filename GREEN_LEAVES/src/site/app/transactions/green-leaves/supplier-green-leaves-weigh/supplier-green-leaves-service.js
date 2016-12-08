@@ -36,7 +36,7 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/confirm-detail/" + indexNo);
         };
 
-        this.findByBranchAndRouteAndDate = function (branch, date, client) {
+        this.findByBranchAndDateAndClient = function (branch, date, client) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight/" + branch + "/" + date + "/" + client);
         };
     };
