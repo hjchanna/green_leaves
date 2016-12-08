@@ -36,6 +36,8 @@ public class GLGreenLeavesWeighService {
 
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
+    private final String TYPE_BULK = "BULK";
+    private final String TYPE_SUPPLIER = "SUPPLIER";
 
     @Autowired
     private GLGreenLeavesWeighRepository greenLeavesWeighRepository;
@@ -136,16 +138,20 @@ public class GLGreenLeavesWeighService {
                 }
             } else {
                 greenLeavesReceive.setRoute(greenLeaveWeigh.getRoute());
-
             }
 
             List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
             greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
             greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
-            
+
             List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getRoute(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
             if (greenLeavesList.isEmpty()) {
                 greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+                //update green leaves normal total leaves and super total leaves
+            } else {
+                for (TGreenLeavesReceive tGreenLeavesReceive : greenLeavesList) {
+                    greenLeavesReceiveService.updateNormalLeafAndSuperLeaf(tGreenLeavesReceive.getIndexNo(), greenLeaveWeigh.getNormalNetWeight(), greenLeaveWeigh.getSuperNetWeight());
+                }
             }
         }
 
@@ -256,7 +262,7 @@ public class GLGreenLeavesWeighService {
     }
 
     public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDate(branch, route, date);
+        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDateAndType(branch, route, date, TYPE_BULK);
         if (greenLeavesWeigh == null) {
             throw new EntityNotFoundException("green leave weight not found branch,route and date" + branch + " , " + route + " and " + date);
         }
@@ -265,7 +271,7 @@ public class GLGreenLeavesWeighService {
     }
 
     TGreenLeavesWeigh findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClient(branch, date, client);
+        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClientAndType(branch, date, client, TYPE_SUPPLIER);
         if (greenLeavesWeigh == null) {
             throw new EntityNotFoundException("green leave weight not found branch,client and date");
         }

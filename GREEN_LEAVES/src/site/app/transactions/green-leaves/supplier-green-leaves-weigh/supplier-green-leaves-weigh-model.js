@@ -44,6 +44,7 @@
             clear: function () {
                 this.data = SupplierGreenLeavesWeighModelFactory.newData();
                 this.tempData = SupplierGreenLeavesWeighModelFactory.newTempData();
+                this.pendingGreenLeavesWeigh = [];
             },
             //load from server
             load: function () {
@@ -265,27 +266,6 @@
                 });
                 return client;
             },
-            routeLabel: function (indexNo) {
-                var label;
-                angular.forEach(this.routes, function (value) {
-                    if (value.indexNo === indexNo) {
-                        label = value.indexNo + "-" + value.name;
-                        return;
-                    }
-                });
-                return label;
-            },
-                    //return label for route officer
-                    vehicleLabel: function (indexNo) {
-                        var label;
-                        angular.forEach(this.vehicles, function (value) {
-                            if (value.indexNo === indexNo) {
-                                label = value.indexNo + "-" + value.vehicleNo;
-                                return;
-                            }
-                        });
-                        return label;
-                    },
             searchGreenLeavesWeight: function (branch) {
                 var defer = $q.defer();
                 var that = this;
@@ -321,10 +301,6 @@
                 var that = this;
                 var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                 var branch = this.data.branch;
-                var client = this.data.client;
-                console.log(date);
-                console.log(branch);
-                console.log(client);
 
                 SupplierGreenLeavesWeighService.findByBranchAndRouteAndDate(branch, date, client)
                         .success(function (data) {
@@ -340,7 +316,7 @@
                         });
 
                 return defer.promise;
-            },
+            }
         };
 
         return SupplierGreenLeavesWeighModel;

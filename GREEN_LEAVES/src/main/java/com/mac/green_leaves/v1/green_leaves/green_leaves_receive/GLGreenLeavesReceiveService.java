@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,4 +86,8 @@ public class GLGreenLeavesReceiveService {
         return greenLeavesReceiveRepository.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(branch, route, date, client);
     }
 
+    @Transactional
+    public Integer updateNormalLeafAndSuperLeaf(Integer indexNo, BigDecimal normalLeavesTotal, BigDecimal superLeavesTotal) {
+        return greenLeavesReceiveRepository.updateNormalLeafAndSuperLeaf(indexNo, normalLeavesTotal, superLeavesTotal);
+    }
 }

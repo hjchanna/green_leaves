@@ -25,9 +25,7 @@
                     if (code === 13) {
                         var client = $scope.model.client($scope.model.data.client);
                         $scope.model.data.route = client.route;
-                        if (angular.isUndefined(client)) {
-                            Notification.error("client not found,you are new client");
-                        } else {
+                        if (!angular.isUndefined(client)) {
                             $scope.model.data.client = client.indexNo;
                             $scope.model.findByBranchAndDateAndClient();
                             $timeout(function () {
@@ -54,6 +52,8 @@
                                                 .confirm(function (data) {
                                                     if (angular.isUndefined(data)) {
                                                     } else {
+                                                        $scope.ui.existClient = false;
+                                                        $scope.ui.newClient = true;
                                                         $scope.model.data.remark = data;
                                                         $scope.model.data.client = null;
                                                         $timeout(function () {
@@ -144,6 +144,8 @@
                     $scope.ui.mode = "IDEAL";
                     $scope.model.saveWeight();
                     $scope.model.clear();
+                    $scope.ui.existClient = true;
+                    $scope.ui.newClient = false;
                 };
 
                 $scope.ui.toggleType = function (type) {
@@ -160,6 +162,8 @@
                 };
 
                 $scope.ui.init = function () {
+                    $scope.ui.existClient = true;
+                    $scope.ui.newClient = false;
                     $scope.ui.mode = "IDEAL";
                     $scope.ui.type = "NORMAL";
                     $scope.model.clear();

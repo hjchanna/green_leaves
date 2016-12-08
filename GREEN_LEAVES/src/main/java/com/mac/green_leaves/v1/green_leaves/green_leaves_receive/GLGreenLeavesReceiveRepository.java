@@ -5,12 +5,13 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 
-import ch.qos.logback.core.pattern.color.GreenCompositeConverter;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.TemporalType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.repository.query.Param;
@@ -38,4 +39,8 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
     public List<Object[]> findByBranchAndRouteAndDate(@Param("branch") Integer branch, @Param("route") Integer route, @Param("date") @Temporal(TemporalType.DATE) Date date);
 
     public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Integer route, Date date, Integer client);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update t_green_leaves_receive_detail set normal_leaves_quantity = :normalLeavesTotal,super_leaves_quantity = :superLeavesTotal where green_leaves_receive = :indexNo", nativeQuery = true)
+    public Integer updateNormalLeafAndSuperLeaf(@Param("indexNo") Integer indexNo, @Param("normalLeavesTotal") BigDecimal normalLeavesTotal, @Param("superLeavesTotal") BigDecimal superLeavesTotal);
 }
