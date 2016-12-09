@@ -24,10 +24,10 @@
                     <col class="col-xs-3"/>
                     <tbody>
                         <tr>
-                            <td><input id="client" class="form-control" ng-model="model.data.client" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'"></td>
-                            <td ng-show="ui.existClient"><input ng-keypress="ui.checkCustomer($event);" typeahead-on-select="ui.findRoute();" smart-input="text" class="form-control" ng-model="model.data.client" ng-bind="model.clientLabel(model.data.client)" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:{indexNo:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'"></td>
-                            <td ng-show="ui.newClient"><input class="form-control" ng-model="model.data.remark" ng-disabled="ui.mode !== 'EDIT'"></td>
-                            <td><input class="form-control" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" disabled="true"></td>
+                            <td><input id="client" input-hint="client id" class="form-control" ng-model="model.data.client" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'"></td>
+                            <td ng-show="ui.existClient"><input input-hint="client" ng-keypress="ui.checkCustomer($event);" typeahead-on-select="ui.findRoute();" smart-input="text" class="form-control" ng-model="model.data.client" ng-bind="model.clientLabel(model.data.client)" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:{indexNo:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'"></td>
+                            <td ng-show="ui.newClient"><input input-hint="new client" class="form-control" ng-model="model.data.remark" ng-disabled="ui.mode !== 'EDIT'" disabled="true"></td>
+                            <td><input class="form-control" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="true"></td>
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>

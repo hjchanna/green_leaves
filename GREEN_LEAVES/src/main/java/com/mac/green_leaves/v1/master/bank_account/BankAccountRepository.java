@@ -16,6 +16,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface BankAccountRepository extends JpaRepository<MBankAccount, Serializable>{
 
-    public List<MBankAccount> findByName(String name);
+//    public List<MBankAccount> findByName(String name);
     
 }

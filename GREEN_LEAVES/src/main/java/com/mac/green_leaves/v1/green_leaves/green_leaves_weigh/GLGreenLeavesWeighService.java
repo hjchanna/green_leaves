@@ -61,6 +61,7 @@ public class GLGreenLeavesWeighService {
     @Transactional
     public TGreenLeavesWeigh saveSummary(TGreenLeavesWeigh greenLeavesWeighRequest) {
         //assume that the green leave weigh does not have weigh details
+        System.out.println("++++++++++++++++++++"+greenLeavesWeighRequest.getIndexNo());
         TGreenLeavesWeigh greenLeavesWeigh;
         if (greenLeavesWeighRequest.getIndexNo() != null) {
             greenLeavesWeigh = greenLeavesWeighRepository.getOne(greenLeavesWeighRequest.getIndexNo());
@@ -89,7 +90,6 @@ public class GLGreenLeavesWeighService {
 
             //generate new number
             Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(greenLeavesWeighRequest.getBranch());
-            System.out.println(maxNumber);
             if (maxNumber == null) {
                 maxNumber = 0;
             }
@@ -271,6 +271,7 @@ public class GLGreenLeavesWeighService {
     }
 
     TGreenLeavesWeigh findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
+        System.out.println("+++++++++++++++++++++");
         TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClientAndType(branch, date, client, TYPE_SUPPLIER);
         if (greenLeavesWeigh == null) {
             throw new EntityNotFoundException("green leave weight not found branch,client and date");
