@@ -28,20 +28,20 @@ public class BankAccountService {
         return bankAccountRepository.findAll();
     }
 
-    private MBankAccount findByAccountNo(String accountNo) {
-        List<MBankAccount> findByAccountNo = bankAccountRepository.findByAccountNo(accountNo);
-        if (findByAccountNo.isEmpty()) {
+    private MBankAccount findByName(String name) {
+        List<MBankAccount> findByName = bankAccountRepository.findByName(name);
+        if (findByName.isEmpty()) {
             return null;
         }
-        return findByAccountNo.get(0);
+        return findByName.get(0);
     }
 
     public MBankAccount saveBankAcccount(MBankAccount bankAccount) {
-        MBankAccount mBankAccount = findByAccountNo(bankAccount.getAccountNo());
+        MBankAccount mBankAccount = findByName(bankAccount.getName());
         if (mBankAccount == null) {
             return bankAccountRepository.save(bankAccount);
         }else{
-            if (mBankAccount.getIndexNo().equals(bankAccount.getIndexNo())) {
+            if (mBankAccount.getName().equals(bankAccount.getName())) {
                 return bankAccount;
             }
             throw new DuplicateEntityException("Bank Account already exist");
