@@ -15,11 +15,11 @@
                     </tr>
                     <tr>
                         <td><label class="control-label">Bank</label></td>
-                        <td><input class="form-control" ng-model="model.bankAccount.bank" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                        <td><input class="form-control" ng-model="model.bankAccount.bank" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="bank as (bank.name) for bank in model.bankList |filter:$viewValue|limitTo:1|orderBy:distance" ></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Branch</label></td>
-                        <td><input class="form-control" ng-model="model.bankAccount.branch" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                        <td><input class="form-control" ng-model="model.bankAccount.branch" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"uib-typeahead="branch as (branch.name) for branch in model.branchList |filter:$viewValue|limitTo:1|orderBy:distance" ></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Account Number</label></td>
