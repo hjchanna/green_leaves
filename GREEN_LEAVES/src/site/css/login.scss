@@ -1,0 +1,80 @@
+@import "mixins/variables.scss";
+
+.login{
+    .login-window {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+
+        /*background-color: lighten($success-color, 50%);*/
+        background: url('/img/login-backdrop.png') no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+        width: 100%;
+        height: 100vh;
+
+        .login-form{
+            display: block;
+            position: relative;
+
+            width: 500px;
+            height: 300px;
+
+            transform: translate(-50%, -50%);
+            left:50%;
+            top:50%;
+
+            box-shadow: 0 0 150px #000;
+
+            .login-input{
+                display: inline-block;
+                vertical-align: top;
+                width: 200px;
+                height: 100%;
+                padding: 20px;
+                background-color: #FFF;
+
+                h1{
+                    color: $success-color-border;
+                    font-weight: 300;
+                    font-size: 2em;
+                }
+
+                input{
+                    width: 100%;
+                    height: 30px;
+                    color:$success-color-border;
+                    /*border-radius: 30px;*/
+                    margin-top: 10px;
+                    padding: 0 10px 0 10px;
+                    border: 1px solid $success-color-border;
+                }
+
+                button{
+                    width: 100%;
+                    height: 30px;
+                    /*border-radius: 30px;*/
+                    margin-top: 10px;
+                    padding: 0 20px 0 20px;
+                    color:$light-font-color;
+
+                    background-color: $success-color;
+                    border: 1px solid $success-color-border;
+                }
+            }
+
+            .login-display{
+                display: inline-block;
+                vertical-align: top;
+                width: 300px;
+                height: 100%;
+
+                background-image: url('/img/login-banner.png');
+            }
+        }
+    }
+}

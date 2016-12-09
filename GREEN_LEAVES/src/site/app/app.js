@@ -2,8 +2,10 @@
     //index module
     angular.module("appModule", [
         "ngRoute",
-        "homeModule",
+        "ngCookies",
+//        "csrf-cross-domain",
         "ui.bootstrap",
+        "homeModule",
 //        "greenLeavesReceiveModule",
 //        "greenLeavesWeighModule",
 //        "clientAdvanceRequestModule",
@@ -33,7 +35,7 @@
 //    //constants
 //    angular.module("appModule")
 //            .constant("systemConfig", {
-//                apiUrl: location.protocol + "//" + window.location.hostname
+//                apiUrl: location.protocol + "//" + window.location.hostname 
 //            });
     //constants
     angular.module("appModule")
@@ -41,9 +43,29 @@
                 apiUrl: "http://localhost:8080"
             });
 
+    angular.module('appModule')
+            .factory('XSRFInterceptor', function ($cookies, $log) {
+
+                var XSRFInterceptor = {
+
+                    request: function (config) {
+
+                        var token = $cookies.get('XSRF-TOKEN');
+
+                        if (token) {
+                            config.headers['X-XSRF-TOKEN'] = token;
+                            $log.info("X-XSRF-TOKEN: " + token);
+                        }
+
+                        return config;
+                    }
+                };
+                return XSRFInterceptor;
+            });
+
     //route config
     angular.module("appModule")
-            .config(function ($routeProvider) {
+            .config(function ($routeProvider, $httpProvider) {
                 $routeProvider
                         //system
                         .when("/", {
@@ -51,10 +73,19 @@
                             controller: "homeController"
                         })
 
+                        .when("/login", {
+                            templateUrl: "app/system/login/login.html",
+                            controller: "LoginController"
+                        })
+
                         //green leaves
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighController"
+                        })
+                        .when("/transactions/green-leaves/supplier-green-leaves-weigh/supplier-green-leaves-weigh", {
+                            templateUrl: "app/transactions/green-leaves/supplier-green-leaves-weigh/supplier-green-leaves-weigh.html",
+                            controller: "SupplierGreenLeavesWeighController"
                         })
                         .when("/transactions/green-leaves/green-leaves-receive", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
@@ -159,6 +190,29 @@
                         .otherwise({
                             redirectTo: "/"
                         });
+
+//                $httpProvider.defaults.withCredentials = true;
+//$httpProvider.defaults.useXDomain = true;
+//$httpProvider.defaults.withCredentials = true;
+//delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+                $httpProvider.defaults.withCredentials = true;
+//                $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//                $httpProvider.defaults.useXDomain = true;
+
+                $httpProvider.interceptors.push('XSRFInterceptor');
+
+            });
+
+    angular.module("appModule")
+            .run(function ($rootScope, $location, $http, $cookies, LoginService) {
+                $rootScope.$on("$routeChangeStart", function (event, next, current) {
+                    if (!$rootScope.authenticated) {
+                        $location.path("/login");
+                    }
+                });
+
+
             });
 
 //    angular.module("appModule")
@@ -184,7 +238,7 @@
 //            });
 
     angular.module("appModule")
-            .controller("appController", function ($scope, $interval) {
+            .controller("appController", function ($scope, $rootScope, $interval) {
 //                ScheduleService.start();
 
                 $scope.hamburgerOpen = false;

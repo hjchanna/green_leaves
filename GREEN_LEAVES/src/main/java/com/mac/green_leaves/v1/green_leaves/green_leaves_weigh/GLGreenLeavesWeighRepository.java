@@ -27,14 +27,16 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
 
     public List<TGreenLeavesWeigh> findByBranchAndNumber(Integer branch, Integer number);
 
-    public List<TGreenLeavesWeigh> findByBranchAndStatus(Integer branch,String status);
+    public List<TGreenLeavesWeigh> findByBranchAndStatusAndType(Integer branch, String status, String type);
 
     @Query(value = "SELECT MAX(number) FROM t_green_leaves_weigh WHERE branch=:branch", nativeQuery = true)
     public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
-    
+
     @Modifying(clearAutomatically = true)
     @Query(value = "update t_green_leaves_weigh set status = 'APPROVE' where index_no = :indexNo", nativeQuery = true)
     public Integer updateConfirmation(@Param("indexNo") Integer indexNo);
 
-    public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date);
+    public TGreenLeavesWeigh findByBranchAndRouteAndDateAndType(Integer branch, Integer route, Date date,String type);
+
+    public TGreenLeavesWeigh findByBranchAndDateAndClientAndType(Integer branch, Date date, Integer client,String type);
 }

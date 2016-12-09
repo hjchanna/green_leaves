@@ -5,17 +5,24 @@
  */
 package com.mac.green_leaves.v1.zconfig;
 
-import com.mac.green_leaves.v1.security.UserDetailsServiceImpl;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
@@ -32,20 +39,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService);
+//        auth
+//                .userDetailsService(userDetailsService);
+        auth.inMemoryAuthentication().withUser("mac").password("123").roles("ADMIN");
     }
 
     @Override
+    @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic()
-                .and()
-//                .authorizeRequests()
-//                .antMatchers("/api/**").authenticated()
-//                .and()
+                    .and()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .antMatchers("/api/**").authenticated()
+                    .and()
                 .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 ;
     }
 }
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/security/**").fullyAuthenticated()

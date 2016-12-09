@@ -41,6 +41,8 @@ gulp.task('build-js', function () {
         "bower_components/angular-route/angular-route.min.js",
         "bower_components/angular-animate/angular-animate.min.js",
         "bower_components/angular-sanitize/angular-sanitize.min.js",
+        "bower_components/angular-cookies/angular-cookies.min.js",
+        "bower_components/angular-csrf-cross-domain/dist/angular-csrf-cross-domain.min.js",
         "bower_components/chart.js/dist/Chart.min.js",
         "bower_components/angular-chart.js/dist/angular-chart.min.js",
         "bower_components/angular-bootstrap/ui-bootstrap.min.js",

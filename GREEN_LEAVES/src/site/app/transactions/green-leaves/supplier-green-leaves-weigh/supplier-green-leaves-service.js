@@ -5,23 +5,15 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
+        this.loadClient = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
+        };
+
         this.loadBranch = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/branch");
         };
 
-        this.loadRouteOfficers = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
-        };
-
-        this.loadRouteHelpers = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-helpers");
-        };
-
-        this.loadVehicles = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/vehicles");
-        };
-
-        //green leaves weigh
+        //pending weight
         this.loadWeighByBranchAndType = function (branch, type) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-by-branch/" + branch + "/" + type);
         };
@@ -29,26 +21,26 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + branch + "/" + number);
         };
 
-        this.confirmWeigh = function (indexNo) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/confirm-detail/" + indexNo);
-        };
-        
-        this.findByBranchAndRouteAndDate = function (branch, route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/findBy/" + branch + "/" + route + "/" +  date);
-        };
-
         this.saveWeigh = function (weigh) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/save-weigh", weigh);
         };
         this.insertDetail = function (detail, weighIndexNo) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/insert-detail/" + weighIndexNo, detail);
-        };  
+        };
 
         this.deleteDetail = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-detail/" + indexNo);
         };
+
+        this.confirmWeigh = function (indexNo) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/confirm-detail/" + indexNo);
+        };
+
+        this.findByBranchAndDateAndClient = function (branch, date, client) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight/" + branch + "/" + date + "/" + client);
+        };
     };
 
     angular.module("appModule")
-            .service("GreenLeavesWeighService", service);
+            .service("SupplierGreenLeavesWeighService", service);
 }());

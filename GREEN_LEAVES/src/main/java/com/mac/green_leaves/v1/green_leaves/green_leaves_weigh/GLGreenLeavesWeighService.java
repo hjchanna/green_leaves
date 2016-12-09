@@ -12,9 +12,13 @@
 package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveService;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +36,17 @@ public class GLGreenLeavesWeighService {
 
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
+    private final String TYPE_BULK = "BULK";
+    private final String TYPE_SUPPLIER = "SUPPLIER";
+
     @Autowired
     private GLGreenLeavesWeighRepository greenLeavesWeighRepository;
 
     @Autowired
     private GLGreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
+
+    @Autowired
+    private GLGreenLeavesReceiveService greenLeavesReceiveService;
 
     public TGreenLeavesWeigh getSummary(Integer branch, Integer number) {
         List<TGreenLeavesWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumber(branch, number);
@@ -51,6 +61,7 @@ public class GLGreenLeavesWeighService {
     @Transactional
     public TGreenLeavesWeigh saveSummary(TGreenLeavesWeigh greenLeavesWeighRequest) {
         //assume that the green leave weigh does not have weigh details
+        System.out.println("++++++++++++++++++++"+greenLeavesWeighRequest.getIndexNo());
         TGreenLeavesWeigh greenLeavesWeigh;
         if (greenLeavesWeighRequest.getIndexNo() != null) {
             greenLeavesWeigh = greenLeavesWeighRepository.getOne(greenLeavesWeighRequest.getIndexNo());
@@ -60,21 +71,21 @@ public class GLGreenLeavesWeighService {
             greenLeavesWeigh.setRouteOfficer(greenLeavesWeighRequest.getRouteOfficer());
             greenLeavesWeigh.setRouteHelper(greenLeavesWeighRequest.getRouteHelper());
             greenLeavesWeigh.setVehicle(greenLeavesWeighRequest.getVehicle());
-            
+
             greenLeavesWeigh.setNormalTareCalculated(greenLeavesWeighRequest.getNormalTareCalculated());
             greenLeavesWeigh.setNormalGeneralDeductionPercent(greenLeavesWeighRequest.getNormalGeneralDeductionPercent());
             greenLeavesWeigh.setNormalTareDeduction(greenLeavesWeighRequest.getNormalTareDeduction());
             greenLeavesWeigh.setNormalWaterDeduction(greenLeavesWeighRequest.getNormalWaterDeduction());
             greenLeavesWeigh.setNormalCoarseLeaves(greenLeavesWeighRequest.getNormalCoarseLeaves());
             greenLeavesWeigh.setNormalBoiledLeaves(greenLeavesWeighRequest.getNormalBoiledLeaves());
-            
+
             greenLeavesWeigh.setSuperTareCalculated(greenLeavesWeighRequest.getSuperTareCalculated());
             greenLeavesWeigh.setSuperGeneralDeductionPercent(greenLeavesWeighRequest.getSuperGeneralDeductionPercent());
             greenLeavesWeigh.setSuperTareDeduction(greenLeavesWeighRequest.getSuperTareDeduction());
             greenLeavesWeigh.setSuperWaterDeduction(greenLeavesWeighRequest.getSuperWaterDeduction());
             greenLeavesWeigh.setSuperCoarseLeaves(greenLeavesWeighRequest.getSuperCoarseLeaves());
             greenLeavesWeigh.setSuperBoiledLeaves(greenLeavesWeighRequest.getSuperBoiledLeaves());
-            
+
         } else {
 
             //generate new number
@@ -108,6 +119,41 @@ public class GLGreenLeavesWeighService {
         //validate and save weigh
         validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(greenLeaveWeigh);
+
+        if ("SUPPLIER".equals(greenLeaveWeigh.getType())) {
+
+            TGreenLeavesReceive greenLeavesReceive = new TGreenLeavesReceive();
+            greenLeavesReceive.setBranch(greenLeaveWeigh.getBranch());
+            greenLeavesReceive.setDate(greenLeaveWeigh.getDate());
+
+            TGreenLeavesReceiveDetail greenLeavesReceiveDetail = new TGreenLeavesReceiveDetail();
+            greenLeavesReceiveDetail.setClient(greenLeaveWeigh.getClient());
+            greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeaveWeigh.getNormalNetWeight());
+            greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeaveWeigh.getSuperNetWeight());
+            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
+
+            if (greenLeaveWeigh.getRoute() == null) {
+                if (greenLeaveWeigh.getClient() == null) {
+                    greenLeavesReceiveDetail.setRemark(greenLeaveWeigh.getRemark());
+                }
+            } else {
+                greenLeavesReceive.setRoute(greenLeaveWeigh.getRoute());
+            }
+
+            List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
+            greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
+            greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
+
+            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getRoute(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
+            if (greenLeavesList.isEmpty()) {
+                greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+                //update green leaves normal total leaves and super total leaves
+            } else {
+                for (TGreenLeavesReceive tGreenLeavesReceive : greenLeavesList) {
+                    greenLeavesReceiveService.updateNormalLeafAndSuperLeaf(tGreenLeavesReceive.getIndexNo(), greenLeaveWeigh.getNormalNetWeight(), greenLeaveWeigh.getSuperNetWeight());
+                }
+            }
+        }
 
         return greenLeaveWeighDetail;
     }
@@ -206,8 +252,8 @@ public class GLGreenLeavesWeighService {
         return greenLeaveWeigh;
     }
 
-    public List<TGreenLeavesWeigh> findByBranch(Integer branch) {
-        return greenLeavesWeighRepository.findByBranchAndStatus(branch, PENDING_STATUS);
+    public List<TGreenLeavesWeigh> findByBranchAndType(Integer branch, String type) {
+        return greenLeavesWeighRepository.findByBranchAndStatusAndType(branch, PENDING_STATUS, type);
     }
 
     @Transactional
@@ -216,11 +262,20 @@ public class GLGreenLeavesWeighService {
     }
 
     public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDate(branch, route, date);
+        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDateAndType(branch, route, date, TYPE_BULK);
         if (greenLeavesWeigh == null) {
             throw new EntityNotFoundException("green leave weight not found branch,route and date" + branch + " , " + route + " and " + date);
         }
         return greenLeavesWeigh;
 
+    }
+
+    TGreenLeavesWeigh findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
+        System.out.println("+++++++++++++++++++++");
+        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClientAndType(branch, date, client, TYPE_SUPPLIER);
+        if (greenLeavesWeigh == null) {
+            throw new EntityNotFoundException("green leave weight not found branch,client and date");
+        }
+        return greenLeavesWeigh;
     }
 }

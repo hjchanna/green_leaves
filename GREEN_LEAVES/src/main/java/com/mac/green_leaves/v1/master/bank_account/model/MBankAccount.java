@@ -15,8 +15,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -49,6 +47,16 @@ public class MBankAccount implements Serializable {
     
     @NotNull
     @Basic(optional = false)
+    @Column(name = "bank")
+    private Integer bank;
+    
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "branch")
+    private Integer branch;
+    
+    @NotNull
+    @Basic(optional = false)
     @Column(name = "account_number")
     private String accountNo;
     
@@ -60,7 +68,7 @@ public class MBankAccount implements Serializable {
     public MBankAccount() {
     }
 
-    public MBankAccount(Integer indexNo, String name, MBank bank, MBankBranch branch, String accountNo, boolean active) {
+    public MBankAccount(Integer indexNo, String name, Integer bank, Integer branch, String accountNo, boolean active) {
         this.indexNo = indexNo;
         this.name = name;
         this.bank = bank;
@@ -85,21 +93,19 @@ public class MBankAccount implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public MBank getBank() {
+    public Integer getBank() {
         return bank;
     }
 
-    public void setBank(MBank bank) {
+    public void setBank(Integer bank) {
         this.bank = bank;
     }
 
-    public MBankBranch getBranch() {
+    public Integer getBranch() {
         return branch;
     }
 
-    public void setBranch(MBankBranch branch) {
+    public void setBranch(Integer branch) {
         this.branch = branch;
     }
 
