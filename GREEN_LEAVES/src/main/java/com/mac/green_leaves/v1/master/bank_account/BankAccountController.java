@@ -3,30 +3,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.master.bank_account;
+package com.mac.green_leaves.v1.master.bank_Account;
 
-import com.mac.green_leaves.v1.master.bank_account.model.MBankAccount;
+import com.mac.green_leaves.v1.master.bank_Account.model.MBankAccount;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Supervision
+ * @author kalum
  */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/green-leaves/master/bank-account")
-public class BankAccountController {
-    private final Integer branch=1;
+public class BankAccountController{
+    
     @Autowired
-    private BankAccountService bankAccountService;
-
+    BankAccountService bankAccountService;
+    
     @RequestMapping(method = RequestMethod.GET)
-    public List<MBankAccount> findAllDetail() {
-        return bankAccountService.findAllCategory(branch);
+    public List<MBankAccount> findAll(){
+        return bankAccountService.findAll();
     }
+    
+    @RequestMapping(value = "/save-bankAccount", method = RequestMethod.POST)
+    public MBankAccount saveBankAcccount(@RequestBody MBankAccount bankAccount) {
+        return bankAccountService.saveBankAcccount(bankAccount);
+        
+    }
+
+    @RequestMapping(value = "/delete-bankAccount/{indexNo}", method = RequestMethod.DELETE)
+    public void deleteBankAcccount(@PathVariable Integer indexNo) {
+        bankAccountService.deleteBankAcccount(indexNo);
+    }
+    
 }

@@ -3,67 +3,73 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.master.bank_account.model;
+package com.mac.green_leaves.v1.master.bank_Account.model;
 
-import com.mac.green_leaves.v1.master.bank_branch.model.MBankBranch;
 import com.mac.green_leaves.v1.master.bank.model.MBank;
+import com.mac.green_leaves.v1.master.bank_branch.model.MBankBranch;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Supervision
+ * @author kalum
  */
 @Entity
 @Table(name = "m_bank_account")
-@XmlRootElement
 public class MBankAccount implements Serializable {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
+    
+    @NotNull
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    
+    @JoinColumn(name = "bank", referencedColumnName = "index_no")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private MBank bank;
+    
+    @JoinColumn(name = "branch", referencedColumnName = "index_no")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private MBankBranch branch;
+    
+    @NotNull
     @Basic(optional = false)
     @Column(name = "account_number")
-    private String accountNumber;
+    private String accountNo;
+    
+    @NotNull
     @Basic(optional = false)
     @Column(name = "active")
-    private boolean active;
-    @JoinColumn(name = "bank", referencedColumnName = "index_no")
-    @ManyToOne(optional = false)
-    private MBank bank;
-    @JoinColumn(name = "branch", referencedColumnName = "index_no")
-    @ManyToOne(optional = false)
-    private MBankBranch branch;
+    private boolean  active; 
 
     public MBankAccount() {
     }
 
-    public MBankAccount(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public MBankAccount(Integer indexNo, String name, String accountNumber, boolean active) {
+    public MBankAccount(Integer indexNo, String name, MBank bank, MBankBranch branch, String accountNo, boolean active) {
         this.indexNo = indexNo;
         this.name = name;
-        this.accountNumber = accountNumber;
+        this.bank = bank;
+        this.branch = branch;
+        this.accountNo = accountNo;
         this.active = active;
     }
+
+   
 
     public Integer getIndexNo() {
         return indexNo;
@@ -79,22 +85,6 @@ public class MBankAccount implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public MBank getBank() {
@@ -113,29 +103,20 @@ public class MBankAccount implements Serializable {
         this.branch = branch;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
+    public String getAccountNo() {
+        return accountNo;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MBankAccount)) {
-            return false;
-        }
-        MBankAccount other = (MBankAccount) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 
-    @Override
-    public String toString() {
-        return "indexNo=" + indexNo + " ]";
+    public boolean isActive() {
+        return active;
     }
-    
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+  
 }

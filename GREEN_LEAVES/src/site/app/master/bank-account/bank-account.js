@@ -5,7 +5,7 @@
             .factory("bankAccountFactory", function ($http, systemConfig) {
                 var factory = {};
 
-                //load sub category
+                //load bank accoumnts
                 factory.loadBankAccount = function (callback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/bank-account";
                     $http.get(url)
@@ -13,6 +13,31 @@
                                 callback(data);
                             })
                             .error(function (data, status, headers) {
+
+                            });
+                };
+                
+                //load banks
+                factory.loadBank = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/bank";
+
+                    $http.get(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, status, headers) {
+
+                            });
+                };
+                
+                //load branch
+                factory.lordBranch = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/green-leaves/master/branch";
+                    $http.get(url)
+                            .success(function (data, status, headers) {
+                                callback(data);
+                            })
+                            .error(function (data, states, headers) {
 
                             });
                 };
@@ -32,7 +57,7 @@
                 };
 
                 //delete funtion
-                factory.deleteBankAccount = function (indexNo, callback,errorcallback) {
+                factory.deleteBankAccount = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/green-leaves/master/bank-account/delete-bankAccount/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
@@ -69,13 +94,13 @@
                 //reset model
                 $scope.model.reset = function () {
                     $scope.model.bankAccount = {
-                        active : true                
+                        active: true
                     };
                 };
 
                 //----------validate funtion-------------
                 $scope.validateInput = function () {
-                    if ($scope.model.bankAccount.name !== null) {
+                    if ($scope.model.bankAccount.name) {
                         return true;
                     } else {
                         return false;
@@ -85,11 +110,11 @@
                 //----------http funtion----------------
                 $scope.http.deleteBankAccount = function (IndexNo, index) {
                     bankAccountFactory.deleteBankAccount(IndexNo
-                    , function () {
-                        Notification.success(IndexNo+" - " +"Bank Account Delete Successfully");
-                        $scope.model.bankAccountList.splice(index, 1);
-                    }
-                    ,function (data){
+                            , function () {
+                                Notification.success(IndexNo + " - " + "Bank Account Delete Successfully");
+                                $scope.model.bankAccountList.splice(index, 1);
+                            }
+                    , function (data) {
                         Notification.error(data);
                     });
                 };
@@ -102,7 +127,7 @@
                             detailJSON,
                             function (data) {
                                 $scope.model.bankAccountList.push(data);
-                                Notification.success(data.indexNo+" - " +"Sub Category Save Successfully");
+                                Notification.success(data.indexNo + " - " + "Sub Category Save Successfully");
                                 $scope.model.reset();
                                 $scope.ui.focus();
 
@@ -164,8 +189,17 @@
                     bankAccountFactory.loadBankAccount(function (data) {
                         $scope.model.bankAccountList = data;
                     });
+
+                    bankAccountFactory.loadBank(function (data) {
+                        $scope.model.bankList= data;
+                    });
+                    
+                    bankAccountFactory.lordBranch(function (data) {
+                        $scope.model.branchList= data;
+                    });
+
                 };
-                
+
                 $scope.ui.init();
             });
 }());
