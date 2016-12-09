@@ -5,13 +5,10 @@
  */
 package com.mac.green_leaves.v1.master.bank_Account.model;
 
-import com.mac.green_leaves.v1.master.bank.model.MBank;
-import com.mac.green_leaves.v1.master.bank_branch.model.MBankBranch;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,14 +33,6 @@ public class MBankAccount implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    
-    @JoinColumn(name = "bank", referencedColumnName = "index_no")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private MBank bank;
-    
-    @JoinColumn(name = "branch", referencedColumnName = "index_no")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private MBankBranch branch;
     
     @NotNull
     @Basic(optional = false)
@@ -77,8 +66,6 @@ public class MBankAccount implements Serializable {
         this.active = active;
     }
 
-   
-
     public Integer getIndexNo() {
         return indexNo;
     }
@@ -93,6 +80,8 @@ public class MBankAccount implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
     public Integer getBank() {
         return bank;
     }
