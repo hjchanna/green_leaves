@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, GreenLeavesReceiveModel, ConfirmPane, InputPane, Notification) {
+    var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel, ConfirmPane, InputPane, Notification) {
         $scope.model = new GreenLeavesReceiveModel();
 
         $scope.ui = {};
@@ -9,6 +9,19 @@
         $scope.ui.new = function () {
             $scope.ui.mode = "EDIT";
             $scope.model.clear();
+
+            //set default branch and current date
+            $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
+
+            //new date subtract one day
+            var newDate = new Date();
+            newDate.setDate(newDate.getDate() - 1);
+            $scope.model.data.date = $filter('date')(newDate, 'yyyy-MM-dd');
+
+            //focus branch
+            $timeout(function () {
+                angular.element(document.querySelectorAll("#branch"))[0].focus();
+            }, 10);
         };
 
         $scope.ui.edit = function () {
@@ -22,7 +35,6 @@
         $scope.ui.load = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
-            console.log("nkdsfnskdf");
                 $scope.model.load()
                         .then(function () {
                             $scope.ui.mode = "SELECTED";
@@ -122,9 +134,9 @@
             $scope.ui.mode = "IDEAL";
             $scope.ui.type = "NORMAL";
 
-            $scope.$watch("model.data.route", function (newValue, oldValue) {
-                $scope.ui.loadFactoryQuantity();
-            });
+//            $scope.$watch("model.data.route", function (newValue, oldValue) {
+//                $scope.ui.loadFactoryQuantity();
+//            });
 
             $scope.$watch("model.data.date", function (newValue, oldValue) {
                 $scope.ui.loadFactoryQuantity();

@@ -41,7 +41,7 @@ public class GLGreenLeavesWeighController {
         return greenLeavesWeighService.getSummary(branch, number);
     }
 
-    @RequestMapping(value = "/findBy/{branch}/{route}/{date}", method = RequestMethod.GET)
+    @RequestMapping(value = "/find-weight-by/{branch}/{route}/{date}", method = RequestMethod.GET)
     public TGreenLeavesWeigh getSummaryBranchAndRouteAndDate(@PathVariable Integer branch, @PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return greenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date);
     }

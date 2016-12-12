@@ -11,10 +11,10 @@
             <tbody>
                 <tr>
                     <td>
-                        <input class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)">
+                        <input id="branch" class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.serchWeight($model)">
                     </td>
                     <td>
-                        <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                        <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'" typeahead-on-select="ui.loadFactoryQuantity()">
                     </td>
                     <td>
                         <input class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">

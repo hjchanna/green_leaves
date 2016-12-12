@@ -82,8 +82,8 @@ public class GLGreenLeavesReceiveService {
         return total;
     }
 
-    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Integer route, Date date, Integer client) {
-        return greenLeavesReceiveRepository.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(branch, route, date, client);
+    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Date date, Integer client) {
+        return greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClient(branch, date, client);
     }
 
     @Transactional

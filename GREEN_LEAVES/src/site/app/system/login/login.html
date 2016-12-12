@@ -5,7 +5,7 @@
                 <h1>MEMBER LOGIN</h1>
                 {{data}}
                 <input type="text" ng-model="model.data.username">
-                <input type="password" ng-model="model.data.password">
+                <input type="password" ng-model="model.data.password" ng-keypress="ui.login($event);">
                 
                 <button type="button" ng-click="ui.login();">LOGIN</button>
             </div>

@@ -21,7 +21,7 @@
         };
 
         this.getFactoryQuantity = function (route, date, branch) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/get-factory-quantity/" + route + "/" + date.toISOString() + "/" + branch);
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/get-factory-quantity/" + route + "/" + date + "/" + branch);
         };
     };
 

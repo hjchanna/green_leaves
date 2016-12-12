@@ -13,8 +13,6 @@
 
                     //set default branch
                     $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
-                    $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
-
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
@@ -48,8 +46,18 @@
                             });
                 };
 
+                $scope.ui.getPendingGreenLeavesWeigh = function () {
+                    console.log("+++++++++++++++++++++++");
+                    if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
+                    $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                    }
+                };
+
                 $scope.ui.deleteDetail = function (indexNo) {
                     $scope.model.deleteDetail(indexNo);
+                    $timeout(function () {
+                        document.querySelectorAll("#normal-qty")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.load = function (e) {
@@ -84,13 +92,12 @@
                     tempIndexSave = 0;
                 };
 
-                $scope.ui.serchWeight = function (model) {
-                    $scope.model.searchGreenLeavesWeight(model);
-                };
-
-
                 $scope.ui.findByBranchAndRouteAndDate = function () {
+                    $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
                     $scope.model.findByBranchAndRouteAndDate();
+                    $timeout(function () {
+                        document.querySelectorAll("#normal-qty")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.save = function () {

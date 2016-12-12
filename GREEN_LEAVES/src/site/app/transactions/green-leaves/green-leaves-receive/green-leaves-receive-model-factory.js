@@ -1,12 +1,7 @@
 (function () {
     angular.module("appModule")
-            .factory("GreenLeavesReceiveModelFactory", function ($filter) {
+            .factory("GreenLeavesReceiveModelFactory", function () {
                 var factory = {};
-
-                //new date subtract one day
-                var newDate = new Date();
-                newDate.setDate(newDate.getDate() - 1);
-                var formatedDate = $filter('date')(newDate, 'yyyy-MM-dd');
 
                 factory.newData = function () {
                     var data = {
@@ -14,7 +9,7 @@
                         "branch": null,
                         "route": null,
                         "number": null,
-                        "date": formatedDate,
+                        "date": null,
                         "transaction": null,
                         "status": null,
                         "greenLeavesReceiveDetails": [

@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("GreenLeavesReceiveModel", function (GreenLeavesReceiveService, GreenLeavesReceiveModelFactory, $q, Notification) {
+            .factory("GreenLeavesReceiveModel", function (GreenLeavesReceiveService, GreenLeavesReceiveModelFactory, $q, $filter) {
                 function GreenLeavesReceiveModel() {
                     this.constructor();
                 }
@@ -99,9 +99,10 @@
                         return defer.promise;
                     },
                     loadFactoryQuantity: function () {
+                        var defer = $q.defer();
                         if (this.data.route && this.data.date) {
                             var that = this;
-                            GreenLeavesReceiveService.getFactoryQuantity(this.data.route, this.data.date,this.data.branch)
+                            GreenLeavesReceiveService.getFactoryQuantity(this.data.route, $filter('date')(this.data.date, 'yyyy-MM-dd'), this.data.branch)
                                     .success(function (data) {
                                         if (!data[0]) {
                                             data[0] = 0;
@@ -112,12 +113,15 @@
 
                                         that.factoryQuantity = data;
                                         that.refreshQuantity();
+                                        defer.resolve();
                                     })
                                     .error(function () {
                                         that.factoryQuantity = [0, 0];
                                         that.refreshQuantity();
+                                        defer.reject();
                                     });
                         }
+                        return defer.promise;
                     },
                     refreshQuantity: function () {
                         var that = this;
@@ -164,6 +168,9 @@
                             }
                         });
                         return client;
+                    },
+                    defaultBranch: function () {
+                        return this.branchs[0];
                     },
                     bracnhLable: function (indexNo) {
                         var lable;

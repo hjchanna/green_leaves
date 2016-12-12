@@ -61,13 +61,12 @@ public class GLGreenLeavesWeighService {
     @Transactional
     public TGreenLeavesWeigh saveSummary(TGreenLeavesWeigh greenLeavesWeighRequest) {
         //assume that the green leave weigh does not have weigh details
-        System.out.println("++++++++++++++++++++"+greenLeavesWeighRequest.getIndexNo());
+        System.out.println("++++++++++++++++++++" + greenLeavesWeighRequest.getIndexNo());
         TGreenLeavesWeigh greenLeavesWeigh;
         if (greenLeavesWeighRequest.getIndexNo() != null) {
             greenLeavesWeigh = greenLeavesWeighRepository.getOne(greenLeavesWeighRequest.getIndexNo());
             greenLeavesWeigh.setBranch(greenLeavesWeighRequest.getBranch());
             greenLeavesWeigh.setDate(greenLeavesWeighRequest.getDate());
-            greenLeavesWeigh.setRoute(greenLeavesWeighRequest.getRoute());
             greenLeavesWeigh.setRouteOfficer(greenLeavesWeighRequest.getRouteOfficer());
             greenLeavesWeigh.setRouteHelper(greenLeavesWeighRequest.getRouteHelper());
             greenLeavesWeigh.setVehicle(greenLeavesWeighRequest.getVehicle());
@@ -90,13 +89,20 @@ public class GLGreenLeavesWeighService {
 
             //generate new number
             Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(greenLeavesWeighRequest.getBranch());
+            System.out.println(maxNumber);
+            System.out.println(greenLeavesWeighRequest.getBranch());
             if (maxNumber == null) {
                 maxNumber = 0;
             }
             greenLeavesWeighRequest.setNumber(maxNumber + 1);
         }
+
         greenLeavesWeighRequest.setStatus(PENDING_STATUS);
         greenLeavesWeigh = validateWeighSummary(greenLeavesWeighRequest);
+
+        if ("SUPPLIER".equals(greenLeavesWeigh.getType())) {
+            greenLeavesWeigh.setRoute(null);
+        }
 
         //TODO:transaction
         return greenLeavesWeighRepository.save(greenLeavesWeigh);
@@ -131,20 +137,15 @@ public class GLGreenLeavesWeighService {
             greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeaveWeigh.getNormalNetWeight());
             greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeaveWeigh.getSuperNetWeight());
             greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
-
-            if (greenLeaveWeigh.getRoute() == null) {
-                if (greenLeaveWeigh.getClient() == null) {
-                    greenLeavesReceiveDetail.setRemark(greenLeaveWeigh.getRemark());
-                }
-            } else {
-                greenLeavesReceive.setRoute(greenLeaveWeigh.getRoute());
+            if (greenLeaveWeigh.getClient() == null) {
+                greenLeavesReceiveDetail.setRemark(greenLeaveWeigh.getRemark());
             }
 
             List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
             greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
             greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
 
-            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getRoute(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
+            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
             if (greenLeavesList.isEmpty()) {
                 greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
                 //update green leaves normal total leaves and super total leaves

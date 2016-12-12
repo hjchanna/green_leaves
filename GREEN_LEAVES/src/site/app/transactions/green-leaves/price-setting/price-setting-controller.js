@@ -17,10 +17,10 @@
                                     $scope.ui.mode = "SELECTED";
                                 });
                     }
-                    
-                    $scope.model.loadTotalLeaves();
-                };
 
+                    $scope.model.loadTotalLeaves();
+                    
+                };
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
                 };

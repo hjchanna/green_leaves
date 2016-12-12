@@ -34,7 +34,7 @@
         };
         
         this.findByBranchAndRouteAndDate = function (branch, route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/findBy/" + branch + "/" + route + "/" +  date);
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight-by/" + branch + "/" + route + "/" +  date);
         };
 
         this.saveWeigh = function (weigh) {

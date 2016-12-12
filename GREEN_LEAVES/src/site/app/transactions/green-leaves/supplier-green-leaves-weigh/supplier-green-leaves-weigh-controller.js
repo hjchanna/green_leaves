@@ -13,8 +13,6 @@
 
                     //set default branch
                     $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
-                    $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
-
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
@@ -39,6 +37,9 @@
                     var client = $scope.model.client($scope.model.data.client);
                     $scope.model.data.route = client.route;
                     $scope.model.findByBranchAndDateAndClient();
+                    $timeout(function () {
+                        document.querySelectorAll("#normal-qty")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.checkCustomer = function (e) {
@@ -103,6 +104,9 @@
 
                 $scope.ui.deleteDetail = function (indexNo) {
                     $scope.model.deleteDetail(indexNo);
+                    $timeout(function () {
+                        document.querySelectorAll("#normal-qty")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.load = function (e) {
@@ -136,8 +140,10 @@
                     tempIndexSave = 0;
                 };
 
-                $scope.ui.serchWeight = function (model) {
-                    $scope.model.searchGreenLeavesWeight(model);
+                $scope.ui.getPendingGreenLeavesWeigh = function () {
+                    if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
+                        $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                    }
                 };
 
                 $scope.ui.save = function () {

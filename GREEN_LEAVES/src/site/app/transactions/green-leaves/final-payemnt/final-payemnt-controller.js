@@ -1,7 +1,15 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+(function () {
+    //module
+    angular.module("finalPaymentModule", []);
 
-
+    //controller
+    angular.module("finalPaymentModule")
+            .controller("FinalPaymentController", function ($scope) {
+               
+                $scope.ui.init = function () {
+                    $scope.ui.mode = "IDEAL";
+                };
+                
+                $scope.ui.init();
+            });
+}());

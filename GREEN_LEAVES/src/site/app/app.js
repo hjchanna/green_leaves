@@ -207,9 +207,9 @@
     angular.module("appModule")
             .run(function ($rootScope, $location, $http, $cookies, LoginService) {
                 $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                    if (!$rootScope.authenticated) {
-                        $location.path("/login");
-                    }
+//                    if (!$rootScope.authenticated) {
+//                        $location.path("/login");
+//                    }
                 });
 
 
