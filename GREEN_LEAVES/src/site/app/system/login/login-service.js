@@ -1,5 +1,5 @@
 (function () {
-    var service = function ($http, $rootScope, systemConfig, $cookies) {
+    var service = function ($http, $cookies, systemConfig) {
 
         this.login = function (credentials, callback) {
             var headers =
@@ -12,17 +12,15 @@
                         headers: headers
                     })
                     .success(function () {
-                        $rootScope.authenticated = true;
                         callback && callback(true);
                     })
                     .error(function () {
-                        $rootScope.authenticated = false;
                         callback && callback(false);
                     });
         };
 
         this.logout = function () {
-
+            $cookies.remove('XSRF-TOKEN');
         };
     };
 

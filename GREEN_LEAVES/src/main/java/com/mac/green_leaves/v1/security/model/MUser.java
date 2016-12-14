@@ -62,7 +62,6 @@ public class MUser implements Serializable {
         @JoinColumn(name = "user", referencedColumnName = "index_no")}, inverseJoinColumns = {
         @JoinColumn(name = "user_role", referencedColumnName = "index_no")})
     @ManyToMany(fetch = FetchType.EAGER)
-
     private Set<MUserRole> userRoles;
 
     public MUser() {

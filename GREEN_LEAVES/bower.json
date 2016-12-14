@@ -15,7 +15,6 @@
     "bootstrap": "^3.3.7",
     "animate.css": "^3.5.2",
     "angular-ui-notification": "latest",
-    "angular-csrf-cross-domain": "latest",
     "chart.js": "npm:chart.js#^2.2.2"
   },
   "devDependencies": {}

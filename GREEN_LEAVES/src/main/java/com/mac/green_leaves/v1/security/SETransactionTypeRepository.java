@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Mohan
  */
-public interface TransactionTypeRepository extends JpaRepository<RTransactionType, Integer>{
+public interface SETransactionTypeRepository extends JpaRepository<RTransactionType, Integer>{
     
 }

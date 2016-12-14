@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 @RequestMapping("/security")
-public class SecurityController {
+public class SESecurityController {
 
     @Autowired
-    private SecurityService securityService;
+    private SESecurityService securityService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public Principal login(Principal principal) {
@@ -34,7 +34,7 @@ public class SecurityController {
 
     @RequestMapping(value = "/transaction-types", method = RequestMethod.GET)
     public Set<RTransactionType> findTransactionTypes() {
-        SecurityUser user = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SystemUser user = (SystemUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return securityService.findTransactionTypesForUser(user.getIndexNo());
     }

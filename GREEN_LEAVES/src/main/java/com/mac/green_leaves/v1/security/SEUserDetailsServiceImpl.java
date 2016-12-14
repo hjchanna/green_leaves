@@ -25,10 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class SEUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private SEUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -51,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         //user
-        SecurityUser securityUser = new SecurityUser(
+        SystemUser securityUser = new SystemUser(
                 user.getIndexNo(),
                 user.getUsername(),
                 user.getPassword(),

@@ -13,12 +13,12 @@ import org.springframework.security.core.userdetails.User;
  *
  * @author Mohan
  */
-public class SecurityUser extends User {
+public class SystemUser extends User {
 
     private Integer indexNo;
     private Integer branch;
 
-    public SecurityUser(
+    public SystemUser(
             Integer indexNo,
             String username,
             String password,

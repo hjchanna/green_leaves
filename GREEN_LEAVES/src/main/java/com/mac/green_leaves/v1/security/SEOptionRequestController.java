@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @CrossOrigin
 @Controller
-public class Options {
+public class SEOptionRequestController {
 
     @RequestMapping(value = "/api/v1/**", method = RequestMethod.OPTIONS)
     @ResponseBody

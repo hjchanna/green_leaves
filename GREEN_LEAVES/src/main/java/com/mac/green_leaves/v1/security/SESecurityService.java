@@ -22,13 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class SecurityService {
+public class SESecurityService {
 
     @Autowired
-    private UserRepository userRepository;
+    private SEUserRepository userRepository;
 
     @Autowired
-    private TransactionTypeRepository transactionTypeRepository;
+    private SETransactionTypeRepository transactionTypeRepository;
 
     public Set<RTransactionType> findTransactionTypesForUser(Integer indexNo) {
         Set<MUserRole> userRoles = userRepository.findOne(indexNo).getUserRoles();
@@ -38,6 +38,7 @@ public class SecurityService {
             transactionTypes.addAll(userRole.getRTransactionTypeSet());
         }
 
+//        Collections.sor
         return transactionTypes;
     }
 
