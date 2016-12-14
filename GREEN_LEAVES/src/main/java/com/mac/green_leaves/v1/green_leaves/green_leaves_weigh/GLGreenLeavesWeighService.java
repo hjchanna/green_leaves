@@ -95,6 +95,7 @@ public class GLGreenLeavesWeighService {
                 maxNumber = 0;
             }
             greenLeavesWeighRequest.setNumber(maxNumber + 1);
+            System.out.println(greenLeavesWeighRequest.getNumber());
         }
 
         greenLeavesWeighRequest.setStatus(PENDING_STATUS);

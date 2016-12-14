@@ -8,7 +8,7 @@
         this.loadGreenLeavesTotal = function (year, month) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/price-setting/get-green-leaves-total/" + year + "/" + month);
         };
-        
+                                                                                                                                                                
         this.loadPriceSetting = function(year, month){
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/price-setting/" + year + "/" + month);
         };
