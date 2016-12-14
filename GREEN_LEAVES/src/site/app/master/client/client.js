@@ -109,7 +109,7 @@
 
                 $scope.ui.forcuse = function () {
                     $timeout(function () {
-                        document.querySelectorAll("#clientNo")[0].focus();
+                        document.querySelectorAll("#regDate")[0].focus();
                     }, 10);
                 };
 
@@ -158,13 +158,9 @@
                 $scope.validateInput = function () {
                     if ($scope.model.data.name
                             && $scope.model.data.clientNumber
-                            && $scope.model.data.nicNumber
                             && $scope.model.data.name
-                            && $scope.model.data.mobileNumber
-                            && $scope.model.data.dateOfBirth
-                            && $scope.model.data.religion
-                            && $scope.model.data.nationality
                             && $scope.model.data.type
+                            && $scope.model.data.paymentMode
                             && $scope.model.data.route) {
                         return true;
                     } else {
@@ -177,7 +173,7 @@
                     if (code === 13) {
                         $scope.indextab = 1;
                         $timeout(function () {
-                            document.querySelectorAll("#registerDate")[0].focus();
+                            document.querySelectorAll("#address")[0].focus();
                         }, 10);
                     }
                 };

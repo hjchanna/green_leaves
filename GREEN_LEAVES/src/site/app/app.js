@@ -186,6 +186,15 @@
                             templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighReportController"
                         })
+                        //loan
+                        .when("/loan/loan-request", {
+                            templateUrl: "app/loan/loan-request/loan-request.html",
+                            controller: "LoanRequestController"
+                        })
+                        .when("/loan/loan-check", {
+                            templateUrl: "app/loan/loan-request/loan-check.html",
+                            controller: "LoanCheckController"
+                        })
 
                         .otherwise({
                             redirectTo: "/"

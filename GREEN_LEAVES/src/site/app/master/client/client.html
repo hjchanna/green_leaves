@@ -12,12 +12,24 @@
                             <col style="width: 65%"/>
                             <tbody>
                                 <tr>
+                                    <td><label class="control-label">Register Date :*</label></td>
+                                    <td><input  id="regDate" class="form-control text-right" smart-input="date" ng-model="model.data.registerDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                </tr>
+                                <tr>
                                     <td><label class="control-label">Client No :*</label></td>
                                     <td><input id="clientNo" smart-input="integer" class="form-control" ng-model="model.data.clientNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">N.I.C :*</label></td>
+                                    <td><label class="control-label">N.I.C :</label></td>
                                     <td><input class="form-control" ng-model="model.data.nicNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Payment </label></td>
+                                    <td><select class="form-control" ng-model="model.data.paymentMode">
+                                            <option value="CASH">CASH</option>
+                                            <option value="CREDIT">CREDIT</option>
+                                            <option value="CHEQUE">CHEQUE</option>
+                                        </select></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Route :*</label></td>
@@ -28,29 +40,19 @@
                                     <td><input class="form-control" ng-model="model.data.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Mobile:*</label></td>
+                                    <td><label class="control-label">Mobile:</label></td>
                                     <td><input class="form-control text-right" smart-input="integer" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Date Of Birth :*</label></td>
+                                    <td><label class="control-label">Date Of Birth :</label></td>
                                     <td><input class="form-control" smart-input="date" ng-model="model.data.dateOfBirth" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
                                 <tr>
                                     <td><label class="control-label">Telephone No:</label></td>
-                                    <td><input class="form-control text-right" smart-input="integer" ng-model="model.data.telephoneNumber" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><input class="form-control text-right" smart-input="integer" ng-model="model.data.telephoneNumber" ng-keypress="ui.tabChnage($event)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                                 </tr>
-                                <tr>
-                                    <td><label class="control-label">Address:</label></td>
-                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label"></label></td>
-                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label"></label></td>
-                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.tabChnage($event)"></td>
-                                </tr>
+
+
                             </tbody>
                         </table>
                     </div>
@@ -63,32 +65,40 @@
                             <col style="width: 65%"/>
                             <tbody>
                                 <tr>
-                                    <td><label class="control-label">Register Date :*</label></td>
-                                    <td><input id="registerDate" class="form-control text-right" smart-input="date" ng-model="model.data.registerDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                    <td><label class="control-label">Address:</label></td>
+                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" id="address"></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Religion :*</label></td>
+                                    <td><label class="control-label"></label></td>
+                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label"></label></td>
+                                    <td><input class="form-control" type="text" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ></td>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">Religion :</label></td>
                                     <td>
                                         <select class="form-control" ng-model="model.data.religion" ng-options="religion for religion in model.religion" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Nationality :*</label></td>
+                                    <td><label class="control-label">Nationality :</label></td>
                                     <td>
                                         <select class="form-control" ng-model="model.data.nationality" ng-options="nationality as nationality for nationality in model.nationality" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Client Type :*</label></td>
+                                    <td><label class="control-label">Client Type :</label></td>
                                     <td>
                                         <select class="form-control" ng-model="model.data.type" ng-options="clientType as clientType for clientType in model.clientType" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                         </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><label class="control-label">Marital Status :*</label></td>
+                                    <td><label class="control-label">Marital Status :</label></td>
                                     <td>
                                         <input type="checkbox" ng-checked="married" ng-model="model.data.married" ng-true-value="'true'" ng-false-value="'false'">
                                     </td>

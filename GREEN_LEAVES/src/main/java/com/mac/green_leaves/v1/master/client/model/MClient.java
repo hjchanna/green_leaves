@@ -42,6 +42,10 @@ public class MClient implements Serializable {
     @Basic(optional = false)
     @Column(name = "client_number")
     private int clientNumber;
+    
+    @Basic(optional = false)
+    @Column(name = "payment_mode")
+    private String paymentMode;
 
     @Basic(optional = false)
     @Column(name = "name")
@@ -110,10 +114,15 @@ public class MClient implements Serializable {
     public MClient() {
     }
 
-    public MClient(Integer indexNo, int branch, int clientNumber, String name, String nicNumber, Date dateOfBirth, String addressLine1, String addressLine2, String addressLine3, String mobileNumber, String telephoneNumber, String religion, String nationality, Date registerDate, boolean holder, String holderNumber, boolean married, boolean blackListed, String type, boolean active, MRoute route) {
+    public MClient(Integer indexNo) {
+        this.indexNo = indexNo;
+    }
+
+    public MClient(Integer indexNo, int branch, int clientNumber, String paymentMode, String name, String nicNumber, Date dateOfBirth, String addressLine1, String addressLine2, String addressLine3, String mobileNumber, String telephoneNumber, String religion, String nationality, Date registerDate, boolean holder, String holderNumber, boolean married, boolean blackListed, String type, boolean active, MRoute route) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.clientNumber = clientNumber;
+        this.paymentMode = paymentMode;
         this.name = name;
         this.nicNumber = nicNumber;
         this.dateOfBirth = dateOfBirth;
@@ -156,6 +165,14 @@ public class MClient implements Serializable {
 
     public void setClientNumber(int clientNumber) {
         this.clientNumber = clientNumber;
+    }
+
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
     }
 
     public String getName() {
@@ -246,7 +263,7 @@ public class MClient implements Serializable {
         this.registerDate = registerDate;
     }
 
-    public boolean getHolder() {
+    public boolean isHolder() {
         return holder;
     }
 
@@ -262,7 +279,7 @@ public class MClient implements Serializable {
         this.holderNumber = holderNumber;
     }
 
-    public boolean getMarried() {
+    public boolean isMarried() {
         return married;
     }
 
@@ -270,7 +287,7 @@ public class MClient implements Serializable {
         this.married = married;
     }
 
-    public boolean getBlackListed() {
+    public boolean isBlackListed() {
         return blackListed;
     }
 
@@ -286,7 +303,7 @@ public class MClient implements Serializable {
         this.type = type;
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -304,7 +321,8 @@ public class MClient implements Serializable {
 
     @Override
     public String toString() {
-        return "MClient{" + "indexNo=" + indexNo + ", branch=" + branch + ", clientNumber=" + clientNumber + ", name=" + name + ", nicNumber=" + nicNumber + ", dateOfBirth=" + dateOfBirth + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3=" + addressLine3 + ", mobileNumber=" + mobileNumber + ", telephoneNumber=" + telephoneNumber + ", religion=" + religion + ", nationality=" + nationality + ", registerDate=" + registerDate + ", holder=" + holder + ", holderNumber=" + holderNumber + ", married=" + married + ", blackListed=" + blackListed + ", type=" + type + ", active=" + active + ", route=" + route + '}';
+        return "MClient{" + "indexNo=" + indexNo + ", branch=" + branch + ", clientNumber=" + clientNumber + ", paymentMode=" + paymentMode + ", name=" + name + ", nicNumber=" + nicNumber + ", dateOfBirth=" + dateOfBirth + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", addressLine3=" + addressLine3 + ", mobileNumber=" + mobileNumber + ", telephoneNumber=" + telephoneNumber + ", religion=" + religion + ", nationality=" + nationality + ", registerDate=" + registerDate + ", holder=" + holder + ", holderNumber=" + holderNumber + ", married=" + married + ", blackListed=" + blackListed + ", type=" + type + ", active=" + active + ", route=" + route + '}';
     }
-
+    
+    
 }
