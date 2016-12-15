@@ -35,7 +35,8 @@
             },
             //clear all data
             clear: function () {
-                this.tempData = LoanCheckModelFactory.newTempData();
+                var that = this;
+                that.detail = [];
             },
             //loan total
             getRequestTotal: function (indexNo) {
@@ -106,13 +107,11 @@
             },
             checkRequest: function () {
                 var that = this;
-//                console.log(that.PendingList +"pending list");
-                console.log(that.detail + "details");
-//                console.log(that.detail);
                 var data = JSON.stringify(that.detail);
                 if (data) {
                     LoanRequestService.checkRequest(data)
                             .success(function (data) {
+//                                that.detail.status = "CHECK";
                                 optionPane.successMessage("loan details checked successfully.");
                             })
                             .error(function () {
