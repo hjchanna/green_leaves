@@ -33,7 +33,6 @@
                             .success(function (data) {
                                 that.data = PriceSettingModelFactory.newData();
                                 angular.extend(that.data, data);
-
                                 defer.resolve();
                             })
                             .error(function () {
@@ -52,6 +51,7 @@
                     PriceSettingService.loadGreenLeavesTotal(that.data.year, that.data.month)
                             .success(function (data) {
                                 that.totalLeaves = data;
+                                console.log(data);
                             })
                             .error(function () {
                                 that.totalLeaves = null;

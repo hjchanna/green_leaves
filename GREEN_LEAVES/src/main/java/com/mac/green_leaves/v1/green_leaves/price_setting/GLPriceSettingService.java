@@ -87,6 +87,10 @@ public class GLPriceSettingService {
     public Integer save(TPriceSetting priceSetting) {
         for (TPriceSettingDetail priceSettingDetail : priceSetting.getPriceSettingDetails()) {
             priceSettingDetail.setPriceSetting(priceSetting);
+            System.out.println("+++++++++++++++++++");
+            System.out.println(priceSettingDetail.getNormalRate());
+            System.out.println(priceSettingDetail.getSuperRate());
+            System.out.println("+++++++++++++++++++");
         }
 
         priceSetting = priceSettingRepository.save(priceSetting);
