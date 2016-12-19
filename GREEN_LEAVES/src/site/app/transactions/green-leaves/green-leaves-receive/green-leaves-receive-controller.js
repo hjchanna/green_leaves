@@ -45,7 +45,8 @@
         $scope.ui.searchClient = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
-                var client = $scope.model.client($scope.model.tempData.client);
+                var searchClient = $scope.model.searchClientByClientNo($scope.model.tempData.searchClient);
+                var client = $scope.model.client(searchClient.indexNo);
                 if (angular.isUndefined(client)) {
                     Notification.error("client not found,you are new client");
                 } else {
@@ -127,7 +128,9 @@
         };
 
         $scope.ui.loadFactoryQuantity = function () {
+            $scope.model.findByBranchAndRouteAndDate();
             $scope.model.loadFactoryQuantity();
+            $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
         };
 
         $scope.ui.init = function () {
@@ -139,6 +142,7 @@
 //            });
 
             $scope.$watch("model.data.date", function (newValue, oldValue) {
+
                 $scope.ui.loadFactoryQuantity();
             });
         };

@@ -70,7 +70,7 @@ public class GLGreenLeavesReceiveService {
     }
 
     public Object[] getTotalSuperLeavesAndNormalLeaves(Integer branch, Integer route, Date date) {
-        List<Object[]> getTotalList = greenLeavesReceiveRepository.findByBranchAndRouteAndDate(branch, route, date);
+        List<Object[]> getTotalList = greenLeavesReceiveRepository.getSuperLeavesTotalAndNormalLeaveTotal(branch, route, date);
 
         Object total[];
         if (!getTotalList.isEmpty()) {
@@ -89,5 +89,13 @@ public class GLGreenLeavesReceiveService {
     @Transactional
     public Integer updateNormalLeafAndSuperLeaf(Integer indexNo, BigDecimal normalLeavesTotal, BigDecimal superLeavesTotal) {
         return greenLeavesReceiveRepository.updateNormalLeafAndSuperLeaf(indexNo, normalLeavesTotal, superLeavesTotal);
+    }
+
+    public TGreenLeavesReceive findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
+        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndRouteAndDate(branch, route, date);
+        if (receives.isEmpty()) {
+            throw new EntityNotFoundException("Green leaves receive not found");
+        }
+        return receives.get(0);
     }
 }

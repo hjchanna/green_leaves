@@ -8,6 +8,19 @@
         this.loadBranch = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/branch");
         };
+        
+        this.loadRouteOfficers = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
+        };
+
+        this.loadRouteHelpers = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-helpers");
+        };
+
+        this.loadVehicles = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/vehicles");
+        };
+
         this.loadClients = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
         };
@@ -22,6 +35,9 @@
 
         this.getFactoryQuantity = function (route, date, branch) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/get-factory-quantity/" + route + "/" + date + "/" + branch);
+        };
+        this.findByBranchAndRouteAndDate = function (branch, route, date) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/find-by/" + branch + "/" + route + "/" + date);
         };
     };
 

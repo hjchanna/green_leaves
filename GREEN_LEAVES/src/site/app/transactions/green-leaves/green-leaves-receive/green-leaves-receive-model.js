@@ -8,6 +8,11 @@
                 GreenLeavesReceiveModel.prototype = {
                     data: {},
                     tempData: {},
+                    routeData: {
+                        "routeOfficer": null,
+                        "vehicle": null,
+                        "routeHelper": null
+                    },
                     totalQuantity: [],
                     factoryQuantity: [],
                     differenceQuantity: [],
@@ -17,6 +22,12 @@
                     branchs: [],
                     //client information
                     clients: [],
+                    //route officer information
+                    routeOfficers: [],
+                    //route helper information
+                    routeHelpers: [],
+                    //vehicle information
+                    vehicles: [],
                     constructor: function () {
                         var that = this;
                         GreenLeavesReceiveService.loadRoutes()
@@ -32,6 +43,21 @@
                         GreenLeavesReceiveService.loadBranch()
                                 .success(function (data) {
                                     that.branchs = data;
+                                });
+
+                        GreenLeavesReceiveService.loadRouteOfficers()
+                                .success(function (data) {
+                                    that.routeOfficers = data;
+                                });
+
+                        GreenLeavesReceiveService.loadRouteHelpers()
+                                .success(function (data) {
+                                    that.routeHelpers = data;
+                                });
+
+                        GreenLeavesReceiveService.loadVehicles()
+                                .success(function (data) {
+                                    that.vehicles = data;
                                 });
 
                         that.totalQuantity = [0, 0];
@@ -181,6 +207,79 @@
                             }
                         });
                         return lable;
+                    },
+                    findByBranchAndRouteAndDate: function () {
+                        var route = this.data.route;
+                        var branch = this.data.branch;
+                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                        var that = this;
+                        var defer = $q.defer();
+                        GreenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date)
+                                .success(function (data) {
+                                    that.data = {};
+                                    angular.extend(that.data, data);
+                                    that.refreshQuantity();
+                                    defer.resolve();
+                                })
+                                .error(function () {
+                                    that.refreshQuantity();
+                                    defer.reject();
+                                });
+                        return defer.promise;
+                    },
+                    //return label for route officer
+                    routeOfficerLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routeOfficers, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    //return label for route helpers
+                    routeHelperLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routeHelpers, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    //return label for route officer
+                    vehicleLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.vehicles, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.vehicleNo;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
+                        var that = this.routeData;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === parseInt(indexNo)) {
+                                that.routeHelper = value.routeHelper.indexNo;
+                                that.routeOfficer = value.routeOfficer.indexNo;
+                                that.vehicle = value.vehicle.indexNo;
+                            }
+                        });
+                    },
+                    searchClientByClientNo: function (clientNumber) {
+                        var client;
+                        angular.forEach(this.clients, function (value) {
+                            ;
+                            if (value.clientNumber === parseInt(clientNumber)) {
+                                client = value;
+                                return;
+                            }
+                        });
+                        return client;
                     }
                 };
 

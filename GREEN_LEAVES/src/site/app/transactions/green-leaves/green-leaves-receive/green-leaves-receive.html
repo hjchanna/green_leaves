@@ -38,11 +38,11 @@
                         <tr>
                             <th>
                                 <label>CLIENT ID</label>
-                                <input id="client" class="form-control" ng-model="model.tempData.client" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
+                                <input id="client" class="form-control" ng-model="model.tempData.searchClient" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:{indexNo:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{clientNumber:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
@@ -72,7 +72,7 @@
                         <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails" >
                             <td>
                                 <div ng-if="greenLeavesReceiveDetails.client">
-                                    <div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(greenLeavesReceiveDetails.client).indexNo | fixedLength:5}}</div> 
+                                    <div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(greenLeavesReceiveDetails.client).clientNumber}}</div> 
                                     {{model.client(greenLeavesReceiveDetails.client).name}}
                                 </div>
                                 <div ng-if="!greenLeavesReceiveDetails.client">
@@ -125,228 +125,25 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-4 background-dark">
-        <uib-tabset>
-            <uib-tab heading="NORMAL LEAVES">
-                <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 92px);">
-                    <div class="col-xs-12">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>COLLECTION</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">TOTAL</label></td>
-                                    <td><input class="form-control text-right" ng-model="model.data.normalTotalWeight" ng-disabled="true"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>DEDUCTION</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">TARE</label></td>
-                                    <td>
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalTareCalculated" ng-disabled="true">
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalTareDeduction" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label">DEDUCTION</label></td>
-                                    <td>
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalGeneralDeductionPercent"  smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalGeneralDeduction" ng-disabled="true">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label">WATER</label></td>
-                                    <td>
-                                        <input class="form-control text-right" type="text" ng-model="model.data.normalWaterDeduction" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>RETURN</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">COARSE LEAF</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.normalCoarseLeaves" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'"></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label">BOILED LEAF</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.normalBoiledLeaves" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>BALANCE</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">NET WEIGHT</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.normalNetWeight" ng-disabled="true"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </uib-tab>
-            <uib-tab heading="NORMAL LEAVES">
-                <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 92px);">
-                    <div class="col-xs-12">
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>COLLECTION</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">TOTAL</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.superTotalWeight" ng-disabled="true"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>DEDUCTION</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">TARE</label></td>
-                                    <td>
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superTareCalculated" ng-disabled="true">
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superTareDeduction" ng-disabled="ui.mode !== 'EDIT'">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label">DEDUCTION</label></td>
-                                    <td>
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superGeneralDeductionPercent" ng-disabled="ui.mode !== 'EDIT'">
-                                        <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superGeneralDeduction" ng-disabled="true">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label">WATER</label></td>
-                                    <td>
-                                        <input class="form-control text-right" type="text" ng-model="model.data.superWaterDeduction" ng-disabled="ui.mode !== 'EDIT'">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>RETURN</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">COARSE LEAF</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.superCoarseLeaves" ng-disabled="ui.mode !== 'EDIT'"></td>
-                                </tr>
-                                <tr>
-                                    <td><label class="control-label">BOILED LEAF</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.superBoiledLeaves" ng-disabled="ui.mode !== 'EDIT'"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>BALANCE</td>
-                                </tr>
-                            </thead>
-                        </table>
-
-                        <table class="control-table">
-                            <col style="width: 35%"/>
-                            <col style="width: 65%"/>
-                            <tbody>
-                                <tr>
-                                    <td><label class="control-label">NET WEIGHT</label></td>
-                                    <td><input class="form-control text-right" type="text" ng-model="model.data.superNetWeight" ng-disabled="true"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </uib-tab>
-        </uib-tabset>
+    <div class="col-xs-4 background-dark" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+        <table class="control-table">
+            <col class="col-xs-3"/>
+            <col class="col-xs-3"/>
+            <tbody>
+                <tr>
+                    <td><label class="control-label">ROUTE OFFICER</label></td>
+                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeOfficer" ng-disabled="true" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
+                </tr>
+                <tr>
+                    <td><label class="control-label">VEHICLE</label></td>
+                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
+                </tr>
+                <tr>
+                    <td><label class="control-label">ROUTE HELPER</label></td>
+                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeHelper" ng-disabled="true" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>

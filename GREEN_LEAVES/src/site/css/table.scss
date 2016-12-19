@@ -6,7 +6,7 @@ table{
     border-collapse: separate;
     margin-bottom: 0px;
     table-layout: fixed;
-    
+
     //smart scroll
     /*padding-right: 5px;*/
 }
@@ -189,6 +189,12 @@ tbody tr .btn-danger{
 tr.ng-enter{
     animation: 0.5s bounceIn;
 }
+
 tr.ng-leave{
     animation: 0.5s bounceOut;
+}
+
+.table-disply{
+    border: 1px solid #fff;
+    border-radius: 5px;
 }
