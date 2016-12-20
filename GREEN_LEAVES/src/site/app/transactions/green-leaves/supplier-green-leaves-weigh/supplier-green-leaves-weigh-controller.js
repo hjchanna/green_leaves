@@ -23,6 +23,7 @@
                     if (code === 13) {
                         var searchClient = $scope.model.searchClientByClientNo($scope.model.data.searchClient);
                         if (angular.isUndefined(searchClient)) {
+                            $scope.model.data.client = null;
                             Notification.error("client not found!");
                         } else {
                             var client = $scope.model.client(searchClient.indexNo);
