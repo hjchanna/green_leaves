@@ -225,6 +225,10 @@
                                 .error(function () {
                                     that.refreshQuantity();
                                     defer.reject();
+                                    that.data.indexNo = null;
+                                    that.data.number = null;
+                                    that.data.transaction = null;
+                                    that.data.status = null;
                                     that.data.greenLeavesReceiveDetails = [];
                                 });
                         return defer.promise;

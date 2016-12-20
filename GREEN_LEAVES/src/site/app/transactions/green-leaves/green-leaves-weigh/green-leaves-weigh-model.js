@@ -360,6 +360,8 @@
                         .error(function () {
                             defer.reject();
                             that.data.indexNo = null;
+                            that.data.number = null;
+                            that.data.status = null;
                             that.data.greenLeaveWeighDetails = [];
                         });
 

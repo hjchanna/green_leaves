@@ -135,12 +135,12 @@
                     <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeOfficer" ng-disabled="true" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
                 </tr>
                 <tr>
-                    <td><label class="control-label">VEHICLE</label></td>
-                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
-                </tr>
-                <tr>
                     <td><label class="control-label">ROUTE HELPER</label></td>
                     <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeHelper" ng-disabled="true" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                </tr>
+                <tr>
+                    <td><label class="control-label">VEHICLE</label></td>
+                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
                 </tr>
             </tbody>
         </table>

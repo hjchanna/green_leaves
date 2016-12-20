@@ -48,7 +48,7 @@
 
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
                     if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
-                    $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                        $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
                     }
                 };
 
@@ -101,7 +101,6 @@
 
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";
-                    $scope.model.saveWeight();
                     $scope.model.clear();
                 };
 
@@ -129,6 +128,9 @@
 
                     $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
+                    }, true);
+                    $scope.$watch("model.data.date", function (newVal, oldVal) {
+                        $scope.model.findByBranchAndRouteAndDate();
                     }, true);
                 };
                 $scope.ui.init();
