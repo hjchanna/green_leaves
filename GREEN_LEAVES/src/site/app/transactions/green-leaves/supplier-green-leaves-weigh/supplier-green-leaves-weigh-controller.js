@@ -152,7 +152,6 @@
 
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";
-                    $scope.model.saveWeight();
                     $scope.model.clear();
                     $scope.ui.existClient = true;
                     $scope.ui.newClient = false;
@@ -184,6 +183,10 @@
 
                     $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
+                    }, true);
+
+                    $scope.$watch("model.data.date", function (newVal, oldVal) {
+                        $scope.ui.findRoute();
                     }, true);
                 };
                 $scope.ui.init();

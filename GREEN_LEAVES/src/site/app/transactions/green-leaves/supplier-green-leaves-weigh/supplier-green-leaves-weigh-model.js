@@ -267,7 +267,8 @@
             },
             searchClientByClientNo: function (clientNumber) {
                 var client;
-                angular.forEach(this.clients, function (value) {;
+                angular.forEach(this.clients, function (value) {
+                    ;
                     if (value.clientNumber === parseInt(clientNumber)) {
                         client = value;
                         return;
@@ -320,6 +321,8 @@
                         .error(function () {
                             defer.reject();
                             that.data.indexNo = null;
+                            that.data.number = null;
+                            that.data.status = null;
                             that.data.greenLeaveWeighDetails = [];
                         });
 
