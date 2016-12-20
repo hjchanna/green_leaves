@@ -38,7 +38,7 @@
                         <tr>
                             <th>
                                 <label>CLIENT ID</label>
-                                <input id="client" class="form-control" ng-model="model.tempData.searchClient" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="integer" class="form-control" ng-model="customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
                                 <label>CLIENT INFORMATION</label>

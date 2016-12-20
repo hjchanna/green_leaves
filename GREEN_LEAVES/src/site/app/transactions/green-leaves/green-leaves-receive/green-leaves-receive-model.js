@@ -67,7 +67,8 @@
                     clear: function () {
                         this.data = GreenLeavesReceiveModelFactory.newData();
                         this.tempData = GreenLeavesReceiveModelFactory.newTempData();
-
+                        this.routeData = {};
+                        
                         this.totalQuantity = [0, 0];
                         this.factoryQuantity = [0, 0];
                         this.differenceQuantity = [0, 0];
@@ -179,7 +180,7 @@
                         var label;
                         angular.forEach(this.clients, function (value) {
                             if (value.indexNo === indexNo) {
-                                label = value.indexNo + "-" + value.name;
+                                label = value.clientNumber + "-" + value.name;
                                 return;
                             }
                         });
@@ -209,11 +210,11 @@
                         return lable;
                     },
                     findByBranchAndRouteAndDate: function () {
+                        var that = this;
+                        var defer = $q.defer();
                         var route = this.data.route;
                         var branch = this.data.branch;
                         var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-                        var that = this;
-                        var defer = $q.defer();
                         GreenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date)
                                 .success(function (data) {
                                     that.data = {};
@@ -224,6 +225,7 @@
                                 .error(function () {
                                     that.refreshQuantity();
                                     defer.reject();
+                                    that.data.greenLeavesReceiveDetails = [];
                                 });
                         return defer.promise;
                     },
@@ -273,7 +275,6 @@
                     searchClientByClientNo: function (clientNumber) {
                         var client;
                         angular.forEach(this.clients, function (value) {
-                            ;
                             if (value.clientNumber === parseInt(clientNumber)) {
                                 client = value;
                                 return;

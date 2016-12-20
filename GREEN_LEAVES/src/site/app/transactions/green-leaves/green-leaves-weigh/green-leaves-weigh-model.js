@@ -359,7 +359,6 @@
                         })
                         .error(function () {
                             defer.reject();
-                    
                             that.data.indexNo = null;
                             that.data.greenLeaveWeighDetails = [];
                         });

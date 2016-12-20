@@ -1,8 +1,8 @@
 (function () {
     'use strict';
-
     var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel, ConfirmPane, InputPane, Notification) {
         $scope.model = new GreenLeavesReceiveModel();
+        $scope.customerId;
 
         $scope.ui = {};
 
@@ -45,11 +45,29 @@
         $scope.ui.searchClient = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
-                var searchClient = $scope.model.searchClientByClientNo($scope.model.tempData.searchClient);
-                var client = $scope.model.client(searchClient.indexNo);
-                if (angular.isUndefined(client)) {
-                    Notification.error("client not found,you are new client");
+                var searchClient = $scope.model.searchClientByClientNo($scope.customerId);
+                if (angular.isUndefined(searchClient)) {
+                    Notification.error("client not found!");
+                    $scope.model.tempData.client = null;
                 } else {
+                    var client = $scope.model.client(searchClient.indexNo);
+                    $scope.model.tempData.client = client.indexNo;
+                    $timeout(function () {
+                        angular.element(document.querySelectorAll("#normalLeaves"))[0].focus();
+                    }, 10);
+                }
+            }
+        };
+        
+        $scope.ui.searchClient = function (e) {
+            var code = e ? e.keyCode || e.which : 13;
+            if (code === 13) {
+                var searchClient = $scope.model.searchClientByClientNo($scope.customerId);
+                if (angular.isUndefined(searchClient)) {
+                    Notification.error("client not found!");
+                    $scope.model.tempData.client = null;
+                } else {
+                    var client = $scope.model.client(searchClient.indexNo);
                     $scope.model.tempData.client = client.indexNo;
                     $timeout(function () {
                         angular.element(document.querySelectorAll("#normalLeaves"))[0].focus();
@@ -109,6 +127,7 @@
                             $scope.ui.focus();
                         });
             }
+            $scope.customerId = '';
         };
 
         $scope.ui.editDetail = function (index) {
@@ -128,9 +147,9 @@
         };
 
         $scope.ui.loadFactoryQuantity = function () {
-            $scope.model.findByBranchAndRouteAndDate();
             $scope.model.loadFactoryQuantity();
             $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
+            $scope.model.findByBranchAndRouteAndDate();
         };
 
         $scope.ui.init = function () {
@@ -142,7 +161,6 @@
 //            });
 
             $scope.$watch("model.data.date", function (newValue, oldValue) {
-
                 $scope.ui.loadFactoryQuantity();
             });
         };

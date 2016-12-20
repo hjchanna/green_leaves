@@ -22,11 +22,13 @@
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
                         var searchClient = $scope.model.searchClientByClientNo($scope.model.data.searchClient);
-                        var client = $scope.model.client(searchClient.indexNo);
-                        $scope.model.data.route = client.route;
-                        if (!angular.isUndefined(client)) {
+                        if (angular.isUndefined(searchClient)) {
+                            Notification.error("client not found!");
+                        } else {
+                            var client = $scope.model.client(searchClient.indexNo);
+                            $scope.model.data.route = client.route;
                             $scope.model.data.client = client.indexNo;
-                            $scope.model.findByBranchAndDateAndClient();
+                            $scope.ui.findRoute();
                             $timeout(function () {
                                 document.querySelectorAll("#normal-qty")[0].focus();
                             }, 10);
@@ -37,6 +39,7 @@
                 $scope.ui.findRoute = function () {
                     var client = $scope.model.client($scope.model.data.client);
                     $scope.model.data.route = client.route;
+                    $scope.model.findByBranchAndDateAndClient();
                     $timeout(function () {
                         document.querySelectorAll("#normal-qty")[0].focus();
                     }, 10);
