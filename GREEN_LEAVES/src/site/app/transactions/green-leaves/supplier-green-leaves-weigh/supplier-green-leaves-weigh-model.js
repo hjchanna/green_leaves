@@ -57,7 +57,6 @@
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
-
                             defer.resolve();
                         })
                         .error(function () {
@@ -250,7 +249,7 @@
                 var label;
                 angular.forEach(this.clients, function (value) {
                     if (value.indexNo === indexNo) {
-                        label = value.indexNo + "-" + value.name;
+                        label = value.clientNumber + "-" + value.name;
                         return;
                     }
                 });
@@ -260,6 +259,16 @@
                 var client;
                 angular.forEach(this.clients, function (value) {
                     if (value.indexNo === parseInt(indexNo)) {
+                        client = value;
+                        return;
+                    }
+                });
+                return client;
+            },
+            searchClientByClientNo: function (clientNumber) {
+                var client;
+                angular.forEach(this.clients, function (value) {;
+                    if (value.clientNumber === parseInt(clientNumber)) {
                         client = value;
                         return;
                     }
@@ -310,7 +319,6 @@
                         })
                         .error(function () {
                             defer.reject();
-
                             that.data.indexNo = null;
                             that.data.greenLeaveWeighDetails = [];
                         });

@@ -47,7 +47,6 @@
                 };
 
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
-                    console.log("+++++++++++++++++++++++");
                     if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
                     $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
                     }

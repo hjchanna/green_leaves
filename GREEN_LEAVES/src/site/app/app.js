@@ -1,4 +1,4 @@
-(function () {
++(function () {
     //index module
     angular.module("appModule", [
         "ngRoute",
@@ -31,6 +31,7 @@
         "bankBranchModule"
     ]);
 
+////    //constants
 //    //constants
 //    angular.module("appModule")
 //            .constant("systemConfig", {
