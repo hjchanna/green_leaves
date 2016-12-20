@@ -41,23 +41,6 @@
                         });
             }
         };
-
-        $scope.ui.searchClient = function (e) {
-            var code = e ? e.keyCode || e.which : 13;
-            if (code === 13) {
-                var searchClient = $scope.model.searchClientByClientNo($scope.customerId);
-                if (angular.isUndefined(searchClient)) {
-                    Notification.error("client not found!");
-                    $scope.model.tempData.client = null;
-                } else {
-                    var client = $scope.model.client(searchClient.indexNo);
-                    $scope.model.tempData.client = client.indexNo;
-                    $timeout(function () {
-                        angular.element(document.querySelectorAll("#normalLeaves"))[0].focus();
-                    }, 10);
-                }
-            }
-        };
         
         $scope.ui.searchClient = function (e) {
             var code = e ? e.keyCode || e.which : 13;
