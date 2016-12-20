@@ -43,8 +43,25 @@ public class GLLoanRequestController {
     }
 
 //  check ------------------------------------------------------------------
-    @RequestMapping(value = "/check-request-detail" ,method = RequestMethod.POST)
-    public TLoanRequestDetail checkLoanRequestDetail(@RequestBody TLoanRequestDetail loanRequestDetail) {
-       return loanRequestService.checkLoanRequestDetail(loanRequestDetail);
+    @RequestMapping(value = "/check-request-detail", method = RequestMethod.POST)
+    public void checkLoanRequestDetail(@RequestBody TLoanRequestDetail loanRequestDetail) {
+        loanRequestService.checkLoanRequestDetail(loanRequestDetail);
     }
+
+    // approve-----------------------------------------------------------------
+    @RequestMapping(value = "/check-pending-requests")
+    public List<TLoanRequestDetail> getCheckLoanRequests() {
+        return loanRequestService.getCheckLoanRequests();
+    }
+
+    @RequestMapping(value = "/approve-request-detail", method = RequestMethod.POST)
+    public void approveLoanRequest(@RequestBody TLoanRequestDetail loanRequestDetail) {
+        loanRequestService.approveLoanRequest(loanRequestDetail);
+    }
+    
+    @RequestMapping(value = "/reject-request/{indexNo}")
+    public void rejectLoanRequest(@PathVariable Integer indexNo){
+        loanRequestService.rejectRequest(indexNo);
+    }
+
 }

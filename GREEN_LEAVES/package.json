@@ -7,6 +7,7 @@
   },
   "author": "Channa Jayamuni <hjchanna@gmail.com>",
   "devDependencies": {
+    "bower-npm-resolver": "^0.7.0",
     "browser-sync": "^2.16.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",

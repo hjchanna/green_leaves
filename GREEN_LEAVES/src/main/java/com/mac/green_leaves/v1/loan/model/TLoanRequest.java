@@ -56,6 +56,10 @@ public class TLoanRequest implements Serializable {
     @Basic(optional = false)
     @Column(name = "status")
     private String status;
+    
+    @Basic(optional = false)
+    @Column(name = "status2")
+    private String status2;
 
     @Basic(optional = false)
     @NotNull
@@ -72,12 +76,13 @@ public class TLoanRequest implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TLoanRequest(Integer indexNo, int branch, Date date, int transaction, String status, int number, Collection<TLoanRequestDetail> loanRequestDetails) {
+    public TLoanRequest(Integer indexNo, int branch, Date date, int transaction, String status, String status2, int number, Collection<TLoanRequestDetail> loanRequestDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
         this.transaction = transaction;
         this.status = status;
+        this.status2 = status2;
         this.number = number;
         this.loanRequestDetails = loanRequestDetails;
     }
@@ -122,6 +127,14 @@ public class TLoanRequest implements Serializable {
         this.status = status;
     }
 
+    public String getStatus2() {
+        return status2;
+    }
+
+    public void setStatus2(String status2) {
+        this.status2 = status2;
+    }
+
     public int getNumber() {
         return number;
     }
@@ -137,5 +150,7 @@ public class TLoanRequest implements Serializable {
     public void setLoanRequestDetails(Collection<TLoanRequestDetail> loanRequestDetails) {
         this.loanRequestDetails = loanRequestDetails;
     }
+
+    
 
 }

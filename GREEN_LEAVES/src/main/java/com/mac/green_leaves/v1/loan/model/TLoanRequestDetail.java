@@ -80,11 +80,14 @@ public class TLoanRequestDetail implements Serializable {
     @NotNull
     @Column(name = "remark")
     private String remark;
-    
+
     @Basic(optional = false)
     @Column(name = "status")
     private String status;
 
+    @Basic(optional = false)
+    @Column(name = "status2")
+    private String status2;
 
     @JsonIgnore
     @JoinColumn(name = "loan", referencedColumnName = "index_no")
@@ -98,7 +101,7 @@ public class TLoanRequestDetail implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TLoanRequestDetail(Integer indexNo, int client, Date expectedLoanDate, Date loanStartDate, BigDecimal interestRate, int installmentCount, BigDecimal installmentAmount, BigDecimal panaltyRate, BigDecimal amount, String remark, String status, TLoanRequest loanRequest) {
+    public TLoanRequestDetail(Integer indexNo, int client, Date expectedLoanDate, Date loanStartDate, BigDecimal interestRate, int installmentCount, BigDecimal installmentAmount, BigDecimal panaltyRate, BigDecimal amount, String remark, String status, String status2, TLoanRequest loanRequest) {
         this.indexNo = indexNo;
         this.client = client;
         this.expectedLoanDate = expectedLoanDate;
@@ -110,6 +113,7 @@ public class TLoanRequestDetail implements Serializable {
         this.amount = amount;
         this.remark = remark;
         this.status = status;
+        this.status2 = status2;
         this.loanRequest = loanRequest;
     }
 
@@ -201,6 +205,14 @@ public class TLoanRequestDetail implements Serializable {
         this.status = status;
     }
 
+    public String getStatus2() {
+        return status2;
+    }
+
+    public void setStatus2(String status2) {
+        this.status2 = status2;
+    }
+
     public TLoanRequest getLoanRequest() {
         return loanRequest;
     }
@@ -209,6 +221,5 @@ public class TLoanRequestDetail implements Serializable {
         this.loanRequest = loanRequest;
     }
 
-    
     
 }

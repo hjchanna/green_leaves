@@ -21,4 +21,6 @@ public interface GLLoanRequestRepository extends JpaRepository<TLoanRequest, Int
 
     public List<TLoanRequest> findByBranchAndStatus(Integer branch, String LOAN_REQUEST_STATUS_PENDING);
 
+    public List<TLoanRequest> findByBranchAndStatusAndStatus2(Integer branch, String LOAN_REQUEST_STATUS_CHECK, String LOAN_REQUEST_STATUS_PENDING);
+
 }

@@ -32,15 +32,15 @@
     ]);
 
 //    //constants
-    angular.module("appModule")
-            .constant("systemConfig", {
-                apiUrl: location.protocol + "//" + window.location.hostname 
-            });
-    //constants
 //    angular.module("appModule")
 //            .constant("systemConfig", {
-//                apiUrl: "http://localhost:8080"
+//                apiUrl: location.protocol + "//" + window.location.hostname 
 //            });
+    //constants
+    angular.module("appModule")
+            .constant("systemConfig", {
+                apiUrl: "http://localhost:8080"
+            });
 
     //route config
     angular.module("appModule")
@@ -173,6 +173,10 @@
                         .when("/loan/loan-check", {
                             templateUrl: "app/loan/loan-request/loan-check.html",
                             controller: "LoanCheckController"
+                        })
+                        .when("/loan/loan-approve", {
+                            templateUrl: "app/loan/loan-request/loan-approve.html",
+                            controller: "LoanApproveController"
                         })
 
                         .otherwise({

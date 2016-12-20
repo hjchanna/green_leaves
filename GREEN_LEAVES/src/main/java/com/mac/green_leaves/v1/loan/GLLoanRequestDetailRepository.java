@@ -16,5 +16,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface GLLoanRequestDetailRepository extends JpaRepository<TLoanRequestDetail, Integer>{
 
-    
+    public List<TLoanRequestDetail> findByStatusAndLoanRequestIndexNo(String LOAN_REQUEST_STATUS_PENDING, Integer indexNo);
+
+    public List<TLoanRequestDetail> findByStatusAndStatus2(String LOAN_REQUEST_STATUS_CHECK, String LOAN_REQUEST_STATUS_PENDING);
+
 }
