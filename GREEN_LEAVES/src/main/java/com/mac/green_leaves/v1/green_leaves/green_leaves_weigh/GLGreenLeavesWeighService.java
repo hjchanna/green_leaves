@@ -61,7 +61,6 @@ public class GLGreenLeavesWeighService {
     @Transactional
     public TGreenLeavesWeigh saveSummary(TGreenLeavesWeigh greenLeavesWeighRequest) {
         //assume that the green leave weigh does not have weigh details
-        System.out.println("----------------------------" + greenLeavesWeighRequest.getIndexNo());
         TGreenLeavesWeigh greenLeavesWeigh;
         if (greenLeavesWeighRequest.getIndexNo() != null) {
             greenLeavesWeigh = greenLeavesWeighRepository.getOne(greenLeavesWeighRequest.getIndexNo());
@@ -84,33 +83,28 @@ public class GLGreenLeavesWeighService {
             greenLeavesWeigh.setSuperWaterDeduction(greenLeavesWeighRequest.getSuperWaterDeduction());
             greenLeavesWeigh.setSuperCoarseLeaves(greenLeavesWeighRequest.getSuperCoarseLeaves());
             greenLeavesWeigh.setSuperBoiledLeaves(greenLeavesWeighRequest.getSuperBoiledLeaves());
-
         } else {
-
             //generate new number
             Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(greenLeavesWeighRequest.getBranch());
-            System.out.println(maxNumber);
-            System.out.println(greenLeavesWeighRequest.getBranch());
             if (maxNumber == null) {
                 maxNumber = 0;
             }
             greenLeavesWeighRequest.setNumber(maxNumber + 1);
-            System.out.println(greenLeavesWeighRequest.getNumber());
+
+            greenLeavesWeighRequest.setStatus(PENDING_STATUS);
+            greenLeavesWeigh = validateWeighSummary(greenLeavesWeighRequest);
+
+            if ("SUPPLIER".equals(greenLeavesWeigh.getType())) {
+                greenLeavesWeigh.setRoute(null);
+            }
+            //TODO:transaction
         }
-
-        greenLeavesWeighRequest.setStatus(PENDING_STATUS);
-        greenLeavesWeigh = validateWeighSummary(greenLeavesWeighRequest);
-
-        if ("SUPPLIER".equals(greenLeavesWeigh.getType())) {
-            greenLeavesWeigh.setRoute(null);
-        }
-
-        //TODO:transaction
         return greenLeavesWeighRepository.save(greenLeavesWeigh);
     }
 
     @Transactional
     public TGreenLeavesWeighDetail insertWeigh(Integer weighIndexNo, TGreenLeavesWeighDetail greenLeaveWeighDetail) {
+
         //read and set weigh
         TGreenLeavesWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(weighIndexNo);
         if (greenLeaveWeigh == null) {
@@ -124,10 +118,10 @@ public class GLGreenLeavesWeighService {
         greenLeaveWeighDetail = greenLeavesWeighDetailRepository.save(greenLeaveWeighDetail);
 
         //validate and save weigh
-        validateWeighSummary(greenLeaveWeigh);
-        greenLeavesWeighRepository.save(greenLeaveWeigh);
+//        validateWeighSummary(greenLeaveWeigh);
+        greenLeavesWeighRepository.save(validateWeighSummary(greenLeaveWeigh));
 
-        if ("SUPPLIER".equals(greenLeaveWeigh.getType())) {
+        if ("SUPPLIER".equals(greenLeaveWeigh.getType()) && greenLeaveWeigh.getClient() != null) {
             TGreenLeavesReceive greenLeavesReceive = new TGreenLeavesReceive();
             greenLeavesReceive.setBranch(greenLeaveWeigh.getBranch());
             greenLeavesReceive.setDate(greenLeaveWeigh.getDate());
@@ -137,14 +131,12 @@ public class GLGreenLeavesWeighService {
             greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeaveWeigh.getNormalNetWeight());
             greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeaveWeigh.getSuperNetWeight());
             greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
-            if (greenLeaveWeigh.getClient() == null) {
-                greenLeavesReceiveDetail.setRemark(greenLeaveWeigh.getRemark());
-            }
 
             List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
             greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
             greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
 
+            //find by brnach and route and date this green leaves receive data is allrady exist
             List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
             if (greenLeavesList.isEmpty()) {
                 greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
@@ -253,28 +245,32 @@ public class GLGreenLeavesWeighService {
         return greenLeaveWeigh;
     }
 
+    //find by branch get pending bulk green leaves weigh and pending supplier green leaves weight
     public List<TGreenLeavesWeigh> findByBranchAndType(Integer branch, String type) {
         return greenLeavesWeighRepository.findByBranchAndStatusAndType(branch, PENDING_STATUS, type);
     }
 
+    //pending bulk and supplier weigh confirm status update approve
     @Transactional
     public void confirmWeigh(Integer indexNo) {
         greenLeavesWeighRepository.updateConfirmation(indexNo);
     }
 
+    //find bulk green leaves weigh
     public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
         TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDateAndType(branch, route, date, TYPE_BULK);
         if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("green leave weight not found branch,route and date" + branch + " , " + route + " and " + date);
+            throw new EntityNotFoundException("bulk green leave weight not found branch,route and date" + branch + " , " + route + " and " + date);
         }
         return greenLeavesWeigh;
 
     }
 
+    //find supplier green leaves weigh
     TGreenLeavesWeigh findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
         TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClientAndType(branch, date, client, TYPE_SUPPLIER);
         if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("green leave weight not found branch,client and date");
+            throw new EntityNotFoundException("supplier green leave weight not found branch,date and client" + branch + " , " + date + " and " + client);
         }
         return greenLeavesWeigh;
     }

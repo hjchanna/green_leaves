@@ -131,7 +131,7 @@
 
         $scope.ui.loadFactoryQuantity = function () {
             $scope.model.loadFactoryQuantity();
-            $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
+            $scope.model.getRouteOfficerAndRouteHelperAndVehicle();
             $scope.model.findByBranchAndRouteAndDate();
         };
 

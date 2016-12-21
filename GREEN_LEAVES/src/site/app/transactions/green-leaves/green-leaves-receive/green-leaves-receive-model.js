@@ -68,7 +68,7 @@
                         this.data = GreenLeavesReceiveModelFactory.newData();
                         this.tempData = GreenLeavesReceiveModelFactory.newTempData();
                         this.routeData = {};
-                        
+
                         this.totalQuantity = [0, 0];
                         this.factoryQuantity = [0, 0];
                         this.differenceQuantity = [0, 0];
@@ -267,14 +267,24 @@
                         return label;
                     },
                     getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
+                        var defer = $q.defer();
+                        var route = this.data.route;
+                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                        var branch = this.data.branch;
                         var that = this.routeData;
-                        angular.forEach(this.routes, function (value) {
-                            if (value.indexNo === parseInt(indexNo)) {
-                                that.routeHelper = value.routeHelper.indexNo;
-                                that.routeOfficer = value.routeOfficer.indexNo;
-                                that.vehicle = value.vehicle.indexNo;
-                            }
-                        });
+                        GreenLeavesReceiveService.findByBranchAndRouteAndDateGreenLeavesWeigh(branch, route, date)
+                                .success(function (data) {
+                                    console.log(data);
+                                    that.routeHelper = data.routeHelper;
+                                    that.routeOfficer = data.routeOfficer;
+                                    that.vehicle = data.vehicle;
+                                    defer.resolve();
+                                })
+                                .error(function () {
+                                    defer.reject();
+                                });
+
+                        return defer.promise;
                     },
                     searchClientByClientNo: function (clientNumber) {
                         var client;
@@ -285,7 +295,7 @@
                             }
                         });
                         return client;
-                    }
+                    },
                 };
 
                 return GreenLeavesReceiveModel;

@@ -129,6 +129,13 @@
                     $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
                     }, true);
+
+                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
+                        if (!$scope.model.indexNo) {
+                            $scope.model.saveWeight();
+                        }
+                    }, true);
+
                     $scope.$watch("model.data.date", function (newVal, oldVal) {
                         $scope.model.findByBranchAndRouteAndDate();
                     }, true);
