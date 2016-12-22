@@ -64,25 +64,43 @@ public class GLGreenLeavesWeighService {
         TGreenLeavesWeigh greenLeavesWeigh;
         if (greenLeavesWeighRequest.getIndexNo() != null) {
             greenLeavesWeigh = greenLeavesWeighRepository.getOne(greenLeavesWeighRequest.getIndexNo());
+
             greenLeavesWeigh.setBranch(greenLeavesWeighRequest.getBranch());
             greenLeavesWeigh.setDate(greenLeavesWeighRequest.getDate());
             greenLeavesWeigh.setRouteOfficer(greenLeavesWeighRequest.getRouteOfficer());
             greenLeavesWeigh.setRouteHelper(greenLeavesWeighRequest.getRouteHelper());
             greenLeavesWeigh.setVehicle(greenLeavesWeighRequest.getVehicle());
 
+            //normal leaves summary
+            greenLeavesWeigh.setNormalTotalWeight(greenLeavesWeighRequest.getNormalTotalWeight());
             greenLeavesWeigh.setNormalTareCalculated(greenLeavesWeighRequest.getNormalTareCalculated());
-            greenLeavesWeigh.setNormalGeneralDeductionPercent(greenLeavesWeighRequest.getNormalGeneralDeductionPercent());
             greenLeavesWeigh.setNormalTareDeduction(greenLeavesWeighRequest.getNormalTareDeduction());
+            greenLeavesWeigh.setNormalGeneralDeductionPercent(greenLeavesWeighRequest.getNormalGeneralDeductionPercent());
+            greenLeavesWeigh.setNormalGeneralDeduction(greenLeavesWeighRequest.getNormalGeneralDeduction());
             greenLeavesWeigh.setNormalWaterDeduction(greenLeavesWeighRequest.getNormalWaterDeduction());
             greenLeavesWeigh.setNormalCoarseLeaves(greenLeavesWeighRequest.getNormalCoarseLeaves());
             greenLeavesWeigh.setNormalBoiledLeaves(greenLeavesWeighRequest.getNormalBoiledLeaves());
+            greenLeavesWeigh.setNormalNetWeight(greenLeavesWeighRequest.getNormalNetWeight());
 
+            //normal tare summary
+            greenLeavesWeigh.setNormalCrates(greenLeavesWeighRequest.getNormalCrates());
+            greenLeavesWeigh.setNormalBags(greenLeavesWeighRequest.getNormalBags());
+            greenLeavesWeigh.setNormalPolyBags(greenLeavesWeighRequest.getNormalPolyBags());
+
+            //supper leaves summary
+            greenLeavesWeigh.setSuperTotalWeight(greenLeavesWeighRequest.getSuperTotalWeight());
             greenLeavesWeigh.setSuperTareCalculated(greenLeavesWeighRequest.getSuperTareCalculated());
-            greenLeavesWeigh.setSuperGeneralDeductionPercent(greenLeavesWeighRequest.getSuperGeneralDeductionPercent());
             greenLeavesWeigh.setSuperTareDeduction(greenLeavesWeighRequest.getSuperTareDeduction());
+            greenLeavesWeigh.setSuperGeneralDeductionPercent(greenLeavesWeighRequest.getSuperGeneralDeductionPercent());
             greenLeavesWeigh.setSuperWaterDeduction(greenLeavesWeighRequest.getSuperWaterDeduction());
             greenLeavesWeigh.setSuperCoarseLeaves(greenLeavesWeighRequest.getSuperCoarseLeaves());
             greenLeavesWeigh.setSuperBoiledLeaves(greenLeavesWeighRequest.getSuperBoiledLeaves());
+            greenLeavesWeigh.setSuperNetWeight(greenLeavesWeighRequest.getSuperNetWeight());
+            
+            //supper tare summary
+            greenLeavesWeigh.setSuperCrates(greenLeavesWeighRequest.getSuperBags());
+            greenLeavesWeigh.setSuperBags(greenLeavesWeighRequest.getSuperBags());
+            greenLeavesWeigh.setSuperPolyBags(greenLeavesWeighRequest.getSuperPolyBags());
         } else {
             //generate new number
             Integer maxNumber = greenLeavesWeighRepository.getMaximumNumberByBranch(greenLeavesWeighRequest.getBranch());

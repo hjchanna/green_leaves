@@ -81,6 +81,7 @@
                             });
                 };
 
+                //confirm weigh
                 $scope.ui.confirm = function () {
                     var indexNo = tempIndexSave;
                     $scope.model.confirmWeight(indexNo);
@@ -91,6 +92,7 @@
                     tempIndexSave = 0;
                 };
 
+                //find weight by branch and route and date
                 $scope.ui.findByBranchAndRouteAndDate = function () {
                     $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
                     $scope.model.findByBranchAndRouteAndDate();
@@ -130,8 +132,8 @@
                         $scope.model.validate();
                     }, true);
 
-                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
-                        if (!$scope.model.indexNo) {
+                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
+                        if ($scope.model.data.greenLeaveWeighDetails.length > 0) {
                             $scope.model.saveWeight();
                         }
                     }, true);
