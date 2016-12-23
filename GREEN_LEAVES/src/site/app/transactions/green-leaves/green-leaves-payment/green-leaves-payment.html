@@ -13,95 +13,85 @@
 <div class="index-content-body">
     <!--start left div-->
     <div class="col-xs-8 background-light">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 100px; padding: 10px 35px 0px 30px;">
-                <div class="row ">
-                    <table class="background-dark" style="border-radius: 5px">
-                        <col style="width: 50%">
-                        <col style="width: 50%">
-                        <thead>
-                            <tr>
-                                <td>
-                                    <select class="form-control" id="sel2">
-                                        <option>Empyolee Advance Payment</option>
-                                        <option>Green Leaves  Advance Payment</option>
-                                        <option>Loan  Advance Payment</option>
-                                        <option>Other</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control">
-                                        <option>Cash</option>
-                                        <option>Cheque</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="text" class="form-control" placeholder="select route officer">
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" placeholder="search supplier id / name">
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <!--start table header div-->
-            <div class="col-xs-12" style="flex: 0 0 auto; height:35px;">
-                <table>
-                    <col style="width: 10%">
-                    <col style="width: 40%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 20%">
-                    <col style="width: 10%">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 55px);">
+            <div class="col-xs-12" style="height: 120px; padding-top: 5px">
+                <table class="background-dark" style="border-radius: 5px">
+                    <col style="width: 50%">
+                    <col style="width: 50%">
+                    <col />
                     <thead>
                         <tr>
-                            <th>Supplier</th>
-                            <th>&nbsp;</th>
-                            <th>Route</th>
-                            <th class="text-right">Month</th>
-                            <th class="text-right">Amount</th>
-                            <th class="text-center"><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+                            <td>
+                                <input  id="type"  class="form-control" placeholder="advance type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" >
+                                <!--                                <select class="form-control" id="sel2">
+                                                                    <option>Empyolee Advance Payment</option>
+                                                                    <option>Green Leaves  Advance Payment</option>
+                                                                    <option>Loan  Advance Payment</option>
+                                                                    <option>Other</option>
+                                                                </select>-->
+                            </td>
+                            <td>
+                                 <input class="form-control" id="transaction"   input-hint="transaction number" smart-input="integer" ng-model="model.tempData.transaction" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" placeholder="select route officer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                            <td>
+                                <input class="form-control" placeholder="search client" ng-model="model.client"  uib-typeahead="client as (client.name) for client in model.clients|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
                         </tr>
                     </thead>
                 </table>
             </div>
+            <!--start table header div-->
             <!--end table header div-->
+            <div class="col-xs-12" style="flex: 0 0 auto; height:35px;" ng-show="model.vouchers.length">
+                <table>
+                    <col style="width: 10%">
+                    <col style="width: 40%">
+                    <col style="width: 25%">
+                    <col style="width: 25%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Description</th>
+                            <th>Client</th>
+                            <th class="text-right">Amount</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
             <!--end table body div-->
-            <div class="col-xs-12 smart-scroll-y">
+            <div class="col-xs-12 smart-scroll-y" ng-show="model.vouchers.length">
                 <table class="table-hover">
                     <col style="width: 10%">
                     <col style="width: 40%">
-                    <col style="width: 15%">
-                    <col style="width: 15%">
-                    <col style="width: 20%">
-                    <col style="width: 8%">
+                    <col style="width: 25%">
+                    <col style="width: 25%">
                     <tbody>
-                        <tr ng-repeat="item in Items">
-                            <td><span class="label label-default">00001</span></td>
-                            <td>{{item.Name}}</td>
-                            <td>00001</td>
-                            <td>September</td>
-                            <td class="text-right">500.00</td>
-                            <td class="text-center"><input id="chk" type="checkbox" ng-model="item.Selected" ng-click="setCheckAll(item)"/><label for="chk"></label></td>
+                        <tr ng-class="ui.selectedDetailIndex === voucher.indexNo ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter : model.client" ng-click="ui.selectDetail(voucher.indexNo);">
+                            <td><span class="label label-default">{{voucher.indexNo}}</span></td>
+                            <td>{{voucher.description}}</td>
+                            <td>{{model.getClient(voucher.client).name}}</td>
+                            <td class="text-right">{{voucher.amount}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 198px);" ng-hide="model.vouchers.length">
+                <h1>NO VOUCHERS AVAILABLE :(</h1>
+            </div>
             <!--end table body div-->
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 50px;">
-                <table style="padding-right: 5px;">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 39px;">
+                <table>
                     <col style="width: 70%"/>
-                    <col style="width: 20%"/>
-                    <col style="width: 7%"/>
+                    <col style="width: 30%"/>
                     <thead class="background-dark">
                         <tr class="clickable">
                             <th>TOTAL</th>
-                            <th class="text-right">15500.00</th>
-                            <th>&nbsp;</th>
+                            <th class="text-right">{{model.vouchers?model.getRequestTotal(model.vouchers.indexNo):0 | number: 2}}</th>
                         </tr>
                     </thead>
                 </table>
@@ -119,24 +109,15 @@
                         <div class="col-xs-12" style="margin-top: 10px;">
                             <table class="control-table">
                                 <col style="width: 35%"/>
-                                <col style="width: 65%"/>
                                 <col />
 
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <label for="cashbook1" class="control-label text-left">Cash Book</label>  
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="cashbook1" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
                                             <label for="amount2" class="control-label text-left">Amount</label>
                                         </td>
                                         <td>
-                                            <input class="form-control text-right" id="amount2" type="text">
+                                            <input class="form-control text-right" id="amount2" type="text" ng-model="model.tempData.cashAmount">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -147,73 +128,12 @@
                     <!--start cheque - 2nd tab-->
                     <uib-tab index="1" heading="Cheque">
                         <div class="col-xs-12" style="margin-top: 10px;">
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-                                <col />
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label for="accountno" class="control-label text-left">A/No</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="accountno" type="number">  
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="bank" class="control-label text-left">Bank</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="bank" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="chequeno" class="control-label text-left">s/c no</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="chequeno" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="date" class="control-label text-left">Date</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="date" type="date">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="amount" class="control-label text-left">Amount</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="amount" type="text">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <input style="float: right;padding-right: 15px;" type="submit" value="OK" class="btn btn-primary btn-sm"/>
+                            <input type="button" style="float: right;padding-right: 15px;" value="Cheque Info" ng-click="ui.checkinfo()" class="btn btn-primary btn-xs"/>
                         </div>
                         <!--start table header-->
-                        <div class="col-xs-12 smart-scroll-y">
-                            <table>
-                                <col style="width: 55%">
-                                <col style="width: 30%">
-                                <col style="width: 15%">
-                                <thead>
-                                    <tr>
-                                        <td>Cheque No</td>
-                                        <td class="text-right">Amount</td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
                         <!--end table header-->
                         <!--start table body-->
-                        <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 530px);">
+                        <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 400px);" ng-show="model.data.chequeDetails.length">
                             <table class="table-hover">
                                 <col style="width: 55%">
                                 <col style="width: 30%">
@@ -253,127 +173,61 @@
                             </table>
                             <!--end table body-->
                         </div>
-                    </uib-tab>
-                    <!--end cheque - 2nd tab-->
-                    <!--start transfer - 3rd tab-->
-                    <uib-tab index="2" heading="Transfer">
-                        <div class="col-xs-12" style="margin-top: 10px;">
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col style="width: 65%"/>
-                                <col />
-                                <tbody>
-                                    <tr class="background-dark">
-                                        <td class="background-dark">
-                                            <label class="text-left">SEND</label>
-                                        </td>
-                                        <td class="background-dark"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="sendAccountNo" class="control-label text-left">A/ No</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="sendAccountNo" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="sendBank" class="control-label text-left">Bank</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="sendBank" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="sendBranch" class="control-label text-left">Branch</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="sendBranch" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="background-dark">
-                                            <label class="text-left">RECEIVE</label>
-                                        </td>
-                                        <td class="background-dark"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="receiveBank" class="control-label text-left">Bank</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="receiveBank" type="text">
-                                        </td>
-                                    </tr>
-                                    <tr style="height: 42px">
-                                        <td>
-                                            <label class="control-label text-left">A/No</label>
-                                        </td>
-                                        <td>
-                                            <!--                                            <select class="form-control" id="sel2">
-                                                                                            <option style="height:150px;">123456</option>
-                                                                                            <option style="height:150px;">123456</option>
-                                                                                            <option style="height:150px;">123456</option>
-                                                                                            <option style="height:150px;">123456</option>
-                                                                                            <option style="height:150px;">123456</option>
-                                                                                        </select>-->
-                                            <div class="btn-group" dropdown is-open="status.isopen" style="width:159px">
-                                                <button type="text" class="form-control  dropdown-toggle" >
-                                                   {{accNo}}<span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a ng-click="setAccNo(330200210035940)">330200210035940</a>
-                                                    </li>
-                                                    <li><a ng-click="setAccNo(330200140069227)" >330200140069227</a>
-                                                    </li>
-                                                    <li><a ng-click="setAccNo(185202054536789)" >185202054536789</a>
-                                                    </li>
-                                                    <li><a ng-click="setAccNo(454533367888445)" >454533367888445</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="amount1" class="control-label text-left">Amount</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="amount1" type="text">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 400px);" ng-hide="model.data.chequeDetails.length">
+                            <h1>PLEASE ADD CHEQUE TO DISPLAY :(</h1>
                         </div>
                     </uib-tab>
+                    <!--end cheque - 2nd tab-->
+
                 </uib-tabset>
-                <!--end transfer - 3rd tab-->
             </div>
             <!--start payemnt summry-->
             <div class="col-xs-12">
-                <table class="control-table" style="width:313px;position: fixed;bottom: 0px;">
-                    <col style="width: 65%"/>
-                    <col style="width: 35%"/>
-                    <col />
+                <table class="control-table" style="width:352px;position: fixed;bottom: 0px;">
+                    <col style="width: 50%"/>
+                    <col style="width: 50%"/>
                     <tbody>
                         <tr>
                             <td>
-                                <label class="control-label text-left">Total</label>
+                                <label class="control-label text-left">Voucher Summary</label>
                             </td>
                             <td>
-                                <label class="control-label text-left">10000.00</label>
+                                <label class="control-label text-left">{{model.amount| number: 2}}</label>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <label for="payble" class="control-label text-left">Payble</label>
+                                <label class="control-label text-left">Total Cash</label>
                             </td>
                             <td>
-                                <label for="total" class="control-label text-left">30000.00</label>
+                                <label class="control-label text-left">{{model.tempData.cashAmount|number:2}}</label>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <label for="totalCheque" class="control-label text-left">Total Cheque</label>
+                            </td>
+                            <td>
+                                <label for="totalCheque" class="control-label text-left">3000.00</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="totalPayment" class="control-label text-left">Total Payment</label>
+                            </td>
+                            <td>
+                                <label for="totalPayment" class="control-label text-left">3000.00</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="balance" class="control-label text-left">balance</label>
+                            </td>
+                            <td>
+                                <label for="balance" class="control-label text-left">3000.00</label>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -382,8 +236,20 @@
     </div>
     <!--end right div-->
 </div>
-<div class="fab-container">
-    <a class="fab fab-warning"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-danger"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-lg fab-primary"><i class="glyphicon glyphicon-plus"></i></a>
-</div>
+ <div class="fab-container">
+        <!--discard-->
+        <a class="fab fab-default" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+        <!--load-->
+        <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <!--clear-->
+        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
+        <!--delete-->
+        <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <!--edit-->
+        <a class="fab fab-success" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+
+        <!--new-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <!--save-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+    </div>
