@@ -290,7 +290,7 @@
                 });
                 return label;
             },
-            searchGreenLeavesWeight: function (branch) {
+            getPendingWeigh: function (branch) {
                 var defer = $q.defer();
                 var that = this;
                 var type = "BULK";

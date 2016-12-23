@@ -34,7 +34,7 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
 
     @Modifying(clearAutomatically = true)
     @Query(value = "update t_green_leaves_weigh set status = 'APPROVE' where index_no = :indexNo", nativeQuery = true)
-    public Integer updateConfirmation(@Param("indexNo") Integer indexNo);
+    public Integer approve(@Param("indexNo") Integer indexNo);
 
     public TGreenLeavesWeigh findByBranchAndRouteAndDateAndType(Integer branch, Integer route, Date date,String type);
 
