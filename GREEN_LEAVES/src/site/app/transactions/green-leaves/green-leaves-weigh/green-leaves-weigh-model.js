@@ -236,6 +236,14 @@
                 this.data.superBags = superBags;
                 this.data.superPolyBags = superPolyBags;
             },
+            //delete green leaves weigh 
+            deleteGreenLavesWeigh: function () {
+                var that = this;
+                GreenLeavesWeighService.deleteGreenLeavesWeigh(this.data.indexNo)
+                        .success(function () {
+                            that.clear();
+                        });
+            },
             //return label for route
             routeLabel: function (indexNo) {
                 var label;
@@ -359,7 +367,7 @@
                             that.data.indexNo = null;
                             that.data.number = null;
                             that.data.status = null;
-                            
+
                             that.data.client = null;
                             that.data.type = "BULK";
 

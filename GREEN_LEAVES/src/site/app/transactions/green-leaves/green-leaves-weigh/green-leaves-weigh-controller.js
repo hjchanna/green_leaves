@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, $filter, optionPane, $timeout, GreenLeavesWeighModel) {
+            .controller("GreenLeavesWeighController", function ($scope, $filter, ConfirmPane, optionPane, $timeout, GreenLeavesWeighModel) {
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
@@ -50,6 +50,16 @@
                     if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
                         $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
                     }
+                };
+                $scope.ui.delete = function () {
+                    ConfirmPane.dangerConfirm("Delete Green Leaves Weigh")
+                            .confirm(function () {
+                                $scope.model.deleteGreenLavesWeigh();
+                            })
+                            .discard(function () {
+                                console.log("ReJECT");
+                            });
+
                 };
 
                 $scope.ui.deleteDetail = function (indexNo) {
@@ -132,7 +142,7 @@
                         $scope.model.validate();
                     }, true);
 
-                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
+                    $scope.$watch("[model.data.routeOfficer,model.data.routeHelper,model.data.vehicle,model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
                         if ($scope.model.data.greenLeaveWeighDetails.length > 0) {
                             $scope.model.saveWeight();
                         }

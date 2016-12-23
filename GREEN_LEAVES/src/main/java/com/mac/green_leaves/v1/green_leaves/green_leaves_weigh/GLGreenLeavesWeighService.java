@@ -292,4 +292,8 @@ public class GLGreenLeavesWeighService {
         }
         return greenLeavesWeigh;
     }
+
+    public void deleteGreenLeavesReceive(Integer indexNo) {
+       greenLeavesWeighRepository.delete(indexNo);
+    }
 }
