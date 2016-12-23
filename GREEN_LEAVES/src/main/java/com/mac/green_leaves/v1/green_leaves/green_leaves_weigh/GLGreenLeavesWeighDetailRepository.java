@@ -18,6 +18,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Mohan
  */
-public interface  GLGreenLeavesWeighDetailRepository extends JpaRepository<TGreenLeavesWeighDetail, Integer>{
-    
+public interface GLGreenLeavesWeighDetailRepository extends JpaRepository<TGreenLeavesWeighDetail, Integer> {
 }

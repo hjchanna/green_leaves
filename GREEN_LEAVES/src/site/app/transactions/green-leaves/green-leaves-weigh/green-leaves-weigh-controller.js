@@ -85,7 +85,7 @@
                 $scope.ui.confirm = function () {
                     var indexNo = tempIndexSave;
                     $scope.model.confirmWeight(indexNo);
-                    optionPane.successMessage("APPROVE" + indexNo);
+                    optionPane.successMessage("APPROVE");
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
                     $scope.indextab = 0;
