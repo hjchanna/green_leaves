@@ -48,7 +48,7 @@ public class GLGreenLeavesWeighController {
 
     @RequestMapping(value = "/find-weight/{branch}/{date}/{client}", method = RequestMethod.GET)
     public TGreenLeavesWeigh getSummaryBranchAndDateAndClient(@PathVariable Integer branch, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
-        return greenLeavesWeighService.findByBranchAndDateAndClient(branch, date,client);
+        return greenLeavesWeighService.findByBranchAndDateAndClient(branch, date, client);
     }
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
@@ -78,5 +78,11 @@ public class GLGreenLeavesWeighController {
     @RequestMapping(value = "/find-by-branch/{branch}/{type}", method = RequestMethod.GET)
     public List<TGreenLeavesWeigh> findByBranchAndType(@PathVariable Integer branch, @PathVariable String type) {
         return greenLeavesWeighService.findByBranchAndType(branch, type);
+    }
+
+    @RequestMapping(value = "/delete-green-leaves-weigh/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteGreenLeavesReceive(@PathVariable Integer indexNo) {
+        greenLeavesWeighService.deleteGreenLeavesReceive(indexNo);
+        return indexNo;
     }
 }
