@@ -1,17 +1,52 @@
 @import "mixins/variables.scss";
 
 .border-all{
-    border: $default-color-border 1px solid;
+    border: $bg-dark-color-border 1px solid;
 }
 .border-top{
-    border-top: $default-color-border 1px solid;
+    border-top: $bg-dark-color-border 1px solid;
 }
 .border-right{
-    border-right: $default-color-border 1px solid;
+    border-right: $bg-dark-color-border 1px solid;
 }
 .border-bottom{
-    border-bottom: $default-color-border 1px solid;
+    border-bottom: $bg-dark-color-border 1px solid;
 }
 .border-left{
-    border-left: $default-color-border 1px solid;
+    border-left: $bg-dark-color-border 1px solid;
 }
+
+.border-dark-all{
+    border: $bg-hi-dark-color-border 1px solid;
+}
+.border-dark-top{
+    border-top: $bg-hi-dark-color-border 1px solid;
+}
+.border-dark-right{
+    border-right: $bg-hi-dark-color-border 1px solid;
+}
+.border-dark-bottom{
+    border-bottom: $bg-hi-dark-color-border 1px solid;
+}
+.border-dark-left{
+    border-left: $bg-hi-dark-color-border 1px solid;
+}
+
+/*.background-dark{*/
+/*}*/
+
+/*    .border-all{
+        border: $default-color-border 1px solid;
+    }
+    .border-top{
+        border-top: $default-color-border 1px solid;
+    }
+    .border-right{
+        border-right: $default-color-border 1px solid;
+    }
+    .border-bottom{
+        border-bottom: $default-color-border 1px solid;
+    }
+    .border-left{
+        border-left: $default-color-border 1px solid;
+    }*/

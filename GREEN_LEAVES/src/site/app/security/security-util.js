@@ -35,10 +35,8 @@
 
                     //login back button false
                     if ($location.path() === "/login") {
-                        console.log("true");
                         SecurityUtilService.ping()
                                 .success(function (data, status, headers) {
-//                                     $location.path("/login");
                                     $location.path("/");
                                 })
                                 .error(function (data, status, headers) {
