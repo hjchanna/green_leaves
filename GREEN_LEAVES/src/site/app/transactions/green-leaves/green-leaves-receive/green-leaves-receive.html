@@ -42,7 +42,7 @@
                             </th>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{clientNumber:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
@@ -147,7 +147,7 @@
     </div>
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-        <a class="fab fab-danger" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="fab fab-danger" fab-show="ui.mode ==='EDIT'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
         <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
         <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
         <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>

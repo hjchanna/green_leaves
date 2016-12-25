@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel, ConfirmPane, InputPane, Notification) {
+    var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel, ConfirmPane, optionPane, InputPane, Notification) {
         $scope.model = new GreenLeavesReceiveModel();
         $scope.customerId;
 
@@ -29,6 +29,13 @@
         };
 
         $scope.ui.delete = function () {
+            ConfirmPane.dangerConfirm("Delete Green Leave Receive")
+                    .confirm(function () {
+                        $scope.model.deleteGreenLavesReceive();
+                    })
+                    .discard(function () {
+                        console.log("ReJECT");
+                    });
 
         };
 
@@ -67,6 +74,7 @@
                     .then(function () {
                         $scope.ui.mode = "IDEAL";
                         $scope.model.clear();
+                        optionPane.successMessage("save green leaves receive");
                     });
         };
 

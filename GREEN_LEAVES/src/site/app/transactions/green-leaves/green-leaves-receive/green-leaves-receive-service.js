@@ -2,7 +2,7 @@
     'use strict';
 
     var service = function (systemConfig, $http) {
-        
+
         //load master
         this.loadRoutes = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
@@ -50,6 +50,10 @@
         //get route officer and route helper and vehicle find by branch and route and date
         this.findByBranchAndRouteAndDateGreenLeavesWeigh = function (branch, route, date) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight-by/" + branch + "/" + route + "/" + date);
+        };
+        //delete green leaves receive and green leaves receive details
+        this.deleteGreenLeavesReceive = function (indexNo) {
+            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/delete-green-leaves-receive/" + indexNo);
         };
     };
 

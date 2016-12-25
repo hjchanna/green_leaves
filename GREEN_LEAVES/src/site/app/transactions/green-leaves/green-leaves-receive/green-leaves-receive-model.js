@@ -157,9 +157,13 @@
                             that.factoryQuantity[1] - that.totalQuantity[1]
                         ];
                     },
-//                    selectRoute: function (indexNo) {
-//                        this.data.route = indexNo;
-//                    },
+                    deleteGreenLavesReceive: function () {
+                        var that = this;
+                        GreenLeavesReceiveService.deleteGreenLeavesReceive(this.data.indexNo)
+                                .success(function () {
+                                    that.clear();
+                                });
+                    },
                     routeLabel: function (indexNo) {
                         var label;
                         angular.forEach(this.routes, function (value) {
