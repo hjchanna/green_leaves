@@ -55,9 +55,11 @@
                     ConfirmPane.dangerConfirm("Delete Green Leaves Weigh")
                             .confirm(function () {
                                 $scope.model.deleteGreenLavesWeigh();
+                                $scope.ui.mode = "IDEAL";
+                                $scope.ui.type = "NORMAL";
                             })
                             .discard(function () {
-                                console.log("ReJECT");
+                                console.log("REJECT");
                             });
 
                 };
@@ -96,7 +98,8 @@
                     var indexNo = tempIndexSave;
                     $scope.model.confirmWeight(indexNo);
                     optionPane.successMessage("APPROVE");
-                    $scope.ui.mode = "EDIT";
+                    $scope.ui.mode = "IDEAL";
+                    $scope.ui.type = "NORMAL";
                     $scope.model.clear();
                     $scope.indextab = 0;
                     tempIndexSave = 0;
