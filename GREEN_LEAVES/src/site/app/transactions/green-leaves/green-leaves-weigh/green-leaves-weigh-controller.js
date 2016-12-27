@@ -142,9 +142,6 @@
                     $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeduction, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
                     }, true);
-<<<<<<< HEAD
-                    
-=======
 
                     $scope.$watch("[model.data.routeOfficer,model.data.routeHelper,model.data.vehicle,model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
                         if ($scope.model.data.greenLeaveWeighDetails.length > 0) {
@@ -152,7 +149,6 @@
                         }
                     }, true);
 
->>>>>>> refs/remotes/origin/master
                     $scope.$watch("model.data.date", function (newVal, oldVal) {
                         $scope.model.findByBranchAndRouteAndDate();
                     }, true);
