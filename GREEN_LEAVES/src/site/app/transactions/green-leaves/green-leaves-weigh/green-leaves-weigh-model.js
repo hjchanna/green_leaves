@@ -206,15 +206,18 @@
 //                var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
 //                this.data.superGeneralDeduction = superGeneralDeduction;
 
-                //general deduction new
-                var normalGeneralDeduction = parseFloat(this.data.normalGeneralDeduction);
-                var normalGeneralDeductionPercent = parseInt(normalGeneralDeduction * 100 / normalTotalWeight);
-                this.data.normalGeneralDeductionPercent = normalGeneralDeductionPercent;
+                if (this.data.normalGeneralDeduction !== 0) {
+                    var normalGeneralDeduction = parseFloat(this.data.normalGeneralDeduction);
+                    var normalGeneralDeductionPercent = parseInt(normalGeneralDeduction * 100 / normalTotalWeight);
+                    this.data.normalGeneralDeductionPercent = normalGeneralDeductionPercent;
+                }
 
-                var superGeneralDeduction = parseFloat(this.data.superGeneralDeduction);
-                var superGeneralDeductionPercent = parseInt(superGeneralDeduction * 100 / superTotalWeight);
-                this.data.superGeneralDeductionPercent = superGeneralDeductionPercent;
-                
+                if (this.data.superGeneralDeduction !== 0) {
+                    var superGeneralDeduction = parseFloat(this.data.superGeneralDeduction);
+                    var superGeneralDeductionPercent = parseInt(superGeneralDeduction * 100 / superTotalWeight);
+                    this.data.superGeneralDeductionPercent = superGeneralDeductionPercent;
+                }
+
                 //net value
                 var normalNetWeight = normalTotalWeight
                         - parseFloat(this.data.normalTareDeduction)
