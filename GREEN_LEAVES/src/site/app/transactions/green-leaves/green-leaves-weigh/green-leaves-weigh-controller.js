@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, $filter, optionPane, $timeout, GreenLeavesWeighModel) {
+            .controller("GreenLeavesWeighController", function ($scope, $filter, ConfirmPane, optionPane, $timeout, GreenLeavesWeighModel) {
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
@@ -12,6 +12,7 @@
                     $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 
                     //set default branch
+                    //ERR: get default branch from login info
                     $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
@@ -48,8 +49,18 @@
 
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
                     if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
-                        $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                        $scope.model.getPendingWeigh($scope.model.data.branch);
                     }
+                };
+                $scope.ui.delete = function () {
+                    ConfirmPane.dangerConfirm("Delete Green Leaves Weigh")
+                            .confirm(function () {
+                                $scope.model.deleteGreenLavesWeigh();
+                            })
+                            .discard(function () {
+                                console.log("ReJECT");
+                            });
+
                 };
 
                 $scope.ui.deleteDetail = function (indexNo) {
@@ -81,16 +92,18 @@
                             });
                 };
 
+                //confirm weigh
                 $scope.ui.confirm = function () {
                     var indexNo = tempIndexSave;
                     $scope.model.confirmWeight(indexNo);
-                    optionPane.successMessage("APPROVE" + indexNo);
+                    optionPane.successMessage("APPROVE");
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
                     $scope.indextab = 0;
                     tempIndexSave = 0;
                 };
 
+                //find weight by branch and route and date
                 $scope.ui.findByBranchAndRouteAndDate = function () {
                     $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
                     $scope.model.findByBranchAndRouteAndDate();
@@ -129,7 +142,17 @@
                     $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeduction, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
                     }, true);
+<<<<<<< HEAD
                     
+=======
+
+                    $scope.$watch("[model.data.routeOfficer,model.data.routeHelper,model.data.vehicle,model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
+                        if ($scope.model.data.greenLeaveWeighDetails.length > 0) {
+                            $scope.model.saveWeight();
+                        }
+                    }, true);
+
+>>>>>>> refs/remotes/origin/master
                     $scope.$watch("model.data.date", function (newVal, oldVal) {
                         $scope.model.findByBranchAndRouteAndDate();
                     }, true);

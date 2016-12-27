@@ -18,10 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class SYEnvironmentController {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     @RequestMapping(value = "/system-date", method = RequestMethod.GET)
     public Date systemDate() throws ParseException {
         return DATE_FORMAT.parse(DATE_FORMAT.format(new Date()));
+    }
+
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    public PingRespond ping() {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        PingRespond pingRespond = new PingRespond();
+        pingRespond.setDateAndTime(sdfDate.format(now));
+        return pingRespond;
     }
 
 }

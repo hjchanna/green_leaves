@@ -7,7 +7,10 @@
 package com.mac.green_leaves.v1.dashboard;
 
 import java.util.Date;
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+>>>>>>> refs/remotes/origin/master
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,9 +31,15 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
+<<<<<<< HEAD
     @RequestMapping(value = "/find-green-leave-dashboard-summary/{fromDate}/{toDate}/{route}/{routeOfficer}/{routeHelper}/{vehicle}", method = RequestMethod.GET)
     public HashMap<String, Object> getGeenLeavesTotalSummary(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer route, @PathVariable Integer routeOfficer,@PathVariable Integer routeHelper,@PathVariable Integer vehicle) {
         return dashboardService.getGeenLeavesTotalSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle);
+=======
+    @RequestMapping(value = "/find-green-leave-bulk-weigh/{fromDate}/{toDate}/{route}/{routeOfficer}/{routeHelper}/{vehicle}", method = RequestMethod.GET)
+    public Object[] getBulkGreenLeavesWeighSummary(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer route, @PathVariable Integer routeOfficer,@PathVariable Integer routeHelper,@PathVariable Integer vehicle) {
+        return dashboardService.getBulkGreenLeavesWeighSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle);
+>>>>>>> refs/remotes/origin/master
     }
 
 }

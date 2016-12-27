@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel, ConfirmPane, InputPane, Notification) {
+    var controller = function ($scope, $timeout, $filter, GreenLeavesReceiveModel, ConfirmPane, optionPane, InputPane, Notification) {
         $scope.model = new GreenLeavesReceiveModel();
         $scope.customerId;
 
@@ -29,9 +29,17 @@
         };
 
         $scope.ui.delete = function () {
+            ConfirmPane.dangerConfirm("Delete Green Leave Receive")
+                    .confirm(function () {
+                        $scope.model.deleteGreenLavesReceive();
+                    })
+                    .discard(function () {
+                        console.log("ReJECT");
+                    });
 
         };
 
+        //find by receive by branch and number
         $scope.ui.load = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
@@ -41,7 +49,8 @@
                         });
             }
         };
-        
+
+        //find client by client number
         $scope.ui.searchClient = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
@@ -59,11 +68,13 @@
             }
         };
 
+        //save green leaves receive and receive details
         $scope.ui.save = function () {
             $scope.model.save()
                     .then(function () {
                         $scope.ui.mode = "IDEAL";
                         $scope.model.clear();
+                        optionPane.successMessage("save green leaves receive");
                     });
         };
 
@@ -79,6 +90,7 @@
             }, 10);
         };
 
+        //new client add remark and client is null
         $scope.ui.addDetail = function () {
             var client = $scope.model.client($scope.model.tempData.client);
             if (angular.isUndefined(client)) {
@@ -123,15 +135,15 @@
             $scope.ui.focus();
         };
 
-        $scope.ui.selectRoute = function (indexNo) {
-            if ($scope.ui.mode !== "IDEAL") {
-                $scope.model.selectRoute(indexNo);
-            }
-        };
+//        $scope.ui.selectRoute = function (indexNo) {
+//            if ($scope.ui.mode !== "IDEAL") {
+//                $scope.model.selectRoute(indexNo);
+//            }
+//        };
 
         $scope.ui.loadFactoryQuantity = function () {
             $scope.model.loadFactoryQuantity();
-            $scope.model.getRouteOfficerAndRouteHelperAndVehicle($scope.model.data.route);
+            $scope.model.getRouteOfficerAndRouteHelperAndVehicle();
             $scope.model.findByBranchAndRouteAndDate();
         };
 
