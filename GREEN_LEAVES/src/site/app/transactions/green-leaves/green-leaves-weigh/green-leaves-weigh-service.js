@@ -32,9 +32,9 @@
         this.confirmWeigh = function (indexNo) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/confirm-detail/" + indexNo);
         };
-        
+
         this.findByBranchAndRouteAndDate = function (branch, route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight-by/" + branch + "/" + route + "/" +  date);
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight-by/" + branch + "/" + route + "/" + date);
         };
 
         this.saveWeigh = function (weigh) {
@@ -42,10 +42,15 @@
         };
         this.insertDetail = function (detail, weighIndexNo) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/insert-detail/" + weighIndexNo, detail);
-        };  
+        };
 
         this.deleteDetail = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-detail/" + indexNo);
+        };
+
+        //delete green leaves receive and green leaves receive details
+        this.deleteGreenLeavesWeigh = function (indexNo) {
+            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-green-leaves-weigh/" + indexNo);
         };
     };
 

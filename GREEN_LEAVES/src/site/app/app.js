@@ -1,4 +1,4 @@
-+(function () {
+(function () {
     //index module
     angular.module("appModule", [
         "ngRoute",
@@ -30,13 +30,13 @@
         "bankBranchModule"
     ]);
 
-////    //constants
-//    //constants
+    //constants
 //    angular.module("appModule")
 //            .constant("systemConfig", {
 //                apiUrl: location.protocol + "//" + window.location.hostname 
 //            });
     //constants
+    
     angular.module("appModule")
             .constant("systemConfig", {
                 apiUrl: "http://localhost:8080"

@@ -1,30 +1,31 @@
-<div class="index-content-header">
-</div>
-
 <div class="index-content-body ">
     <div class="col-xs-8 background-light">
-        <table class="control-table">
-            <col class="col-xs-3">
-            <col class="col-xs-3">
-            <col class="col-xs-3">
-            <col class="col-xs-3">
-            <tbody>
-                <tr>
-                    <td>
-                        <input id="branch" class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.serchWeight($model)">
-                    </td>
-                    <td>
-                        <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'" typeahead-on-select="ui.loadFactoryQuantity()">
-                    </td>
-                    <td>
-                        <input class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">
-                    </td>
-                    <td>
-                        <input class="form-control" smart-input="integer"  input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row background-dark border-dark-bottom">
+            <div class="col-xs-12">
+                <table class="control-table">
+                    <col class="col-xs-3">
+                    <col class="col-xs-3">
+                    <col class="col-xs-3">
+                    <col class="col-xs-3">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input id="branch" class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.serchWeight($model)">
+                            </td>
+                            <td>
+                                <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'" typeahead-on-select="ui.loadFactoryQuantity()">
+                            </td>
+                            <td>
+                                <input class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">
+                            </td>
+                            <td>
+                                <input class="form-control" smart-input="integer"  input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-xs-12">
@@ -38,11 +39,11 @@
                         <tr>
                             <th>
                                 <label>CLIENT ID</label>
-                                <input id="client" class="form-control" ng-model="model.tempData.searchClient" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="integer" class="form-control" ng-model="customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
                                 <label>CLIENT INFORMATION</label>
-                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{clientNumber:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>NORMAL</label>
@@ -125,7 +126,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-4 background-dark" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+    <div class="col-xs-4 background-dark border-dark-left" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
         <table class="control-table">
             <col class="col-xs-3"/>
             <col class="col-xs-3"/>
@@ -135,19 +136,19 @@
                     <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeOfficer" ng-disabled="true" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
                 </tr>
                 <tr>
-                    <td><label class="control-label">VEHICLE</label></td>
-                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
-                </tr>
-                <tr>
                     <td><label class="control-label">ROUTE HELPER</label></td>
                     <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeHelper" ng-disabled="true" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                </tr>
+                <tr>
+                    <td><label class="control-label">VEHICLE</label></td>
+                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-        <a class="fab fab-danger" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="fab fab-danger" fab-show="ui.mode ==='EDIT'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
         <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
         <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
         <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>

@@ -8,11 +8,13 @@
                 GreenLeavesReceiveModel.prototype = {
                     data: {},
                     tempData: {},
+                    //green leaves weigh details
                     routeData: {
                         "routeOfficer": null,
                         "vehicle": null,
                         "routeHelper": null
                     },
+                    //qtys
                     totalQuantity: [],
                     factoryQuantity: [],
                     differenceQuantity: [],
@@ -34,32 +36,26 @@
                                 .success(function (data) {
                                     that.routes = data;
                                 });
-
                         GreenLeavesReceiveService.loadClients()
                                 .success(function (data) {
                                     that.clients = data;
                                 });
-
                         GreenLeavesReceiveService.loadBranch()
                                 .success(function (data) {
                                     that.branchs = data;
                                 });
-
                         GreenLeavesReceiveService.loadRouteOfficers()
                                 .success(function (data) {
                                     that.routeOfficers = data;
                                 });
-
                         GreenLeavesReceiveService.loadRouteHelpers()
                                 .success(function (data) {
                                     that.routeHelpers = data;
                                 });
-
                         GreenLeavesReceiveService.loadVehicles()
                                 .success(function (data) {
                                     that.vehicles = data;
                                 });
-
                         that.totalQuantity = [0, 0];
                         that.factoryQuantity = [0, 0];
                         that.differenceQuantity = [0, 0];
@@ -67,7 +63,7 @@
                     clear: function () {
                         this.data = GreenLeavesReceiveModelFactory.newData();
                         this.tempData = GreenLeavesReceiveModelFactory.newTempData();
-
+                        this.routeData = {};
                         this.totalQuantity = [0, 0];
                         this.factoryQuantity = [0, 0];
                         this.differenceQuantity = [0, 0];
@@ -156,28 +152,21 @@
                             that.totalQuantity[0] = that.totalQuantity[0] + value.normalLeavesQuantity;
                             that.totalQuantity[1] = that.totalQuantity[1] + value.superLeavesQuantity;
                         });
-
                         that.differenceQuantity = [
                             that.factoryQuantity[0] - that.totalQuantity[0],
                             that.factoryQuantity[1] - that.totalQuantity[1]
                         ];
                     },
-                    selectRoute: function (indexNo) {
-                        this.data.route = indexNo;
+                    deleteGreenLavesReceive: function () {
+                        var that = this;
+                        GreenLeavesReceiveService.deleteGreenLeavesReceive(this.data.indexNo)
+                                .success(function () {
+                                    that.clear();
+                                });
                     },
                     routeLabel: function (indexNo) {
                         var label;
                         angular.forEach(this.routes, function (value) {
-                            if (value.indexNo === indexNo) {
-                                label = value.indexNo + "-" + value.name;
-                                return;
-                            }
-                        });
-                        return label;
-                    },
-                    clientLabel: function (indexNo) {
-                        var label;
-                        angular.forEach(this.clients, function (value) {
                             if (value.indexNo === indexNo) {
                                 label = value.indexNo + "-" + value.name;
                                 return;
@@ -195,9 +184,28 @@
                         });
                         return client;
                     },
-                    defaultBranch: function () {
-                        return this.branchs[0];
+                    clientLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.clients, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.clientNumber + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
                     },
+                    //find customer by client number
+                    searchClientByClientNo: function (clientNumber) {
+                        var client;
+                        angular.forEach(this.clients, function (value) {
+                            if (value.clientNumber === parseInt(clientNumber)) {
+                                client = value;
+                                return;
+                            }
+                        });
+                        return client;
+                    },
+                    //return lable for branch
                     bracnhLable: function (indexNo) {
                         var lable;
                         angular.forEach(this.branchs, function (value) {
@@ -207,25 +215,6 @@
                             }
                         });
                         return lable;
-                    },
-                    findByBranchAndRouteAndDate: function () {
-                        var route = this.data.route;
-                        var branch = this.data.branch;
-                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-                        var that = this;
-                        var defer = $q.defer();
-                        GreenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date)
-                                .success(function (data) {
-                                    that.data = {};
-                                    angular.extend(that.data, data);
-                                    that.refreshQuantity();
-                                    defer.resolve();
-                                })
-                                .error(function () {
-                                    that.refreshQuantity();
-                                    defer.reject();
-                                });
-                        return defer.promise;
                     },
                     //return label for route officer
                     routeOfficerLabel: function (indexNo) {
@@ -260,29 +249,56 @@
                         });
                         return label;
                     },
-                    getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
-                        var that = this.routeData;
-                        angular.forEach(this.routes, function (value) {
-                            if (value.indexNo === parseInt(indexNo)) {
-                                that.routeHelper = value.routeHelper.indexNo;
-                                that.routeOfficer = value.routeOfficer.indexNo;
-                                that.vehicle = value.vehicle.indexNo;
-                            }
-                        });
+                    //deafault branch
+                    defaultBranch: function () {
+                        return this.branchs[0];
                     },
-                    searchClientByClientNo: function (clientNumber) {
-                        var client;
-                        angular.forEach(this.clients, function (value) {
-                            ;
-                            if (value.clientNumber === parseInt(clientNumber)) {
-                                client = value;
-                                return;
-                            }
-                        });
-                        return client;
+                    // find existing green leaves by branch and route and date
+                    findByBranchAndRouteAndDate: function () {
+                        var that = this;
+                        var defer = $q.defer();
+                        var route = this.data.route;
+                        var branch = this.data.branch;
+                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                        GreenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date)
+                                .success(function (data) {
+                                    that.data = {};
+                                    angular.extend(that.data, data);
+                                    that.refreshQuantity();
+                                    defer.resolve();
+                                })
+                                .error(function () {
+                                    that.refreshQuantity();
+                                    defer.reject();
+                                    that.data.indexNo = null;
+                                    that.data.number = null;
+                                    that.data.transaction = null;
+                                    that.data.status = null;
+                                    that.data.greenLeavesReceiveDetails = [];
+                                });
+                        return defer.promise;
+                    },
+                    //get route officer and route helper and vehicle find by branch and route and date
+                    getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
+                        var defer = $q.defer();
+                        var route = this.data.route;
+                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                        var branch = this.data.branch;
+                        var that = this.routeData;
+                        GreenLeavesReceiveService.findByBranchAndRouteAndDateGreenLeavesWeigh(branch, route, date)
+                                .success(function (data) {
+                                    console.log(data);
+                                    that.routeHelper = data.routeHelper;
+                                    that.routeOfficer = data.routeOfficer;
+                                    that.vehicle = data.vehicle;
+                                    defer.resolve();
+                                })
+                                .error(function () {
+                                    defer.reject();
+                                });
+                        return defer.promise;
                     }
                 };
-
                 return GreenLeavesReceiveModel;
             });
 }());
