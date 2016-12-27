@@ -197,14 +197,26 @@
                     }
                 });
 
-                //general deduction
-                var normalGeneralDeductionPercent = parseFloat(this.data.normalGeneralDeductionPercent);
-                var normalGeneralDeduction = parseInt(normalGeneralDeductionPercent * normalTotalWeight / 100);
-                this.data.normalGeneralDeduction = normalGeneralDeduction;
+                //general deduction old
+//                var normalGeneralDeductionPercent = parseFloat(this.data.normalGeneralDeductionPercent);
+//                var normalGeneralDeduction = parseInt(normalGeneralDeductionPercent * normalTotalWeight / 100);
+//                this.data.normalGeneralDeduction = normalGeneralDeduction;
 
-                var superGeneralDeductionPercent = parseFloat(this.data.superGeneralDeductionPercent);
-                var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
-                this.data.superGeneralDeduction = superGeneralDeduction;
+//                var superGeneralDeductionPercent = parseFloat(this.data.superGeneralDeductionPercent);
+//                var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
+//                this.data.superGeneralDeduction = superGeneralDeduction;
+
+                if (this.data.normalGeneralDeduction !== 0) {
+                    var normalGeneralDeduction = parseFloat(this.data.normalGeneralDeduction);
+                    var normalGeneralDeductionPercent = parseInt(normalGeneralDeduction * 100 / normalTotalWeight);
+                    this.data.normalGeneralDeductionPercent = normalGeneralDeductionPercent;
+                }
+
+                if (this.data.superGeneralDeduction !== 0) {
+                    var superGeneralDeduction = parseFloat(this.data.superGeneralDeduction);
+                    var superGeneralDeductionPercent = parseInt(superGeneralDeduction * 100 / superTotalWeight);
+                    this.data.superGeneralDeductionPercent = superGeneralDeductionPercent;
+                }
 
                 //net value
                 var normalNetWeight = normalTotalWeight
