@@ -91,12 +91,13 @@ public class GLGreenLeavesWeighService {
             greenLeavesWeigh.setSuperTotalWeight(greenLeavesWeighRequest.getSuperTotalWeight());
             greenLeavesWeigh.setSuperTareCalculated(greenLeavesWeighRequest.getSuperTareCalculated());
             greenLeavesWeigh.setSuperTareDeduction(greenLeavesWeighRequest.getSuperTareDeduction());
+            greenLeavesWeigh.setSuperGeneralDeduction(greenLeavesWeighRequest.getSuperGeneralDeduction());
             greenLeavesWeigh.setSuperGeneralDeductionPercent(greenLeavesWeighRequest.getSuperGeneralDeductionPercent());
             greenLeavesWeigh.setSuperWaterDeduction(greenLeavesWeighRequest.getSuperWaterDeduction());
             greenLeavesWeigh.setSuperCoarseLeaves(greenLeavesWeighRequest.getSuperCoarseLeaves());
             greenLeavesWeigh.setSuperBoiledLeaves(greenLeavesWeighRequest.getSuperBoiledLeaves());
             greenLeavesWeigh.setSuperNetWeight(greenLeavesWeighRequest.getSuperNetWeight());
-            
+
             //supper tare summary
             greenLeavesWeigh.setSuperCrates(greenLeavesWeighRequest.getSuperBags());
             greenLeavesWeigh.setSuperBags(greenLeavesWeighRequest.getSuperBags());
@@ -218,15 +219,21 @@ public class GLGreenLeavesWeighService {
         }
         greenLeaveWeigh.setNormalTotalWeight(BigDecimal.valueOf(normalTotalWeight));
         greenLeaveWeigh.setSuperTotalWeight(BigDecimal.valueOf(superTotalWeight));
-        //deductions
 
         //general deduction
-        greenLeaveWeigh.setNormalGeneralDeduction(BigDecimal.valueOf(
-                (int) (normalTotalWeight * greenLeaveWeigh.getNormalGeneralDeductionPercent().doubleValue() / 100.0)
-        ));
-        greenLeaveWeigh.setSuperGeneralDeduction(BigDecimal.valueOf(
-                (int) (superTotalWeight * greenLeaveWeigh.getSuperGeneralDeductionPercent().doubleValue() / 100.0)
-        ));
+        if (greenLeaveWeigh.getNormalTotalWeight().signum()!=0) {
+            greenLeaveWeigh.setNormalGeneralDeductionPercent(
+                    BigDecimal.valueOf(
+                            (greenLeaveWeigh.getNormalGeneralDeduction().doubleValue() * 100.0 / greenLeaveWeigh.getNormalTotalWeight().doubleValue())
+                    ));
+        } 
+
+        if (greenLeaveWeigh.getSuperTotalWeight().signum()!=0) {
+            greenLeaveWeigh.setSuperGeneralDeductionPercent(
+                    BigDecimal.valueOf(
+                            (greenLeaveWeigh.getSuperGeneralDeduction().doubleValue() * 100.0 / greenLeaveWeigh.getSuperTotalWeight().doubleValue())
+                    ));
+        } 
 
         //net weight
         double normalNetValue
@@ -294,6 +301,6 @@ public class GLGreenLeavesWeighService {
     }
 
     public void deleteGreenLeavesReceive(Integer indexNo) {
-       greenLeavesWeighRepository.delete(indexNo);
+        greenLeavesWeighRepository.delete(indexNo);
     }
 }

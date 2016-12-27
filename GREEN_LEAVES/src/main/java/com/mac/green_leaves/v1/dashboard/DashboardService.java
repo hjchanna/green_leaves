@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.dashboard;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,12 @@ public class DashboardService {
     @Autowired
     private DashboardRepository dashboardRepository;
 
-    public Object[] getBulkGreenLeavesWeighSummary(Date fromDate, Date toDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle) {
+    public HashMap<String, Object> getGeenLeavesTotalSummary(Date fromDate, Date toDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle) {
+        HashMap<String, Object> getTotalSummaryMap = new HashMap<>();
         List<Object[]> getTotalList = dashboardRepository.getBulkGreenLeavesWeighSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle);
-        Object total[];
-        if (!getTotalList.isEmpty()) {
-            total = getTotalList.get(0);
-        } else {
-            total = new Object[]{0, 0};
-        }
-        return total;
+        Object total[] = getTotalList.get(0);
+        getTotalSummaryMap.put("bulkWeighNormalTotal", total[0]);
+        getTotalSummaryMap.put("bulkWeighSuperTotal", total[1]);
+        return getTotalSummaryMap;
     }
-
 }
