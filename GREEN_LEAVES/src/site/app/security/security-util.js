@@ -3,7 +3,6 @@
             .factory('XSRFInterceptor', function ($cookies, $log) {
 
                 var XSRFInterceptor = {
-
                     request: function (config) {
 
                         var token = $cookies.get('XSRF-TOKEN');
@@ -25,7 +24,7 @@
             });
 
     angular.module("appModule")
-            .run(function ($rootScope, $location, $http, $cookies, LoginService) {
+            .run(function ($rootScope, $location, $cookies, SecurityUtilService) {
                 $rootScope.$on("$routeChangeStart", function (event, next, current) {
                     var token = $cookies.get('XSRF-TOKEN');
 
@@ -33,6 +32,18 @@
                     if (!token) {
                         $location.path("/login");
                     }
+
+                    //login back button false
+//                    if ($location.path() === "/login") {
+//                        console.log("true");
+//                        SecurityUtilService.ping()
+//                                .success(function (data, status, headers) {
+////                                     $location.path("/login");
+//                                    $location.path("/");
+//                                })
+//                                .error(function (data, status, headers) {
+//                                });
+//                    }
                 });
             });
 }());

@@ -27,9 +27,9 @@
                     <tbody>
                         <tr>
                             <td><input id="route" class="form-control" smart-input="text" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.findByBranchAndRouteAndDate();"></td>
-                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="true" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
-                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeHelper" ng-disabled="true" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
-                            <td><input class="form-control" smart-input="text" ng-model="model.data.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeHelper" ng-disabled="ui.mode !== 'EDIT'" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.vehicle" ng-disabled="ui.mode !== 'EDIT'" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -219,44 +219,45 @@
                             </div>
                         </uib-tab>
                         <uib-tab heading="PENDING WEIGHT" index="2">
-                            <div class="col-xs-12">
-                                <table>
-                                    <col style="width: 10%"/>
-                                    <col style="width: 40%"/>
-                                    <col style="width: 30%"/>
-                                    <col style="width: 20%"/>
-                                    <col />
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th class="text-right">Date</th>
-                                            <th class="text-right">Route</th>
-                                            <th>&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                            <div ng-show="model.pendingGreenLeavesWeigh.length">
+                                <div class="col-xs-12">
+                                    <table>
+                                        <col style="width: 20%"/>
+                                        <col style="width: 25%"/>
+                                        <col style="width: 45%"/>
+                                        <col style="width: 20%"/>
+                                        <col />
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th class="text-left">Date</th>
+                                                <th class="text-right">Route</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 255px); margin-top: 5px;">
+                                    <table class="table-hover">
+                                        <col style="width: 20%"/>
+                                        <col style="width: 25%"/>
+                                        <col style="width: 45%"/>
+                                        <col style="width: 20%"/>
+                                        <col/>
+                                        <tbody>
+                                            <tr ng-repeat="greenLeavesWeight in model.pendingGreenLeavesWeigh">
+                                                <td class="text-left"><span class="label label-default">{{greenLeavesWeight.number|fixedLength:4}}</span></td>
+                                                <td class="text-left">{{greenLeavesWeight.date}}</td>
+                                                <td class="text-right">{{model.route(greenLeavesWeight.route).name}}</td>
+                                                <td class="text-center" style="padding-left: 5px;">
+                                                    <a class="btn btn-primary" ng-click="ui.loadWeight(greenLeavesWeight);"><span class="glyphicon glyphicon-floppy-save"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 255px); margin-top: 5px;" ng-show="model.pendingGreenLeavesWeigh.length">
-                                <table class="table-hover">
-                                    <col style="width: 10%"/>
-                                    <col style="width: 40%"/>
-                                    <col style="width: 30%"/>
-                                    <col style="width: 20%"/>
-                                    <col/>
-                                    <tbody>
-                                        <tr ng-repeat="greenLeavesWeight in model.pendingGreenLeavesWeigh">
-                                            <td class="text-right"><span class="label label-default">{{greenLeavesWeight.number}}</span></td>
-                                            <td class="text-right">{{greenLeavesWeight.date}}</td>
-                                            <td class="text-right">{{model.route(greenLeavesWeight.route).name}}</td>
-                                            <td class="text-center" style="padding-left: 5px;">
-                                                <a class="btn btn-primary" ng-click="ui.loadWeight(greenLeavesWeight);"><span class="glyphicon glyphicon-floppy-save"></span></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="placeholder col-xs-12" style="height: calc(100vh - 255px); margin-top: 5px;" ng-hide="model.pendingGreenLeavesWeigh.length">
+                            <div class="placeholder col-xs-12" style="height: calc(100vh - 209px); margin-top: 5px;" ng-hide="model.pendingGreenLeavesWeigh.length">
                                 <h1>NO PENDING GREEN LEAVES WEIGH TO DISPLAY :(</h1>
                             </div>
                         </uib-tab>
