@@ -39,6 +39,11 @@
         this.findByBranchAndDateAndClient = function (branch, date, client) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-weight/" + branch + "/" + date + "/" + client);
         };
+
+        //delete green leaves weigh and green leaves weigh details
+        this.deleteGreenLeavesWeigh = function (indexNo) {
+            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-green-leaves-weigh/" + indexNo);
+        };
     };
 
     angular.module("appModule")
