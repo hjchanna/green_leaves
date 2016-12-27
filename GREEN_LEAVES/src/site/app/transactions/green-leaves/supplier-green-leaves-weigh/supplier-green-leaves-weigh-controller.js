@@ -22,11 +22,14 @@
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
                         var searchClient = $scope.model.searchClientByClientNo($scope.model.data.searchClient);
-                        var client = $scope.model.client(searchClient.indexNo);
-                        $scope.model.data.route = client.route;
-                        if (!angular.isUndefined(client)) {
+                        if (angular.isUndefined(searchClient)) {
+                            $scope.model.data.client = null;
+                            Notification.error("client not found!");
+                        } else {
+                            var client = $scope.model.client(searchClient.indexNo);
+                            $scope.model.data.route = client.route;
                             $scope.model.data.client = client.indexNo;
-                            $scope.model.findByBranchAndDateAndClient();
+                            $scope.ui.findRoute();
                             $timeout(function () {
                                 document.querySelectorAll("#normal-qty")[0].focus();
                             }, 10);
@@ -37,6 +40,7 @@
                 $scope.ui.findRoute = function () {
                     var client = $scope.model.client($scope.model.data.client);
                     $scope.model.data.route = client.route;
+                    $scope.model.findByBranchAndDateAndClient();
                     $timeout(function () {
                         document.querySelectorAll("#normal-qty")[0].focus();
                     }, 10);
@@ -148,7 +152,6 @@
 
                 $scope.ui.save = function () {
                     $scope.ui.mode = "IDEAL";
-                    $scope.model.saveWeight();
                     $scope.model.clear();
                     $scope.ui.existClient = true;
                     $scope.ui.newClient = false;
@@ -180,6 +183,16 @@
 
                     $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
+                    }, true);
+
+                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
+                        if ($scope.model.data.greenLeaveWeighDetails.length > 0) {
+                            $scope.model.saveWeight();
+                        }
+                    }, true);
+
+                    $scope.$watch("model.data.date", function (newVal, oldVal) {
+                        $scope.model.findByBranchAndDateAndClient();
                     }, true);
                 };
                 $scope.ui.init();

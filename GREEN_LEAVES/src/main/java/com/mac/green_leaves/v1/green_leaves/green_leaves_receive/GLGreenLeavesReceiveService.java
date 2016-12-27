@@ -98,4 +98,8 @@ public class GLGreenLeavesReceiveService {
         }
         return receives.get(0);
     }
+
+    public void deleteGreenLeavesReceive(Integer indexNo) {
+        greenLeavesReceiveRepository.delete(indexNo);
+    }
 }

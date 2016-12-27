@@ -4,9 +4,19 @@
                 $scope.ui = {};
                 $scope.model = {};
 
+                $scope.ui.focus = null;
+
                 $scope.model.data = {
                     username: null,
                     password: null
+                };
+
+                $scope.ui.onFocus = function (val) {
+                    $scope.ui.focus = val;
+                };
+
+                $scope.ui.onBlur = function () {
+                    $scope.ui.focus = null;
                 };
 
                 $scope.ui.login = function (e) {
