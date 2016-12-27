@@ -12,6 +12,7 @@
                     $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 
                     //set default branch
+                    //ERR: get default branch from login info
                     $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
@@ -48,7 +49,7 @@
 
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
                     if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
-                        $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                        $scope.model.getPendingWeigh($scope.model.data.branch);
                     }
                 };
                 $scope.ui.delete = function () {

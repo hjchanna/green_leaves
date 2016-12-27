@@ -271,14 +271,14 @@ public class GLGreenLeavesWeighService {
     //pending bulk and supplier weigh confirm status update approve
     @Transactional
     public void confirmWeigh(Integer indexNo) {
-        greenLeavesWeighRepository.updateConfirmation(indexNo);
+        greenLeavesWeighRepository.approve(indexNo);
     }
 
     //find bulk green leaves weigh
     public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
         TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDateAndType(branch, route, date, TYPE_BULK);
         if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("bulk green leave weight not found branch,route and date" + branch + " , " + route + " and " + date);
+            throw new EntityNotFoundException("bulk green leave weigh not found branch,route and date" + branch + " , " + route + " and " + date);
         }
         return greenLeavesWeigh;
 
