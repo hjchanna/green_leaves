@@ -9,7 +9,6 @@
 //        "greenLeavesWeighModule",
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",
-        "greenLeavesPaymentModule",
         "priceSettingModule",
         "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
@@ -28,7 +27,8 @@
         "greenLeavesWeighReportModule",
         "chequeBookModule",
         "bankModule",
-        "bankBranchModule"
+        "bankBranchModule",
+        "receiveDashboardModule"
     ]);
 
     //constants
@@ -81,7 +81,7 @@
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
-                            controller: "greenLeavesPaymentController"
+                            controller: "GreenLeavesPaymentController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
                             templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
@@ -178,6 +178,10 @@
                         .when("/loan/loan-approve", {
                             templateUrl: "app/loan/loan-request/loan-approve.html",
                             controller: "LoanApproveController"
+                        })
+                        .when("/dashboard/dashboard", {
+                            templateUrl: "app/dashboard/receive-dashboard/receive-dashboard.html",
+                            controller: "receiveDashboardController"
                         })
 
                         .otherwise({
