@@ -1,8 +1,10 @@
 package com.mac.green_leaves.v1.system.environment;
 
+import com.mac.green_leaves.v1.security.SystemUser;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,10 +28,17 @@ public class SYEnvironmentController {
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public PingRespond ping() {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
         PingRespond pingRespond = new PingRespond();
-        pingRespond.setDateAndTime(sdfDate.format(now));
+        pingRespond.setDate(new Date());
+        if (principal instanceof SystemUser) {
+            SystemUser user = (SystemUser) principal;
+
+            pingRespond.setBranch(user.getBranch());
+            pingRespond.setUser(user.getUsername());
+        }
+
         return pingRespond;
     }
 

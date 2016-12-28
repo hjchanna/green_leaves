@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("LoginController", function ($scope, $location, LoginService) {
+            .controller("LoginController", function ($scope, $location, $timeout, SecurityService) {
                 $scope.ui = {};
                 $scope.model = {};
 
@@ -23,11 +23,22 @@
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
                         if ($scope.model.data.username && $scope.model.data.password) {
-                            LoginService.login($scope.model.data, function (authenticated) {
-                                if (authenticated) {
-                                    $location.path("/home");
-                                }
-                            });
+                            //login
+                            SecurityService.login($scope.model.data)
+                                    .success(function (data, status, headers) {
+                                        $location.path("/");
+                                    })
+                                    .error(function (data, status) {
+                                        console.log(data);
+                                        console.log(status);
+
+                                        var element = angular.element(document.querySelectorAll(".login-form")[0])
+                                        element.addClass("login-failed");
+                                        $timeout(function () {
+                                            element.removeClass("login-failed");
+                                        }, 1000);
+
+                                    });
                         }
                     }
                 };
