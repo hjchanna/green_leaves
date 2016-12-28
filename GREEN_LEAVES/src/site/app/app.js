@@ -27,7 +27,8 @@
         "greenLeavesWeighReportModule",
         "chequeBookModule",
         "bankModule",
-        "bankBranchModule"
+        "bankBranchModule",
+        "receiveDashboardModule"
     ]);
 
     //constants
@@ -177,6 +178,10 @@
                         .when("/loan/loan-approve", {
                             templateUrl: "app/loan/loan-request/loan-approve.html",
                             controller: "LoanApproveController"
+                        })
+                        .when("/dashboard/dashboard", {
+                            templateUrl: "app/dashboard/receive-dashboard/receive-dashboard.html",
+                            controller: "receiveDashboardController"
                         })
 
                         .otherwise({
