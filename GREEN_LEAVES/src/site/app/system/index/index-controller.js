@@ -3,6 +3,13 @@
             .controller("IndexController", function ($scope, $rootScope, $location, SecurityService) {
                 $scope.hamburgerOpen = false;
 
+                //route loading
+                $rootScope.$watch("layout.loading", function () {
+                    $scope.routeLoading = $rootScope.layout.loading;
+//                    
+                    console.log("*****************" + $scope.layout.loading)
+                });
+
                 $scope.userRoles = $rootScope.userRoles;
 //                        [
 //                    {
