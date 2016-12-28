@@ -20,6 +20,7 @@ import org.springframework.data.repository.query.Param;
  * @author Don
  */
 public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Serializable> {
+
     @Query(value = "SELECT \n"
             + "sum(t_green_leaves_weigh.normal_net_weight),\n"
             + "sum(t_green_leaves_weigh.super_net_weight)\n"
@@ -31,5 +32,23 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "AND route_helper = :routeHelper \n"
             + "AND vehicle = :vehicle \n"
             + "AND type = 'BULK'", nativeQuery = true)
-    public List<Object[]> getBulkGreenLeavesWeighSummary(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer route, @Param("routeOfficer") Integer routeOfiicer, @Param("routeHelper") Integer routeHelper, @Param("vehicle") Integer vehicle);
+    public List<Object[]> getBulkGreenLeavesWeighTotal(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer route, @Param("routeOfficer") Integer routeOfiicer, @Param("routeHelper") Integer routeHelper, @Param("vehicle") Integer vehicle);
+
+    @Query(value = "SELECT \n"
+            + "t_green_leaves_weigh.index_no,\n"
+            + "t_green_leaves_weigh.route,\n"
+            + "t_green_leaves_weigh.date,\n"
+            + "sum(t_green_leaves_weigh.normal_net_weight),\n"
+            + "sum(t_green_leaves_weigh.super_net_weight) \n"
+            + "FROM  t_green_leaves_weigh \n"
+            + "WHERE (date BETWEEN :formDate AND :toDate) \n"
+            + "AND route = :route \n"
+            + "AND route_officer = :routeOfficer \n"
+            + "AND route_helper = :routeHelper \n"
+            + "AND vehicle = :vehicle \n"
+            + "AND type = :type GROUP BY t_green_leaves_weigh.route", nativeQuery = true)
+    public List<Object[]> getGreenLeavesWeighSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer route, @Param("routeOfficer") Integer routeOfiicer, @Param("routeHelper") Integer routeHelper, @Param("vehicle") Integer vehicle, @Param("type") String type);
+    
+    @Query(value = "", nativeQuery = true)
+    public List<Object[]> getGreenLeavesWeighSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer client);
 }

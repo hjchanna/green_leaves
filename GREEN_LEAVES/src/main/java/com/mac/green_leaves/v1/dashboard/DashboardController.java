@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,6 +7,7 @@ package com.mac.green_leaves.v1.dashboard;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Don
  */
-
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/dash-board")
@@ -33,7 +31,15 @@ public class DashboardController {
     @RequestMapping(value = "/find-green-leave-dashboard-summary/{fromDate}/{toDate}/{route}/{routeOfficer}/{routeHelper}/{vehicle}", method = RequestMethod.GET)
     public HashMap<String, Object> getGeenLeavesTotalSummary(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer route, @PathVariable Integer routeOfficer, @PathVariable Integer routeHelper, @PathVariable Integer vehicle) {
         return dashboardService.getGeenLeavesTotalSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle);
-
     }
 
+    @RequestMapping(value = "/find-green-leave-dashboard-weigh/{fromDate}/{toDate}/{route}/{routeOfficer}/{routeHelper}/{vehicle}/{type}", method = RequestMethod.GET)
+    public List<Object[]> getBulkGreenLeavesWeighSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer route, @PathVariable Integer routeOfficer, @PathVariable Integer routeHelper, @PathVariable Integer vehicle, @PathVariable String type) {
+        return dashboardService.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type);
+    }
+
+//    @RequestMapping(value = "/find-green-leave-dashboard-supplier-weigh/{fromDate}/{toDate}/{client}", method = RequestMethod.GET)
+//    public List<Object[]> getSupplierGreenLeavesWeighSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer client) {
+//        return dashboardService.getGreenLeavesWeighSummry(fromDate, toDate, client);
+//    }
 }

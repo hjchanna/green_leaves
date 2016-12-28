@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (GreenLeavesDashBoardService, GreenLeavesDashBoardModelFactory, $q) {
+    var factory = function (GreenLeavesDashBoardService, GreenLeavesDashBoardModelFactory, $filter, $q) {
         function GreenLeavesDashBoardModel() {
             this.constructor();
         }
@@ -8,30 +8,86 @@
         GreenLeavesDashBoardModel.prototype = {
             //data
             data: {},
+            totalSummry: {},
             //route information
-            greenLeavesReceiveList: [],
-            greenLeavesWeighList: [],
-            greenLeavesSupplierWeighList: [],
+            routes: [],
+            //branch information
+            branchs: [],
+            //route officer information
+            routeOfficers: [],
+            //route helper information
+            routeHelpers: [],
+            //vehicle information 
+            vehicles: [],
+//            greenLeavesReceiveList: [],
+            greenLeavesBulkWeighList: [],
+//            greenLeavesSupplierWeighList: [],
             constructor: function () {
                 var that = this;
-
                 that.data = GreenLeavesDashBoardModelFactory.newData();
+                that.totalSummry = GreenLeavesDashBoardModelFactory.totalSummry();
+
+                GreenLeavesDashBoardService.loadRoutes()
+                        .success(function (data) {
+                            that.routes = data;
+                        });
+                GreenLeavesDashBoardService.loadRouteOfficers()
+                        .success(function (data) {
+                            that.routeOfficers = data;
+                        });
+
+                GreenLeavesDashBoardService.loadRouteHelpers()
+                        .success(function (data) {
+                            that.routeHelpers = data;
+                        });
+
+                GreenLeavesDashBoardService.loadVehicles()
+                        .success(function (data) {
+                            that.vehicles = data;
+                        });
+
             },
-            loadData: function () {
+            greenLeavesAllSummry: function () {
                 var defer = $q.defer();
 
                 var that = this;
-                var toDate = this.data.toDate;
-                var fromDate = this.data.fromDate;
-                var route = this.data.route;
-                var routeOfficer = this.data.routeOfficer;
-                var routeHelper = this.data.routeHelper;
-                var vehicle = this.data.vehicle;
-                
-                GreenLeavesDashBoardService.getGreenLeavesSummary(toDate, fromDate,route,routeOfficer,routeHelper,vehicle)
+                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
+                var route = that.data.route;
+                var routeOfficer = that.data.routeOfficer;
+                var routeHelper = that.data.routeHelper;
+                var vehicle = that.data.vehicle;
+
+                GreenLeavesDashBoardService.getGreenLeavesSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle)
                         .success(function (data) {
-                            that.data = {};
-                            angular.extend(that.data, data);
+
+//                            that.totalSummry = {};
+//                            angular.extend(that.totalSummry, data);
+//                            console.log(that.totalSummry);
+//                            console.log(that.greenLeavesBulkWeighList);
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+                            that.greenLeavesBulkWeighList = [];
+                        });
+
+                return defer.promise;
+            },
+            getGreenLeavesWeighSummry: function (type) {
+                var defer = $q.defer();
+
+                var that = this;
+                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
+                var route = that.data.route;
+                var routeOfficer = that.data.routeOfficer;
+                var routeHelper = that.data.routeHelper;
+                var vehicle = that.data.vehicle;
+
+                GreenLeavesDashBoardService.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type)
+                        .success(function (data) {
+                            that.greenLeavesBulkWeighList = data;
                             defer.resolve();
                         })
                         .error(function () {
@@ -39,6 +95,50 @@
                         });
 
                 return defer.promise;
+            },
+            //return label for route
+            routeLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.routes, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.indexNo + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
+            },
+            //return label for route officer
+            routeOfficerLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.routeOfficers, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.indexNo + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
+            },
+            //return label for route helpers
+            routeHelperLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.routeHelpers, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.indexNo + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
+            },
+            //return label for route officer
+            vehicleLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.vehicles, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.indexNo + "-" + value.vehicleNo;
+                        return;
+                    }
+                });
+                return label;
             }
         };
         return GreenLeavesDashBoardModel;
