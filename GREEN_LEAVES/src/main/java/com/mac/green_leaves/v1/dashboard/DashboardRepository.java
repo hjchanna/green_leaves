@@ -48,7 +48,6 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "AND vehicle = :vehicle \n"
             + "AND type = :type GROUP BY t_green_leaves_weigh.route", nativeQuery = true)
     public List<Object[]> getGreenLeavesWeighSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer route, @Param("routeOfficer") Integer routeOfiicer, @Param("routeHelper") Integer routeHelper, @Param("vehicle") Integer vehicle, @Param("type") String type);
-    
-    @Query(value = "", nativeQuery = true)
-    public List<Object[]> getGreenLeavesWeighSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer client);
+
+    public List<TGreenLeavesWeigh> findByIndexNo(Integer indexNo);
 }

@@ -33,8 +33,8 @@
                     });
                 };
 
-                this.modalOpen = function (templateUrl, controller) {
-                    return this.showModel(templateUrl, controller);
+                this.modalOpen = function (size, templateUrl, controller) {
+                    return this.showModel(size, templateUrl, controller);
                 };
 
             });

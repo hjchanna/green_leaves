@@ -1,11 +1,11 @@
 (function () {
     angular.module("receiveDashboardModule", []);
     angular.module("receiveDashboardModule")
-            .controller("receiveDashboardController", function ($scope, GreenLeavesDashBoardModel) {
+            .controller("receiveDashboardController", function ($scope, ModalDialog, GreenLeavesDashBoardModel) {
                 $scope.model = new GreenLeavesDashBoardModel();
 
                 $scope.ui = {};
-                
+
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
                 };
@@ -44,6 +44,60 @@
                             $scope.model.getGreenLeavesWeighSummry('SUPPLIER');
                         }
                     }, true);
+                };
+
+                $scope.ui.modalOpen = function (indexNo) {
+                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
+                    ModalDialog.modalOpen("lg","greenLeavesWeighSummry.html", "receiveDashboardController");
+                };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+
+                $scope.data = [
+                    [65, 59, 80, 81, 56, 55, 40],
+                    [28, 48, 40, 19, 86, 27, 90]
+                ];
+
+                $scope.onClick = function (points, evt) {
+                    console.log(points, evt);
+                };
+
+                $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
+                $scope.options = {
+                    scales: {
+                        yAxes: [
+                            {
+                                id: 'y-axis-1',
+                                type: 'linear',
+                                display: true,
+                                position: 'left'
+                            },
+                            {
+                                id: 'y-axis-2',
+                                type: 'linear',
+                                display: true,
+                                position: 'right'
+                            }
+                        ]
+                    }
                 };
 
                 $scope.ui.init();

@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.dashboard;
 
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +39,8 @@ public class DashboardController {
         return dashboardService.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type);
     }
 
-//    @RequestMapping(value = "/find-green-leave-dashboard-supplier-weigh/{fromDate}/{toDate}/{client}", method = RequestMethod.GET)
-//    public List<Object[]> getSupplierGreenLeavesWeighSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer client) {
-//        return dashboardService.getGreenLeavesWeighSummry(fromDate, toDate, client);
-//    }
+    @RequestMapping(value = "/find-green-leave-dashboard-weigh-by-indexNo/{indexNo}", method = RequestMethod.GET)
+    public List<TGreenLeavesWeigh> getBulkGreenLeavesWeighSummry(@PathVariable Integer indexNo) {
+        return dashboardService.getGreenLeavesWeighSummryByIndexNo(indexNo);
+    }
 }

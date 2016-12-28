@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.dashboard;
 
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,13 +38,17 @@ public class DashboardService {
         getTotalSummaryMap.put("bulkReceiveNormalTotal", 0.0);
         getTotalSummaryMap.put("bulkReceiveSuperTotal", 0.0);
         getTotalSummaryMap.put("supplierWeighNormalTotal", 0.0);
-        getTotalSummaryMap.put("supplierWeighSuperTotal",  0.0);
+        getTotalSummaryMap.put("supplierWeighSuperTotal", 0.0);
         getTotalSummaryMap.put("supplierReceiveSuperTotal", 0.0);
         getTotalSummaryMap.put("supplierReceiveNormalTotal", 0.0);
         return getTotalSummaryMap;
     }
-    
-    public List<Object[]> getGreenLeavesWeighSummry(Date fromDate, Date toDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle,String type){
-        return dashboardRepository.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle,type);
+
+    public List<Object[]> getGreenLeavesWeighSummry(Date fromDate, Date toDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, String type) {
+        return dashboardRepository.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type);
+    }
+
+    List<TGreenLeavesWeigh> getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
+       return dashboardRepository.findByIndexNo(indexNo);
     }
 }

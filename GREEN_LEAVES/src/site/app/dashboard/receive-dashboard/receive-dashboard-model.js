@@ -19,6 +19,7 @@
             routeHelpers: [],
             //vehicle information 
             vehicles: [],
+            greenLeavesWeigh: [],
 //            greenLeavesReceiveList: [],
             greenLeavesBulkWeighList: [],
 //            greenLeavesSupplierWeighList: [],
@@ -26,6 +27,7 @@
                 var that = this;
                 that.data = GreenLeavesDashBoardModelFactory.newData();
                 that.totalSummry = GreenLeavesDashBoardModelFactory.totalSummry();
+                that.greenLeavesWeigh = GreenLeavesDashBoardModelFactory.greenLeavesWeigh();
 
                 GreenLeavesDashBoardService.loadRoutes()
                         .success(function (data) {
@@ -60,11 +62,8 @@
 
                 GreenLeavesDashBoardService.getGreenLeavesSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle)
                         .success(function (data) {
-
-//                            that.totalSummry = {};
-//                            angular.extend(that.totalSummry, data);
-//                            console.log(that.totalSummry);
-//                            console.log(that.greenLeavesBulkWeighList);
+                            that.totalSummry = {};
+                            angular.extend(that.totalSummry, data);
                             defer.resolve();
                         })
                         .error(function () {
@@ -88,6 +87,22 @@
                 GreenLeavesDashBoardService.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type)
                         .success(function (data) {
                             that.greenLeavesBulkWeighList = data;
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+                        });
+
+                return defer.promise;
+            },
+            //
+            greenLeaveWeighDetailsByIndexNo: function (indexNo) {
+                console.log(indexNo);
+                var defer = $q.defer();
+                var that = this;
+                GreenLeavesDashBoardService.greenLeaveWeighDetailsByIndexNo(indexNo)
+                        .success(function (data) {
+                            that.greenLeavesWeigh = data;
                             defer.resolve();
                         })
                         .error(function () {
