@@ -9,7 +9,6 @@
 //        "greenLeavesWeighModule",
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",
-        "greenLeavesPaymentModule",
         "priceSettingModule",
         "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
@@ -82,7 +81,7 @@
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
-                            controller: "greenLeavesPaymentController"
+                            controller: "GreenLeavesPaymentController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
                             templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
