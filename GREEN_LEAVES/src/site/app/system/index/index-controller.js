@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("IndexController", function ($scope, $rootScope, $location) {
+            .controller("IndexController", function ($scope, $rootScope, $location, SecurityService) {
                 $scope.hamburgerOpen = false;
 
                 $scope.userRoles = $rootScope.userRoles;
@@ -44,6 +44,13 @@
 
                 $scope.isHomepage = function () {
                     return $location.path() === "/";
+                };
+
+                $scope.logout = function () {
+                    SecurityService.logout()
+                            .success(function () {
+                                $location.path("/login");
+                            });
                 };
 
 
