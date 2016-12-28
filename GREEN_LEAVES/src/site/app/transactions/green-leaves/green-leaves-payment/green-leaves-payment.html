@@ -13,9 +13,9 @@
 <div class="index-content-body">
     <!--start left div-->
     <div class="col-xs-8 background-light">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 55px);">
-            <div class="col-xs-12" style="height: 120px; padding-top: 5px">
-                <table class="background-dark" style="border-radius: 5px">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12 background-dark border-dark-bottom" style="height: 40px">
+                <table class="control-table">
                     <col style="width: 50%">
                     <col style="width: 50%">
                     <col />
@@ -23,23 +23,17 @@
                         <tr>
                             <td>
                                 <input  id="type"  class="form-control" placeholder="advance type" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" >
-                                <!--                                <select class="form-control" id="sel2">
-                                                                    <option>Empyolee Advance Payment</option>
-                                                                    <option>Green Leaves  Advance Payment</option>
-                                                                    <option>Loan  Advance Payment</option>
-                                                                    <option>Other</option>
-                                                                </select>-->
                             </td>
                             <td>
-                                 <input class="form-control" id="transaction"   input-hint="transaction number" smart-input="integer" ng-model="model.tempData.transaction" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
+                                <input class="form-control" id="transaction"   input-hint="transaction number" smart-input="integer" ng-model="model.data.transaction" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" class="form-control" placeholder="select route officer" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input type="text" class="form-control" placeholder="select route officer" ng-model="model.employee" uib-typeahead="employee as (employee.indexNo+' - '+employee.name) for employee in model.employees|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
-                                <input class="form-control" placeholder="search client" ng-model="model.client"  uib-typeahead="client as (client.name) for client in model.clients|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control" placeholder="search client" ng-model="model.client"  uib-typeahead="client as (client.clientNumber+' - '+client.name) for client in model.clients|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                     </thead>
@@ -47,17 +41,19 @@
             </div>
             <!--start table header div-->
             <!--end table header div-->
-            <div class="col-xs-12" style="flex: 0 0 auto; height:35px;" ng-show="model.vouchers.length">
+            <div class="col-xs-12" style="flex: 0 0 auto;" ng-show="model.vouchers.length">
                 <table>
                     <col style="width: 10%">
-                    <col style="width: 40%">
                     <col style="width: 25%">
                     <col style="width: 25%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Description</th>
                             <th>Client</th>
+                            <th>Payment Type</th>
                             <th class="text-right">Amount</th>
                         </tr>
                     </thead>
@@ -65,16 +61,18 @@
             </div>
             <!--end table body div-->
             <div class="col-xs-12 smart-scroll-y" ng-show="model.vouchers.length">
-                <table class="table-hover">
+                <table class="control-table">
                     <col style="width: 10%">
-                    <col style="width: 40%">
                     <col style="width: 25%">
                     <col style="width: 25%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
                     <tbody>
-                        <tr ng-class="ui.selectedDetailIndex === voucher.indexNo ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter : model.client" ng-click="ui.selectDetail(voucher.indexNo);">
+                        <tr ng-class="ui.selectedDetailIndex === voucher.indexNo ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter :{client: model.client.indexNo} |filter :{employee: model.employee.indexNo} " ng-click="ui.selectDetail(voucher.indexNo);">
                             <td><span class="label label-default">{{voucher.indexNo}}</span></td>
                             <td>{{voucher.description}}</td>
                             <td>{{model.getClient(voucher.client).name}}</td>
+                            <td>Cash</td>
                             <td class="text-right">{{voucher.amount}}</td>
                         </tr>
                     </tbody>
@@ -84,7 +82,7 @@
                 <h1>NO VOUCHERS AVAILABLE :(</h1>
             </div>
             <!--end table body div-->
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 39px;">
+            <div class="col-xs-12" style="flex: 0 0 auto; height: 41px;">
                 <table>
                     <col style="width: 70%"/>
                     <col style="width: 30%"/>
@@ -114,10 +112,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <label for="amount2" class="control-label text-left">Amount</label>
+                                            <label for="amount" class="control-label text-left">Amount</label>
                                         </td>
                                         <td>
-                                            <input class="form-control text-right" id="amount2" type="text" ng-model="model.tempData.cashAmount">
+                                            <input class="form-control text-right" id="amount" type="text" ng-model="model.data.cashAmount">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -128,58 +126,118 @@
                     <!--start cheque - 2nd tab-->
                     <uib-tab index="1" heading="Cheque">
                         <div class="col-xs-12" style="margin-top: 10px;">
-                            <input type="button" style="float: right;padding-right: 15px;" value="Cheque Info" ng-click="ui.checkinfo()" class="btn btn-primary btn-xs"/>
+                            <input type="button" style="float: right;padding-right: 15px;" value="Cheque Info" ng-click="ui.modalOpen()" class="btn btn-primary btn-xs"/>
                         </div>
                         <!--start table header-->
                         <!--end table header-->
                         <!--start table body-->
-                        <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 400px);" ng-show="model.data.chequeDetails.length">
+                        <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 400px);" ng-show="model.data.companyCheque.length">
                             <table class="table-hover">
                                 <col style="width: 55%">
                                 <col style="width: 30%">
                                 <col style="width: 15%">
                                 <tbody>
-                                    <tr>
-                                        <td>4646661</td>
-                                        <td class="text-right">5000.00</td>
+                                    <tr ng-repeat="companyCheque in model.data.companyCheque">
+                                        <td>{{companyCheque.chequeNo}}</td>
+                                        <td class="text-right">{{companyCheque.amount}}</td>
                                         <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
                                     </tr>
-                                    <tr>
-                                        <td>4646661</td>
-                                        <td class="text-right">5000.00</td>
-                                        <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4646661</td>
-                                        <td class="text-right">5000.00</td>
-                                        <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4646661</td>
-                                        <td class="text-right">5000.00</td>
-                                        <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4646661</td>
-                                        <td class="text-right">5000.00</td>
-                                        <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4646661</td>
-                                        <td class="text-right">5000.00</td>
-                                        <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                             <!--end table body-->
                         </div>
-                        <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 400px);" ng-hide="model.data.chequeDetails.length">
+                        <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 380px);" ng-hide="model.data.companyCheque.length">
                             <h1>PLEASE ADD CHEQUE TO DISPLAY :(</h1>
                         </div>
                     </uib-tab>
                     <!--end cheque - 2nd tab-->
+                    <uib-tab index="2" heading="Bank">
+                        <div class="col-xs-12" style="margin-top: 10px;">
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col />
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label for="bank" class="control-label text-left">Bank</label>
+                                        </td>
+                                        <td>
+                                            <input class="form-control text-right" id="bank" type="text" ng-model="model.bank">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </uib-tab>
 
                 </uib-tabset>
+                <!--cheque pop up modal-->
+                <div class="col-xs-4 col-xs-offset-3">
+                    <script type="text/ng-template" id="cheque.html"> 
+                        <div class="modal-header">
+                        <h3 class="modal-title">Cheque Detail</h3>
+                        </div>
+                        <div class="modal-body">
+                        <table class="control-table with-label">
+                        <col style="width: 20%"/>
+                        <col style="width: 25%"/>
+                        <col style="width: 20%"/>
+                        <col style="width: 25%"/>
+                        <col style="width: 10%"/>
+                        <col />
+
+                        <thead class="background-dark"> 
+                        <tr>
+                        <th>
+                        <label>Cheque Book</label>
+                        <input id="normal-qty" class="form-control" ng-model="model.tempData.indexNo" uib-typeahead="indexNo as (indexNo.indexNo) for indexNo in model.chequeBooks|filter:$viewValue|limitTo:7">
+                        </th>
+                        <th>
+                        <label>Cheque No</label>
+                        <input class="form-control" ng-model="model.tempData.chequeNo">
+                        </th>
+                        <th>
+                        <label>Date</label>
+                        <input class="form-control" ng-model="model.tempData.bankDate" smart-input="date">
+                        </th>
+                        <th class="text-right">
+                        <label>Amount</label>
+                        <input class="form-control text-right" ng-model="model.tempData.amount">
+                        </th>
+                        <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
+                        <button type="button" class="btn btn-primary" ng-click="ui.insertChequeDetails();">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        </th>
+                        </tr>
+                        </thead>
+                        </table>
+
+                        <table class="table-hover">
+                        <col style="width: 20%"/>
+                        <col style="width: 25%"/>
+                        <col style="width: 20%"/>
+                        <col style="width: 25%"/>
+                        <col style="width: 10%"/>
+                        <col />
+                        <tbody>
+                        <tr ng-repeat="companyCheque in model.data.companyCheque">
+                        <td>{{companyCheque.indexNo.indexNo}}</td>
+                        <td>{{companyCheque.chequeNo}}</td>
+                        <td>{{companyCheque.bankDate | date}}</td>
+                        <td class="text-right">{{companyCheque.amount}}</td>
+                        <td class="text-center" style="padding-left: 5px;">
+                        <button class="btn btn-danger" ng-click="ui.deleteDetail(companyCheque.indexNo);"><span class="glyphicon glyphicon-minus"></span></button>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+
+                        </div>
+                    </script>
+                </div>
             </div>
             <!--start payemnt summry-->
             <div class="col-xs-12">
@@ -200,7 +258,7 @@
                                 <label class="control-label text-left">Total Cash</label>
                             </td>
                             <td>
-                                <label class="control-label text-left">{{model.tempData.cashAmount|number:2}}</label>
+                                <label class="control-label text-left">{{model.data.cashAmount|number:2}}</label>
                             </td>
                         </tr>
                         <tr>
@@ -209,6 +267,14 @@
                             </td>
                             <td>
                                 <label for="totalCheque" class="control-label text-left">3000.00</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="totalBank" class="control-label text-left">Bank Amount</label>
+                            </td>
+                            <td>
+                                <label for="totalBank" class="control-label text-left">5000.00</label>
                             </td>
                         </tr>
                         <tr>
@@ -236,20 +302,20 @@
     </div>
     <!--end right div-->
 </div>
- <div class="fab-container">
-        <!--discard-->
-        <a class="fab fab-default" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-        <!--load-->
-        <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
-        <!--clear-->
-        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
-        <!--delete-->
-        <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
-        <!--edit-->
-        <a class="fab fab-success" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+<div class="fab-container">
+    <!--discard-->
+    <a class="fab fab-default" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+    <!--load-->
+    <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+    <!--clear-->
+    <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
+    <!--delete-->
+    <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+    <!--edit-->
+    <a class="fab fab-success" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
 
-        <!--new-->
-        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
-        <!--save-->
-        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
-    </div>
+    <!--new-->
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    <!--save-->
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>

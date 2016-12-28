@@ -11,11 +11,11 @@
                         "date": null,
                         "cashier": null,
                         "voucher": null,
-                        "amount": 0,
+                        "amount": 200,
                         "cashAmount": 0,
-                        "chequeAmount": 0,
-                        "status": null
-
+                        "chequeAmount": 100,
+                        "status": null,
+                        "companyCheque" : []
                     };
                     return data;
                 };
@@ -23,15 +23,9 @@
                 factory.newTempData = function () {
                     var tempData = {
                         "indexNo": null,
-                        "branch": null,
-                        "transactiion": 0,
-                        "date": null,
-                        "cashier": null,
-                        "voucher": null,
-                        "amount": 200,
-                        "cashAmount": 0,
-                        "chequeAmount": 100,
-                        "status": null
+                        "chequeNo": null,
+                        "bankDate": null,
+                        "amount" : null
                     };
 
                     return tempData;

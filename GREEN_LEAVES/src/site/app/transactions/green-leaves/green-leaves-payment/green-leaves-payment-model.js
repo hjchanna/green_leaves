@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("GreenLeavesPaymentModel", function (GreenLeavesPaymentModelFactory, GreenLeavesPaymentService, optionPane) {
+            .factory("GreenLeavesPaymentModel", function (GreenLeavesPaymentModelFactory, GreenLeavesPaymentService, optionPane, ModalDialog) {
                 function GreenLeavesPaymentModel() {
                     this.constructor();
                 }
@@ -10,11 +10,15 @@
                     data: {},
                     tempData: {},
                     //voucher summary
-                    amount :0,
+                    amount: 0,
                     //client details
                     clients: [],
+                    //employee details
+                    employees: [],
                     //voucher details
                     vouchers: [],
+                    //cheque books detail
+                    chequeBooks: [],
                     constructor: function () {
                         var that = this;
 
@@ -25,13 +29,23 @@
                                 .success(function (data) {
                                     that.clients = data;
                                 });
+                        GreenLeavesPaymentService.loadEmployees()
+                                .success(function (data) {
+                                    that.employees = data;
+                                });
                         GreenLeavesPaymentService.vouchers()
                                 .success(function (data) {
                                     that.vouchers = data;
                                 });
+                        GreenLeavesPaymentService.loadChequeBook()
+                                .success(function (data) {
+                                    that.chequeBooks = data;
+                                });
                     },
+                    // clear data
                     clear: function () {
-
+                        var that = this;
+                        that.tempData = GreenLeavesPaymentModelFactory.newTempData();
                     },
                     //get client
                     getClient: function (indexNo) {
@@ -53,11 +67,12 @@
                         angular.forEach(this.vouchers, function (value) {
                             if (value.indexNo === indexNo) {
                                 that.amount = value.amount;
-                                that.tempData.voucher = indexNo;
+                                that.data.voucher = indexNo;
 
                             }
                         });
                     },
+                    //
                     getRequestTotal: function (indexNo) {
                         var total = 0.0;
 
@@ -69,12 +84,16 @@
 
                         return total;
                     },
+                    //insert cheque details
+                    insertChequeDetails: function () {
+                        var that = this;
+                        that.data.companyCheque.push(that.tempData);
+                    },
                     //save voucher payment
                     save: function () {
-                        console.log(this.tempData);
+                        console.log(this.data);
 
-                        var data = JSON.stringify(this.tempData);
-//
+                        var data = JSON.stringify(this.data);
                         GreenLeavesPaymentService.saveVoucherPayment(data)
                                 .success(function (data) {
                                     optionPane.successMessage("added successfully.");

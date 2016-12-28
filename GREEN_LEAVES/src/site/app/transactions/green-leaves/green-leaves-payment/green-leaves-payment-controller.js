@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, GreenLeavesPaymentModel, $timeout) {
+    var controller = function ($scope, GreenLeavesPaymentModel, $timeout, ModalDialog) {
         $scope.model = new GreenLeavesPaymentModel();
 
 
@@ -31,12 +31,18 @@
             }, 10);
         };
 
-        $scope.ui.checkinfo = function () {
-        };
-
         $scope.ui.selectDetail = function (indexNo) {
             $scope.model.selectDetail(indexNo);
             $scope.ui.selectedDetailIndex = indexNo;
+        };
+
+        $scope.ui.modalOpen = function () {
+            ModalDialog.modalOpen("cheque.html", "GreenLeavesPaymentController");
+        };
+        
+        $scope.ui.insertChequeDetails =function (){
+            $scope.model.insertChequeDetails();
+            $scope.model.clear();
         };
 
         $scope.ui.save = function () {
