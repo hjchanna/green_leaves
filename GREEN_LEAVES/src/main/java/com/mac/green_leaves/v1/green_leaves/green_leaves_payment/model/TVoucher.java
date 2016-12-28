@@ -46,6 +46,11 @@ public class TVoucher implements Serializable {
     private Integer transaction;
 
     @NotNull
+    @Column(name = "transaction_type")
+    @Basic(optional = false)
+    private int transaction_type;
+
+    @NotNull
     @Column(name = "date")
     @Basic(optional = false)
     private Date date;
@@ -67,6 +72,11 @@ public class TVoucher implements Serializable {
     @Basic(optional = false)
     @Column(name = "amount")
     private BigDecimal amount;
+    
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "payment_type")
+    private String payment_type;
 
     @NotNull
     @Basic(optional = false)
@@ -80,15 +90,17 @@ public class TVoucher implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TVoucher(Integer indexNo, Integer branch, Integer transaction, Date date, int client, int employee, String description, BigDecimal amount, String status) {
+    public TVoucher(Integer indexNo, Integer branch, Integer transaction, int transaction_type, Date date, int client, int employee, String description, BigDecimal amount, String payment_type, String status) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.transaction = transaction;
+        this.transaction_type = transaction_type;
         this.date = date;
         this.client = client;
         this.employee = employee;
         this.description = description;
         this.amount = amount;
+        this.payment_type = payment_type;
         this.status = status;
     }
 
@@ -114,6 +126,14 @@ public class TVoucher implements Serializable {
 
     public void setTransaction(Integer transaction) {
         this.transaction = transaction;
+    }
+
+    public int getTransaction_type() {
+        return transaction_type;
+    }
+
+    public void setTransaction_type(int transaction_type) {
+        this.transaction_type = transaction_type;
     }
 
     public Date getDate() {
@@ -154,6 +174,14 @@ public class TVoucher implements Serializable {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
     }
 
     public String getStatus() {
