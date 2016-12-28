@@ -48,7 +48,7 @@
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-detail/" + indexNo);
         };
 
-        //delete green leaves receive and green leaves receive details
+        //delete green leaves weigh and green leaves weigh details
         this.deleteGreenLeavesWeigh = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/delete-green-leaves-weigh/" + indexNo);
         };
