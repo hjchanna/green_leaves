@@ -9,7 +9,7 @@
 
                     <tbody>
                         <tr>
-                            <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.getPendingGreenLeavesWeigh();"></td>
+                            <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>
                             <td><input class="form-control" smart-input="date"  ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'"></td>
                             <td><input class="form-control" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event)"  input-hint="transaction number"  ng-disabled="ui.mode === 'EDIT'"></td>
                         </tr>
@@ -255,8 +255,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="placeholder col-xs-12" style="height: calc(100vh - 211px); margin-top: 5px;" ng-hide="model.pendingGreenLeavesWeigh.length">
-                                <h1>NO PENDING GREEN LEAVES WEIGH TO DISPLAY :(</h1>
+
+                            <div class="placeholder col-xs-12" style="height: calc(100vh - 209px); margin-top: 5px;" ng-hide="model.pendingGreenLeavesWeigh.length">
+                                <h1>
+                                    NO PENDING GREEN LEAVES WEIGH TO DISPLAY :(<br>
+                                    <button class="btn btn-default" ng-click="ui.getPendingGreenLeavesWeigh()"><label class="glyphicon glyphicon-arrow-up"></label>&nbsp;&nbsp; VIEW PENDING WEIGH</button>
+                                </h1>
                             </div>
                         </uib-tab>
                     </uib-tabset>
@@ -308,8 +312,8 @@
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalGeneralDeductionPercent"  smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalGeneralDeduction" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalGeneralDeductionPercent">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalGeneralDeduction" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
@@ -394,8 +398,8 @@
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superGeneralDeductionPercent" ng-disabled="ui.mode !== 'EDIT'">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superGeneralDeduction" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superGeneralDeductionPercent" ng-disabled="true">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superGeneralDeduction" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
