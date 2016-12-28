@@ -196,3 +196,48 @@ body{
 .clickable{
     cursor: pointer;
 }
+
+.page-loading{
+    display: block;
+    position: absolute;
+
+    width: 100%;
+    height: 100vh;
+    top: 0;
+
+    z-index: 1000;
+
+    background-color: $primary-color;
+}
+
+.page-loading.exit{
+    animation: ease 0.25s fadeOut;
+}
+
+.route-loading{
+    display: block;
+    position: absolute;
+    
+    left: 250px;
+    top: 50px;
+    
+    height: calc(100vh - 50px);
+    width: calc(100% - 250px);
+    
+    background: $bg-dark-color-border;
+}
+
+
+.route-loading > .spinner{
+    div{
+        background-color: $primary-color !important;
+    }
+}
+
+.route-loading.ng-hide-add{
+    animation: ease 0.7s fadeOut;
+}
+
+.route-loading.ng-hide-remove{
+    animation: ease 0.7s fadeIn;
+}
