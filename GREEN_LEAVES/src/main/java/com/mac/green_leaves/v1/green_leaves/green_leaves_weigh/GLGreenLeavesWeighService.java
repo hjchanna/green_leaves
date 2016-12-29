@@ -11,7 +11,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
-import com.mac.green_leaves.v1.exception.EntityNotFoundException;
+import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveService;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;

@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
-import com.mac.green_leaves.v1.exception.EntityNotFoundException;
+import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import java.util.List;

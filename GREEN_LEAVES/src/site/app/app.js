@@ -101,6 +101,14 @@
                             templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
                             controller: "fertilizerController"
                         })
+                        
+                        //reports
+                        .when("/reports/general/report-viewer", {
+                            templateUrl: "app/reports/report-viewer/report-viewer.html",
+                            controller: "ReportViewerController"
+                        })
+                        
+                        
                         //master
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",

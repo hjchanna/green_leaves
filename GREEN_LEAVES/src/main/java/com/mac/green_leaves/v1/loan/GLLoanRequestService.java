@@ -6,7 +6,7 @@
 package com.mac.green_leaves.v1.loan;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.*;
-import com.mac.green_leaves.v1.exception.EntityNotFoundException;
+import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import com.mac.green_leaves.v1.loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.loan.model.TLoanRequestDetail;
 import java.util.Date;
