@@ -18,6 +18,7 @@
                     }, 10);
                 };
 
+                //client search client number
                 $scope.ui.searchClient = function (e) {
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
@@ -27,9 +28,8 @@
                             Notification.error("client not found!");
                         } else {
                             var client = $scope.model.client(searchClient.indexNo);
-                            $scope.model.data.route = client.route;
                             $scope.model.data.client = client.indexNo;
-                            $scope.ui.findRoute();
+                            $scope.model.findByBranchAndDateAndClient();
                             $timeout(function () {
                                 document.querySelectorAll("#normal-qty")[0].focus();
                             }, 10);
@@ -37,15 +37,21 @@
                     }
                 };
 
-                $scope.ui.findRoute = function () {
-                    var client = $scope.model.client($scope.model.data.client);
-                    $scope.model.data.route = client.route;
-                    $scope.model.findByBranchAndDateAndClient();
-                    $timeout(function () {
-                        document.querySelectorAll("#normal-qty")[0].focus();
-                    }, 10);
+                //delete green weigh
+                $scope.ui.delete = function () {
+                    ConfirmPane.dangerConfirm("Delete Green Leaves Weigh")
+                            .confirm(function () {
+                                $scope.model.deleteGreenLavesWeigh();
+                                $scope.ui.mode = "IDEAL";
+                                $scope.ui.type = "NORMAL";
+                            })
+                            .discard(function () {
+                                console.log("REJECT");
+                            });
+
                 };
 
+                //check customer new customer or exists customer
                 $scope.ui.checkCustomer = function (e) {
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
@@ -64,7 +70,6 @@
                                                         $timeout(function () {
                                                             document.querySelectorAll("#normal-qty")[0].focus();
                                                         }, 10);
-                                                        console.log(data);
                                                     }
                                                 })
                                                 .discard(function () {
@@ -78,19 +83,21 @@
                     }
                 };
 
+                //edit 
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
-
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
                 };
 
+                //discard
                 $scope.ui.discard = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.model.clear();
                 };
 
+                //insert normal leaves
                 $scope.ui.insertNormalDetail = function () {
                     $scope.model.insertNormalDetail()
                             .then(function () {
@@ -99,6 +106,7 @@
 
                 };
 
+                //insert super leaves
                 $scope.ui.insertSuperDetail = function () {
                     $scope.model.insertSuperDetail()
                             .then(function () {
@@ -106,6 +114,7 @@
                             });
                 };
 
+                //delete normal leaves or super leaves selected row tables
                 $scope.ui.deleteDetail = function (indexNo) {
                     $scope.model.deleteDetail(indexNo);
                     $timeout(function () {
@@ -113,6 +122,7 @@
                     }, 10);
                 };
 
+                //find green leaves supplier weigh by branch and transaction number 
                 $scope.ui.load = function (e) {
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
@@ -123,7 +133,8 @@
                     }
                 };
                 var tempIndexSave = 0;
-                //load weight
+
+                //pending request  selected rows - load weight
                 $scope.ui.loadWeight = function (greenLeavesWeight) {
                     tempIndexSave = greenLeavesWeight.indexNo;
                     $scope.model.data.number = greenLeavesWeight.number;
@@ -137,13 +148,15 @@
                 $scope.ui.confirm = function () {
                     var indexNo = tempIndexSave;
                     $scope.model.confirmWeight(indexNo);
-                    optionPane.successMessage("APPROVE" + indexNo);
-                    $scope.ui.mode = "EDIT";
+                    optionPane.successMessage("APPROVE");
+                    $scope.ui.mode = "IDEAL";
+                    $scope.ui.type = "NORMAL";
                     $scope.model.clear();
                     $scope.indextab = 0;
                     tempIndexSave = 0;
                 };
 
+                //view pending weigh by branch
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
                     if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
                         $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
@@ -177,22 +190,27 @@
                     $scope.ui.type = "NORMAL";
                     $scope.model.clear();
 
-                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves]", function (newVal, oldVal) {
+                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeduction, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
                     }, true);
 
-                    $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
+                    $scope.$watch("[model.data.superTareDeduction, model.data.superGeneralDeduction, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves]", function (newVal, oldVal) {
                         $scope.model.validate();
                     }, true);
 
-                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeductionPercent, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeductionPercent, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
+                    $scope.$watch("[model.data.normalTareDeduction, model.data.normalGeneralDeduction, model.data.normalWaterDeduction, model.data.normalCoarseLeaves, model.data.normalBoiledLeaves,model.data.superTareDeduction, model.data.superGeneralDeduction, model.data.superWaterDeduction, model.data.superCoarseLeaves, model.data.superBoiledLeaves,model.data.greenLeaveWeighDetails.length]", function (newVal, oldVal) {
                         if ($scope.model.data.greenLeaveWeighDetails.length > 0) {
                             $scope.model.saveWeight();
                         }
                     }, true);
 
-                    $scope.$watch("model.data.date", function (newVal, oldVal) {
+                    $scope.$watch("[model.data.branch,model.data.date,model.data.client]", function (newVal, oldVal) {
                         $scope.model.findByBranchAndDateAndClient();
+                    }, true);
+
+                    $scope.$watch("[model.data.client,model.data.searchClient]", function (newVal, oldVal) {
+                        var client = $scope.model.client($scope.model.data.client);
+                        $scope.model.data.route = client.route;
                     }, true);
                 };
                 $scope.ui.init();

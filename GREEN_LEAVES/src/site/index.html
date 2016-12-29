@@ -45,7 +45,8 @@
                                 <li><a href="#/transactions/green-leaves/green-leaves-weigh/final-payemnt">Final Payment</a></li>
                                 <li><a href="#/transactions/green-leaves/route-details">Route Details</a></li>
                                 <li><a href="#/transactions/green-leaves/fertilizer">Fertilizer Issue</a></li>
-                                <li><a href="#/login">L</a></li>
+                                <li><a href="#/login">Login</a></li>
+                                <li><a href="#/dashboard/dashboard">Dashboard</a></li>
                             </ul>
                         </li>
                         <li> 
@@ -107,7 +108,7 @@
                     <span class="text-primary text-capitalize" style="font-weight: 300; font-size: 18px;">LOGIN BRANCH GOES HERE</span>
                     |
                     2016-01-01
-                    
+
                     <input type="checkbox" ng-model="c">
                 </div>
 
@@ -117,14 +118,14 @@
                             <tr>
                                 <td><a class="btn btn-primary"><span class="glyphicon glyphicon-bell"></span></a></td>
                                 <td><a class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span></a></td>
-                                <td><a class="btn btn-primary"><span class="glyphicon glyphicon-user"></span></a></td>
+                                <td><a class="btn btn-primary" ng-click="logout();"><span class="glyphicon glyphicon-user"></span></a></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="system-line-loader" ng-class="c?'loading':''">
-                
+
             </div>
 
 
@@ -143,8 +144,40 @@
             </div>
         </div>
 
+        <!--index page loading animation-->
+        <div id="page-loading" class="page-loading">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+
+        <!--route loading animation-->
+        <div class="route-loading" ng-show="routeLoading">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+
         <!--js dependencies-->
         <!-- inject:js -->
         <!-- endinject -->
+
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function (event) {
+
+                setTimeout(function () {
+                    var element = document.getElementById("page-loading");
+                    element.className += " exit";
+
+                    setTimeout(function () {
+                        element.parentNode.removeChild(element);
+                    }, 250);
+                }, 1000);
+            });
+        </script>
     </body>
 </html>

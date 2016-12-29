@@ -1,4 +1,6 @@
 (function () {
+    
+    //XSRF Interceptor factory
     angular.module('appModule')
             .factory('XSRFInterceptor', function ($cookies, $log) {
 
@@ -17,31 +19,29 @@
                 return XSRFInterceptor;
             });
 
+
+    //attch XSRF token to the request
     angular.module("appModule")
             .config(function ($httpProvider) {
+                $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
                 $httpProvider.defaults.withCredentials = true;
                 $httpProvider.interceptors.push('XSRFInterceptor');
             });
 
     angular.module("appModule")
-            .run(function ($rootScope, $location, $cookies, SecurityUtilService) {
+            .run(function ($rootScope, $location, $cookies, SecurityService) {
                 $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                    var token = $cookies.get('XSRF-TOKEN');
-
-                    //check whether already logged in
-                    if (!token) {
-                        $location.path("/login");
-                    }
-
                     //login back button false
-                    if ($location.path() === "/login") {
-                        SecurityUtilService.ping()
-                                .success(function (data, status, headers) {
+                    SecurityService.ping()
+                            .success(function (data, status, headers) {
+                                //if login success redirrect to home page
+                                if ($location.path() === "/login") {
                                     $location.path("/");
-                                })
-                                .error(function (data, status, headers) {
-                                });
-                    }
+                                }
+                            })
+                            .error(function (data, status) {
+                                $location.path("/login");
+                            });
                 });
             });
 }());

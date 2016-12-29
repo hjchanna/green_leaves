@@ -74,7 +74,7 @@
                     .then(function () {
                         $scope.ui.mode = "IDEAL";
                         $scope.model.clear();
-                        optionPane.successMessage("save green leaves receive");
+//                        optionPane.successMessage("save green leaves receive");
                     });
         };
 
