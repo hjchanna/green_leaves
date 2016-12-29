@@ -18,9 +18,11 @@
 
             width: 450px;
 
-            transform: translate(-50%, -50%);
-            left:50%;
-            top:50%;
+            margin: auto;
+            margin-top: 100px;
+            /*            transform: translate(-50%, -50%);
+                        left:50%;
+                        top:50%;*/
 
             border-radius: 3px;
 
@@ -76,9 +78,32 @@
             .login-footer{
                 display: block;
                 padding: 25px 25px 25px 25px;
-                
+
                 border-bottom-left-radius: 3px;
                 border-bottom-left-radius: 3px;
+            }
+        }
+
+        .login-form.login-failed{
+            animation: ease 1s wobble;
+
+            label{
+                color: $danger-color;
+            }
+
+            .input-group{
+                .form-control, .input-group-addon{
+                    border-color: $danger-color;
+                }
+
+                box-shadow: 0px 0px 3px 0px $danger-color;
+                -webkit-box-shadow: 0px 0px 3px 0px $danger-color;
+                -moz-box-shadow: 0px 0px 3px 0px $danger-color;
+            }
+
+            .btn{
+                background-color: $danger-color;
+                border-color: $danger-color-border;
             }
         }
     }

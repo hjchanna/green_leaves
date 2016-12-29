@@ -9,7 +9,6 @@
 //        "greenLeavesWeighModule",
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",
-        "greenLeavesPaymentModule",
         "priceSettingModule",
         "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
@@ -33,16 +32,14 @@
     ]);
 
     //constants
-//    angular.module("appModule")
-//            .constant("systemConfig", {
-//                apiUrl: location.protocol + "//" + window.location.hostname 
-//            });
-    //constants
-    
     angular.module("appModule")
             .constant("systemConfig", {
-                apiUrl: "http://localhost:8080"
+                apiUrl:
+                        location.hostname === 'localhost'
+                        ? "http://localhost:8080"
+                        : location.protocol + "//" + location.hostname
             });
+    //constants
 
     //route config
     angular.module("appModule")
@@ -82,7 +79,7 @@
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
-                            controller: "greenLeavesPaymentController"
+                            controller: "GreenLeavesPaymentController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
                             templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
