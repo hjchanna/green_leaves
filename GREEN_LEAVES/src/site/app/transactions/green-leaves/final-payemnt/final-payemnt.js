@@ -4,7 +4,7 @@
 
     //controller
     angular.module("finalPaymentModule")
-            .controller("finalPaymentModuleController", function ($scope) {
+            .controller("finalPaymentModuleController", function ($scope,ModalDialog) {
                 $scope.showBfAndCoinValues = true;
                 //A /Payment,L/Installment,Fertilizer(P),Fertilizer(C),Tea,Savings,Other
                 $scope.showOther = function () {
@@ -25,6 +25,10 @@
                     $scope.showBfAndCoinValues = true;
                     $scope.otherValues = false;
                     $scope.showGreenLeaveValues = false;
+                };
+                $scope.modalOpen = function () {
+                    console.log("modalOpen");
+                    ModalDialog.modalOpen("lg", "b/fModal.html", "finalPaymentModuleController");
                 };
             });
 }());
