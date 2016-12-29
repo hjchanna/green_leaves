@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -212,7 +213,7 @@ public class TGreenLeavesWeigh implements Serializable {
     @Column(name = "remark")
     private String remark;
 
-    @OneToMany(mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
     private Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
 
     public TGreenLeavesWeigh() {

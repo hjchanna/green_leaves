@@ -55,4 +55,9 @@ public class GLGreenLeavesReceiveController {
         return greenLeavesReceiveService.getTotalSuperLeavesAndNormalLeaves(branch, route, date);
     }
 
+    @RequestMapping(value = "/delete-green-leaves-receive/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteGreenLeavesReceive(@PathVariable Integer indexNo) {
+        greenLeavesReceiveService.deleteGreenLeavesReceive(indexNo);
+        return indexNo;
+    }
 }

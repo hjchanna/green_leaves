@@ -9,6 +9,7 @@ body{
     font-family: 'Roboto', sans-serif !important;
     font-style: normal;
     font-weight: 300;
+    color: $dark-font-color;
 }
 
 .side-bar-left{
@@ -127,7 +128,7 @@ body{
 }
 
 .index-header{
-    height: 50px;
+    height: 48px;
     flex: 0 1 auto;
     float: left;
 }

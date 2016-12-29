@@ -66,21 +66,20 @@
                                 <li><a href="#/master/branch/branch">Branch</a></li>
                             </ul>
                         </li>
-                         <li> 
-                             <a class="menu-header" href="#/reports/green-leaves-weigh">Reports</a>
-                         </li>
-                         <li> 
-                             <a class="menu-header">LOAN</a>
-                              <ul>
+                        <li> 
+                            <a class="menu-header" href="#/reports/green-leaves-weigh">Reports</a>
+                        </li>
+                        <li> 
+                            <a class="menu-header">LOAN</a>
+                            <ul>
                                 <li><a href="#/loan/loan-request">Loan Request</a></li>
                                 <li><a href="#/loan/loan-check">Loan Check</a></li>
                                 <li><a href="#/loan/loan-approve">Loan Approve</a></li>
-                              </ul>
-                         </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
-
         </div>
 
         <div class="index-middle">
@@ -103,14 +102,15 @@
                     <span class="text-default">
                         Green Leaves Receive
                     </span>
-
-
                 </div>
                 <div class="col-xs-6 text-center">
                     <span class="text-primary text-capitalize" style="font-weight: 300; font-size: 18px;">LOGIN BRANCH GOES HERE</span>
                     |
                     2016-01-01
+                    
+                    <input type="checkbox" ng-model="c">
                 </div>
+
                 <div class="col-xs-2">
                     <table  style="width: auto; float: right;">
                         <tbody>
@@ -122,59 +122,26 @@
                         </tbody>
                     </table>
                 </div>
-                <!--                <div class="index-menu-toggle">
-                                    <span class="glyphicon glyphicon-menu-hamburger"></span>
-                                </div>
-                                <div class="index-header-middle">
-                                    <span class="text-primary">LOGIN BRANCH GOES HERE</span>
-                                    |
-                                    2016-01-01
-                                </div>
-                                <div style="clear: both"/>
-                                <div class="index-header-right">
-                                    <table style="width: auto; margin-top: 5px;">
-                                        <tbody>
-                                            <tr>
-                                                <td>N</td>
-                                                <td>M</td>
-                                                <td>U</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>-->
+            </div>
+            <div class="system-line-loader" ng-class="c?'loading':''">
+                
             </div>
 
+
+
+            <div>
+                <ul class="nav nav-tabs" ng-show="homepageUrls.length && isHomepage()">
+                    <li ng-repeat="url in homepageUrls">
+                        <a href="{{url.url}}">{{url.name}}</a>
+                    </li>
+                </ul>
+            </div>
 
 
             <div class="index-content" ng-view>
                 <!--CONTENT OF THE APP-->
             </div>
         </div>
-
-        <!--        <div class="dialog-overlay"></div>
-        
-                <div class="dialog-container">
-                    <div class="panel">
-                        <div class="panel-heading panel-success">
-                            TITLE
-                        </div>
-                        <div class="panel-body">
-                            CONTENT
-                        </div>
-                        <div class="panel-footer">
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <a class="btn btn-lg btn-block btn-success">CANCEL</a>
-                                </div>
-                                <div class="col-xs-6">
-                                    <a class="btn btn-lg btn-block btn-danger">OK</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-
-
 
         <!--js dependencies-->
         <!-- inject:js -->

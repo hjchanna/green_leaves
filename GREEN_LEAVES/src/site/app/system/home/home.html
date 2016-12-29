@@ -8,6 +8,7 @@
     <a class="btn btn-warning" ng-click="warning();">WARNING</a>
     <a class="btn btn-danger" ng-click="danger();">DANGER</a>
     <a class="btn btn-primary" ng-click="input();">INPUT</a>
+    <a class="btn btn-primary" ng-click="modalOpen();">MODAL OPEN</a>
 </div>
 
 <br>
@@ -37,5 +38,11 @@
 </div>-->
 
 <div class="col-xs-4 col-xs-offset-3">
-
+    <script type="text/ng-template" id="popup.html"> 
+    <div class="modal-header">
+        <h3 class="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    </script>
 </div>
