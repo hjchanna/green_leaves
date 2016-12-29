@@ -9,6 +9,7 @@
             //data
             data: {},
             totalSummry: {},
+            greenLeavesWeigh: {},
             //route information
             routes: [],
             //branch information
@@ -19,7 +20,6 @@
             routeHelpers: [],
             //vehicle information 
             vehicles: [],
-            greenLeavesWeigh: [],
 //            greenLeavesReceiveList: [],
             greenLeavesBulkWeighList: [],
 //            greenLeavesSupplierWeighList: [],
@@ -27,7 +27,7 @@
                 var that = this;
                 that.data = GreenLeavesDashBoardModelFactory.newData();
                 that.totalSummry = GreenLeavesDashBoardModelFactory.totalSummry();
-                that.greenLeavesWeigh = GreenLeavesDashBoardModelFactory.greenLeavesWeigh();
+                that.greenLeavesWeigh = GreenLeavesDashBoardModelFactory.newGreenLeavesWeigh();
 
                 GreenLeavesDashBoardService.loadRoutes()
                         .success(function (data) {
@@ -47,7 +47,10 @@
                         .success(function (data) {
                             that.vehicles = data;
                         });
-
+                GreenLeavesDashBoardService.loadBranch()
+                        .success(function (data) {
+                            that.branchs = data;
+                        });
             },
             greenLeavesAllSummry: function () {
                 var defer = $q.defer();
@@ -95,14 +98,15 @@
 
                 return defer.promise;
             },
-            //
+            //green leaves summmry table selectd row get 
             greenLeaveWeighDetailsByIndexNo: function (indexNo) {
                 console.log(indexNo);
                 var defer = $q.defer();
                 var that = this;
                 GreenLeavesDashBoardService.greenLeaveWeighDetailsByIndexNo(indexNo)
                         .success(function (data) {
-                            that.greenLeavesWeigh = data;
+                            that.greenLeavesWeigh = {};
+                            angular.extend(that.greenLeavesWeigh, data);
                             defer.resolve();
                         })
                         .error(function () {
@@ -110,6 +114,19 @@
                         });
 
                 return defer.promise;
+            },
+            greenLeaveReceiveDetailsByIndexNo: function (indexNo) {
+            },
+            //return label for branch
+            bracnhLable: function (indexNo) {
+                var lable;
+                angular.forEach(this.branchs, function (value) {
+                    if (value.indexNo === indexNo) {
+                        lable = value.indexNo + "-" + value.name;
+                        return;
+                    }
+                });
+                return lable;
             },
             //return label for route
             routeLabel: function (indexNo) {

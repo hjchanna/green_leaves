@@ -387,7 +387,7 @@
                             that.data.normalTotalWeight = 0.0;
                             that.data.normalTareCalculated = 0.0;
                             that.data.normalTareDeduction = 0.0;
-                            that.data.normalGeneralDeductionPercent = 4.0;
+                            that.data.normalGeneralDeductionPercent = 0.0;
                             that.data.normalGeneralDeduction = 0.0;
                             that.data.normalWaterDeduction = 0.0;
                             that.data.normalCoarseLeaves = 0.0;
@@ -401,7 +401,7 @@
                             that.data.superTotalWeight = 0.0;
                             that.data.superTareCalculated = 0.0;
                             that.data.superTareDeduction = 0.0;
-                            that.data.superGeneralDeductionPercent = 4.0;
+                            that.data.superGeneralDeductionPercent = 0.0;
                             that.data.superGeneralDeduction = 0.0;
                             that.data.superWaterDeduction = 0.0;
                             that.data.superCoarseLeaves = 0.0;

@@ -33,9 +33,9 @@
                     return data;
                 };
                 
-                factory.greenLeavesWeigh = function () {
+                factory.newGreenLeavesWeigh = function () {
                     var data = {
-                        "indexNo": null,
+                        "indexNo": 0,
                         "branch": null,
                         "route": null,
                         "date": null,

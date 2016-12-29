@@ -1,6 +1,10 @@
 (function () {
     var service = function ($http, systemConfig) {
         //master data
+        this.loadBranch = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/branch");
+        };
+
         this.loadRoutes = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };

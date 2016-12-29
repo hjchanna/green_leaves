@@ -40,7 +40,7 @@ public class DashboardController {
     }
 
     @RequestMapping(value = "/find-green-leave-dashboard-weigh-by-indexNo/{indexNo}", method = RequestMethod.GET)
-    public List<TGreenLeavesWeigh> getBulkGreenLeavesWeighSummry(@PathVariable Integer indexNo) {
+    public TGreenLeavesWeigh getBulkGreenLeavesWeighSummry(@PathVariable Integer indexNo) {
         return dashboardService.getGreenLeavesWeighSummryByIndexNo(indexNo);
     }
 }

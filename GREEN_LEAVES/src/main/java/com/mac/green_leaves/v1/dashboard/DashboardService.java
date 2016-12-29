@@ -48,7 +48,7 @@ public class DashboardService {
         return dashboardRepository.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type);
     }
 
-    List<TGreenLeavesWeigh> getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
-       return dashboardRepository.findByIndexNo(indexNo);
+    public TGreenLeavesWeigh getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
+       return dashboardRepository.findOne(indexNo);
     }
 }
