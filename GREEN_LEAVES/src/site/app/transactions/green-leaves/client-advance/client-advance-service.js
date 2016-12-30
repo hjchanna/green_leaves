@@ -25,7 +25,6 @@
         //approve
 
         this.loadPendingRequests = function () {
-            console.log("AA");
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/pending-requests");
         };
 
@@ -35,6 +34,11 @@
 
         this.rejectRequest = function (indexNo) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/reject-request-detail/" + indexNo);
+        };
+
+        //client history
+        this.clientHistory = function (date, client) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-client-account-transaction-history/" + date + "/" + client);
         };
     };
 

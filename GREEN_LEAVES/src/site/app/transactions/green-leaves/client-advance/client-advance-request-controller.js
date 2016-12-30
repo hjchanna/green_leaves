@@ -1,11 +1,12 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, optionPane, ClientAdvanceRequestModel, ClientAdvanceRequestService) {
+    var controller = function ($scope, $timeout, $filter, optionPane, ClientAdvanceRequestModel, ClientAdvanceRequestService) {
         $scope.model = {};
         $scope.model.tempData = {};
         $scope.model.routes = [];
         $scope.model.clients = [];
+        $scope.model.clientHistory = [];
 
         $scope.ui = {};
         $scope.ui.mode = "NEW";
@@ -108,6 +109,7 @@
             $scope.model.data.deleteRequestDetail(index);
         };
 
+
         $scope.ui.getClientLabel = function (indexNo) {
             var label = "";
             angular.forEach($scope.model.clients, function (value, key) {
@@ -152,6 +154,25 @@
             return route;
         };
 
+        $scope.ui.getClientHistory = function () {
+            var date = $filter('date')($scope.model.tempData.asAtDate, 'yyyy-MM-dd');
+            var client = parseInt($scope.model.tempData.client);
+            ClientAdvanceRequestService.clientHistory(date, client)
+                    .success(function (data, status, headers) {
+                        $scope.model.clientHistory = data;
+                    })
+                    .error(function (data, status, headers) {
+
+                    });
+        };
+
+        $scope.ui.getTotalCradit = function () {
+            console.log($scope.model.clientHistory);
+//            angular.forEach($scope.model.clientHistory, function (value, key) {
+//                console.log(value);
+//            });
+        };
+
         $scope.ui.init = function () {
             //create new model
             $scope.model.data = new ClientAdvanceRequestModel();
@@ -175,6 +196,14 @@
                     });
 
             $scope.ui.mode = "IDEAL";
+
+            $scope.$watch("[model.tempData.asAtDate,model.tempData.client]", function (newVal, oldVal) {
+                if ($scope.model.tempData.asAtDate) {
+                    $scope.ui.getClientHistory();
+                    $scope.ui.getTotalCradit();
+                }
+            }, true);
+
             $scope.ui.resetTempRequest();
         };
 

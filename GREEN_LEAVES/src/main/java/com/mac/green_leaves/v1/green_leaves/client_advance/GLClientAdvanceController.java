@@ -6,8 +6,11 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
+import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +66,17 @@ public class GLClientAdvanceController {
     @RequestMapping(value = "/reject-request-detail/{indexNo}")
     public void rejectAdvanceRequestDetail(@PathVariable Integer indexNo) {
         clientAdvanceService.rejectAdvanceRequestDetail(indexNo);
+    }
+
+// slide bar client history
+    @RequestMapping(value = "/find-client-account-transaction-history/{date}/{client}")
+    List<Object[]> findByBranchAndDateAndClient(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+        return clientAdvanceService.findByBranchAndDateAndClient(1, date, client);
+    }
+
+    @RequestMapping(value = "/transaction-type")
+    List<TransactionType> findByBranchAndDateAndClient() {
+        return clientAdvanceService.findTransactionTypeAll();
     }
 
 }

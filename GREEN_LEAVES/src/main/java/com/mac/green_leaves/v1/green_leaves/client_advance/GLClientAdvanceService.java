@@ -8,6 +8,8 @@ package com.mac.green_leaves.v1.green_leaves.client_advance;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
+import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class GLClientAdvanceService {
 
     @Autowired
     private GLClientAdvanceRequestRepository clientAdvanceRepository;
+
+    @Autowired
+    private TransactionTypeReository transactionTypeReository;
 
     @Autowired
     private GLClientAdvanceRequestDetailRepository clientAdvanceRequestDetailRepository;
@@ -81,7 +86,6 @@ public class GLClientAdvanceService {
         clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
 
         //TODO:update summary
-        
         //TODO:voucer entry
     }
 
@@ -89,10 +93,17 @@ public class GLClientAdvanceService {
         TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
         advanceRequestDetail.setStatus(ADVANCE_REQUEST_STATUS_REJECTED);
         clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
-        
-        //TODO:update summary
 
+        //TODO:update summary
         //TODO:voucer entry
+    }
+
+    public List<Object[]> findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
+        return clientAdvanceRepository.findByBranchAndDateAndClient(branch, date, client);
+    }
+
+    List<TransactionType> findTransactionTypeAll() {
+        return transactionTypeReository.findAll();
     }
 
 }

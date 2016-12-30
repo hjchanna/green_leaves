@@ -121,10 +121,10 @@
                     <col style="width: 25%;"/>
                     <col style="width: 15%;"/>
                     <tbody>
-                        <tr ng-repeat="clientRowData in getClientDetails(null)">
-                            <td>{{clientRowData.discription}}</td>
-                            <td class="text-right" >{{clientRowData.debit == 0? '-': clientRowData.debit}}</td>
-                            <td class="text-right" >{{clientRowData.credit == 0? '-': '- ('+clientRowData.credit+')'}}</td>
+                        <tr ng-repeat="clientHistory in model.clientHistory">
+                            <td>{{clientHistory[0]}}</td>
+                            <td class="text-right" >{{clientHistory[1]}}</td>
+                            <td class="text-right" >{{clientHistory[2]}}</td>
                             <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
                         </tr>
                     </tbody>
@@ -177,7 +177,7 @@
         <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
         <!--edit-->
         <a class="fab fab-success" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
-        
+
         <!--new-->
         <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
         <!--save-->
