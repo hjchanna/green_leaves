@@ -5,19 +5,25 @@
  */
 package com.mac.green_leaves.v1.report.report_viewer;
 
+import com.mac.green_leaves.v1.report.report_viewer.model.Report;
 import com.mac.green_leaves.v1.report.report_viewer.model.ReportGroup;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Mohan
  */
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/api/v1/report/report-viewer")
 public class ReportViewerController {
@@ -29,5 +35,16 @@ public class ReportViewerController {
     public List<ReportGroup> listReports() {
         return reportViewerService.getReportList();
     }
+
+    @RequestMapping(value = "/report-parameters", method = RequestMethod.POST)
+    public List<String> getReportParameters(@RequestBody Report report) throws JRException {
+        return reportViewerService.getReportParameters(report);
+    }
+    
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    public void viewReport(HttpServletResponse httpServletResponse) throws JRException, IOException, SQLException {
+        reportViewerService.writePdfReport(httpServletResponse);
+    }
+    
 
 }

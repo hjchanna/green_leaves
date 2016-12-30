@@ -5,20 +5,19 @@
  */
 package com.mac.green_leaves.v1.report.report_viewer.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Mohan
  */
-public class ReportGroup {
+public class ReportGroup implements Serializable, Comparable<ReportGroup> {
 
     private String groupName;
     private List<Report> reports;
 
     public ReportGroup() {
-        this.reports = new ArrayList<>();
     }
 
     public String getGroupName() {
@@ -37,4 +36,8 @@ public class ReportGroup {
         this.reports = reports;
     }
 
+    @Override
+    public int compareTo(ReportGroup o) {
+        return this.groupName.compareTo(o.groupName);
+    }
 }

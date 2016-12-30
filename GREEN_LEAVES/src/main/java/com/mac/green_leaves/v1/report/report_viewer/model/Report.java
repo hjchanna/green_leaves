@@ -5,11 +5,13 @@
  */
 package com.mac.green_leaves.v1.report.report_viewer.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mohan
  */
-public class Report {
+public class Report implements Serializable, Comparable<Report> {
 
     private String reportName;
     private String fileName;
@@ -33,4 +35,8 @@ public class Report {
         this.fileName = fileName;
     }
 
+    @Override
+    public int compareTo(Report o) {
+        return this.reportName.compareTo(o.reportName);
+    }
 }
