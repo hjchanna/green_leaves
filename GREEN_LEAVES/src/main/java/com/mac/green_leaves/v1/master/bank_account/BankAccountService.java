@@ -5,8 +5,8 @@
  */
 package com.mac.green_leaves.v1.master.bank_Account;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.bank_Account.model.MBankAccount;
+import com.mac.green_leaves.v1.zexception.DuplicateEntityException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
