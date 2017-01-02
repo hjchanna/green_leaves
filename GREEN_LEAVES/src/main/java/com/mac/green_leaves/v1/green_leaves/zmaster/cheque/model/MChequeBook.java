@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.zmaster.cheque.model;
 
-import com.mac.green_leaves.v1.master.bank_Account.model.MBankAccount;
+import com.mac.green_leaves.v1.master.bank_account.model.MBankAccount;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
