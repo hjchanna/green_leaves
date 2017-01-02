@@ -151,7 +151,7 @@
                     SupplierGreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
                             .success(function (data) {
                                 that.tempData.indexNo = data;
-                                that.data.greenLeaveWeighDetails.push(that.tempData);
+                                that.data.greenLeaveWeighDetails.unshift(that.tempData);
                                 that.tempData = SupplierGreenLeavesWeighModelFactory.newTempData();
                                 that.validate();
                                 defer.resolve();
