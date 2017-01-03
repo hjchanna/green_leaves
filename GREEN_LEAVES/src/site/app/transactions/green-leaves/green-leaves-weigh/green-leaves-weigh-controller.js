@@ -4,6 +4,8 @@
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
+                $scope.ui.insertProcessing = false;//Douple click duplicate bug fix
+
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
@@ -33,18 +35,26 @@
                 };
 
                 $scope.ui.insertNormalDetail = function () {
-                    $scope.model.insertNormalDetail()
-                            .then(function () {
-                                $scope.ui.toggleType("NORMAL");
-                            });
+                    if (!$scope.ui.insertProcessing) {
+                        $scope.ui.insertProcessing = true;
+                        $scope.model.insertNormalDetail()
+                                .then(function () {
+                                    $scope.ui.toggleType("NORMAL");
+                                    $scope.ui.insertProcessing = false;
+                                });
+                    }
 
                 };
 
                 $scope.ui.insertSuperDetail = function () {
-                    $scope.model.insertSuperDetail()
-                            .then(function () {
-                                $scope.ui.toggleType("SUPER");
-                            });
+                    if (!$scope.ui.insertProcessing) {
+                        $scope.ui.insertProcessing = true;
+                        $scope.model.insertSuperDetail()
+                                .then(function () {
+                                    $scope.ui.toggleType("SUPER");
+                                    $scope.ui.insertProcessing = false;
+                                });
+                    }
                 };
 
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
