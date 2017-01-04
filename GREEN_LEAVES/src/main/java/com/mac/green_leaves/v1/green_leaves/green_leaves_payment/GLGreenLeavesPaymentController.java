@@ -7,6 +7,7 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_payment;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucher;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucherPayment;
+import com.mac.green_leaves.v1.security.model.RTransactionType;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,7 +36,14 @@ public class GLGreenLeavesPaymentController {
     }
     
     @RequestMapping(value = "/save-voucher",method = RequestMethod.POST)
-    public void saveVoucher(@RequestBody TVoucherPayment voucherPayment){
+    public int saveVoucher(@RequestBody TVoucherPayment voucherPayment){
         greenLeavesPaymentService.saveVoucher(voucherPayment,BRANCH);
+        return voucherPayment.getIndexNo();
+    }
+    
+    //transaction type
+    @RequestMapping(value = "/all-transaction-type",method = RequestMethod.GET)
+    public List<RTransactionType> allTransactionType(){
+        return greenLeavesPaymentService.allTransactionType();
     }
 }

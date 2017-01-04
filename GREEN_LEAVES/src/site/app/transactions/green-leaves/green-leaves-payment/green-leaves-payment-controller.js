@@ -39,14 +39,23 @@
         $scope.ui.modalOpen = function () {
             ModalDialog.modalOpen("cheque.html", "GreenLeavesPaymentController");
         };
-        
-        $scope.ui.insertChequeDetails =function (){
+
+        $scope.ui.insertChequeDetails = function () {
             $scope.model.insertChequeDetails();
             $scope.model.clear();
         };
 
         $scope.ui.save = function () {
             $scope.model.save();
+        };
+
+        $scope.ui.selectAll = function () {
+            $scope.model.selectAll();
+        };
+
+        $scope.ui.selectOne = function (voucher) {
+//            console.log(voucher.indexNo);
+            $scope.model.selectOne(voucher);
         };
 
         $scope.ui.init = function () {

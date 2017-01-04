@@ -8,6 +8,8 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_payment;
 import ch.qos.logback.core.pattern.color.GreenCompositeConverter;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucher;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucherPayment;
+import com.mac.green_leaves.v1.security.SETransactionTypeRepository;
+import com.mac.green_leaves.v1.security.model.RTransactionType;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +34,10 @@ public class GLGreenLeavesPaymentService {
     
     @Autowired
     private GLVoucherPaymentRepository voucherPaymentRepository;
+    
+    @Autowired
+    private SETransactionTypeRepository transactionTypeRepository;
+    
 
     public List<TVoucher> allVouchers(int BRANCH) {
         return greenLeavesPaymentRepository.findByBranchAndStatus(BRANCH, STATUS_PENDING);
@@ -47,6 +53,10 @@ public class GLGreenLeavesPaymentService {
         voucherPayment.setCashier(1);
         voucherPayment.setStatus(STATUS_CHECK);
         voucherPaymentRepository.save(voucherPayment);
+    }
+    // transaction type
+    public List<RTransactionType> allTransactionType(){
+        return transactionTypeRepository.findAll();
     }
 
 }

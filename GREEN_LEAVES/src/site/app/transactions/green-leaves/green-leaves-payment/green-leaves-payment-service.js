@@ -15,6 +15,10 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/employees");
         };
 
+        this.loadTransactionType = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment/all-transaction-type");
+        };
+        
         this.vouchers = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment");
         };
