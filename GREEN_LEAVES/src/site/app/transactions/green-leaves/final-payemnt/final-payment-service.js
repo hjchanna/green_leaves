@@ -1,19 +1,31 @@
 (function () {
     var service = function ($http, systemConfig) {
         
-        this.loadRoutes = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
+        this.getAccountTransactionFromDate = function (year,month) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/final-payment/" + year + "/" + month);
         };
-
-        this.loadAdvanceRequest = function () {
-            return $http.get(systemConfig.apiUrl + "");
+        
+        this.getAccountTransactionsFromDescription = function (year,month,typeId) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/final-payment/get-account-transactions-from-description/"+year+"/"+month+"/"+typeId);
         };
-
-        this.loadLoanRequest = function () {
-            return $http.get(systemConfig.apiUrl + "");
-        }; 
+        
+        this.getTransactionType = function (indexNo) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/final-payment/find-transaction-type/"+indexNo);
+        };
+        
+        this.getAllTransactionType = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/final-payment/all-transaction-type");
+        };
+        
+        this.getAllClient = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/final-payment/get-all-client/1");
+        };
+        
+        this.getAllEmployee = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/final-payment/get-all-emplouee/1");
+        };
     };
     
     angular.module("appModule")
             .service("FinalPaymentService",service);
-});
+}());
