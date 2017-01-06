@@ -7,10 +7,10 @@
                     var data = {
                         "fromDate": null,
                         "toDate": null,
-                        "route": 0,
-                        "routeOfficer": 0,
-                        "routeHelper": 0,
-                        "vehicle": 0
+                        "route": null,
+                        "routeOfficer": null,
+                        "routeHelper": null,
+                        "vehicle": null
                     };
                     return data;
                 };

@@ -301,11 +301,11 @@
                                 <col style="width: 10%">
                                 <tbody>
                                     <tr ng-repeat="greenLeavesBulkWeigh in model.greenLeavesBulkWeighList">
-                                        <td><span class="label label-default">{{greenLeavesBulkWeigh[0]}}</span></td>
-                                        <td>{{model.routeLabel(greenLeavesBulkWeigh[1])}}</td>
-                                        <td>{{greenLeavesBulkWeigh[2]}}</td>
-                                        <td class="text-right">{{greenLeavesBulkWeigh[3]}}</td>
-                                        <td class="text-right">{{greenLeavesBulkWeigh[4]}}</td>
+                                        <td><span class="label label-default">{{greenLeavesBulkWeigh.indexNo}}</span></td>
+                                        <td>{{model.routeLabel(greenLeavesBulkWeigh.route)}}</td>
+                                        <td>{{greenLeavesBulkWeigh.date}}</td>
+                                        <td class="text-right">{{greenLeavesBulkWeigh.normalNetWeight}}</td>
+                                        <td class="text-right">{{greenLeavesBulkWeigh.superNetWeight}}</td>
                                         <td class="text-right" style="padding-left: 5px;">
                                             <a class="btn btn-primary" ng-click="ui.modalOpen(greenLeavesBulkWeigh[0]);"><span class="glyphicon glyphicon-new-window"></span></a>
                                         </td>

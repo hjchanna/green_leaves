@@ -4,9 +4,9 @@
             this.constructor();
         }
 
-        //prototype functions
+//prototype functions
         GreenLeavesDashBoardModel.prototype = {
-            //data
+//data
             data: {},
             totalSummry: {},
             greenLeavesWeigh: {},
@@ -28,7 +28,6 @@
                 that.data = GreenLeavesDashBoardModelFactory.newData();
                 that.totalSummry = GreenLeavesDashBoardModelFactory.totalSummry();
                 that.greenLeavesWeigh = GreenLeavesDashBoardModelFactory.newGreenLeavesWeigh();
-
                 GreenLeavesDashBoardService.loadRoutes()
                         .success(function (data) {
                             that.routes = data;
@@ -37,12 +36,10 @@
                         .success(function (data) {
                             that.routeOfficers = data;
                         });
-
                 GreenLeavesDashBoardService.loadRouteHelpers()
                         .success(function (data) {
                             that.routeHelpers = data;
                         });
-
                 GreenLeavesDashBoardService.loadVehicles()
                         .success(function (data) {
                             that.vehicles = data;
@@ -53,41 +50,38 @@
                         });
             },
             greenLeavesAllSummry: function () {
-                var defer = $q.defer();
-
-                var that = this;
-                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
-                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
-                var route = that.data.route;
-                var routeOfficer = that.data.routeOfficer;
-                var routeHelper = that.data.routeHelper;
-                var vehicle = that.data.vehicle;
-
-                GreenLeavesDashBoardService.getGreenLeavesSummary(fromDate, toDate, route, routeOfficer, routeHelper, vehicle)
-                        .success(function (data) {
-                            that.totalSummry = {};
-                            angular.extend(that.totalSummry, data);
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            defer.reject();
-                            that.greenLeavesBulkWeighList = [];
-                        });
-
-                return defer.promise;
+                console.log("greenLeavesAllSummry");
+//                var defer = $q.defer();
+//                var that = this;
+//                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+//                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
+//                var route = that.data.route;
+//                var routeOfficer = that.data.routeOfficer;
+//                var routeHelper = that.data.routeHelper;
+//                var vehicle = that.data.vehicle;
+//                console.log("++++++++++++++++++");
+//                console.log(that.date);
+//                GreenLeavesDashBoardService.getGreenLeavesSummary(that.data)
+//                        .success(function (data) {
+//                            that.totalSummry = {};
+//                            angular.extend(that.totalSummry, data);
+//                            defer.resolve();
+//                        })
+//                        .error(function () {
+//                            defer.reject();
+//                            that.greenLeavesBulkWeighList = [];
+//                        });
+//
+//                return defer.promise;
             },
             getGreenLeavesWeighSummry: function (type) {
+                console.log("getGreenLeavesWeighSummry");
                 var defer = $q.defer();
-
                 var that = this;
-                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
-                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
-                var route = that.data.route;
-                var routeOfficer = that.data.routeOfficer;
-                var routeHelper = that.data.routeHelper;
-                var vehicle = that.data.vehicle;
+//                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+//                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
 
-                GreenLeavesDashBoardService.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type)
+                GreenLeavesDashBoardService.getGreenWeighLeavesSummary(JSON.stringify(that.data))
                         .success(function (data) {
                             that.greenLeavesBulkWeighList = data;
                             defer.resolve();
@@ -97,6 +91,8 @@
                         });
 
                 return defer.promise;
+            }, greenLeavesReceiveSummry: function () {
+
             },
             //green leaves summmry table selectd row get 
             greenLeaveWeighDetailsByIndexNo: function (indexNo) {
@@ -112,7 +108,6 @@
                         .error(function () {
                             defer.reject();
                         });
-
                 return defer.promise;
             },
             greenLeaveReceiveDetailsByIndexNo: function (indexNo) {
@@ -175,7 +170,6 @@
         };
         return GreenLeavesDashBoardModel;
     };
-
     angular.module("appModule")
             .factory("GreenLeavesDashBoardModel", factory);
 }());

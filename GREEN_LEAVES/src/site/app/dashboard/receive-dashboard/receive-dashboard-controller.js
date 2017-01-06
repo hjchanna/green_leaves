@@ -33,10 +33,9 @@
 
                     $scope.$watch("[model.data.fromDate,model.data.toDate,model.data.route,model.data.routeOfficer,model.data.routeHelper,model.data.vehicle]", function (newVal, oldVal) {
                         if ($scope.ui.searchUi === 'Summary') {
-                            $scope.model.greenLeavesAllSummry();
-
+                            // $scope.model.greenLeavesAllSummry();
                         } else if ($scope.ui.searchUi === 'Receive') {
-
+                            $scope.model.greenLeavesReceiveSummry();
                         } else if ($scope.ui.searchUi === 'Bulk_Weigh') {
                             $scope.model.getGreenLeavesWeighSummry('BULK');
 
@@ -46,10 +45,10 @@
                     }, true);
                 };
 
-                $scope.ui.modalOpen = function (indexNo) {
-                    ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
-                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
-                };
+//                $scope.ui.modalOpen = function (indexNo) {
+//                    ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
+//                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
+//                };
 
 
 
