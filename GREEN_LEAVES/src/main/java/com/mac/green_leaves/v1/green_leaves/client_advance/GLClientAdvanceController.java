@@ -37,6 +37,11 @@ public class GLClientAdvanceController {
         return clientAdvanceService.getAdvanceRequestByNumber(number, BRANCH);
     }
 
+    @RequestMapping(value = "/find-by/{route}/{date}", method = RequestMethod.GET)
+    public TClientAdvanceRequest findByRouteAndDate(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return clientAdvanceService.findByBranchAndRouteAndDate(BRANCH, route, date);
+    }
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
         return clientAdvanceService.saveAdvanceRequest(advanceRequest, BRANCH);
@@ -48,8 +53,9 @@ public class GLClientAdvanceController {
     }
 
     @RequestMapping(value = "/delete-detail/{indexNo}", method = RequestMethod.DELETE)
-    public void deleteAdvanceRequestDetail(@PathVariable Integer indexNo) {
+    public Integer deleteAdvanceRequestDetail(@PathVariable Integer indexNo) {
         clientAdvanceService.deleteAdvanceRequestDetail(indexNo);
+        return indexNo;
     }
 
 //    approve ------------------------------------------------------------------
@@ -68,10 +74,16 @@ public class GLClientAdvanceController {
         clientAdvanceService.rejectAdvanceRequestDetail(indexNo);
     }
 
-// slide bar client history
+    // slide bar client history
     @RequestMapping(value = "/find-client-account-transaction-history/{date}/{client}")
     List<Object[]> findByBranchAndDateAndClient(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
-        return clientAdvanceService.findByBranchAndDateAndClient(1, date, client);
+        return clientAdvanceService.findByBranchAndDateAndClient(BRANCH, date, client);
+    }
+
+    // bootom route and year and month wise route totatal summry
+    @RequestMapping(value = "/find-client-wise-receive-history/{route}/{date}/{client}")
+    List<Object[]> findByDateAndRoute(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+        return clientAdvanceService.findByBranchAndRouteDateAndClient(BRANCH, route, date, client);
     }
 
     @RequestMapping(value = "/transaction-type")

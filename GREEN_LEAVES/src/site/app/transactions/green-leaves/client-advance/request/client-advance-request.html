@@ -10,13 +10,13 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input id="route" class="form-control" smart-input="text" ng-model="model.data.route"  input-hint="route"  uib-typeahead="route.indexNo as (route.indexNo + '-' + route.name) for route in model.routes|filter:$viewValue|limitTo:10"  typeahead-input-formatter="ui.getRouteLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="route" class="form-control" smart-input="text" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
                                 <input class="form-control" smart-input="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
-                                <input class="form-control"  input-hint="transaction number" smart-input="integer" ng-model="model.data.number" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
+                                <input class="form-control"  input-hint="transaction number" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event);" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
@@ -35,7 +35,7 @@
                         <tr>
                             <th class="text-left">
                                 <label>CLIENT</label>
-                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-input-formatter="ui.getClientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-left">
                                 <label>AS AT DATE</label>
@@ -62,8 +62,8 @@
                     <tbody>
                         <tr ng-repeat="requestDetail in model.data.clientAdvanceRequestDetails">
                             <td>
-                                <span class="label" ng-class="requestDetail.routeModel.indexNo === model.data.route ? 'label-default' : 'label-danger'">{{requestDetail.clientModel.indexNo|fixedLength:5}}</span>{{requestDetail.clientModel.name}}
-                                <span class="text-default">({{requestDetail.routeModel.name}})</span>
+                                <span class="label" ng-class="model.client(requestDetail.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(requestDetail.client).clientNumber | fixedLength:5}}</span>{{model.client(requestDetail.client).name}}
+                                <span class="text-default">({{model.route(model.client(requestDetail.client).route).name}})</span>
                             </td>
                             <td class="text-left">{{requestDetail.asAtDate| date:'yy-MMMM'}}</td>
                             <td class="text-right">{{requestDetail.amount|number:2}}</td>
@@ -80,14 +80,14 @@
             </div>
             <div class="col-xs-12">
                 <table>
-                    <col style="width: 70%"/>
+                    <col style="width: 55%"/>
                     <col style="width: 20%"/>
-                    <col style="width: 10%"/>
+                    <col style="width: 25%"/>
                     <thead class="background-dark">
                         <tr class="clickable">
                             <th>ADVANCE REQUEST SUMMARY</th>
-                            <th class="text-right">{{model.data.getSummary() | number:2}}</th>
-                            <th>&nbsp;</th>
+                            <th class="text-right"><span class="label label-default">Request -  </span>  {{model.requestTotal.requestTotal}}</th>
+                            <th class="text-right">{{model.requestTotal.requestAmountTotal| number:2}}</th>
                         </tr>
                     </thead>
                 </table>
@@ -123,8 +123,8 @@
                     <tbody>
                         <tr ng-repeat="clientHistory in model.clientHistory">
                             <td>{{clientHistory[0]}}</td>
-                            <td class="text-right" >{{clientHistory[1]}}</td>
-                            <td class="text-right" >{{clientHistory[2]}}</td>
+                            <td class="text-right" >{{clientHistory[2]|number:2}}</td>
+                            <td class="text-right" >{{clientHistory[1]|number:2}}</td>
                             <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
                         </tr>
                     </tbody>
@@ -142,13 +142,13 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>Total</td>
-                            <td class="text-right">{{getTotalDebit()}}</td>
-                            <td class="text-right">{{getTotalCredit()}}</td>
+                            <td class="text-right">{{model.totalCreditAndDebit.totalDebit|number:2}}</td>
+                            <td class="text-right">{{model.totalCreditAndDebit.totalCradit|number:2}}</td>
                             <td></td>
                         </tr>
                         <tr class="text-bold">
                             <td>Balance</td>
-                            <td class="text-right">{{getCreditBlance()}}</td>
+                            <td class="text-right">{{model.totalCreditAndDebit.totalDebit - model.totalCreditAndDebit.totalCradit|number:2}}</td>
                             <td class="text-right">-</td>      
                             <td></td>
                         </tr>
@@ -156,13 +156,8 @@
                 </table>
             </div>
 
-            <div class="col-xs-12"  style="margin-top: 10px; height: 170px;">
-                <canvas id="base" class="chart-bar"
-                        data-chart-data="data" 
-                        data-chart-labels="labels" 
-                        data-chart-colors="colors"
-                        data-chart-dataset-override="datasetOverride">
-                </canvas>
+            <div class="col-xs-12" style="margin-top: 10px;height: 170px;">
+                <canvas id="line" class="chart chart-line ng-isolate-scope" chart-dataset-override="datasetOverride" chart-data="model.chartDetails.chartData" chart-labels="model.chartDetails.chartDateList" chart-colors="colors" chart-series="series" chart-options="options"></canvas>
             </div>
         </div>
     </div>
@@ -172,7 +167,7 @@
         <!--load-->
         <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
         <!--clear-->
-        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
+        <!--        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>-->
         <!--delete-->
         <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
         <!--edit-->

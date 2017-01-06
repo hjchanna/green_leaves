@@ -9,8 +9,12 @@ import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -69,9 +73,33 @@ public class GLClientAdvanceService {
         clientAdvanceRepository.delete(indexNo);
     }
 
+//    @Transactional
+//    public void deleteAdvanceRequestDetail(Integer indexNo) {
+//        TClientAdvanceRequestDetail clientAdvanceRequestDetail = clientAdvanceRequestDetailRepository.getOne(indexNo);
+//        TClientAdvanceRequest tClientAdvanceRequest = clientAdvanceRequestDetail.getClientAdvanceRequest();
+//
+//        System.out.println("one detai delete");
+//        clientAdvanceRequestDetailRepository.delete(indexNo);
+//        
+//        //TClientAdvanceRequestDetail is emplty delete tClientAdvanceRequest
+//        if (tClientAdvanceRequest.getClientAdvanceRequestDetails().isEmpty()) {
+//            System.out.println("full detail delete");
+//            clientAdvanceRepository.delete(tClientAdvanceRequest);
+//        }
+//    }
     @Transactional
     public void deleteAdvanceRequestDetail(Integer indexNo) {
+        TClientAdvanceRequestDetail clientAdvanceRequestDetail = clientAdvanceRequestDetailRepository.getOne(indexNo);
+        TClientAdvanceRequest tClientAdvanceRequest = clientAdvanceRequestDetail.getClientAdvanceRequest();
+
+        System.out.println("one detai delete");
         clientAdvanceRequestDetailRepository.delete(indexNo);
+
+        //TClientAdvanceRequestDetail is emplty delete tClientAdvanceRequest
+        if (tClientAdvanceRequest.getClientAdvanceRequestDetails().isEmpty()) {
+            System.out.println("full detail delete");
+            clientAdvanceRepository.delete(tClientAdvanceRequest);
+        }
     }
 
     public List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch) {
@@ -102,8 +130,54 @@ public class GLClientAdvanceService {
         return clientAdvanceRepository.findByBranchAndDateAndClient(branch, date, client);
     }
 
+    public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
+
+        String year = new SimpleDateFormat("yyy").format(date);
+        String month = new SimpleDateFormat("MM").format(date);
+
+        //get month days count
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int monthMaxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        //get db data 
+        List<Object[]> getDbData = clientAdvanceRepository.findGreenLeavesReceive(branch, route, date, client);
+
+        //return chart data
+        List<Object[]> chartData = new ArrayList<>();
+        for (int i = 0; i <= monthMaxDays; i++) {
+            chartData.add(new Object[]{i, 0, 0});
+        }
+
+        //get monthly dates
+        for (int i = 1; i <= monthMaxDays; i++) {
+            String tempDate = "";
+            if (i < 10) {
+                tempDate = year + "-" + month + "-0" + i;
+            } else {
+                tempDate = year + "-" + month + "-" + i;
+            }
+            
+            //db date and get data mach and add new
+            for (int j = 0; j < getDbData.size(); j++) {
+                if (tempDate.equals(new SimpleDateFormat("yyy-MM-dd").format(getDbData.get(j)[0]))) {
+                    chartData.set(i, new Object[]{i, getDbData.get(j)[1], getDbData.get(j)[2]});
+                }
+            }
+        }
+        return chartData;
+    }
+
     List<TransactionType> findTransactionTypeAll() {
         return transactionTypeReository.findAll();
+    }
+
+    public TClientAdvanceRequest findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
+        List<TClientAdvanceRequest> advanceRequests = clientAdvanceRepository.findByBranchAndRouteAndDate(branch, route, date);
+        if (advanceRequests.isEmpty()) {
+            throw new EntityNotFoundException("Green Leaves Client Request Not Found");
+        }
+        return advanceRequests.get(0);
     }
 
 }

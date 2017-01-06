@@ -123,7 +123,7 @@
                                     that.routes = data;
                                 });
 
-                        ClientAdvanceRequestService.loadClients()
+                        ClientAdvanceRequestService.loadClient()
                                 .success(function (data) {
                                     that.clients = data;
                                 });
