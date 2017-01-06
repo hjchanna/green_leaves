@@ -156,7 +156,7 @@
                     GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
                             .success(function (data) {
                                 that.tempData.indexNo = data;
-                                that.data.greenLeaveWeighDetails.push(that.tempData);
+                                that.data.greenLeaveWeighDetails.unshift(that.tempData);
                                 that.tempData = GreenLeavesWeighModelFactory.newTempData();
                                 that.validate();
                                 defer.resolve();
@@ -201,7 +201,7 @@
 //                var normalGeneralDeductionPercent = parseFloat(this.data.normalGeneralDeductionPercent);
 //                var normalGeneralDeduction = parseInt(normalGeneralDeductionPercent * normalTotalWeight / 100);
 //                this.data.normalGeneralDeduction = normalGeneralDeduction;
-
+//
 //                var superGeneralDeductionPercent = parseFloat(this.data.superGeneralDeductionPercent);
 //                var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
 //                this.data.superGeneralDeduction = superGeneralDeduction;
@@ -387,7 +387,7 @@
                             that.data.normalTotalWeight = 0.0;
                             that.data.normalTareCalculated = 0.0;
                             that.data.normalTareDeduction = 0.0;
-                            that.data.normalGeneralDeductionPercent = 4.0;
+                            that.data.normalGeneralDeductionPercent = 0.0;
                             that.data.normalGeneralDeduction = 0.0;
                             that.data.normalWaterDeduction = 0.0;
                             that.data.normalCoarseLeaves = 0.0;
@@ -401,7 +401,7 @@
                             that.data.superTotalWeight = 0.0;
                             that.data.superTareCalculated = 0.0;
                             that.data.superTareDeduction = 0.0;
-                            that.data.superGeneralDeductionPercent = 4.0;
+                            that.data.superGeneralDeductionPercent = 0.0;
                             that.data.superGeneralDeduction = 0.0;
                             that.data.superWaterDeduction = 0.0;
                             that.data.superCoarseLeaves = 0.0;

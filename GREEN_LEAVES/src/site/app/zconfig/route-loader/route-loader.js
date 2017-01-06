@@ -7,11 +7,14 @@
                 $rootScope.layout = {};
                 $rootScope.layout.loading = false;
 
-                $rootScope.$on('$routeChangeStart', function () {
+                $rootScope.$on('$routeChangeStart', function (event, next, prev) {
                     //show loading gif
-                    $timeout(function () {
-                        $rootScope.layout.loading = true;
-                    });
+                    console.log(next);
+                    if (next.$$route.originalPath !== '/login' && prev.$$route.originalPath !== '/login') {
+                        $timeout(function () {
+                            $rootScope.layout.loading = true;
+                        });
+                    }
                 });
                 $rootScope.$on('$routeChangeSuccess', function () {
                     //hide loading gif

@@ -71,7 +71,7 @@
                     addDetail: function () {
                         var defer = $q.defer();
                         if (parseInt(this.tempData.normalLeavesQuantity + this.tempData.superLeavesQuantity) > 0) {
-                            this.data.greenLeavesReceiveDetails.push(this.tempData);
+                            this.data.greenLeavesReceiveDetails.unshift(this.tempData);
                             this.refreshQuantity();
                             this.tempData = GreenLeavesReceiveModelFactory.newTempData();
                             defer.resolve();
