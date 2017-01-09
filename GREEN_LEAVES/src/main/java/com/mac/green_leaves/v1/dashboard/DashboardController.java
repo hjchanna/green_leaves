@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.dashboard;
 
 import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,24 +32,19 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
-//
-//    @RequestMapping(value = "/find-green-leave-dashboard-weigh/{fromDate}/{toDate}/{route}/{routeOfficer}/{routeHelper}/{vehicle}/{type}", method = RequestMethod.GET)
-//    public List<Object[]> getBulkGreenLeavesWeighSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate, @PathVariable Integer route, @PathVariable Integer routeOfficer, @PathVariable Integer routeHelper, @PathVariable Integer vehicle, @PathVariable String type) {
-//        return dashboardService.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type);
-//    }
-//
-//    @RequestMapping(value = "/find-green-leave-dashboard-weigh-by-indexNo/{indexNo}", method = RequestMethod.GET)
-//    public TGreenLeavesWeigh getBulkGreenLeavesWeighSummry(@PathVariable Integer indexNo) {
-//        return dashboardService.getGreenLeavesWeighSummryByIndexNo(indexNo);
-//    }
+
+    @RequestMapping(value = "/find-green-leave-receice-details/{fromDate}/{toDate}", method = RequestMethod.GET)
+    public List<Object[]> getGreenLeavesReceiveSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
+        return dashboardService.getGreenLeavesReceiveSummry(fromDate, toDate);
+    }
+
     @RequestMapping(value = "/find-green-leave-weigh-dashboard-summary", method = RequestMethod.POST)
-    public List<TGreenLeavesWeigh> getGeenLeavesTotalSummary(@RequestBody greenLeavesSummry leavesSummry) {
-        System.out.println(leavesSummry.getFromDate());
-        System.out.println(leavesSummry.getToDate());
-        System.out.println(leavesSummry.getRoute());
-        System.out.println(leavesSummry.getRouteOfficer());
-        System.out.println(leavesSummry.getRouteHelper());
-        System.out.println(leavesSummry.getVehicle());
+    public List<TGreenLeavesWeigh> getGeenLeavesWeighTotalSummary(@RequestBody greenLeavesSummry leavesSummry) {
         return dashboardService.getGeenLeavesWeighTotalSummary(leavesSummry);
+    }
+
+    @RequestMapping(value = "/find-green-leave-receive-dashboard-summary", method = RequestMethod.POST)
+    public List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(@RequestBody greenLeavesSummry leavesSummry) {
+        return dashboardService.getGeenLeavesReceiveTotalSummary(leavesSummry);
     }
 }

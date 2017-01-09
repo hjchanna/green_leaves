@@ -6,6 +6,8 @@
 package com.mac.green_leaves.v1.dashboard;
 
 import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
+import com.mac.green_leaves.v1.exception.EntityNotFoundException;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
 import java.util.List;
@@ -52,8 +54,8 @@ public class DashboardService {
 //        getTotalSummaryMap.put("supplierReceiveNormalTotal", 0.0);
 //        return getTotalSummaryMap;
 //    }
-    public List<Object[]> getGreenLeavesWeighSummry(Date fromDate, Date toDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, String type) {
-        return dashboardRepository.getGreenLeavesWeighSummry(fromDate, toDate, route, routeOfficer, routeHelper, vehicle, type);
+    public List<Object[]> getGreenLeavesReceiveSummry(Date fromDate, Date toDate) {
+        return dashboardRepository.getGreenLeavesReceiveSummry(fromDate, toDate);
     }
 
     public TGreenLeavesWeigh getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
@@ -62,10 +64,18 @@ public class DashboardService {
 
     List<TGreenLeavesWeigh> getGeenLeavesWeighTotalSummary(greenLeavesSummry leavesSummry) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesWeigh.class);
+        System.out.println(leavesSummry.getClient());
+        criteria.add(Restrictions.eq("type", leavesSummry.getType()));
 
-        //search only route
+        if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
+            criteria.add(Restrictions.ge("date", leavesSummry.getFromDate()));
+            criteria.add(Restrictions.lt("date", leavesSummry.getToDate()));
+        }
         if (leavesSummry.getRoute() != null) {
             criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
+        }
+        if (leavesSummry.getClient() != null) {
+            criteria.add(Restrictions.eq("client", leavesSummry.getClient()));
         }
         if (leavesSummry.getRouteOfficer() != null) {
             criteria.add(Restrictions.eq("routeOfficer", leavesSummry.getRouteOfficer()));
@@ -80,5 +90,22 @@ public class DashboardService {
         criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
         List<TGreenLeavesWeigh> greenLeavesWeigh = criteria.list();
         return greenLeavesWeigh;
+    }
+
+    List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(greenLeavesSummry leavesSummry) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
+        
+        if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
+            criteria.add(Restrictions.ge("date", leavesSummry.getFromDate()));
+            criteria.add(Restrictions.lt("date", leavesSummry.getToDate()));
+        }
+        
+        if (leavesSummry.getRoute() != null) {
+            criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
+        }
+        
+        criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
+        List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
+        return greenLeavesReceives;
     }
 }

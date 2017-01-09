@@ -10,11 +10,13 @@
                         "route": null,
                         "routeOfficer": null,
                         "routeHelper": null,
-                        "vehicle": null
+                        "vehicle": null,
+                        "client": null,
+                        "type": null
                     };
                     return data;
                 };
-                
+
                 factory.totalSummry = function () {
                     var data = {
                         "totalNormalWeigh": 0.0,
@@ -32,7 +34,7 @@
                     };
                     return data;
                 };
-                
+
                 factory.newGreenLeavesWeigh = function () {
                     var data = {
                         "indexNo": 0,

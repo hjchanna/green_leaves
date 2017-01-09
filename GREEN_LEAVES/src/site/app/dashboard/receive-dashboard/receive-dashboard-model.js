@@ -10,6 +10,8 @@
             data: {},
             totalSummry: {},
             greenLeavesWeigh: {},
+            //client information
+            clients: [],
             //route information
             routes: [],
             //branch information
@@ -20,9 +22,16 @@
             routeHelpers: [],
             //vehicle information 
             vehicles: [],
-//            greenLeavesReceiveList: [],
+            totalGreenLevas: {
+                normalGreenLeaves: 0.0,
+                superlGreenLeaves: 0.0
+            },
+            greenLeavesReceveChartSummry: {
+                routes: [],
+                greenLeavesQtys: [[], []]
+            },
+            greenLeavesReceiveList: [],
             greenLeavesBulkWeighList: [],
-//            greenLeavesSupplierWeighList: [],
             constructor: function () {
                 var that = this;
                 that.data = GreenLeavesDashBoardModelFactory.newData();
@@ -47,6 +56,10 @@
                 GreenLeavesDashBoardService.loadBranch()
                         .success(function (data) {
                             that.branchs = data;
+                        });
+                GreenLeavesDashBoardService.loadClient()
+                        .success(function (data) {
+                            that.clients = data;
                         });
             },
             greenLeavesAllSummry: function () {
@@ -78,21 +91,70 @@
                 console.log("getGreenLeavesWeighSummry");
                 var defer = $q.defer();
                 var that = this;
-//                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
-//                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
-
+                that.data.type = type;
                 GreenLeavesDashBoardService.getGreenWeighLeavesSummary(JSON.stringify(that.data))
                         .success(function (data) {
                             that.greenLeavesBulkWeighList = data;
                             defer.resolve();
                         })
                         .error(function () {
+                            that.greenLeavesBulkWeighList = [];
                             defer.reject();
                         });
 
                 return defer.promise;
             }, greenLeavesReceiveSummry: function () {
+                console.log("greenLeavesReceiveSummry");
+                var defer = $q.defer();
+                var that = this;
+                GreenLeavesDashBoardService.getGreenReceiveLeavesSummary(JSON.stringify(that.data))
+                        .success(function (data) {
+                            that.greenLeavesReceiveList = data;
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            that.greenLeavesReceiveList = [];
+                            defer.reject();
+                        });
+                return defer.promise;
 
+
+            },
+            greenLeavesChatFillData: function () {
+                var that = this;
+                var defer = $q.defer();
+                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
+                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+                GreenLeavesDashBoardService.getGreenLeavesChartDetails(fromDate, toDate)
+                        .success(function (data) {
+                            defer.resolve();
+                            angular.forEach(data, function (value) {
+                                that.greenLeavesReceveChartSummry.routes.push(that.routeLabel(value[0]));
+                                that.greenLeavesReceveChartSummry.greenLeavesQtys[0].push(value[1]);
+                                that.greenLeavesReceveChartSummry.greenLeavesQtys[1].push(value[2]);
+                            });
+                        })
+                        .error(function (data) {
+                            //that.greenLeavesReceveChartSummry = {};
+                            defer.reject();
+                        });
+                return that.greenLeavesReceveChartSummry;
+            },
+            getTotalNormalGreenLeavesAndTotalSuperLeavse: function (indexNo) {
+                var normalLeavesQuantity = 0.0;
+                var superLeavesQuantity = 0.0;
+                var that = this;
+                angular.forEach(this.greenLeavesReceiveList, function (value) {
+                    if (value.indexNo === indexNo) {
+                        angular.forEach(value.greenLeavesReceiveDetails, function (value) {
+                            normalLeavesQuantity += value.normalLeavesQuantity;
+                            superLeavesQuantity += value.superLeavesQuantity;
+                            that.totalGreenLevas.normalGreenLeaves = normalLeavesQuantity;
+                            that.totalGreenLevas.superlGreenLeaves = superLeavesQuantity;
+                        });
+                    }
+                });
+                return that.totalGreenLevas;
             },
             //green leaves summmry table selectd row get 
             greenLeaveWeighDetailsByIndexNo: function (indexNo) {
@@ -111,6 +173,14 @@
                 return defer.promise;
             },
             greenLeaveReceiveDetailsByIndexNo: function (indexNo) {
+                var label;
+                angular.forEach(this.routes, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.indexNo + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
             },
             //return label for branch
             bracnhLable: function (indexNo) {
@@ -162,6 +232,17 @@
                 angular.forEach(this.vehicles, function (value) {
                     if (value.indexNo === indexNo) {
                         label = value.indexNo + "-" + value.vehicleNo;
+                        return;
+                    }
+                });
+                return label;
+            },
+            //return lable for client
+            clientLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.clientNumber + "-" + value.name;
                         return;
                     }
                 });

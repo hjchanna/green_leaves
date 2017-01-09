@@ -35,17 +35,11 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
     public List<Object[]> getBulkGreenLeavesWeighTotal(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer route, @Param("routeOfficer") Integer routeOfiicer, @Param("routeHelper") Integer routeHelper, @Param("vehicle") Integer vehicle);
 
     @Query(value = "SELECT \n"
-            + "t_green_leaves_weigh.index_no,\n"
-            + "t_green_leaves_weigh.route,\n"
-            + "t_green_leaves_weigh.date,\n"
-            + "sum(t_green_leaves_weigh.normal_net_weight),\n"
-            + "sum(t_green_leaves_weigh.super_net_weight) \n"
-            + "FROM  t_green_leaves_weigh \n"
-            + "WHERE (date BETWEEN :formDate AND :toDate) \n"
-            + "AND route = :route \n"
-            + "AND route_officer = :routeOfficer \n"
-            + "AND route_helper = :routeHelper \n"
-            + "AND vehicle = :vehicle \n"
-            + "AND type = :type GROUP BY t_green_leaves_weigh.route", nativeQuery = true)
-    public List<Object[]> getGreenLeavesWeighSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("route") Integer route, @Param("routeOfficer") Integer routeOfiicer, @Param("routeHelper") Integer routeHelper, @Param("vehicle") Integer vehicle, @Param("type") String type);
+            + "t_green_leaves_receive.route,\n"
+            + "SUM(t_green_leaves_receive_detail.normal_leaves_quantity),\n"
+            + "SUM(t_green_leaves_receive_detail.super_leaves_quantity) \n"
+            + "FROM t_green_leaves_receive LEFT JOIN t_green_leaves_receive_detail ON t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive \n"
+            + "WHERE (date BETWEEN :formDate AND :toDate)\n"
+            + "GROUP BY t_green_leaves_receive.route", nativeQuery = true)
+    public List<Object[]> getGreenLeavesReceiveSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate);
 }

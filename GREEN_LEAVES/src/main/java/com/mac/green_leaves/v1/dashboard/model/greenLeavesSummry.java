@@ -19,17 +19,21 @@ public class greenLeavesSummry {
     private Integer routeOfficer;
     private Integer routeHelper;
     private Integer vehicle;
+    private Integer client;
+    private String type;
 
     public greenLeavesSummry() {
     }
 
-    public greenLeavesSummry(Date toDate, Date fromDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle) {
+    public greenLeavesSummry(Date toDate, Date fromDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, Integer client, String type) {
         this.toDate = toDate;
         this.fromDate = fromDate;
         this.route = route;
         this.routeOfficer = routeOfficer;
         this.routeHelper = routeHelper;
         this.vehicle = vehicle;
+        this.client = client;
+        this.type = type;
     }
 
     public Date getToDate() {
@@ -79,4 +83,21 @@ public class greenLeavesSummry {
     public void setVehicle(Integer vehicle) {
         this.vehicle = vehicle;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getClient() {
+        return client;
+    }
+
+    public void setClient(Integer client) {
+        this.client = client;
+    }
+
 }
