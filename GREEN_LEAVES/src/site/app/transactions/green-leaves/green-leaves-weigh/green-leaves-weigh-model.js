@@ -156,7 +156,7 @@
                     GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
                             .success(function (data) {
                                 that.tempData.indexNo = data;
-                                that.data.greenLeaveWeighDetails.push(that.tempData);
+                                that.data.greenLeaveWeighDetails.unshift(that.tempData);
                                 that.tempData = GreenLeavesWeighModelFactory.newTempData();
                                 that.validate();
                                 defer.resolve();
@@ -201,7 +201,7 @@
 //                var normalGeneralDeductionPercent = parseFloat(this.data.normalGeneralDeductionPercent);
 //                var normalGeneralDeduction = parseInt(normalGeneralDeductionPercent * normalTotalWeight / 100);
 //                this.data.normalGeneralDeduction = normalGeneralDeduction;
-
+//
 //                var superGeneralDeductionPercent = parseFloat(this.data.superGeneralDeductionPercent);
 //                var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
 //                this.data.superGeneralDeduction = superGeneralDeduction;

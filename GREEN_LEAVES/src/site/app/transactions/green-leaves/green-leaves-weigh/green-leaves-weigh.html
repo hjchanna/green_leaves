@@ -81,7 +81,7 @@
                                     <col />
                                     <tbody>
                                         <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'NORMAL'});">
-                                            <td><span class="label label-primary">{{$index + 1|fixedLength:4}}</span></td>
+                                            <td><span class="label label-primary">{{model.data.greenLeaveWeighDetails.length - $index|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
@@ -306,8 +306,8 @@
                         <tr>
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalGeneralDeductionPercent">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalGeneralDeduction" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.normalGeneralDeductionPercent" disabled>
+                                <input class="form-control text-right" smart-input="integer" style="width: 48%; display: inline; float: right;" ng-model="model.data.normalGeneralDeduction" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
@@ -393,7 +393,7 @@
                             <td><label class="control-label">DEDUCTION</label></td>
                             <td>
                                 <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.data.superGeneralDeductionPercent" ng-disabled="true">
-                                <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.data.superGeneralDeduction" ng-disabled="ui.mode !== 'EDIT'">
+                                <input class="form-control text-right" smart-input="integer" style="width: 48%; display: inline; float: right;" ng-model="model.data.superGeneralDeduction" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                         <tr>
