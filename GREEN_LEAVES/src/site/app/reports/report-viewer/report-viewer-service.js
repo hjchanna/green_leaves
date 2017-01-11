@@ -9,8 +9,15 @@
                     return $http.post(systemConfig.apiUrl + "/api/v1/report/report-viewer/report-parameters", JSON.stringify(report));
                 };
 
-                this.getPdfBytes = function (params) {
-                    return $http.get(systemConfig.apiUrl + "/api/v1/report/report-viewer/report",{responseType: 'arraybuffer'});
+                this.getPdfBytes = function (map) {
+                    console.log(map);
+                    
+//                    return $http.post(systemConfig.apiUrl + "/api/v1/report/report-viewer/report",{responseType: 'arraybuffer'},map);
+                    var x = {
+                      "client":"K W Chaminda"  
+                    };
+                    return $http.post(systemConfig.apiUrl + "/api/v1/report/report-viewer/report",JSON.stringify(x), {responseType: 'arraybuffer'});
+                    
                 };
             });
 }());

@@ -101,14 +101,17 @@ public class ReportViewerService {
         JRParameter[] jrParameters = jasperReport.getParameters();
 
         for (JRParameter jrParameter : jrParameters) {
-            reportParameters.add(jrParameter.getName());
+            if (!jrParameter.isSystemDefined()) {
+                reportParameters.add(jrParameter.getName());
+            }
         }
 
         return reportParameters;
     }
 
-    public void writePdfReport(HttpServletResponse response) throws JRException, IOException, SQLException {
-        String reportFile = "D:\\reports\\basic_reports\\client_list.jrxml";
+    public void writePdfReport(HttpServletResponse response,HashMap<String,Object>map) throws JRException, IOException, SQLException {
+        
+        String reportFile = "D:\\reports\\basic_reports\\b.jrxml";
 
         String compiledFilePath = reportFile.replace(".jrxml", ".jasper");
         File compiledFile = new File(compiledFilePath);
@@ -118,6 +121,13 @@ public class ReportViewerService {
         }
 
         Map<String, Object> params = new HashMap<>();
+        params.putAll(map);
+        params.put("a", "Mohan");
+        for (String string : params.keySet()) {
+            System.out.println(string +"-"+params.get(string));
+        }
+        
+        System.out.println(params);
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(compiledFile);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
 

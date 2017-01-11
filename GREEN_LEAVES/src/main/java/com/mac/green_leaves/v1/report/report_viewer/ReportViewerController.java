@@ -9,7 +9,9 @@ import com.mac.green_leaves.v1.report.report_viewer.model.Report;
 import com.mac.green_leaves.v1.report.report_viewer.model.ReportGroup;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +43,10 @@ public class ReportViewerController {
         return reportViewerService.getReportParameters(report);
     }
     
-    @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public void viewReport(HttpServletResponse httpServletResponse) throws JRException, IOException, SQLException {
-        reportViewerService.writePdfReport(httpServletResponse);
+    @RequestMapping(value = "/report", method = RequestMethod.POST)
+    public void viewReport(HttpServletResponse httpServletResponse, @RequestBody HashMap<String,Object>map) throws JRException, IOException, SQLException {
+        reportViewerService.writePdfReport(httpServletResponse,map);
+        System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
     }
     
 

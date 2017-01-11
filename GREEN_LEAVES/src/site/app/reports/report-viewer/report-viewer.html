@@ -21,7 +21,7 @@
                             <table class="table-hover">
                                 <tbody >
                                     <tr ng-repeat="report in reportGroup.reports">
-                                        <td ng-click="ui.selectReport(report);" ng-class="report.fileName===model.currentReport.report.reportFile?'background-default':''">
+                                        <td ng-click="ui.selectReport(report);" ng-class="report.fileName === model.currentReport.report.reportFile ? 'background-default' : ''">
                                             {{report.reportName}}
                                         </td>
                                     </tr>
@@ -35,9 +35,38 @@
                 </uib-tab>
 
                 <uib-tab heading="CURRENT REPORT">
-                    <div class="col-xs-12">
-                        {{model.currentReport.report.fileName}}
-                        <a class="btn btn-block btn-primary" ng-click="ui.viewCurrentReport();">VIEW</a>
+                    <div class="col-xs-12" >
+                        <div style="display: flex; flex-flow: column; height: calc(95vh - 52px);">
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+
+                                <tbody>                   
+                                    <tr ng-show="model.visibleFunction.showClient">
+                                        <td><label class="control-label">Client</label></td>
+                                        <td><input class="form-control" id="client" ng-model="model.reportViewer.client" ></td>
+                                    </tr>
+                                    <tr ng-show="model.visibleFunction.showOfficer">
+                                        <td><label class="control-label">Route Officer</label></td>
+                                        <td><input class="form-control" id="routeOfficer" ng-model="model.reportViewer.routeOfficer" ></td>
+                                    </tr>
+                                    <tr ng-show="model.visibleFunction.showHelper">
+                                        <td><label class="control-label">Route Helper</label></td>
+                                        <td><input class="form-control" id="routeHelper" ng-model="model.reportViewer.routeHelper" ></td>
+                                    </tr>
+                                    <tr ng-show="model.visibleFunction.showDriver">
+                                        <td><label class="control-label">Driver</label></td>
+                                        <td><input class="form-control" id="driver" ng-model="model.reportViewer.driver" ></td>
+                                    </tr>
+                                    <tr ng-show="model.visibleFunction.showVehicle">
+                                        <td><label class="control-label">Vehicle</label></td>
+                                        <td><input class="form-control" id="vehicle" ng-model="model.reportViewer.vehicle" ></td>
+                                    </tr> 
+                                </tbody>                 
+                            </table>
+                            {{model.currentReport.report.fileName}}
+                            <a class="btn btn-block btn-primary" ng-click="ui.viewCurrentReport();">VIEW</a>                            
+                        </div>
                     </div>
                 </uib-tab>
             </uib-tabset>

@@ -6,23 +6,61 @@
 
                 $scope.ui = {};
 
+                $scope.model.visibleFunction = {
+                    showClient: false,
+                    showOfficer: false,
+                    showHelper: false,
+                    showDriver: false,
+                    showVehicle: false
+                };
+
+                $scope.model.reportViewer = {
+                    client: null,
+                    routeOfficer: null,
+                    routeHelper: null,
+                    driver: null,
+                    vehicle: null
+                };
+
                 $scope.ui.selectReport = function (report) {
                     $scope.model.currentReport.report = report;
 
                     ReportViewerService.listParameters(report)
                             .success(function (data) {
+                                console.log(data);
                                 $scope.model.currentReport.parameters = data;
+                                angular.forEach(data, function (value) {
+                                    if (value === "client") {
+                                        $scope.model.visibleFunction.showClient = true;
+                                    } else if (value === "driver") {
+                                        $scope.model.visibleFunction.showDriver = true;
+                                    } else if (value === "vehicle") {
+                                        $scope.model.visibleFunction.showVehicle = true;
+                                    } else if (value === "route_officer") {
+                                        $scope.model.visibleFunction.showOfficer = true;
+                                    } else if (value === "route_helper") {
+                                        $scope.model.visibleFunction.showHelper = true;
+                                    }
+                                });
                             });
                 };
 
                 $scope.ui.viewCurrentReport = function () {
                     var params = {
-                        "report": $scope.model.currentReport.report.fileName
+                        "report": $scope.model.currentReport.report.fileName                                          
                     };
+                    
+                    var map = new Map();
+                    map.set("client", $scope.model.reportViewer.client);
+                    map.set("routeOfficer", $scope.model.reportViewer.routeOfficer);
+                    map.set("routeHelper", $scope.model.reportViewer.routeHelper);
+                    map.set("driver", $scope.model.reportViewer.driver);
+                    map.set("vehicle", $scope.model.reportViewer.vehicle);
+//                    console.log(map.get("client")); //logs "client"
                     //TODO:parse parameters
 
                     //TODO: view pdf
-                    ReportViewerService.getPdfBytes(params)
+                    ReportViewerService.getPdfBytes(map)
                             .success(function (data) {
                                 var blob = new Blob([data], {type: 'application/pdf'});
                                 var streamUrl = URL.createObjectURL(blob);
