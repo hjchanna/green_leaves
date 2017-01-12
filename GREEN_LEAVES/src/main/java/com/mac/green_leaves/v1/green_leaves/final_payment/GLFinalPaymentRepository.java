@@ -5,18 +5,15 @@
  */
 package com.mac.green_leaves.v1.green_leaves.final_payment;
 
-import com.mac.green_leaves.v1.green_leaves.final_payment.model.TAccountTransaction;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 /**
  *
  * @author Supervision
  */
-public interface GLFinalPaymentRepository extends JpaRepository<TAccountTransaction, Integer> {
+public interface GLFinalPaymentRepository extends JpaRepository<Void, Integer> {
 
+    /*
     @Query(value = "select\n"
             + "	t_account_transaction.index_no ,\n"
             + "	t_account_transaction.branch,\n"
@@ -58,5 +55,5 @@ public interface GLFinalPaymentRepository extends JpaRepository<TAccountTransact
             + "	t_account_transaction.transaction_type =:transactionType", nativeQuery = true)
     
     public List<TAccountTransaction> getAccountTransactionsFromDescription(@Param("year") String year, @Param("month") String month, @Param("transactionType") Integer typeId);
-
+*/
 }

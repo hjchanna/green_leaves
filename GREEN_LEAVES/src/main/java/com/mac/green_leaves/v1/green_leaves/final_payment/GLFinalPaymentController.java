@@ -5,20 +5,13 @@
  */
 package com.mac.green_leaves.v1.green_leaves.final_payment;
 
-import com.mac.green_leaves.v1.green_leaves.final_payment.model.TAccountTransaction;
-import com.mac.green_leaves.v1.green_leaves.zmaster.client.GLClientService;
-import com.mac.green_leaves.v1.green_leaves.zmaster.client.model.MClient;
-import com.mac.green_leaves.v1.green_leaves.zmaster.employee.GLEmployeeService;
-import com.mac.green_leaves.v1.green_leaves.zmaster.employee.model.MEmployee;
-import com.mac.green_leaves.v1.master.employee.EmployeeService;
-import com.mac.green_leaves.v1.master.transaction_type.TransactionTypeService;
-import com.mac.green_leaves.v1.master.transaction_type.model.TransactionType;
+import com.mac.green_leaves.v1.green_leaves.final_payment.model.TFinalPaymentSummary;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,11 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/green-leaves/final-payment")
 public class GLFinalPaymentController {
-    
-    private static final Integer branch = 1;
-    
+
     @Autowired
     private GLFinalPaymentService finalPaymentService;
+
+    @RequestMapping("/summary/{year}/{month}")
+    public List<TFinalPaymentSummary> listFinalPaymentSummary(@PathVariable Integer year, @PathVariable Integer month) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
+        return finalPaymentService.getFinalPaymentSummary(branch, year, month);
+    }
+
+    /*
+    private static final Integer branch = 1;
+    
     
     @Autowired
     private TransactionTypeService transactionTypeService;
@@ -69,5 +71,5 @@ public class GLFinalPaymentController {
     @RequestMapping(value = "/get-all-emplouee/{branch}", method = RequestMethod.GET)
     public List<MEmployee> getAllEmploueeFromBranch(@PathVariable Integer branch) {
         return emploueeService.findAllEmployees(branch);
-    }
+    }*/
 }

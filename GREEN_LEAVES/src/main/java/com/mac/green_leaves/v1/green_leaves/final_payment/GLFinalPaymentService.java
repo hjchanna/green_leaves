@@ -5,7 +5,9 @@
  */
 package com.mac.green_leaves.v1.green_leaves.final_payment;
 
-import com.mac.green_leaves.v1.green_leaves.final_payment.model.TAccountTransaction;
+import com.mac.green_leaves.v1.green_leaves.final_payment.model.TFinalPaymentSummary;
+import com.mac.green_leaves.v1.security.SystemUser;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,12 @@ public class GLFinalPaymentService {
     @Autowired
     private GLFinalPaymentRepository finalPaymentRepository;
     
+    
+    public List<TFinalPaymentSummary> getFinalPaymentSummary(Integer branch, Integer year, Integer month) {
+        
+    }
+
+    /*
     public List<TAccountTransaction> getAccountTransactionsFromDate(String year,String month){
         List<TAccountTransaction> list = finalPaymentRepository.getAccountTransaction(year,month);
         return list;
@@ -34,7 +42,7 @@ public class GLFinalPaymentService {
         System.out.println(typeId);
         List<TAccountTransaction> list = finalPaymentRepository.getAccountTransactionsFromDescription(year,month,typeId);
         return list;
-    }
+    }*/
 
     
 }
