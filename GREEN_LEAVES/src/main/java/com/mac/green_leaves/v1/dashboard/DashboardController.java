@@ -9,7 +9,6 @@ import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,6 +35,10 @@ public class DashboardController {
     @RequestMapping(value = "/find-green-leave-receice-details/{fromDate}/{toDate}", method = RequestMethod.GET)
     public List<Object[]> getGreenLeavesReceiveSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
         return dashboardService.getGreenLeavesReceiveSummry(fromDate, toDate);
+    }
+    @RequestMapping(value = "/find-green-leave-weigh-details/{fromDate}/{toDate}/{type}", method = RequestMethod.GET)
+    public List<Object[]> getGreelLeavesWeighSummry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate,@PathVariable String type) {
+        return dashboardService.getGreelLeavesWeighSummry(fromDate, toDate,type);
     }
 
     @RequestMapping(value = "/find-green-leave-weigh-dashboard-summary", method = RequestMethod.POST)

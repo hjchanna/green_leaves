@@ -9,7 +9,7 @@
 
                     <tbody>
                         <tr>
-                            <td><input class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>
+                            <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>
                             <td><input class="form-control" smart-input="date"  ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'"></td>
                             <td><input class="form-control" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event)"  input-hint="transaction number"  ng-disabled="ui.mode === 'EDIT'"></td>
                         </tr>
@@ -24,9 +24,9 @@
 
                     <tbody>
                         <tr>
-                            <td><input class="form-control" smart-input="text" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.findByBranchAndRouteAndDate();"></td>
+                            <td><input id="route" class="form-control" smart-input="text" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.findByBranchAndRouteAndDate();"></td>
                             <td><input class="form-control" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
-                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeHelper" ng-disabled="ui.mode !== 'EDIT'" input-hint="route helper" uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeHelper" ng-disabled="ui.mode !== 'EDIT'" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
                             <td><input class="form-control" smart-input="text" ng-model="model.data.vehicle" ng-disabled="ui.mode !== 'EDIT'" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
                         </tr>
                     </tbody>
@@ -50,21 +50,24 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" disabled>
+                                                <input id="normal-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" disabled>
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" disabled>
+                                                <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.polyBags" smart-input="integer" disabled>
+                                                <input class="form-control text-right" ng-model="model.tempData.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
+                                                <button type="button" class="btn btn-primary" ng-click="ui.insertNormalDetail();" ng-disabled="ui.mode !== 'EDIT'">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
                                             </th>
                                         </tr>
                                     </thead>
@@ -138,21 +141,24 @@
                                             <th>&nbsp;</th>
                                             <th class="text-right">
                                                 <label>QTY</label>
-                                                <input id="super-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" disabled>
+                                                <input id="super-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" disabled>
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" disabled>
+                                                <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.polyBags" smart-input="integer" disabled>
+                                                <input class="form-control text-right" ng-model="model.tempData.polyBags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
+                                                <button class="btn btn-primary" ng-click="ui.insertSuperDetail();" ng-disabled="ui.mode !== 'EDIT'">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
                                             </th>
                                         </tr>
                                     </thead>

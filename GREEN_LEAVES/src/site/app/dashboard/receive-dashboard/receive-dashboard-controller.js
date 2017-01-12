@@ -9,17 +9,56 @@
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
                 };
+                $scope.ui.discard = function () {
+                    $scope.ui.mode = "IDEAL";
+                    $scope.model.clear();
+                };
 
                 $scope.ui.searchUi;
                 $scope.ui.toggleType = function (type) {
                     if (type === 'Summary') {
+                        $scope.model.clear();
                         $scope.ui.searchUi = "Summary";
                     } else if (type === 'Receive') {
+                        $scope.model.clear();
                         $scope.ui.searchUi = "Receive";
                     } else if (type === 'Bulk_Weigh') {
+                        $scope.model.clear();
                         $scope.ui.searchUi = "Bulk_Weigh";
                     } else if (type === 'Supplier_Weigh') {
+                        $scope.model.clear();
                         $scope.ui.searchUi = "Supplier_Weigh";
+                    }
+                };
+
+                $scope.ui.searchGreenLeavesReceive;
+                $scope.ui.toggleReceiveType = function (type) {
+                    if (type === 'Search_Receive_Fully') {
+                        $scope.model.clear();
+                        $scope.ui.searchGreenLeavesReceive = "Search_Receive_Fully";
+                    } else if (type === 'Search_Receive_Client') {
+                        $scope.model.clear();
+                        $scope.ui.searchGreenLeavesReceive = "Search_Receive_Client";
+                    }
+                };
+                $scope.ui.getClientRoute = function (indexNo) {
+                    $scope.model.data.clientRoutes = $scope.model.getClientRoute(indexNo);
+                };
+
+                $scope.ui.search = function () {
+                    if ($scope.ui.searchUi === 'Summary') {
+                        // $scope.model.greenLeavesAllSummry();
+                    } else if ($scope.ui.searchUi === 'Receive') {
+                        if ($scope.ui.searchGreenLeavesReceive === 'Search_Receive_Fully') {
+                            $scope.model.greenLeavesReceiveSummry('normal');
+                        } else if ($scope.ui.searchGreenLeavesReceive === 'Search_Receive_Client') {
+                            $scope.model.greenLeavesReceiveSummry('client');
+                        }
+                    } else if ($scope.ui.searchUi === 'Bulk_Weigh') {
+                        $scope.model.getGreenLeavesWeighSummry('BULK');
+
+                    } else if ($scope.ui.searchUi === 'Supplier_Weigh') {
+                        $scope.model.getGreenLeavesWeighSummry('SUPPLIER');
                     }
                 };
 
@@ -31,38 +70,21 @@
                     $scope.ui.mode = "IDEAL";
                     $scope.ui.type = "NORMAL";
 
-                    $scope.$watch("[model.data.fromDate,model.data.client,model.data.toDate,model.data.route,model.data.routeOfficer,model.data.routeHelper,model.data.vehicle]", function (newVal, oldVal) {
-                        if ($scope.ui.searchUi === 'Summary') {
-                            // $scope.model.greenLeavesAllSummry();
-                        } else if ($scope.ui.searchUi === 'Receive') {
-                            $scope.model.greenLeavesReceiveSummry();
-                            $scope.model.greenLeavesChatFillData();
-                        } else if ($scope.ui.searchUi === 'Bulk_Weigh') {
-                            $scope.model.getGreenLeavesWeighSummry('BULK');
-
-                        } else if ($scope.ui.searchUi === 'Supplier_Weigh') {
-                            $scope.model.getGreenLeavesWeighSummry('SUPPLIER');
-                        }
-                    }, true);
-
                     $scope.series = ['Normal', 'Super'];
                     $scope.colors = ['#45b7cd', '#ff6384'];
+                    $scope.radioModel = 'Full';
+                    $scope.ui.toggleReceiveType('Search_Receive_Fully');
+
                 };
 
                 $scope.options = {
                     responsive: true,
                     maintainAspectRatio: false
                 };
-
-//                $scope.ui.modalOpen = function (indexNo) {
-//                    ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
-//                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
-//                };
-
-                $scope.onClick = function (points, evt) {
-                    console.log(points, evt);
+                $scope.ui.modalOpen = function (indexNo) {
+                    ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
+                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
                 };
-
 
                 $scope.ui.init();
             });

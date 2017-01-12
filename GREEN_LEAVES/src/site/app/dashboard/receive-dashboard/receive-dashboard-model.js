@@ -4,9 +4,9 @@
             this.constructor();
         }
 
-//prototype functions
+        //prototype functions
         GreenLeavesDashBoardModel.prototype = {
-//data
+            //data
             data: {},
             totalSummry: {},
             greenLeavesWeigh: {},
@@ -26,12 +26,25 @@
                 normalGreenLeaves: 0.0,
                 superlGreenLeaves: 0.0
             },
+            totalGreenLevasReceiveData: {
+                normalGreenLeaves: 0.0,
+                superlGreenLeaves: 0.0
+            },
+            totalGreenLevasWeighData: {
+                normalGreenLeaves: 0.0,
+                superlGreenLeaves: 0.0
+            },
             greenLeavesReceveChartSummry: {
+                routes: [],
+                greenLeavesQtys: [[], []]
+            },
+            greenLeavesBulkWeighChartSummry: {
                 routes: [],
                 greenLeavesQtys: [[], []]
             },
             greenLeavesReceiveList: [],
             greenLeavesBulkWeighList: [],
+            greenLeavesClientReceiveList: [],
             constructor: function () {
                 var that = this;
                 that.data = GreenLeavesDashBoardModelFactory.newData();
@@ -61,6 +74,32 @@
                         .success(function (data) {
                             that.clients = data;
                         });
+            },
+            clear: function () {
+                this.data = {};
+                this.totalGreenLevas = {
+                    normalGreenLeaves: 0.0,
+                    superlGreenLeaves: 0.0
+                };
+                this.totalGreenLevasReceiveData = {
+                    normalGreenLeaves: 0.0,
+                    superlGreenLeaves: 0.0
+                };
+                this.totalGreenLevasWeighData = {
+                    normalGreenLeaves: 0.0,
+                    superlGreenLeaves: 0.0
+                };
+                this.greenLeavesReceveChartSummry = {
+                    routes: [],
+                    greenLeavesQtys: [[], []]
+                };
+                this.greenLeavesBulkWeighChartSummry = {
+                    routes: [],
+                    greenLeavesQtys: [[], []]
+                };
+                this.greenLeavesReceiveList = [];
+                this.greenLeavesBulkWeighList = [];
+                this.greenLeavesClientReceiveList = [];
             },
             greenLeavesAllSummry: function () {
                 console.log("greenLeavesAllSummry");
@@ -94,51 +133,164 @@
                 that.data.type = type;
                 GreenLeavesDashBoardService.getGreenWeighLeavesSummary(JSON.stringify(that.data))
                         .success(function (data) {
+                            that.greenLeavesBulkWeighList = [];
+                            that.totalGreenLevasWeighData = {
+                                normalGreenLeaves: 0.0,
+                                superlGreenLeaves: 0.0
+                            };
+                            that.greenLeavesBulkWeighChartSummry = {
+                                routes: [],
+                                greenLeavesQtys: [[], []]
+                            };
+
                             that.greenLeavesBulkWeighList = data;
+                            that.greenLeavesBulkWeighChartDetails();
+                            that.getTotalGreenLeavesWeigh();
                             defer.resolve();
                         })
                         .error(function () {
+                            that.getTotalGreenLeavesWeigh();
+                            that.getTotalClientGreenLeavesReceive();
                             that.greenLeavesBulkWeighList = [];
+                            that.totalGreenLevasWeighData = {
+                                normalGreenLeaves: 0.0,
+                                superlGreenLeaves: 0.0
+                            };
+                            that.greenLeavesBulkWeighChartSummry = {
+                                routes: [],
+                                greenLeavesQtys: [[], []]
+                            };
                             defer.reject();
                         });
 
                 return defer.promise;
-            }, greenLeavesReceiveSummry: function () {
+            }, greenLeavesReceiveSummry: function (type) {
                 console.log("greenLeavesReceiveSummry");
                 var defer = $q.defer();
                 var that = this;
+                that.data.type = type;
                 GreenLeavesDashBoardService.getGreenReceiveLeavesSummary(JSON.stringify(that.data))
                         .success(function (data) {
-                            that.greenLeavesReceiveList = data;
+                            that.greenLeavesReceiveList = [];
+                            that.greenLeavesClientReceiveList = [];
+                            that.totalGreenLevas = {
+                                normalGreenLeaves: 0.0,
+                                superlGreenLeaves: 0.0
+                            };
+                            that.totalGreenLevasReceiveData = {
+                                normalGreenLeaves: 0.0,
+                                superlGreenLeaves: 0.0
+                            };
+                            that.greenLeavesReceveChartSummry = {
+                                routes: [],
+                                greenLeavesQtys: [[], []]
+                            };
+
+                            if (type === 'normal') {
+                                that.greenLeavesReceiveList = data;
+                                that.getTotalGreenLeavesReceive();
+                                that.greenLeavesChartDetails();
+                            } else {
+                                that.greenLeavesClientReceiveList = data;
+                                that.getTotalClientGreenLeavesReceive();
+                                that.greenLeavesClientChartDetails();
+                            }
+
                             defer.resolve();
                         })
                         .error(function () {
+                            that.getTotalGreenLeavesReceive();
                             that.greenLeavesReceiveList = [];
+                            that.greenLeavesClientReceiveList = [];
+                            totalGreenLevas = {
+                                normalGreenLeaves: 0.0,
+                                superlGreenLeaves: 0.0
+                            };
+                            that.totalGreenLevasReceiveData = {
+                                normalGreenLeaves: 0.0,
+                                superlGreenLeaves: 0.0
+                            };
+                            that.greenLeavesReceveChartSummry = {
+                                routes: [],
+                                greenLeavesQtys: [[], []]
+                            };
                             defer.reject();
                         });
                 return defer.promise;
-
-
             },
-            greenLeavesChatFillData: function () {
+            greenLeavesChartDetails: function () {
                 var that = this;
-                var defer = $q.defer();
-                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
-                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
-                GreenLeavesDashBoardService.getGreenLeavesChartDetails(fromDate, toDate)
-                        .success(function (data) {
-                            defer.resolve();
-                            angular.forEach(data, function (value) {
-                                that.greenLeavesReceveChartSummry.routes.push(that.routeLabel(value[0]));
-                                that.greenLeavesReceveChartSummry.greenLeavesQtys[0].push(value[1]);
-                                that.greenLeavesReceveChartSummry.greenLeavesQtys[1].push(value[2]);
-                            });
-                        })
-                        .error(function (data) {
-                            //that.greenLeavesReceveChartSummry = {};
-                            defer.reject();
-                        });
+                that.chartDetails = {};
+                angular.forEach(this.greenLeavesReceiveList, function (glr) {
+                    angular.forEach(glr.greenLeavesReceiveDetails, function (glrd) {
+                        var quantity = that.chartDetails[glr.date];
+                        if (typeof quantity === 'undefined') {
+                            quantity = ['', 0.0, 0.0];
+                        }
+
+                        that.chartDetails[glr.date] = [
+                            quantity[0] = glr.date,
+                            quantity[1] + glrd.normalLeavesQuantity,
+                            quantity[2] + glrd.superLeavesQuantity
+                        ];
+                    });
+                });
+
+                //console.log(that.chartDetails);
+                angular.forEach(that.chartDetails, function (value) {
+                    that.greenLeavesReceveChartSummry.routes.push(value[0]);
+                    that.greenLeavesReceveChartSummry.greenLeavesQtys[0].push(value[1]);
+                    that.greenLeavesReceveChartSummry.greenLeavesQtys[1].push(value[2]);
+                });
+
                 return that.greenLeavesReceveChartSummry;
+            },
+            greenLeavesClientChartDetails: function () {
+                var that = this;
+                that.chartDetails = {};
+                angular.forEach(that.greenLeavesClientReceiveList, function (glr) {
+                    var quantity = that.chartDetails[glr.date];
+                    if (typeof quantity === 'undefined') {
+                        quantity = ['', 0.0, 0.0];
+                    }
+
+                    that.chartDetails[glr.date] = [
+                        quantity[0] = glr.date,
+                        quantity[1] + glr.greenLeavesReceiveDetails[0].normalLeavesQuantity,
+                        quantity[2] + glr.greenLeavesReceiveDetails[0].superLeavesQuantity
+                    ];
+                });
+
+                angular.forEach(that.chartDetails, function (value) {
+                    that.greenLeavesReceveChartSummry.routes.push(value[0]);
+                    that.greenLeavesReceveChartSummry.greenLeavesQtys[0].push(value[1]);
+                    that.greenLeavesReceveChartSummry.greenLeavesQtys[1].push(value[2]);
+                });
+
+                return that.greenLeavesReceveChartSummry;
+            },
+            greenLeavesBulkWeighChartDetails: function () {
+                var that = this;
+                that.chartDetails = {};
+                angular.forEach(this.greenLeavesBulkWeighList, function (glr) {
+                    var quantity = that.chartDetails[glr.date];
+                    if (typeof quantity === 'undefined') {
+                        quantity = ['', 0.0, 0.0];
+                    }
+
+                    that.chartDetails[glr.date] = [
+                        quantity[0] = glr.date,
+                        quantity[1] + glr.normalNetWeight,
+                        quantity[2] + glr.superNetWeight
+                    ];
+                });
+
+                angular.forEach(that.chartDetails, function (value) {
+                    that.greenLeavesBulkWeighChartSummry.routes.push(value[0]);
+                    that.greenLeavesBulkWeighChartSummry.greenLeavesQtys[0].push(value[1]);
+                    that.greenLeavesBulkWeighChartSummry.greenLeavesQtys[1].push(value[2]);
+                });
+                return that.greenLeavesBulkWeighChartSummry;
             },
             getTotalNormalGreenLeavesAndTotalSuperLeavse: function (indexNo) {
                 var normalLeavesQuantity = 0.0;
@@ -156,30 +308,49 @@
                 });
                 return that.totalGreenLevas;
             },
+            getTotalGreenLeavesReceive: function () {
+                var that = this;
+                angular.forEach(this.greenLeavesReceiveList, function (value) {
+                    that.totalGreenLevasReceiveData.normalGreenLeaves += that.getTotalNormalGreenLeavesAndTotalSuperLeavse(value.indexNo).normalGreenLeaves;
+                    that.totalGreenLevasReceiveData.superlGreenLeaves += that.getTotalNormalGreenLeavesAndTotalSuperLeavse(value.indexNo).superlGreenLeaves;
+                });
+                return that.totalGreenLevasReceiveData;
+            },
+            getTotalClientGreenLeavesReceive: function () {
+                var that = this;
+                angular.forEach(this.greenLeavesClientReceiveList, function (value) {
+                    that.totalGreenLevasReceiveData.normalGreenLeaves += value.greenLeavesReceiveDetails[0].normalLeavesQuantity;
+                    that.totalGreenLevasReceiveData.superlGreenLeaves += value.greenLeavesReceiveDetails[0].superLeavesQuantity;
+                });
+                return that.totalGreenLevasReceiveData;
+            },
+            getTotalGreenLeavesWeigh: function () {
+                var that = this;
+                angular.forEach(this.greenLeavesBulkWeighList, function (value) {
+                    that.totalGreenLevasWeighData.normalGreenLeaves += value.normalNetWeight;
+                    that.totalGreenLevasWeighData.superlGreenLeaves += value.superNetWeight;
+                });
+                return that.totalGreenLevasWeighData;
+            },
             //green leaves summmry table selectd row get 
             greenLeaveWeighDetailsByIndexNo: function (indexNo) {
-                console.log(indexNo);
-                var defer = $q.defer();
                 var that = this;
-                GreenLeavesDashBoardService.greenLeaveWeighDetailsByIndexNo(indexNo)
-                        .success(function (data) {
-                            that.greenLeavesWeigh = {};
-                            angular.extend(that.greenLeavesWeigh, data);
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            defer.reject();
-                        });
-                return defer.promise;
-            },
-            greenLeaveReceiveDetailsByIndexNo: function (indexNo) {
-                var label;
-                angular.forEach(this.routes, function (value) {
+                angular.forEach(that.greenLeavesBulkWeighList, function (value) {
                     if (value.indexNo === indexNo) {
-                        label = value.indexNo + "-" + value.name;
+                        that.greenLeavesWeigh = value;
+                    }
+                });
+                return that.greenLeavesWeigh;
+            },
+            getClientRoute: function (indexNo) {
+                var label;
+                angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.route;
                         return;
                     }
                 });
+                console.log(label);
                 return label;
             },
             //return label for branch

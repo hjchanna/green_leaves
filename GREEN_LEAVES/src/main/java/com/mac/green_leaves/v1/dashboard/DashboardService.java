@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,54 +59,103 @@ public class DashboardService {
         return dashboardRepository.getGreenLeavesReceiveSummry(fromDate, toDate);
     }
 
+    public List<Object[]> getGreelLeavesWeighSummry(Date fromDate, Date toDate, String type) {
+        return dashboardRepository.getGreelLeavesWeighSummry(fromDate, toDate, type);
+    }
+
     public TGreenLeavesWeigh getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
         return dashboardRepository.findOne(indexNo);
     }
 
     List<TGreenLeavesWeigh> getGeenLeavesWeighTotalSummary(greenLeavesSummry leavesSummry) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesWeigh.class);
-        System.out.println(leavesSummry.getClient());
         criteria.add(Restrictions.eq("type", leavesSummry.getType()));
-
+        
         if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
-            criteria.add(Restrictions.ge("date", leavesSummry.getFromDate()));
-            criteria.add(Restrictions.lt("date", leavesSummry.getToDate()));
+            criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
         }
+        
         if (leavesSummry.getRoute() != null) {
             criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
         }
+
         if (leavesSummry.getClient() != null) {
             criteria.add(Restrictions.eq("client", leavesSummry.getClient()));
         }
+        
         if (leavesSummry.getRouteOfficer() != null) {
             criteria.add(Restrictions.eq("routeOfficer", leavesSummry.getRouteOfficer()));
         }
+        
         if (leavesSummry.getRouteHelper() != null) {
             criteria.add(Restrictions.eq("routeHelper", leavesSummry.getRouteHelper()));
         }
+        
         if (leavesSummry.getVehicle() != null) {
             criteria.add(Restrictions.eq("vehicle", leavesSummry.getVehicle()));
         }
 
+        if (leavesSummry.getFromDate() == null
+                && leavesSummry.getToDate() == null
+                && leavesSummry.getRoute() == null
+                && leavesSummry.getClient() == null
+                && leavesSummry.getRouteOfficer() == null
+                && leavesSummry.getRouteHelper() == null
+                && leavesSummry.getVehicle() == null) {
+            throw new EntityNotFoundException("green leaves weigh not found");
+        }
+
         criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
+        criteria.addOrder(Order.asc("date"));
         List<TGreenLeavesWeigh> greenLeavesWeigh = criteria.list();
         return greenLeavesWeigh;
     }
 
     List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(greenLeavesSummry leavesSummry) {
-        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
-        
-        if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
-            criteria.add(Restrictions.ge("date", leavesSummry.getFromDate()));
-            criteria.add(Restrictions.lt("date", leavesSummry.getToDate()));
+        if ("client".equals(leavesSummry.getType())) {
+            Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
+            
+            if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
+                criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
+            }
+
+            if (leavesSummry.getRoute() != null) {
+                criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
+            }
+
+            if (leavesSummry.getClient() != null) {
+                System.out.println(leavesSummry.getClient());
+                criteria.createAlias("greenLeavesReceiveDetails", "glrd");
+                criteria.add(Restrictions.eq("glrd.client", leavesSummry.getClient()));
+            }
+
+            if (leavesSummry.getClient() == null && leavesSummry.getRoute() == null && leavesSummry.getFromDate() == null && leavesSummry.getToDate() == null) {
+                throw new EntityNotFoundException("green leaves receive not found");
+            }
+
+            criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
+            criteria.addOrder(Order.asc("date"));
+            List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
+            return greenLeavesReceives;
+        } else {
+            Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
+            
+            if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
+                criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
+            }
+
+            if (leavesSummry.getRoute() != null) {
+                criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
+            }
+
+            if (leavesSummry.getClient() == null && leavesSummry.getRoute() == null && leavesSummry.getFromDate() == null && leavesSummry.getToDate() == null) {
+                throw new EntityNotFoundException("green leaves receive not found");
+            }
+
+            criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
+            criteria.addOrder(Order.asc("date"));
+            List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
+            return greenLeavesReceives;
         }
-        
-        if (leavesSummry.getRoute() != null) {
-            criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
-        }
-        
-        criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
-        List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
-        return greenLeavesReceives;
     }
 }

@@ -21,15 +21,14 @@
                     return ['$uibModalInstance', '$timeout', Controller];
                 };
 
-                this.showModel = function (templateUrl, controller) {
+                this.showModel = function (size, templateUrl, controller) {
                     $uibModal.open({
                         animation: true,
                         ariaLabelledBy: 'modal-title',
                         ariaDescribedBy: 'modal-body',
                         templateUrl: templateUrl,
                         controller: controller,
-                        size: 'lg',
-                        controllerAs: '$ctrl'
+                        size: size
                     });
                 };
 

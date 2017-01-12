@@ -28,6 +28,10 @@
         this.getGreenLeavesChartDetails = function (fromDate, toDate) {
             return $http.get(systemConfig.apiUrl + "/api/dash-board/find-green-leave-receice-details/" + fromDate + "/" + toDate);
         };
+        
+        this.getGreenLeavesWeighChartDetails = function (fromDate, toDate, type) {
+            return $http.get(systemConfig.apiUrl + "/api/dash-board/find-green-leave-weigh-details/" + fromDate + "/" + toDate + "/" + type);
+        };
 
         //green leaves bulk and supplier weigh summry
         this.getGreenWeighLeavesSummary = function (model) {
