@@ -22,13 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class GLFinalPaymentService {
     
-    @Autowired
-    private GLFinalPaymentRepository finalPaymentRepository;
+//    @Autowired
+//    private GLFinalPaymentRepository finalPaymentRepository;
     
     
-    public List<TFinalPaymentSummary> getFinalPaymentSummary(Integer branch, Integer year, Integer month) {
-        
-    }
+//    public List<TFinalPaymentSummary> getFinalPaymentSummary(Integer branch, Integer year, Integer month) {
+//        
+//    }
 
     /*
     public List<TAccountTransaction> getAccountTransactionsFromDate(String year,String month){

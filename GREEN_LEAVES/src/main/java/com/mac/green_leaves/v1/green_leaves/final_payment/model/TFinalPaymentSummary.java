@@ -15,11 +15,11 @@ import javax.persistence.NamedQuery;
  *
  * @author hjcha
  */
-@Entity
-@NamedQuery(
-        name = "TFinalPaymentSummary.findSummary",
-        query = ""
-)
+//@Entity
+//@NamedQuery(
+//        name = "TFinalPaymentSummary.findSummary",
+//        query = ""
+//)
 public class TFinalPaymentSummary implements Serializable {
 
     @Id

@@ -11,7 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Supervision
  */
-public interface GLFinalPaymentRepository extends JpaRepository<Void, Integer> {
+public interface GLFinalPaymentRepository 
+//        extends JpaRepository<Void, Integer> 
+{
 
     /*
     @Query(value = "select\n"

@@ -30,7 +30,8 @@ public class GLFinalPaymentController {
     public List<TFinalPaymentSummary> listFinalPaymentSummary(@PathVariable Integer year, @PathVariable Integer month) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
 
-        return finalPaymentService.getFinalPaymentSummary(branch, year, month);
+//        return finalPaymentService.getFinalPaymentSummary(branch, year, month);
+        return null;
     }
 
     /*
