@@ -4,17 +4,7 @@
                 var factory = {};
                 factory.newData = function () {
                     var data = {
-                        indexNo:null,
-                        branch:null,
-                        date:null,
-                        transaction:null,
-                        transactionType:null,
-                        client:null,
-                        employee:null,
-                        description:null,
-                        account:null,
-                        debitAmount:null,
-                        creditAmount:null
+
                     };
                     return data;
 
