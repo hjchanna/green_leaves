@@ -29,7 +29,6 @@
                         } else {
                             var client = $scope.model.client(searchClient.indexNo);
                             $scope.model.data.client = client.indexNo;
-                            $scope.model.findByBranchAndDateAndClient();
                             $timeout(function () {
                                 document.querySelectorAll("#normal-qty")[0].focus();
                             }, 10);
@@ -204,8 +203,10 @@
                         }
                     }, true);
 
-                    $scope.$watch("[model.data.branch,model.data.date,model.data.client]", function (newVal, oldVal) {
-                        $scope.model.findByBranchAndDateAndClient();
+                    $scope.$watch("[model.data.branch,model.data.date,model.data.client,model.data.searchClient]", function (newVal, oldVal) {
+                        if ($scope.ui.mode === "EDIT") {
+                            $scope.model.findByBranchAndDateAndClient();
+                        }
                     }, true);
 
                     $scope.$watch("[model.data.client,model.data.searchClient]", function (newVal, oldVal) {

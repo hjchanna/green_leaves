@@ -61,6 +61,42 @@
                         })
                         .error(function () {
                             defer.reject();
+                            //reset
+                            that.data.indexNo = null;
+                            that.data.number = null;
+                            that.data.status = null;
+                            that.data.type = "SUPPLIER";
+
+                            //normal leaves summary
+                            that.data.normalTotalWeight = 0.0;
+                            that.data.normalTareCalculated = 0.0;
+                            that.data.normalTareDeduction = 0.0;
+                            that.data.normalGeneralDeductionPercent = 0.0;
+                            that.data.normalGeneralDeduction = 0.0;
+                            that.data.normalWaterDeduction = 0.0;
+                            that.data.normalCoarseLeaves = 0.0;
+                            that.data.normalBoiledLeaves = 0.0;
+                            that.data.normalNetWeight = 0.0;
+                            //normal tare summary
+                            that.data.normalCrates = 0;
+                            that.data.normalBags = 0;
+                            that.data.normalPolyBags = 0;
+                            //super leaves summary
+                            that.data.superTotalWeight = 0.0;
+                            that.data.superTareCalculated = 0.0;
+                            that.data.superTareDeduction = 0.0;
+                            that.data.superGeneralDeductionPercent = 0.0;
+                            that.data.superGeneralDeduction = 0.0;
+                            that.data.superWaterDeduction = 0.0;
+                            that.data.superCoarseLeaves = 0.0;
+                            that.data.superBoiledLeaves = 0.0;
+                            that.data.superNetWeight = 0.0;
+                            //super tare summary
+                            that.data.superCrates = 0;
+                            that.data.superBags = 0;
+                            that.data.superPolyBags = 0;
+
+                            that.data.greenLeaveWeighDetails = [];
                         });
 
                 return defer.promise;
@@ -379,6 +415,21 @@
                             that.data.greenLeaveWeighDetails = [];
                         });
 
+                return defer.promise;
+            },
+            findByBranchAndDateAndClientForClientChange: function () {
+                var defer = $q.defer();
+                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                var branch = this.data.branch;
+                var client = this.data.client;
+                SupplierGreenLeavesWeighService.findByBranchAndDateAndClient(branch, date, client)
+                        .success(function (data) {
+                            console.log(data);
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+                        });
                 return defer.promise;
             }
         };
