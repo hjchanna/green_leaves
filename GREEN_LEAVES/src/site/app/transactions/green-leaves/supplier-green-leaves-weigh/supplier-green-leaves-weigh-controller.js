@@ -104,6 +104,8 @@
                                 .then(function () {
                                     $scope.ui.toggleType("NORMAL");
                                     $scope.ui.insertProcessing = false;
+                                }, function () {
+                                    $scope.ui.insertProcessing = false;
                                 });
                     }
 
@@ -115,6 +117,8 @@
                         $scope.model.insertSuperDetail()
                                 .then(function () {
                                     $scope.ui.toggleType("SUPER");
+                                    $scope.ui.insertProcessing = false;
+                                }, function () {
                                     $scope.ui.insertProcessing = false;
                                 });
                     }
