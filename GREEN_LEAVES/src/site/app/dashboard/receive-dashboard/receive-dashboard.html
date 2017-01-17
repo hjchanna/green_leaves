@@ -14,7 +14,7 @@
                 </table>
                 <table class="control-table">
                     <div class="btn-group col-lg-12" ng-show="ui.searchUi === 'Receive'" style="padding-left: 0 !important;padding-right: 0 !important;">
-                        <label class="btn btn-primary col-lg-6 text-capitalize" ng-model="radioModel" uib-btn-radio="'Full'" ng-change="ui.toggleReceiveType('Search_Receive_Fully');">TRANSCATION</label>
+                        <label class="btn btn-primary col-lg-6 text-capitalize" ng-model="radioModel" uib-btn-radio="'Full'" ng-change="ui.toggleReceiveType('Search_Receive_Fully');">TRANSACTION</label>
                         <label class="btn btn-primary col-lg-6 text-capitalize" ng-model="radioModel" uib-btn-radio="'Client'" ng-change="ui.toggleReceiveType('Search_Receive_Client');">CLIENT</label>
                     </div>
                     <col style="width: 40%"/>
@@ -22,7 +22,7 @@
                     <tbody>
                         <tr ng-show="ui.searchUi === 'Supplier_Weigh'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
                             <td><label class="control-label">Client</label></td>
-                            <td><input class="form-control" ng-model="model.data.client" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="client.indexNo as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.clientLabel($model)" typeahead-on-select="ui.getClientRoute($model)"></td>
+                            <td><input class="form-control" ng-model="model.data.client" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="client.indexNo as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.clientLabel($model)"></td>
                         </tr>
                         <tr ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client'">
                             <td><label class="control-label">Client Route</label></td>
@@ -51,6 +51,16 @@
                         <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
                             <td><label class="control-label">Vehicle</label></td>
                             <td><input class="form-control" ng-model="model.data.vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">Status</label></td>
+                            <td>
+                                <select class="form-control" ng-model="model.data.status" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <option value="null"></option>
+                                    <option value="APPROVE">APPROVE</option>
+                                    <option value="PENDING">PENDING</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -114,7 +124,7 @@
                             <col style="width: 10%">
                             <tbody>
                                 <tr ng-repeat="greenLeavesReceive in model.greenLeavesReceiveList">
-                                    <td><span class="label label-default">{{greenLeavesReceive.indexNo}}</span></td>
+                                    <td><span class="label label-default">{{greenLeavesReceive.number}}</span></td>
                                     <td>{{model.routeLabel(greenLeavesReceive.route)}}</td>
                                     <td>{{greenLeavesReceive.date}}</td>
                                     <td class="text-right">{{model.getTotalNormalGreenLeavesAndTotalSuperLeavse(greenLeavesReceive.indexNo).normalGreenLeaves | number:2}}</td>
@@ -204,7 +214,7 @@
                             <col style="width: 10%">
                             <tbody>
                                 <tr ng-repeat="greenLeavesReceive in model.greenLeavesClientReceiveList">
-                                    <td><span class="label label-default">{{greenLeavesReceive.indexNo}}</span></td>
+                                    <td><span class="label label-default">{{greenLeavesReceive.number}}</span></td>
                                     <td>{{model.routeLabel(greenLeavesReceive.route)}}</td>
                                     <td>{{greenLeavesReceive.date}}</td>
                                     <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].normalLeavesQuantity|number:2}}</td>
@@ -295,7 +305,7 @@
                         <col style="width: 10%">
                         <tbody>
                             <tr ng-repeat="greenLeavesBulkWeigh in model.greenLeavesBulkWeighList|filter:{type:'BULK'}">
-                                <td><span class="label label-default">{{greenLeavesBulkWeigh.indexNo}}</span></td>
+                                <td><span class="label label-default">{{greenLeavesBulkWeigh.number}}</span></td>
                                 <td>{{model.routeLabel(greenLeavesBulkWeigh.route)}}</td>
                                 <td>{{greenLeavesBulkWeigh.date}}</td>
                                 <td class="text-right">{{greenLeavesBulkWeigh.normalNetWeight|number:2}}</td>
@@ -385,7 +395,7 @@
                         <col style="width: 10%">
                         <tbody>
                             <tr ng-repeat="greenLeavesBulkWeigh in model.greenLeavesBulkWeighList|filter:{type:'SUPPLIER'}">
-                                <td><span class="label label-default">{{greenLeavesBulkWeigh.indexNo}}</span></td>
+                                <td><span class="label label-default">{{greenLeavesBulkWeigh.number}}</span></td>
                                 <td>{{model.clientLabel(greenLeavesBulkWeigh.client)}}</td>
                                 <td>{{greenLeavesBulkWeigh.date}}</td>
                                 <td class="text-right">{{greenLeavesBulkWeigh.normalNetWeight|number:2}}</td>
