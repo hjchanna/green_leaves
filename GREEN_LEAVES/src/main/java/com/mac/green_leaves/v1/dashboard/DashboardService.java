@@ -8,8 +8,8 @@ package com.mac.green_leaves.v1.dashboard;
 import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -55,14 +55,6 @@ public class DashboardService {
 //        getTotalSummaryMap.put("supplierReceiveNormalTotal", 0.0);
 //        return getTotalSummaryMap;
 //    }
-    public List<Object[]> getGreenLeavesReceiveSummry(Date fromDate, Date toDate) {
-        return dashboardRepository.getGreenLeavesReceiveSummry(fromDate, toDate);
-    }
-
-    public List<Object[]> getGreelLeavesWeighSummry(Date fromDate, Date toDate, String type) {
-        return dashboardRepository.getGreelLeavesWeighSummry(fromDate, toDate, type);
-    }
-
     public TGreenLeavesWeigh getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
         return dashboardRepository.findOne(indexNo);
     }
@@ -148,6 +140,7 @@ public class DashboardService {
 
             criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.asc("date"));
+            criteria.add(Restrictions.isNotNull("route"));
             List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
             return greenLeavesReceives;
         } else {
@@ -173,8 +166,42 @@ public class DashboardService {
 
             criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.asc("date"));
+            criteria.add(Restrictions.isNotNull("route"));
             List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
             return greenLeavesReceives;
         }
+    }
+
+//    List<Object[]> getCrossEntry() {
+//        System.out.println(dashboardRepository.getCrossReportDetails().size());
+//        return dashboardRepository.getCrossReportDetails();
+//    }
+    List<TGreenLeavesReceive> getCrossEntryGreenLeavesReceive(greenLeavesSummry leavesSummry) {
+        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
+
+        if (leavesSummry.getClient() != null) {
+            criteria.createAlias("greenLeavesReceiveDetails", "glrd");
+            criteria.add(Restrictions.eq("glrd.client", leavesSummry.getClient()));
+        }
+
+        if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
+            criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
+        }
+
+        if (leavesSummry.getClient() == null && leavesSummry.getRoute() == null && leavesSummry.getFromDate() == null && leavesSummry.getToDate() == null) {
+            throw new EntityNotFoundException("green leaves receive not found");
+        }
+
+        if (!"null".equals(leavesSummry.getStatus())) {
+            if (leavesSummry.getStatus() != null) {
+                criteria.add(Restrictions.eq("status", leavesSummry.getStatus()));
+            }
+        }
+
+        criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
+        criteria.addOrder(Order.asc("date"));
+        criteria.add(Restrictions.isNotNull("route"));
+        List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
+        return greenLeavesReceives;
     }
 }

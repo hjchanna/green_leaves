@@ -45,6 +45,7 @@
             greenLeavesReceiveList: [],
             greenLeavesBulkWeighList: [],
             greenLeavesClientReceiveList: [],
+            crossReportDetailList: [],
             constructor: function () {
                 var that = this;
                 that.data = GreenLeavesDashBoardModelFactory.newData();
@@ -100,6 +101,7 @@
                 this.greenLeavesReceiveList = [];
                 this.greenLeavesBulkWeighList = [];
                 this.greenLeavesClientReceiveList = [];
+                this.crossReportDetailList = [];
             },
             greenLeavesAllSummry: function () {
                 console.log("greenLeavesAllSummry");
@@ -214,6 +216,22 @@
                                 routes: [],
                                 greenLeavesQtys: [[], []]
                             };
+                            defer.reject();
+                        });
+                return defer.promise;
+            },
+            crossReportSummry: function (type) {
+                console.log("crossReportSummry");
+                var defer = $q.defer();
+                var that = this;
+                GreenLeavesDashBoardService.getCrossReportDetails(JSON.stringify(that.data))
+                        .success(function (data) {
+                            that.crossReportDetailList = [];
+                            that.crossReportDetailList = data;
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            that.crossReportDetailList = [];
                             defer.reject();
                         });
                 return defer.promise;
@@ -418,6 +436,27 @@
                     }
                 });
                 return label;
+            },
+            client: function (indexNo) {
+                var client;
+                angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === parseInt(indexNo)) {
+                        client = value;
+                        return;
+                    }
+                });
+                return client;
+            },
+            searchClientByClientNo: function (clientNumber) {
+                var client;
+                angular.forEach(this.clients, function (value) {
+                    ;
+                    if (value.clientNumber === parseInt(clientNumber)) {
+                        client = value;
+                        return;
+                    }
+                });
+                return client;
             }
         };
         return GreenLeavesDashBoardModel;
