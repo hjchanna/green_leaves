@@ -1,0 +1,175 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `z_client_ledger`(IN `FROM_DATE` DATE, IN `TO_DATE` DATE, IN `BRANCH` INT, IN `TYPE` VARCHAR(25))
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+	#drop table if exists tmp_client_ledger;
+	#drop table if exists tmp_client_settlement_ledger;
+	
+	create table `tmp_client_ledger`(
+		`index_no` INT NOT NULL AUTO_INCREMENT,
+		`date` DATE NOT NULL,
+		`client` INT NOT NULL,
+		`settlement_type` VARCHAR(50) NOT NULL,
+		`settlement_order` INT NOT NULL,
+		`debit_amount` DECIMAL(20,4) NOT NULL,
+		`credit_amount` DECIMAL(20,4) NOT NULL,
+		PRIMARY KEY (`index_no`)
+	);
+	
+	#---------------------------------------INSERT SUMMARY-----------------------------------------
+	insert into 
+		`tmp_client_ledger` (`date`, `client`, `settlement_type`, `settlement_order`, `debit_amount`, `credit_amount`)
+	select 
+		cast(date_sub(FROM_DATE, interval 1 day) as date) as `date`,
+		t_client_ledger.`client` as `client`,
+		'brought_forward' as `settlement_type`,
+		-1 as `settlement_order`,
+		sum(t_client_ledger.debit_amount - t_client_ledger.credit_amount) as `debit_amount`,
+		sum(t_client_ledger.credit_amount - t_client_ledger.debit_amount) as `credit_amount`
+	from
+		t_client_ledger
+	where
+		t_client_ledger.date > FROM_DATE
+		and t_client_ledger.branch = BRANCH
+		and t_client_ledger.status = 'ACTIVE'
+	group by
+		t_client_ledger.`client`;
+		
+	update tmp_client_ledger set debit_amount = 0.0 where debit_amount < 0.0;
+	
+	update tmp_client_ledger set credit_amount = 0.0 where credit_amount < 0.0;
+	
+	#---------------------------------------INSERT DETAIL-----------------------------------------
+	insert into 
+		tmp_client_ledger (`date`, `client`, `settlement_type`, `settlement_order`, `debit_amount`, `credit_amount`)
+	select
+		t_client_ledger.date as `date`,
+		t_client_ledger.`client` as `client`,
+		t_client_ledger.settlement_type as `settlement_type`,
+		t_client_ledger.settlement_order as `settlement_order`,
+		t_client_ledger.debit_amount as `debit_amount`,
+		t_client_ledger.credit_amount as `credit_amount`
+	from
+		t_client_ledger
+	where
+		t_client_ledger.date between FROM_DATE and TO_DATE
+		and t_client_ledger.branch = BRANCH
+		and t_client_ledger.status = 'ACTIVE';
+		
+	#--------------------------------------CARRY FORWARD------------------------------------------	
+	insert into 
+		tmp_client_ledger (`date`, `client`, `settlement_type`, `settlement_order`, `debit_amount`, `credit_amount`)
+	select 
+		cast(date_sub(FROM_DATE, interval 1 day) as date) as `date`,
+		t_client_ledger.`client` as `client`,
+		'carry_forward' as `settlement_type`,
+		1000 as `settlement_order`,
+		0.0 as debit_amount,
+		sum(t_client_ledger.debit_amount - t_client_ledger.credit_amount) % 10 as `credit_amount`
+	from
+		t_client_ledger
+	where
+		t_client_ledger.branch = BRANCH
+		and t_client_ledger.status = 'ACTIVE'
+	group by
+		t_client_ledger.`client`
+	having 
+		credit_amount > 0;
+	
+		
+	create table `tmp_client_settlement_ledger`(
+		`index_no` INT NOT NULL AUTO_INCREMENT,
+		`date` DATE NOT NULL,
+		`client` INT NOT NULL,
+		`settlement_type` VARCHAR(50) NOT NULL,
+		`settlement_order` INT NOT NULL,
+		`debit_amount` DECIMAL(20,4) NOT NULL,
+		`credit_amount` DECIMAL(20,4) NOT NULL,
+		`type` VARCHAR(6) NOT NULL,
+		`debit_balance` DECIMAL(20,4) NOT NULL,
+		`credit_balance` DECIMAL(20,4) NOT NULL,
+		`settlement` DECIMAL(20,4) NOT NULL,
+		`balance` DECIMAL(20,4) NOT NULL,
+		`temp_client` INTEGER(20) NOT NULL,
+		PRIMARY KEY (`index_no`)
+	);
+	
+	insert into 
+		`tmp_client_settlement_ledger` (`date`, `client`, `settlement_type`, `settlement_order`, `debit_amount`, `credit_amount`, `type`, `debit_balance`, `credit_balance`, `settlement`, `balance`, `temp_client`)
+	select
+		`tmp_client_ledger`.`date`,
+		`tmp_client_ledger`.`client`,
+		`tmp_client_ledger`.`settlement_type`,
+		`tmp_client_ledger`.`settlement_order`,
+		`tmp_client_ledger`.`debit_amount`,
+		`tmp_client_ledger`.`credit_amount`,
+		@type := IF(`tmp_client_ledger`.`credit_amount` > 0.0, 'CREDIT', 'DEBIT') as `type`,
+		
+		IF(@temp_client <> `tmp_client_ledger`.`client` or @temp_client is null,
+			@debit_balance := (select sum(`tcl`.`debit_amount`) from `tmp_client_ledger` `tcl` where `tcl`.`client` = `tmp_client_ledger`.`client`) - `tmp_client_ledger`.`credit_amount`,
+			@debit_balance := @debit_balance - `credit_amount`) as `debit_balance`,
+			
+		IF(@temp_client <> `tmp_client_ledger`.`client` or @temp_client is null,
+			@credit_balance := (select sum(`tcl`.`credit_amount`) from `tmp_client_ledger` `tcl` where `tcl`.`client` = `tmp_client_ledger`.`client`) - `tmp_client_ledger`.`debit_amount`,
+			@credit_balance := @credit_balance - `debit_amount`) as `credit_balance`, 
+		
+		@settlement := IF(@type = 'CREDIT',
+			GREATEST(LEAST(@debit_balance  + `credit_amount`, `credit_amount`), 0.0),
+			GREATEST(LEAST(@credit_balance + `debit_amount`, `debit_amount`),  0.0) 
+		) as `settlement`,
+		
+		IF(@type = 'CREDIT',
+			`credit_amount` - @settlement,
+			`debit_amount`  - @settlement) as balance,
+		
+		@temp_client := `tmp_client_ledger`.`client` as `temp_client`
+	from 
+		`tmp_client_ledger`
+	order by
+		`tmp_client_ledger`.`client`,
+		`tmp_client_ledger`.`debit_amount` desc,
+		`tmp_client_ledger`.`settlement_order`,
+		`tmp_client_ledger`.`date`;
+		
+		
+	select
+		tmp_client_settlement_ledger.settlement_type,
+		tmp_client_settlement_ledger.settlement_order,
+		tmp_client_settlement_ledger.type as type,
+		IF(tmp_client_settlement_ledger.type = 'DEBIT',
+			SUM(tmp_client_settlement_ledger.debit_amount),
+			SUM(tmp_client_settlement_ledger.credit_amount)) as amount,
+		SUM(tmp_client_settlement_ledger.settlement) as settlement,
+		SUM(tmp_client_settlement_ledger.balance) as balance
+	from
+		tmp_client_settlement_ledger
+	group by
+		tmp_client_settlement_ledger.settlement_type,
+		tmp_client_settlement_ledger.type
+		
+	union all
+		
+	select	
+		'payment_vouchers' as settlement_type,
+		1001 as settlement_order,
+		'CREDIT' as type,
+		SUM(tmp_client_settlement_ledger.balance) as amount,
+		SUM(tmp_client_settlement_ledger.balance) as settlement,
+		0.0 as balance
+	from
+		tmp_client_settlement_ledger
+	where	
+		tmp_client_settlement_ledger.type = 'DEBIT'
+		
+	order by
+		settlement_order;	
+		
+	#select * from tmp_client_ledger;
+	#select * from tmp_client_settlement_ledger;
+	
+	drop table tmp_client_ledger;
+	drop table tmp_client_settlement_ledger;
+END
