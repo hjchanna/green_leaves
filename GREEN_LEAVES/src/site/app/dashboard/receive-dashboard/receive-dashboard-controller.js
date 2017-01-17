@@ -41,9 +41,6 @@
                         $scope.ui.searchGreenLeavesReceive = "Search_Receive_Client";
                     }
                 };
-                $scope.ui.getClientRoute = function (indexNo) {
-                    $scope.model.data.clientRoutes = $scope.model.getClientRoute(indexNo);
-                };
 
                 $scope.ui.search = function () {
                     if ($scope.ui.searchUi === 'Summary') {
@@ -66,6 +63,16 @@
                     $scope.ui.type = type;
                 };
 
+                $scope.options = {
+                    responsive: true,
+                    maintainAspectRatio: false
+                };
+                
+                $scope.ui.modalOpen = function (indexNo) {
+                    ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
+                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
+                };
+
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.ui.type = "NORMAL";
@@ -75,17 +82,10 @@
                     $scope.radioModel = 'Full';
                     $scope.ui.toggleReceiveType('Search_Receive_Fully');
 
+                    $scope.$watch("model.data.client", function (newValue, oldValue) {
+                        $scope.model.data.clientRoutes = $scope.model.getClientRoute($scope.model.data.client);
+                    });
                 };
-
-                $scope.options = {
-                    responsive: true,
-                    maintainAspectRatio: false
-                };
-                $scope.ui.modalOpen = function (indexNo) {
-                    ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
-                    $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
-                };
-
                 $scope.ui.init();
             });
 }());

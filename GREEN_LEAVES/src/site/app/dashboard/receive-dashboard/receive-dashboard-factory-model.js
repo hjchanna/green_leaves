@@ -12,6 +12,7 @@
                         "routeHelper": null,
                         "vehicle": null,
                         "client": null,
+                        "status": null,
                         "type": null
                     };
                     return data;

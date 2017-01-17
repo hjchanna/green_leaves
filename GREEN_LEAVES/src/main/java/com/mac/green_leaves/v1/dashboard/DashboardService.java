@@ -70,27 +70,33 @@ public class DashboardService {
     List<TGreenLeavesWeigh> getGeenLeavesWeighTotalSummary(greenLeavesSummry leavesSummry) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesWeigh.class);
         criteria.add(Restrictions.eq("type", leavesSummry.getType()));
-        
+
         if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
             criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
         }
-        
+
         if (leavesSummry.getRoute() != null) {
             criteria.add(Restrictions.eq("route", leavesSummry.getRoute()));
+        }
+
+        if (!"null".equals(leavesSummry.getStatus())) {
+            if (leavesSummry.getStatus() != null) {
+                criteria.add(Restrictions.eq("status", leavesSummry.getStatus()));
+            }
         }
 
         if (leavesSummry.getClient() != null) {
             criteria.add(Restrictions.eq("client", leavesSummry.getClient()));
         }
-        
+
         if (leavesSummry.getRouteOfficer() != null) {
             criteria.add(Restrictions.eq("routeOfficer", leavesSummry.getRouteOfficer()));
         }
-        
+
         if (leavesSummry.getRouteHelper() != null) {
             criteria.add(Restrictions.eq("routeHelper", leavesSummry.getRouteHelper()));
         }
-        
+
         if (leavesSummry.getVehicle() != null) {
             criteria.add(Restrictions.eq("vehicle", leavesSummry.getVehicle()));
         }
@@ -112,11 +118,18 @@ public class DashboardService {
     }
 
     List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(greenLeavesSummry leavesSummry) {
+        System.out.println(leavesSummry.getStatus());
         if ("client".equals(leavesSummry.getType())) {
             Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
-            
+
             if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
                 criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
+            }
+
+            if (!"null".equals(leavesSummry.getStatus())) {
+                if (leavesSummry.getStatus() != null) {
+                    criteria.add(Restrictions.eq("status", leavesSummry.getStatus()));
+                }
             }
 
             if (leavesSummry.getRoute() != null) {
@@ -139,9 +152,15 @@ public class DashboardService {
             return greenLeavesReceives;
         } else {
             Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
-            
+
             if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
                 criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
+            }
+
+            if (!"null".equals(leavesSummry.getStatus())) {
+                if (leavesSummry.getStatus() != null) {
+                    criteria.add(Restrictions.eq("status", leavesSummry.getStatus()));
+                }
             }
 
             if (leavesSummry.getRoute() != null) {
