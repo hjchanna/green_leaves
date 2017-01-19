@@ -14,7 +14,7 @@
     <!--start left div-->
     <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12 background-dark border-dark-bottom" style="height: 105px">
+            <div class="col-xs-12 background-dark border-dark-bottom" style="height: 190px">
                 <table class="control-table">
                     <col style="width: 50%">
                     <col style="width: 50%">
@@ -22,18 +22,65 @@
                     <thead>
                         <tr>
                             <td>
-                                <input  id="type"  class="form-control" placeholder="advance type" ng-model="model.transactionType" uib-typeahead="transactionType as (transactionType.name) for transactionType in model.transactionTypes|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" >
+                                <input class="form-control" id="transaction"  input-hint="transaction number" smart-input="integer" ng-model="model.data.transaction" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
                             </td>
                             <td>
-                                <input class="form-control" id="transaction"   input-hint="transaction number" smart-input="integer" ng-model="model.data.transaction" placeholder="transaction number"  ng-disabled="ui.mode === 'NEW' || ui.mode === 'EDIT'">
+                                <input  id="type"  class="form-control" placeholder="voucher type" ng-model="model.search.transactionType" uib-typeahead="transactionType as (transactionType.name) for transactionType in model.transactionTypes|filter:$viewValue|limitTo:7" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" >
                             </td>
                         </tr>
+
+                    </thead>
+
+                </table>
+                <table class="control-table">
+                    <col style="width: 33.3%">
+                    <col style="width: 33.3%">
+                    <col style="width: 33.4%">
+                    <col />
+                    <thead>
                         <tr>
                             <td>
-                                <input type="text" class="form-control" placeholder="select route officer" ng-model="model.employee" uib-typeahead="employee as (employee.indexNo+' - '+employee.name) for employee in model.employees|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input type="text" class="form-control" placeholder="select route officer" ng-model="model.search.employee" uib-typeahead="employee as (employee.indexNo+' - '+employee.name) for employee in model.employees|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
-                                <input class="form-control" placeholder="search client" ng-model="model.client"  uib-typeahead="client as (client.clientNumber+' - '+client.name) for client in model.clients|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control" placeholder="search client" ng-model="model.search.client"  uib-typeahead="client as (client.clientNumber+' - '+client.name) for client in model.clients|filter:$viewValue|limitTo:7" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" placeholder="payment type" ng-model="model.search.paymentType" uib-typeahead="paymentType as (paymentType) for paymentType in model.paymentTypes|filter:$viewValue" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="control-table">
+                    <col style="width: 15%">
+                    <col style="width: 22%">
+                    <col style="width: 22%">
+                    <col style="width: 14%">
+                    <col style="width: 15%">
+                    <col style="width: 6%">
+                    <col style="width: 7%">
+                    <col />
+                    <thead>
+                        <tr>
+
+                            <td>
+                                <input class="form-control" ng-model="model.tempData.description" ng-disabled="true">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" ng-model="model.tempData.client" ng-disabled="true">
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <input class="form-control" id="paymentType" ng-model="model.tempData.paymentType"  uib-typeahead="p as (p) for p in model.paymentTypes|filter:$viewValue" typeahead-editable="false" ng-disabled="false">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" ng-model="model.tempData.amount" ng-disabled="true">
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" ng-click="ui.updateVoucher(model.tempData)" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-save"></span></button>
                             </td>
                         </tr>
                     </thead>
@@ -43,20 +90,24 @@
             <!--end table header div-->
             <div class="col-xs-12" style="flex: 0 0 auto;" ng-show="model.vouchers.length">
                 <table>
+                    <col style="width: 7%">
+                    <col style="width: 15%">
+                    <col style="width: 25%">
+                    <col style="width: 20%">
+                    <col style="width: 11%">
+                    <col style="width: 11%">
                     <col style="width: 10%">
-                    <col style="width: 20%">
-                    <col style="width: 20">
-                    <col style="width: 20%">
-                    <col style="width: 20%">
-                    <col style="width: 10%">
+                    <col style="width: 7%">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Description</th>
                             <th>Client</th>
-                            <th>Payment Type</th>
+                            <th>Route</th>
+                            <th>P.Type</th>
                             <th class="text-right">Amount</th>
-                            <th class="text-center"><input type="checkbox"  ng-model="model.selectAllVoucher" ng-click="ui.selectAll()" /></th>
+                            <th class="text-center"><input type="checkbox" ng-click="ui.select(model.search);" ng-model="master" /></th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -64,36 +115,47 @@
             <!--end table body div-->
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 243px);" ng-show="model.vouchers.length">
                 <table class="control-table">
+                    <col style="width: 7%">
+                    <col style="width: 15%">
+                    <col style="width: 25%">
+                    <col style="width: 20%">
+                    <col style="width: 11%">
+                    <col style="width: 11%">
                     <col style="width: 10%">
-                    <col style="width: 20%">
-                    <col style="width: 20%">
-                    <col style="width: 20%">
-                    <col style="width: 20%">
-                    <col style="width: 10%">
+                    <col style="width: 7%">
                     <tbody>
-                        <tr ng-class="ui.selectedDetailIndex === voucher.indexNo ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter :{client: model.client.indexNo} |filter :{employee: model.employee.indexNo} |filter :{transactionType: model.transactionType.indexNo}" ng-click="ui.selectDetail(voucher.indexNo);">
+                        <tr ng-class="voucher.chxSelected ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter :{client: model.search.client.indexNo} |filter :{employee: model.search.employee.indexNo} |filter :{transactionType: model.search.transactionType.indexNo}|filter :{paymentType: model.search.paymentType}">
                             <td><span class="label label-default">{{voucher.indexNo}}</span></td>
                             <td>{{voucher.description}}</td>
-                            <td>{{model.getClient(voucher.client).name}}</td>
-                            <td>{{voucher.paymentType}}</td>
-                            <td class="text-right">{{voucher.amount}}</td>
-                            <td class="text-center"><input id="chk" type="checkbox" ng-model="model.voucher.selected"  ng-click="ui.selectOne(voucher)"/><label for="chk"></label></td>
+                            <td>{{model.getClient(voucher.client)}}</td>
+                            <td>{{model.getRoute(voucher.client)}}</td>
+                            <td >{{voucher.paymentType}}</td>
+                            <td class="text-right">{{voucher.amount|number:2}}</td>
+                            <td class="text-center"><input id="chk" ng-click="ui.selectDetail(voucher);" type="checkbox" checklist-model="user.voucher" ng-model="voucher.chxSelected" ng-checked="master" checklist-value="voucher" /><label for="chk"></label></td>
+                            <td >
+                                <button class="btn btn-primary" ng-click="ui.edit(voucher)" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-edit"></span></button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
-            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 198px);" ng-hide="model.vouchers.length">
-                <h1>NO VOUCHERS AVAILABLE :(</h1>
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 284px);" ng-hide="model.vouchers.length">
+                <h1>NO VOUCHERS AVAILABLE :(<br>
+                    Select Voucher Type to Display.
+                </h1>
             </div>
             <!--end table body div-->
             <div class="col-xs-12" style="flex: 0 0 auto; height: 41px;">
                 <table>
-                    <col style="width: 70%"/>
+                    <col style="width: 53%"/>
                     <col style="width: 30%"/>
+                    <col style="width: 17%"/>
                     <thead class="background-dark">
                         <tr class="clickable">
                             <th>TOTAL</th>
                             <th class="text-right">{{model.vouchers?model.getRequestTotal(model.vouchers.indexNo):0 | number: 2}}</th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -104,29 +166,15 @@
     <!--start right div-->
     <div class="col-xs-4 background-dark">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12"  style="height: 520px;">
+            <div class="col-xs-12 smart-scroll-y" style="height: 520px;">
                 <!--start cash - 1st tab-->
                 <uib-tabset>
                     <uib-tab index="0" heading="Cash">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12" ng-s>
                             <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col />
-
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label for="amount" class="control-label text-left">Amount</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="amount" type="text" ng-model="model.data.cashAmount">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table class="control-table">
-                                <col style="width: 50%"/>
-                                <col style="width: 50%"/>
+                                <col style="width: 30%"/>
+                                <col style="width: 30%"/>
+                                <col style="width: 40%"/>
                                 <col />
 
                                 <tbody>
@@ -137,52 +185,34 @@
                                         <td>
                                             <label class="control-label text-left">COUNT</label>
                                         </td>
+                                        <td>
+                                            <label class="control-label text-left">VALUE</label>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <table class="table-hover">
-                                <col style="width: 50%">
-                                <col style="width: 50%">
+                                <col style="width: 30%">
+                                <col style="width: 30%">
+                                <col style="width: 40%">
                                 <tbody>
-                                    <tr ng-repeat="detail in model.cashSummary track by $index">
+                                    <tr ng-repeat="detail in model.cashSummary">
+                                        <!--<tr ng-repeat="detail in detail1[0] track by $index">-->
                                         <td>{{detail.amount}}</td>
                                         <td>{{detail.count}}</td>
+                                        <td>{{detail.count * detail.amount}}</td>
+                                        <!--</tr>-->
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 284px);" ng-hide="model.cashSummary.length">
+                                <h1>NO SELECTED VOUCHERS TO VIEW CASH DENOMINATION :(<br>
+                                </h1>
+                            </div>
                         </div>
                     </uib-tab>
-                    <!--end cash - 1st tab-->
-                    <!--start cheque - 2nd tab-->
-                    <uib-tab index="1" heading="Cheque">
-                        <div class="col-xs-12" style="margin-top: 10px;">
-                            <input type="button" style="float: right;padding-right: 15px;" value="Cheque Info" ng-click="ui.modalOpen()" class="btn btn-primary btn-xs"/>
-                        </div>
-                        <!--start table header-->
-                        <!--end table header-->
-                        <!--start table body-->
-                        <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 400px);" ng-show="model.data.companyCheque.length">
-                            <table class="table-hover">
-                                <col style="width: 55%">
-                                <col style="width: 30%">
-                                <col style="width: 15%">
-                                <tbody>
-                                    <tr ng-repeat="companyCheque in model.data.companyCheque">
-                                        <td>{{companyCheque.chequeNo}}</td>
-                                        <td class="text-right">{{companyCheque.amount}}</td>
-                                        <td><a class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
-                                    </tr>
 
-                                </tbody>
-                            </table>
-                            <!--end table body-->
-                        </div>
-                        <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 380px);" ng-hide="model.data.companyCheque.length">
-                            <h1>PLEASE ADD CHEQUE TO DISPLAY :(</h1>
-                        </div>
-                    </uib-tab>
-                    <!--end cheque - 2nd tab-->
-                    <uib-tab index="2" heading="Bank">
+                    <uib-tab index="1" heading="Bank">
                         <div class="col-xs-12" style="margin-top: 10px;">
                             <table class="control-table">
                                 <col style="width: 35%"/>
@@ -203,71 +233,7 @@
                     </uib-tab>
 
                 </uib-tabset>
-                <!--cheque pop up modal-->
-                <div class="col-xs-4 col-xs-offset-3">
-                    <script type="text/ng-template" id="cheque.html"> 
-                        <div class="modal-header">
-                        <h3 class="modal-title">Cheque Detail</h3>
-                        </div>
-                        <div class="modal-body">
-                        <table class="control-table with-label">
-                        <col style="width: 20%"/>
-                        <col style="width: 25%"/>
-                        <col style="width: 20%"/>
-                        <col style="width: 25%"/>
-                        <col style="width: 10%"/>
-                        <col />
 
-                        <thead class="background-dark"> 
-                        <tr>
-                        <th>
-                        <label>Cheque Book</label>
-                        <input id="normal-qty" class="form-control" ng-model="model.tempData.indexNo" uib-typeahead="indexNo as (indexNo.indexNo) for indexNo in model.chequeBooks|filter:$viewValue|limitTo:7">
-                        </th>
-                        <th>
-                        <label>Cheque No</label>
-                        <input class="form-control" ng-model="model.tempData.chequeNo">
-                        </th>
-                        <th>
-                        <label>Date</label>
-                        <input class="form-control" ng-model="model.tempData.bankDate" smart-input="date">
-                        </th>
-                        <th class="text-right">
-                        <label>Amount</label>
-                        <input class="form-control text-right" ng-model="model.tempData.amount">
-                        </th>
-                        <th class="text-center" style="vertical-align: bottom; padding-bottom: 5px; padding-left: 5px;">
-                        <button type="button" class="btn btn-primary" ng-click="ui.insertChequeDetails();">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        </th>
-                        </tr>
-                        </thead>
-                        </table>
-
-                        <table class="table-hover">
-                        <col style="width: 20%"/>
-                        <col style="width: 25%"/>
-                        <col style="width: 20%"/>
-                        <col style="width: 25%"/>
-                        <col style="width: 10%"/>
-                        <col />
-                        <tbody>
-                        <tr ng-repeat="companyCheque in model.data.companyCheque">
-                        <td>{{companyCheque.indexNo.indexNo}}</td>
-                        <td>{{companyCheque.chequeNo}}</td>
-                        <td>{{companyCheque.bankDate | date}}</td>
-                        <td class="text-right">{{companyCheque.amount}}</td>
-                        <td class="text-center" style="padding-left: 5px;">
-                        <button class="btn btn-danger" ng-click="ui.deleteDetail(companyCheque.indexNo);"><span class="glyphicon glyphicon-minus"></span></button>
-                        </td>
-                        </tr>
-                        </tbody>
-                        </table>
-
-                        </div>
-                    </script>
-                </div>
             </div>
             <!--start payemnt summry-->
             <div class="col-xs-12">
@@ -280,7 +246,7 @@
                                 <label class="control-label text-left">Voucher Summary</label>
                             </td>
                             <td>
-                                <label class="control-label text-left">{{model.voucherSummary| number: 2}}</label>
+                                <label class="control-label text-left">{{model.eachValues.total| number: 2}}</label>
                             </td>
                         </tr>
                         <tr>
@@ -288,7 +254,7 @@
                                 <label class="control-label text-left">Total Cash</label>
                             </td>
                             <td>
-                                <label class="control-label text-left">{{model.data.cashAmount|number:2}}</label>
+                                <label class="control-label text-left">{{model.eachValues.cash|number:2}}</label>
                             </td>
                         </tr>
                         <tr>
@@ -296,7 +262,7 @@
                                 <label for="totalCheque" class="control-label text-left">Total Cheque</label>
                             </td>
                             <td>
-                                <label for="totalCheque" class="control-label text-left">3000.00</label>
+                                <label for="totalCheque" class="control-label text-left">{{model.eachValues.cheque|number:2}}</label>
                             </td>
                         </tr>
                         <tr>
@@ -304,26 +270,9 @@
                                 <label for="totalBank" class="control-label text-left">Bank Amount</label>
                             </td>
                             <td>
-                                <label for="totalBank" class="control-label text-left">5000.00</label>
+                                <label for="totalBank" class="control-label text-left">{{model.eachValues.bank|number:2}}</label>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <label for="totalPayment" class="control-label text-left">Total Payment</label>
-                            </td>
-                            <td>
-                                <label for="totalPayment" class="control-label text-left">3000.00</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="balance" class="control-label text-left">balance</label>
-                            </td>
-                            <td>
-                                <label for="balance" class="control-label text-left">3000.00</label>
-                            </td>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>

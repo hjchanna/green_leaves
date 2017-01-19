@@ -36,9 +36,15 @@ public class GLGreenLeavesPaymentController {
     }
     
     @RequestMapping(value = "/save-voucher",method = RequestMethod.POST)
-    public int saveVoucher(@RequestBody TVoucherPayment voucherPayment){
-        greenLeavesPaymentService.saveVoucher(voucherPayment,BRANCH);
-        return voucherPayment.getIndexNo();
+    public int saveVoucher(@RequestBody TVoucher voucher){
+        greenLeavesPaymentService.saveVoucher(voucher,BRANCH);
+        return voucher.getIndexNo();
+    }
+    
+    @RequestMapping(value = "/update-voucher",method = RequestMethod.POST)
+    public int updaeVoucher(@RequestBody TVoucher voucher){
+        System.out.println(voucher.getPaymentType());
+        return greenLeavesPaymentService.updateVoucher(voucher);
     }
     
     //transaction type
