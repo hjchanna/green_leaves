@@ -52,6 +52,7 @@
                         var searchClient = $scope.model.searchClientByClientNo($scope.model.data.clientId);
                         if (angular.isUndefined(searchClient)) {
                             $scope.model.data.client = null;
+                            $scope.model.data.clientRoutes = null;
                             Notification.error("client not found!");
                         } else {
                             $scope.model.data.client = searchClient.indexNo;
@@ -105,6 +106,8 @@
                         if ($scope.model.data.client) {
                             $scope.model.data.clientRoutes = $scope.model.getClientRoute($scope.model.data.client);
                             $scope.model.data.clientId = $scope.model.client($scope.model.data.client).clientNumber;
+                        }else{
+                          $scope.model.data.clientRoutes = "";   
                         }
                     });
                 };
