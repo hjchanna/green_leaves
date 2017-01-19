@@ -52,13 +52,13 @@
                                                 <label>QTY</label>
                                                 <input id="normal-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
-                                            <th class="text-right">
-                                                <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                            </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
                                                 <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
+                                            </th>
+                                            <th class="text-right">
+                                                <label>CRATES</label>
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
@@ -86,8 +86,8 @@
                                         <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'NORMAL'});">
                                             <td><span class="label label-primary">{{model.data.greenLeaveWeighDetails.length - $index|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
                                             <td class="text-center" style="padding-left: 5px;">
                                                 <button class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-minus"></span></button>
@@ -114,8 +114,8 @@
                                         <tr>
                                             <th>TOTAL</th>
                                             <th class="text-right">{{model.data.normalTotalWeight|number:2}}</th>
-                                            <th class="text-right">{{model.data.normalCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.normalBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.normalCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.normalPolyBags|number:2}}</th>
                                             <th class="text-center">
                                                 &nbsp;
@@ -143,13 +143,13 @@
                                                 <label>QTY</label>
                                                 <input id="super-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
-                                            <th class="text-right">
-                                                <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                            </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
                                                 <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
+                                            </th>
+                                            <th class="text-right">
+                                                <label>CRATES</label>
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
@@ -177,8 +177,8 @@
                                         <tr ng-repeat="greenLeavesWeighDetail in superLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'SUPER'});">
                                             <td><span class="label label-danger">{{$index + 1|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
                                             <td class="text-center" style="padding-left: 5px;">
                                                 <a class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-minus"></span></a>
@@ -205,8 +205,8 @@
                                         <tr>
                                             <th>TOTAL</th>
                                             <th class="text-right">{{model.data.superTotalWeight|number:2}}</th>
-                                            <th class="text-right">{{model.data.superCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.superBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.superCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.superPolyBags|number:2}}</th>
                                             <th class="text-right">
                                                 &nbsp;
