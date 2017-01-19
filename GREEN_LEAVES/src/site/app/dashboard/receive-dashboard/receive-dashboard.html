@@ -29,7 +29,7 @@
                             <td><label class="control-label">Client</label></td>
                             <td><input class="form-control" ng-model="model.data.client" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="client.indexNo as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.clientLabel($model)"></td>
                         </tr>
-                        <tr ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client' || ui.searchUi === 'Cross_Entry'">
+                        <tr ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client' || ui.searchUi === 'Cross_Entry'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchUi === 'Receive'">
                             <td><label class="control-label">Client Route</label></td>
                             <td><input class="form-control" ng-model="model.data.clientRoutes" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" disabled="true"></td>
                         </tr>
@@ -80,18 +80,48 @@
         <uib-tabset>
             <uib-tab index="1" heading="Receive" select="ui.toggleType('Receive');">
                 <div ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
-                    <div class="col-xs-12" style="padding-top: 15px; height: 200px;" ng-show="model.greenLeavesReceiveList.length">
-                        <canvas 
-                            id="line" 
-                            class="chart chart-line" 
-                            chart-dataset-override="datasetOverride" 
-                            chart-data="model.greenLeavesReceveChartSummry.greenLeavesQtys" 
-                            chart-labels="model.greenLeavesReceveChartSummry.routes" 
-                            chart-colors="colors" 
-                            chart-series="series" 
-                            chart-options="options"
-                            style="height: 100%;">
-                        </canvas>
+                    <div class="col-xs-12" style="height: 200px;"  ng-show="model.greenLeavesReceiveList.length">
+                        <uib-tabset>
+                            <uib-tab index="0" heading="Date">
+                                <canvas 
+                                    id="line" 
+                                    class="chart chart-line" 
+                                    chart-dataset-override="datasetOverride" 
+                                    chart-data="model.greenLeavesReceveChartSummry.greenLeavesQtys" 
+                                    chart-labels="model.greenLeavesReceveChartSummry.routes" 
+                                    chart-colors="colors" 
+                                    chart-series="series" 
+                                    chart-options="options"
+                                    style="height: 100%;">
+                                </canvas>
+                            </uib-tab>
+                            <uib-tab index="1" heading="Route">
+                                <canvas 
+                                    id="line" 
+                                    class="chart chart-line" 
+                                    chart-dataset-override="datasetOverride" 
+                                    chart-data="model.greenLeavesReceveChartSummryRouteVise.greenLeavesQtys" 
+                                    chart-labels="model.greenLeavesReceveChartSummryRouteVise.routes" 
+                                    chart-colors="colors" 
+                                    chart-series="series" 
+                                    chart-options="options"
+                                    style="height: 100%;">
+                                </canvas>
+                            </uib-tab>
+                            <uib-tab index="2" heading="Vehicle">
+                                <canvas 
+                                    id="line" 
+                                    class="chart chart-line" 
+                                    chart-dataset-override="datasetOverride" 
+                                    chart-data="model.greenLeavesReceveChartSummryRouteVehicleVise.greenLeavesQtys" 
+                                    chart-labels="model.greenLeavesReceveChartSummryRouteVehicleVise.vehicle" 
+                                    chart-colors="colors" 
+                                    chart-series="series" 
+                                    chart-options="options"
+                                    style="height: 100%;">
+                                </canvas>
+                            </uib-tab>
+                        </uib-tabset>
                     </div>
                     <div class="col-xs-12 placeholder animation-fade" style="padding-top: 15px; height: 200px;" ng-hide="model.greenLeavesReceiveList.length">
                         <h1>GREEN LEAVES RECEIVE CHART DETAIL NOT FOUND :( </h1>
@@ -261,18 +291,48 @@
                 </div>
             </uib-tab>
             <uib-tab index="2" heading="Bulk Weigh" select="ui.toggleType('Bulk_Weigh');">
-                <div class="col-xs-12" style="padding-top: 15px; height: 200px;" ng-show="model.greenLeavesBulkWeighList.length">
-                    <canvas 
-                        id="line" 
-                        class="chart chart-line" 
-                        chart-dataset-override="datasetOverride" 
-                        chart-data="model.greenLeavesBulkWeighChartSummry.greenLeavesQtys" 
-                        chart-labels="model.greenLeavesBulkWeighChartSummry.routes" 
-                        chart-colors="colors" 
-                        chart-series="series" 
-                        chart-options="options"
-                        style="height: 100%;">
-                    </canvas>
+                <div class="col-xs-12" style="height: 200px;" ng-show="model.greenLeavesBulkWeighList.length">
+                    <uib-tabset>
+                        <uib-tab index="0" heading="Date">
+                            <canvas 
+                                id="line" 
+                                class="chart chart-line" 
+                                chart-dataset-override="datasetOverride" 
+                                chart-data="model.greenLeavesBulkWeighChartSummry.greenLeavesQtys" 
+                                chart-labels="model.greenLeavesBulkWeighChartSummry.routes" 
+                                chart-colors="colors" 
+                                chart-series="series" 
+                                chart-options="options"
+                                style="height: 100%;">
+                            </canvas>
+                        </uib-tab>
+                        <uib-tab index="1" heading="Route">
+                            <canvas 
+                                id="line" 
+                                class="chart chart-line" 
+                                chart-dataset-override="datasetOverride" 
+                                chart-data="model.greenLeavesBulkWeighChartSummryRouteVise.greenLeavesQtys" 
+                                chart-labels="model.greenLeavesBulkWeighChartSummryRouteVise.routes" 
+                                chart-colors="colors" 
+                                chart-series="series" 
+                                chart-options="options"
+                                style="height: 100%;">
+                            </canvas>
+                        </uib-tab>
+                        <uib-tab index="2" heading="Vehicle">
+                            <canvas 
+                                id="line" 
+                                class="chart chart-line" 
+                                chart-dataset-override="datasetOverride" 
+                                chart-data="model.greenLeavesBulkWeighChartSummryVehicleVise.greenLeavesQtys" 
+                                chart-labels="model.greenLeavesBulkWeighChartSummryVehicleVise.vehicle" 
+                                chart-colors="colors" 
+                                chart-series="series" 
+                                chart-options="options"
+                                style="height: 100%;">
+                            </canvas>
+                        </uib-tab>
+                    </uib-tabset>
                 </div>
                 <div class="col-xs-12 placeholder animation-fade" style="padding-top: 15px; height: 200px;" ng-hide="model.greenLeavesBulkWeighList.length">
                     <h1>GREEN LEAVES WEIGH CHART DETAIL NOT FOUND :( </h1>
