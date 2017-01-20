@@ -53,7 +53,8 @@
                 var that = this;
                 var number = this.data.number;
                 var branch = this.data.branch;
-                SupplierGreenLeavesWeighService.loadWeigh(branch, number)
+                var type = "SUPPLIER";
+                SupplierGreenLeavesWeighService.loadWeigh(branch, number, type)
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
@@ -63,9 +64,17 @@
                             defer.reject();
                             //reset
                             that.data.indexNo = null;
-                            that.data.number = null;
+                            //that.data.branch = null;
+                            that.data.route = null;
+                            that.data.date = null;
+                            that.data.client = null;
+                            that.data.routeOfficer = null;
+                            that.data.routeHelper = null;
+                            that.data.vehicle = null;
+                            //that.data.number = null;
                             that.data.status = null;
                             that.data.type = "SUPPLIER";
+                            that.data.remark = null;
 
                             //normal leaves summary
                             that.data.normalTotalWeight = 0.0;

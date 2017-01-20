@@ -17,8 +17,8 @@
         this.loadWeighByBranchAndType = function (branch, type) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/find-by-branch/" + branch + "/" + type);
         };
-        this.loadWeigh = function (branch, number) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + branch + "/" + number);
+        this.loadWeigh = function (branch, number, type) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-weigh/" + branch + "/" + number + "/" + type);
         };
 
         this.saveWeigh = function (weigh) {
