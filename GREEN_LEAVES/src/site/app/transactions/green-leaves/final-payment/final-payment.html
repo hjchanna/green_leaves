@@ -1,88 +1,67 @@
 <div class="index-content-body">
     <div class="col-xs-4 background-dark border-dark-right">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);padding-top: 5px;">
+        <div style="display: flex; flex-flow: column; height: calc(100vh - 51px);padding-top: 5px;">
             <!--start month selection-->
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 50%"/>
-                    <col style="width: 50%"/>
-                    <thead>
-                        <tr>
-                            <th>
-                                <input id="year_text" style="margin-top: 5px" ng-model="year" smart-input="integer" class="form-control text-right" ng-disabled="ui.mode === 'IDEAL' || ui.mode === 'LOAD'" placeholder="year">
-                            </th>
-                            <th>
-                                <input style="margin-top: 5px" ng-model="month" ng-keypress="enterEvent($event)" smart-input="integer" class="form-control text-right" ng-disabled="ui.mode === 'IDEAL' || ui.mode === 'LOAD'" placeholder="month">
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <!--end month selection-->
-
-
-            <div class="col-xs-12" >
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 30%;"/>
-                    <col style="width: 30%;"/>
-                    <thead>
-                        <tr>
-                            <th>DESCRIPTION </th>
-                            <th class="text-right">DEBIT</th>
-                            <th class="text-right">CREDIT</th>
-                    </thead>
-                </table>
-            </div>
-
-            <div class="col-xs-12"  ng-hide="true">
-                <div class="smart-scroll-y" style="height: calc(100vh - 276px)">
-                    <table>
-                        <col style="width: 40%;"/>
-                        <col style="width: 25%;"/>
-                        <col style="width: 25%;"/>
-                        <col style="width: 15%;"/>
-
-                        <tbody>
-                            <tr ng-repeat="accountTransaction in model.accountTtransactionList">
-                                <td >{{model.getTransactionType(accountTransaction.transactionType)}}</td>
-                                <td class="text-right" >{{accountTransaction.debitAmount === 0 ? '- -' : accountTransaction.debitAmount| currency : '' : 2}}</td>
-                                <td class="text-right" >{{accountTransaction.creditAmount === 0 ? '- -' : accountTransaction.creditAmount| currency : '' : 2}}</td>
-                                <td><a class="btn btn-primary" ng-click="ui.getDetail(year, month, accountTransaction.transactionType)"><span class="glyphicon glyphicon-paste"></span></a></td>
+            <div class="row">
+                <div class="col-xs-12" >
+                    <table class="control-table">
+                        <col style="width: 42%"/>
+                        <col style="width: 42%"/>
+                        <col style="width: 16%"/>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input smart-input="integer" class="form-control" ng-model="model.data.year" placeholder="year">
+                                </th>
+                                <th>
+                                    <input smart-input="integer" class="form-control" ng-model="model.data.month" placeholder="month">
+                                </th>
+                                <th>
+                                    <a class="btn btn-primary btn-block" ng-click="ui.loadClientLedgerSummary();">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                </th>
                             </tr>
-                        </tbody>
+                        </thead>
                     </table>
                 </div>
             </div>
+            <!--end month selection-->
 
-            <div class="placeholder col-xs-12" style="height: calc(100vh - 270px);" ng-hide="model.accountTtransactionList.length">
-                <h1>SELECT A MONTH TO DISPLAY SUMMARY :(</h1>
-            </div>
+            <div class="row">
+                <div ng-show="model.data.clientLedgerSummary.length">
+                    <div class="col-xs-12" >
+                        <table>
+                            <col style="width: 40%;"/>
+                            <col style="width: 30%;"/>
+                            <col style="width: 30%;"/>
+                            <thead>
+                                <tr>
+                                    <th>DESCRIPTION </th>
+                                    <th class="text-right">DEBIT</th>
+                                    <th class="text-right">CREDIT</th>
+                            </thead>
+                        </table>
 
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 30%;"/>
-                    <col style="width: 30%;"/>
+                    </div>
 
-                    <tbody>
-                        <tr class="text-bold">
-                            <td>Total</td>
-                            <td class="text-right">{{model.totalDebit| currency : '' : 2}}</td>
-                            <td class="text-right">{{model.totalCredit| currency : '' : 2}}</td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>Balance</td>
-                            <td class="text-right">{{model.totalDebit - model.totalCredit| currency : '' : 2}}</td>
-                            <td class="text-right">-</td>   
-                        </tr>
-                        <tr class="text-bold">
-                            <td>C/F</td>
-                            <td class="text-right">{{model.getCoins(model.totalDebit, model.totalCredit) | currency : '' : 2}}</td>
-                            <td class="text-right">-</td>   
-                        </tr>
-                    </tbody>
-                </table>
+                    <div class="col-xs-12 smart-scroll-y" >
+                        <table>
+                            <tbody>
+                                <tr ng-repeat="clientLedgerSummary in model.data.clientLedgerSummary">
+                                    <td><b>{{clientLedgerSummary[0].replace("_"," ")}}</b></td>
+                                    <td class="text-right">{{clientLedgerSummary[2]|number:2}}</td>
+                                    <td class="text-right">{{clientLedgerSummary[2]|number:2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="placeholder col-xs-12" style="height: calc(100vh - 117px);" ng-hide="model.data.clientLedgerSummary.length">
+                    <h1>SELECT A MONTH TO DISPLAY SUMMARY :(</h1>
+                </div>
             </div>
         </div>
     </div>

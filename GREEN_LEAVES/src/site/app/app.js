@@ -10,7 +10,6 @@
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",
         "priceSettingModule",
-        "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
         "routeDetailsModule",
         "clientModule",
@@ -87,7 +86,7 @@
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/final-payemnt", {
                             templateUrl: "app/transactions/green-leaves/final-payment/final-payment.html",
-                            controller: "finalPaymentModuleController"
+                            controller: "FinalPaymentController"
                         })
                         .when("/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry", {
                             templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
