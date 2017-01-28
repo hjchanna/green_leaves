@@ -25,7 +25,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeavesWeigh, Integer> {
 
-    public List<TGreenLeavesWeigh> findByBranchAndNumber(Integer branch, Integer number);
+    public List<TGreenLeavesWeigh> findByBranchAndNumberAndType(Integer branch, Integer number, String type);
 
     public List<TGreenLeavesWeigh> findByBranchAndStatusAndType(Integer branch, String status, String type);
 
@@ -36,7 +36,7 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
     @Query(value = "update t_green_leaves_weigh set status = 'APPROVE' where index_no = :indexNo", nativeQuery = true)
     public Integer approve(@Param("indexNo") Integer indexNo);
 
-    public TGreenLeavesWeigh findByBranchAndRouteAndDateAndType(Integer branch, Integer route, Date date,String type);
+    public TGreenLeavesWeigh findByBranchAndRouteAndDateAndType(Integer branch, Integer route, Date date, String type);
 
-    public TGreenLeavesWeigh findByBranchAndDateAndClientAndType(Integer branch, Date date, Integer client,String type);
+    public TGreenLeavesWeigh findByBranchAndDateAndClientAndType(Integer branch, Date date, Integer client, String type);
 }
