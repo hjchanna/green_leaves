@@ -1,7 +1,7 @@
 (function () {
     angular.module("receiveDashboardModule", []);
     angular.module("receiveDashboardModule")
-            .controller("receiveDashboardController", function ($scope, ModalDialog, GreenLeavesDashBoardModel) {
+            .controller("receiveDashboardController", function ($scope, ModalDialog, GreenLeavesDashBoardModel, Notification) {
                 $scope.model = new GreenLeavesDashBoardModel();
 
                 $scope.ui = {};
@@ -28,6 +28,9 @@
                     } else if (type === 'Supplier_Weigh') {
                         $scope.model.clear();
                         $scope.ui.searchUi = "Supplier_Weigh";
+                    } else if (type === "Cross_Entry") {
+                        $scope.model.clear();
+                        $scope.ui.searchUi = "Cross_Entry";
                     }
                 };
 
@@ -42,6 +45,21 @@
                     }
                 };
 
+                //client search client number
+                $scope.ui.searchClient = function (e) {
+                    var code = e ? e.keyCode || e.which : 13;
+                    if (code === 13) {
+                        var searchClient = $scope.model.searchClientByClientNo($scope.model.data.clientId);
+                        if (angular.isUndefined(searchClient)) {
+                            $scope.model.data.client = null;
+                            $scope.model.data.clientRoutes = null;
+                            Notification.error("client not found!");
+                        } else {
+                            $scope.model.data.client = searchClient.indexNo;
+                        }
+                    }
+                };
+
                 $scope.ui.search = function () {
                     if ($scope.ui.searchUi === 'Summary') {
                         // $scope.model.greenLeavesAllSummry();
@@ -53,9 +71,11 @@
                         }
                     } else if ($scope.ui.searchUi === 'Bulk_Weigh') {
                         $scope.model.getGreenLeavesWeighSummry('BULK');
-
                     } else if ($scope.ui.searchUi === 'Supplier_Weigh') {
                         $scope.model.getGreenLeavesWeighSummry('SUPPLIER');
+                    } else if ($scope.ui.searchUi === 'Cross_Entry') {
+                        console.log("Cross_Entry");
+                        $scope.model.crossReportSummry();
                     }
                 };
 
@@ -67,7 +87,7 @@
                     responsive: true,
                     maintainAspectRatio: false
                 };
-                
+
                 $scope.ui.modalOpen = function (indexNo) {
                     ModalDialog.modalOpen("lg", "greenLeavesWeighSummry.html", "receiveDashboardController");
                     $scope.model.greenLeaveWeighDetailsByIndexNo(indexNo);
@@ -83,7 +103,12 @@
                     $scope.ui.toggleReceiveType('Search_Receive_Fully');
 
                     $scope.$watch("model.data.client", function (newValue, oldValue) {
-                        $scope.model.data.clientRoutes = $scope.model.getClientRoute($scope.model.data.client);
+                        if ($scope.model.data.client) {
+                            $scope.model.data.clientRoutes = $scope.model.getClientRoute($scope.model.data.client);
+                            $scope.model.data.clientId = $scope.model.client($scope.model.data.client).clientNumber;
+                        }else{
+                          $scope.model.data.clientRoutes = "";   
+                        }
                     });
                 };
                 $scope.ui.init();
