@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.green_leaves.client_advance.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -69,8 +70,14 @@ public class TClientAdvanceRequest implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientAdvanceRequest", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Collection<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "is_delete")
+    private String isDelete;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientAdvanceRequest", fetch = FetchType.EAGER)
+    private Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
 
     public TClientAdvanceRequest() {
     }
@@ -144,11 +151,19 @@ public class TClientAdvanceRequest implements Serializable {
         this.status = status;
     }
 
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+
     public Collection<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
         return clientAdvanceRequestDetails;
     }
 
-    public void setClientAdvanceRequestDetails(Collection<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
+    public void setClientAdvanceRequestDetails(Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
         this.clientAdvanceRequestDetails = clientAdvanceRequestDetails;
     }
 
@@ -176,5 +191,4 @@ public class TClientAdvanceRequest implements Serializable {
     public String toString() {
         return "com.mac.gl.transaction.green_leaves.model.client_advance.TClientAdvanceRequest[ indexNo=" + indexNo + " ]";
     }
-
 }
