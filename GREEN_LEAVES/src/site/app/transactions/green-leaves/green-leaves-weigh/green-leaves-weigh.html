@@ -52,13 +52,13 @@
                                                 <label>QTY</label>
                                                 <input id="normal-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
-                                            <th class="text-right">
-                                                <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                            </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
                                                 <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
+                                            </th>
+                                            <th class="text-right">
+                                                <label>CRATES</label>
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
@@ -86,8 +86,8 @@
                                         <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'NORMAL'});">
                                             <td><span class="label label-primary">{{model.data.greenLeaveWeighDetails.length - $index|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
                                             <td class="text-center" style="padding-left: 5px;">
                                                 <button class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-minus"></span></button>
@@ -114,8 +114,8 @@
                                         <tr>
                                             <th>TOTAL</th>
                                             <th class="text-right">{{model.data.normalTotalWeight|number:2}}</th>
-                                            <th class="text-right">{{model.data.normalCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.normalBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.normalCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.normalPolyBags|number:2}}</th>
                                             <th class="text-center">
                                                 &nbsp;
@@ -143,13 +143,13 @@
                                                 <label>QTY</label>
                                                 <input id="super-qty" class="form-control text-right" ng-model="model.tempData.quantity" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
-                                            <th class="text-right">
-                                                <label>CRATES</label>
-                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
-                                            </th>
                                             <th class="text-right">  
                                                 <label>BAGS</label>
                                                 <input class="form-control text-right" ng-model="model.tempData.bags" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
+                                            </th>
+                                            <th class="text-right">
+                                                <label>CRATES</label>
+                                                <input class="form-control text-right" ng-model="model.tempData.crates" smart-input="integer" ng-disabled="ui.mode !== 'EDIT'">
                                             </th>
                                             <th class="text-right">
                                                 <label>POLY BAGS</label>
@@ -177,8 +177,8 @@
                                         <tr ng-repeat="greenLeavesWeighDetail in superLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'SUPER'});">
                                             <td><span class="label label-danger">{{$index + 1|fixedLength:4}}</span></td>
                                             <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
                                             <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
                                             <td class="text-center" style="padding-left: 5px;">
                                                 <a class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-minus"></span></a>
@@ -205,8 +205,8 @@
                                         <tr>
                                             <th>TOTAL</th>
                                             <th class="text-right">{{model.data.superTotalWeight|number:2}}</th>
-                                            <th class="text-right">{{model.data.superCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.superBags|number:2}}</th>
+                                            <th class="text-right">{{model.data.superCrates|number:2}}</th>
                                             <th class="text-right">{{model.data.superPolyBags|number:2}}</th>
                                             <th class="text-right">
                                                 &nbsp;
@@ -216,7 +216,7 @@
                                 </table>
                             </div>
                         </uib-tab>
-                        <uib-tab heading="PENDING WEIGHT" index="2">
+                        <uib-tab heading="PENDING WEIGHT" index="2" select="ui.getPendingGreenLeavesWeigh();">
                             <div ng-show="model.pendingGreenLeavesWeigh.length">
                                 <div class="col-xs-12">
                                     <table>
@@ -255,7 +255,6 @@
                                     </table>
                                 </div>
                             </div>
-
                             <div class="placeholder col-xs-12" style="height: calc(100vh - 209px); margin-top: 5px;" ng-hide="model.pendingGreenLeavesWeigh.length">
                                 <h1>
                                     NO PENDING GREEN LEAVES WEIGH TO DISPLAY :(<br>
@@ -270,12 +269,11 @@
     </div>
 
     <div class="col-xs-4 background-dark border-dark-left">
-
         <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'NORMAL'">
             <div class="col-xs-12">
                 <table>
                     <thead>
-                        <tr  class="selected">
+                        <tr ng-class="model.data.status === 'DELETED' ? 'background-danger' : 'selected'">
                             <td class="text-center"><h4>NORMAL LEAVES</h4></td>
                         </tr>
                     </thead>
@@ -361,7 +359,7 @@
             <div class="col-xs-12">
                 <table>
                     <thead>
-                        <tr class="selected">
+                        <tr ng-class="model.data.status === 'DELETED' ? 'background-danger' : 'selected'">
                             <td class="text-center"><h4>SUPER LEAVES</h4></td>
                         </tr>
                     </thead>
@@ -442,16 +440,15 @@
                 </table>
             </div>
         </div>
-
     </div>
 
 
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-        <a class="fab fab-success" fab-show="ui.mode ==='SELECTED'" ng-click="ui.confirm();"><i class="glyphicon glyphicon-ok"></i></a>
-        <a class="fab fab-danger" fab-show="ui.mode ==='EDIT'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
-        <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
-        <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+        <a class="fab fab-success" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='SELECTED'" ng-click="ui.confirm();"><i class="glyphicon glyphicon-ok"></i></a>
+        <a class="fab fab-danger" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="fab fab-success" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <a class="fab fab-lg fab-warning" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
         <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
         <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
     </div>

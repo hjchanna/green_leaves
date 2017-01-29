@@ -5,10 +5,8 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model;
 
-import com.mac.green_leaves.v1.green_leaves.zmaster.client.model.MClient;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,16 +14,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import org.hibernate.annotations.GeneratorType;
 
 /**
  *
  * @author Nidura Prageeth
  */
-@Entity
+@Entity(name = "com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucher")
 @Table(name = "t_voucher")
 public class TVoucher implements Serializable {
 
@@ -191,5 +187,4 @@ public class TVoucher implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
 }

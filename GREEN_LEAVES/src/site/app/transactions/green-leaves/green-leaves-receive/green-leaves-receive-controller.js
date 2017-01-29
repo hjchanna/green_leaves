@@ -5,6 +5,7 @@
         $scope.customerId;
 
         $scope.ui = {};
+        $scope.ui.insertProcessing = false;//Douple click duplicate bug fix
 
         $scope.ui.new = function () {
             $scope.ui.mode = "EDIT";
@@ -70,12 +71,15 @@
 
         //save green leaves receive and receive details
         $scope.ui.save = function () {
-            $scope.model.save()
-                    .then(function () {
-                        $scope.ui.mode = "IDEAL";
-                        $scope.model.clear();
-//                        optionPane.successMessage("save green leaves receive");
-                    });
+            if (!$scope.ui.insertProcessing) {
+                $scope.ui.insertProcessing = true;
+                $scope.model.save()
+                        .then(function () {
+                            $scope.ui.mode = "IDEAL";
+                            $scope.model.clear();
+                            $scope.ui.insertProcessing = false;
+                        });
+            }
         };
 
         $scope.ui.discard = function () {
@@ -117,10 +121,24 @@
                             console.log("REJECT");
                         });
             } else {
-                $scope.model.addDetail()
-                        .then(function () {
-                            $scope.ui.focus();
-                        });
+                var client = $scope.model.greenLeavesClietDuplivate($scope.model.tempData.client);
+                if (angular.isUndefined(client)) {
+                    $scope.model.addDetail()
+                            .then(function () {
+                                $scope.ui.focus();
+                            });
+                } else {
+                    ConfirmPane.primaryConfirm("Client Is Already Exists")
+                            .confirm(function () {
+                                $scope.model.addDetail()
+                                        .then(function () {
+                                            $scope.ui.focus();
+                                        });
+                            })
+                            .discard(function () {
+                                console.log("REJECT");
+                            });
+                }
             }
             $scope.customerId = '';
         };
@@ -135,12 +153,6 @@
             $scope.ui.focus();
         };
 
-//        $scope.ui.selectRoute = function (indexNo) {
-//            if ($scope.ui.mode !== "IDEAL") {
-//                $scope.model.selectRoute(indexNo);
-//            }
-//        };
-
         $scope.ui.loadFactoryQuantity = function () {
             $scope.model.loadFactoryQuantity();
             $scope.model.getRouteOfficerAndRouteHelperAndVehicle();
@@ -151,12 +163,23 @@
             $scope.ui.mode = "IDEAL";
             $scope.ui.type = "NORMAL";
 
-//            $scope.$watch("model.data.route", function (newValue, oldValue) {
-//                $scope.ui.loadFactoryQuantity();
-//            });
+            //client serach get clientNumber
+            $scope.$watch("model.tempData.client", function (newValue, oldValue) {
+                if ($scope.model.tempData.client) {
+                    var client = $scope.model.client($scope.model.tempData.client);
+                    $scope.customerId = client.clientNumber;
+                    if ($scope.model.data.route !== client.route) {
+                        var clientRoute = $scope.model.routeLabel(client.route);
+                        Notification({message: 'This Client Another Route', title: clientRoute, delay: 20000});
+                    }
+                }
+            });
 
-            $scope.$watch("model.data.date", function (newValue, oldValue) {
-                $scope.ui.loadFactoryQuantity();
+
+            $scope.$watch("[model.data.date,model.data.route]", function (newValue, oldValue) {
+                if ($scope.model.data.date) {
+                    $scope.ui.loadFactoryQuantity();
+                }
             });
         };
         $scope.ui.init();

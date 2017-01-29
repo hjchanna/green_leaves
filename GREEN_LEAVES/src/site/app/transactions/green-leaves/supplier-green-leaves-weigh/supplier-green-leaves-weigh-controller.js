@@ -169,8 +169,10 @@
 
                 //view pending weigh by branch
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
-                    if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
+                    if ($scope.model.data.branch) {
                         $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                    } else {
+                        Notification.error("please select branch first!");
                     }
                 };
 
@@ -220,9 +222,18 @@
                     }, true);
 
                     $scope.$watch("[model.data.client,model.data.searchClient]", function (newVal, oldVal) {
-                        var client = $scope.model.client($scope.model.data.client);
-                        $scope.model.data.route = client.route;
+                        if ($scope.model.data.client || $scope.model.data.searchClient) {
+                            var client = $scope.model.client($scope.model.data.client);
+                            $scope.model.data.route = client.route;
+                        }
                     }, true);
+
+                    $scope.$watch("model.data.client", function (newValue, oldValue) {
+                        if ($scope.model.data.client) {
+                            var client = $scope.model.client($scope.model.data.client);
+                            $scope.model.data.searchClient = client.clientNumber;
+                        }
+                    });
                 };
                 $scope.ui.init();
 
