@@ -42,6 +42,11 @@ public class TVoucher implements Serializable {
     private Integer transaction;
 
     @NotNull
+    @Column(name = "transaction_type")
+    @Basic(optional = false)
+    private int transactionType;
+
+    @NotNull
     @Column(name = "date")
     @Basic(optional = false)
     private Date date;
@@ -63,6 +68,11 @@ public class TVoucher implements Serializable {
     @Basic(optional = false)
     @Column(name = "amount")
     private BigDecimal amount;
+    
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "payment_type")
+    private String paymentType;
 
     @NotNull
     @Basic(optional = false)
@@ -76,15 +86,17 @@ public class TVoucher implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TVoucher(Integer indexNo, Integer branch, Integer transaction, Date date, int client, int employee, String description, BigDecimal amount, String status) {
+    public TVoucher(Integer indexNo, Integer branch, Integer transaction, int transactionType, Date date, int client, int employee, String description, BigDecimal amount, String paymentType, String status) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.transaction = transaction;
+        this.transactionType = transactionType;
         this.date = date;
         this.client = client;
         this.employee = employee;
         this.description = description;
         this.amount = amount;
+        this.paymentType = paymentType;
         this.status = status;
     }
 
@@ -110,6 +122,14 @@ public class TVoucher implements Serializable {
 
     public void setTransaction(Integer transaction) {
         this.transaction = transaction;
+    }
+
+    public int getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(int transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Date getDate() {
@@ -152,6 +172,14 @@ public class TVoucher implements Serializable {
         this.amount = amount;
     }
 
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -159,5 +187,4 @@ public class TVoucher implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

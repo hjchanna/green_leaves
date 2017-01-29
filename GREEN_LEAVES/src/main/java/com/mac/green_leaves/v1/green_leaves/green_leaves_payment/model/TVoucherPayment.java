@@ -73,6 +73,11 @@ public class TVoucherPayment implements Serializable{
     @Basic(optional = false)
     @Column(name = "cheque_amount")
     private BigDecimal chequeAmount;
+    
+    @NotNull
+    @Basic(optional = false)
+    @Column(name = "bank_amount")
+    private BigDecimal bankAmount;
 
     @NotNull
     @Basic(optional = false)
@@ -86,7 +91,7 @@ public class TVoucherPayment implements Serializable{
         this.indexNo = indexNo;
     }
 
-    public TVoucherPayment(Integer indexNo, int branch, int transaction, Date date, int cashier, int voucher, BigDecimal amount, BigDecimal cashAmount, BigDecimal chequeAmount, String status) {
+    public TVoucherPayment(Integer indexNo, int branch, int transaction, Date date, int cashier, int voucher, BigDecimal amount, BigDecimal cashAmount, BigDecimal chequeAmount,BigDecimal bankAmount, String status) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.transaction = transaction;
@@ -96,6 +101,7 @@ public class TVoucherPayment implements Serializable{
         this.amount = amount;
         this.cashAmount = cashAmount;
         this.chequeAmount = chequeAmount;
+        this.bankAmount = bankAmount;
         this.status = status;
     }
 
@@ -169,6 +175,14 @@ public class TVoucherPayment implements Serializable{
 
     public void setChequeAmount(BigDecimal chequeAmount) {
         this.chequeAmount = chequeAmount;
+    }
+    
+    public BigDecimal getBankAmount() {
+        return bankAmount;
+    }
+
+    public void setBankAmount(BigDecimal bankAmount) {
+        this.bankAmount = bankAmount;
     }
 
     public String getStatus() {
