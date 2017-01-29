@@ -13,6 +13,8 @@ import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherLedgerTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherPaymentTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherStatus;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,26 @@ public class GLClientAdvanceService {
     @Autowired
     private GLCommonVoucherRepository voucherRepository;
 
+    //common
+    public List<Object[]> clientLedgerHistory(Integer client, Date asAtDate, Integer branch) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(asAtDate);
+
+        c.set(Calendar.DATE, c.getActualMinimum(Calendar.DATE));
+        Date fromDate = c.getTime();
+
+        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+        Date toDate = c.getTime();
+        
+        System.out.println(client);
+        System.out.println(fromDate);
+        System.out.println(toDate);
+        System.out.println(branch);
+
+        return clientAdvanceRepository.clientLedgerHistory(client, fromDate, toDate, branch);
+    }
+
+    //request
     public TClientAdvanceRequest getAdvanceRequestByNumber(Integer number, Integer branch) {
         List<TClientAdvanceRequest> clientAdvanceRequests = clientAdvanceRepository.findByNumberAndBranch(number, branch);
 

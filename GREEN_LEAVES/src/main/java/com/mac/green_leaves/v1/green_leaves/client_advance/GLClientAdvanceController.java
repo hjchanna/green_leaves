@@ -6,8 +6,11 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,19 +27,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/green-leaves/client-advance")
 public class GLClientAdvanceController {
 
-    private static final int BRANCH = 1;
-
     @Autowired
     private GLClientAdvanceService clientAdvanceService;
 
+    //common
+    @RequestMapping(value = "/client-ledger/{client}/{date}", method = RequestMethod.GET)
+    public List<Object[]> clientLedgerHistory(@PathVariable Integer client, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
+        System.out.println(clientAdvanceService.clientLedgerHistory(client, date, branch));
+        return clientAdvanceService.clientLedgerHistory(client, date, branch);
+    }
+
+    //request
     @RequestMapping(value = "/{number}", method = RequestMethod.GET)
     public TClientAdvanceRequest getAdvanceRequestByNumber(@PathVariable Integer number) {
-        return clientAdvanceService.getAdvanceRequestByNumber(number, BRANCH);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
+        return clientAdvanceService.getAdvanceRequestByNumber(number, branch);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
-        return clientAdvanceService.saveAdvanceRequest(advanceRequest, BRANCH);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
+        return clientAdvanceService.saveAdvanceRequest(advanceRequest, branch);
     }
 
     @RequestMapping(value = "/delete/{indexNo}", method = RequestMethod.DELETE)
@@ -52,7 +67,9 @@ public class GLClientAdvanceController {
 //    approve ------------------------------------------------------------------
     @RequestMapping(value = "/pending-requests")
     public List<TClientAdvanceRequest> getPendingAdvanceRequests() {
-        return clientAdvanceService.getPendingAdvanceRequests(BRANCH);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
+        return clientAdvanceService.getPendingAdvanceRequests(branch);
     }
 
     @RequestMapping(value = "/approve-request-detail/{indexNo}")

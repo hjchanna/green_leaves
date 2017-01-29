@@ -6,6 +6,7 @@
         $scope.model.tempData = {};
         $scope.model.routes = [];
         $scope.model.clients = [];
+        $scope.model.clientLedgerHistory = [];
 
         $scope.ui = {};
         $scope.ui.mode = "NEW";
@@ -152,6 +153,21 @@
             return route;
         };
 
+        $scope.ui.getClientLedgerTotal = function () {
+            var sum = [0, 0, 0, 0];
+            angular.forEach($scope.model.clientLedgerHistory, function (value) {
+                sum[0] = sum[0] + value[2];
+                sum[1] = sum[1] + value[3];
+            });
+            sum[2] = sum[0] - sum[1];
+            sum[3] = sum[1] - sum[0];
+
+            sum[2] = sum[2] > 0 ? sum[2] : 0.0;
+            sum[3] = sum[3] > 0 ? sum[3] : 0.0;
+
+            return sum;
+        };
+
         $scope.ui.init = function () {
             //create new model
             $scope.model.data = new ClientAdvanceRequestModel();
@@ -173,6 +189,25 @@
                     .error(function (data, status, headers) {
 
                     });
+
+            //client ledger auto refresh
+            $scope.$watch('[model.tempData.client, model.tempData.asAtDate]', function () {
+                console.log("watch");
+                var client = $scope.model.tempData.client;
+                var asAtDate = $scope.model.tempData.asAtDate;
+
+                if (client && asAtDate) {
+                    ClientAdvanceRequestService.loadClientLedgerHistory(client, asAtDate)
+                            .success(function (data) {
+                                $scope.model.clientLedgerHistory = data;
+                            })
+                            .error(function () {
+                                $scope.model.clientLedgerHistory = [];
+                            });
+                } else {
+                    $scope.model.clientLedgerHistory = [];
+                }
+            });
 
             $scope.ui.mode = "IDEAL";
             $scope.ui.resetTempRequest();

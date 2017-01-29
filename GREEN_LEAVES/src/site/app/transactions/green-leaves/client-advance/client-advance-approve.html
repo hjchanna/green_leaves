@@ -30,8 +30,8 @@
                     <tbody>
                         <tr ng-class="ui.selectedDataIndex === request.indexNo ? 'selected' : ''" ng-repeat="request in model.requests|filter:search" ng-click="ui.selectData(request.indexNo);">
                             <td>
-                                <span class="label label-success">{{request.date}}</span>
                                 <span class="label label-primary">{{request.number|fixedLength:5}}</span> {{model.getRoute(request.route).name}}
+                                <span class="label label-success">{{request.date}}</span>
                             </td>
                             <td class="text-right">{{(request.clientAdvanceRequestDetails|filter:{status:'PENDING'}).length}}</td>
                             <td class="text-right">{{model.getRequestTotal(request.indexNo) | number:2}}</td>
@@ -116,17 +116,14 @@
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12">
                 <table>
-                    <col style="width: 40%;"/>
+                    <col style="width: 50%;"/>
                     <col style="width: 25%;"/>
                     <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
                     <thead>
                         <tr>
                             <th>DESCRIPTION</th>
                             <th class="text-right">DEBIT</th>
                             <th class="text-right">CREDIT</th>
-                            <th class="text-right">&nbsp;</th>
                         </tr>
                     </thead>
                 </table>
@@ -134,78 +131,17 @@
 
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
                 <table>
-                    <col style="width: 40%;"/>
+                    <col style="width: 50%;"/>
                     <col style="width: 25%;"/>
                     <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
-
                     <tbody>
-                        <tr>
-                            <td >B/F</td>
-                            <td class="text-right" >-</td>
-                            <td class="text-right" >300.00</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
-                        </tr>
-                        <tr>
-                            <td >Settlement</td>
-                            <td class="text-right">-</td>
-                            <td class="text-right">-</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
-                        </tr>
-                        <tr>
-                            <td >GL Value</td>
-                            <td class="text-right">3000.00</td>
-                            <td class="text-right">-</td>
-                            <td><a class="btn btn-primary" ng-click="open()"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 40%">A /Payment</td>
-                            <td class="text-right" >-</td>
-                            <td class="text-right" >500.00</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 40%">L/Installment</td>
-                            <td class="text-right" >-</td>
-                            <td class="text-right" >300.00</td>
-                            <td ><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td >Fertilizer(P)</td>
-                            <td class="text-right" >-</td>
-                            <td class="text-right" >300.00</td>
-                            <td ><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td >Fertilizer(C)</td>
-                            <td class="text-right" >-</td>
-                            <td class="text-right" >300.00</td>
-                            <td ><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td >Tea</td>
-                            <td  class="text-right">-</td>
-                            <td  class="text-right">300.00</td>
-                            <td ><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Welfare</td>
-                            <td  class="text-right">-</td>
-                            <td  class="text-right">300.00</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Savings</td>
-                            <td  class="text-right">-</td>
-                            <td  class="text-right">300.00</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
-                        </tr>
-                        <tr>
-                            <td >Other</td>
-                            <td class="text-right" >-</td>
-                            <td class="text-right" >300.00</td>
-                            <td ><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></td>
+                        <tr ng-repeat="clientRowData in model.clientLedgerHistory">
+                            <td>
+                                <span class="label label-primary">{{clientRowData[0]|date:'yyyy-MM-dd'}}</span>
+                                <span>{{clientRowData[1]}}</span>
+                            </td>
+                            <td class="text-right" >{{clientRowData[2] === 0? '': clientRowData[2]|number:2}}</td>
+                            <td class="text-right" >{{clientRowData[3] === 0? '': clientRowData[3]|number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -216,21 +152,16 @@
                     <col style="width: 40%;"/>
                     <col style="width: 25%;"/>
                     <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
-
                     <tbody>
                         <tr class="text-bold">
                             <td>Total</td>
-                            <td class="text-right">3000.00</td>
-                            <td class="text-right">2900.00</td>
-                            <td></td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[0]|number:2}}</td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[1]|number:2}}</td>
                         </tr>
                         <tr class="text-bold">
                             <td>Balance</td>
-                            <td class="text-right">100.00</td>
-                            <td class="text-right">-</td>      
-                            <td></td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[2]|number:2}}</td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[3]|number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
