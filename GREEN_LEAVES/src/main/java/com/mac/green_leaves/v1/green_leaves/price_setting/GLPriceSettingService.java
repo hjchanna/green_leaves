@@ -9,7 +9,6 @@ import com.mac.green_leaves.v1.green_leaves.price_setting.model.TClientLedgerBal
 import com.mac.green_leaves.v1.green_leaves.price_setting.model.TPriceSetting;
 import com.mac.green_leaves.v1.green_leaves.price_setting.model.TPriceSettingDetail;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerSettlementTypes;
-import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.GLClientLedgerRepository;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.GLCommonClientLedgerRepository;
 
 /**
  *
@@ -38,7 +38,7 @@ public class GLPriceSettingService {
     private GLClientLedgerBalanceRepository clientLedgerBalanceRepository;
 
     @Autowired
-    private GLClientLedgerRepository clientLedgerRepository;
+    private GLCommonClientLedgerRepository clientLedgerRepository;
 
     @Transactional
     public TPriceSetting findPriceSetting(Integer branch, Integer year, Integer month) {

@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger;
+package com.mac.green_leaves.v1.green_leaves.zcommon.voucher;
 
-import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
+import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author hjcha
  */
-public interface GLClientLedgerRepository extends JpaRepository<TClientLedger, Integer> {
-    
+public interface GLCommonVoucherRepository extends JpaRepository<TVoucher, Integer> {
+
 }

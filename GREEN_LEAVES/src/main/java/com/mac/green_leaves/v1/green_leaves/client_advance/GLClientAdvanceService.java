@@ -8,6 +8,11 @@ package com.mac.green_leaves.v1.green_leaves.client_advance;
 import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
+import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.GLCommonVoucherRepository;
+import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherLedgerTypes;
+import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherPaymentTypes;
+import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherStatus;
+import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +36,9 @@ public class GLClientAdvanceService {
 
     @Autowired
     private GLClientAdvanceRequestDetailRepository clientAdvanceRequestDetailRepository;
+
+    @Autowired
+    private GLCommonVoucherRepository voucherRepository;
 
     public TClientAdvanceRequest getAdvanceRequestByNumber(Integer number, Integer branch) {
         List<TClientAdvanceRequest> clientAdvanceRequests = clientAdvanceRepository.findByNumberAndBranch(number, branch);
@@ -81,17 +89,27 @@ public class GLClientAdvanceService {
         clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
 
         //TODO:update summary
-        
-        //TODO:voucer entry
+        //TODO:voucher entry
+        TVoucher voucher = new TVoucher();
+        voucher.setBranch(advanceRequestDetail.getClientAdvanceRequest().getBranch());
+        voucher.setTransaction(0);//TODO:
+        voucher.setTransactionType(null);
+        voucher.setDate(advanceRequestDetail.getClientAdvanceRequest().getDate());
+        voucher.setClient(advanceRequestDetail.getClient());
+        voucher.setDescription("Supplier advance");
+        voucher.setAmount(advanceRequestDetail.getAmount());
+        voucher.setPaymentType(VoucherPaymentTypes.CASH);
+        voucher.setLegerType(VoucherLedgerTypes.SUPPLIER_ADVANCE);
+        voucher.setStatus(VoucherStatus.ACTIVE);
+        voucherRepository.save(voucher);
     }
 
     public void rejectAdvanceRequestDetail(Integer indexNo) {
         TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
         advanceRequestDetail.setStatus(ADVANCE_REQUEST_STATUS_REJECTED);
         clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
-        
-        //TODO:update summary
 
+        //TODO:update summary
         //TODO:voucer entry
     }
 

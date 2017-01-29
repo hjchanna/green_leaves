@@ -88,9 +88,8 @@ public class TVoucher implements Serializable {
     private Integer employee;
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "transaction_type")
-    private int transactionType;
+    private Integer transactionType;
 
     public TVoucher() {
     }
@@ -200,11 +199,11 @@ public class TVoucher implements Serializable {
         this.employee = employee;
     }
 
-    public int getTransactionType() {
+    public Integer getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(int transactionType) {
+    public void setTransactionType(Integer transactionType) {
         this.transactionType = transactionType;
     }
 

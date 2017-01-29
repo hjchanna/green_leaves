@@ -5,13 +5,10 @@
  */
 package com.mac.green_leaves.v1.green_leaves.zcommon.voucher;
 
-import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 /**
  *
  * @author hjcha
  */
-public interface GLTVoucherRepository extends JpaRepository<TVoucher, Integer> {
-
+public class VoucherLedgerTypes {
+    public static final String SUPPLIER_ADVANCE = "SUPPLIER_ADVANCE";
 }
