@@ -1,0 +1,120 @@
+<div class="index-content-body">
+    <div class="col-xs-4 background-dark border-dark-right">
+        <div style="display: flex; flex-flow: column; height: calc(100vh - 51px);padding-top: 5px;">
+            <!--start month selection-->
+            <div class="row">
+                <div class="col-xs-12" >
+                    <table class="control-table">
+                        <col style="width: 42%"/>
+                        <col style="width: 42%"/>
+                        <col style="width: 16%"/>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input smart-input="integer" class="form-control" ng-model="model.data.year" placeholder="year">
+                                </th>
+                                <th>
+                                    <input smart-input="integer" class="form-control" ng-model="model.data.month" placeholder="month">
+                                </th>
+                                <th>
+                                    <a class="btn btn-primary btn-block" ng-click="ui.loadClientLedgerSummary();">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!--end month selection-->
+
+            <div class="row">
+                <div ng-show="model.data.clientLedgerSummary.length">
+                    <div class="col-xs-12" >
+                        <table>
+                            <col style="width: 40%;"/>
+                            <col style="width: 30%;"/>
+                            <col style="width: 30%;"/>
+                            <thead>
+                                <tr>
+                                    <th>DESCRIPTION </th>
+                                    <th class="text-right">DEBIT</th>
+                                    <th class="text-right">CREDIT</th>
+                            </thead>
+                        </table>
+
+                    </div>
+
+                    <div class="col-xs-12 smart-scroll-y" >
+                        <table>
+                            <tbody>
+                                <tr ng-repeat="clientLedgerSummary in model.data.clientLedgerSummary">
+                                    <td><b>{{clientLedgerSummary[0].replace("_"," ")}}</b></td>
+                                    <td class="text-right">{{clientLedgerSummary[2]|number:2}}</td>
+                                    <td class="text-right">{{clientLedgerSummary[2]|number:2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="placeholder col-xs-12" style="height: calc(100vh - 117px);" ng-hide="model.data.clientLedgerSummary.length">
+                    <h1>SELECT A MONTH TO DISPLAY SUMMARY :(</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-8 background-light" ng-show="showBfAndCoinValues">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);padding-top: 5px;">
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 15%;"/>
+                    <col style="width: 15%;"/>
+                    <col style="width: 15%;"/>
+                    <col style="width: 15%;"/>
+                    <thead>
+                        <tr>
+                            <th>GREEN LEAVES CLIENT</th>
+                            <th class="text-right">DEBIT</th>
+                            <th class="text-right">CREDIT</th>
+                            <th class="text-right">SETTLEMENT</th>
+                            <th class="text-right">BALANCE</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 142px);">
+                <h1>SETTLEMENT SUMMARY NOT SELECTED TO DISPLAY DETAIL :(</h1>
+            </div>
+
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 15%;"/>
+                    <col style="width: 15%;"/>
+                    <col style="width: 15%;"/>
+                    <col style="width: 15%;"/>
+                    <thead>
+                        <tr>
+                            <th>SUMMARY</th>
+                            <th class="text-right">0.00</th>
+                            <th class="text-right">0.00</th>
+                            <th class="text-right">0.00</th>
+                            <th class="text-right">0.00</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-default" fab-show="ui.mode ==='NEW'||ui.mode ==='LOAD'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+    <a class="fab fab-success" fab-show="ui.mode ==='NEW'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='NEW'||ui.mode ==='LOAD'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+</div>

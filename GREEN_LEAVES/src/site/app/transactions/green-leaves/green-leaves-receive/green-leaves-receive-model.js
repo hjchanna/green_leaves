@@ -71,7 +71,7 @@
                     addDetail: function () {
                         var defer = $q.defer();
                         if (parseInt(this.tempData.normalLeavesQuantity + this.tempData.superLeavesQuantity) > 0) {
-                            this.data.greenLeavesReceiveDetails.push(this.tempData);
+                            this.data.greenLeavesReceiveDetails.unshift(this.tempData);
                             this.refreshQuantity();
                             this.tempData = GreenLeavesReceiveModelFactory.newTempData();
                             defer.resolve();
@@ -111,13 +111,15 @@
                     },
                     save: function () {
                         var defer = $q.defer();
-                        GreenLeavesReceiveService.saveReceive(JSON.stringify(this.data))
-                                .success(function (data) {
-                                    defer.resolve();
-                                })
-                                .error(function (data) {
-                                    defer.reject();
-                                });
+                        if (this.data.route && this.data.date && this.data.branch) {
+                            GreenLeavesReceiveService.saveReceive(JSON.stringify(this.data))
+                                    .success(function (data) {
+                                        defer.resolve();
+                                    })
+                                    .error(function (data) {
+                                        defer.reject();
+                                    });
+                        }
                         return defer.promise;
                     },
                     loadFactoryQuantity: function () {
@@ -244,6 +246,17 @@
                         angular.forEach(this.vehicles, function (value) {
                             if (value.indexNo === indexNo) {
                                 label = value.indexNo + "-" + value.vehicleNo;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    //return label for route officer
+                    greenLeavesClietDuplivate: function (indexNo) {
+                        var label;
+                        angular.forEach(this.data.greenLeavesReceiveDetails, function (value) {
+                            if (value.client === parseInt(indexNo)) {
+                                label = true;
                                 return;
                             }
                         });

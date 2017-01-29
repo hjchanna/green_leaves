@@ -1,286 +1,769 @@
-<div class="index-content-header">
-</div>
-
-<div class="index-content-body background-dark">
-    <div class="col-xs-4" style="padding: 15px 0 0 10px !important">
-        <div class="" >
-            <table class="control-table">
-                <col style="width: 40%"/>
-                <col style="width: 60%"/>
-
-                <tbody>
-                    <tr>
-                        <td><label class="control-label">From Name</label></td>
-                        <td><input class="form-control" ng-model="" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">To Name</label></td>
-                        <td><input class="form-control" ng-model="" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Route</label></td>
-                        <td><input class="form-control" ng-model="" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Route Officer</label></td>
-                        <td><input class="form-control" ng-model="" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Route Helper</label></td>
-                        <td><input class="form-control" ng-model="" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">Vehicle</label></td>
-                        <td><input class="form-control" ng-model="" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
-                    </tr>
-
-                </tbody>
-            </table>
+<div class="index-content-body">
+    <div class="col-xs-4 background-dark border-dark-right">
+        <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12">
+                <table>
+                    <thead>
+                        <tr class="selected">
+                            <td ng-show="ui.searchUi === 'Bulk_Weigh'" class="text-center"><h4>GREEN LEAVES BULK WEIGH</h4></td>
+                            <td ng-show="ui.searchUi === 'Supplier_Weigh'" class="text-center"><h4>GREEN LEAVES SUPPLIER WEIGH</h4></td>
+                            <td ng-show="ui.searchUi === 'Receive'" class="text-center"><h4>GREEN LEAVES RECEIVE</h4></td>
+                            <td ng-show="ui.searchUi === 'Summary'" class="text-center"><h4>GREEN LEAVES SUMMRY</h4></td>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="control-table">
+                    <div class="btn-group col-lg-12" ng-show="ui.searchUi === 'Receive'" style="padding-left: 0 !important;padding-right: 0 !important;">
+                        <label class="btn btn-primary col-lg-6 text-capitalize" ng-model="radioModel" uib-btn-radio="'Full'" ng-change="ui.toggleReceiveType('Search_Receive_Fully');">TRANSACTION</label>
+                        <label class="btn btn-primary col-lg-6 text-capitalize" ng-model="radioModel" uib-btn-radio="'Client'" ng-change="ui.toggleReceiveType('Search_Receive_Client');">CLIENT</label>
+                    </div>
+                    <col style="width: 40%"/>
+                    <col style="width: 60%"/>
+                    <tbody>
+                        <tr ng-show="ui.searchUi === 'Supplier_Weigh'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
+                            <td><label class="control-label">Client</label></td>
+                            <td><input class="form-control" ng-model="model.data.client" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="client.indexNo as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.clientLabel($model)"></td>
+                        </tr>
+                        <tr ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client'">
+                            <td><label class="control-label">Client Route</label></td>
+                            <td><input class="form-control" ng-model="model.data.clientRoutes" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" disabled="true"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">From Date</label></td>
+                            <td><input class="form-control" smart-input="date" ng-model="model.data.fromDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">To Date</label></td>
+                            <td><input class="form-control" smart-input="date" ng-model="model.data.toDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh'">
+                            <td><label class="control-label">Route</label></td>
+                            <td><input class="form-control" ng-model="model.data.route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
+                            <td><label class="control-label">Route Officer</label></td>
+                            <td><input class="form-control" ng-model="model.data.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
+                            <td><label class="control-label">Route Helper</label></td>
+                            <td><input class="form-control" ng-model="model.data.routeHelper" uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
+                            <td><label class="control-label">Vehicle</label></td>
+                            <td><input class="form-control" ng-model="model.data.vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="control-label">Status</label></td>
+                            <td>
+                                <select class="form-control" ng-model="model.data.status" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                    <option value="null"></option>
+                                    <option value="APPROVE">APPROVE</option>
+                                    <option value="PENDING">PENDING</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-lg-12" style="padding-left: 0 !important;padding-right: 0 !important;">                 
+                    <input type="submit" value="SEARCH" class="btn btn-group-sm btn-primary col-lg-12" ng-click="ui.search();"/>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-xs-8" >
+
+    <div class="col-xs-8 background-light">
         <uib-tabset>
-            <uib-tab index="0" heading="Green Leaves Summary">
-                <div style="padding-top: 15px; height: 200px;">
-                    <canvas 
-                        id="line" 
-                        class="chart chart-line" 
-                        chart-data="data"
-                        chart-labels="labels"
-                        chart-series="series">
-                    </canvas>
-                </div>
-
-                <div class="row smart-scroll-y">
-                    <div class="col-lg-12 background-dark">
-                        <table>
-                            <col style="width: 60%">
-                            <col style="width: 20%">
-                            <col style="width: 20%">
-                            <thead>
-                                <tr>
-                                    <th>SUMMARY</th>
-                                    <th class="text-right">NORMAL</th>
-                                    <th class="text-right">SUPER</th>
-                                </tr>
-
-                            </thead>
-                        </table>
-                        <table class="table-hover">
-                            <col style="width: 60%">
-                            <col style="width: 20%">
-                            <col style="width: 20%">
-                            <tbody class="background-dark">
-                                <tr>
-                                    <td>WEIGHT</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>    
-                                </tr>
-                                <tr>
-                                    <td>RECEIVE</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>
-                                </tr>
-                                <tr>
-                                    <td>DIFFERENCE</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <uib-tab index="1" heading="Receive" select="ui.toggleType('Receive');">
+                <div ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
+                    <div class="col-xs-12" style="padding-top: 15px; height: 200px;" ng-show="model.greenLeavesReceiveList.length">
+                        <canvas 
+                            id="line" 
+                            class="chart chart-line" 
+                            chart-dataset-override="datasetOverride" 
+                            chart-data="model.greenLeavesReceveChartSummry.greenLeavesQtys" 
+                            chart-labels="model.greenLeavesReceveChartSummry.routes" 
+                            chart-colors="colors" 
+                            chart-series="series" 
+                            chart-options="options"
+                            style="height: 100%;">
+                        </canvas>
                     </div>
-                    <div class="col-lg-12 background-dark">
-                        <table>
-                            <col style="width: 60%">
-                            <col style="width: 20%">
-                            <col style="width: 20%">
-                            <thead>
-                                <tr>
-                                    <th>BULK WEIGH</th>
-                                    <th class="text-right">NORMAL</th>
-                                    <th class="text-right">SUPER</th>
-                                </tr>
-
-                            </thead>
-                        </table>
-                        <table class="table-hover">
-                            <col style="width: 60%">
-                            <col style="width: 20%">
-                            <col style="width: 20%">
-                            <tbody class="background-dark">
-                                <tr>
-                                    <td>WEIGHT</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>    
-                                </tr>
-                                <tr>
-                                    <td>RECEIVE</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>
-                                </tr>
-                                <tr>
-                                    <td>DIFFERENCE</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table>
-                            <col style="width: 60%">
-                            <col style="width: 20%">
-                            <col style="width: 20%">
-                            <thead>
-                                <tr>
-                                    <th>SUPPLIER WEIGH</th>
-                                    <th class="text-right">NORMAL</th>
-                                    <th class="text-right">SUPER</th>
-                                </tr>
-
-                            </thead>
-                        </table>
-                        <table class="table-hover">
-                            <col style="width: 60%">
-                            <col style="width: 20%">
-                            <col style="width: 20%">
-                            <tbody class="background-dark">
-                                <tr>
-                                    <td>WEIGHT</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>    
-                                </tr>
-                                <tr>
-                                    <td>RECEIVE</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>
-                                </tr>
-                                <tr>
-                                    <td>DIFFERENCE</td>
-                                    <td class="text-right">0</td>
-                                    <td class="text-right">0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>        
-                </div>
-            </uib-tab>
-
-            <uib-tab index="1" heading="Green Leaves Receive">
-                <div style="padding-top: 15px; height: 200px;">
-                    <canvas 
-                        id="line" 
-                        class="chart chart-line" 
-                        chart-data="data"
-                        chart-labels="labels"
-                        chart-series="series">
-                    </canvas>
-                </div>
-
-                <div class="row smart-scroll-y">
-                    <div class="col-lg-12 background-dark">
+                    <div class="col-xs-12 placeholder animation-fade" style="padding-top: 15px; height: 200px;" ng-hide="model.greenLeavesReceiveList.length">
+                        <h1>GREEN LEAVES RECEIVE CHART DETAIL NOT FOUND :( </h1>
+                    </div>
+                    <div class="col-xs-12">
                         <table class="table-hover">
                             <col style="width: 10%">
                             <col style="width: 20%">
                             <col style="width: 20%">
-                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
                             <col style="width: 20%">
                             <col style="width: 10%">
-
-                            <thead class="background-dark">
+                            <thead>
                                 <tr>
                                     <th>NO</th>
                                     <th>ROUTE</th>
                                     <th>DATE</th>
                                     <th class="text-right">NORMAL</th>
                                     <th class="text-right">SUPER</th>
+                                    <th class="text-right">STATUS</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
                         </table>
-                        <div class="smart-scroll-y" style="height: calc(85vh - 250px);">
-                            <table class="table-hover">
-                                <col style="width: 10%">
-                                <col style="width: 20%">
-                                <col style="width: 20%">
-                                <col style="width: 20%">
-                                <col style="width: 20%">
-                                <col style="width: 10%">
-                                <tbody>
-                                    <tr>
-                                        <td><span class="label label-default">0001</span></td>
-                                        <td>Pandura</td>
-                                        <td>2016/01/01</td>
-                                        <td class="text-right">1000</td>
-                                        <td class="text-right">1000</td>
-                                        <td class="text-right" style="padding-left: 5px;">
-                                            <a class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-new-window"></span></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-            </uib-tab>
-            <uib-tab index="2" heading="Green Leaves Weigh">
-                <div style="padding-top: 15px; height: 200px;">
-                    <canvas 
-                        id="line" 
-                        class="chart chart-line" 
-                        chart-data="data"
-                        chart-labels="labels"
-                        chart-series="series">
-                    </canvas>
-                </div>
-
-                <div class="row smart-scroll-y">
-                    <div class="col-lg-12 background-dark">
+                    <div class="col-xs-12 smart-scroll-y" style="height: calc(85vh - 280px);" ng-show="model.greenLeavesReceiveList.length">
                         <table class="table-hover">
                             <col style="width: 10%">
                             <col style="width: 20%">
                             <col style="width: 20%">
-                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
                             <col style="width: 20%">
                             <col style="width: 10%">
-
-                            <thead class="background-dark">
+                            <tbody>
+                                <tr ng-repeat="greenLeavesReceive in model.greenLeavesReceiveList">
+                                    <td><span class="label label-default">{{greenLeavesReceive.number}}</span></td>
+                                    <td>{{model.routeLabel(greenLeavesReceive.route)}}</td>
+                                    <td>{{greenLeavesReceive.date}}</td>
+                                    <td class="text-right">{{model.getTotalNormalGreenLeavesAndTotalSuperLeavse(greenLeavesReceive.indexNo).normalGreenLeaves | number:2}}</td>
+                                    <td class="text-right">{{model.getTotalNormalGreenLeavesAndTotalSuperLeavse(greenLeavesReceive.indexNo).superlGreenLeaves | number:2}}</td>
+                                    <td class="text-right" ng-show="{{greenLeavesReceive.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
+                                    <td class="text-right" ng-show="{{greenLeavesReceive.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
+                                    <td class="text-right" style="padding-left: 5px;">
+                                        <a class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-new-window"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12 placeholder animation-fade" style="height: calc(85vh - 280px);" ng-hide="model.greenLeavesReceiveList.length">
+                        <h1>GREEN LEAVES RECEIVE DETAIL NOT FOUND :(</h1>
+                    </div>
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th class="text-right">{{model.totalGreenLevasReceiveData.normalGreenLeaves|number:2}}</th>
+                                    <th class="text-right">{{model.totalGreenLevasReceiveData.superlGreenLeaves|number:2}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client'">
+                    <div class="col-xs-12" style="padding-top: 15px; height: 200px;" ng-show="model.greenLeavesClientReceiveList.length">
+                        <canvas 
+                            id="line" 
+                            class="chart chart-line" 
+                            chart-dataset-override="datasetOverride" 
+                            chart-data="model.greenLeavesReceveChartSummry.greenLeavesQtys" 
+                            chart-labels="model.greenLeavesReceveChartSummry.routes" 
+                            chart-colors="colors" 
+                            chart-series="series" 
+                            chart-options="options"
+                            style="height: 100%;">
+                        </canvas>
+                    </div>
+                    <div class="col-xs-12 placeholder animation-fade" style="padding-top: 15px; height: 200px;" ng-hide="model.greenLeavesClientReceiveList.length">
+                        <h1>GREEN LEAVES RECEIVE CHART DETAIL NOT FOUND :( </h1>
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table-hover">
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <thead>
                                 <tr>
                                     <th>NO</th>
                                     <th>ROUTE</th>
                                     <th>DATE</th>
                                     <th class="text-right">NORMAL</th>
                                     <th class="text-right">SUPER</th>
+                                    <th class="text-right">STATUS</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
                         </table>
-                        <div class="smart-scroll-y" style="height: calc(85vh - 250px);">
-                            <table class="table-hover">
-                                <col style="width: 10%">
-                                <col style="width: 20%">
-                                <col style="width: 20%">
-                                <col style="width: 20%">
-                                <col style="width: 20%">
-                                <col style="width: 10%">
-                                <tbody>
-                                    <tr>
-                                        <td><span class="label label-default">0001</span></td>
-                                        <td>Pandura</td>
-                                        <td>2016/01/01</td>
-                                        <td class="text-right">1000</td>
-                                        <td class="text-right">1000</td>
-                                        <td class="text-right" style="padding-left: 5px;">
-                                            <a class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-new-window"></span></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+                    <div class="col-xs-12 smart-scroll-y" style="height: calc(85vh - 280px);" ng-show="model.greenLeavesClientReceiveList.length">
+                        <table class="table-hover">
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <tbody>
+                                <tr ng-repeat="greenLeavesReceive in model.greenLeavesClientReceiveList">
+                                    <td><span class="label label-default">{{greenLeavesReceive.number}}</span></td>
+                                    <td>{{model.routeLabel(greenLeavesReceive.route)}}</td>
+                                    <td>{{greenLeavesReceive.date}}</td>
+                                    <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].normalLeavesQuantity|number:2}}</td>
+                                    <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].superLeavesQuantity|number:2}}</td>
+                                    <td class="text-right" ng-show="{{greenLeavesReceive.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
+                                    <td class="text-right" ng-show="{{greenLeavesReceive.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
+                                    <td class="text-right" style="padding-left: 5px;">
+                                        <a class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-new-window"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12 placeholder animation-fade" style="height: calc(85vh - 280px);" ng-hide="model.greenLeavesClientReceiveList.length">
+                        <h1>GREEN LEAVES RECEIVE DETAIL NOT FOUND :(</h1>
+                    </div>
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 10%">
+                            <col style="width: 20%">
+                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
+                            <col style="width: 20%">
+                            <col style="width: 10%">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th class="text-right">{{model.totalGreenLevasReceiveData.normalGreenLeaves|number:2}}</th>
+                                    <th class="text-right">{{model.totalGreenLevasReceiveData.superlGreenLeaves|number:2}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="2" heading="Bulk Weigh" select="ui.toggleType('Bulk_Weigh');">
+                <div class="col-xs-12" style="padding-top: 15px; height: 200px;" ng-show="model.greenLeavesBulkWeighList.length">
+                    <canvas 
+                        id="line" 
+                        class="chart chart-line" 
+                        chart-dataset-override="datasetOverride" 
+                        chart-data="model.greenLeavesBulkWeighChartSummry.greenLeavesQtys" 
+                        chart-labels="model.greenLeavesBulkWeighChartSummry.routes" 
+                        chart-colors="colors" 
+                        chart-series="series" 
+                        chart-options="options"
+                        style="height: 100%;">
+                    </canvas>
+                </div>
+                <div class="col-xs-12 placeholder animation-fade" style="padding-top: 15px; height: 200px;" ng-hide="model.greenLeavesBulkWeighList.length">
+                    <h1>GREEN LEAVES WEIGH CHART DETAIL NOT FOUND :( </h1>
+                </div>
+                <div class="col-xs-12">
+                    <table class="table-hover">
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 16%">
+                        <col style="width: 10%">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>ROUTE</th>
+                                <th>DATE</th>
+                                <th class="text-right">NORMAL</th>
+                                <th class="text-right">SUPER</th>
+                                <th class="text-right">STATUS</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="col-xs-12 smart-scroll-y" style="height: calc(85vh - 280px);" ng-show="model.greenLeavesBulkWeighList.length">
+                    <table class="table-hover">
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 20%">
+                        <col style="width: 10%">
+                        <tbody>
+                            <tr ng-repeat="greenLeavesBulkWeigh in model.greenLeavesBulkWeighList|filter:{type:'BULK'}">
+                                <td><span class="label label-default">{{greenLeavesBulkWeigh.number}}</span></td>
+                                <td>{{model.routeLabel(greenLeavesBulkWeigh.route)}}</td>
+                                <td>{{greenLeavesBulkWeigh.date}}</td>
+                                <td class="text-right">{{greenLeavesBulkWeigh.normalNetWeight|number:2}}</td>
+                                <td class="text-right">{{greenLeavesBulkWeigh.superNetWeight|number:2}}</td>
+                                <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
+                                <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
+                                <td class="text-right" style="padding-left: 5px;">
+                                    <a class="btn btn-primary" ng-click="ui.modalOpen(greenLeavesBulkWeigh.indexNo);"><span class="glyphicon glyphicon-new-window"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-12 placeholder animation-fade" style="height: calc(85vh - 280px);" ng-hide="model.greenLeavesBulkWeighList.length">
+                    <h1>GREEN LEAVES WEIGH DETAIL NOT FOUND :(</h1>
+                </div>
+                <div class="col-xs-12">
+                    <table>
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 20%">
+                        <col style="width: 10%">
+                        <thead>
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right">{{model.totalGreenLevasWeighData.normalGreenLeaves|number:2}}</th>
+                                <th class="text-right">{{model.totalGreenLevasWeighData.superlGreenLeaves|number:2}}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </uib-tab> 
-            <uib-tab index="3" heading="Green Leaves Supplier weigh" ng-click="ui.setTabPane(0)">
-
+            <uib-tab index="3" heading="Supplier Weigh" select="ui.toggleType('Supplier_Weigh');" >
+                <div class="col-xs-12" style="padding-top: 15px; height: 200px;" ng-show="model.greenLeavesBulkWeighList.length">
+                    <canvas 
+                        id="line" 
+                        class="chart chart-line" 
+                        chart-dataset-override="datasetOverride" 
+                        chart-data="model.greenLeavesBulkWeighChartSummry.greenLeavesQtys" 
+                        chart-labels="model.greenLeavesBulkWeighChartSummry.routes" 
+                        chart-colors="colors" 
+                        chart-series="series" 
+                        chart-options="options"
+                        style="height: 100%;">
+                    </canvas>
+                </div>
+                <div class="col-xs-12 placeholder animation-fade" style="padding-top: 15px; height: 200px;" ng-hide="model.greenLeavesBulkWeighList.length">
+                    <h1>GREEN LEAVES WEIGH CHART DETAIL NOT FOUND :( </h1>
+                </div>
+                <div class="col-xs-12">
+                    <table class="table-hover">
+                        <col style="width: 10%">
+                        <col style="width: 30%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 16%">
+                        <col style="width: 10%">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>CLIENT</th>
+                                <th>DATE</th>
+                                <th class="text-right">NORMAL</th>
+                                <th class="text-right">SUPER</th>
+                                <th class="text-right">STATUS</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="col-xs-12 smart-scroll-y" style="height: calc(85vh - 280px);" ng-show="model.greenLeavesBulkWeighList.length">
+                    <table class="table-hover">
+                        <col style="width: 10%">
+                        <col style="width: 30%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 20%">
+                        <col style="width: 10%">
+                        <tbody>
+                            <tr ng-repeat="greenLeavesBulkWeigh in model.greenLeavesBulkWeighList|filter:{type:'SUPPLIER'}">
+                                <td><span class="label label-default">{{greenLeavesBulkWeigh.number}}</span></td>
+                                <td>{{model.clientLabel(greenLeavesBulkWeigh.client)}}</td>
+                                <td>{{greenLeavesBulkWeigh.date}}</td>
+                                <td class="text-right">{{greenLeavesBulkWeigh.normalNetWeight|number:2}}</td>
+                                <td class="text-right">{{greenLeavesBulkWeigh.superNetWeight|number:2}}</td>
+                                <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
+                                <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
+                                <td class="text-right" style="padding-left: 5px;">
+                                    <a class="btn btn-primary" ng-click="ui.modalOpen(greenLeavesBulkWeigh[0]);"><span class="glyphicon glyphicon-new-window"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-12 placeholder animation-fade" style="height: calc(85vh - 280px);" ng-hide="model.greenLeavesBulkWeighList.length">
+                    <h1>GREEN LEAVES RECEIVE DETAIL NOT FOUND :(</h1>
+                </div>
+                <div class="col-xs-12">
+                    <table>
+                        <col style="width: 10%">
+                        <col style="width: 20%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                        <col style="width: 20%">
+                        <col style="width: 10%">
+                        <thead>
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right">{{model.totalGreenLevasWeighData.normalGreenLeaves|number:2}}</th>
+                                <th class="text-right">{{model.totalGreenLevasWeighData.superlGreenLeaves|number:2}}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </uib-tab> 
 
         </uib-tabset>    
     </div>
+    <div class="fab-container">
+        <a class="fab fab-lg fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+    </div>
+</div>
+<script type="text/ng-template" id="greenLeavesWeighSummry.html"> 
+    <div class="index-content-body smart-scroll-y">
+    <div class="col-xs-8 background-light">
+    <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+    <div class="col-xs-12 background-dark border-dark-bottom">
+    <table class="control-table">
+    <col class="col-xs-6"/>
+    <col class="col-xs-3"/>
+    <col class="col-xs-3"/>
 
-    <div class="col-xs-8 background-light"></div>
+    <tbody>
+    <tr>
+    <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.greenLeavesWeigh.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>
+    <td><input class="form-control" smart-input="date"  ng-model="model.greenLeavesWeigh.date" disabled></td>
+    <td><input class="form-control" smart-input="integer" ng-model="model.greenLeavesWeigh.number" input-hint="transaction number" disabled></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <table class="control-table">
+    <col class="col-xs-3"/>
+    <col class="col-xs-3"/>
+    <col class="col-xs-3"/>
+    <col class="col-xs-3"/>
+
+    <tbody>
+    <tr>
+    <td><input id="route" class="form-control" smart-input="text" input-hint="route" ng-model="model.greenLeavesWeigh.route"  disabled uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.findByBranchAndRouteAndDate();"></td>
+    <td><input class="form-control" smart-input="text" ng-model="model.greenLeavesWeigh.routeOfficer" disabled input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
+    <td><input class="form-control" smart-input="text" ng-model="model.greenLeavesWeigh.routeHelper" disabled input-hint="route helper" uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+    <td><input class="form-control" smart-input="text" ng-model="model.greenLeavesWeigh.vehicle" disabled input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    <div class="col-xs-12">        
+    <div class="row">
+    <uib-tabset active="indextab">
+    <uib-tab heading="NORMAL LEAVES" select="ui.popUpUiToggleType('NORMAL');" index="0">
+    <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 240px);" ng-show="normalLeaves.length">
+    <table class="table-hover">
+    <col style="width: 10%"/>
+    <col style="width: 25%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col />
+    <tbody>
+    <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.greenLeavesWeigh.greenLeaveWeighDetails|filter:{type:'NORMAL'});">
+    <td><span class="label label-primary">{{$index + 1|fixedLength:4}}</span></td>
+    <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
+    <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
+    <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+    <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
+    <td class="text-center" style="padding-left: 5px;">
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+
+    <div class="placeholder col-xs-12" style="height: calc(100vh - 240px);" ng-hide="normalLeaves.length">
+    <h1>NO NORMAL LEAVES TO DISPLAY :(</h1>
+    </div>
+
+    <div class="col-xs-12" style="flex: 0 0 auto;">
+    <table class="table-hover">
+    <col style="width: 10%"/>
+    <col style="width: 25%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col />
+
+    <thead class="background-dark">
+    <tr>
+    <th>TOTAL</th>
+    <th class="text-right">{{model.greenLeavesWeigh.normalTotalWeight|number:2}}</th>
+    <th class="text-right">{{model.greenLeavesWeigh.normalCrates|number:2}}</th>
+    <th class="text-right">{{model.greenLeavesWeigh.normalBags|number:2}}</th>
+    <th class="text-right">{{model.greenLeavesWeigh.normalPolyBags|number:2}}</th>
+    <th class="text-center">
+    &nbsp;
+    </th>
+    </tr>
+    </thead>
+    </table>
+    </div>
+    </uib-tab>
+
+    <uib-tab heading="SUPER LEAVES" select="ui.popUpUiToggleType('SUPER');" index="1">
+    <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 240px);" ng-show="superLeaves.length">
+    <table class="table-hover">
+    <col style="width: 10%"/>
+    <col style="width: 25%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col />
+    <tbody >
+    <tr ng-repeat="greenLeavesWeighDetail in superLeaves = (model.greenLeavesWeigh.greenLeaveWeighDetails|filter:{type:'SUPER'});">
+    <td><span class="label label-danger">{{$index + 1|fixedLength:4}}</span></td>
+    <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
+    <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
+    <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
+    <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
+    <td class="text-center" style="padding-left: 5px;">
+    <a class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);"><span class="glyphicon glyphicon-minus"></span></a>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+
+    <div class="placeholder col-xs-12" style="height: calc(100vh - 240px);" ng-hide="superLeaves.length">
+    <h1>NO SUPER LEAVES TO DISPLAY :(</h1>
+    </div>
+
+    <div class="col-xs-12" style="flex: 0 0 auto;">
+    <table class="table-hover">
+    <col style="width: 10%"/>
+    <col style="width: 25%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col style="width: 20%"/>
+    <col />
+
+    <thead class="background-dark">
+    <tr>
+    <th>TOTAL</th>
+    <th class="text-right">{{model.greenLeavesWeigh.superTotalWeight|number:2}}</th>
+    <th class="text-right">{{model.greenLeavesWeigh.superCrates|number:2}}</th>
+    <th class="text-right">{{model.greenLeavesWeigh.superBags|number:2}}</th>
+    <th class="text-right">{{model.greenLeavesWeigh.superPolyBags|number:2}}</th>
+    <th class="text-right">
+    &nbsp;
+    </th>
+    </tr>
+    </thead>
+    </table>
+    </div>
+    </uib-tab>
+    </uib-tabset>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="col-xs-4 background-dark border-dark-left">
+
+    <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'NORMAL'">
+    <div class="col-xs-12">
+    <table>
+    <thead>
+    <tr  class="selected">
+    <td class="text-center"><h4>NORMAL LEAVES</h4></td>
+    </tr>
+    </thead>
+    </table>
+
+    <label class="label-group-title">COLLECTION</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+    <tr>
+    <td><label class="control-label">TOTAL</label></td>
+    <td><input class="form-control text-right" ng-model="model.greenLeavesWeigh.normalTotalWeight" ng-disabled="true"></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <label class="label-group-title">DEDUCTION</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+    <tr>
+    <td><label class="control-label">TARE</label></td>
+    <td>
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.greenLeavesWeigh.normalTareCalculated" ng-disabled="true">
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.greenLeavesWeigh.normalTareDeduction" smart-input="integer" disabled>
+    </td>
+    </tr>
+    <tr>
+    <td><label class="control-label">DEDUCTION</label></td>
+    <td>
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.greenLeavesWeigh.normalGeneralDeductionPercent">
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.greenLeavesWeigh.normalGeneralDeduction" smart-input="integer" disabled>
+    </td>
+    </tr>
+    <tr>
+    <td><label class="control-label">WATER</label></td>
+    <td>
+    <input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.normalWaterDeduction" smart-input="integer" disabled>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+
+    <label class="label-group-title">RETURN</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+    <tbody>
+    <tr>
+    <td><label class="control-label">COARSE LEAF</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.normalCoarseLeaves" smart-input="integer" disabled></td>
+    </tr>
+    <tr>
+    <td><label class="control-label">BOILED LEAF</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.normalBoiledLeaves" smart-input="integer" disabled></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <label class="label-group-title">BALANCE</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+    <tbody>
+    <tr>
+    <td><label class="control-label">NET WEIGHT</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.normalNetWeight" ng-disabled="true"></td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+
+    <div class="row animation-fade" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" ng-show="ui.type === 'SUPER'">
+    <div class="col-xs-12">
+    <table>
+    <thead>
+    <tr class="selected">
+    <td class="text-center"><h4>SUPER LEAVES</h4></td>
+    </tr>
+    </thead>
+    </table>
+
+    <label class="label-group-title">COLLECTION</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+    <tr>
+    <td><label class="control-label">TOTAL</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.superTotalWeight" ng-disabled="true"></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <label class="label-group-title">DEDUCTION</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+    <tr>
+    <td><label class="control-label">TARE</label></td>
+    <td>
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.greenLeavesWeigh.superTareCalculated" ng-disabled="true">
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.greenLeavesWeigh.superTareDeduction" disabled>
+    </td>
+    </tr>
+    <tr>
+    <td><label class="control-label">DEDUCTION</label></td>
+    <td>
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: left;"  ng-model="model.greenLeavesWeigh.superGeneralDeductionPercent" ng-disabled="true">
+    <input class="form-control text-right" type="text" style="width: 48%; display: inline; float: right;" ng-model="model.greenLeavesWeigh.superGeneralDeduction" disabled>
+    </td>
+    </tr>
+    <tr>
+    <td><label class="control-label">WATER</label></td>
+    <td>
+    <input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.superWaterDeduction" disabled>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+
+    <label class="label-group-title">RETURN</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+    <tbody>
+    <tr>
+    <td><label class="control-label">COARSE LEAF</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.superCoarseLeaves" disabled></td>
+    </tr>
+    <tr>
+    <td><label class="control-label">BOILED LEAF</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.superBoiledLeaves" disabled></td>
+    </tr>
+    </tbody>
+    </table>
+
+    <label class="label-group-title">BALANCE</label>
+
+    <table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+    <tbody>
+    <tr>
+    <td><label class="control-label">NET WEIGHT</label></td>
+    <td><input class="form-control text-right" type="text" ng-model="model.greenLeavesWeigh.superNetWeight" ng-disabled="true"></td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+</script>

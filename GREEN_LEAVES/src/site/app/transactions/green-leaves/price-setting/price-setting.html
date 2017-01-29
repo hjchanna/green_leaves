@@ -117,7 +117,7 @@
                 </table>  
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 84px);">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 102px);">
                 <table class="table-hover">
                     <col style="width: 25%;"/>
                     <col style="width: 25%;"/>
@@ -168,18 +168,40 @@
             </div>
             <div class="col-xs-12">
                 <table>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
-                    <col style="width: 20%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
                     <thead class="background-dark">
                         <tr>
-                            <td >TOTAL</td>
-                            <td class="text-right"><span class="label label-default">N</span> Qty. &nbsp; {{model.totalValues.totalNormalQty}}</td>
-                            <td class="text-right"><span class="label label-success">S</span> Qty. &nbsp; {{model.totalValues.totalSuperQty}}</td>
-                            <td class="text-right"><span class="label label-default">N</span> Value. &nbsp; {{model.totalValues.totalNormalValue}}</td>
-                            <td class="text-right"><span class="label label-success">S</span> Value. &nbsp; {{model.totalValues.totalSuperValue}}</td>
+                            <td >SUMMARY</td>
+                            <td class="text-right">
+                                <div class="col-xs-4">
+                                    <span class="label label-full-width label-default">N</span>
+                                    <br/>
+                                    <span class="label label-full-width label-success">S</span>
+                                </div>
+                                <div class="col-xs-8">
+                                    {{model.totalValues.totalNormalQty|number:2}}
+                                    <br/>
+                                    {{model.totalValues.totalSuperQty|number:2}}
+                                </div>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td class="text-right">
+                                <div class="col-xs-4">
+                                    <span class="label label-full-width label-default">N</span>
+                                    <br/>
+                                    <span class="label label-full-width label-success">S</span>
+                                </div>
+                                <div class="col-xs-8">
+                                    {{model.totalValues.totalNormalValue|number:2}}
+                                    <br/>
+                                    {{model.totalValues.totalSuperValue|number:2}}
+                                </div>
+                            </td>
                         </tr>
                     </thead>
                 </table>

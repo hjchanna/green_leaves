@@ -65,7 +65,8 @@
                 var that = this;
                 var number = this.data.number;
                 var branch = this.data.branch;
-                GreenLeavesWeighService.loadWeigh(branch, number)
+                var type = "BULK";
+                GreenLeavesWeighService.loadWeigh(branch, number, type)
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
@@ -74,6 +75,50 @@
                         })
                         .error(function () {
                             defer.reject();
+                            //reset
+                            that.data.indexNo = null;
+                            //that.data.branch = null;
+                            that.data.route = null;
+                            that.data.date = null;
+                            that.data.client = null;
+                            that.data.routeOfficer = null;
+                            that.data.routeHelper = null;
+                            that.data.vehicle = null;
+                            //that.data.number = null;
+                            that.data.status = null;
+                            that.data.type = "BULK";
+                            that.data.remark = null;
+
+                            //normal leaves summary
+                            that.data.normalTotalWeight = 0.0;
+                            that.data.normalTareCalculated = 0.0;
+                            that.data.normalTareDeduction = 0.0;
+                            that.data.normalGeneralDeductionPercent = 0.0;
+                            that.data.normalGeneralDeduction = 0.0;
+                            that.data.normalWaterDeduction = 0.0;
+                            that.data.normalCoarseLeaves = 0.0;
+                            that.data.normalBoiledLeaves = 0.0;
+                            that.data.normalNetWeight = 0.0;
+                            //normal tare summary
+                            that.data.normalCrates = 0;
+                            that.data.normalBags = 0;
+                            that.data.normalPolyBags = 0;
+                            //super leaves summary
+                            that.data.superTotalWeight = 0.0;
+                            that.data.superTareCalculated = 0.0;
+                            that.data.superTareDeduction = 0.0;
+                            that.data.superGeneralDeductionPercent = 0.0;
+                            that.data.superGeneralDeduction = 0.0;
+                            that.data.superWaterDeduction = 0.0;
+                            that.data.superCoarseLeaves = 0.0;
+                            that.data.superBoiledLeaves = 0.0;
+                            that.data.superNetWeight = 0.0;
+                            //super tare summary
+                            that.data.superCrates = 0;
+                            that.data.superBags = 0;
+                            that.data.superPolyBags = 0;
+
+                            that.data.greenLeaveWeighDetails = [];
                         });
 
                 return defer.promise;
@@ -156,7 +201,7 @@
                     GreenLeavesWeighService.insertDetail(JSON.stringify(this.tempData), this.data.indexNo)
                             .success(function (data) {
                                 that.tempData.indexNo = data;
-                                that.data.greenLeaveWeighDetails.push(that.tempData);
+                                that.data.greenLeaveWeighDetails.unshift(that.tempData);
                                 that.tempData = GreenLeavesWeighModelFactory.newTempData();
                                 that.validate();
                                 defer.resolve();
@@ -201,7 +246,7 @@
 //                var normalGeneralDeductionPercent = parseFloat(this.data.normalGeneralDeductionPercent);
 //                var normalGeneralDeduction = parseInt(normalGeneralDeductionPercent * normalTotalWeight / 100);
 //                this.data.normalGeneralDeduction = normalGeneralDeduction;
-
+//
 //                var superGeneralDeductionPercent = parseFloat(this.data.superGeneralDeductionPercent);
 //                var superGeneralDeduction = parseInt(superGeneralDeductionPercent * superTotalWeight / 100);
 //                this.data.superGeneralDeduction = superGeneralDeduction;
@@ -387,7 +432,7 @@
                             that.data.normalTotalWeight = 0.0;
                             that.data.normalTareCalculated = 0.0;
                             that.data.normalTareDeduction = 0.0;
-                            that.data.normalGeneralDeductionPercent = 4.0;
+                            that.data.normalGeneralDeductionPercent = 0.0;
                             that.data.normalGeneralDeduction = 0.0;
                             that.data.normalWaterDeduction = 0.0;
                             that.data.normalCoarseLeaves = 0.0;
@@ -401,7 +446,7 @@
                             that.data.superTotalWeight = 0.0;
                             that.data.superTareCalculated = 0.0;
                             that.data.superTareDeduction = 0.0;
-                            that.data.superGeneralDeductionPercent = 4.0;
+                            that.data.superGeneralDeductionPercent = 0.0;
                             that.data.superGeneralDeduction = 0.0;
                             that.data.superWaterDeduction = 0.0;
                             that.data.superCoarseLeaves = 0.0;

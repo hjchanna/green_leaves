@@ -13,7 +13,7 @@
                                 <input id="branch" class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.serchWeight($model)">
                             </td>
                             <td>
-                                <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'" typeahead-on-select="ui.loadFactoryQuantity()">
+                                <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                             <td>
                                 <input class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">
@@ -73,7 +73,7 @@
                         <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails" >
                             <td>
                                 <div ng-if="greenLeavesReceiveDetails.client">
-                                    <div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(greenLeavesReceiveDetails.client).clientNumber}}</div> 
+                                    <div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(greenLeavesReceiveDetails.client).clientNumber|fixedLength:5}}</div> 
                                     {{model.client(greenLeavesReceiveDetails.client).name}}
                                 </div>
                                 <div ng-if="!greenLeavesReceiveDetails.client">
@@ -148,7 +148,7 @@
     </div>
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-        <a class="fab fab-danger" fab-show="ui.mode ==='EDIT'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="fab fab-danger" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
         <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
         <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
         <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
