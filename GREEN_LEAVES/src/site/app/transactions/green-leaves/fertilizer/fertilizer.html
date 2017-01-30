@@ -14,28 +14,41 @@
                     <thead class="background-dark">
                         <tr>
                             <th>
-                                <input style="margin-top: 5px" class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th>
-                                <input class="form-control" smart-input="date"  ng-model="model.weigh.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input style="margin-top: 5px" input-hint="Date" class="form-control" smart-input="date"  ng-model="model.weigh.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th>
-                                <input style="margin-top: 5px" class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input style="margin-top: 5px" input-hint="Transaction Number" class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                         </tr>
                     </thead>
                 </table>
                 <table style="padding-right: 5px;">
-                    <col style="width: 50%"/>
-                    <col style="width: 50%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 30%"/>
+                    <col style="width: 15%"/>
+                    <col style="width: 35%"/>
                     <col/>
                     <thead class="background-dark">
                         <tr>
                             <th>
+                                <label>SUPPLIER ID</label>
                                 <input style="margin-top: 5px" class="form-control text-right" type="text" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th>
+                                <label>SUPPLIER</label>
                                 <input style="margin-top: 5px" class="form-control text-right" type="text" ng-model="" uib-typeahead="client as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                            </th>
+                            <th class="text-right">
+                                <label></label>
+                                ONE MONTH &nbsp;
+                                <input type="radio" name="months" value="" checked="checked" />
+                            </th>
+                            <th>
+                                <label></label>
+                                TWO MONTH &nbsp;
+                                <input type="radio" name="months" value="" checked="checked" />
                             </th>
                         </tr>
                     </thead>
@@ -44,12 +57,10 @@
             </div>
             <div class="col-xs-12 " style="flex: 0 0 auto;height: 80px;">
                 <table>
-                    <col style="width: 30%"/>
+                    <col style="width: 40%"/>
                     <col style="width: 20%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
+                    <col style="width: 15%"/>
+                    <col style="width: 15%"/>
                     <col style="width: 10%"/>
                     <col/>
                     <thead class="background-dark">
@@ -57,10 +68,6 @@
                             <th>
                                 <label>ITEM</label>
                                 <input id="item" type="text" ng-model="model.tempData.item" uib-typeahead="item as (item.indexNo + ' - ' + item.name) for client in model.items|filter:$viewValue|limitTo:10" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </th>
-                            <th>
-                                <label>ACCOUNT</label>
-                                <input type="text" ng-model="model.tempData.account" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>PRICE</label>
@@ -71,11 +78,7 @@
                                 <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-keydown="ui.getAmount()" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
-                                <label>DISCOUNT</label>
-                                <input smart-input="integer" ng-model="model.tempData.discount" ng-keydown="ui.getAmount()" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </th>
-                            <th>
-                                <label>AMOUNT</label>
+                                <label>VALUE</label>
                                 <input smart-input="decimal" ng-model="model.tempData.amount" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
@@ -89,13 +92,11 @@
             </div>
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);">
                 <table class="table-hover">
-                    <col style="width: 30%"/>
+                    <col style="width: 40%"/>
                     <col style="width: 20%"/>
+                    <col style="width: 15%"/>
                     <col style="width: 10%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 10%"/>
+                    <col style="width: 15%"/>
                     <col/>
                     <tbody >                       
                         <tr style="height: 40px" ng-repeat="detail in model.data.detail">
@@ -120,18 +121,6 @@
                         <tr>
                             <td>TOTAL</td>
                             <td class="text-right">{{ui.getTotal()}}</td>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-xs-12">
-                <table style="padding-right: 5px;">
-                    <col style="width: 30%;"/>
-                    <col style="width: 70%;"/>
-                    <thead class="background-dark">
-                        <tr>
-                            <td>TOTAL</td>
-                            <td class="text-right">{{totalSuperValue}}</td>
                         </tr>
                     </thead>
                 </table>

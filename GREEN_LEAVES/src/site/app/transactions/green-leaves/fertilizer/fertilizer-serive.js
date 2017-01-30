@@ -1,7 +1,7 @@
 (function () {
     var service = function ($http, systemConfig) {
         //master data
-        this.loadItems = function () {
+        this.loadProducts = function () {
             return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/product");
         };
         //master data

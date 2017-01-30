@@ -27,7 +27,8 @@
         "chequeBookModule",
         "bankModule",
         "bankBranchModule",
-        "receiveDashboardModule"
+        "receiveDashboardModule",
+        "teasIssueModule"
     ]);
 
     //constants
@@ -98,7 +99,11 @@
                         })
                         .when("/transactions/green-leaves/fertilizer", {
                             templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
-                            controller: "fertilizerController"
+                            controller: "FertilizerController"
+                        })
+                        .when("/transactions/green-leaves/tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/tea-issue.html",
+                            controller: "teasIssueController"
                         })
                         //master
                         .when("/master/client/manage-client", {

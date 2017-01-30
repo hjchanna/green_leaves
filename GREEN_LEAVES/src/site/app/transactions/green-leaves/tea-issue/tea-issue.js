@@ -1,9 +1,9 @@
 (function () {
     //module
-    angular.module("fertilizerModule", []);
+    angular.module("teasIssueModule", []);
     //controller
-    angular.module("fertilizerModule")
-            .controller("FertilizerController", function ($scope) {
+    angular.module("teasIssueModule")
+            .controller("teasIssueController", function ($scope) {
                 //data models 
                 $scope.model = {};
 
