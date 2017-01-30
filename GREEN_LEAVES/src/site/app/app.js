@@ -27,7 +27,9 @@
         "chequeBookModule",
         "bankModule",
         "bankBranchModule",
-        "receiveDashboardModule"
+        "receiveDashboardModule",
+        "officerIssueModule",
+        "teasIssueModule"
     ]);
 
     //constants
@@ -101,9 +103,13 @@
                             controller: "fertilizerController"
                         })
                         //master
-                        .when("/master/client/manage-client", {
-                            templateUrl: "app/master/client/client.html",
-                            controller: "clientController"
+                        .when("/transactions/green-leaves/tea-issue/direct-issue", {
+                           templateUrl: "app/transactions/green-leaves/tea-issue/direct-issue/direct-issue.html",
+                            controller: "teasIssueController"
+                        })
+                        .when("/transactions/green-leaves/tea-issue/officer-issue", {
+                           templateUrl: "app/transactions/green-leaves/tea-issue/officer-issue/officer-issue",
+                            controller: "officerIssueController"
                         })
                         .when("/master/supplier/manage-supplier", {
                             templateUrl: "app/master/supplier/supplier.html",
