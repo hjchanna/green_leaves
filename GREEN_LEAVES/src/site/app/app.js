@@ -21,7 +21,6 @@
         "productModule",
         "employeeModule",
         "routeModule",
-        "fertilizerModule",
         "branchModule",
         "greenLeavesWeighReportModule",
         "chequeBookModule",

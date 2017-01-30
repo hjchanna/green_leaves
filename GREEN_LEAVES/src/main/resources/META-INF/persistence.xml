@@ -9,6 +9,8 @@
     <class>com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger</class>
     <class>com.mac.green_leaves.v1.green_leaves.final_payment.model.TFinalPayment</class>
     <class>com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher</class>
+    <class>com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizerDetail</class>
+    <class>com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizer</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

@@ -34,11 +34,11 @@
                         <tr>
                             <th>
                                 <label>SUPPLIER ID</label>
-                                <input style="margin-top: 5px" class="form-control text-right" type="text" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="integer" class="form-control" ng-model="customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
                                 <label>SUPPLIER</label>
-                                <input style="margin-top: 5px" class="form-control text-right" type="text" ng-model="" uib-typeahead="client as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label></label>
@@ -129,6 +129,7 @@
     </div>
 </div>
 <div class="fab-container">
+    <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
     <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
     <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>
