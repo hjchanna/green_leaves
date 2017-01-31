@@ -96,9 +96,13 @@
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
                             controller: "routeDetailsController"
                         })
-                        .when("/transactions/green-leaves/fertilizer", {
+                        .when("/transactions/green-leaves/fertilizer/request", {
                             templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
                             controller: "FertilizerController"
+                        })
+                        .when("/transactions/green-leaves/fertilizer/approve", {
+                            templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer-approve.html",
+                            controller: "FertilizerApproveController"
                         })
                         .when("/transactions/green-leaves/tea-issue", {
                             templateUrl: "app/transactions/green-leaves/tea-issue/tea-issue.html",

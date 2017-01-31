@@ -17,9 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -34,23 +37,20 @@ public class TFertilizerDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "month")
-    private BigDecimal month;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "qty")
     private BigDecimal qty;
+
     @Size(max = 25)
     @Column(name = "status")
     private String status;
 
-    @Basic(optional = false)
+    @NotNull
     @Column(name = "product")
     private Integer product;
-
+    
     @JsonIgnore
     @JoinColumn(name = "fertilizer", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -59,17 +59,21 @@ public class TFertilizerDetail implements Serializable {
     public TFertilizerDetail() {
     }
 
-    public TFertilizerDetail(Integer indexNo) {
+    public TFertilizerDetail(Integer indexNo, BigDecimal qty, String status, Integer product, TFertilizer fertilizer) {
         this.indexNo = indexNo;
-    }
-
-    public TFertilizerDetail(Integer indexNo, BigDecimal month, BigDecimal qty, String status, Integer product, TFertilizer fertilizer) {
-        this.indexNo = indexNo;
-        this.month = month;
         this.qty = qty;
         this.status = status;
         this.product = product;
         this.fertilizer = fertilizer;
+    }
+
+    public TFertilizerDetail(Integer indexNo) {
+        this.indexNo = indexNo;
+    }
+
+    public TFertilizerDetail(Integer indexNo, BigDecimal qty) {
+        this.indexNo = indexNo;
+        this.qty = qty;
     }
 
     public Integer getIndexNo() {
@@ -78,14 +82,6 @@ public class TFertilizerDetail implements Serializable {
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
-    }
-
-    public BigDecimal getMonth() {
-        return month;
-    }
-
-    public void setMonth(BigDecimal month) {
-        this.month = month;
     }
 
     public BigDecimal getQty() {

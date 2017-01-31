@@ -118,5 +118,5 @@
     };
 
     angular.module("appModule")
-            .controller("FertilizerController", controller);
+            .controller("FertilizerApproveController", controller);
 }());

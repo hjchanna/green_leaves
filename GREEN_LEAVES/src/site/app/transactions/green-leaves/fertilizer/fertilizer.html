@@ -2,11 +2,11 @@
 </div>
 
 <div class="index-content-body">
-    <div class="col-xs-12 background-light">
+    <div class="col-xs-8 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12 " style="flex: 0 0 auto;">
 
-                <table style="padding-right: 5px;"> 
+                <table> 
                     <col style="width: 52%"/>
                     <col style="width: 24%"/>
                     <col style="width: 24%"/>
@@ -16,39 +16,39 @@
                             <th>
                             </th>
                             <th>
-                                <input style="margin-top: 5px" input-hint="Date" class="form-control" smart-input="date"  ng-model="model.weigh.date" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="date" style="margin-top: 5px" input-hint="Date" class="form-control" smart-input="date"  ng-model="model.data.date">
                             </th>
                             <th>
-                                <input style="margin-top: 5px" input-hint="Transaction Number" class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control" style="margin-top: 5px" smart-input="integer"  input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
                             </th>
                         </tr>
                     </thead>
                 </table>
-                <table style="padding-right: 5px;">
+                <table>
                     <col style="width: 20%"/>
-                    <col style="width: 30%"/>
-                    <col style="width: 15%"/>
-                    <col style="width: 35%"/>
+                    <col style="width: 40%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
                     <col/>
                     <thead class="background-dark">
                         <tr>
                             <th>
                                 <label>SUPPLIER ID</label>
-                                <input id="client" smart-input="integer" class="form-control" ng-model="customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
+                                <input smart-input="integer" class="form-control" ng-model="customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
                                 <label>SUPPLIER</label>
-                                <input smart-input="text" class="form-control" ng-model="model.tempData.client" ng-bind="model.clientLabel(model.tempData.client)" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input smart-input="text" class="form-control" ng-model="model.data.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label></label>
                                 ONE MONTH &nbsp;
-                                <input type="radio" name="months" value="" checked="checked" />
+                                <input ng-model="model.data.month" type="radio" name="months" value="ONE-MONTH" checked="checked" ng-change="model.itemTotal()"/>
                             </th>
                             <th>
                                 <label></label>
                                 TWO MONTH &nbsp;
-                                <input type="radio" name="months" value="" checked="checked" />
+                                <input ng-model="model.data.month" type="radio" name="months" value="TWO-MONTH" checked="checked" ng-change="model.itemTotal()"/>
                             </th>
                         </tr>
                     </thead>
@@ -57,32 +57,32 @@
             </div>
             <div class="col-xs-12 " style="flex: 0 0 auto;height: 80px;">
                 <table>
-                    <col style="width: 40%"/>
+                    <col style="width: 35%"/>
                     <col style="width: 20%"/>
                     <col style="width: 15%"/>
                     <col style="width: 15%"/>
-                    <col style="width: 10%"/>
+                    <col style="width: 15%"/>
                     <col/>
                     <thead class="background-dark">
                         <tr>
                             <th>
                                 <label>ITEM</label>
-                                <input id="item" type="text" ng-model="model.tempData.item" uib-typeahead="item as (item.indexNo + ' - ' + item.name) for client in model.items|filter:$viewValue|limitTo:10" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input id="item" type="text" ng-model="model.tempData.product" uib-typeahead="product.indexNo as (product.productNo + ' - ' + product.name) for product in model.products|filter:$viewValue|limitTo:10" class="form-control" typeahead-input-formatter="model.productLabel($model)" typeahead-on-select="ui.getPrice($model);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>PRICE</label>
-                                <input smart-input="decimal" ng-model="model.tempData.price" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="decimal" ng-model="model.tempData.price" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
                                 <label>QTY</label>
-                                <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-keydown="ui.getAmount()" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>VALUE</label>
                                 <input smart-input="decimal" ng-model="model.tempData.amount" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
-                                <button style="margin-top: 10px;" type="button" class="btn btn-primary" ng-click="ui.insertData();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <button style="margin-top: 10px;" type="button" class="btn btn-primary" ng-click="ui.addDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
                             </th>
@@ -90,28 +90,29 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);" ng-show="model.data.tfertilizerDetailList.length">
                 <table class="table-hover">
-                    <col style="width: 40%"/>
+                    <col style="width: 35%"/>
                     <col style="width: 20%"/>
                     <col style="width: 15%"/>
-                    <col style="width: 10%"/>
+                    <col style="width: 15%"/>
                     <col style="width: 15%"/>
                     <col/>
                     <tbody >                       
-                        <tr style="height: 40px" ng-repeat="detail in model.data.detail">
-                            <td class="text-center"><label class="label label-default">{{detail.item.indexNo}}</label>   {{detail.item.name}}</td>
-                            <td class="text-center">{{detail.account}}</td>
-                            <td class="text-center">{{detail.price}}</td>
-                            <td class="text-center">{{detail.qty}}</td>
-                            <td class="text-center">{{detail.discount}}</td>
-                            <td class="text-center">{{detail.amount}}</td>
+                        <tr style="height: 40px" ng-repeat="detail in model.data.tfertilizerDetailList">
+                            <td class="text-left"><label class="label label-default">{{model.product(detail.product).productNo}}</label>{{model.product(detail.product).name}}</td>
+                            <td class="text-right">{{model.product(detail.product).salePrice | number:2}}</td>
+                            <td class="text-right">{{detail.qty}}</td>
+                            <td class="text-right">{{model.product(detail.product).salePrice * detail.qty | number:2}}</td>
                             <td>
-                                <a class="btn btn-default" ng-click="ui.editData(detail, $index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteData($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                                <a class="btn btn-default" ng-click="ui.editDetail($index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteDetail($index);"><span class="glyphicon glyphicon-trash"></span></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100% - 260px);" ng-hide="model.data.tfertilizerDetailList.length">
+                <h1>PLEASE ADD ITEMS :(</h1>
             </div>
             <div class="col-xs-12">
                 <table style="padding-right: 5px;">
@@ -120,16 +121,86 @@
                     <thead class="background-dark">
                         <tr>
                             <td>TOTAL</td>
-                            <td class="text-right">{{ui.getTotal()}}</td>
+                            <td class="text-right">{{model.itemTotal() | number:2}}</td>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
+    <div class="col-xs-4 background-dark border-dark-left">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 15%;"/>
+                    <col />
+                    <thead>
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <th class="text-right">DEBIT</th>
+                            <th class="text-right">CREDIT</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 15%;"/>
+                    <tbody>
+                        <tr ng-repeat="clientHistory in model.clientHistory">
+                            <td>{{clientHistory[0]}}</td>
+                            <td class="text-right" >{{clientHistory[2]|number:2}}</td>
+                            <td class="text-right" >{{clientHistory[1]|number:2}}</td>
+                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 15%;"/>
+                    <col />
+
+                    <tbody>
+                        <tr class="text-bold">
+                            <td>Total</td>
+                            <td class="text-right">{{model.totalCreditAndDebit.totalDebit|number:2}}</td>
+                            <td class="text-right">{{model.totalCreditAndDebit.totalCradit|number:2}}</td>
+                            <td></td>
+                        </tr>
+                        <tr class="text-bold">
+                            <td>Balance</td>
+                            <td class="text-right">{{model.totalCreditAndDebit.totalDebit - model.totalCreditAndDebit.totalCradit|number:2}}</td>
+                            <td class="text-right">-</td>      
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12" style="margin-top: 10px;height: 170px;">
+                <canvas id="line" class="chart chart-line ng-isolate-scope" chart-dataset-override="datasetOverride" chart-data="model.chartDetails.chartData" chart-labels="model.chartDetails.chartDateList" chart-colors="colors" chart-series="series" chart-options="options"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="fab-container">
     <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
-    <a class="fab fab-lg fab-primary" ng-show="ui.mode === 'NEW' || ui.mode === 'EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+    <a class="fab fab-danger" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+    <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+    <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
+    <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
 </div>

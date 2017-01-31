@@ -11,7 +11,7 @@
                 
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.args>-classpath %classpath com.mac.green_leaves.Application</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
