@@ -16,6 +16,14 @@
                    }; 
                    return data;
                };
+               factory.tempData = function (){
+                   var data={
+                       "routeOfficer": null,
+                       "route": null,
+                       "greenLeavesQty":null
+                   }; 
+                   return data;
+               };
                return factory;
             });
 }());

@@ -5,8 +5,14 @@
         this.loadTeaIssue = function (){
             return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/tea-issue");
         };
-        this.loadRouteOfficers = function () {
+        this.loadRoutOfficer = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
+        };
+        this.loadRout = function () {
+            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/routes");
+        };
+        this.loadGreenLeavesQty = function () {
+            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/routes");
         };
         
     };

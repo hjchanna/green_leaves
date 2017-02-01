@@ -4,7 +4,7 @@
     angular.module("sidePanelModule", []);
     //controller
     angular.module("sidePanelModule")
-            .controller("sidePanelController", function ($scope, SidePanelFunctionModel) {
+            .controller("sidePanelController", function ($scope,$timeout, SidePanelFunctionModel) {
 
                 $scope.model = new SidePanelFunctionModel();
 
@@ -18,11 +18,12 @@
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
                     $timeout(function () {
-                        document.querySelectorAll("#type")[0].focus();
+                        document.querySelectorAll("#officerText")[0].focus();
                     }, 10);
                 };
-
-
+                $scope.ui.routeOfficerDetail = function (model) {
+                    $scope.model.lordRoutOfficerDetail(model);
+                };
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
                 };

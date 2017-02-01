@@ -11,7 +11,7 @@
                 <tbody>
                     <tr>
                         <td><label class="control-label">OFFICER</label></td>
-                        <td><input class="form-control text-right" id="officerText"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" id="officerText" ng-model="model.data.officer" uib-typeahead="routOfficer as (routOfficer.indexNo + ' - ' + routOfficer.name) for routOfficer in model.routOfficers|filter:$viewValue|limitTo:10" typeahead-on-select="ui.routeOfficerDetail($model);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                 </tbody>
             </table>
@@ -23,7 +23,7 @@
                 <tbody>
                     <tr>
                         <td><label class="control-label">ROUTE </label></td>
-                        <td><input class="form-control text-right" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
+                        <td><input class="form-control text-right" ng-model="model.tempdata.route.name" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                     </tr>
                 </tbody>
             </table>
@@ -108,7 +108,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">NAME</label></td>
-                            <td><input class="form-control text-right" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" ng-model="model.tempdata.route.routeOfficer" uib-typeahead="routOfficer as (routOfficer.indexNo + ' - ' + routOfficer.name) for routOfficer in model.routOfficers|filter:$viewValue|limitTo:10" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -119,7 +119,7 @@
                     <tbody>
                         <tr>
                             <td><label class="control-label">ROUTE</label></td>
-                            <td><input class="form-control text-right" ng-disabled="true"></td>
+                            <td><input class="form-control text-right" ng-model="model.tempdata.route.name" ng-disabled="true"></td>
                         </tr>
                     </tbody>
                 </table>
