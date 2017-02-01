@@ -36,18 +36,21 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "	ORDER BY m_route.index_no", nativeQuery = true)
     public List<Object[]> getGreelLeavesWeighSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate, @Param("type") String type);
 
-    @Query(value = "select \n"
-            + "	m_route.index_no,\n"
-            + "	ifnull(sum(t_green_leaves_receive_detail.normal_leaves_quantity),0.0),\n"
-            + "	ifnull(sum(t_green_leaves_receive_detail.super_leaves_quantity),0.0)\n"
-            + "from\n"
-            + "	m_route\n"
-            + "	left join t_green_leaves_receive on t_green_leaves_receive.route = m_route.index_no\n"
-            + "	left join t_green_leaves_receive_detail on t_green_leaves_receive_detail.green_leaves_receive = t_green_leaves_receive.index_no\n"
-            + "where\n"
-            + "	if(t_green_leaves_receive_detail.index_no is null, true, t_green_leaves_receive.date between :formDate and :toDate)\n"
-            + "group by\n"
-            + "	m_route.index_no\n"
-            + " order by m_route.index_no", nativeQuery = true)
-    public List<Object[]> getGreenLeavesReceiveSummry(@Param("formDate") @Temporal(TemporalType.DATE) Date fromDate, @Param("toDate") @Temporal(TemporalType.DATE) Date toDate);
+    @Query(value = "SELECT \n"
+            + "t_green_leaves_receive.index_no,\n"
+            + "t_green_leaves_receive_detail.normal_leaves_quantity,\n"
+            + "t_green_leaves_receive_detail.super_leaves_quantity,\n"
+            + "t_green_leaves_receive.route as greenLeavesRoute,\n"
+            + "m_client.route as clientRoute,\n"
+            + "t_green_leaves_receive_detail.client,\n"
+            + "t_green_leaves_receive.date,\n"
+            + "t_green_leaves_receive.status\n"
+            + "FROM\n"
+            + "t_green_leaves_receive_detail\n"
+            + "INNER JOIN m_client\n"
+            + "ON t_green_leaves_receive_detail.client = m_client.index_no\n"
+            + "INNER JOIN t_green_leaves_receive\n"
+            + "ON t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
+            + "WHERE t_green_leaves_receive.route <> m_client.route;   ", nativeQuery = true)
+    public List<Object[]> getCrossReportDetails();
 }

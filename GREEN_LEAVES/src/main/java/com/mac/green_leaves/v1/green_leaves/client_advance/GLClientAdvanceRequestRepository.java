@@ -6,10 +6,13 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.TemporalType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 

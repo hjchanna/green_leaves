@@ -56,7 +56,7 @@ public class SESecurityController {
     @RequestMapping(value = "/transaction-types", method = RequestMethod.GET)
     public Set<RTransactionType> findTransactionTypes() {
         SystemUser user = (SystemUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        user.getBranch();
         return securityService.findTransactionTypesForUser(user.getIndexNo());
     }
 }

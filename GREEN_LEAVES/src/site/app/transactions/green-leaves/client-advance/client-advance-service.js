@@ -14,12 +14,17 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
-        this.loadClients = function () {
+        this.loadClient = function () {
+            console.log("cliet");
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
         };
 
         this.loadAdvanceRequestByNumber = function (number) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/" + number);
+        };
+        
+        this.findByRouteAndDate = function (route, date) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-by/" + route + "/" + date);
         };
 
         this.saveAdvanceRequest = function (data) {
@@ -30,10 +35,12 @@
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/delete/" + indexNo);
         };
 
-        //approve
+        this.deleteAdvanceRequestDetails = function (indexNo) {
+            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/delete-detail/" + indexNo);
+        };
 
+        //approve
         this.loadPendingRequests = function () {
-            console.log("AA");
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/pending-requests");
         };
 
@@ -43,6 +50,16 @@
 
         this.rejectRequest = function (indexNo) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/reject-request-detail/" + indexNo);
+        };
+
+        //client history
+        this.clientHistory = function (date, client) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-client-account-transaction-history/" + date + "/" + client);
+        };
+        
+        //grt super total leaves and normal total leaves by branch.route,date,client for chart
+        this.getGreenLeavesByBranchAndRouteAndDateAndClient = function (route,date, client) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-client-wise-receive-history/" +route+"/" + date + "/" + client);
         };
     };
 

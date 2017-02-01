@@ -28,7 +28,7 @@
         this.getGreenLeavesChartDetails = function (fromDate, toDate) {
             return $http.get(systemConfig.apiUrl + "/api/dash-board/find-green-leave-receice-details/" + fromDate + "/" + toDate);
         };
-        
+
         this.getGreenLeavesWeighChartDetails = function (fromDate, toDate, type) {
             return $http.get(systemConfig.apiUrl + "/api/dash-board/find-green-leave-weigh-details/" + fromDate + "/" + toDate + "/" + type);
         };
@@ -43,10 +43,11 @@
             return $http.post(systemConfig.apiUrl + "/api/dash-board/find-green-leave-receive-dashboard-summary", model);
         };
 
-//        //green leaves bulk weigh details
-//        this.greenLeaveWeighDetailsByIndexNo = function (indexNo) {
-//            return $http.get(systemConfig.apiUrl + "/api/dash-board/find-green-leave-dashboard-weigh-by-indexNo/" + indexNo);
-//        };
+        //get cross report details
+        this.getCrossReportDetails = function (model) {
+            return $http.post(systemConfig.apiUrl + "/api/dash-board/find-cross-report", model);
+        };
+
     };
 
     angular.module("appModule")

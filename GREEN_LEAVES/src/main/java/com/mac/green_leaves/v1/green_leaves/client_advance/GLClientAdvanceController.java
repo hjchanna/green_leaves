@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
+import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,13 @@ public class GLClientAdvanceController {
         return clientAdvanceService.getAdvanceRequestByNumber(number, branch);
     }
 
+//    @RequestMapping(value = "/find-by/{route}/{date}", method = RequestMethod.GET)
+//    public TClientAdvanceRequest findByRouteAndDate(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+//        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+//
+//        return clientAdvanceService.findByBranchAndRouteAndDate(branch, route, date);
+//    }
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
@@ -60,8 +68,9 @@ public class GLClientAdvanceController {
     }
 
     @RequestMapping(value = "/delete-detail/{indexNo}", method = RequestMethod.DELETE)
-    public void deleteAdvanceRequestDetail(@PathVariable Integer indexNo) {
+    public Integer deleteAdvanceRequestDetail(@PathVariable Integer indexNo) {
         clientAdvanceService.deleteAdvanceRequestDetail(indexNo);
+        return indexNo;
     }
 
 //    approve ------------------------------------------------------------------
@@ -81,5 +90,26 @@ public class GLClientAdvanceController {
     public void rejectAdvanceRequestDetail(@PathVariable Integer indexNo) {
         clientAdvanceService.rejectAdvanceRequestDetail(indexNo);
     }
+
+    // slide bar client history
+//    @RequestMapping(value = "/find-client-account-transaction-history/{date}/{client}")
+//    List<Object[]> findByBranchAndDateAndClient(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+//        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+//
+//        return clientAdvanceService.findByBranchAndDateAndClient(branch, date, client);
+//    }
+
+    // bootom route and year and month wise route totatal summry
+//    @RequestMapping(value = "/find-client-wise-receive-history/{route}/{date}/{client}")
+//    List<Object[]> findByDateAndRoute(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+//        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+//
+//        return clientAdvanceService.findByBranchAndRouteDateAndClient(branch, route, date, client);
+//    }
+
+//    @RequestMapping(value = "/transaction-type")
+//    List<TransactionType> findByBranchAndDateAndClient() {
+//        return clientAdvanceService.findTransactionTypeAll();
+//    }
 
 }
