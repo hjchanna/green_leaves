@@ -14,6 +14,7 @@
                     <thead class="background-dark">
                         <tr>
                             <th>
+                                <input class="form-control" style="margin-top: 5px" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" />
                             </th>
                             <th>
                                 <input id="date" style="margin-top: 5px" input-hint="Date" class="form-control" smart-input="date"  ng-model="model.data.date">
@@ -43,12 +44,12 @@
                             <th class="text-right">
                                 <label></label>
                                 ONE MONTH &nbsp;
-                                <input ng-model="model.data.month" type="radio" name="months" value="ONE-MONTH" checked="checked" ng-change="model.itemTotal()"/>
+                                <input ng-model="model.data.type" type="radio" name="months" value="ONE-MONTH" checked="checked"/>
                             </th>
                             <th>
                                 <label></label>
                                 TWO MONTH &nbsp;
-                                <input ng-model="model.data.month" type="radio" name="months" value="TWO-MONTH" checked="checked" ng-change="model.itemTotal()"/>
+                                <input ng-model="model.data.type" type="radio" name="months" value="TWO-MONTH" checked="checked" ng-checked="true"/>
                             </th>
                         </tr>
                     </thead>

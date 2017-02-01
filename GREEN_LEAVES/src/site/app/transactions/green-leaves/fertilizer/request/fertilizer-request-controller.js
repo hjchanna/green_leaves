@@ -6,9 +6,6 @@
 
         $scope.ui = {};
 
-        //Douple click duplicate bug fix
-        $scope.ui.insertProcessing = false;
-
         $scope.ui.new = function () {
             $scope.ui.mode = "EDIT";
             $scope.model.clear();
@@ -95,15 +92,12 @@
         };
 
         $scope.ui.save = function () {
-            if (!$scope.ui.insertProcessing) {
-                $scope.ui.insertProcessing = true;
-                $scope.model.save()
-                        .then(function () {
-                            $scope.ui.mode = "IDEAL";
-                            $scope.model.clear();
-                            $scope.ui.insertProcessing = false;
-                        });
-            }
+            console.log("save controller");
+            $scope.model.save()
+                    .then(function () {
+                        $scope.ui.mode = "IDEAL";
+                        $scope.model.clear();
+                    });
         };
 
         $scope.ui.init = function () {
@@ -118,5 +112,5 @@
     };
 
     angular.module("appModule")
-            .controller("FertilizerController", controller);
+            .controller("FertilizerRequestController", controller);
 }());

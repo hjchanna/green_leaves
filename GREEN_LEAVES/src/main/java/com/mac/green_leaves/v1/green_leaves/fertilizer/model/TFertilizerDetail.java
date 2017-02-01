@@ -7,7 +7,6 @@ package com.mac.green_leaves.v1.green_leaves.fertilizer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -41,16 +37,18 @@ public class TFertilizerDetail implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "qty")
-    private BigDecimal qty;
+    private int qty;
 
-    @Size(max = 25)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "status")
     private String status;
 
-    @NotNull
+    @Basic(optional = false)
     @Column(name = "product")
     private Integer product;
-    
+
     @JsonIgnore
     @JoinColumn(name = "fertilizer", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -59,21 +57,12 @@ public class TFertilizerDetail implements Serializable {
     public TFertilizerDetail() {
     }
 
-    public TFertilizerDetail(Integer indexNo, BigDecimal qty, String status, Integer product, TFertilizer fertilizer) {
+    public TFertilizerDetail(Integer indexNo, int qty, String status, Integer product, TFertilizer fertilizer) {
         this.indexNo = indexNo;
         this.qty = qty;
         this.status = status;
         this.product = product;
         this.fertilizer = fertilizer;
-    }
-
-    public TFertilizerDetail(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public TFertilizerDetail(Integer indexNo, BigDecimal qty) {
-        this.indexNo = indexNo;
-        this.qty = qty;
     }
 
     public Integer getIndexNo() {
@@ -84,11 +73,11 @@ public class TFertilizerDetail implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public BigDecimal getQty() {
+    public int getQty() {
         return qty;
     }
 
-    public void setQty(BigDecimal qty) {
+    public void setQty(int qty) {
         this.qty = qty;
     }
 
@@ -100,20 +89,20 @@ public class TFertilizerDetail implements Serializable {
         this.status = status;
     }
 
-    public TFertilizer getFertilizer() {
-        return fertilizer;
-    }
-
-    public void setFertilizer(TFertilizer fertilizer) {
-        this.fertilizer = fertilizer;
-    }
-
     public Integer getProduct() {
         return product;
     }
 
     public void setProduct(Integer product) {
         this.product = product;
+    }
+
+    public TFertilizer getFertilizer() {
+        return fertilizer;
+    }
+
+    public void setFertilizer(TFertilizer fertilizer) {
+        this.fertilizer = fertilizer;
     }
 
 }

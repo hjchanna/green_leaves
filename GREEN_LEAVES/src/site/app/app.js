@@ -97,11 +97,11 @@
                             controller: "routeDetailsController"
                         })
                         .when("/transactions/green-leaves/fertilizer/request", {
-                            templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
-                            controller: "FertilizerController"
+                            templateUrl: "app/transactions/green-leaves/fertilizer/request/fertilizer-request.html",
+                            controller: "FertilizerRequestController"
                         })
                         .when("/transactions/green-leaves/fertilizer/approve", {
-                            templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer-approve.html",
+                            templateUrl: "app/transactions/green-leaves/fertilizer/approve/fertilizer-approve.html",
                             controller: "FertilizerApproveController"
                         })
                         .when("/transactions/green-leaves/tea-issue", {

@@ -10,9 +10,12 @@
                         "number": null,
                         "date": null,
                         "month": null,
+                        "routeOfficer": null,
+                        "type": null,
                         "transaction": null,
                         "status": "PENDING",
                         "client": null,
+                        "amount": null,
                         "tfertilizerDetailList": [
 //                            {
 //                                "indexNo": null,

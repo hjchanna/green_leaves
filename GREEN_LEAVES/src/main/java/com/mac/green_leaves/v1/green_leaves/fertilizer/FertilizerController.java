@@ -43,6 +43,7 @@ public class FertilizerController {
     public Integer saveFertilizer(@RequestBody TFertilizer fertilizer) {
         fertilizer.setTransaction(1);
         fertilizer.setBranch(1);
+        System.out.println(fertilizer);
         return fertilizerService.saveFertilizer(fertilizer);
     }
 
@@ -50,5 +51,10 @@ public class FertilizerController {
     public Integer deleteFertilizer(@PathVariable Integer indexNo) {
         fertilizerService.deleteFertilizer(indexNo);
         return indexNo;
+    }
+
+    @RequestMapping(value = "/pending-fertilizer", method = RequestMethod.GET)
+    public List<TFertilizer> getPendingRequest() {
+        return fertilizerService.getPendingRequest(1);
     }
 }

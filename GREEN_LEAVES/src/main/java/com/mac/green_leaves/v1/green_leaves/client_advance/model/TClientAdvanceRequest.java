@@ -70,12 +70,6 @@ public class TClientAdvanceRequest implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "is_delete")
-    private String isDelete;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientAdvanceRequest", fetch = FetchType.EAGER)
     private Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
 
@@ -149,14 +143,6 @@ public class TClientAdvanceRequest implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(String isDelete) {
-        this.isDelete = isDelete;
     }
 
     public Collection<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {

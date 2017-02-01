@@ -27,10 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class FertilizerService {
 
     @Autowired
-    private GLCommonClientLedgerRepository clientLedgerRepository;
+    private FertilizerRepository fertilizerRepository;
 
     @Autowired
-    private FertilizerRepository fertilizerRepository;
+    private GLCommonClientLedgerRepository clientLedgerRepository;
 
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
@@ -47,24 +47,48 @@ public class FertilizerService {
         }
         fertilizer.setNumber(maxNumber + 1);
 
-        //convert month and year
-        //one month
-        if ("ONE-MONTH".equals(fertilizer.getMonth())) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy - MM");
-            fertilizer.setMonth(formatter.format(new Date()));
-
-            System.out.println("ONE-MONTH");
-        } else {
-        //two month
-            System.out.println("TWO-MONTH");
-        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy - MM");
+        fertilizer.setMonth(formatter.format(new Date()));
 
         //TODO:transaction
-        for (TFertilizerDetail tFertilizerDetail : fertilizer.getTFertilizerDetailList()) {
+        for (TFertilizerDetail tFertilizerDetail : fertilizer.gettFertilizerDetailList()) {
             tFertilizerDetail.setFertilizer(fertilizer);
         }
 
         fertilizer = fertilizerRepository.save(fertilizer);
+
+        //one month
+        if ("ONE-MONTH".equals(fertilizer.getType())) {
+
+            //client leger
+            TClientLedger clientLedger = new TClientLedger();
+            clientLedger.setBranch(fertilizer.getBranch());
+            clientLedger.setClient(fertilizer.getClient());
+            clientLedger.setDate(fertilizer.getDate());
+            clientLedger.setCreditAmount(BigDecimal.ZERO);
+            clientLedger.setDebitAmount(fertilizer.getAmount());
+            clientLedger.setSettlementOrder(1);
+            clientLedger.setSettlementType("FERTILIZSER");
+            clientLedger.setStatus(PENDING_STATUS);
+            clientLedger.setTransaction(1);
+            clientLedgerRepository.save(clientLedger);
+            System.out.println("ONE-MONTH");
+        } else {
+            TClientLedger clientLedger = new TClientLedger();
+            clientLedger.setBranch(fertilizer.getBranch());
+            clientLedger.setClient(fertilizer.getClient());
+            clientLedger.setDate(fertilizer.getDate());
+            clientLedger.setCreditAmount(BigDecimal.ZERO);
+            clientLedger.setDebitAmount(fertilizer.getAmount().divide(new BigDecimal(2)));
+            clientLedger.setSettlementOrder(1);
+            clientLedger.setSettlementType("FERTILIZSER");
+            clientLedger.setStatus(PENDING_STATUS);
+            clientLedger.setTransaction(1);
+            clientLedgerRepository.save(clientLedger);
+
+            //two month
+            System.out.println("TWO-MONTH");
+        }
         return fertilizer.getIndexNo();
     }
 
@@ -76,5 +100,9 @@ public class FertilizerService {
         TFertilizer fertilizer = fertilizerRepository.getOne(indexNo);
         fertilizer.setStatus(DELETED_STATUS);
         fertilizerRepository.save(fertilizer);
+    }
+
+    public List<TFertilizer> getPendingRequest(Integer branch) {
+        return fertilizerRepository.findByBranchAndStatus(branch, PENDING_STATUS);
     }
 }

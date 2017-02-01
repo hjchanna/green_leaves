@@ -1,17 +1,19 @@
 (function () {
     angular.module("appModule")
             .factory("FertilizerModel", function (FertilizerModelService, FertilizerModelFactory, $q, $filter) {
-                function FertilizerModel() {
+                function FertilizerRequestModel() {
                     this.constructor();
                 }
 
-                FertilizerModel.prototype = {
+                FertilizerRequestModel.prototype = {
                     data: {},
                     tempData: {},
                     //client information
                     clients: [],
                     //products information
                     products: [],
+                    //routeOfficers information
+                    routeOfficers: [],
                     constructor: function () {
                         var that = this;
                         that.data = FertilizerModelFactory.newData();
@@ -23,6 +25,11 @@
                         FertilizerModelService.loadClients()
                                 .success(function (data) {
                                     that.clients = data;
+                                });
+
+                        FertilizerModelService.loadRouteOfficers()
+                                .success(function (data) {
+                                    that.routeOfficers = data;
                                 });
                     },
                     clear: function () {
@@ -76,35 +83,25 @@
                     itemTotal: function () {
                         var itemTotal = 0.0;
                         var that = this;
-                            //ONE-MONTH
-                        if (that.data.month === "ONE-MONTH") {
-                            angular.forEach(this.data.tfertilizerDetailList, function (value) {
-                                itemTotal += parseFloat(that.product(value.product).salePrice * value.qty);
-                            });
-                            return itemTotal;
-                            //TWO-MONTH
-                        } else {
-                            angular.forEach(this.data.tfertilizerDetailList, function (value) {
-                                itemTotal += parseFloat(that.product(value.product).salePrice * value.qty);
-                            });
-                            return itemTotal / 2;
-                        }
+                        angular.forEach(this.data.tfertilizerDetailList, function (value) {
+                            itemTotal += parseFloat(that.product(value.product).salePrice * value.qty);
+                        });
+                        return itemTotal;
                     },
                     save: function () {
-                        console.log(this.data);
+                        console.log("save model");
                         var that = this;
                         var defer = $q.defer();
-                        if (this.data.date && this.data.client && this.data.month) {
-                            FertilizerModelService.saveFertilizer(JSON.stringify(this.data))
-                                    .success(function (data) {
-                                        defer.resolve();
-                                        that.clear();
-                                    })
-                                    .error(function (data) {
-                                        that.clear();
-                                        defer.reject();
-                                    });
-                        }
+                        this.data.amount = this.itemTotal();
+                        FertilizerModelService.saveFertilizer(JSON.stringify(this.data))
+                                .success(function (data) {
+                                    defer.resolve();
+                                    that.clear();
+                                })
+                                .error(function (data) {
+                                    that.clear();
+                                    defer.reject();
+                                });
                         return defer.promise;
                     },
                     deleteFertilizer: function () {
@@ -154,6 +151,17 @@
                         });
                         return label;
                     },
+                    //return label for route officer
+                    routeOfficerLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routeOfficers, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
                     //find customer by client number
                     searchClientByClientNo: function (clientNumber) {
                         var client;
@@ -166,6 +174,6 @@
                         return client;
                     }
                 };
-                return FertilizerModel;
+                return FertilizerRequestModel;
             });
 }());
