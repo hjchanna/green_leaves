@@ -27,7 +27,8 @@
         "chequeBookModule",
         "bankModule",
         "bankBranchModule",
-        "receiveDashboardModule"
+        "receiveDashboardModule",
+        "sidePanelModule"
         
     ]);
 
@@ -105,6 +106,10 @@
                         .when("/master/supplier/manage-supplier", {
                             templateUrl: "app/master/supplier/supplier.html",
                             controller: "supplierController"
+                        })
+                        .when("/master/side-panel/side-panel", {
+                            templateUrl: "app/master/side-panel/side-panel.html",
+                            controller: "sidePanelController"
                         })
                         .when("/master/category/category", {
                             templateUrl: "app/master/category/category.html",
