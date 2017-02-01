@@ -76,6 +76,19 @@
                             templateUrl: "app/transactions/green-leaves/client-advance/approve/client-advance-approve.html",
                             controller: "ClientAdvanceApproveController"
                         })
+                        //client loan
+                        .when("/transactions/green-leaves/client-loan/client-loan-request", {
+                            templateUrl: "app/transactions/green-leaves/client-loan/request/loan-request.html",
+                            controller: "ClientLoanRequestController"
+                        })
+                        .when("/transactions/green-leaves/client-loan/client-loan-check", {
+                            templateUrl: "app/transactions/green-leaves/client-loan/check/loan-check.html",
+                            controller: "ClientLoanCheckController"
+                        })
+                        .when("/transactions/green-leaves/client-loan/client-loan-approve", {
+                            templateUrl: "app/transactions/green-leaves/client-loan/approve/loan-approve.html",
+                            controller: "ClientLoanApproveController"
+                        })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
                             controller: "GreenLeavesPaymentController"
@@ -163,19 +176,7 @@
                             templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighReportController"
                         })
-                        //loan
-                        .when("/loan/loan-request", {
-                            templateUrl: "app/loan/loan-request/loan-request.html",
-                            controller: "LoanRequestController"
-                        })
-                        .when("/loan/loan-check", {
-                            templateUrl: "app/loan/loan-request/loan-check.html",
-                            controller: "LoanCheckController"
-                        })
-                        .when("/loan/loan-approve", {
-                            templateUrl: "app/loan/loan-request/loan-approve.html",
-                            controller: "LoanApproveController"
-                        })
+
                         .when("/dashboard/dashboard", {
                             templateUrl: "app/dashboard/receive-dashboard/receive-dashboard.html",
                             controller: "receiveDashboardController"
