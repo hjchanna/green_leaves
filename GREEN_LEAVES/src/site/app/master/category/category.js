@@ -148,13 +148,7 @@
                     $scope.ui.focus();
                 };
 
-                //edit funtion
-                $scope.ui.edit = function (categorys, index) {
-                    $scope.ui.mode = "EDIT";
-                    $scope.model.category = categorys;
-                    $scope.model.categorys.splice(index, 1);
-                    $scope.ui.focus();
-                };
+                 
 
 
                 $scope.ui.init = function () {

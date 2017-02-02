@@ -28,7 +28,8 @@
         "bankModule",
         "bankBranchModule",
         "receiveDashboardModule",
-        "sidePanelModule"
+        "sidePanelModule",
+        "teaGradeModule"
         
     ]);
 
@@ -114,6 +115,10 @@
                         .when("/master/category/category", {
                             templateUrl: "app/master/category/category.html",
                             controller: "categoryController"
+                        })
+                        .when("/master/tea-grade/tea-grade", {
+                            templateUrl: "app/master/tea-grade/tea-grade.html",
+                            controller: "teaGradeController"
                         })
 
                         .when("/master/item/manage-item-department", {
