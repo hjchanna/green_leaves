@@ -1,7 +1,7 @@
 (function () {
     'use strict';
-    var controller = function ($scope, $filter, FertilizerModel, $timeout, Notification, ConfirmPane) {
-        $scope.model = new FertilizerModel();
+    var controller = function ($scope, $filter, FertilizerRequestModel, $timeout, Notification, ConfirmPane) {
+        $scope.model = new FertilizerRequestModel();
         $scope.customerId;
 
         $scope.ui = {};

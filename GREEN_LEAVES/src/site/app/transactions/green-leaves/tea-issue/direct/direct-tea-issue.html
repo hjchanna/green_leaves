@@ -28,8 +28,7 @@
                 <table>
                     <col style="width: 20%"/>
                     <col style="width: 40%"/>
-                    <col style="width: 20%"/>
-                    <col style="width: 20%"/>
+                    <col style="width: 40%"/>
                     <col/>
                     <thead class="background-dark">
                         <tr>
@@ -42,14 +41,6 @@
                                 <input smart-input="text" class="form-control" ng-model="model.data.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
-                                <label></label>
-                                ONE MONTH &nbsp;
-                                <input ng-model="model.data.type" type="radio" name="months" value="ONE-MONTH" checked="checked"/>
-                            </th>
-                            <th>
-                                <label></label>
-                                TWO MONTH &nbsp;
-                                <input ng-model="model.data.type" type="radio" name="months" value="TWO-MONTH" checked="checked"/>
                             </th>
                         </tr>
                     </thead>

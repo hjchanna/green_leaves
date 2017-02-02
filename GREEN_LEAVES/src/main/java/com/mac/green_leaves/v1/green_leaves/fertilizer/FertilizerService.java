@@ -86,6 +86,9 @@ public class FertilizerService {
             clientLedger.setTransaction(1);
             clientLedgerRepository.save(clientLedger);
 
+            TClientLedger clientLedger1 = clientLedger;
+            clientLedgerRepository.save(clientLedger1);
+
             //two month
             System.out.println("TWO-MONTH");
         }
@@ -102,7 +105,17 @@ public class FertilizerService {
         fertilizerRepository.save(fertilizer);
     }
 
-    public List<TFertilizer> getPendingRequest(Integer branch) {
-        return fertilizerRepository.findByBranchAndStatus(branch, PENDING_STATUS);
+    public List<Object[]> getPendingRequestBtROuteOfficer(Integer branch) {
+        return fertilizerRepository.getPendingRequest(branch);
+    }
+
+    List<TFertilizer> getPendingRequestByBranchAndROuteOfficer(Integer branch, Integer routeOfficer) {
+        return fertilizerRepository.findByBranchAndStatusAndRouteOfficer(branch, PENDING_STATUS, routeOfficer);
+    }
+
+    public void approveOrRejectFertilizer(Integer indexNo, String status) {
+        TFertilizer fertilizer = fertilizerRepository.getOne(indexNo);
+        fertilizer.setStatus(status);
+        fertilizerRepository.save(fertilizer);
     }
 }

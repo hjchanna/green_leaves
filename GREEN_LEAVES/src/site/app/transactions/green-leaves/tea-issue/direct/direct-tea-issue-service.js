@@ -44,5 +44,5 @@
     };
 
     angular.module("appModule")
-            .service("FertilizerModelService", service);
+            .service("DirectTeaIssueService", service);
 }());

@@ -27,7 +27,9 @@
         "bankModule",
         "bankBranchModule",
         "receiveDashboardModule",
-        "teasIssueModule"
+        "directTeaIssueModule",
+        "officerTeaIssueModule",
+        "teaSettlementModule"
     ]);
 
     //constants
@@ -104,10 +106,19 @@
                             templateUrl: "app/transactions/green-leaves/fertilizer/approve/fertilizer-approve.html",
                             controller: "FertilizerApproveController"
                         })
-                        .when("/transactions/green-leaves/tea-issue", {
-                            templateUrl: "app/transactions/green-leaves/tea-issue/tea-issue.html",
-                            controller: "teasIssueController"
+                        .when("/transactions/green-leaves/direct-tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/direct/direct-tea-issue.html",
+                            controller: "directTeaIssueController"
                         })
+                        .when("/transactions/green-leaves/officer-tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/officer/officer-tea-issue.html",
+                            controller: "officerTeaIssueController"
+                        })
+                        .when("/transactions/green-leaves/tea-settlment", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/settlment/tea-settlement.html",
+                            controller: "teaSettlementController"
+                        })
+                     
                         //master
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",

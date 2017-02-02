@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("FertilizerModel", function (FertilizerModelService, FertilizerModelFactory, $q, $filter) {
+            .factory("FertilizerRequestModel", function (FertilizerModelService, FertilizerModelFactory, $q, $filter) {
                 function FertilizerRequestModel() {
                     this.constructor();
                 }
