@@ -163,7 +163,6 @@
     </div>
 </div>
 <div class="fab-container">
-    <a class="fab fab-default" ng-show="model.fertilizerItems" ng-click="ui.clear();"><i class="glyphicon glyphicon-remove"></i></a>
-    <a class="fab fab-danger" ng-show="model.fertilizerItems" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
-    <a class="fab fab-lg fab-primary" ng-show="model.fertilizerItems" ng-click="ui.approve();"><i class="glyphicon glyphicon-ok"></i></a>
+    <a class="fab fab-danger" ng-show="model.fertilizerItems.length" ng-click="ui.reject();"><i class="glyphicon glyphicon-edit"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="model.fertilizerItems.length" ng-click="ui.approve();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

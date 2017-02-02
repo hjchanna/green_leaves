@@ -32,7 +32,7 @@
         $scope.ui.searchClient = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
-                var searchClient = $scope.model.searchClientByClientNo($scope.customerId);
+                var searchClient = $scope.model.searchClientByClientNo($scope.model.data.customerId);
                 if (angular.isUndefined(searchClient)) {
                     Notification.error("client not found!");
                     $scope.model.data.client = null;

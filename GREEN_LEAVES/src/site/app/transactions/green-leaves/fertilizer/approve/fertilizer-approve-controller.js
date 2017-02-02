@@ -14,6 +14,10 @@
             $scope.ui.selectedRouteOfficer = routeOfficer;
         };
 
+        $scope.ui.clear = function () {
+            $scope.model.clear();
+        };
+
         $scope.ui.getItemData = function (indexNo, $index) {
             $scope.model.getItemData(indexNo);
             $scope.ui.selectedRequest = indexNo;

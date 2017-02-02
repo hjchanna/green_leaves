@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("FertilizerRequestModel", function (FertilizerModelService, FertilizerModelFactory, $q, $filter) {
+            .factory("FertilizerRequestModel", function (FertilizerModelService, FertilizersModelFactory, $q, $filter) {
                 function FertilizerRequestModel() {
                     this.constructor();
                 }
@@ -16,8 +16,9 @@
                     routeOfficers: [],
                     constructor: function () {
                         var that = this;
-                        that.data = FertilizerModelFactory.newData();
-                        that.tempData = FertilizerModelFactory.newTempData();
+                        this.data = FertilizersModelFactory.newData();
+                        this.tempData = FertilizersModelFactory.newTempData();
+                        
                         FertilizerModelService.loadProducts()
                                 .success(function (data) {
                                     that.products = data;
@@ -33,9 +34,8 @@
                                 });
                     },
                     clear: function () {
-                        var that = this;
-                        that.data = FertilizerModelFactory.newData();
-                        that.tempData = FertilizerModelFactory.newTempData();
+                        this.data = FertilizersModelFactory.newData();
+                        this.tempData = FertilizersModelFactory.newTempData();
                         this.itemTotal();
                     },
                     load: function () {
@@ -60,7 +60,7 @@
                         var defer = $q.defer();
                         if (parseInt(this.tempData.product + this.tempData.qty) > 0) {
                             this.data.tfertilizerDetailList.push(this.tempData);
-                            this.tempData = FertilizerModelFactory.newTempData();
+                            this.tempData = FertilizersModelFactory.newTempData();
                             this.itemTotal();
                             defer.resolve();
                         } else {

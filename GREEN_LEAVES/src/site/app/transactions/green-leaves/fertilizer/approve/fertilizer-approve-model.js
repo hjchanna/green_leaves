@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("FertilizerApproveModel", function (FertilizerModelService, FertilizerModelFactory, $q, $filter) {
+            .factory("FertilizerApproveModel", function (FertilizerModelService) {
                 function FertilizerApproveModel() {
                     this.constructor();
                 }
@@ -23,8 +23,6 @@
                     },
                     constructor: function () {
                         var that = this;
-                        that.data = FertilizerModelFactory.newData();
-                        that.tempData = FertilizerModelFactory.newTempData();
                         FertilizerModelService.loadProducts()
                                 .success(function (data) {
                                     that.products = data;
