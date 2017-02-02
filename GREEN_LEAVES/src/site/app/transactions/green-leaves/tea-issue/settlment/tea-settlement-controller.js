@@ -3,9 +3,10 @@
     angular.module("teaSettlementModule", []);
     //controller
     angular.module("teaSettlementModule")
-            .controller("teaSettlementController", function ($scope) {
+            .controller("teaSettlementController", function ($scope,TeaSettlementModel) {
+                
                 //data models 
-                $scope.model = {};
+                $scope.model = new TeaSettlementModel();
 
                 //ui models
                 $scope.ui = {};

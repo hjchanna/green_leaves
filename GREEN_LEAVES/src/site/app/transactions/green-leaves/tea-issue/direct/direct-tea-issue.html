@@ -14,10 +14,9 @@
                     <thead class="background-dark">
                         <tr>
                             <th>
-                                <input class="form-control" style="margin-top: 5px" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" />
                             </th>
                             <th>
-                                <input id="date" style="margin-top: 5px" input-hint="Date" class="form-control" smart-input="date"  ng-model="model.data.date">
+                                <input id="date" style="margin-top: 5px" class="form-control" smart-input="date"  ng-model="model.data.date">
                             </th>
                             <th>
                                 <input class="form-control" style="margin-top: 5px" smart-input="integer"  input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
@@ -34,7 +33,7 @@
                         <tr>
                             <th>
                                 <label>SUPPLIER ID</label>
-                                <input smart-input="integer" class="form-control" ng-model="customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
+                                <input smart-input="integer" class="form-control" ng-model="model.data.customerId" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
                                 <label>SUPPLIER</label>
@@ -58,20 +57,20 @@
                     <thead class="background-dark">
                         <tr>
                             <th>
-                                <label>ITEM</label>
-                                <input id="item" type="text" ng-model="model.tempData.product" uib-typeahead="product.indexNo as (product.productNo + ' - ' + product.name) for product in model.products|filter:$viewValue|limitTo:10" class="form-control" typeahead-input-formatter="model.productLabel($model)" typeahead-on-select="ui.getPrice($model);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <label>TEA GRADE</label>
+                                <input id="teaGrade" type="text" ng-model="model.data.teaGrade" uib-typeahead="teaGrade.indexNo as (teaGrade.indexNo + ' - ' + teaGrade.name) for teaGrade in model.teaGrades|filter:$viewValue|limitTo:10" class="form-control" typeahead-input-formatter="model.teaGradeLabel($model)" typeahead-on-select="ui.getPrice($model);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>PRICE</label>
-                                <input smart-input="decimal" ng-model="model.tempData.price" class="form-control" ng-disabled="true"/>
+                                <input smart-input="decimal" ng-model="model.data.price" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
                                 <label>QTY</label>
-                                <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input smart-input="integer" ng-model="model.data.qty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>VALUE</label>
-                                <input smart-input="decimal" ng-model="model.tempData.amount" class="form-control" ng-disabled="true"/>
+                                <input smart-input="decimal" ng-model="model.data.amount" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
                                 <button style="margin-top: 10px;" type="button" class="btn btn-primary" ng-click="ui.addDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
@@ -82,20 +81,22 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);" ng-show="model.data.tfertilizerDetailList.length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);" ng-show="model.teaIssueList.length">
                 <table class="table-hover">
-                    <col style="width: 35%"/>
+                    <col style="width: 25%"/>
                     <col style="width: 20%"/>
                     <col style="width: 15%"/>
+                    <col style="width: 10%"/>
                     <col style="width: 15%"/>
                     <col style="width: 15%"/>
                     <col/>
                     <tbody >                       
-                        <tr style="height: 40px" ng-repeat="detail in model.data.tfertilizerDetailList">
-                            <td class="text-left"><label class="label label-default">{{model.product(detail.product).productNo}}</label>{{model.product(detail.product).name}}</td>
-                            <td class="text-right">{{model.product(detail.product).salePrice | number:2}}</td>
-                            <td class="text-right">{{detail.qty}}</td>
-                            <td class="text-right">{{model.product(detail.product).salePrice * detail.qty | number:2}}</td>
+                        <tr style="height: 40px" ng-repeat="teaIssueDate in model.teaIssueList">
+                            <td class="text-left"><label class="label label-primary">{{model.client(teaIssueDate.client).clientNumber}}</label>{{model.client(teaIssueDate.client).name}}</td>
+                            <td class="text-left"><label class="label label-default">{{model.teaGrade(teaIssueDate.teaGrade).indexNo}}</label>{{model.teaGrade(teaIssueDate.teaGrade).name}}</td>
+                            <td class="text-right">{{teaIssueDate.price| number:2}}</td>
+                            <td class="text-right">{{teaIssueDate.qty}}</td>
+                            <td class="text-right">{{teaIssueDate.price * teaIssueDate.qty| number:2}}</td>
                             <td>
                                 <a class="btn btn-default" ng-click="ui.editDetail($index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteDetail($index);"><span class="glyphicon glyphicon-trash"></span></a>
                             </td>
@@ -103,8 +104,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100% - 260px);" ng-hide="model.data.tfertilizerDetailList.length">
-                <h1>PLEASE ADD ITEMS :(</h1>
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100% - 260px);" ng-hide="model.teaIssueList.length">
+                <h1>PLEASE ADD TEA ISSUE REQUEST :(</h1>
             </div>
             <div class="col-xs-12">
                 <table style="padding-right: 5px;">

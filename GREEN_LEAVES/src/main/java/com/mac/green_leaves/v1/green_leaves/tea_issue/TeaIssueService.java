@@ -6,6 +6,8 @@
 package com.mac.green_leaves.v1.green_leaves.tea_issue;
 
 import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,44 @@ public class TeaIssueService {
 
     @Autowired
     private TeaIssueRepository teaIssueRepository;
+    List<TTeaIssue> getPendingTeaIssueRequest;
 
     public List<TTeaIssue> getAllIteaIssue() {
         return teaIssueRepository.findAll();
+    }
+
+    private final String PENDING_STATUS = "PENDING";
+    private final String APPROVE_STATUS = "APPROVE";
+    private final String DELETED_STATUS = "DELETED";
+
+    public Integer saveTeaIssue(List<TTeaIssue> teaIssues) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        for (TTeaIssue teaIssue : teaIssues) {
+            teaIssue.setBranch(branch);
+            teaIssue.setStatus(PENDING_STATUS);
+            Integer maxNumber = teaIssueRepository.getMaximumNumberByBranch(teaIssue.getBranch());
+            if (maxNumber == null) {
+                maxNumber = 0;
+            }
+            teaIssue.setNumber(maxNumber + 1);
+            teaIssueRepository.save(teaIssues);
+        }
+        return 1;
+    }
+
+    public TTeaIssue getTeaIssue(Date date, Integer number, String type) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return teaIssueRepository.findByDateAndBranchAndNumberAndType(date, 1, number, type);
+    }
+
+    void deleteTeaIssue(Integer indexNo) {
+        TTeaIssue teaIssue = teaIssueRepository.getOne(indexNo);
+        teaIssue.setStatus(DELETED_STATUS);
+        teaIssueRepository.save(teaIssue);
+    }
+
+    List<TTeaIssue> getPendingTeaIssueRequest(String type) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return teaIssueRepository.findByBranchAndTypeAndStatus(1, type, PENDING_STATUS);
     }
 }

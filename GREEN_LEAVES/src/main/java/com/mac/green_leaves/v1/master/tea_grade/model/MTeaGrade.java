@@ -3,25 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.green_leaves.tea_issue.model;
+package com.mac.green_leaves.v1.master.tea_grade.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,10 +41,6 @@ public class MTeaGrade implements Serializable {
     @NotNull
     @Column(name = "price")
     private BigDecimal price;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teaGrade", fetch = FetchType.EAGER)
-    private List<TTeaIssue> tTeaIssueList;
 
     public MTeaGrade() {
     }
@@ -87,14 +77,6 @@ public class MTeaGrade implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public List<TTeaIssue> gettTeaIssueList() {
-        return tTeaIssueList;
-    }
-
-    public void settTeaIssueList(List<TTeaIssue> tTeaIssueList) {
-        this.tTeaIssueList = tTeaIssueList;
     }
 
 }

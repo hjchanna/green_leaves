@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("FertilizerModelFactory", function () {
+            .factory("TeaIssueModelFactory", function () {
                 var factory = {};
 
                 factory.newData = function () {
@@ -14,6 +14,7 @@
                         "client": null,
                         "price": null,
                         "qty": null,
+                        "type": null,
                         "status": "PENDING",
                         "teaGrade":null
                     };

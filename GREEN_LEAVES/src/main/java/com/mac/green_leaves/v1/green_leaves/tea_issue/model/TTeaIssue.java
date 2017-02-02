@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.tea_issue.model;
 
+import com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -78,17 +79,22 @@ public class TTeaIssue implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
+    @Column(name = "type")
+    private String type;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "status")
     private String status;
 
-    @JoinColumn(name = "tea_grade", referencedColumnName = "index_no")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private MTeaGrade teaGrade;
+    @Column(name = "tea_grade")
+    private Integer teaGrade;
 
     public TTeaIssue() {
     }
 
-    public TTeaIssue(Integer indexNo, int branch, int number, Date date, int transaction, Integer routeOfficer, Integer client, BigDecimal price, Integer qty, String status, MTeaGrade teaGrade) {
+    public TTeaIssue(Integer indexNo, int branch, int number, Date date, int transaction, Integer routeOfficer, Integer client, BigDecimal price, Integer qty, String type, String status, Integer teaGrade) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.number = number;
@@ -98,6 +104,7 @@ public class TTeaIssue implements Serializable {
         this.client = client;
         this.price = price;
         this.qty = qty;
+        this.type = type;
         this.status = status;
         this.teaGrade = teaGrade;
     }
@@ -142,22 +149,6 @@ public class TTeaIssue implements Serializable {
         this.transaction = transaction;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public MTeaGrade getTeaGrade() {
-        return teaGrade;
-    }
-
-    public void setTeaGrade(MTeaGrade teaGrade) {
-        this.teaGrade = teaGrade;
-    }
-
     public Integer getRouteOfficer() {
         return routeOfficer;
     }
@@ -188,6 +179,30 @@ public class TTeaIssue implements Serializable {
 
     public void setQty(Integer qty) {
         this.qty = qty;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getTeaGrade() {
+        return teaGrade;
+    }
+
+    public void setTeaGrade(Integer teaGrade) {
+        this.teaGrade = teaGrade;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

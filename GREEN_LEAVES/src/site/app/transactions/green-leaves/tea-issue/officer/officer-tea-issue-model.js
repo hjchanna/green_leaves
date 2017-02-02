@@ -1,11 +1,11 @@
 (function () {
     angular.module("appModule")
-            .factory("DirectTeaIssueModel", function (TeaIssueService, TeaIssueModelFactory, $q, $filter) {
-                function DirectTeaIssueModel() {
+            .factory("OfficerTeaIssueModel", function (TeaIssueService, TeaIssueModelFactory, $q, $filter) {
+                function OfficerTeaIssueModel() {
                     this.constructor();
                 }
 
-                DirectTeaIssueModel.prototype = {
+                OfficerTeaIssueModel.prototype = {
                     //data model
                     data: {},
                     //client information
@@ -39,7 +39,7 @@
                         var defer = $q.defer();
                         var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                         var number = this.data.number;
-                        var type = "DIRECT_TEA_ISSUE";
+                        var type = "OFFICER_TEA_ISSUE";
                         TeaIssueService.loadTeaIssue(date, number, type)
                                 .success(function (data) {
                                     that.data = {};
@@ -58,7 +58,7 @@
                         var defer = $q.defer();
                         var that = this;
                         if (that.data.teaGrade && parseInt(that.data.qty) > 0) {
-                            that.data.type = "DIRECT_TEA_ISSUE";
+                            that.data.type = "OFFICER_TEA_ISSUE";
                             that.teaIssueList.push(that.data);
                             that.data = TeaIssueModelFactory.newData();
                             that.itemTotal();
@@ -114,16 +114,6 @@
                         this.teaIssueList.splice(index, 1);
                         this.itemTotal();
                     },
-                    client: function (indexNo) {
-                        var client;
-                        angular.forEach(this.clients, function (value) {
-                            if (value.indexNo === parseInt(indexNo)) {
-                                client = value;
-                                return;
-                            }
-                        });
-                        return client;
-                    },
                     teaGrade: function (indexNo) {
                         var client;
                         angular.forEach(this.teaGrades, function (value) {
@@ -143,16 +133,6 @@
                             }
                         });
                         return client;
-                    },
-                    clientLabel: function (indexNo) {
-                        var label;
-                        angular.forEach(this.clients, function (value) {
-                            if (value.indexNo === indexNo) {
-                                label = value.clientNumber + "-" + value.name;
-                                return;
-                            }
-                        });
-                        return label;
                     },
                     teaGradeLabel: function (indexNo) {
                         var label;
@@ -174,19 +154,8 @@
                             }
                         });
                         return label;
-                    },
-                    //find customer by client number
-                    searchClientByClientNo: function (clientNumber) {
-                        var client;
-                        angular.forEach(this.clients, function (value) {
-                            if (value.clientNumber === parseInt(clientNumber)) {
-                                client = value;
-                                return;
-                            }
-                        });
-                        return client;
                     }
                 };
-                return DirectTeaIssueModel;
+                return OfficerTeaIssueModel;
             });
 }());

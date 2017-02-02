@@ -1,10 +1,10 @@
 (function () {
     //module
-    angular.module("directTeaIssueModule", []);
+    angular.module("officerTeaIssueModule", []);
     //controller
-    angular.module("directTeaIssueModule")
-            .controller("directTeaIssueController", function ($scope, DirectTeaIssueModel, $filter, $timeout, Notification, ConfirmPane) {
-                $scope.model = new DirectTeaIssueModel();
+    angular.module("officerTeaIssueModule")
+            .controller("officerTeaIssueController", function ($scope, OfficerTeaIssueModel, $filter, $timeout, Notification, ConfirmPane) {
+                $scope.model = new OfficerTeaIssueModel();
                 $scope.customerId;
 
                 $scope.ui = {};
@@ -32,7 +32,7 @@
                 };
 
                 $scope.ui.delete = function () {
-                    ConfirmPane.dangerConfirm("Delete Direct Issue")
+                    ConfirmPane.dangerConfirm("Delete Route Officer Tea Issue")
                             .confirm(function () {
                                 $scope.model.deleteTeaIssue();
                                 $scope.ui.discard();
@@ -41,21 +41,6 @@
                                 console.log("REJECT");
                             });
 
-                };
-
-                //find client by client number
-                $scope.ui.searchClient = function (e) {
-                    var code = e ? e.keyCode || e.which : 13;
-                    if (code === 13) {
-                        var searchClient = $scope.model.searchClientByClientNo($scope.model.data.customerId);
-                        if (angular.isUndefined(searchClient)) {
-                            Notification.error("client not found!");
-                            $scope.model.data.client = null;
-                        } else {
-                            var client = $scope.model.client(searchClient.indexNo);
-                            $scope.model.data.client = client.indexNo;
-                        }
-                    }
                 };
 
                 $scope.ui.discard = function () {
@@ -74,7 +59,6 @@
                 };
 
                 $scope.ui.getPrice = function (indexNo) {
-                    console.log(indexNo);
                     $scope.model.data.price = $scope.model.teaGrade(indexNo).price;
                 };
 

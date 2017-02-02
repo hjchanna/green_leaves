@@ -3,7 +3,7 @@
   <persistence-unit name="com.mac.green_leaves_green-leaves_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue</class>
-    <class>com.mac.green_leaves.v1.green_leaves.tea_issue.model.MTeaGrade</class>
+    <class>com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
