@@ -21,13 +21,15 @@
         "productModule",
         "employeeModule",
         "routeModule",
-        "fertilizerModule",
         "branchModule",
         "greenLeavesWeighReportModule",
         "chequeBookModule",
         "bankModule",
         "bankBranchModule",
-        "receiveDashboardModule"
+        "receiveDashboardModule",
+        "directTeaIssueModule",
+        "officerTeaIssueModule",
+        "teaSettlementModule"
     ]);
 
     //constants
@@ -109,10 +111,27 @@
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
                             controller: "routeDetailsController"
                         })
-                        .when("/transactions/green-leaves/fertilizer", {
-                            templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
-                            controller: "fertilizerController"
+                        .when("/transactions/green-leaves/fertilizer/request", {
+                            templateUrl: "app/transactions/green-leaves/fertilizer/request/fertilizer-request.html",
+                            controller: "FertilizerRequestController"
                         })
+                        .when("/transactions/green-leaves/fertilizer/approve", {
+                            templateUrl: "app/transactions/green-leaves/fertilizer/approve/fertilizer-approve.html",
+                            controller: "FertilizerApproveController"
+                        })
+                        .when("/transactions/green-leaves/direct-tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/direct/direct-tea-issue.html",
+                            controller: "directTeaIssueController"
+                        })
+                        .when("/transactions/green-leaves/officer-tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/officer/officer-tea-issue.html",
+                            controller: "officerTeaIssueController"
+                        })
+                        .when("/transactions/green-leaves/tea-settlment", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/settlment/tea-settlement.html",
+                            controller: "teaSettlementController"
+                        })
+                     
                         //master
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",
