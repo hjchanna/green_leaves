@@ -35,7 +35,6 @@
 
                         TeaIssueService.getPendingTeaIssueRequest()
                                 .success(function (data) {
-                                    console.log(data);
                                     that.pendingTeaIssueRequest = data;
                                 });
                     },
@@ -46,10 +45,40 @@
                                     that.pendingTeaIssueRequest = data;
                                 });
                     },
-                    itemTotal: function () {
+                    approve: function (indexNo) {
+                        var that = this;
+                        var status = "APPROVE";
+                        TeaIssueService.approveOrRejectTeaIssueRequest(indexNo, status)
+                                .success(function (data) {
+                                    var id = -1;
+                                    for (var i = 0; i < that.pendingTeaIssueRequest.length; i++) {
+                                        if (that.pendingTeaIssueRequest[i].indexNo === indexNo) {
+                                            id = i;
+                                        }
+                                    }
+                                    that.pendingTeaIssueRequest.splice(id, 1);
+                                });
+                    },
+                    reject: function (indexNo) {
+                        var that = this;
+                        var status = "REJECT";
+                        TeaIssueService.approveOrRejectTeaIssueRequest(indexNo, status)
+                                .success(function (data) {
+                                    var id = -1;
+                                    for (var i = 0; i < that.pendingTeaIssueRequest.length; i++) {
+                                        if (that.pendingTeaIssueRequest[i].indexNo === indexNo) {
+                                            id = i;
+                                        }
+                                    }
+                                    that.pendingTeaIssueRequest.splice(id, 1);
+                                });
+                    },
+                    itemTotal: function (type) {
                         var itemTotal = 0.0;
-                        angular.forEach(this.teaIssueList, function (value) {
-                            itemTotal += value.price * value.qty;
+                        angular.forEach(this.pendingTeaIssueRequest, function (value) {
+                            if (type === value.type) {
+                                itemTotal += value.price * value.qty;
+                            }
                         });
                         return itemTotal;
                     },
@@ -83,6 +112,7 @@
                         });
                         return client;
                     },
+                    //return label for tea grade
                     teaGradeLabel: function (indexNo) {
                         var label;
                         angular.forEach(this.teaGrades, function (value) {
@@ -104,6 +134,7 @@
                         });
                         return label;
                     },
+                    //return label for client
                     clientLabel: function (indexNo) {
                         var label;
                         angular.forEach(this.clients, function (value) {
