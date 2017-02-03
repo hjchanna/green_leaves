@@ -54,14 +54,20 @@ public class TeaIssueService {
         return teaIssueRepository.findByDateAndBranchAndNumberAndType(date, 1, number, type);
     }
 
-    void deleteTeaIssue(Integer indexNo) {
+    public void deleteTeaIssue(Integer indexNo) {
         TTeaIssue teaIssue = teaIssueRepository.getOne(indexNo);
         teaIssue.setStatus(DELETED_STATUS);
         teaIssueRepository.save(teaIssue);
     }
 
-    List<TTeaIssue> getPendingTeaIssueRequest(String type) {
+    public List<TTeaIssue> getPendingTeaIssueRequest() {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return teaIssueRepository.findByBranchAndTypeAndStatus(1, type, PENDING_STATUS);
+        return teaIssueRepository.findByBranchAndStatus(1, PENDING_STATUS);
+    }
+
+    public void approveOrRejectTeaIssue(Integer indexNo, String status) {
+        TTeaIssue teaIssue = teaIssueRepository.getOne(indexNo);
+        teaIssue.setStatus(status);
+        teaIssueRepository.save(teaIssue);
     }
 }

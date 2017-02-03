@@ -59,7 +59,7 @@
                     addDetail: function () {
                         var defer = $q.defer();
                         if (parseInt(this.tempData.product + this.tempData.qty) > 0) {
-                            this.data.tfertilizerDetailList.push(this.tempData);
+                            this.data.tfertilizerDetailList.unshift(this.tempData);
                             this.tempData = FertilizersModelFactory.newTempData();
                             this.itemTotal();
                             defer.resolve();

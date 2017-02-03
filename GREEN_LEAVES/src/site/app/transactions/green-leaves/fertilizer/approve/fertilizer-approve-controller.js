@@ -12,6 +12,7 @@
         $scope.ui.getClientData = function (routeOfficer) {
             $scope.model.selectClientData(routeOfficer);
             $scope.ui.selectedRouteOfficer = routeOfficer;
+            $scope.model.fertilizerItems = [];
         };
 
         $scope.ui.clear = function () {
@@ -39,7 +40,7 @@
         $scope.ui.reject = function () {
             ConfirmPane.dangerConfirm("This Fertilizer Request Reject")
                     .confirm(function () {
-                        $scope.model.approve($scope.ui.selectedRequest, $scope.ui.selectedIndex);
+                        $scope.model.reject($scope.ui.selectedRequest, $scope.ui.selectedIndex);
                         $scope.ui.selectedRequest = null;
                         $scope.ui.selectedIndex = null;
                     })

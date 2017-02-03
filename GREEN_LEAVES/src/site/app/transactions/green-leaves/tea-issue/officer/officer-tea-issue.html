@@ -80,7 +80,7 @@
             </div>
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);" ng-show="model.teaIssueList.length">
                 <table class="table-hover">
-                    <col style="width: 25%"/>
+                    <col style="width: 30%"/>
                     <col style="width: 20%"/>
                     <col style="width: 15%"/>
                     <col style="width: 10%"/>
@@ -89,7 +89,7 @@
                     <col/>
                     <tbody >                       
                         <tr style="height: 40px" ng-repeat="teaIssueDate in model.teaIssueList">
-                            <td class="text-left"><label class="label label-primary">{{model.routeOfficer(teaIssueDate.routeOfficer).index}}</label>{{model.routeOfficer(teaIssueDate.routeOfficer).name}}</td>
+                            <td class="text-left"><label class="label label-primary">{{model.routeOfficer(teaIssueDate.routeOfficer).indexNo}}</label>{{model.routeOfficer(teaIssueDate.routeOfficer).name}}</td>
                             <td class="text-left"><label class="label label-default">{{model.teaGrade(teaIssueDate.teaGrade).indexNo}}</label>{{model.teaGrade(teaIssueDate.teaGrade).name}}</td>
                             <td class="text-right">{{teaIssueDate.price| number:2}}</td>
                             <td class="text-right">{{teaIssueDate.qty}}</td>

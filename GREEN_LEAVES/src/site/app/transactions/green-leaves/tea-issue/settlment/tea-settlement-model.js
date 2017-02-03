@@ -28,10 +28,15 @@
                                     that.routeOfficers = data;
                                 });
 
+                        TeaIssueService.loadTeaGrade()
+                                .success(function (data) {
+                                    that.teaGrades = data;
+                                });
+
                         TeaIssueService.getPendingTeaIssueRequest()
                                 .success(function (data) {
-                                    that.pendingTeaIssueRequest = data;
                                     console.log(data);
+                                    that.pendingTeaIssueRequest = data;
                                 });
                     },
                     clear: function () {
@@ -68,6 +73,16 @@
                         });
                         return client;
                     },
+                    client: function (indexNo) {
+                        var client;
+                        angular.forEach(this.clients, function (value) {
+                            if (value.indexNo === parseInt(indexNo)) {
+                                client = value;
+                                return;
+                            }
+                        });
+                        return client;
+                    },
                     teaGradeLabel: function (indexNo) {
                         var label;
                         angular.forEach(this.teaGrades, function (value) {
@@ -84,6 +99,16 @@
                         angular.forEach(this.routeOfficers, function (value) {
                             if (value.indexNo === indexNo) {
                                 label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    clientLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.clients, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.clientNumber + "-" + value.name;
                                 return;
                             }
                         });

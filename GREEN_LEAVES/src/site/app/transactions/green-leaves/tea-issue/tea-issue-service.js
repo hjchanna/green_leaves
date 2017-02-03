@@ -29,12 +29,12 @@
         };
 
         //tea issue settlement
-        this.getPendingTeaIssueRequest = function (type) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/pending-tea-issue/" + type);
+        this.getPendingTeaIssueRequest = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/pending-tea-issue");
         };
 
-        this.approveOrRejectRequest = function (indexNo, status) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/approve-or-reject-fertilizer/" + indexNo + "/" + status);
+        this.approveOrRejectTeaIssueRequest = function (indexNo, status) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/approve-or-reject-tea-issue/" + indexNo + "/" + status);
         };
 
     };

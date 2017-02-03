@@ -54,7 +54,7 @@ public class FertilizerController {
     }
     
     @RequestMapping(value = "/approve-or-reject-fertilizer/{indexNo}/{status}", method = RequestMethod.GET)
-    public Integer deleteFertilizer(@PathVariable Integer indexNo,@PathVariable String status) {
+    public Integer approveFertilizer(@PathVariable Integer indexNo,@PathVariable String status) {
         fertilizerService.approveOrRejectFertilizer(indexNo, status);
         return indexNo;
     }

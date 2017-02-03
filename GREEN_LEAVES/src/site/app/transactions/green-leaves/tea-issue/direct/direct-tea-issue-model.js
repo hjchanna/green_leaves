@@ -57,7 +57,7 @@
                         console.log(this.data);
                         var defer = $q.defer();
                         var that = this;
-                        if (that.data.teaGrade && parseInt(that.data.qty) > 0) {
+                        if (that.data.date && that.data.client && that.data.teaGrade && parseInt(that.data.qty) > 0) {
                             that.data.type = "DIRECT_TEA_ISSUE";
                             that.teaIssueList.push(that.data);
                             that.data = TeaIssueModelFactory.newData();

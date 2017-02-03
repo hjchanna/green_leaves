@@ -45,8 +45,14 @@ public class TeaIssueController {
         return indexNo;
     }
 
-    @RequestMapping(value = "/pending-tea-issue/{type}", method = RequestMethod.GET)
-    public List<TTeaIssue> getPendingRequestByType(@PathVariable String type) {
-        return teaIssueService.getPendingTeaIssueRequest(type);
+    @RequestMapping(value = "/pending-tea-issue", method = RequestMethod.GET)
+    public List<TTeaIssue> getPendingRequestByType() {
+        return teaIssueService.getPendingTeaIssueRequest();
+    }
+
+    @RequestMapping(value = "/approve-or-reject-tea-issue/{indexNo}/{status}", method = RequestMethod.DELETE)
+    public Integer approveOrRejectTeaIssue(@PathVariable Integer indexNo, @PathVariable String status) {
+        teaIssueService.approveOrRejectTeaIssue(indexNo, status);
+        return indexNo;
     }
 }

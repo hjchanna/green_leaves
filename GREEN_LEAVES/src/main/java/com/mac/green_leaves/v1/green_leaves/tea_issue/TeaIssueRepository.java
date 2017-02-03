@@ -23,5 +23,5 @@ public interface TeaIssueRepository extends JpaRepository<TTeaIssue, Integer> {
 
     public TTeaIssue findByDateAndBranchAndNumberAndType(Date date, Integer branch, Integer number, String type);
 
-    public List<TTeaIssue> findByBranchAndTypeAndStatus(Integer branch, String type, String status);
+    public List<TTeaIssue> findByBranchAndStatus(Integer branch, String status);
 }
