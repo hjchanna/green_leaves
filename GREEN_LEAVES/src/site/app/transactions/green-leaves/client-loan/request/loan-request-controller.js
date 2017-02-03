@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("LoanRequestController", function ($scope, $timeout, LoanRequestModel) {
+            .controller("ClientLoanRequestController", function ($scope, $timeout, LoanRequestModel) {
                 $scope.model = new LoanRequestModel();
                 $scope.ui = {};
 

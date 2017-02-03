@@ -1,9 +1,12 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, $filter, ConfirmPane, ClientAdvanceRequestModel) {
+    var controller = function ($scope, $timeout, $filter, ConfirmPane, ClientAdvanceRequestModel, ClientAdvanceRequestService) {
 
         $scope.model = new ClientAdvanceRequestModel();
+        $scope.model.clientLedgerHistory = [];
+
+
         $scope.ui = {};
 
         $scope.ui.new = function () {
@@ -83,33 +86,67 @@
 
         };
 
+        $scope.ui.getClientLedgerTotal = function () {
+            var sum = [0, 0, 0, 0];
+            angular.forEach($scope.model.clientLedgerHistory, function (value) {
+                sum[0] = sum[0] + value[2];
+                sum[1] = sum[1] + value[3];
+            });
+            sum[2] = sum[0] - sum[1];
+            sum[3] = sum[1] - sum[0];
+
+            sum[2] = sum[2] > 0 ? sum[2] : 0.0;
+            sum[3] = sum[3] > 0 ? sum[3] : 0.0;
+
+            return sum;
+        };
+        
         $scope.ui.init = function () {
             $scope.ui.mode = "IDEAL";
             $scope.ui.type = "NORMAL";
             $scope.model.clear();
 
-            $scope.$watch("[model.data.date,model.data.route]", function (newVal, oldVal) {
-                if ($scope.model.data.route) {
-                    $scope.model.findByRouteAndDate();
-                }
-            }, true);
+//            $scope.$watch("[model.data.date,model.data.route]", function (newVal, oldVal) {
+//                if ($scope.model.data.route) {
+//                    $scope.model.findByRouteAndDate();
+//                }
+//            }, true);
+//
+//            $scope.$watch("[model.data.date,model.data.route,model.tempData.client]", function (newVal, oldVal) {
+//                if ($scope.model.data.route) {
+//                    $scope.model.getGreenLeavesHistory();
+//                }
+//            }, true);
+//
+//            $scope.$watch("[model.tempData.asAtDate,model.tempData.client]", function (newVal, oldVal) {
+//                if ($scope.model.tempData.client) {
+//                    $scope.model.getClientHistory();
+//                }
+//            }, true);
 
-            $scope.$watch("[model.data.date,model.data.route,model.tempData.client]", function (newVal, oldVal) {
-                if ($scope.model.data.route) {
-                    $scope.model.getGreenLeavesHistory();
-                }
-            }, true);
+//            $scope.series = ['Normal', 'Super'];
+//            $scope.colors = ['#45b7cd', '#ff6384'];
 
-            $scope.$watch("[model.tempData.asAtDate,model.tempData.client]", function (newVal, oldVal) {
-                if ($scope.model.tempData.client) {
-                    $scope.model.getClientHistory();
-                }
-            }, true);
+            //client ledger auto refresh
+            $scope.$watch('[model.tempData.client, model.tempData.asAtDate]', function () {
+                console.log("watch");
+                var client = $scope.model.tempData.client;
+                var asAtDate = $scope.model.tempData.asAtDate;
 
-            $scope.series = ['Normal', 'Super'];
-            $scope.colors = ['#45b7cd', '#ff6384'];
+                if (client && asAtDate) {
+                    ClientAdvanceRequestService.loadClientLedgerHistory(client, asAtDate)
+                            .success(function (data) {
+                                $scope.model.clientLedgerHistory = data;
+                            })
+                            .error(function () {
+                                $scope.model.clientLedgerHistory = [];
+                            });
+                } else {
+                    $scope.model.clientLedgerHistory = [];
+                }
+            });
         };
-        
+
         $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
         $scope.options = {
             scales: {
@@ -130,7 +167,7 @@
             }
         };
 
-    $scope.ui.init();
+        $scope.ui.init();
     };
 
     angular.module("appModule")

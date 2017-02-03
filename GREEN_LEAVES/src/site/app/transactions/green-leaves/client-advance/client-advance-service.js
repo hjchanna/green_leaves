@@ -2,11 +2,20 @@
     'use strict';
 
     var service = function (systemConfig, $http) {
+
+        this.loadClientLedgerHistory = function (client, asAtDate) {
+            var url = systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/client-ledger/" + client + "/" + new Date(asAtDate).toISOString();
+            console.log(url);
+
+            return $http.get(url);
+        };
+
         this.loadRoutes = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
         this.loadClient = function () {
+            console.log("cliet");
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
         };
 

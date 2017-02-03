@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.loan.model;
+package com.mac.green_leaves.v1.green_leaves.client_loan.model;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;

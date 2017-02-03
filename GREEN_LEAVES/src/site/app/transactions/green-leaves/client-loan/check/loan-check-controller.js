@@ -1,22 +1,23 @@
 (function () {
     angular.module("appModule")
-            .controller("LoanApproveController", function ($scope, LoanApproveModel) {
-                $scope.model = new LoanApproveModel();
+            .controller("ClientLoanCheckController", function ($scope, LoanCheckModel) {
+                $scope.model = new LoanCheckModel();
                 $scope.ui = {};
 
-                $scope.ui.approve = function () {
-                    $scope.model.approve();
+                $scope.ui.check = function () {
+                    $scope.model.checkRequest();
                     $scope.model.clear();
-                };
-
-                $scope.ui.reject = function () {
-                    $scope.model.reject();
                 };
 
                 $scope.ui.init = function () {
                     $scope.model.clear();
                 };
 
+                $scope.ui.selectData = function (indexNo) {
+                    $scope.model.selectData(indexNo);
+                    $scope.ui.selectedDataIndex = indexNo;
+                };
+                
                 $scope.ui.selectDetail = function (indexNo) {
                     $scope.model.selectDetail(indexNo);
                     $scope.ui.selectedDetailIndex = indexNo;

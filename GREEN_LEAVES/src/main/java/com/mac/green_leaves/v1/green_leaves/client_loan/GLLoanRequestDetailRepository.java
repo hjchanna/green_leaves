@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.loan;
+package com.mac.green_leaves.v1.green_leaves.client_loan;
 
-import com.mac.green_leaves.v1.loan.model.TLoanRequestDetail;
+import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
 import java.io.Serializable;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
