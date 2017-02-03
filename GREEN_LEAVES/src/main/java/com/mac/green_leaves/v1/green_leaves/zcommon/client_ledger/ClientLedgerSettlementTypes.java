@@ -12,6 +12,7 @@ package com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger;
 public class ClientLedgerSettlementTypes {
 
     public static final ClientLedgerSettlementType GREEN_LEAVES = new ClientLedgerSettlementType("GREEN_LEAVES", 1000);
+    public static final ClientLedgerSettlementType ADVANCE = new ClientLedgerSettlementType("ADVANCE", 2);
 
     public static class ClientLedgerSettlementType {
 

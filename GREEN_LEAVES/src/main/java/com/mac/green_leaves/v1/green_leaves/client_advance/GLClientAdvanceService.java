@@ -9,6 +9,9 @@ import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerSettlementTypes;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.GLCommonClientLedgerRepository;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +21,7 @@ import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherLedgerTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherPaymentTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherStatus;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +45,9 @@ public class GLClientAdvanceService {
 
     @Autowired
     private GLClientAdvanceRequestRepository clientAdvanceRepository;
+
+    @Autowired
+    private GLCommonClientLedgerRepository clientLedgerRepository;
 //
 //    @Autowired
 //    private TransactionTypeReository transactionTypeReository;
@@ -61,11 +68,6 @@ public class GLClientAdvanceService {
 
         c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
         Date toDate = c.getTime();
-        
-        System.out.println(client);
-        System.out.println(fromDate);
-        System.out.println(toDate);
-        System.out.println(branch);
 
         return clientAdvanceRepository.clientLedgerHistory(client, fromDate, toDate, branch);
     }
@@ -142,7 +144,7 @@ public class GLClientAdvanceService {
         TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
         advanceRequestDetail.setStatus(ADVANCE_REQUEST_STATUS_APPROVED);
         clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
-      
+
         //voucher entry
         TVoucher voucher = new TVoucher();
         voucher.setBranch(advanceRequestDetail.getClientAdvanceRequest().getBranch());
@@ -157,7 +159,14 @@ public class GLClientAdvanceService {
         voucher.setStatus(VoucherStatus.ACTIVE);
         voucherRepository.save(voucher);
 
-      //TODO:client ledger entry
+        //client ledger entry
+        TClientLedger clientLedger = newClientLedger(
+                ClientLedgerSettlementTypes.ADVANCE.getSettlementType(),
+                ClientLedgerSettlementTypes.ADVANCE.getSettlementOrder(),
+                advanceRequestDetail.getClient(),
+                0.0,
+                advanceRequestDetail.getAmount().doubleValue());
+        clientLedgerRepository.save(clientLedger);
     }
 
     public void rejectAdvanceRequestDetail(Integer indexNo) {
@@ -169,11 +178,29 @@ public class GLClientAdvanceService {
         //TODO:voucer entry
     }
 
+    private TClientLedger newClientLedger(
+            String settlementType,
+            Integer settlementOrder,
+            Integer client,
+            Double debitAmount,
+            Double creditAmount
+    ) {
+        TClientLedger clientLedger = new TClientLedger();
+
+        clientLedger.setSettlementType(settlementType);
+        clientLedger.setSettlementOrder(settlementOrder);
+        clientLedger.setClient(client);
+        clientLedger.setDebitAmount(BigDecimal.valueOf(debitAmount));
+        clientLedger.setCreditAmount(BigDecimal.valueOf(creditAmount));
+
+        return clientLedger;
+    }
+
     /*public List<Object[]> findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
         return clientAdvanceRepository.findByBranchAndDateAndClient(branch, date, client);
     }*/
 
-    /*public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
+ /*public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
 
         String year = new SimpleDateFormat("yyy").format(date);
         String month = new SimpleDateFormat("MM").format(date);
@@ -210,7 +237,6 @@ public class GLClientAdvanceService {
         }
         return chartData;
     }*/
-
 //    List<TransactionType> findTransactionTypeAll() {
 //        return transactionTypeReository.findAll();
 //    }
@@ -222,5 +248,4 @@ public class GLClientAdvanceService {
         }
         return advanceRequests.get(0);
     }*/
-
 }
