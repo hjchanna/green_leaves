@@ -10,6 +10,7 @@ import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceR
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerSettlementTypes;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerStatus;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.GLCommonClientLedgerRepository;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
 import java.text.SimpleDateFormat;
@@ -166,6 +167,10 @@ public class GLClientAdvanceService {
                 advanceRequestDetail.getClient(),
                 0.0,
                 advanceRequestDetail.getAmount().doubleValue());
+        clientLedger.setBranch(advanceRequestDetail.getClientAdvanceRequest().getBranch());
+        clientLedger.setTransaction(0);
+        clientLedger.setDate(advanceRequestDetail.getAsAtDate());
+        clientLedger.setStatus(ClientLedgerStatus.ACTIVE);
         clientLedgerRepository.save(clientLedger);
     }
 

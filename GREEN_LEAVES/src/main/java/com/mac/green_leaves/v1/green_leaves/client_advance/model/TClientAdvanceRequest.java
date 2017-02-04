@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.green_leaves.client_advance.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -71,7 +72,7 @@ public class TClientAdvanceRequest implements Serializable {
     private String status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientAdvanceRequest", fetch = FetchType.EAGER)
-    private Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
+    private List<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
 
     public TClientAdvanceRequest() {
     }
@@ -145,11 +146,11 @@ public class TClientAdvanceRequest implements Serializable {
         this.status = status;
     }
 
-    public Collection<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
+    public List<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
         return clientAdvanceRequestDetails;
     }
 
-    public void setClientAdvanceRequestDetails(Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
+    public void setClientAdvanceRequestDetails(List<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
         this.clientAdvanceRequestDetails = clientAdvanceRequestDetails;
     }
 

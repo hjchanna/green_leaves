@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
+import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.Date;
@@ -36,7 +37,6 @@ public class GLClientAdvanceController {
     public List<Object[]> clientLedgerHistory(@PathVariable Integer client, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
 
-        System.out.println(clientAdvanceService.clientLedgerHistory(client, date, branch));
         return clientAdvanceService.clientLedgerHistory(client, date, branch);
     }
 
@@ -58,6 +58,11 @@ public class GLClientAdvanceController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        
+        System.out.println(advanceRequest.getDate()+"--------------");
+        for (TClientAdvanceRequestDetail clientAdvanceRequestDetail : advanceRequest.getClientAdvanceRequestDetails()) {
+            System.out.println(clientAdvanceRequestDetail.getAmount() + "-----------------");
+        }
 
         return clientAdvanceService.saveAdvanceRequest(advanceRequest, branch);
     }

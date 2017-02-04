@@ -171,66 +171,66 @@
     <!--end left div-->
     <!--start right div-->
     <div class="col-xs-4 background-dark">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" >
             <!--<div class="smart-scroll-y">-->
-                <!--start cash - 1st tab-->
-                <uib-tabset>
-                    <uib-tab heading="CASH">
-                        <div class="col-xs-12" >
-                            <table class="control-table">
-                                <col style="width: 30%"/>
-                                <col style="width: 30%"/>
-                                <col style="width: 40%"/>
+            <!--start cash - 1st tab-->
+            <uib-tabset>
+                <uib-tab heading="CASH">
+                    <div class="col-xs-12" ng-show="model.cashSummary.length">
+                        <table class="control-table">
+                            <col style="width: 30%"/>
+                            <col style="width: 30%"/>
+                            <col style="width: 40%"/>
 
-                                <thead>
-                                    <tr>
-                                        <th>CASH</th>
-                                        <th>COUNT</th>
-                                        <th>VALUE</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            <thead>
+                                <tr>
+                                    <th>CASH</th>
+                                    <th>COUNT</th>
+                                    <th>VALUE</th>
+                                </tr>
+                            </thead>
+                        </table>
 
-                            <table class="table-hover">
-                                <col style="width: 30%">
-                                <col style="width: 30%">
-                                <col style="width: 40%">
-                                <tbody>
-                                    <tr ng-repeat="detail in model.cashSummary">
-                                        <td>{{detail.amount}}</td>
-                                        <td>{{detail.count}}</td>
-                                        <td>{{detail.count * detail.amount}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table-hover">
+                            <col style="width: 30%">
+                            <col style="width: 30%">
+                            <col style="width: 40%">
+                            <tbody>
+                                <tr ng-repeat="detail in model.cashSummary">
+                                    <td>{{detail.amount}}</td>
+                                    <td>{{detail.count}}</td>
+                                    <td>{{detail.count * detail.amount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 284px);" ng-hide="model.cashSummary.length">
-                            <h1>NO SELECTED VOUCHERS TO VIEW CASH DENOMINATION :(</h1>
-                        </div>
-                    </uib-tab>
+                    <div class="placeholder col-xs-12 animation-fade" style="margin-top: 5px; height: calc(100vh - 284px);" ng-hide="model.cashSummary.length">
+                        <h1>PLEASE SELECT CASH VOUCHERS :(</h1>
+                    </div>
+                </uib-tab>
 
-                    <uib-tab index="1" heading="Bank">
-                        <div class="col-xs-12" style="margin-top: 10px;">
-                            <table class="control-table">
-                                <col style="width: 35%"/>
-                                <col />
+                <uib-tab index="1" heading="Bank">
+                    <div class="col-xs-12" style="margin-top: 10px;">
+                        <table class="control-table">
+                            <col style="width: 35%"/>
+                            <col />
 
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label for="bank" class="control-label text-left">Bank</label>
-                                        </td>
-                                        <td>
-                                            <input class="form-control text-right" id="bank" type="text" ng-model="model.bank">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </uib-tab>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label for="bank" class="control-label text-left">Bank</label>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-right" id="bank" type="text" ng-model="model.bank">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </uib-tab>
 
-                </uib-tabset>
+            </uib-tabset>
 
             <!--</div>-->
 

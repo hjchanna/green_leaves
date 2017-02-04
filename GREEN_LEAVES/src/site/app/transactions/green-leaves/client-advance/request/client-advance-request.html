@@ -26,20 +26,26 @@
 
             <div class="col-xs-12 " style="flex: 0 0 auto;">
                 <table class="control-table">
+                    <col style="width: 15%"/>
                     <col style="width: auto"/>
-                    <col style="width: 25%"/>
+                    <col style="width: 20%"/>
                     <col style="width: 20%"/>
                     <col style="width: 75px"/>
 
                     <thead class="background-dark">
                         <tr>
                             <th class="text-left">
+                                <label>CLIENT ID</label>
+                                <input smart-input="integer" class="form-control" ng-model="tempClient"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.validateClient($event)">
+                            </th>
+                            
+                            <th class="text-left">
                                 <label>CLIENT</label>
                                 <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-left">
                                 <label>AS AT DATE</label>
-                                <input smart-input="date" class="form-control" ng-model="model.tempData.asAtDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="asAtDate"   smart-input="date" class="form-control" ng-model="model.tempData.asAtDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>AMOUNT</label>
