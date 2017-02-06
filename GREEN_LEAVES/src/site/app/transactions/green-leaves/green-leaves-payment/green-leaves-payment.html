@@ -11,8 +11,109 @@
 </div>
 
 <div class="index-content-body">
+
+    <div class="col-xs-4 background-dark border-dark-right" style="height: calc(100vh - 51px);">
+        <div class="row">
+
+            <!--start voucher type selection-->
+            <div class="border-bottom col-xs-12">
+                <div class="btn-group" style="width: 100%; margin-top: 5px; margin-bottom: 5px;" uib-dropdown dropdown-append-to-body>
+
+                    <button type="button" class="btn btn-primary" style="width: calc(100% - 26px);">
+                        All Vouchers
+                    </button>
+
+                    <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                        <span class="caret"></span>
+                        <span class="sr-only">Split button!</span>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                        <li role="menuitem"><a href="#">Client Advance Vouchers</a></li>
+                        <li role="menuitem"><a href="#">Client Loan Vouchers</a></li>
+                        <li class="divider"></li>
+                        <li role="menuitem"><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--end voucher type selection-->
+
+            <!--start other filters-->
+            <div class="col-xs-12">
+                <table class="control-table">
+                    <col style="width: 30%"/>
+                    <col style="width: 70%"/>
+
+                    <thead>
+                        <tr>
+                            <td>
+                                CLIENT
+                            </td>
+                            <td>
+                                <input class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                EMPLOYEE
+                            </td>
+                            <td>
+                                <input class="form-control">
+                            </td>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+            <!--end other filters-->
+
+
+
+        </div>
+    </div>
+
+    <!--start voucher list area-->
+    <div class="col-xs-4 background-light">
+        <div class="row">
+
+            <!--start voucher list-->
+            <div class="col-xs-12">
+                <table class="control-table table-hover">
+                    <col style="width: 60%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 30%"/>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="line-height: 18px; margin-top: 5px; margin-bottom: 5px;">
+                                    <b>A.B.Client Name</b>
+                                    <br/>
+                                    <small>description</small>
+                                </div>
+                            </td>
+                            <td>
+                                <label class="label label-default">CASH</label>
+                            </td>
+                            <td class="text-right">
+                                25000.00
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end voucher list-->
+
+            <div class="col-xs-12 placeholder" style="margin: 5px 0 5px 0; height: calc(100vh - 62px);">
+                <h1>PLEASE SELECT A VOUCHER TYPE AND FILTERS :(</h1>
+            </div>
+        </div>
+    </div>
+    <!--end voucher list area-->
+
+
     <!--start left div-->
-    <div class="col-xs-8 background-light border-dark-right">
+    <!--div class="col-xs-8 background-light border-dark-right">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12 background-dark border-dark-bottom">
 
@@ -116,61 +217,61 @@
                         </tr>
                     </thead>
                 </table>
-            </div>
+            </div-->
 
-            <!--end table body div-->
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 243px);" ng-show="model.vouchers.length">
-                <table class="control-table">
-                    <col style="width: 7%">
-                    <col style="width: 15%">
-                    <col style="width: 25%">
-                    <col style="width: 20%">
-                    <col style="width: 11%">
-                    <col style="width: 11%">
-                    <col style="width: 10%">
-                    <col style="width: 7%">
-                    <tbody>
-                        <tr ng-class="voucher.chxSelected ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter :{client: model.search.client.indexNo} |filter :{employee: model.search.employee.indexNo} |filter :{transactionType: model.search.transactionType.indexNo}|filter :{paymentType: model.search.paymentType}">
-                            <td><span class="label label-default">{{voucher.indexNo}}</span></td>
-                            <td>{{voucher.description}}</td>
-                            <td>{{model.getClient(voucher.client)}}</td>
-                            <td>{{model.getRoute(voucher.client)}}</td>
-                            <td >{{voucher.paymentType}}</td>
-                            <td class="text-right">{{voucher.amount|number:2}}</td>
-                            <td class="text-center"><input id="chk" ng-click="ui.selectDetail(voucher);" type="checkbox" checklist-model="user.voucher" ng-model="voucher.chxSelected" ng-checked="master" checklist-value="voucher" /><label for="chk"></label></td>
-                            <td >
-                                <button class="btn btn-primary" ng-click="ui.edit(voucher)" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-edit"></span></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
+    <!--end table body div-->
+    <!--            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 243px);" ng-show="model.vouchers.length">
+                    <table class="control-table">
+                        <col style="width: 7%">
+                        <col style="width: 15%">
+                        <col style="width: 25%">
+                        <col style="width: 20%">
+                        <col style="width: 11%">
+                        <col style="width: 11%">
+                        <col style="width: 10%">
+                        <col style="width: 7%">
+                        <tbody>
+                            <tr ng-class="voucher.chxSelected ? 'selected' : ''" ng-repeat="voucher in model.vouchers|filter :{client: model.search.client.indexNo} |filter :{employee: model.search.employee.indexNo} |filter :{transactionType: model.search.transactionType.indexNo}|filter :{paymentType: model.search.paymentType}">
+                                <td><span class="label label-default">{{voucher.indexNo}}</span></td>
+                                <td>{{voucher.description}}</td>
+                                <td>{{model.getClient(voucher.client)}}</td>
+                                <td>{{model.getRoute(voucher.client)}}</td>
+                                <td >{{voucher.paymentType}}</td>
+                                <td class="text-right">{{voucher.amount|number:2}}</td>
+                                <td class="text-center"><input id="chk" ng-click="ui.selectDetail(voucher);" type="checkbox" checklist-model="user.voucher" ng-model="voucher.chxSelected" ng-checked="master" checklist-value="voucher" /><label for="chk"></label></td>
+                                <td >
+                                    <button class="btn btn-primary" ng-click="ui.edit(voucher)" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-edit"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                </div>
+                <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 284px);" ng-hide="model.vouchers.length">
+                    <h1>NO VOUCHERS AVAILABLE :(<br>
+                        Select Voucher Type to Display.
+                    </h1>
+                </div>-->
+    <!--end table body div-->
+    <!--            <div class="col-xs-12" style="flex: 0 0 auto; height: 41px;">
+                    <table>
+                        <col style="width: 53%"/>
+                        <col style="width: 30%"/>
+                        <col style="width: 17%"/>
+                        <thead class="background-dark">
+                            <tr class="clickable">
+                                <th>TOTAL</th>
+                                <th class="text-right">{{model.vouchers?model.getRequestTotal(model.vouchers.indexNo):0 | number: 2}}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
-            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 284px);" ng-hide="model.vouchers.length">
-                <h1>NO VOUCHERS AVAILABLE :(<br>
-                    Select Voucher Type to Display.
-                </h1>
-            </div>
-            <!--end table body div-->
-            <div class="col-xs-12" style="flex: 0 0 auto; height: 41px;">
-                <table>
-                    <col style="width: 53%"/>
-                    <col style="width: 30%"/>
-                    <col style="width: 17%"/>
-                    <thead class="background-dark">
-                        <tr class="clickable">
-                            <th>TOTAL</th>
-                            <th class="text-right">{{model.vouchers?model.getRequestTotal(model.vouchers.indexNo):0 | number: 2}}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
+        </div>-->
     <!--end left div-->
     <!--start right div-->
-    <div class="col-xs-4 background-dark">
+    <div class="col-xs-4 background-dark border-dark-left">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);" >
             <!--<div class="smart-scroll-y">-->
             <!--start cash - 1st tab-->
@@ -205,12 +306,12 @@
                         </table>
                     </div>
 
-                    <div class="placeholder col-xs-12 animation-fade" style="margin-top: 5px; height: calc(100vh - 284px);" ng-hide="model.cashSummary.length">
+                    <div class="placeholder col-xs-12 animation-fade" style="margin-top: 5px; height: calc(100vh - 250px);" ng-hide="model.cashSummary.length">
                         <h1>PLEASE SELECT CASH VOUCHERS :(</h1>
                     </div>
                 </uib-tab>
 
-                <uib-tab index="1" heading="Bank">
+                <uib-tab index="1" heading="BANK">
                     <div class="col-xs-12" style="margin-top: 10px;">
                         <table class="control-table">
                             <col style="width: 35%"/>
