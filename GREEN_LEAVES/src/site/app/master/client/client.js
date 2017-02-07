@@ -28,6 +28,17 @@
                             });
                 };
 
+                factory.getMaximumNumberByBranch = function (callback) {
+                    var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients/next-client-number";
+                    $http.get(url)
+                            .success(function (data, status, header) {
+                                callback(data);
+                            })
+                            .error(function (data, status, header) {
+
+                            });
+                };
+
                 //save supplier
                 factory.saveSupplier = function (summary, callback, errorCallback) {
                     var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients/save-client";
@@ -43,7 +54,7 @@
                 };
 
                 //delete supplier
-                factory.deletesupplier = function (indexNo, callback,errorcallback) {
+                factory.deletesupplier = function (indexNo, callback, errorcallback) {
                     var url = systemConfig.apiUrl + "/api/v1/green-leaves/clients/delete-client/" + indexNo;
                     $http.delete(url)
                             .success(function (data, status, headers) {
@@ -105,6 +116,15 @@
                 $scope.ui.new = function () {
                     $scope.ui.mode = "NEW";
                     $scope.ui.forcuse();
+                    $scope.model.data.type = "NONE";
+                    $scope.ui.nextClientNumber();
+                };
+
+
+                $scope.ui.nextClientNumber = function () {
+                    clientFactory.getMaximumNumberByBranch(function (data) {
+                        $scope.model.data.clientNumber = data + 1;
+                    });
                 };
 
                 $scope.ui.forcuse = function () {
@@ -129,7 +149,7 @@
                     } else {
                         $scope.married = false;
                     }
-                    $scope.model.supplier.splice($index, 1);
+//                    $scope.model.supplier.splice($index, 1);
                     $scope.ui.forcuse();
                 };
 
@@ -158,8 +178,7 @@
                 $scope.validateInput = function () {
                     if ($scope.model.data.name
                             && $scope.model.data.clientNumber
-                            && $scope.model.data.name
-                            && $scope.model.data.type
+                            && $scope.model.data.nicNumber
                             && $scope.model.data.paymentMode
                             && $scope.model.data.route) {
                         return true;
@@ -195,12 +214,14 @@
                     clientFactory.saveSupplier(
                             detailJSON,
                             function (data) {
-                                Notification.success(data.indexNo +" - "+ "Client Save Successfully.");
+                                Notification.success(data.indexNo + " - " + "Client Save Successfully.");
                                 //reset model
-                                $scope.model.supplier.push(data);
+//                                $scope.model.supplier.push(data);
                                 $scope.model.reset();
                                 $scope.ui.changeDefault();
                                 $scope.ui.forcuse();
+                                $scope.ui.nextClientNumber();
+                                $scope.model.data.type = "NONE";
                             },
                             function (data) {
                                 $scope.ui.forcuse();
@@ -212,19 +233,19 @@
                 //delete
                 $scope.http.delete = function (indexNo) {
                     clientFactory.deletesupplier(indexNo
-                    , function () {
-                        var id = -1;
-                        for (var i = 0; i < $scope.model.supplier.length; i++) {
-                            if ($scope.model.supplier[i].indexNo === indexNo) {
-                                id = i;
+                            , function () {
+//                                var id = -1;
+//                                for (var i = 0; i < $scope.model.supplier.length; i++) {
+//                                    if ($scope.model.supplier[i].indexNo === indexNo) {
+//                                        id = i;
+//                                    }
+//                                }
+                                Notification.success(indexNo + " - " + "Client Delete Successfully.");
+//                                $scope.model.supplier.splice(id, 1);
                             }
-                        }
-                        Notification.success(indexNo +" - "+ "Client Delete Successfully.");
-                        $scope.model.supplier.splice(id, 1);
-                    }
-                            ,function (data){
-                                Notification.error(data);
-                            });
+                    , function (data) {
+                        Notification.error(data);
+                    });
                 };
 
                 //ui change default functions
@@ -248,10 +269,10 @@
                         $scope.model.routes = data;
                     });
 
-                    //loadSupplier
-                    clientFactory.loadSupplier(function (data) {
-                        $scope.model.supplier = data;
-                    });
+//                    //loadSupplier
+//                    clientFactory.loadSupplier(function (data) {
+//                        $scope.model.supplier = data;
+//                    });
                 };
                 $scope.init();
             });
