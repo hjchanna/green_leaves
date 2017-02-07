@@ -5,6 +5,7 @@
 
         $scope.model = new ClientAdvanceRequestModel();
         $scope.model.clientLedgerHistory = [];
+//        $scope.tempClient = null;
 
 
         $scope.ui = {};
@@ -48,6 +49,25 @@
             console.log("delete");
             $scope.model.deleteDetail(index);
             $scope.ui.focus();
+        };
+
+        $scope.ui.validateClient = function (event) {
+            var key = event ? event.keyCode || event.which : 13;
+
+            if (key === 13) {
+                console.log($scope.tempClient);
+                $scope.model.validateClient($scope.tempClient);
+
+                if ($scope.model.tempData.client) {
+                    $timeout(function () {
+                        angular.element(document.querySelectorAll("#asAtDate"))[0].focus();
+                    }, 10);
+                } else {
+                    $timeout(function () {
+                        angular.element(document.querySelectorAll("#client"))[0].focus();
+                    }, 10);
+                }
+            }
         };
 
         $scope.ui.focus = function () {
@@ -100,7 +120,7 @@
 
             return sum;
         };
-        
+
         $scope.ui.init = function () {
             $scope.ui.mode = "IDEAL";
             $scope.ui.type = "NORMAL";
@@ -143,6 +163,15 @@
                             });
                 } else {
                     $scope.model.clientLedgerHistory = [];
+                }
+            });
+
+            $scope.$watch('model.tempData.client', function () {
+                var c = $scope.model.client($scope.model.tempData.client);
+                if (c) {
+                    $scope.tempClient = c.clientNumber;
+                }else{
+                    $scope.tempClient = null;
                 }
             });
         };

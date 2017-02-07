@@ -9,6 +9,7 @@ import com.mac.green_leaves.v1.green_leaves.price_setting.model.TClientLedgerBal
 import com.mac.green_leaves.v1.green_leaves.price_setting.model.TPriceSetting;
 import com.mac.green_leaves.v1.green_leaves.price_setting.model.TPriceSettingDetail;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerSettlementTypes;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerStatus;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -198,7 +199,7 @@ public class GLPriceSettingService {
             clientLedger.setBranch(branch);
             clientLedger.setTransaction(0);
             clientLedger.setDate(new Date());//TODO:date
-            clientLedger.setStatus("ACTIVE");
+            clientLedger.setStatus(ClientLedgerStatus.ACTIVE);
 
             clientLedgerRepository.save(clientLedger);
         }

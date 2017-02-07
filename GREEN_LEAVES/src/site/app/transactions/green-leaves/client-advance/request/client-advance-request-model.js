@@ -215,8 +215,26 @@
                 });
                 return client;
             },
+            //validation
+            validateClient: function (clientNumber) {
+                var c = null;
+
+                angular.forEach(this.clients, function (value) {
+                    if (value.clientNumber === parseInt(clientNumber)) {
+                        c = value;
+                        return;
+                    }
+                });
+
+                if (c) {
+                    this.tempData.client = c.indexNo;
+                } else {
+                    this.tempData.client = null;
+                }
+            },
             //save advance request and request details
             saveClientApproveRequest: function () {
+                console.log(this.data);
                 var defer = $q.defer();
                 if (this.data.route && this.data.clientAdvanceRequestDetails.length !== 0) {
                     ClientAdvanceRequestService.saveAdvanceRequest(JSON.stringify(this.data))
