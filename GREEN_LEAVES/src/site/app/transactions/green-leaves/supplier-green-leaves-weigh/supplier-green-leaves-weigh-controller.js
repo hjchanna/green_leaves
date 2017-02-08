@@ -3,6 +3,7 @@
             .controller("SupplierGreenLeavesWeighController", function ($scope, $filter, optionPane, $timeout, SupplierGreenLeavesWeighModel, Notification, ConfirmPane, InputPane) {
                 $scope.model = new SupplierGreenLeavesWeighModel();
                 $scope.ui = {};
+                $scope.ui.insertProcessing = false;//Douple click duplicate bug fix
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
@@ -29,7 +30,6 @@
                         } else {
                             var client = $scope.model.client(searchClient.indexNo);
                             $scope.model.data.client = client.indexNo;
-                            $scope.model.findByBranchAndDateAndClient();
                             $timeout(function () {
                                 document.querySelectorAll("#normal-qty")[0].focus();
                             }, 10);
@@ -97,22 +97,33 @@
                     $scope.model.clear();
                 };
 
-                //insert normal leaves
                 $scope.ui.insertNormalDetail = function () {
-                    $scope.model.insertNormalDetail()
-                            .then(function () {
-                                $scope.ui.toggleType("NORMAL");
-                            });
+                    if (!$scope.ui.insertProcessing) {
+                        $scope.ui.insertProcessing = true;
+                        $scope.model.insertNormalDetail()
+                                .then(function () {
+                                    $scope.ui.toggleType("NORMAL");
+                                    $scope.ui.insertProcessing = false;
+                                }, function () {
+                                    $scope.ui.insertProcessing = false;
+                                });
+                    }
 
                 };
 
-                //insert super leaves
                 $scope.ui.insertSuperDetail = function () {
-                    $scope.model.insertSuperDetail()
-                            .then(function () {
-                                $scope.ui.toggleType("SUPER");
-                            });
+                    if (!$scope.ui.insertProcessing) {
+                        $scope.ui.insertProcessing = true;
+                        $scope.model.insertSuperDetail()
+                                .then(function () {
+                                    $scope.ui.toggleType("SUPER");
+                                    $scope.ui.insertProcessing = false;
+                                }, function () {
+                                    $scope.ui.insertProcessing = false;
+                                });
+                    }
                 };
+
 
                 //delete normal leaves or super leaves selected row tables
                 $scope.ui.deleteDetail = function (indexNo) {
@@ -158,8 +169,10 @@
 
                 //view pending weigh by branch
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
-                    if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
+                    if ($scope.model.data.branch) {
                         $scope.model.searchGreenLeavesWeight($scope.model.data.branch);
+                    } else {
+                        Notification.error("please select branch first!");
                     }
                 };
 
@@ -204,14 +217,23 @@
                         }
                     }, true);
 
-                    $scope.$watch("[model.data.branch,model.data.date,model.data.client]", function (newVal, oldVal) {
+                    $scope.$watch("[model.data.branch,model.data.date,model.data.client,model.data.searchClient]", function (newVal, oldVal) {
                         $scope.model.findByBranchAndDateAndClient();
                     }, true);
 
                     $scope.$watch("[model.data.client,model.data.searchClient]", function (newVal, oldVal) {
-                        var client = $scope.model.client($scope.model.data.client);
-                        $scope.model.data.route = client.route;
+                        if ($scope.model.data.client || $scope.model.data.searchClient) {
+                            var client = $scope.model.client($scope.model.data.client);
+                            $scope.model.data.route = client.route;
+                        }
                     }, true);
+
+                    $scope.$watch("model.data.client", function (newValue, oldValue) {
+                        if ($scope.model.data.client) {
+                            var client = $scope.model.client($scope.model.data.client);
+                            $scope.model.data.searchClient = client.clientNumber;
+                        }
+                    });
                 };
                 $scope.ui.init();
 

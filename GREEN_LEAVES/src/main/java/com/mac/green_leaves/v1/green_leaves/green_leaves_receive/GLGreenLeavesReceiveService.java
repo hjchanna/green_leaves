@@ -100,6 +100,8 @@ public class GLGreenLeavesReceiveService {
     }
 
     public void deleteGreenLeavesReceive(Integer indexNo) {
-        greenLeavesReceiveRepository.delete(indexNo);
+        TGreenLeavesReceive tGreenLeavesReceive = greenLeavesReceiveRepository.getOne(indexNo);
+        tGreenLeavesReceive.setStatus("DELETED");
+        greenLeavesReceiveRepository.save(tGreenLeavesReceive);
     }
 }

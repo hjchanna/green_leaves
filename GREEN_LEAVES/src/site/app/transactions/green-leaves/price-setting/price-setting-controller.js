@@ -38,9 +38,7 @@
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
                         for (var i = 0; i < $scope.model.data.priceSettingDetails.length; i++) {
-                            if ($scope.model.getTotalLeaves($scope.model.data.priceSettingDetails[i].route)[2] > 0) {
-                                $scope.model.data.priceSettingDetails[i].superRate = $scope.model.default.superRate;
-                            }
+                            $scope.model.data.priceSettingDetails[i].superRate = $scope.model.default.superRate;
                         }
                         $scope.ui.getTotalQtyAndValues();
                     }
@@ -50,9 +48,7 @@
                     var code = e ? e.keyCode || e.which : 13;
                     if (code === 13) {
                         for (var i = 0; i < $scope.model.data.priceSettingDetails.length; i++) {
-                            if ($scope.model.getTotalLeaves($scope.model.data.priceSettingDetails[i].route)[1] > 0) {
-                                $scope.model.data.priceSettingDetails[i].normalRate = $scope.model.default.normalRate;
-                            }
+                            $scope.model.data.priceSettingDetails[i].normalRate = $scope.model.default.normalRate;
                         }
                         $scope.ui.getTotalQtyAndValues();
                     }
@@ -85,7 +81,7 @@
                         $scope.ui.getTotalQtyAndValues();
                     }
                 };
-                
+
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
                 };

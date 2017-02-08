@@ -15,7 +15,7 @@
                         "cashAmount": 0,
                         "chequeAmount": 100,
                         "status": null,
-                        "companyCheque" : []
+                        "chxSelected": false
                     };
                     return data;
                 };
@@ -23,9 +23,16 @@
                 factory.newTempData = function () {
                     var tempData = {
                         "indexNo": null,
-                        "chequeNo": null,
-                        "bankDate": null,
-                        "amount" : null
+                        "branch": null,
+                        "transaction": null,
+                        "transactionType": null,
+                        "date": null,
+                        "client": null,
+                        "employee": null,
+                        "description": null,
+                        "amount": null,
+                        "paymentType": null,
+                        "status": null
                     };
 
                     return tempData;

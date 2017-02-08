@@ -1,0 +1,193 @@
+<div class="index-content-header"></div>
+<div class="index-content-body">
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12" style="flex: 0 0 auto; ">
+                <table class="control-table">
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <input class="form-control" smart-input="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                            <td>
+                                <input id="number" class="form-control" ng-model="model.data.number"  input-hint="number" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="col-xs-12 " style="flex: 0 0 auto;">
+                <table class="control-table">
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 15%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 70px"/>
+
+                    <thead class="background-dark">
+                        <tr>
+                            <th class="text-left">
+                                <label>CLIENT</label>
+                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.ClientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-left">
+                                <label>EXPECTED DATE</label>
+                                <input smart-input="date" class="form-control" ng-model="model.tempData.expectedLoanDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-right">
+                                <label>AMOUNT</label>
+                                <input smart-input="decimal" class="form-control text-right" ng-model="model.tempData.amount" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-right">
+                                <label>REMARK</label>
+                                <input class="form-control" ng-model="model.tempData.remark"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-right" style="vertical-align: bottom; padding-bottom: 5px; padding-right: 10px;">
+                                <button class="btn btn-default" ng-click="ui.insertLoanRequest();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.loanRequestDetails.length">
+                <table class="table-hover animation-fade">
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 15%"/>
+                    <col style="width: 25%"/>
+                    <col style="width: 70px"/>
+                    <tbody>
+                        <tr ng-repeat="requestDetail in model.data.loanRequestDetails">
+                            <td>
+                                <span class="label label-default">{{requestDetail.client|fixedLength:5}}</span>{{requestDetail.client.name}}
+                            </td>
+                            <td class="text-left">{{requestDetail.expectedLoanDate| date:'yy-MMMM'}}</td>
+                            <td class="text-right">{{requestDetail.amount|number:2}}</td>
+                            <td class="text-right">{{requestDetail.remark}}</td>
+                            <td class="text-right">
+                                <a class="btn btn-default" ng-click="ui.editRequest($index);"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger" ng-click="ui.deleteRequest($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 234px);" ng-hide="model.data.loanRequestDetails.length">
+                <h1>PLEASE ADD LOAN REQUEST TO DISPLAY :(</h1>
+            </div>
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 70%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 10%"/>
+                    <thead class="background-dark">
+                        <tr class="clickable">
+                            <th>LOAN REQUEST SUMMARY</th>
+                            <th class="text-right">{{model.data.getSummary() | number:2}}</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4 background-dark">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 15%;"/>
+                    <col />
+                    <thead>
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <th class="text-right">DEBIT</th>
+                            <th class="text-right">CREDIT</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 15%;"/>
+                    <tbody>
+                        <tr ng-repeat="clientRowData in getClientDetails(null)">
+                            <td>{{clientRowData.discription}}</td>
+                            <td class="text-right" >{{clientRowData.debit == 0? '-': clientRowData.debit}}</td>
+                            <td class="text-right" >{{clientRowData.credit == 0? '-': '- ('+clientRowData.credit+')'}}</td>
+                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 25%;"/>
+                    <col style="width: 15%;"/>
+                    <col />
+
+                    <tbody>
+                        <tr class="text-bold">
+                            <td>Total</td>
+                            <td class="text-right">{{getTotalDebit()}}</td>
+                            <td class="text-right">{{getTotalCredit()}}</td>
+                            <td></td>
+                        </tr>
+                        <tr class="text-bold">
+                            <td>Balance</td>
+                            <td class="text-right">{{getCreditBlance()}}</td>
+                            <td class="text-right">-</td>      
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12"  style="margin-top: 10px; height: 170px;">
+                <canvas id="base" class="chart-bar"
+                        data-chart-data="data" 
+                        data-chart-labels="labels" 
+                        data-chart-colors="colors"
+                        data-chart-dataset-override="datasetOverride">
+                </canvas>
+            </div>
+        </div>
+    </div>
+    <div class="fab-container">
+        <!--discard-->
+        <a class="fab fab-default" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+        <!--load-->
+        <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <!--clear-->
+        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
+        <!--delete-->
+        <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <!--edit-->
+        <a class="fab fab-success" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+
+        <!--new-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <!--save-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+    </div>
+</div>

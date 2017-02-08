@@ -8,6 +8,8 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_payment;
 import ch.qos.logback.core.pattern.color.GreenCompositeConverter;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucher;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucherPayment;
+import com.mac.green_leaves.v1.security.SETransactionTypeRepository;
+import com.mac.green_leaves.v1.security.model.RTransactionType;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -32,21 +34,56 @@ public class GLGreenLeavesPaymentService {
     
     @Autowired
     private GLVoucherPaymentRepository voucherPaymentRepository;
+    
+    @Autowired
+    private SETransactionTypeRepository transactionTypeRepository;
+    
 
     public List<TVoucher> allVouchers(int BRANCH) {
         return greenLeavesPaymentRepository.findByBranchAndStatus(BRANCH, STATUS_PENDING);
     }
 
-    public void saveVoucher(TVoucherPayment voucherPayment, int BRANCH) {
-        TVoucher  voucher = greenLeavesPaymentRepository.findOne(voucherPayment.getVoucher());
+    public void saveVoucher(TVoucher voucher, int BRANCH) {
         voucher.setStatus(STATUS_CHECK);
-        greenLeavesPaymentRepository.save(voucher);
+        updateVoucher(voucher);
         
+        TVoucherPayment voucherPayment=new TVoucherPayment();
+        BigDecimal cashAmount = new BigDecimal(0.00);
+        BigDecimal chequeAmount=new BigDecimal(0.00);
+        BigDecimal bankAmount=new BigDecimal(0.00);
+        
+        if("CASH".equals(voucher.getPaymentType())){
+            cashAmount=voucher.getAmount();
+        };
+        if("BANK".equals(voucher.getPaymentType())){
+            bankAmount=voucher.getAmount();
+        };
+        if("CHEQUE".equals(voucher.getPaymentType())){
+            chequeAmount=voucher.getAmount();
+        };
+                
+        voucherPayment.setAmount(voucher.getAmount());
         voucherPayment.setBranch(BRANCH);
+        voucherPayment.setCashAmount(cashAmount);
+        voucherPayment.setChequeAmount(chequeAmount);
+        voucherPayment.setBankAmount(bankAmount);
         voucherPayment.setDate(new Date());
         voucherPayment.setCashier(1);
         voucherPayment.setStatus(STATUS_CHECK);
+        voucherPayment.setTransaction(1);
+        voucherPayment.setVoucher(voucher.getIndexNo());
+//        voucherPayment.setIndexNo(0);//auto increment
         voucherPaymentRepository.save(voucherPayment);
+    }
+    // transaction type
+    public List<RTransactionType> allTransactionType(){
+        return transactionTypeRepository.findAll();
+    }
+
+    Integer updateVoucher(TVoucher voucher) {
+        
+        TVoucher voucher1 = greenLeavesPaymentRepository.save(voucher);
+        return voucher1.getIndexNo();
     }
 
 }

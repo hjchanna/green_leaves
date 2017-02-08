@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("GreenLeavesWeighController", function ($scope, $filter, ConfirmPane, optionPane, $timeout, GreenLeavesWeighModel) {
+            .controller("GreenLeavesWeighController", function ($scope, $filter, ConfirmPane, optionPane, $timeout, GreenLeavesWeighModel, Notification) {
                 $scope.model = new GreenLeavesWeighModel();
                 $scope.ui = {};
 
@@ -23,7 +23,6 @@
 
                 $scope.ui.edit = function () {
                     $scope.ui.mode = "EDIT";
-
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
                     }, 10);
@@ -41,6 +40,8 @@
                                 .then(function () {
                                     $scope.ui.toggleType("NORMAL");
                                     $scope.ui.insertProcessing = false;
+                                }, function () {
+                                    $scope.ui.insertProcessing = false;
                                 });
                     }
 
@@ -53,15 +54,20 @@
                                 .then(function () {
                                     $scope.ui.toggleType("SUPER");
                                     $scope.ui.insertProcessing = false;
+                                }, function () {
+                                    $scope.ui.insertProcessing = false;
                                 });
                     }
                 };
 
                 $scope.ui.getPendingGreenLeavesWeigh = function () {
-                    if ($scope.ui.mode === "IDEAL" || $scope.ui.model === "NORMAL") {
+                    if ($scope.model.data.branch) {
                         $scope.model.getPendingWeigh($scope.model.data.branch);
+                    } else {
+                        Notification.error("please select branch first!");
                     }
                 };
+                
                 $scope.ui.delete = function () {
                     ConfirmPane.dangerConfirm("Delete Green Leaves Weigh")
                             .confirm(function () {
