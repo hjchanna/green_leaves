@@ -1,0 +1,181 @@
+<div class="index-content-header">
+</div>
+
+<div class="index-content-body">
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <uib-tabset>
+                <uib-tab heading="ROUTE OFFICER TEA ISSUE" index="0">
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 50%"/>
+                            <col style="width: 35%"/>
+                            <col style="width: 15%"/>
+                            <col/>
+                            <tbody>                       
+                                <tr>
+                                    <th>
+                                        <label>ROUTE OFFICER</label>
+                                        <input type="text" style="margin-top: 5px" class="form-control" ng-model="search.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + '-' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.routeOfficerLabel($model)">  
+                                    </th>
+                                    <th>
+                                        <label>DATE</label>
+                                        <input type="text" style="margin-top: 5px" class="form-control" ng-model="search.date">
+                                    </th>
+                                    <th>
+                                        <label>NUMBER</label>
+                                        <input type="text" style="margin-top: 5px" class="form-control" ng-model="search.number">
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 10%"/>
+                            <col style="width: 40%"/>
+                            <col style="width: 20%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col/>
+                            <tbody>                       
+                                <tr>
+                                    <th class="text-left">#</th>
+                                    <th class="text-left">ROUTE OFFICER</th>
+                                    <th class="text-left">TEA GRADE</th>
+                                    <th class="text-right">U.PRICE</th>
+                                    <th class="text-right">QTY</th>
+                                    <th class="text-right">VALUE {{number}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 261px);">
+                        <table class="table-hover">
+                            <col style="width: 10%"/>
+                            <col style="width: 40%"/>
+                            <col style="width: 20%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col/>
+                            <tbody>                       
+                                <tr ng-class="ui.selectedRequest === teaIssueDate.indexNo ? 'selected' : ''" ng-repeat="teaIssueDate in model.pendingTeaIssueRequest|filter:{type:'OFFICER_TEA_ISSUE'}| filter:search" ng-click="ui.selectRequest(teaIssueDate.indexNo);">
+                                    <td class="text-left"><label class="label label-primary">{{teaIssueDate.number|fixedLength:4}}</label></td>
+                                    <td class="text-left"><label class="label label-primary">{{model.routeOfficer(teaIssueDate.routeOfficer).index}}</label>{{model.routeOfficer(teaIssueDate.routeOfficer).name}}</td>
+                                    <td class="text-left">{{model.teaGrade(teaIssueDate.teaGrade).name}}</td>
+                                    <td class="text-right">{{teaIssueDate.price| number:2}}</td>
+                                    <td class="text-right">{{teaIssueDate.qty}}</td>
+                                    <td class="text-right">{{teaIssueDate.price * teaIssueDate.qty| number:2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 30%;"/>
+                            <col style="width: 70%;"/>
+                            <thead class="background-dark">
+                                <tr>
+                                    <td>TOTAL</td>
+                                    <td class="text-right">{{model.itemTotal('OFFICER_TEA_ISSUE') | number:2}}</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="DIRECT TEA ISSUE" index="1">
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 50%"/>
+                            <col style="width: 35%"/>
+                            <col style="width: 15%"/>
+                            <col/>
+                            <tbody>                       
+                                <tr>
+                                    <th>
+                                        <label>SUPPLIER</label>
+                                        <input type="text" style="margin-top: 5px" class="form-control" ng-model="search.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)">  
+                                    </th>
+                                    <th>
+                                        <label>DATE</label>
+                                        <input type="text" style="margin-top: 5px" class="form-control" ng-model="search.date">
+                                    </th>
+                                    <th>
+                                        <label>NUMBER</label>
+                                        <input type="text" style="margin-top: 5px" class="form-control" ng-model="search.number">
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 10%"/>
+                            <col style="width: 40%"/>
+                            <col style="width: 20%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col/>
+                            <tbody>                       
+                                <tr>
+                                    <th class="text-left">#</th>
+                                    <th class="text-left">SUPPLIER</th>
+                                    <th class="text-left">TEA GRADE</th>
+                                    <th class="text-right">U.PRICE</th>
+                                    <th class="text-right">QTY</th>
+                                    <th class="text-right">VALUE</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 261px);">
+                        <table class="table-hover">
+                            <col style="width: 10%"/>
+                            <col style="width: 40%"/>
+                            <col style="width: 20%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col style="width: 10%"/>
+                            <col/>
+                            <tbody >                       
+                                <tr ng-class="ui.selectedRequest === teaIssueDate.indexNo ? 'selected' : ''" ng-repeat="teaIssueDate in model.pendingTeaIssueRequest|filter:{type:'DIRECT_TEA_ISSUE'}| filter:search" ng-click="ui.selectRequest(teaIssueDate.indexNo);">
+                                    <td class="text-left"><label class="label label-primary">{{teaIssueDate.number|fixedLength:4}}</label></td>
+                                    <td class="text-left"><label class="label label-default">{{model.client(teaIssueDate.client).clientNumber | fixedLength:4}}</label>{{model.client(teaIssueDate.client).name}}</td>
+                                    <td class="text-left">{{model.teaGrade(teaIssueDate.teaGrade).name}}</td>
+                                    <td class="text-right">{{teaIssueDate.price| number:2}}</td>
+                                    <td class="text-right">{{teaIssueDate.qty}}</td>
+                                    <td class="text-right">{{teaIssueDate.price * teaIssueDate.qty| number:2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-12">
+                        <table>
+                            <col style="width: 30%;"/>
+                            <col style="width: 70%;"/>
+                            <thead class="background-dark">
+                                <tr>
+                                    <td>TOTAL</td>
+                                    <td class="text-right">{{model.itemTotal('DIRECT_TEA_ISSUE') | number:2}}</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+    <div class="col-xs-4 background-dark border-dark-left">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+
+        </div>
+    </div>
+</div>
+<div class="fab-container">
+    <a class="fab fab-default" ng-click="ui.clear();"><i class="glyphicon glyphicon-refresh"></i></a>
+    <a class="fab fab-lg fab-danger" ng-show="ui.selectedRequest" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.selectedRequest" ng-click="ui.approve();"><i class="glyphicon glyphicon-ok"></i></a>
+</div>

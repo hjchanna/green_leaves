@@ -5,7 +5,6 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_payment;
 
-import ch.qos.logback.core.pattern.color.GreenCompositeConverter;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucher;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_payment.model.TVoucherPayment;
 import com.mac.green_leaves.v1.security.SETransactionTypeRepository;
@@ -37,13 +36,16 @@ public class GLGreenLeavesPaymentService {
     
     @Autowired
     private SETransactionTypeRepository transactionTypeRepository;
+     
+//    @Autowired
+//    private GLVoucherPaymentRepository voucherPaymentRepository;
     
 
     public List<TVoucher> allVouchers(int BRANCH) {
         return greenLeavesPaymentRepository.findByBranchAndStatus(BRANCH, STATUS_PENDING);
     }
 
-    public void saveVoucher(TVoucher voucher, int BRANCH) {
+    public void saveVoucher(TVoucher voucher, int BRANCH,int maxTransactionNumber) {
         voucher.setStatus(STATUS_CHECK);
         updateVoucher(voucher);
         
@@ -70,7 +72,7 @@ public class GLGreenLeavesPaymentService {
         voucherPayment.setDate(new Date());
         voucherPayment.setCashier(1);
         voucherPayment.setStatus(STATUS_CHECK);
-        voucherPayment.setTransaction(1);
+        voucherPayment.setTransaction(maxTransactionNumber);
         voucherPayment.setVoucher(voucher.getIndexNo());
 //        voucherPayment.setIndexNo(0);//auto increment
         voucherPaymentRepository.save(voucherPayment);
@@ -81,9 +83,12 @@ public class GLGreenLeavesPaymentService {
     }
 
     Integer updateVoucher(TVoucher voucher) {
-        
         TVoucher voucher1 = greenLeavesPaymentRepository.save(voucher);
         return voucher1.getIndexNo();
+    }
+    public TVoucherPayment transactionNumber() {
+        return voucherPaymentRepository.findTopByOrderByTransactionDesc();
+//        return voucher1.getIndexNo();
     }
 
 }

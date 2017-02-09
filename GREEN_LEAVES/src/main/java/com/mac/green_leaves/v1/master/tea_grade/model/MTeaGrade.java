@@ -22,25 +22,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name="m_tea_grade")
 public class MTeaGrade implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "name")
     private String name;
-    
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "price")
-    private double price;
+    private BigDecimal price;
 
     public MTeaGrade() {
-    }
-
-    public MTeaGrade(Integer indexNo, String name, double price) {
-        this.indexNo = indexNo;
-        this.name = name;
-        this.price = price;
     }
 
     public Integer getIndexNo() {
@@ -59,18 +59,11 @@ public class MTeaGrade implements Serializable{
         this.name = name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
-    @Override
-    public String toString() {
-        return "MTeaGrade{" + "indexNo=" + indexNo + ", name=" + name + ", price=" + price + '}';
-    }
-
-
 }

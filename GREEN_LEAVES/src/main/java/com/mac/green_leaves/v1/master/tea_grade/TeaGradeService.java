@@ -10,12 +10,14 @@ import com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
- * @author Kelum
+ * @author Don
  */
 @Service
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class TeaGradeService {
 
     @Autowired
@@ -52,4 +54,5 @@ public class TeaGradeService {
             throw new RuntimeException("Cannot delete this Tea-Grade because there are details in other transaction");
         }
     }
+
 }

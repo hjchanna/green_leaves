@@ -27,12 +27,16 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment");
         };
 
-        this.saveVoucherPayment = function (data) {
-            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment/save-voucher/", data);
+        this.saveVoucherPayment = function (data,maxTransactionNumber) {
+            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment/save-voucher/"+maxTransactionNumber+"/", data);
         };
         
         this.updateVoucher = function (data) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment/update-voucher/", data);
+        };
+        
+        this.maxTransactionNumber = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/voucher-payment/transaction-number");
         };
 
 

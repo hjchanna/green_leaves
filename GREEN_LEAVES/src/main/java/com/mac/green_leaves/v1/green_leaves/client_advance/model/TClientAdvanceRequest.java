@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.green_leaves.client_advance.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -70,14 +71,8 @@ public class TClientAdvanceRequest implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "is_delete")
-    private String isDelete;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientAdvanceRequest", fetch = FetchType.EAGER)
-    private Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
+    private List<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
 
     public TClientAdvanceRequest() {
     }
@@ -151,19 +146,11 @@ public class TClientAdvanceRequest implements Serializable {
         this.status = status;
     }
 
-    public String getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(String isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public Collection<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
+    public List<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
         return clientAdvanceRequestDetails;
     }
 
-    public void setClientAdvanceRequestDetails(Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
+    public void setClientAdvanceRequestDetails(List<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
         this.clientAdvanceRequestDetails = clientAdvanceRequestDetails;
     }
 

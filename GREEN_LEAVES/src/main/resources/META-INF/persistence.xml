@@ -2,13 +2,8 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.mac.green_leaves_green-leaves_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.mac.green_leaves.v1.green_leaves.zmaster.branch.model.MBranch</class>
-    <class>com.mac.green_leaves.v1.security.model.MUserRole</class>
-    <class>com.mac.green_leaves.v1.security.model.MUser</class>
-    <class>com.mac.green_leaves.v1.security.model.RTransactionType</class>
-    <class>com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger</class>
-    <class>com.mac.green_leaves.v1.green_leaves.final_payment.model.TFinalPayment</class>
-    <class>com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher</class>
+    <class>com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue</class>
+    <class>com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

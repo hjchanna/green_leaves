@@ -9,8 +9,8 @@
 
                 $rootScope.$on('$routeChangeStart', function (event, next, prev) {
                     //show loading gif
-                    console.log(next);
-                    if (next.$$route.originalPath !== '/login' && prev.$$route.originalPath !== '/login') {
+                    if (next && next.$$route.originalPath !== '/login' 
+                            && prev && prev.$$route.originalPath !== '/login') {
                         $timeout(function () {
                             $rootScope.layout.loading = true;
                         });

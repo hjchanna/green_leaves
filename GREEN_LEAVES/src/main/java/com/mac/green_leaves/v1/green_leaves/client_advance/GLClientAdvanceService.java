@@ -9,6 +9,10 @@ import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerSettlementTypes;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerStatus;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.GLCommonClientLedgerRepository;
+import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +22,9 @@ import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherLedgerTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherPaymentTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherStatus;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.model.TVoucher;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +48,10 @@ public class GLClientAdvanceService {
     private GLClientAdvanceRequestRepository clientAdvanceRepository;
 
     @Autowired
-    private TransactionTypeReository transactionTypeReository;
+    private GLCommonClientLedgerRepository clientLedgerRepository;
+//
+//    @Autowired
+//    private TransactionTypeReository transactionTypeReository;
 
     @Autowired
     private GLClientAdvanceRequestDetailRepository clientAdvanceRequestDetailRepository;
@@ -49,6 +59,21 @@ public class GLClientAdvanceService {
     @Autowired
     private GLCommonVoucherRepository voucherRepository;
 
+    //common
+    public List<Object[]> clientLedgerHistory(Integer client, Date asAtDate, Integer branch) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(asAtDate);
+
+        c.set(Calendar.DATE, c.getActualMinimum(Calendar.DATE));
+        Date fromDate = c.getTime();
+
+        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+        Date toDate = c.getTime();
+
+        return clientAdvanceRepository.clientLedgerHistory(client, fromDate, toDate, branch);
+    }
+
+    //request
     public TClientAdvanceRequest getAdvanceRequestByNumber(Integer number, Integer branch) {
         List<TClientAdvanceRequest> clientAdvanceRequests = clientAdvanceRepository.findByNumberAndBranch(number, branch);
 
@@ -110,7 +135,7 @@ public class GLClientAdvanceService {
         }
     }
 
-    public List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch) {
+    public List<Object[]> getPendingAdvanceRequests(Integer branch) {
         return clientAdvanceRepository.findByBranchAndStatus(branch, ADVANCE_REQUEST_STATUS_PENDING);
     }
 
@@ -120,7 +145,7 @@ public class GLClientAdvanceService {
         TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
         advanceRequestDetail.setStatus(ADVANCE_REQUEST_STATUS_APPROVED);
         clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
-      
+
         //voucher entry
         TVoucher voucher = new TVoucher();
         voucher.setBranch(advanceRequestDetail.getClientAdvanceRequest().getBranch());
@@ -135,7 +160,18 @@ public class GLClientAdvanceService {
         voucher.setStatus(VoucherStatus.ACTIVE);
         voucherRepository.save(voucher);
 
-      //TODO:client ledger entry
+        //client ledger entry
+        TClientLedger clientLedger = newClientLedger(
+                ClientLedgerSettlementTypes.ADVANCE.getSettlementType(),
+                ClientLedgerSettlementTypes.ADVANCE.getSettlementOrder(),
+                advanceRequestDetail.getClient(),
+                0.0,
+                advanceRequestDetail.getAmount().doubleValue());
+        clientLedger.setBranch(advanceRequestDetail.getClientAdvanceRequest().getBranch());
+        clientLedger.setTransaction(0);
+        clientLedger.setDate(advanceRequestDetail.getAsAtDate());
+        clientLedger.setStatus(ClientLedgerStatus.ACTIVE);
+        clientLedgerRepository.save(clientLedger);
     }
 
     public void rejectAdvanceRequestDetail(Integer indexNo) {
@@ -147,11 +183,29 @@ public class GLClientAdvanceService {
         //TODO:voucer entry
     }
 
-    public List<Object[]> findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
-        return clientAdvanceRepository.findByBranchAndDateAndClient(branch, date, client);
+    private TClientLedger newClientLedger(
+            String settlementType,
+            Integer settlementOrder,
+            Integer client,
+            Double debitAmount,
+            Double creditAmount
+    ) {
+        TClientLedger clientLedger = new TClientLedger();
+
+        clientLedger.setSettlementType(settlementType);
+        clientLedger.setSettlementOrder(settlementOrder);
+        clientLedger.setClient(client);
+        clientLedger.setDebitAmount(BigDecimal.valueOf(debitAmount));
+        clientLedger.setCreditAmount(BigDecimal.valueOf(creditAmount));
+
+        return clientLedger;
     }
 
-    public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
+    List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch, Integer route) {
+        return clientAdvanceRepository.findByBranchAndRouteAndStatus(branch, route, ADVANCE_REQUEST_STATUS_PENDING);
+    };
+
+ public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
 
         String year = new SimpleDateFormat("yyy").format(date);
         String month = new SimpleDateFormat("MM").format(date);
@@ -189,10 +243,6 @@ public class GLClientAdvanceService {
         return chartData;
     }
 
-    List<TransactionType> findTransactionTypeAll() {
-        return transactionTypeReository.findAll();
-    }
-
     public TClientAdvanceRequest findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
         List<TClientAdvanceRequest> advanceRequests = clientAdvanceRepository.findByBranchAndRouteAndDate(branch, route, date);
         if (advanceRequests.isEmpty()) {
@@ -200,5 +250,4 @@ public class GLClientAdvanceService {
         }
         return advanceRequests.get(0);
     }
-
 }

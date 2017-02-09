@@ -8,6 +8,8 @@ package com.mac.green_leaves.v1.master.client;
 import com.mac.green_leaves.v1.master.client.model.MClient;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -18,6 +20,9 @@ public interface MasterClientRepository extends JpaRepository<MClient, Integer> 
     public List<MClient> findByBranch(Integer branch);
 
     public List<MClient> findByClientNumber(Integer clientNumber);
-    
+
     public List<MClient> findByClientNumberOrNicNumber(Integer clientNo, String nicNumber);
+
+    @Query(value = "SELECT MAX(client_number) FROM m_client WHERE branch=:branch", nativeQuery = true)
+    public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Kelum
  */
 @CrossOrigin
 @RestController
@@ -42,4 +41,5 @@ public class TeaGradeController {
     public void deleteTeaGrade(@PathVariable Integer indexNo) {
         teaGradeService.deleteTeaGrade(indexNo);
     }
+
 }

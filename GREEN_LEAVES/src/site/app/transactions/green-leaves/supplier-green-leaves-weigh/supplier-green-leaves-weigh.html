@@ -447,12 +447,12 @@
 
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
-        <a class="fab fab-success" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='SELECTED'" ng-click="ui.confirm();"><i class="glyphicon glyphicon-ok"></i></a>
-        <a class="fab fab-danger" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
-        <a class="fab fab-success" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
-        <a class="fab fab-lg fab-warning" ng-hide="model.data.status === 'DELETED'" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
-        <a class="fab fab-lg fab-primary" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
-        <a class="fab fab-lg fab-primary" ng-hide="model.data.status === 'DELETED'" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <a class="fab fab-success" fab-show="ui.mode ==='SELECTED'" ng-click="ui.confirm();"><i class="glyphicon glyphicon-ok"></i></a>
+        <a class="fab fab-danger" fab-show="ui.mode ==='SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="fab fab-success" fab-show="ui.mode ==='IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <a class="fab fab-lg fab-warning" fab-show="ui.mode ==='SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='EDIT'" ng-click="ui.save();"><i class="glyphicon glyphicon-floppy-save"></i></a>
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode ==='IDEAL'" ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
     </div>
 </div>
 <!--<div class="index-content-footer">

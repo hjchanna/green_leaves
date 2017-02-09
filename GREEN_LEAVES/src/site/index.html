@@ -44,7 +44,11 @@
                                 <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-payment">Green leaves Payment</a></li>
                                 <li><a href="#/transactions/green-leaves/green-leaves-weigh/final-payemnt">Final Payment</a></li>
                                 <li><a href="#/transactions/green-leaves/route-details">Route Details</a></li>
-                                <li><a href="#/transactions/green-leaves/fertilizer">Fertilizer Issue</a></li>
+                                <li><a href="#/transactions/green-leaves/fertilizer/request">Fertilizer Request</a></li>
+                                <li><a href="#/transactions/green-leaves/fertilizer/approve">Fertilizer Approve</a></li>
+                                <li><a href="#/transactions/green-leaves/direct-tea-issue">Direct Issue</a></li>
+                                <li><a href="#/transactions/green-leaves/officer-tea-issue">Officer Issue</a></li>
+                                <li><a href="#/transactions/green-leaves/tea-settlment">Tea Issue Settlment</a></li>
                                 <li><a href="#/login">Login</a></li>
                                 <li><a href="#/dashboard/dashboard">Dashboard</a></li>
                             </ul>
@@ -126,7 +130,7 @@
                     </table>
                 </div>
             </div>
-            <div class="system-line-loader" ng-class="c?'loading':''">
+            <div class="system-line-loader" ng-class="c ? 'loading' : ''">
 
             </div>
 
@@ -169,17 +173,17 @@
         <!-- endinject -->
 
         <script type="text/javascript">
-            document.addEventListener("DOMContentLoaded", function (event) {
+                    document.addEventListener("DOMContentLoaded", function (event) {
 
-                setTimeout(function () {
-                    var element = document.getElementById("page-loading");
-                    element.className += " exit";
+                        setTimeout(function () {
+                            var element = document.getElementById("page-loading");
+                            element.className += " exit";
 
-                    setTimeout(function () {
-                        element.parentNode.removeChild(element);
-                    }, 250);
-                }, 1000);
-            });
+                            setTimeout(function () {
+                                element.parentNode.removeChild(element);
+                            }, 250);
+                        }, 1000);
+                    });
         </script>
     </body>
 </html>

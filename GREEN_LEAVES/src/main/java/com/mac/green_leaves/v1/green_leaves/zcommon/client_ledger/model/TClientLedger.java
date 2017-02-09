@@ -44,6 +44,10 @@ public class TClientLedger implements Serializable {
     @Column(name = "transaction")
     private int transaction;
 
+//    @Basic(optional = false)
+//    @Column(name = "transaction_type")
+//    private Integer transactionType;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
@@ -204,7 +208,15 @@ public class TClientLedger implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mac.green_leaves.v1.green_leaves.zcommon.model.TClientLedger[ indexNo=" + indexNo + " ]";
+        return "TClientLedger{" + "indexNo=" + indexNo + ", branch=" + branch + ", transaction=" + transaction + ", date=" + date + ", settlementType=" + settlementType + ", settlementOrder=" + settlementOrder + ", client=" + client + ", debitAmount=" + debitAmount + ", creditAmount=" + creditAmount + ", status=" + status + '}';
     }
+
+//    public Integer getTransactionType() {
+//        return transactionType;
+//    }
+//
+//    public void setTransactionType(Integer transactionType) {
+//        this.transactionType = transactionType;
+//    }
 
 }

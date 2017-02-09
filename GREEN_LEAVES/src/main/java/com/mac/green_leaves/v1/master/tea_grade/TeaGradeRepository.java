@@ -10,11 +10,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- *
  * @author Kelum
  */
 public interface TeaGradeRepository extends JpaRepository<MTeaGrade, Integer>{
 
-//    public List<MTeaGrade> findByName();
-//    
 }

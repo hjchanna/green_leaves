@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.price_setting;
 
 import com.mac.green_leaves.v1.green_leaves.price_setting.model.TPriceSetting;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,18 +25,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/green-leaves/price-setting")
 public class GLPriceSettingController {
 
-    private static final Integer branch = 1;
-
     @Autowired
     private GLPriceSettingService priceSettingService;
 
     @RequestMapping(value = "/{year}/{month}", method = RequestMethod.GET)
     public TPriceSetting findPriceSetting(@PathVariable Integer year, @PathVariable Integer month) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
         return priceSettingService.findPriceSetting(branch, year, month);
     }
 
     @RequestMapping(value = "/get-green-leaves-total/{year}/{month}", method = RequestMethod.GET)
     public List<Object[]> finByRouteAndYearAndMonth(@PathVariable Integer year, @PathVariable Integer month) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+
         return priceSettingService.findRouteReceiveSummaryByBranchAndYearAndMonth(branch, year, month);
     }
 
