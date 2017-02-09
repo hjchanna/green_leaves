@@ -11,6 +11,7 @@ import com.mac.green_leaves.v1.security.model.RTransactionType;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,9 +36,11 @@ public class GLGreenLeavesPaymentController {
         return greenLeavesPaymentService.allVouchers(BRANCH);
     }
     
-    @RequestMapping(value = "/save-voucher",method = RequestMethod.POST)
-    public int saveVoucher(@RequestBody TVoucher voucher){
-        greenLeavesPaymentService.saveVoucher(voucher,BRANCH);
+    @RequestMapping(value = "/save-voucher/{maxTransactionNumber}",method = RequestMethod.POST)
+    public int saveVoucher(@RequestBody TVoucher voucher,@PathVariable Integer maxTransactionNumber){
+        System.out.println(maxTransactionNumber);
+        System.out.println("maxTransactionNumber");
+        greenLeavesPaymentService.saveVoucher(voucher,BRANCH,maxTransactionNumber);
         return voucher.getIndexNo();
     }
     
@@ -51,5 +54,15 @@ public class GLGreenLeavesPaymentController {
     @RequestMapping(value = "/all-transaction-type",method = RequestMethod.GET)
     public List<RTransactionType> allTransactionType(){
         return greenLeavesPaymentService.allTransactionType();
+    }
+    
+    //transaction type
+    @RequestMapping(value = "/transaction-number",method = RequestMethod.GET)
+    public int maxTransactionNumber(){
+        TVoucherPayment voucherPayment = greenLeavesPaymentService.transactionNumber();
+        if (voucherPayment==null) {
+            return 0;
+        }
+        return voucherPayment.getTransaction();
     }
 }

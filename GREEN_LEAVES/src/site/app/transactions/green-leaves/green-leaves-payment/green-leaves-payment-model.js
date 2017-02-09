@@ -16,6 +16,7 @@
                     //cash summary
                     cashSummary: [],
                     cashSummaryTemp: [],
+                    removeIndex: [],
                     eachValues: {}, //cash:2000,cheque:4000,Bank:7600
                     cash: {
                         "amount": 0,
@@ -29,6 +30,7 @@
                     routes: [],
                     //voucher details
                     vouchers: [],
+                    //selected Vouchers Index
                     selectedVouchersIndex: [],
                     //voucher details
                     paymentTypes: ["CASH", "CHEQUE", "BANK"],
@@ -36,12 +38,14 @@
                     chequeBooks: [],
                     //transation types details
                     transactionTypes: [],
+                    //transaction Type Index // client loan :1,advance :2,G\l payment :3
+                    transactionTypeIndex: 0,
                     //cash balance details
                     values: [5000, 1000, 500, 100, 50, 20, 10, 5, 1],
-                    //seleted
-                    //selected: null,
                     //select all vouchers
                     selectAllVoucher: null,
+                    //transactionNo
+                    maxTransactionNumber: 0,
                     constructor: function () {
                         var that = this;
                         that.data = GreenLeavesPaymentModelFactory.newData();
@@ -65,6 +69,10 @@
                         GreenLeavesPaymentService.loadTransactionType()
                                 .success(function (data) {
                                     that.transactionTypes = data;
+                                });
+                        GreenLeavesPaymentService.maxTransactionNumber()
+                                .success(function (lastNumber) {
+                                    that.maxTransactionNumber = lastNumber;
                                 });
                     },
                     // clear data
@@ -102,11 +110,15 @@
                         });
                         return route;
                     },
-                    getVoucher: function () {
+                    getVoucher: function (transactionTypeIndex) {
                         var that = this;
+                        that.vouchers = [];
+                        that.transactionTypeIndex = transactionTypeIndex;
                         GreenLeavesPaymentService.vouchers()
                                 .success(function (data) {
                                     that.vouchers = data;
+                                    console.log(that.transactionTypeIndex);
+                                    console.log(that.vouchers);
                                 });
                     },
                     //select  voucher
@@ -114,7 +126,7 @@
                         var that = this;
                         that.cashSummary = null;
                         angular.forEach(this.vouchers, function (voucher) {
-                            if (voucher.chxSelected === true) {
+                            if (voucher.chxSelected) {
                                 that.voucherSummary = voucher.amount;
                                 that.amount = voucher.amount;
                                 if (voucher.paymentType === "CASH") {
@@ -122,6 +134,13 @@
                                 }
                             }
                         });
+                    },
+                    //remove saved voucher
+                    removeSavedVouchers: function () {
+                        var that = this;
+                        that.vouchers = [];
+                        that.getVoucher(that.transactionTypeIndex);
+
                     },
                     getCashSummary: function () {
                         var that = this;
@@ -168,8 +187,8 @@
 
                         angular.forEach(that.vouchers, function (voucher) {
                             var isSelect = 2;
-                            if (search.transactionType) {
-                                if (voucher.transactionType === search.transactionType.indexNo) {
+                            if (that.transactionTypeIndex) {
+                                if (voucher.transactionType === that.transactionTypeIndex) {
                                     isSelect = 1;
                                 } else {
                                     isSelect = 0;
@@ -203,28 +222,34 @@
                     //save voucher payment
                     save: function () {
                         var that = this;
-                       
-                        angular.forEach(that.vouchers, function (voucher) {
+                        var maxTransactionNumber = that.maxTransactionNumber + 1;
+                        var removeIdList = [];
+
+                        angular.forEach(that.vouchers, function (voucher, index) {
                             if (voucher.chxSelected) {
                                 var data = JSON.stringify(voucher);
-                                GreenLeavesPaymentService.saveVoucherPayment(data)
+                                GreenLeavesPaymentService.saveVoucherPayment(data, maxTransactionNumber)
                                         .success(function (data) {
-                                            this.correctSaveCount+1;
+                                            this.correctSaveCount + 1;
                                         })
                                         .error(function (data) {
-                                            this.incorrectSaveCount+1;
+                                            this.incorrectSaveCount + 1;
                                         });
+                                removeIdList.push(index);
                             }
                         });
+                        console.log(removeIdList);
                         
-                        optionPane.successMessage( "Save Successfully");
-                        that.cashSummary= [];
-                        GreenLeavesPaymentService.vouchers()
-                                .success(function (data) {
-                                    that.vouchers = data;
-                                });
-                                that.getEachValue();
-                                
+                        for (var i = removeIdList.length - 1; i >= 0; i--)
+                            that.vouchers.splice(removeIdList[i], 1);
+
+                        that.maxTransactionNumber++;
+                        that.cashSummary = [];
+                        that.eachValues = {};
+
+//                        that.removeSavedVouchers();
+                        that.getEachValue();
+
                     },
                     //save voucher payment
                     updateVoucher: function (voucher) {
@@ -262,8 +287,19 @@
                                 that.eachValues.total += voucher.amount;
                             }
                         });
+                    },
+                    doSelectVoucher: function (isSelected, selectVoucher) {
+                        var that = this;
+//                        that.cashSummary = [];
+                        angular.forEach(this.vouchers, function (voucher) {
+                            if (selectVoucher.indexNo === voucher.indexNo) {
+                                voucher.chxSelected = isSelected;
+                                that.voucherSummary = voucher.amount;
+                                that.amount = voucher.amount;
+                            }
+                        });
+                        that.getEachValue();
                     }
-                    
                 };
                 return GreenLeavesPaymentModel;
             });
