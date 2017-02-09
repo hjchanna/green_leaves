@@ -5,7 +5,6 @@
  */
 package com.mac.green_leaves.v1.master.tea_grade;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class TeaGradeService {
     @Autowired
     private TeaGradeRepository teaGradeRepository;
 
-    List<MTeaGrade> findAll() {
+    public List<MTeaGrade> findAll() {
         return teaGradeRepository.findAll();
     }
 
@@ -34,9 +33,8 @@ public class TeaGradeService {
 //        }
 //        return gradeList.get(0);
 //    }
-
-    MTeaGrade saveTeaGrade(MTeaGrade teaGrade) {
-            return teaGradeRepository.save(teaGrade);
+    public MTeaGrade saveTeaGrade(MTeaGrade teaGrade) {
+        return teaGradeRepository.save(teaGrade);
 //        MTeaGrade grade = findByName(teaGrade.getName());
 //        if (grade == null) {
 //        } else {
@@ -47,7 +45,7 @@ public class TeaGradeService {
 //        }
     }
 
-    void deleteTeaGrade(Integer indexNo) {
+    public void deleteTeaGrade(Integer indexNo) {
         try {
             teaGradeRepository.delete(indexNo);
         } catch (Exception e) {

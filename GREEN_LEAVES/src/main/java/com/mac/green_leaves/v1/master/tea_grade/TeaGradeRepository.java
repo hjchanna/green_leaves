@@ -6,7 +6,6 @@
 package com.mac.green_leaves.v1.master.tea_grade;
 
 import com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
