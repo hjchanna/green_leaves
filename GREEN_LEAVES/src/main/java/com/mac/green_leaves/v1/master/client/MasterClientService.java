@@ -64,4 +64,8 @@ public class MasterClientService {
         }
         return clients.get(0);
     }
+    
+    Integer getMaximumNumberByBranch(Integer branch){
+        return masterClientRepository.getMaximumNumberByBranch(branch);
+    }
 }

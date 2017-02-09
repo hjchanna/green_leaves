@@ -9,115 +9,123 @@
                     data: null,
                     detail: null,
                     requests: [],
+                    requestsData: [],
                     routes: [],
                     clients: [],
-                    selectData: function (indexNo) {
+                    selectData: function (route) {
                         var that = this;
                         that.detail = null;
+                        this.requestsData = [];
+                        ClientAdvanceRequestService.findByRoute(route)
+                                .success(function (data) {
+                                    angular.forEach(data, function (value) {
+                                        angular.forEach(value.clientAdvanceRequestDetails, function (values) {
+                                            if (values.status === "PENDING") {
+                                                that.requestsData.push(values);
+                                            }
+                                        });
+                                    });
+                                });
 
-                        angular.forEach(this.requests, function (value) {
-                            if (value.indexNo === indexNo) {
-                                that.data = value;
-                                return;
-                            }
-                        });
-                    },
-                    selectDetail: function (indexNo) {
-                        var that = this;
-                        angular.forEach(this.data.clientAdvanceRequestDetails, function (value) {
-                            if (value.indexNo === indexNo) {
-                                that.detail = value;
-                                return;
-                            }
-                        });
                     },
                     refresh: function () {
+                        var that = this;
+                        ClientAdvanceRequestService.loadPendingRequests()
+                                .success(function (data) {
+                                    that.requests = data;
+                                });
                     },
                     clear: function () {
-                        this.data = null;
-                        this.detail = null;
-                    },
-                    approve: function () {
-                        var that = this;
-                        if (this.detail) {
-                            ClientAdvanceRequestService.approveRequest(this.detail.indexNo)
-                                    .success(function () {
-                                        that.detail.status = "APPROVED";
-                                    })
-                                    .error(function () {
 
-                                    });
-                        }
                     },
-                    reject: function () {
+                    approve: function (indexNo) {
                         var that = this;
-                        if (this.detail) {
-                            ClientAdvanceRequestService.rejectRequest(this.detail.indexNo)
-                                    .success(function () {
-                                        that.detail.status = "REJECTED";
-                                    })
-                                    .error(function () {
+                        ClientAdvanceRequestService.approveRequest(indexNo)
+                                .success(function () {
+                                    that.delectStatusChangeRow(indexNo);
+                                })
+                                .error(function () {
 
-                                    });
+                                });
+                    },
+                    reject: function (indexNo) {
+                        var that = this;
+                        ClientAdvanceRequestService.rejectRequest(indexNo)
+                                .success(function () {
+                                    that.delectStatusChangeRow(indexNo);
+                                })
+                                .error(function () {
+
+                                });
+                    },
+                    delectStatusChangeRow: function (indexNo) {
+                        var that = this;
+                        var id = -1;
+                        for (var i = 0; i < that.requestsData.length; i++) {
+                            if (that.requestsData[i].indexNo === indexNo) {
+                                id = i;
+                            }
                         }
+                        that.requestsData.splice(id, 1);
+                        that.getRequestTotal();
+                        that.getRequestCount();
+                        that.getRequestDataTotal();
+                        that.getRequestDataTotal();
+                        that.refresh();
                     },
                     getRoute: function (indexNo) {
                         var route = null;
-
                         angular.forEach(this.routes, function (value) {
                             if (value.indexNo === indexNo) {
                                 route = value;
                                 return;
                             }
                         });
-
                         return route;
                     },
                     getClient: function (indexNo) {
                         var client = null;
-
                         angular.forEach(this.clients, function (value) {
                             if (value.indexNo === indexNo) {
                                 client = value;
                                 return;
                             }
                         });
-
                         return client;
                     },
-                    getRequestTotal: function (indexNo) {
+                    getRequestTotal: function () {
                         var total = 0.0;
-
-                        angular.forEach(this.requests, function (valueData) {
-                            if (indexNo ? valueData.indexNo === indexNo : true) {
-                                angular.forEach(valueData.clientAdvanceRequestDetails, function (valueDetail) {
-                                    if (valueDetail.status === 'PENDING') {
-                                        total = total + valueDetail.amount;
-                                    }
-                                });
-                            }
+                        angular.forEach(this.requests, function (values) {
+                            total = total + values[1];
                         });
-
                         return total;
                     },
-                    getRequestCount: function (indexNo) {
-                        var count = 0;
-
-                        angular.forEach(this.requests, function (valueData) {
-                            if (indexNo ? valueData.indexNo === indexNo : true) {
-                                angular.forEach(valueData.clientAdvanceRequestDetails, function (valueDetail) {
-                                    if (valueDetail.status === 'PENDING') {
-                                        count = count + 1;
-                                    }
-                                });
+                    getRequestCount: function () {
+                        var total = 0.0;
+                        angular.forEach(this.requests, function (values) {
+                            total = total + values[2];
+                        });
+                        return total;
+                    },
+                    getRequestDataTotal: function () {
+                        var count = 0.0;
+                        angular.forEach(this.requestsData, function (values) {
+                            count = count + values.amount;
+                        });
+                        return count;
+                    },
+                    routeLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
                             }
                         });
-
-                        return count;
+                        return label;
                     },
                     constructor: function () {
                         var that = this;
-
                         ClientAdvanceRequestService.loadRoutes()
                                 .success(function (data) {
                                     that.routes = data;

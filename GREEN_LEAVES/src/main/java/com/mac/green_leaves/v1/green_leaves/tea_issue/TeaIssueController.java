@@ -50,7 +50,7 @@ public class TeaIssueController {
         return teaIssueService.getPendingTeaIssueRequest();
     }
 
-    @RequestMapping(value = "/approve-or-reject-tea-issue/{indexNo}/{status}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/approve-or-reject-tea-issue/{indexNo}/{status}", method = RequestMethod.GET)
     public Integer approveOrRejectTeaIssue(@PathVariable Integer indexNo, @PathVariable String status) {
         teaIssueService.approveOrRejectTeaIssue(indexNo, status);
         return indexNo;

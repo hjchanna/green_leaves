@@ -4,9 +4,8 @@
             this.constructor();
         }
 
-//prototype functions
+        //prototype functions
         ClientAdvanceRequestModel.prototype = {
-//weigh data
             data: {},
             //temp input
             tempData: {},
@@ -21,11 +20,6 @@
             chartDetails: {
                 "chartDateList": [],
                 "chartData": [[], []]
-            },
-            //total cradit and debit
-            totalCreditAndDebit: {
-                "totalCradit": 0.0,
-                "totalDebit": 0.0
             },
             //requets count
             requestTotal: {
@@ -113,10 +107,8 @@
                     this.tempData = ClientAdvanceRequestFactory.newTempData();
                     this.refreshQuantity();
                     defer.resolve();
-                    this.clearSidePanel();
                 } else {
                     defer.reject();
-                    this.clearSidePanel();
                 }
 
                 return defer.promise;
@@ -127,17 +119,14 @@
                 this.data.clientAdvanceRequestDetails.splice(index, 1);
                 this.tempData = requestDetails;
                 this.refreshQuantity();
-                this.clearSidePanel();
             },
             //table detail delete
             deleteDetail: function (index) {
                 var that = this;
                 var indexNo = this.data.clientAdvanceRequestDetails[parseInt(index)];
-                console.log(indexNo.indexNo);
                 if (indexNo.indexNo) {
                     console.log("exists request delete");
                     var indexNo = parseInt(indexNo.indexNo);
-                    console.log(indexNo);
                     ClientAdvanceRequestService.deleteAdvanceRequestDetails(indexNo)
                             .success(function (data) {
                                 console.log(data);
@@ -218,14 +207,12 @@
             //validation
             validateClient: function (clientNumber) {
                 var c = null;
-
                 angular.forEach(this.clients, function (value) {
                     if (value.clientNumber === parseInt(clientNumber)) {
                         c = value;
                         return;
                     }
                 });
-
                 if (c) {
                     this.tempData.client = c.indexNo;
                 } else {
@@ -257,63 +244,43 @@
                         .success(function (data, status, headers) {
                             //get client history 
                             that.clientHistory = data;
-                            //get total debit and cradit
-                            that.getTotalCreditAndDebit();
                             defer.resolve();
                         })
                         .error(function (data, status, headers) {
-                            that.clearSidePanel();
                             defer.reject();
                         });
                 return defer.promise;
             },
-            getTotalCreditAndDebit: function () {
-                var that = this;
-                angular.forEach(that.clientHistory, function (value, key) {
-                    that.totalCreditAndDebit.totalCradit += parseFloat(value[1]);
-                    that.totalCreditAndDebit.totalDebit += parseFloat(value[2]);
-                });
-                return that.totalCreditAndDebit;
-            },
             getGreenLeavesHistory: function () {
                 var that = this;
                 var defer = $q.defer();
+
                 var route = this.data.route;
                 var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                 var client = this.tempData.client;
+
                 ClientAdvanceRequestService.getGreenLeavesByBranchAndRouteAndDateAndClient(route, date, client)
                         .success(function (data, status, headers) {
                             //get client history 
+                            that.greenLeavesHistory = [];
                             that.greenLeavesHistory = data;
                             that.getChartAllDetails();
                             defer.resolve();
                         })
                         .error(function (data, status, headers) {
-                            that.clearSidePanel();
+                            that.greenLeavesHistory = [];
                             defer.reject();
                         });
                 return defer.promise;
             },
             getChartAllDetails: function () {
                 var that = this;
-
                 angular.forEach(that.greenLeavesHistory, function (value, key) {
                     that.chartDetails.chartDateList.push(value[0]);
                     that.chartDetails.chartData[0].push(value[1]);
                     that.chartDetails.chartData[1].push(value[2]);
                 });
                 return that.chartDetails;
-            }, clearSidePanel: function () {
-                this.greenLeavesHistory = [];
-                this.chartDetails = {
-                    "chartDateList": [],
-                    "chartData": [[], []]
-                };
-                this.clientHistory = [];
-                this.totalCreditAndDebit = {
-                    "totalCradit": 0.0,
-                    "totalDebit": 0.0
-                };
             }
         };
         return ClientAdvanceRequestModel;

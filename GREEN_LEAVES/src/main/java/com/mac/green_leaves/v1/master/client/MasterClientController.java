@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.master.client;
 
 import com.mac.green_leaves.v1.master.client.model.MClient;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,7 +35,6 @@ public class MasterClientController {
 
     @RequestMapping(value = "/save-client", method = RequestMethod.POST)
     public MClient saveSupplier(@RequestBody MClient client) {
-        System.out.println(client.toString());
         client.setBranch(1);
         return clientService.saveSupplier(client);
     }
@@ -42,6 +42,11 @@ public class MasterClientController {
     @RequestMapping(value = "/delete-client/{indexNo}", method = RequestMethod.DELETE)
     public void deleteSupplier(@PathVariable Integer indexNo) {
         clientService.deleteSupplier(indexNo);
+    }
+
+    @RequestMapping(value = "/next-client-number", method = RequestMethod.GET)
+    public Integer getMaximumNumberByBranch() {
+        return clientService.getMaximumNumberByBranch(1);
     }
 
 }
