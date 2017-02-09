@@ -139,6 +139,12 @@
                             controller: "teaSettlementController"
                         })
                      
+		        //reports
+                        .when("/reports/general/report-viewer", {
+                            templateUrl: "app/reports/report-viewer/report-viewer.html",
+                            controller: "ReportViewerController"
+                        })
+			
                         //master
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",
@@ -211,7 +217,19 @@
                             templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighReportController"
                         })
-
+                        //loan
+                        .when("/loan/loan-request", {
+                            templateUrl: "app/loan/loan-request/loan-request.html",
+                            controller: "LoanRequestController"
+                        })
+                        .when("/loan/loan-check", {
+                            templateUrl: "app/loan/loan-request/loan-check.html",
+                            controller: "LoanCheckController"
+                        })
+                        .when("/loan/loan-approve", {
+                            templateUrl: "app/loan/loan-request/loan-approve.html",
+                            controller: "LoanApproveController"
+                        })
                         .when("/dashboard/dashboard", {
                             templateUrl: "app/dashboard/receive-dashboard/receive-dashboard.html",
                             controller: "receiveDashboardController"

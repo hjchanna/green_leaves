@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.master.main_Distribution;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
+import com.mac.green_leaves.v1.zexception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.main_Distribution.model.MMainDistribution;
 import com.mac.green_leaves.v1.master.sub_Distribution.model.MSubDistribution;
 import java.util.List;

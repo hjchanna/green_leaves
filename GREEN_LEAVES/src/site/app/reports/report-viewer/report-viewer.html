@@ -1,0 +1,92 @@
+<div class="index-content-body">
+    <div class="col-xs-4 background-dark border-dark-right">
+        <div class="row">
+
+            <uib-tabset>
+                <uib-tab heading="ALL REPORTS">
+                    <div class="col-xs-12 background-dark border-dark-bottom">
+                        <input class="search-input">
+                    </div>
+
+                    <div class="col-xs-12 background-dark smart-scroll-y" style="padding-top: 5px; height: calc(100vh - 153px);">
+                        <div ng-repeat="reportGroup in model.reports">
+                            <table class="table-default control-table">
+                                <thead>
+                                    <tr class="selected">
+                                        <th>{{reportGroup.groupName}}</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <table class="table-hover">
+                                <tbody >
+                                    <tr ng-repeat="report in reportGroup.reports">
+                                        <td ng-click="ui.selectReport(report);" ng-class="report.fileName === model.currentReport.report.reportFile ? 'background-default' : ''">
+                                            {{report.reportName}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+
+                </uib-tab>
+
+                <uib-tab heading="CURRENT REPORT">
+                    <div class="col-xs-12" >
+                        <div style="display: flex; flex-flow: column; height: calc(100vh - 88px);">
+                            <table class="control-table">
+                                <col style="width: 35%"/>
+                                <col style="width: 65%"/>
+
+                                <tbody>                   
+                                    <tr ng-show="ui.isParameterAvailable('client')">
+                                        <td><label class="control-label">Client</label></td>
+                                        <td><input class="form-control" id="client" ng-model="model.currentReport.parameterValues.client" ></td>
+                                    </tr>
+                                    <tr ng-show="ui.isParameterAvailable('routeOfficer')">
+                                        <td><label class="control-label">Route Officer</label></td>
+                                        <td><input class="form-control" id="routeOfficer" ng-model="model.currentReport.parameterValues.routeOfficer" ></td>
+                                    </tr>
+                                    <tr ng-show="ui.isParameterAvailable('routeHelper')">
+                                        <td><label class="control-label">Route Helper</label></td>
+                                        <td><input class="form-control" id="routeHelper" ng-model="model.currentReport.parameterValues.routeHelper" ></td>
+                                    </tr>
+                                    <tr ng-show="ui.isParameterAvailable('driver')">
+                                        <td><label class="control-label">Driver</label></td>
+                                        <td><input class="form-control" id="driver" ng-model="model.currentReport.parameterValues.driver" ></td>
+                                    </tr>
+                                    <tr ng-show="ui.isParameterAvailable('vehicle')">
+                                        <td><label class="control-label">Vehicle</label></td>
+                                        <td><input class="form-control" id="vehicle" ng-model="model.currentReport.parameterValues.vehicle" ></td>
+                                    </tr> 
+                                </tbody>                 
+                            </table>
+                            {{model.currentReport.report.fileName}}
+                            <a class="btn btn-block btn-primary" ng-click="ui.viewCurrentReport();">VIEW</a>                            
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+
+
+        </div>
+    </div>
+
+    <div class="col-xs-8 background-light">
+        <div class="row">
+            <!--            <div class="col-xs-12 placeholder" style="padding: 10px 0px 10px 0px; height: calc(100vh - 50px);">
+                            <h1>PREVIEW NOT AVAILABLE UNTIL SELECT A REPORT AND PARAMETERS :(</h1>
+                        </div>-->
+            <div id="viewerContainer" class="col-xs-12" style="height: calc(100vh - 56px); ">
+
+                <div class="row" style="height: 100%;">
+                    <object data="{{content}}" class="smart-scroll-y smart-scroll-x"  type="application/pdf" style="width:100%;height:100%;">
+                    </object>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

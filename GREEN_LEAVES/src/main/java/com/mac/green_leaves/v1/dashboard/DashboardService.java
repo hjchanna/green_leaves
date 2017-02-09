@@ -6,10 +6,9 @@
 package com.mac.green_leaves.v1.dashboard;
 
 import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
-import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
+import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

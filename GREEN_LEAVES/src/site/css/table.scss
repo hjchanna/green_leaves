@@ -72,7 +72,7 @@ td{
 }
 
 /*-------------effects colors--------------*/
-.table-hover{
+.table-hover, .background-dark .table-hover{
     cursor: pointer;
 
     tbody{
@@ -82,92 +82,36 @@ td{
             background-clip: padding-box;
 
             td{
-                border-color: $default-color-border;
+                border-color: $default-color-border !important;
             }
         }  
     }
 }
-.table-hover.table-default{
+.table-hover.table-default, .background-dark .table-hover.table-default {
     tbody{
         tr:hover{
             background-color: $default-color !important;
 
             td{
-                border-color: $default-color-border;
+                border-color: $default-color-border !important;
             }
         }  
     }
 }
-.table-hover.table-primary{
-    tbody{
-        tr:hover{
-            background-color: $primary-color !important;
-
-            td{
-                border-color: $primary-color-border;
-            }
-        }  
-    }
-}
-.table-hover.table-info{
-    tbody{
-        tr:hover{
-            background-color: $info-color !important;
-
-            td{
-                border-color: $info-color-border;
-            }
-        }  
-    }
-}
-.table-hover.table-success{
-    tbody{
-        tr:hover{
-            background-color: $success-color !important;
-
-            td{
-                border-color: $success-color-border;
-            }
-        }  
-    }
-}
-.table-hover.table-warning{
-    tbody{
-        tr:hover{
-            background-color: $warning-color !important;
-
-            td{
-                border-color: $warning-color-border;
-            }
-        }  
-    }
-}
-.table-hover.table-danger{
-    tbody{
-        tr:hover{
-            background-color: $danger-color !important;
-
-            td{
-                border-color: $danger-color-border;
-            }
-        }  
-    }
-}
-
 /*-------------background colors--------------*/
-.background-light tbody tr, .background-light thead tr{
+.background-light tr, .background-light tr{
     background-color: $bg-dark-color;
 
     th, td{
-        border-color: $bg-dark-color-border;// !important;
+        border-color: $bg-dark-color-border !important;
     }
 }
 
-.background-dark tbody tr, .background-dark thead tr{
+.background-dark tr, .background-dark tr{
     background-color: $bg-hi-dark-color;
 
     th, td{
-        border-color: $bg-hi-dark-color-border;// !important;
+        border-color: $bg-hi-dark-color-border !important;
     }
 }
 
@@ -239,14 +183,74 @@ tbody tr .btn-danger{
     }
 }
 
-.selected {
+.selected,.background-dark .selected,.background-light .selected{
     background-color:#5093E1 !important;
     color:white;
     background-clip: padding-box;
-    
-    td{
-        border-color: $primary-color-border;
+
+    td, th{
+        border-color: $primary-color-border !important;
     }
+}
+
+table .background-default td,
+.background-dark table .background-default td
+.background-light table .background-default td
+table .background-default th,
+.background-dark table .background-default th
+.background-light table .background-default th
+{
+    border-color: $default-color-border !important;
+}
+
+table .background-primary td,
+.background-dark table .background-primary td
+.background-light table .background-primary td
+table .background-primary th,
+.background-dark table .background-primary th
+.background-light table .background-primary th
+{
+    border-color: $primary-color-border !important;
+}
+
+table .background-info td,
+.background-dark table .background-info td
+.background-light table .background-info td
+table .background-info th,
+.background-dark table .background-info th
+.background-light table .background-info th
+{
+    border-color: $info-color-border !important;
+}
+
+table .background-success td,
+.background-dark table .background-success td
+.background-light table .background-success td
+table .background-success th,
+.background-dark table .background-success th
+.background-light table .background-success th
+{
+    border-color: $success-color-border !important;
+}
+
+table .background-warning td,
+.background-dark table .background-warning td
+.background-light table .background-warning td
+table .background-warning th,
+.background-dark table .background-warning th
+.background-light table .background-warning th
+{
+    border-color: $warning-color-border !important;
+}
+
+table .background-danger td,
+.background-dark table .background-danger td
+.background-light table .background-danger td
+table .background-danger th,
+.background-dark table .background-danger th
+.background-light table .background-danger th
+{
+    border-color: $danger-color-border !important;
 }
 
 /*animation*/

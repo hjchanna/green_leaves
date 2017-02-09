@@ -9,9 +9,9 @@
  *  Copyrights supervision technology (pvt.) ltd.
  *  
  */
-package com.mac.green_leaves.v1.exception;
+package com.mac.green_leaves.v1.zexception;
 
-import com.mac.green_leaves.v1.exception.handler.SystemException;
+import com.mac.green_leaves.v1.zexception.handler.SystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
