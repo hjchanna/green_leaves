@@ -9,13 +9,14 @@ import com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Don
  */
 @CrossOrigin
 @RestController
@@ -28,6 +29,17 @@ public class TeaGradeController {
     @RequestMapping(method = RequestMethod.GET)
     public List<MTeaGrade> findAll() {
         return teaGradeService.findAll();
+    }
+
+    @RequestMapping(value = "/save-teagrade", method = RequestMethod.POST)
+    public MTeaGrade saveTeaGrade(@RequestBody MTeaGrade teaGrade) {
+        System.out.println(teaGrade.toString());
+        return teaGradeService.saveTeaGrade(teaGrade);
+    }
+    
+    @RequestMapping(value = "/delete-teagrade/{indexNo}", method = RequestMethod.DELETE)
+    public void deleteTeaGrade(@PathVariable Integer indexNo) {
+        teaGradeService.deleteTeaGrade(indexNo);
     }
 
 }

@@ -27,6 +27,11 @@
         "bankModule",
         "bankBranchModule",
         "receiveDashboardModule",
+
+      
+        "sidePanelModule",
+        "teaGradeModule",
+
         "directTeaIssueModule",
         "officerTeaIssueModule",
         "teaSettlementModule"
@@ -127,6 +132,8 @@
                             templateUrl: "app/transactions/green-leaves/tea-issue/officer/officer-tea-issue.html",
                             controller: "officerTeaIssueController"
                         })
+
+                        //master             
                         .when("/transactions/green-leaves/tea-settlment", {
                             templateUrl: "app/transactions/green-leaves/tea-issue/settlment/tea-settlement.html",
                             controller: "teaSettlementController"
@@ -137,13 +144,22 @@
                             templateUrl: "app/master/client/client.html",
                             controller: "clientController"
                         })
+
                         .when("/master/supplier/manage-supplier", {
                             templateUrl: "app/master/supplier/supplier.html",
                             controller: "supplierController"
                         })
+                        .when("/master/side-panel/side-panel", {
+                            templateUrl: "app/master/side-panel/side-panel.html",
+                            controller: "sidePanelController"
+                        })
                         .when("/master/category/category", {
                             templateUrl: "app/master/category/category.html",
                             controller: "categoryController"
+                        })
+                        .when("/master/tea-grade/tea-grade", {
+                            templateUrl: "app/master/tea-grade/tea-grade.html",
+                            controller: "teaGradeController"
                         })
 
                         .when("/master/item/manage-item-department", {

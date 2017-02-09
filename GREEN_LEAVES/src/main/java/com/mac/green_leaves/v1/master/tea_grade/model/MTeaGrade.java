@@ -14,16 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
- * @author Don
+ * @author Kelum
  */
 @Entity
-@Table(name = "m_tea_grade")
-public class MTeaGrade implements Serializable {
+@Table(name="m_tea_grade")
+public class MTeaGrade implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,16 +41,6 @@ public class MTeaGrade implements Serializable {
     private BigDecimal price;
 
     public MTeaGrade() {
-    }
-
-    public MTeaGrade(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public MTeaGrade(Integer indexNo, String name, BigDecimal price) {
-        this.indexNo = indexNo;
-        this.name = name;
-        this.price = price;
     }
 
     public Integer getIndexNo() {
@@ -78,5 +66,4 @@ public class MTeaGrade implements Serializable {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
 }
