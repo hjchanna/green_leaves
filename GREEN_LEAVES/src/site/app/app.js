@@ -28,7 +28,6 @@
         "bankBranchModule",
         "receiveDashboardModule",
 
-      
         "sidePanelModule",
         "teaGradeModule",
 
@@ -75,6 +74,8 @@
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
                             controller: "GreenLeavesReceiveController"
                         })
+
+                        //client advance
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {
                             templateUrl: "app/transactions/green-leaves/client-advance/request/client-advance-request.html",
                             controller: "ClientAdvanceRequestController"
@@ -83,6 +84,7 @@
                             templateUrl: "app/transactions/green-leaves/client-advance/approve/client-advance-approve.html",
                             controller: "ClientAdvanceApproveController"
                         })
+
                         //client loan
                         .when("/transactions/green-leaves/client-loan/client-loan-request", {
                             templateUrl: "app/transactions/green-leaves/client-loan/request/loan-request.html",
@@ -96,26 +98,8 @@
                             templateUrl: "app/transactions/green-leaves/client-loan/approve/loan-approve.html",
                             controller: "ClientLoanApproveController"
                         })
-                        .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
-                            templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
-                            controller: "GreenLeavesPaymentController"
-                        })
-                        .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
-                            templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
-                            controller: "PriceSettingController"
-                        })
-                        .when("/transactions/green-leaves/green-leaves-weigh/final-payemnt", {
-                            templateUrl: "app/transactions/green-leaves/final-payment/final-payment.html",
-                            controller: "FinalPaymentController"
-                        })
-                        .when("/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry", {
-                            templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
-                            controller: "monthlyGreenLeavesSummryController"
-                        })
-                        .when("/transactions/green-leaves/route-details", {
-                            templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
-                            controller: "routeDetailsController"
-                        })
+
+                        //fertilizer
                         .when("/transactions/green-leaves/fertilizer/request", {
                             templateUrl: "app/transactions/green-leaves/fertilizer/request/fertilizer-request.html",
                             controller: "FertilizerRequestController"
@@ -124,6 +108,8 @@
                             templateUrl: "app/transactions/green-leaves/fertilizer/approve/fertilizer-approve.html",
                             controller: "FertilizerApproveController"
                         })
+
+                        //tea
                         .when("/transactions/green-leaves/direct-tea-issue", {
                             templateUrl: "app/transactions/green-leaves/tea-issue/direct/direct-tea-issue.html",
                             controller: "directTeaIssueController"
@@ -132,19 +118,40 @@
                             templateUrl: "app/transactions/green-leaves/tea-issue/officer/officer-tea-issue.html",
                             controller: "officerTeaIssueController"
                         })
-
-                        //master             
                         .when("/transactions/green-leaves/tea-settlment", {
                             templateUrl: "app/transactions/green-leaves/tea-issue/settlment/tea-settlement.html",
                             controller: "teaSettlementController"
                         })
-                     
-		        //reports
+
+                        //voucher
+                        .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
+                            templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
+                            controller: "GreenLeavesPaymentController"
+                        })
+                        
+                        //price setting and final paymant
+                        .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
+                            templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
+                            controller: "PriceSettingController"
+                        })
+                        .when("/transactions/green-leaves/green-leaves-weigh/final-payemnt", {
+                            templateUrl: "app/transactions/green-leaves/final-payment/final-payment.html",
+                            controller: "FinalPaymentController"
+                        })
+                        
+                        .when("/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry", {
+                            templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
+                            controller: "monthlyGreenLeavesSummryController"
+                        })
+
+
+
+                        //reports
                         .when("/reports/general/report-viewer", {
                             templateUrl: "app/reports/report-viewer/report-viewer.html",
                             controller: "ReportViewerController"
                         })
-			
+
                         //master
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",
@@ -216,19 +223,6 @@
                         .when("/reports/green-leave-weigh-report", {
                             templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighReportController"
-                        })
-                        //loan
-                        .when("/loan/loan-request", {
-                            templateUrl: "app/loan/loan-request/loan-request.html",
-                            controller: "LoanRequestController"
-                        })
-                        .when("/loan/loan-check", {
-                            templateUrl: "app/loan/loan-request/loan-check.html",
-                            controller: "LoanCheckController"
-                        })
-                        .when("/loan/loan-approve", {
-                            templateUrl: "app/loan/loan-request/loan-approve.html",
-                            controller: "LoanApproveController"
                         })
                         .when("/dashboard/dashboard", {
                             templateUrl: "app/dashboard/receive-dashboard/receive-dashboard.html",
