@@ -188,7 +188,7 @@ tbody tr .btn-danger{
     color:white;
     background-clip: padding-box;
 
-    td{
+    td, th{
         border-color: $primary-color-border !important;
     }
 }

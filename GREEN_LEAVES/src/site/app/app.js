@@ -10,7 +10,6 @@
 //        "clientAdvanceRequestModule",
 //        "clientAdvanceApproveModule",
         "priceSettingModule",
-        "finalPaymentModule",
         "monthlyGreenLeavesSummryModule",
         "routeDetailsModule",
         "clientModule",
@@ -22,13 +21,15 @@
         "productModule",
         "employeeModule",
         "routeModule",
-        "fertilizerModule",
         "branchModule",
         "greenLeavesWeighReportModule",
         "chequeBookModule",
         "bankModule",
         "bankBranchModule",
-        "receiveDashboardModule"
+        "receiveDashboardModule",
+        "directTeaIssueModule",
+        "officerTeaIssueModule",
+        "teaSettlementModule"
     ]);
 
     //constants
@@ -70,12 +71,25 @@
                             controller: "GreenLeavesReceiveController"
                         })
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {
-                            templateUrl: "app/transactions/green-leaves/client-advance/client-advance-request.html",
+                            templateUrl: "app/transactions/green-leaves/client-advance/request/client-advance-request.html",
                             controller: "ClientAdvanceRequestController"
                         })
                         .when("/transactions/green-leaves/client-advance/client-advance-approve", {
-                            templateUrl: "app/transactions/green-leaves/client-advance/client-advance-approve.html",
+                            templateUrl: "app/transactions/green-leaves/client-advance/approve/client-advance-approve.html",
                             controller: "ClientAdvanceApproveController"
+                        })
+                        //client loan
+                        .when("/transactions/green-leaves/client-loan/client-loan-request", {
+                            templateUrl: "app/transactions/green-leaves/client-loan/request/loan-request.html",
+                            controller: "ClientLoanRequestController"
+                        })
+                        .when("/transactions/green-leaves/client-loan/client-loan-check", {
+                            templateUrl: "app/transactions/green-leaves/client-loan/check/loan-check.html",
+                            controller: "ClientLoanCheckController"
+                        })
+                        .when("/transactions/green-leaves/client-loan/client-loan-approve", {
+                            templateUrl: "app/transactions/green-leaves/client-loan/approve/loan-approve.html",
+                            controller: "ClientLoanApproveController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/green-leaves-payment", {
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
@@ -86,8 +100,8 @@
                             controller: "PriceSettingController"
                         })
                         .when("/transactions/green-leaves/green-leaves-weigh/final-payemnt", {
-                            templateUrl: "app/transactions/green-leaves/final-payemnt/final-payemnt.html",
-                            controller: "finalPaymentModuleController"
+                            templateUrl: "app/transactions/green-leaves/final-payment/final-payment.html",
+                            controller: "FinalPaymentController"
                         })
                         .when("/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry", {
                             templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
@@ -97,18 +111,33 @@
                             templateUrl: "app/transactions/green-leaves/route-details/route-details.html",
                             controller: "routeDetailsController"
                         })
-                        .when("/transactions/green-leaves/fertilizer", {
-                            templateUrl: "app/transactions/green-leaves/fertilizer/fertilizer.html",
-                            controller: "fertilizerController"
+                        .when("/transactions/green-leaves/fertilizer/request", {
+                            templateUrl: "app/transactions/green-leaves/fertilizer/request/fertilizer-request.html",
+                            controller: "FertilizerRequestController"
                         })
-                        
-                        //reports
+                        .when("/transactions/green-leaves/fertilizer/approve", {
+                            templateUrl: "app/transactions/green-leaves/fertilizer/approve/fertilizer-approve.html",
+                            controller: "FertilizerApproveController"
+                        })
+                        .when("/transactions/green-leaves/direct-tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/direct/direct-tea-issue.html",
+                            controller: "directTeaIssueController"
+                        })
+                        .when("/transactions/green-leaves/officer-tea-issue", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/officer/officer-tea-issue.html",
+                            controller: "officerTeaIssueController"
+                        })
+                        .when("/transactions/green-leaves/tea-settlment", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/settlment/tea-settlement.html",
+                            controller: "teaSettlementController"
+                        })
+                     
+		        //reports
                         .when("/reports/general/report-viewer", {
                             templateUrl: "app/reports/report-viewer/report-viewer.html",
                             controller: "ReportViewerController"
                         })
-                        
-                        
+			
                         //master
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",

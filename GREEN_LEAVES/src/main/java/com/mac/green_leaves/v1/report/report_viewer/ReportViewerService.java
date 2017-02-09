@@ -14,8 +14,8 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +53,9 @@ public class ReportViewerService {
         FileFilter reportGroupFilter = (File pathname) -> pathname.isDirectory();
         FileFilter reportFileFilter = (File pathname) -> pathname.getName().endsWith(".jrxml");
 
-        File reportDir = new File("\\" + REPORT_DIR);
+        File reportDir = new File(REPORT_DIR);
+        System.out.println(reportDir.getAbsoluteFile().getPath());
+
         File[] reportGroupDirs = reportDir.listFiles(reportGroupFilter);
         File[] reportFiles;
 
@@ -109,9 +111,10 @@ public class ReportViewerService {
         return reportParameters;
     }
 
-    public void writePdfReport(HttpServletResponse response,HashMap<String,Object>map) throws JRException, IOException, SQLException {
-        
-        String reportFile = "D:\\reports\\basic_reports\\b.jrxml";
+    public void writePdfReport(HttpServletResponse response, HashMap<String, Object> map) throws JRException, IOException, SQLException {
+        String action = (String) map.get("action");
+
+        String reportFile = new String(Base64.getDecoder().decode(action));
 
         String compiledFilePath = reportFile.replace(".jrxml", ".jasper");
         File compiledFile = new File(compiledFilePath);
@@ -122,17 +125,14 @@ public class ReportViewerService {
 
         Map<String, Object> params = new HashMap<>();
         params.putAll(map);
-        params.put("a", "Mohan");
-        for (String string : params.keySet()) {
-            System.out.println(string +"-"+params.get(string));
-        }
-        
-        System.out.println(params);
+
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(compiledFile);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
 
-        response.setContentType("application/x-pdf");
-        response.setHeader("Content-disposition", "attachment; filename=helloWorldReport.pdf");
+        String reportName = jasperReport.getName();
+        
+        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "attachment; filename="+reportName+".pdf");
 
         final OutputStream outStream = response.getOutputStream();
         JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);

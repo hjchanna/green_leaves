@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -42,12 +43,15 @@ public class ReportViewerController {
     public List<String> getReportParameters(@RequestBody Report report) throws JRException {
         return reportViewerService.getReportParameters(report);
     }
-    
-    @RequestMapping(value = "/report", method = RequestMethod.POST)
-    public void viewReport(HttpServletResponse httpServletResponse, @RequestBody HashMap<String,Object>map) throws JRException, IOException, SQLException {
-        reportViewerService.writePdfReport(httpServletResponse,map);
+
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    public void viewReport(HttpServletResponse httpServletResponse, @RequestParam HashMap<String, Object> map) throws JRException, IOException, SQLException {
+        for (String string : map.keySet()) {
+            System.out.println(string + "-" + map.get(string));
+        }
+
+        reportViewerService.writePdfReport(httpServletResponse, map);
         System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
     }
-    
 
 }

@@ -11,11 +11,11 @@
                     <div class="col-xs-12 background-dark smart-scroll-y" style="padding-top: 5px; height: calc(100vh - 153px);">
                         <div ng-repeat="reportGroup in model.reports">
                             <table class="table-default control-table">
-                                <tbody >
-                                    <tr class="background-primary">
-                                        <td>{{reportGroup.groupName}}</td>
+                                <thead>
+                                    <tr class="selected">
+                                        <th>{{reportGroup.groupName}}</th>
                                     </tr>
-                                </tbody>
+                                </thead>
                             </table>
 
                             <table class="table-hover">
@@ -36,31 +36,31 @@
 
                 <uib-tab heading="CURRENT REPORT">
                     <div class="col-xs-12" >
-                        <div style="display: flex; flex-flow: column; height: calc(95vh - 52px);">
+                        <div style="display: flex; flex-flow: column; height: calc(100vh - 88px);">
                             <table class="control-table">
                                 <col style="width: 35%"/>
                                 <col style="width: 65%"/>
 
                                 <tbody>                   
-                                    <tr ng-show="model.visibleFunction.showClient">
+                                    <tr ng-show="ui.isParameterAvailable('client')">
                                         <td><label class="control-label">Client</label></td>
-                                        <td><input class="form-control" id="client" ng-model="model.reportViewer.client" ></td>
+                                        <td><input class="form-control" id="client" ng-model="model.currentReport.parameterValues.client" ></td>
                                     </tr>
-                                    <tr ng-show="model.visibleFunction.showOfficer">
+                                    <tr ng-show="ui.isParameterAvailable('routeOfficer')">
                                         <td><label class="control-label">Route Officer</label></td>
-                                        <td><input class="form-control" id="routeOfficer" ng-model="model.reportViewer.routeOfficer" ></td>
+                                        <td><input class="form-control" id="routeOfficer" ng-model="model.currentReport.parameterValues.routeOfficer" ></td>
                                     </tr>
-                                    <tr ng-show="model.visibleFunction.showHelper">
+                                    <tr ng-show="ui.isParameterAvailable('routeHelper')">
                                         <td><label class="control-label">Route Helper</label></td>
-                                        <td><input class="form-control" id="routeHelper" ng-model="model.reportViewer.routeHelper" ></td>
+                                        <td><input class="form-control" id="routeHelper" ng-model="model.currentReport.parameterValues.routeHelper" ></td>
                                     </tr>
-                                    <tr ng-show="model.visibleFunction.showDriver">
+                                    <tr ng-show="ui.isParameterAvailable('driver')">
                                         <td><label class="control-label">Driver</label></td>
-                                        <td><input class="form-control" id="driver" ng-model="model.reportViewer.driver" ></td>
+                                        <td><input class="form-control" id="driver" ng-model="model.currentReport.parameterValues.driver" ></td>
                                     </tr>
-                                    <tr ng-show="model.visibleFunction.showVehicle">
+                                    <tr ng-show="ui.isParameterAvailable('vehicle')">
                                         <td><label class="control-label">Vehicle</label></td>
-                                        <td><input class="form-control" id="vehicle" ng-model="model.reportViewer.vehicle" ></td>
+                                        <td><input class="form-control" id="vehicle" ng-model="model.currentReport.parameterValues.vehicle" ></td>
                                     </tr> 
                                 </tbody>                 
                             </table>
@@ -80,8 +80,12 @@
             <!--            <div class="col-xs-12 placeholder" style="padding: 10px 0px 10px 0px; height: calc(100vh - 50px);">
                             <h1>PREVIEW NOT AVAILABLE UNTIL SELECT A REPORT AND PARAMETERS :(</h1>
                         </div>-->
-            <div id="viewerContainer" class="col-xs-12 smart-scroll-y smart-scroll-x" style="height: calc(100vh - 50px); ">
-                <div id="viewer" class="pdfViewer"></div>
+            <div id="viewerContainer" class="col-xs-12" style="height: calc(100vh - 56px); ">
+
+                <div class="row" style="height: 100%;">
+                    <object data="{{content}}" class="smart-scroll-y smart-scroll-x"  type="application/pdf" style="width:100%;height:100%;">
+                    </object>
+                </div>
             </div>
         </div>
     </div>
