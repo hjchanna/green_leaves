@@ -42,11 +42,13 @@ public class GLGreenLeavesReceiveService {
 
     @Transactional
     public Integer saveGreenLeaveReceiveDetails(TGreenLeavesReceive greenLeavesReceive) {
-        Integer maxNumber = greenLeavesReceiveRepository.getMaximumNumberByBranch(greenLeavesReceive.getBranch());
-        if (maxNumber == null) {
-            maxNumber = 0;
+        if (greenLeavesReceive.getIndexNo() == null) {
+            Integer maxNumber = greenLeavesReceiveRepository.getMaximumNumberByBranch(greenLeavesReceive.getBranch());
+            if (maxNumber == null) {
+                maxNumber = 0;
+            }
+            greenLeavesReceive.setNumber(maxNumber + 1);
         }
-        greenLeavesReceive.setNumber(maxNumber + 1);
 
         //green leaves approve status change
         List<TGreenLeavesReceiveDetail> list = greenLeavesReceive.getGreenLeavesReceiveDetails();

@@ -32,13 +32,11 @@
         };
 
         $scope.ui.load = function () {
-
             var number = $scope.model.data.number;
             ClientAdvanceRequestService.loadAdvanceRequestByNumber(number)
                     .success(function (data, status, headers) {
                         $scope.model.data = new ClientAdvanceRequestModel(data);
                         //set optional models
-
                         angular.forEach($scope.model.data.clientAdvanceRequestDetails, function (value) {
                             value.clientModel = $scope.ui.getClient(value.client);
                             value.routeModel = $scope.ui.getRoute(value.clientModel.route);
@@ -61,9 +59,7 @@
             ClientAdvanceRequestService.saveAdvanceRequest(data)
                     .success(function (data, status, headers) {
                         $scope.ui.init();
-
                         optionPane.successMessage("Client advance request saved successfully.");
-
                     })
                     .error(function (data, status, headers) {
                         optionPane.dangerMessage("Client advance request save failed.");

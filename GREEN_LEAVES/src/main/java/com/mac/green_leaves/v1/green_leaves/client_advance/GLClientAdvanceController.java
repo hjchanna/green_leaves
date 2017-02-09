@@ -48,18 +48,17 @@ public class GLClientAdvanceController {
         return clientAdvanceService.getAdvanceRequestByNumber(number, branch);
     }
 
-//    @RequestMapping(value = "/find-by/{route}/{date}", method = RequestMethod.GET)
-//    public TClientAdvanceRequest findByRouteAndDate(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-//        Integer branch = SecurityUtil.getCurrentUser().getBranch();
-//
-//        return clientAdvanceService.findByBranchAndRouteAndDate(branch, route, date);
-//    }
-
+    @RequestMapping(value = "/find-by/{route}/{date}", method = RequestMethod.GET)
+    public TClientAdvanceRequest findByRouteAndDate(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return clientAdvanceService.findByBranchAndRouteAndDate(branch, route, date);
+    }
+    
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        
-        System.out.println(advanceRequest.getDate()+"--------------");
+
+        System.out.println(advanceRequest.getDate() + "--------------");
         for (TClientAdvanceRequestDetail clientAdvanceRequestDetail : advanceRequest.getClientAdvanceRequestDetails()) {
             System.out.println(clientAdvanceRequestDetail.getAmount() + "-----------------");
         }
@@ -80,10 +79,15 @@ public class GLClientAdvanceController {
 
 //    approve ------------------------------------------------------------------
     @RequestMapping(value = "/pending-requests")
-    public List<TClientAdvanceRequest> getPendingAdvanceRequests() {
+    public List<Object[]> getPendingAdvanceRequests() {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-
         return clientAdvanceService.getPendingAdvanceRequests(branch);
+    }
+
+    @RequestMapping(value = "/pending-requests-by-route/{route}")
+    public List<TClientAdvanceRequest> getPendingAdvanceRequests(@PathVariable Integer route) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return clientAdvanceService.getPendingAdvanceRequests(1, route);
     }
 
     @RequestMapping(value = "/approve-request-detail/{indexNo}")
@@ -103,18 +107,15 @@ public class GLClientAdvanceController {
 //
 //        return clientAdvanceService.findByBranchAndDateAndClient(branch, date, client);
 //    }
-
     // bootom route and year and month wise route totatal summry
-//    @RequestMapping(value = "/find-client-wise-receive-history/{route}/{date}/{client}")
-//    List<Object[]> findByDateAndRoute(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
-//        Integer branch = SecurityUtil.getCurrentUser().getBranch();
-//
-//        return clientAdvanceService.findByBranchAndRouteDateAndClient(branch, route, date, client);
-//    }
+    @RequestMapping(value = "/find-client-wise-receive-history/{route}/{date}/{client}")
+    List<Object[]> findByDateAndRoute(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
 
+        return clientAdvanceService.findByBranchAndRouteDateAndClient(branch, route, date, client);
+    }
 //    @RequestMapping(value = "/transaction-type")
 //    List<TransactionType> findByBranchAndDateAndClient() {
 //        return clientAdvanceService.findTransactionTypeAll();
 //    }
-
 }

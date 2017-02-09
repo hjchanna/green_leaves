@@ -135,7 +135,7 @@ public class GLClientAdvanceService {
         }
     }
 
-    public List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch) {
+    public List<Object[]> getPendingAdvanceRequests(Integer branch) {
         return clientAdvanceRepository.findByBranchAndStatus(branch, ADVANCE_REQUEST_STATUS_PENDING);
     }
 
@@ -201,11 +201,11 @@ public class GLClientAdvanceService {
         return clientLedger;
     }
 
-    /*public List<Object[]> findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
-        return clientAdvanceRepository.findByBranchAndDateAndClient(branch, date, client);
-    }*/
+    List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch, Integer route) {
+        return clientAdvanceRepository.findByBranchAndRouteAndStatus(branch, route, ADVANCE_REQUEST_STATUS_PENDING);
+    };
 
- /*public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
+ public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
 
         String year = new SimpleDateFormat("yyy").format(date);
         String month = new SimpleDateFormat("MM").format(date);
@@ -241,16 +241,13 @@ public class GLClientAdvanceService {
             }
         }
         return chartData;
-    }*/
-//    List<TransactionType> findTransactionTypeAll() {
-//        return transactionTypeReository.findAll();
-//    }
+    }
 
-    /*public TClientAdvanceRequest findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
+    public TClientAdvanceRequest findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
         List<TClientAdvanceRequest> advanceRequests = clientAdvanceRepository.findByBranchAndRouteAndDate(branch, route, date);
         if (advanceRequests.isEmpty()) {
             throw new EntityNotFoundException("Green Leaves Client Request Not Found");
         }
         return advanceRequests.get(0);
-    }*/
+    }
 }
