@@ -37,7 +37,7 @@
                             </th>
                             <th>
                                 <label>SUPPLIER</label>
-                                <input smart-input="text" class="form-control" ng-model="model.data.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input type="text" class="form-control" ng-model="model.data.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                             </th>

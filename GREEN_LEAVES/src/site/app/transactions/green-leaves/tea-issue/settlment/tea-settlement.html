@@ -51,7 +51,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 261px);">
+                    <div ng-show="model.pendingTeaIssueRequest.length" class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 261px);">
                         <table class="table-hover">
                             <col style="width: 10%"/>
                             <col style="width: 40%"/>
@@ -71,6 +71,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="placeholder" ng-hide="model.pendingTeaIssueRequest.length" style="height: calc(100vh - 261px);padding-left: 10px;">
+                        <h1>ROUTE OFFICER - TEA ISSUE REQUEST NOT FOUND :(</h1>
                     </div>
                     <div class="col-xs-12">
                         <table>
