@@ -28,11 +28,10 @@
                         <span class="sr-only">Split button!</span>
                     </button>
 
-                    <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="split-button">
-                        <li role="menuitem"><a href="#">Client Advance Vouchers</a></li>
-                        <li role="menuitem"><a href="#">Client Loan Vouchers</a></li>
-                        <li class="divider"></li>
-                        <li role="menuitem"><a href="#">Separated link</a></li>
+                    <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="split-button" >
+                        <li role="menuitem" ng-repeat="transactionType in model.transactionTypes" ng-click="ui.loadVoucherFromType(transactionType);" >
+                            <a>{{transactionType.indexNo + ' - ' + transactionType.name}}</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -50,7 +49,7 @@
                                 CLIENT
                             </td>
                             <td>
-                                <input class="form-control">
+                                <input class="form-control" ng-model="search.client" typeahead-on-select="ui.select(search);" uib-typeahead="client as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-editable="false" >
                             </td>
                         </tr>
                         <tr>
@@ -58,7 +57,15 @@
                                 EMPLOYEE
                             </td>
                             <td>
-                                <input class="form-control">
+                                <input class="form-control" ng-model="search.employee" typeahead-on-select="ui.select(search);" uib-typeahead="employee as (employee.indexNo + ' - ' + employee.name) for employee in model.employees|filter:$viewValue|limitTo:10" typeahead-editable="false" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                P. TYPE
+                            </td>
+                            <td>
+                                <input class="form-control" ng-model="search.paymentType" typeahead-on-select="ui.select(search);" uib-typeahead="type as (type) for type in model.paymentTypes|filter:$viewValue|limitTo:10" typeahead-editable="false" >
                             </td>
                         </tr>
                     </thead>
@@ -75,28 +82,50 @@
     <!--start voucher list area-->
     <div class="col-xs-4 background-light">
         <div class="row">
+            <div class="col-xs-12">
+                <table class="control-table">
+                    <col style="width:10%"/>
+                    <col style="width:90%"/>
+
+                    <thead>
+                        <tr>
+                            <th class="text-right">
+                                <input id="select-all"   type="checkbox" ng-model="chxSelectAll" ng-click="ui.select(search)"/>
+                            </th>
+                            <th><label for="select-all">SELECT ALL</label></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
 
             <!--start voucher list-->
-            <div class="col-xs-12">
+            <div class="col-xs-12 smart-scroll-y" ng-show="voucherList.length" style="height: calc(100vh - 104px);">
                 <table class="control-table table-hover">
                     <col style="width: 60%"/>
                     <col style="width: 10%"/>
                     <col style="width: 30%"/>
 
                     <tbody>
-                        <tr>
+                        <tr ng-repeat="voucher in voucherList = (model.vouchers
+                                    |filter:{transactionType:model.transactionTypeIndex}
+                                    |filter:{client:search.client.indexNo}
+                                    |filter:{employee:search.employee.indexNo}
+                                    |filter:{paymentType:search.paymentType})"
+                            ng-click="addHeart($event, voucher)"
+                            ng-class="voucher.chxSelected ? 'selected' : ''"
+                            >
                             <td>
                                 <div style="line-height: 18px; margin-top: 5px; margin-bottom: 5px;">
-                                    <b>A.B.Client Name</b>
+                                    <b>{{model.getClient(voucher.client)}}</b>
                                     <br/>
-                                    <small>description</small>
+                                    <small>{{voucher.description}}</small>
                                 </div>
                             </td>
                             <td>
-                                <label class="label label-default">CASH</label>
+                                <label class="label label-default">{{voucher.paymentType}}</label>
                             </td>
                             <td class="text-right">
-                                25000.00
+                                {{voucher.amount|number:2}}
                             </td>
                         </tr>
                     </tbody>
@@ -104,7 +133,8 @@
             </div>
             <!--end voucher list-->
 
-            <div class="col-xs-12 placeholder" style="margin: 5px 0 5px 0; height: calc(100vh - 62px);">
+            <div class="col-xs-12 placeholder" ng-hide="voucherList.length" 
+                 style="margin: 5px 0 5px 0; height: calc(100vh - 104px);">
                 <h1>PLEASE SELECT A VOUCHER TYPE AND FILTERS :(</h1>
             </div>
         </div>
@@ -277,7 +307,7 @@
             <!--start cash - 1st tab-->
             <uib-tabset>
                 <uib-tab heading="CASH">
-                    <div class="col-xs-12" ng-show="model.cashSummary.length">
+                    <div class="col-xs-12" ng-show="model.cashSummary.length" style="height: calc(100vh - 245px)">
                         <table class="control-table">
                             <col style="width: 30%"/>
                             <col style="width: 30%"/>
@@ -298,9 +328,9 @@
                             <col style="width: 40%">
                             <tbody>
                                 <tr ng-repeat="detail in model.cashSummary">
-                                    <td>{{detail.amount}}</td>
+                                    <td>{{detail.amount|number:2}}</td>
                                     <td>{{detail.count}}</td>
-                                    <td>{{detail.count * detail.amount}}</td>
+                                    <td>{{(detail.count * detail.amount)|number:2}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -328,6 +358,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="placeholder col-xs-12 animation-fade" style="margin-top: 5px; height: calc(100vh - 312px);" ng-hide="false">
+                        <h1>PLEASE SELECT BANK VOUCHERS :(</h1>
                     </div>
                 </uib-tab>
 

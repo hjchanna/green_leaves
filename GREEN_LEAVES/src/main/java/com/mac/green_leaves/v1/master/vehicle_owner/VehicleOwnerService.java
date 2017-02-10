@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.master.vehicle_owner;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
+import com.mac.green_leaves.v1.zexception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.vehicle_owner.model.MVehicleOwner;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

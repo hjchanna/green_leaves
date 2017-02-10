@@ -5,7 +5,7 @@
  */
 package com.mac.green_leaves.v1.master.product;
 
-import com.mac.green_leaves.v1.exception.DuplicateEntityException;
+import com.mac.green_leaves.v1.zexception.DuplicateEntityException;
 import com.mac.green_leaves.v1.master.product.model.MProduct;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

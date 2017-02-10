@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
  * @author Don
  */
 @Service
@@ -26,4 +25,32 @@ public class TeaGradeService {
     public List<MTeaGrade> findAll() {
         return teaGradeRepository.findAll();
     }
+
+//    public MTeaGrade findByName(String name) {
+//        List<MTeaGrade> gradeList = teaGradeRepository.findByName();
+//        if (gradeList.isEmpty()) {
+//            return null;
+//        }
+//        return gradeList.get(0);
+//    }
+    public MTeaGrade saveTeaGrade(MTeaGrade teaGrade) {
+        return teaGradeRepository.save(teaGrade);
+//        MTeaGrade grade = findByName(teaGrade.getName());
+//        if (grade == null) {
+//        } else {
+//            if (grade.getIndexNo().equals(teaGrade.getIndexNo())) {
+//                return teaGrade;
+//            }
+//            throw new DuplicateEntityException("Tea Grade already exists");
+//        }
+    }
+
+    public void deleteTeaGrade(Integer indexNo) {
+        try {
+            teaGradeRepository.delete(indexNo);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot delete this Tea-Grade because there are details in other transaction");
+        }
+    }
+
 }

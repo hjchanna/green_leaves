@@ -5,11 +5,8 @@
  */
 package com.mac.green_leaves.v1.green_leaves.client_loan;
 
-import com.mac.green_leaves.v1.green_leaves.client_advance.*;
-import com.mac.green_leaves.v1.exception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

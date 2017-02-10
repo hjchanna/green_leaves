@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, GreenLeavesPaymentModel, $timeout, ModalDialog) {
+    var controller = function ($scope, GreenLeavesPaymentModel, $timeout, ModalDialog, optionPane) {
         $scope.model = new GreenLeavesPaymentModel();
 
 
@@ -10,26 +10,15 @@
         $scope.ui.new = function () {
             $scope.ui.mode = "EDIT";
             $scope.model.clear();
-
-            $timeout(function () {
-                document.querySelectorAll("#type")[0].focus();
-            }, 10);
         };
 
         $scope.ui.edit = function (voucher) {
             $scope.ui.mode = "EDIT";
-
-            $timeout(function () {
-                document.querySelectorAll("#paymentType")[0].focus();
-            }, 10);
             $scope.model.tempData = voucher;
         };
 
         $scope.ui.discard = function () {
             $scope.ui.mode = "IDEAL";
-            $timeout(function () {
-                document.querySelectorAll("#transaction")[0].focus();
-            }, 10);
         };
 
         $scope.ui.load = function () {
@@ -37,10 +26,8 @@
         };
 
         $scope.ui.selectDetail = function () {
-            console.log('selectDetail');
             $scope.model.getEachValue();
             $scope.model.selectDetail();
-//            $scope.ui.selectedDetailIndex = voucher.indexNo;
         };
 
 
@@ -54,20 +41,27 @@
         };
 
         $scope.ui.save = function () {
-            $scope.model.save();
+            var isSave = false;
+            angular.forEach($scope.model.vouchers, function (voucher) {
+                if (voucher.chxSelected) {
+                    isSave = true;
+                    return;
+                }
+            });
+            if (isSave) {
+                $scope.model.save();
+                $scope.chxSelectAll=false;
+                optionPane.successMessage("Save Successfully");
+            } else {
+                optionPane.dangerMessage("Select Vouchers to Save...!");
+            }
         };
         $scope.ui.updateVoucher = function (tempData) {
             $scope.model.updateVoucher(tempData);
-//            console.log(tempData);
         };
 
         $scope.ui.select = function (search) {
-            $scope.model.selectAll(search,$scope.master);
-        };
-
-        //check box selected
-        $scope.voucher = {
-            roles: []
+            $scope.model.selectAll(search, $scope.chxSelectAll);
         };
 
         $scope.onSelect = function ($item, $model, $label) {
@@ -77,14 +71,30 @@
         $scope.ui.init = function () {
             $scope.ui.mode = "IDEAL";
             $scope.model.getEachValue();
-            $timeout(function () {
-                document.querySelectorAll("#transaction")[0].focus();
-            }, 10);
+            $scope.search = {
+                client: "",
+                employee: "",
+                paymentType: ""
+            };
         };
 
+        //selected class start
+        $scope.addHeart = function ($event, voucher) {
+            var element = angular.element($event.currentTarget);
 
+            if (element.hasClass('selected')) {
+                $scope.model.doSelectVoucher(false, voucher);
+            } else {
+                $scope.model.doSelectVoucher(true, voucher);
+            }
+            $scope.model.selectDetail();
+        };
+        //select class end
+        $scope.ui.loadVoucherFromType = function (transactionType) {
+            $scope.chxSelectAll = false;
+            $scope.model.getVoucher(transactionType.indexNo);
+        };
         $scope.ui.init();
-
     };
 
     angular.module("appModule")
