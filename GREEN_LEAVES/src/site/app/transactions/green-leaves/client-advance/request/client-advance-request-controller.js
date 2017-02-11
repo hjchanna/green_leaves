@@ -163,7 +163,7 @@
 
             //client ledger auto refresh
             $scope.$watch('[model.tempData.client, asAtDate]', function () {
-
+                console.log("watch");
                 var asAtDate = $scope.asAtDate;
                 if (asAtDate === "This") {
                     var date = new Date();
@@ -175,9 +175,12 @@
                     var lastDay = new Date(prev.getFullYear(), prev.getMonth() + 1, 0);
                     $scope.model.tempData.asAtDate = lastDay;
                 }
-                $scope.model.getGreenLeavesHistory();
 
                 if ($scope.model.tempData.client && $scope.model.tempData.asAtDate) {
+                    //green leaves history
+                    $scope.model.getGreenLeavesHistory();
+
+                    //ledger history
                     ClientAdvanceRequestService.loadClientLedgerHistory($scope.model.tempData.client, $scope.model.tempData.asAtDate)
                             .success(function (data) {
                                 $scope.model.clientLedgerHistory = data;
@@ -186,6 +189,9 @@
                                 $scope.model.clientLedgerHistory = [];
                             });
                 } else {
+                    console.log("AA");
+                    $scope.model.chartDetails.chartDateList = [];
+                    $scope.model.chartDetails.chartData = [[], []];
                     $scope.model.clientLedgerHistory = [];
                 }
             });

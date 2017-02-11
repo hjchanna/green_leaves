@@ -121,28 +121,20 @@
 
                     <tbody>  
                         <tr>
-                            <td><label class="control-label">Remark</label></td>
-                            <td><input class="form-control" ng-model="model.detail.remark" ng-disabled="true"></td>
-                        </tr>
-                        <tr>
-                            <td><label class="control-label">Start Date</label></td>
-                            <td><input class="form-control" smart-input="date" ng-model="model.detail.loanStartDate"></td>
-                        </tr>
-                        <tr>
                             <td><label class="control-label">Interest Rate</label></td>
-                            <td><input class="form-control" ng-model="model.detail.interestRate"></td>
+                            <td><input smart-input="decimal" class="form-control" ng-model="model.detail.interestRate"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Count</label></td>
-                            <td><input class="form-control" ng-model="model.detail.installmentCount"></td>
+                            <td><input smart-input="integer" class="form-control" ng-model="model.detail.installmentCount"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Amount</label></td>
-                            <td><input class="form-control" ng-model="model.detail.installmentAmount"></td>
+                            <td><input smart-input="decimal" class="form-control" ng-model="model.detail.installmentAmount" disabled></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Panalty Rate</label></td>
-                            <td><input class="form-control"  ng-model="model.detail.panaltyRate"></td>
+                            <td><input smart-input="decimal" class="form-control"  ng-model="model.detail.panaltyRate"></td>
                         </tr>
                     </tbody>
                 </table>

@@ -54,9 +54,9 @@ public class GLLoanRequestController {
         return loanRequestService.getCheckLoanRequests();
     }
 
-    @RequestMapping(value = "/approve-request-detail", method = RequestMethod.POST)
-    public void approveLoanRequest(@RequestBody TLoanRequestDetail loanRequestDetail) {
-        loanRequestService.approveLoanRequest(loanRequestDetail);
+    @RequestMapping(value = "/approve-request/{indexNo}", method = RequestMethod.POST)
+    public void approveLoanRequest(@PathVariable Integer indexNo) {
+        loanRequestService.approveLoanRequest(indexNo);
     }
     
     @RequestMapping(value = "/reject-request/{indexNo}")

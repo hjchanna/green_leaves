@@ -6,15 +6,10 @@
 
         //prototype functions
         LoanApproveModel.prototype = {
-            data: {},
-            //temp input
-            tempData: {},
-            detail: "",
+            detail: null,
             //constructor
             constructor: function () {
                 var that = this;
-                that.data = LoanCheckModelFactory.newData();
-                that.tempData = LoanCheckModelFactory.newTempData();
 
                 //load pending request
                 LoanRequestService.loadcheckPendingRequest()
@@ -26,12 +21,6 @@
                 LoanRequestService.loadClients()
                         .success(function (data) {
                             that.clients = data;
-                        });
-
-                //load routes
-                LoanRequestService.loadRoutes()
-                        .success(function (data) {
-                            that.routes = data;
                         });
 
             },
@@ -46,7 +35,7 @@
 
                 angular.forEach(this.loanRequestDetails, function (valueData) {
                     if (indexNo ? valueData.indexNo === indexNo : true) {
-                        if (valueData.status === 'CHECK') {
+                        if (valueData.status === 'CHECKED') {
                             total = total + valueData.amount;
                         }
                     }
@@ -59,7 +48,7 @@
 
                 angular.forEach(this.loanRequestDetails, function (valueData) {
                     if (indexNo ? valueData.indexNo === indexNo : true) {
-                        if (valueData.status === 'CHECK') {
+                        if (valueData.status === 'CHECKED') {
                             count = count + 1;
                         }
                     }
@@ -72,10 +61,8 @@
 
                 angular.forEach(this.loanRequestDetails, function (value) {
                     if (value.indexNo === indexNo) {
-                        if (value.status === 'CHECK') {
-                            that.detail = value;
-                            return;
-                        }
+                        that.detail = value;
+                        return;
                     }
                 });
             },
@@ -92,28 +79,12 @@
 
                 return client;
             },
-//            getRoute: function () {
-//               console.log(this.clients);
-                
-               
-//                var route = null;
-
-//                angular.forEach(this.routes, function (value) {
-//                    if (value.indexNo === indexNo) {
-//                        route = value;
-//                        return;
-//                    }
-//                });
-
-//                return route;
-//            },
             approve: function () {
                 var that = this;
-                var data = JSON.stringify(that.detail);
-                if (data) {
-                    LoanRequestService.approveRequest(data)
-                            .success(function (data) {
-//                                that.detail.status = "CHECK";
+                if (that.detail) {
+                    LoanRequestService.approveRequest(that.detail.indexNo)
+                            .success(function () {
+                                that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details approved successfully.");
                             })
                             .error(function () {
@@ -126,8 +97,8 @@
                 if (that.detail) {
                     LoanRequestService.rejectRequest(that.detail.indexNo)
                             .success(function () {
+                                that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details rejected successfully.");
-//                                that.detail.status = "REJECTED";
                             })
                             .error(function () {
 

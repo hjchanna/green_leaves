@@ -27,8 +27,8 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/check-pending-requests");
         };
 
-        this.approveRequest = function (data) {
-            return $http.post(systemConfig.apiUrl + "/api/v1/loan/loan-request/approve-request-detail/", data);
+        this.approveRequest = function (indexNo) {
+            return $http.post(systemConfig.apiUrl + "/api/v1/loan/loan-request/approve-request/" + indexNo);
         };
 
         this.rejectRequest = function (indexNo) {

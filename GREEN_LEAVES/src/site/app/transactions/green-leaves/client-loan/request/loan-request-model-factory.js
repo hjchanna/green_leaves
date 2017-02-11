@@ -7,7 +7,7 @@
                         "indexNo": null,
                         "date": null,
                         "transaction": 0,
-                        "number": null,
+                        "number": 0,
                         "status": null,
                         loanRequestDetails: [
 //                            {

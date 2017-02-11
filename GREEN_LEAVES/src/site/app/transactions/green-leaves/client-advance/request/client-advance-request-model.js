@@ -256,7 +256,7 @@
                 var defer = $q.defer();
 
                 var route = this.data.route;
-                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+                var date = $filter('date')(this.tempData.asAtDate, 'yyyy-MM-dd');
                 var client = this.tempData.client;
 
                 ClientAdvanceRequestService.getGreenLeavesByBranchAndRouteAndDateAndClient(route, date, client)
@@ -275,6 +275,9 @@
             },
             getChartAllDetails: function () {
                 var that = this;
+                that.chartDetails.chartDateList = [];
+                that.chartDetails.chartData = [[],[]];
+                
                 angular.forEach(that.greenLeavesHistory, function (value, key) {
                     that.chartDetails.chartDateList.push(value[0]);
                     that.chartDetails.chartData[0].push(value[1]);

@@ -6,7 +6,6 @@
 package com.mac.green_leaves.v1.green_leaves.client_loan.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -22,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -57,9 +55,9 @@ public class TLoanRequest implements Serializable {
     @Column(name = "status")
     private String status;
     
-    @Basic(optional = false)
-    @Column(name = "status2")
-    private String status2;
+//    @Basic(optional = false)
+//    @Column(name = "status2")
+//    private String status2;
 
     @Basic(optional = false)
     @NotNull
@@ -76,16 +74,16 @@ public class TLoanRequest implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public TLoanRequest(Integer indexNo, int branch, Date date, int transaction, String status, String status2, int number, Collection<TLoanRequestDetail> loanRequestDetails) {
-        this.indexNo = indexNo;
-        this.branch = branch;
-        this.date = date;
-        this.transaction = transaction;
-        this.status = status;
-        this.status2 = status2;
-        this.number = number;
-        this.loanRequestDetails = loanRequestDetails;
-    }
+//    public TLoanRequest(Integer indexNo, int branch, Date date, int transaction, String status, String status2, int number, Collection<TLoanRequestDetail> loanRequestDetails) {
+//        this.indexNo = indexNo;
+//        this.branch = branch;
+//        this.date = date;
+//        this.transaction = transaction;
+//        this.status = status;
+//        this.status2 = status2;
+//        this.number = number;
+//        this.loanRequestDetails = loanRequestDetails;
+//    }
 
     public Integer getIndexNo() {
         return indexNo;
@@ -127,13 +125,13 @@ public class TLoanRequest implements Serializable {
         this.status = status;
     }
 
-    public String getStatus2() {
-        return status2;
-    }
-
-    public void setStatus2(String status2) {
-        this.status2 = status2;
-    }
+//    public String getStatus2() {
+//        return status2;
+//    }
+//
+//    public void setStatus2(String status2) {
+//        this.status2 = status2;
+//    }
 
     public int getNumber() {
         return number;

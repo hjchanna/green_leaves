@@ -7,6 +7,7 @@ package com.mac.green_leaves.v1.green_leaves.client_loan;
 
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class GLLoanRequestService {
 
-    public static final String LOAN_REQUEST_STATUS_PENDING = "PENDING";
-    public static final String LOAN_REQUEST_STATUS_CHECK = "CHECK";
-    public static final String LOAN_REQUEST_STATUS_APPROVE = "APPROVE";
-    public static final String LOAN_REQUEST_STATUS_REJECT = "REJECT";
+    public static final String LOAN_REQUEST_STATUS_ACTIVE = "ACTIVE";
+    //
+    public static final String LOAN_REQUEST_DETAIL_STATUS_PENDING = "PENDING";
+    public static final String LOAN_REQUEST_DETAIL_STATUS_CHECKED = "CHECKED";
+    public static final String LOAN_REQUEST_DETAIL_STATUS_APPROVED = "APPROVED";
+    public static final String LOAN_REQUEST_DETAIL_STATUS_REJECTED = "REJECTED";
+    //
 
     @Autowired
     private GLLoanRequestRepository loanRequestRepository;
@@ -36,82 +40,68 @@ public class GLLoanRequestService {
     public Integer saveLoanRequest(TLoanRequest loanRequest, Integer branch) {
 
         for (TLoanRequestDetail loanRequestDetail : loanRequest.getLoanRequestDetails()) {
-            loanRequestDetail.setStatus(LOAN_REQUEST_STATUS_PENDING);
-            loanRequestDetail.setStatus2(LOAN_REQUEST_STATUS_PENDING);
+            loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_PENDING);
             loanRequestDetail.setInstallmentAmount(null);
-            loanRequestDetail.setInstallmentCount(0);
-            loanRequestDetail.setInterestRate(null);
+            loanRequestDetail.setInterestRate(BigDecimal.ZERO);
             loanRequestDetail.setLoanStartDate(null);
-            loanRequestDetail.setPanaltyRate(null);
+            loanRequestDetail.setPanaltyRate(BigDecimal.ZERO);
             loanRequestDetail.setLoanRequest(loanRequest);
         }
 
         loanRequest.setBranch(branch);
-        loanRequest.setStatus(LOAN_REQUEST_STATUS_PENDING);
-        loanRequest.setStatus2(LOAN_REQUEST_STATUS_PENDING);
+        Integer maxNumber = loanRequestRepository.getMaxNumber(branch);
+        if (maxNumber == null) {
+            maxNumber = 0;
+        }
+        maxNumber++;
+        loanRequest.setNumber(maxNumber);
+
+        loanRequest.setStatus(LOAN_REQUEST_STATUS_ACTIVE);
         loanRequest = loanRequestRepository.save(loanRequest);
         return loanRequest.getIndexNo();
     }
 
+    //check------------------------
     public List<TLoanRequest> getPendingLoanRequests(Integer branch) {
-        return loanRequestRepository.findByBranchAndStatus(branch, LOAN_REQUEST_STATUS_PENDING);
+        return loanRequestRepository.findByBranchAndStatus(branch, LOAN_REQUEST_STATUS_ACTIVE);
     }
 
-    //check------------------------
+    @Transactional
     public void checkLoanRequestDetail(TLoanRequestDetail loanRequestDetail) {
         TLoanRequestDetail requestDetail = loanRequestDetailRepository.findOne(loanRequestDetail.getIndexNo());
-        requestDetail.setStatus(LOAN_REQUEST_STATUS_CHECK);
-        requestDetail.setLoanStartDate(loanRequestDetail.getLoanStartDate());
+
         requestDetail.setInterestRate(loanRequestDetail.getInterestRate());
-        requestDetail.setInstallmentAmount(loanRequestDetail.getInstallmentAmount());
-        requestDetail.setInstallmentCount(loanRequestDetail.getInstallmentCount());
         requestDetail.setPanaltyRate(loanRequestDetail.getPanaltyRate());
+        requestDetail.setInstallmentCount(loanRequestDetail.getInstallmentCount());
 
-        TLoanRequestDetail detail = loanRequestDetailRepository.save(requestDetail);
+        double loanAmount = requestDetail.getAmount().doubleValue();
+        double interestRate = requestDetail.getInterestRate().doubleValue() / 100.0 / 12.0;
+        int installmentCount = requestDetail.getInstallmentCount();
 
-        List<TLoanRequestDetail> pendinList = loanRequestDetailRepository.findByStatusAndLoanRequestIndexNo(LOAN_REQUEST_STATUS_PENDING, detail.getLoanRequest().getIndexNo());
-        if (pendinList.size() > 0) {
-        } else {
-            TLoanRequest loanRequest = loanRequestRepository.findOne(detail.getLoanRequest().getIndexNo());
-            if (loanRequest != null) {
-                loanRequest.setStatus(LOAN_REQUEST_STATUS_CHECK);
-                loanRequestRepository.save(loanRequest);
-            }
-        }
+        double installmentAmount = (loanAmount * interestRate) / (1 - Math.pow(1 + interestRate, installmentCount * -1));
+        requestDetail.setInstallmentAmount(BigDecimal.valueOf(installmentAmount));
+
+        requestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_CHECKED);
+
+        loanRequestDetailRepository.save(requestDetail);
     }
 
     //approve----------------------------------------------
     public List<TLoanRequestDetail> getCheckLoanRequests() {
-//        return loanRequestDetailRepository.findByStatusAndStatus2(LOAN_REQUEST_STATUS_CHECK,LOAN_REQUEST_STATUS_PENDING);
-        return loanRequestDetailRepository.findByStatusAndStatus2(LOAN_REQUEST_STATUS_CHECK, LOAN_REQUEST_STATUS_PENDING);
+        return loanRequestDetailRepository.findByStatus(LOAN_REQUEST_DETAIL_STATUS_CHECKED);
     }
 
-    public void approveLoanRequest(TLoanRequestDetail loanRequestDetail) {
-        TLoanRequestDetail requestDetail = loanRequestDetailRepository.findOne(loanRequestDetail.getIndexNo());
-        requestDetail.setStatus2(LOAN_REQUEST_STATUS_APPROVE);
-        requestDetail.setLoanStartDate(loanRequestDetail.getLoanStartDate());
-        requestDetail.setInterestRate(loanRequestDetail.getInterestRate());
-        requestDetail.setInstallmentAmount(loanRequestDetail.getInstallmentAmount());
-        requestDetail.setInstallmentCount(loanRequestDetail.getInstallmentCount());
-        requestDetail.setPanaltyRate(loanRequestDetail.getPanaltyRate());
-
-        TLoanRequestDetail detail = loanRequestDetailRepository.save(requestDetail);
-
-        List<TLoanRequestDetail> pendinList = loanRequestDetailRepository.findByStatusAndLoanRequestIndexNo(LOAN_REQUEST_STATUS_CHECK, detail.getLoanRequest().getIndexNo());
-        if (pendinList.size() > 0) {
-        } else {
-            TLoanRequest loanRequest = loanRequestRepository.findOne(detail.getLoanRequest().getIndexNo());
-            if (loanRequest != null) {
-                loanRequest.setStatus2(LOAN_REQUEST_STATUS_APPROVE);
-                loanRequestRepository.save(loanRequest);
-            }
-        }
-
+    @Transactional
+    public void approveLoanRequest(Integer indexNo) {
+        TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
+        loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_APPROVED);
+        loanRequestDetailRepository.save(loanRequestDetail);
     }
 
+    @Transactional
     public void rejectRequest(Integer indexNo) {
         TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
-        loanRequestDetail.setStatus2(LOAN_REQUEST_STATUS_REJECT);
+        loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_REJECTED);
         loanRequestDetailRepository.save(loanRequestDetail);
     }
 

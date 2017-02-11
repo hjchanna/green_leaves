@@ -111,7 +111,14 @@
                 if (data) {
                     LoanRequestService.checkRequest(data)
                             .success(function (data) {
-//                                that.detail.status = "CHECK";
+                                console.log("AAA");
+                                for (var i = 0; i < that.data.loanRequestDetails.length; i++) {
+                                    console.log(that.data.loanRequestDetails[i].indexNo + "-"  + that.detail.indexNo);
+                                    if (that.data.loanRequestDetails[i].indexNo === that.detail.indexNo) {
+                                        that.data.loanRequestDetails.splice(i, 1);
+                                    }
+                                }
+
                                 optionPane.successMessage("loan details checked successfully.");
                             })
                             .error(function () {

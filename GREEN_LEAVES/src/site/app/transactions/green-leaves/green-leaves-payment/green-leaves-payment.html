@@ -1,4 +1,4 @@
-<style>
+<!--<style>
     .btn-group:hover>.dropdown-menu {
         display: block;
         margin-top: -1px;
@@ -6,7 +6,7 @@
     .dropdown-menu li a:hover{
         background-color: #5093E1;
     }
-</style>
+</style>-->
 <div class="index-content-header">
 </div>
 
@@ -62,7 +62,7 @@
                         </tr>
                         <tr>
                             <td>
-                                P. TYPE
+                                PAYMENT
                             </td>
                             <td>
                                 <input class="form-control" ng-model="search.paymentType" typeahead-on-select="ui.select(search);" uib-typeahead="type as (type) for type in model.paymentTypes|filter:$viewValue|limitTo:10" typeahead-editable="false" >

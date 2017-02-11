@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (LoanRequestService, LoanRequestModelFactory, optionPane) {
+    var factory = function ($q, LoanRequestService, LoanRequestModelFactory, optionPane) {
         function LoanRequestModel() {
             this.constructor();
         }
@@ -30,10 +30,24 @@
             },
             //table added
             insertLoanRequest: function () {
+                var defer = $q.defer();
                 var that = this;
 
-                that.data.loanRequestDetails.push(that.tempData);
-                that.tempData = LoanRequestModelFactory.newTempData();
+                if (
+                        that.tempData.client
+                        && that.tempData.amount > 0
+                        && that.tempData.installmentCount > 0
+                        ) {
+
+                    that.data.loanRequestDetails.push(that.tempData);
+                    that.tempData = LoanRequestModelFactory.newTempData();
+
+                    defer.resolve();
+                } else {
+                    defer.reject();
+                }
+
+                return defer.promise;
             },
             //save requests
             saveRequest: function () {

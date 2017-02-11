@@ -6,16 +6,16 @@
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
             <div class="col-xs-12" >
                 <table>
-                    <col style="width: 50%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col />
+                    <col style="width: 40%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
                     <thead>
                         <tr>
                             <th>CLIENT</th>
-                            <th>REMARK</th>
                             <th class="text-right">AMOUNT</th>
-                            <th>&nbsp;</th>
+                            <th class="text-right">INSTALLMENT</th>
+                            <th class="text-right">INTEREST RATE</th>
                         </tr>
                     </thead>
                 </table>
@@ -23,17 +23,19 @@
 
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 78px);">
                 <table class="table-hover table-hover">
-                    <col style="width: 50%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
+                    <col style="width: 40%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
+                    <col style="width: 20%;"/>
                     <tbody>
                         <tr ng-class="ui.selectedDetailIndex === detail.indexNo ? 'selected' : ''" ng-repeat="detail in model.loanRequestDetails" ng-click="ui.selectDetail(detail.indexNo);">
                             <td>
                                 <span class="label label-primary">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span>
                                 {{model.getClient(detail.client).name}}
                             </td>
-                             <td class="text-left">{{detail.remark}}</td>
                             <td class="text-right">{{detail.amount|number:2}}</td>
+                             <td class="text-right">{{detail.installmentCount|fixedLength:2}}</td>
+                            <td class="text-right">{{detail.interestRate|number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,28 +67,20 @@
 
                     <tbody>  
                         <tr>
-                            <td><label class="control-label">Remark</label></td>
-                            <td><input class="form-control" ng-model="model.detail.remark" ng-disabled="true"></td>
-                        </tr>
-                        <tr>
-                            <td><label class="control-label">Start Date</label></td>
-                            <td><input class="form-control" smart-input="date" ng-model="model.detail.loanStartDate"></td>
-                        </tr>
-                        <tr>
                             <td><label class="control-label">Interest Rate</label></td>
-                            <td><input class="form-control" ng-model="model.detail.interestRate"></td>
+                            <td><input smart-input="decimal" class="form-control" ng-model="model.detail.interestRate" disabled></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Count</label></td>
-                            <td><input class="form-control" ng-model="model.detail.installmentCount"></td>
+                            <td><input smart-input="integer" class="form-control" ng-model="model.detail.installmentCount" disabled></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Amount</label></td>
-                            <td><input class="form-control" ng-model="model.detail.installmentAmount"></td>
+                            <td><input smart-input="decimal" class="form-control" ng-model="model.detail.installmentAmount" disabled></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Panalty Rate</label></td>
-                            <td><input class="form-control"  ng-model="model.detail.panaltyRate"></td>
+                            <td><input smart-input="decimal" class="form-control"  ng-model="model.detail.panaltyRate" disabled></td>
                         </tr>
                     </tbody>
                 </table>
