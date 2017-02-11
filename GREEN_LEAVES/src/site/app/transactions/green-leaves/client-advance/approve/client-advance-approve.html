@@ -33,7 +33,7 @@
                                 <span class="label label-primary">{{request[0]|fixedLength:5}}</span> {{model.getRoute(request[0]).name}}
                             </td>
                             <td class="text-right"><span class="label label-primary">{{request[2]}}</span></td>
-                            <td class="text-right">{{request[1]| number:2}}</td>
+                            <td class="text-right">{{request[1] | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -47,8 +47,8 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right"><span class="label label-primary">{{model.getRequestCount()}}</span></td>
-                            <th class="text-right"><span class="label label-primary">{{model.getRequestTotal() | number:2}}</span></th>
+                            <td class="text-right">{{model.getRequestCount()}}</td>
+                            <th class="text-right">{{model.getRequestTotal() | number:2}}</th>
                         </tr>
                     </tbody>
                 </table>
@@ -100,8 +100,8 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right"><span class="label label-primary">{{model.requestsData.length}}</span></td>
-                            <td class="text-right"><span class="label label-primary">{{model.getRequestDataTotal() | number:2}}</span></td>
+                            <td class="text-right">{{model.requestsData.length}}</td>
+                            <td class="text-right">{{model.getRequestDataTotal() | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>

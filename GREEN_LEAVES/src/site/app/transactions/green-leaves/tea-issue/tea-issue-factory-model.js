@@ -12,7 +12,7 @@
                         "transaction": null,
                         "routeOfficer": null,
                         "client": null,
-                        "price": null,
+                        "price": 0.00,
                         "qty": null,
                         "type": null,
                         "status": "PENDING",

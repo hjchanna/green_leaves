@@ -23,7 +23,8 @@ public interface FertilizerRepository extends JpaRepository<TFertilizer, Integer
 
     @Query(value = "SELECT \n"
             + "route_officer,\n"
-            + "sum(amount)\n"
+            + "sum(amount),"
+            + "count(*)\n"
             + "FROM t_fertilizer  \n"
             + "WHERE branch = :branch and status = \"PENDING\"\n"
             + "GROUP BY t_fertilizer.route_officer;", nativeQuery = true)

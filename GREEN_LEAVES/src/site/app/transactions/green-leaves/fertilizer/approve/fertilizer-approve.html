@@ -22,13 +22,15 @@
             </div>
             <div class="col-xs-12 smart-scroll-y" style="flex: 1 1 auto;height: calc(100% - 200px);">
                 <table class="table-hover table-primary">
-                    <col style="width: 70%"/>
+                    <col style="width: 60%"/>
+                    <col style="width: 15%"/>
                     <col style="width: 30%"/>
                     <tbody>
                         <tr ng-class="ui.selectedRouteOfficer === request[0] ? 'selected' : ''" ng-repeat="request in model.pendingFertilizerRequestByRouteVise|filter:search" ng-click="ui.getClientData(request[0]);">
                             <td>
                                 <span class="label label-primary">{{model.routeOfficer(request[0]).indexNo}}</span> {{model.routeOfficer(request[0]).name}}
                             </td>
+                            <td>{{request[2]}}</td>
                             <td class="text-right">{{request[1]| number:2}}</td>
                         </tr>
                     </tbody>

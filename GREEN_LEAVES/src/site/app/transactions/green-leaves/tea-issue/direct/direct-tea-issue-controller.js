@@ -5,7 +5,6 @@
     angular.module("directTeaIssueModule")
             .controller("directTeaIssueController", function ($scope, DirectTeaIssueModel, $filter, $timeout, Notification, ConfirmPane) {
                 $scope.model = new DirectTeaIssueModel();
-                $scope.customerId;
 
                 $scope.ui = {};
 

@@ -37,6 +37,10 @@
                                     that.routeOfficers = data;
                                 });
 
+                        that.getPendingData();
+                    },
+                    getPendingData: function () {
+                        var that = this;
                         FertilizerModelService.getPendingRequestByRouteVise()
                                 .success(function (data) {
                                     that.pendingFertilizerRequestByRouteVise = data;
@@ -74,6 +78,7 @@
                     refreshTable: function (index) {
                         this.fertilizerItems = [];
                         this.pendingFertilizerRequest.splice(index, 1);
+                        this.getPendingData();
                         this.getTotal();
                     },
                     selectClientData: function (routeOfficer) {

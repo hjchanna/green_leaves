@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("TeaSettlementModel", function (TeaIssueService, TeaIssueModelFactory) {
+            .factory("TeaSettlementModel", function (TeaIssueService, TeaIssueModelFactory, $q) {
                 function TeaSettlementModel() {
                     this.constructor();
                 }
@@ -14,6 +14,7 @@
                     teaGrades: [],
                     //teaIsse list
                     pendingTeaIssueRequest: [],
+                    teaIssueList: [],
                     constructor: function () {
                         var that = this;
                         that.data = TeaIssueModelFactory.newData();
@@ -32,53 +33,85 @@
                                 .success(function (data) {
                                     that.teaGrades = data;
                                 });
-
-                        TeaIssueService.getPendingTeaIssueRequest()
-                                .success(function (data) {
-                                    that.pendingTeaIssueRequest = data;
-                                });
                     },
                     clear: function () {
+                        this.pendingTeaIssueRequest = [];
+                        this.teaIssueList = [];
+                        this.data = TeaIssueModelFactory.newData();
+                    },
+                    searchPendingRouteOfficerRequest: function (model) {
                         var that = this;
-                        TeaIssueService.getPendingTeaIssueRequest()
+                        TeaIssueService.getPendingTeaIssueRequest(model)
                                 .success(function (data) {
                                     that.pendingTeaIssueRequest = data;
                                 });
+                        that.pendingRouteOfficerTeaIssueTotal();
                     },
-                    approve: function (indexNo) {
+                    addDetail: function () {
+                        var defer = $q.defer();
                         var that = this;
-                        var status = "APPROVE";
-                        TeaIssueService.approveOrRejectTeaIssueRequest(indexNo, status)
-                                .success(function (data) {
-                                    var id = -1;
-                                    for (var i = 0; i < that.pendingTeaIssueRequest.length; i++) {
-                                        if (that.pendingTeaIssueRequest[i].indexNo === indexNo) {
-                                            id = i;
-                                        }
-                                    }
-                                    that.pendingTeaIssueRequest.splice(id, 1);
-                                });
+
+                        var afterbal = that.getOfficerTeaGradeAmount(that.data.teaGrade) - that.getTeaGradeIssueCount(that.data.teaGrade);
+                        afterbal = afterbal - parseInt(that.data.qty);
+                        
+                        if (
+                                that.data.date
+                                && that.data.client
+                                && that.data.teaGrade
+                                && parseInt(that.data.qty) > 0
+                                && afterbal >= 0) {
+                            that.data.type = "TEA_SETTLEMENT";
+
+                            that.teaIssueList.unshift(that.data);
+
+                            var routeOfficerTemp = that.teaIssueList[that.teaIssueList.length - 1].routeOfficer;
+                            that.data = TeaIssueModelFactory.newData();
+                            that.data.routeOfficer = routeOfficerTemp;
+
+                            that.teaIssueTotal();
+                            defer.resolve();
+                        } else {
+                            defer.reject();
+                            that.teaIssueTotal();
+                        }
+                        return defer.promise;
                     },
-                    reject: function (indexNo) {
+                    editDetail: function (index) {
+                        var fertilizer = this.teaIssueList[index];
+                        this.teaIssueList.splice(index, 1);
+                        this.data = fertilizer;
+                        this.itemTotal();
+                    },
+                    deleteDetail: function (index) {
+                        this.teaIssueList.splice(index, 1);
+                        this.itemTotal();
+                    },
+                    save: function () {
                         var that = this;
-                        var status = "REJECT";
-                        TeaIssueService.approveOrRejectTeaIssueRequest(indexNo, status)
+                        var defer = $q.defer();
+                        TeaIssueService.saveSettlemnt(this.teaIssueList)
                                 .success(function (data) {
-                                    var id = -1;
-                                    for (var i = 0; i < that.pendingTeaIssueRequest.length; i++) {
-                                        if (that.pendingTeaIssueRequest[i].indexNo === indexNo) {
-                                            id = i;
-                                        }
-                                    }
-                                    that.pendingTeaIssueRequest.splice(id, 1);
+                                    defer.resolve();
+                                    that.clear();
+                                    that.searchPendingRouteOfficerRequest();
+                                })
+                                .error(function (data) {
+                                    that.clear();
+                                    defer.reject();
                                 });
+                        return defer.promise;
                     },
-                    itemTotal: function (type) {
+                    teaIssueTotal: function () {
+                        var itemTotal = 0.0;
+                        angular.forEach(this.teaIssueList, function (value) {
+                            itemTotal += value.price * value.qty;
+                        });
+                        return itemTotal;
+                    },
+                    pendingRouteOfficerTeaIssueTotal: function () {
                         var itemTotal = 0.0;
                         angular.forEach(this.pendingTeaIssueRequest, function (value) {
-                            if (type === value.type) {
-                                itemTotal += value.price * value.qty;
-                            }
+                            itemTotal += value[2];
                         });
                         return itemTotal;
                     },
@@ -92,16 +125,7 @@
                         });
                         return client;
                     },
-                    routeOfficer: function (indexNo) {
-                        var client;
-                        angular.forEach(this.routeOfficers, function (value) {
-                            if (value.indexNo === parseInt(indexNo)) {
-                                client = value;
-                                return;
-                            }
-                        });
-                        return client;
-                    },
+                    //client
                     client: function (indexNo) {
                         var client;
                         angular.forEach(this.clients, function (value) {
@@ -144,6 +168,47 @@
                             }
                         });
                         return label;
+                    },
+                    //find customer by client number
+                    searchClientByClientNo: function (clientNumber) {
+                        var client;
+                        angular.forEach(this.clients, function (value) {
+                            if (value.clientNumber === parseInt(clientNumber)) {
+                                client = value;
+                                return;
+                            }
+                        });
+                        return client;
+                    },
+                    issueConfirmation: function (teaGrade) {
+                        var label;
+                        angular.forEach(this.pendingTeaIssueRequest, function (value) {
+                            if (teaGrade === parseInt(value[1])) {
+                                label = true;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    getTeaGradeIssueCount: function (teaGrade) {
+                        var total = 0;
+                        angular.forEach(this.teaIssueList, function (value) {
+                            if (teaGrade === parseInt(value.teaGrade)) {
+                                total += value.qty;
+                                return;
+                            }
+                        });
+                        return total;
+                    },
+                    getOfficerTeaGradeAmount: function (teaGrade) {
+                        var total = 0;
+                        angular.forEach(this.pendingTeaIssueRequest, function (value) {
+                            if (teaGrade === parseInt(value[1])) {
+                                total += value[2];
+                                return;
+                            }
+                        });
+                        return total;
                     }
                 };
                 return TeaSettlementModel;

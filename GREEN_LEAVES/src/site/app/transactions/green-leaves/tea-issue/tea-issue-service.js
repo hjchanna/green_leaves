@@ -18,6 +18,9 @@
         this.saveTeaIssue = function (data) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/save-tea-issue", data);
         };
+        this.saveSettlemnt = function (data) {
+            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/save-tea-settlement", data);
+        };
 
         //find by teaIssue by branch and number
         this.loadTeaIssue = function (date, number, type) {
@@ -29,12 +32,8 @@
         };
 
         //tea issue settlement
-        this.getPendingTeaIssueRequest = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/pending-tea-issue");
-        };
-
-        this.approveOrRejectTeaIssueRequest = function (indexNo, status) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/approve-or-reject-tea-issue/" + indexNo + "/" + status);
+        this.getPendingTeaIssueRequest = function (routeOfficer) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/pending-tea-issue/" + routeOfficer);
         };
 
     };
