@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Kelum
+ * @author Don
  */
 @Entity
 @Table(name = "m_tea_grade")
@@ -39,10 +39,26 @@ public class MTeaGrade implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Column(name = "grms")
+    private int grms;
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "price")
     private BigDecimal price;
 
     public MTeaGrade() {
+    }
+
+    public MTeaGrade(Integer indexNo) {
+        this.indexNo = indexNo;
+    }
+
+    public MTeaGrade(Integer indexNo, String name, int grms, BigDecimal price) {
+        this.indexNo = indexNo;
+        this.name = name;
+        this.grms = grms;
+        this.price = price;
     }
 
     public Integer getIndexNo() {
@@ -59,6 +75,14 @@ public class MTeaGrade implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getGrms() {
+        return grms;
+    }
+
+    public void setGrms(int grms) {
+        this.grms = grms;
     }
 
     public BigDecimal getPrice() {

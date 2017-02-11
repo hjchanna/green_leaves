@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.tea_issue;
 
+import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TRouteOfficerTeaLedger;
 import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,11 @@ public class TeaIssueController {
     @Autowired
     private TeaIssueService teaIssueService;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<TRouteOfficerTeaLedger> getTeaIssue() {
+        return teaIssueService.getAllTRouteOfficerTeaLedger();
+    }
+
     @RequestMapping(value = "/{date}/{number}/{type}", method = RequestMethod.GET)
     public TTeaIssue getTeaIssue(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer number, @PathVariable String type) {
         return teaIssueService.getTeaIssue(date, number, type);
@@ -38,6 +44,11 @@ public class TeaIssueController {
     public Integer saveTeaIssue(@RequestBody List<TTeaIssue> teaIssues) {
         return teaIssueService.saveTeaIssue(teaIssues);
     }
+    
+    @RequestMapping(value = "/save-tea-settlement", method = RequestMethod.POST)
+    public Integer saveTeaSettlement(@RequestBody List<TTeaIssue> teaIssues) {
+        return teaIssueService.saveTeaSettlement(teaIssues);
+    }
 
     @RequestMapping(value = "/delete-tea-issue/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteTeaIssue(@PathVariable Integer indexNo) {
@@ -45,14 +56,8 @@ public class TeaIssueController {
         return indexNo;
     }
 
-    @RequestMapping(value = "/pending-tea-issue", method = RequestMethod.GET)
-    public List<TTeaIssue> getPendingRequestByType() {
-        return teaIssueService.getPendingTeaIssueRequest();
-    }
-
-    @RequestMapping(value = "/approve-or-reject-tea-issue/{indexNo}/{status}", method = RequestMethod.GET)
-    public Integer approveOrRejectTeaIssue(@PathVariable Integer indexNo, @PathVariable String status) {
-        teaIssueService.approveOrRejectTeaIssue(indexNo, status);
-        return indexNo;
+    @RequestMapping(value = "/pending-tea-issue/{routeOfficer}", method = RequestMethod.GET)
+    public List<Object[]> getPendingRequestByType(@PathVariable Integer routeOfficer) {
+        return teaIssueService.getPendingTeaIssueRequest(routeOfficer);
     }
 }

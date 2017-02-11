@@ -4,7 +4,7 @@
 <div class="index-content-body ">
 
     <div class="col-xs-4 background-dark border-dark-right">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+        <div ng-show="model.requests.length" class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12" style="flex: 0 0 auto;">
                 <input type="text" class="search-input" placeholder="search">
             </div>
@@ -22,8 +22,8 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="flex: 1 1 auto;height: calc(100% - 200px);">
-                <table class="table-hover">
+            <div ng-show="model.requests.length" class="col-xs-12 smart-scroll-y" style="flex: 1 1 auto;height: calc(100% - 200px);">
+                <table class="table-hover table-primary">
                     <col style="width: 60%"/>
                     <col style="width: 10%"/>
                     <col style="width: 30%"/>
@@ -38,6 +38,7 @@
                     </tbody>
                 </table>
             </div>
+
             <div class="col-xs-12">
                 <table>
                     <col style="width: 60%"/>
@@ -46,17 +47,20 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right"><span class="label label-primary">{{model.getRequestCount()}}</span></td>
-                            <th class="text-right"><span class="label label-primary">{{model.getRequestTotal() | number:2}}</span></th>
+                            <td class="text-right">{{model.getRequestCount()}}</td>
+                            <th class="text-right">{{model.getRequestTotal() | number:2}}</th>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="placeholder" ng-hide="model.requests.length" style="height: calc(100vh - 52px); padding: 10px 0px 10px 0px;">
+            <h1>PLEASE SELECT AN ADVANCE REQUEST TO DISPLAY :(</h1>
+        </div>
     </div>
 
     <div class="col-xs-4 background-light">
-        <div class="row" ng-show="model.requestsData" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+        <div class="row" ng-show="model.requestsData.length" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
             <div class="col-xs-12" >
                 <table>
                     <col style="width: 70%;"/>
@@ -96,16 +100,15 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right"><span class="label label-primary">{{model.requestsData.length}}</span></td>
-                            <td class="text-right"><span class="label label-primary">{{model.getRequestDataTotal() | number:2}}</span></td>
+                            <td class="text-right">{{model.requestsData.length}}</td>
+                            <td class="text-right">{{model.getRequestDataTotal() | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        
-        <div class="placeholder" ng-hide="model.requestsData" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
-                <h1>PLEASE SELECT AN ADVANCE REQUEST TO DISPLAY :(</h1>
+        <div class="placeholder" ng-hide="model.requestsData.length" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
+            <h1>PLEASE SELECT AN ADVANCE REQUEST TO DISPLAY :(</h1>
         </div>
     </div>
 
@@ -152,13 +155,13 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>Total</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[0]|number:2}}</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[1]|number:2}}</td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[0] | number:2}}</td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[1] | number:2}}</td>
                         </tr>
                         <tr class="text-bold">
                             <td>Balance</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[2]|number:2}}</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[3]|number:2}}</td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[2] | number:2}}</td>
+                            <td class="text-right">{{ui.getClientLedgerTotal()[3] | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>

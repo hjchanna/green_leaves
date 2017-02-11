@@ -18,15 +18,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author Don
  */
 @Entity
-@Table(name = "t_tea_issue")
-public class TTeaIssue implements Serializable {
+@Table(name = "t_route_officer_tea_ledger")
+public class TRouteOfficerTeaLedger implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,52 +46,34 @@ public class TTeaIssue implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "number")
-    private int number;
+    @Column(name = "in_qty")
+    private BigDecimal inQty;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "transaction")
-    private int transaction;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "qty")
-    private int qty;
-
-    @Size(max = 25)
-    @Column(name = "type")
-    private String type;
-
-    @Size(max = 25)
-    @Column(name = "status")
-    private String status;
+    @Column(name = "out_qty")
+    private BigDecimal outQty;
 
     @Column(name = "tea_grade")
     private Integer teaGrade;
 
+    @Column(name = "tea_issue")
+    private Integer teaIssue;
+
     @Column(name = "route_officer")
     private Integer routeOfficer;
 
-    public TTeaIssue() {
+    public TRouteOfficerTeaLedger() {
     }
 
-    public TTeaIssue(Integer indexNo, int branch, Date date, int number, int transaction, BigDecimal price, int qty, String type, String status, Integer teaGrade, Integer routeOfficer) {
+    public TRouteOfficerTeaLedger(Integer indexNo, int branch, Date date, BigDecimal inQty, BigDecimal outQty, Integer teaGrade, Integer teaIssue, Integer routeOfficer) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
-        this.number = number;
-        this.transaction = transaction;
-        this.price = price;
-        this.qty = qty;
-        this.type = type;
-        this.status = status;
+        this.inQty = inQty;
+        this.outQty = outQty;
         this.teaGrade = teaGrade;
+        this.teaIssue = teaIssue;
         this.routeOfficer = routeOfficer;
     }
 
@@ -120,52 +101,20 @@ public class TTeaIssue implements Serializable {
         this.date = date;
     }
 
-    public int getNumber() {
-        return number;
+    public BigDecimal getInQty() {
+        return inQty;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setInQty(BigDecimal inQty) {
+        this.inQty = inQty;
     }
 
-    public int getTransaction() {
-        return transaction;
+    public BigDecimal getOutQty() {
+        return outQty;
     }
 
-    public void setTransaction(int transaction) {
-        this.transaction = transaction;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setOutQty(BigDecimal outQty) {
+        this.outQty = outQty;
     }
 
     public Integer getTeaGrade() {
@@ -176,17 +125,20 @@ public class TTeaIssue implements Serializable {
         this.teaGrade = teaGrade;
     }
 
+    public Integer getTeaIssue() {
+        return teaIssue;
+    }
+
+    public void setTeaIssue(Integer teaIssue) {
+        this.teaIssue = teaIssue;
+    }
+
     public Integer getRouteOfficer() {
         return routeOfficer;
     }
 
     public void setRouteOfficer(Integer routeOfficer) {
         this.routeOfficer = routeOfficer;
-    }
-
-    @Override
-    public String toString() {
-        return "TTeaIssue{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", number=" + number + ", transaction=" + transaction + ", price=" + price + ", qty=" + qty + ", type=" + type + ", status=" + status + ", teaGrade=" + teaGrade + ", routeOfficer=" + routeOfficer + '}';
     }
 
 }

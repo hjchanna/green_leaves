@@ -5,8 +5,10 @@
  */
 package com.mac.green_leaves.v1.green_leaves.tea_issue;
 
+import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TRouteOfficerTeaLedger;
 import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,15 @@ public class TeaIssueService {
 
     @Autowired
     private TeaIssueRepository teaIssueRepository;
-    List<TTeaIssue> getPendingTeaIssueRequest;
+    @Autowired
+    private TRouteOfficerTeaLedgerRepository tRouteOfficerTeaLedgerRepository;
 
     public List<TTeaIssue> getAllIteaIssue() {
         return teaIssueRepository.findAll();
+    }
+
+    public List<TRouteOfficerTeaLedger> getAllTRouteOfficerTeaLedger() {
+        return tRouteOfficerTeaLedgerRepository.findAll();
     }
 
     private final String PENDING_STATUS = "PENDING";
@@ -44,10 +51,55 @@ public class TeaIssueService {
                 maxNumber = 0;
             }
             teaIssue.setNumber(maxNumber + 1);
-            teaIssueRepository.save(teaIssues);
+            TTeaIssue saveData = teaIssueRepository.save(teaIssue);
+
+            
+            // route officer tea issue
+            if (null != teaIssue.getRouteOfficer()) {
+                TRouteOfficerTeaLedger tRouteOfficerTeaLedger = new TRouteOfficerTeaLedger();
+                tRouteOfficerTeaLedger.setBranch(teaIssue.getBranch());
+                tRouteOfficerTeaLedger.setDate(teaIssue.getDate());
+                tRouteOfficerTeaLedger.setInQty(new BigDecimal(teaIssue.getQty()));
+                tRouteOfficerTeaLedger.setOutQty(BigDecimal.ZERO);
+                tRouteOfficerTeaLedger.setRouteOfficer(teaIssue.getRouteOfficer());
+                tRouteOfficerTeaLedger.setTeaGrade(teaIssue.getTeaGrade());
+                tRouteOfficerTeaLedger.setTeaIssue(saveData.getIndexNo());
+                tRouteOfficerTeaLedgerRepository.save(tRouteOfficerTeaLedger);
+            }
         }
         return 1;
     }
+    
+    public Integer saveTeaSettlement(List<TTeaIssue> teaIssues) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        for (TTeaIssue teaIssue : teaIssues) {
+            teaIssue.setBranch(branch);
+            teaIssue.setStatus(PENDING_STATUS);
+            Integer maxNumber = teaIssueRepository.getMaximumNumberByBranch(teaIssue.getBranch());
+            if (maxNumber == null) {
+                maxNumber = 0;
+            }
+            teaIssue.setNumber(maxNumber + 1);
+            TTeaIssue saveData = teaIssueRepository.save(teaIssue);
+
+            
+            // route officer tea issue
+            if (null != teaIssue.getRouteOfficer()) {
+                TRouteOfficerTeaLedger tRouteOfficerTeaLedger = new TRouteOfficerTeaLedger();
+                tRouteOfficerTeaLedger.setBranch(teaIssue.getBranch());
+                tRouteOfficerTeaLedger.setDate(teaIssue.getDate());
+                tRouteOfficerTeaLedger.setInQty(BigDecimal.ZERO);
+                tRouteOfficerTeaLedger.setOutQty(new BigDecimal(teaIssue.getQty()));
+                tRouteOfficerTeaLedger.setRouteOfficer(teaIssue.getRouteOfficer());
+                tRouteOfficerTeaLedger.setTeaGrade(teaIssue.getTeaGrade());
+                tRouteOfficerTeaLedger.setTeaIssue(saveData.getIndexNo());
+                tRouteOfficerTeaLedgerRepository.save(tRouteOfficerTeaLedger);
+            }
+        }
+        return 1;
+    }
+    
+    
 
     public TTeaIssue getTeaIssue(Date date, Integer number, String type) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
@@ -60,14 +112,8 @@ public class TeaIssueService {
         teaIssueRepository.save(teaIssue);
     }
 
-    public List<TTeaIssue> getPendingTeaIssueRequest() {
+    public List<Object[]> getPendingTeaIssueRequest(Integer routeOfficer) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return teaIssueRepository.findByBranchAndStatus(1, PENDING_STATUS);
-    }
-
-    public void approveOrRejectTeaIssue(Integer indexNo, String status) {
-        TTeaIssue teaIssue = teaIssueRepository.getOne(indexNo);
-        teaIssue.setStatus(status);
-        teaIssueRepository.save(teaIssue);
+        return teaIssueRepository.findByBranchAndStatus(1, PENDING_STATUS,routeOfficer);
     }
 }
