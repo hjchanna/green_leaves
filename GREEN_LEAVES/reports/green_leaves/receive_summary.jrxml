@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
-<!-- 2017-02-12T15:27:25 -->
+<!-- 2017-02-13T09:19:40 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="green_leaves_receive_summary" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f47bc3d3-ba12-4f69-8bdb-c090a75798bb">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -183,7 +183,7 @@ order by
 				<reportElement positionType="FixRelativeToBottom" x="-1" y="0" width="555" height="30" uuid="2d7b9cac-70e4-45bf-9a49-4da9e3eae4c0"/>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="18" isBold="true"/>
+					<font fontName="SansSerif" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NEW HOPEWELL TEA FACTORY]]></text>
 			</staticText>
@@ -295,7 +295,7 @@ order by
 				<reportElement x="0" y="0" width="453" height="20" uuid="18d1edad-b6bd-43ec-ab30-de8b63b9ad16"/>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8" isBold="false"/>
+					<font fontName="SansSerif" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
 			</staticText>
@@ -387,7 +387,7 @@ order by
 				<reportElement x="0" y="160" width="554" height="20" uuid="adf0fa05-336b-49db-b605-a6147ccace69"/>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Courier New" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
 			</staticText>
