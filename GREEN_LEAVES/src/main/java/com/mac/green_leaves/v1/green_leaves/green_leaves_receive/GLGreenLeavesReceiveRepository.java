@@ -44,5 +44,9 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
     @Query(value = "update t_green_leaves_receive_detail set normal_leaves_quantity = :normalLeavesTotal,super_leaves_quantity = :superLeavesTotal where green_leaves_receive = :indexNo", nativeQuery = true)
     public Integer updateNormalLeafAndSuperLeaf(@Param("indexNo") Integer indexNo, @Param("normalLeavesTotal") BigDecimal normalLeavesTotal, @Param("superLeavesTotal") BigDecimal superLeavesTotal);
 
-    public List<TGreenLeavesReceive> findByBranchAndRouteAndDate(Integer branch, Integer route,Date date);
+    public List<TGreenLeavesReceive> findByBranchAndRouteAndDate(Integer branch, Integer route, Date date);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "delete from t_green_leaves_receive_detail where index_no = :indexNo", nativeQuery = true)
+    public void deleteGreenLeavesReceiveDetail(@Param("indexNo") Integer indexNo);
 }

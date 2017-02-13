@@ -66,6 +66,18 @@ public class TGreenLeavesReceive implements Serializable {
     private Integer route;
 
     @Basic(optional = false)
+    @Column(name = "route_officer")
+    private Integer routeOfficer;
+
+    @Basic(optional = false)
+    @Column(name = "route_helper")
+    private Integer routeHelper;
+
+    @Basic(optional = false)
+    @Column(name = "vehicle")
+    private Integer vehicle;
+
+    @Basic(optional = false)
     @Column(name = "status")
     private String status;
 
@@ -75,13 +87,16 @@ public class TGreenLeavesReceive implements Serializable {
     public TGreenLeavesReceive() {
     }
 
-    public TGreenLeavesReceive(Integer indexNo, int branch, int transaction, int number, Date date, Integer route, String status, List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
+    public TGreenLeavesReceive(Integer indexNo, int branch, int transaction, int number, Date date, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, String status, List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.transaction = transaction;
         this.number = number;
         this.date = date;
         this.route = route;
+        this.routeOfficer = routeOfficer;
+        this.routeHelper = routeHelper;
+        this.vehicle = vehicle;
         this.status = status;
         this.greenLeavesReceiveDetails = greenLeavesReceiveDetails;
     }
@@ -150,9 +165,30 @@ public class TGreenLeavesReceive implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "TGreenLeavesReceive{" + "indexNo=" + indexNo + '}';
+    public Integer getRouteOfficer() {
+        return routeOfficer;
     }
+
+    public void setRouteOfficer(Integer routeOfficer) {
+        this.routeOfficer = routeOfficer;
+    }
+
+    public Integer getRouteHelper() {
+        return routeHelper;
+    }
+
+    public void setRouteHelper(Integer routeHelper) {
+        this.routeHelper = routeHelper;
+    }
+
+    public Integer getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Integer vehicle) {
+        this.vehicle = vehicle;
+    }
+
+
 
 }

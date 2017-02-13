@@ -13,7 +13,7 @@
                                 <input id="branch" class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.serchWeight($model)">
                             </td>
                             <td>
-                                <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.getRouteOfficerAndRouteHelperAndVehicle($model);" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                             <td>
                                 <input class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">
@@ -21,6 +21,18 @@
                             <td>
                                 <input class="form-control" smart-input="integer"  input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="control-table">
+                    <col class="col-xs-5"/>
+                    <col class="col-xs-5"/>
+                    <col class="col-xs-2"/>
+                    <tbody>
+                        <tr>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)"/></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.routeHelper" ng-disabled="ui.mode !== 'EDIT'" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
+                            <td><input class="form-control" smart-input="text" ng-model="model.data.vehicle" ng-disabled="ui.mode !== 'EDIT'" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -63,7 +75,7 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 315px);" ng-show="model.data.greenLeavesReceiveDetails.length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 287px);" ng-show="model.data.greenLeavesReceiveDetails.length">
                 <table class="table-hover">
                     <col style="width: 45%">
                     <col style="width: 20%">
@@ -73,7 +85,7 @@
                         <tr ng-repeat="greenLeavesReceiveDetails in model.data.greenLeavesReceiveDetails" >
                             <td>
                                 <div ng-if="greenLeavesReceiveDetails.client">
-                                    <div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(greenLeavesReceiveDetails.client).clientNumber|fixedLength:5}}</div> 
+                                    <div class="label" ng-class="model.client(greenLeavesReceiveDetails.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(greenLeavesReceiveDetails.client).clientNumber | fixedLength:5}}</div> 
                                     {{model.client(greenLeavesReceiveDetails.client).name}}
                                 </div>
                                 <div ng-if="!greenLeavesReceiveDetails.client">
@@ -92,7 +104,7 @@
                 </table>
             </div>
 
-            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 315px);" ng-hide="model.data.greenLeavesReceiveDetails.length">
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 287px);" ng-hide="model.data.greenLeavesReceiveDetails.length">
                 <h1>PLEASE ADD SUPER LEAVES TO DISPLAY :(</h1>
             </div>
 
@@ -109,42 +121,61 @@
                             <th class="text-right">{{model.totalQuantity[1]|number:2}}</th>
                             <th class="text-right">&nbsp;</th>
                         </tr>
-                        <tr>
-                            <th>FACTORY QUANTITY</th>
-                            <th class="text-right">{{model.factoryQuantity[0]|number:2}}</th>
-                            <th class="text-right">{{model.factoryQuantity[1]|number:2}}</th>
-                            <th class="text-right">&nbsp;</th>
-                        </tr>
-                        <tr>
-                            <th>DIFFERENCE QUANTITY</th>
-                            <th class="text-right">{{model.differenceQuantity[0]|number:2}}</th>
-                            <th class="text-right">{{model.differenceQuantity[1]|number:2}}</th>
-                            <th class="text-right">&nbsp;</th>
-                        </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
     <div class="col-xs-4 background-dark border-dark-left" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-        <table class="control-table">
-            <col class="col-xs-3"/>
-            <col class="col-xs-3"/>
-            <tbody>
-                <tr>
-                    <td><label class="control-label">ROUTE OFFICER</label></td>
-                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeOfficer" ng-disabled="true" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
-                </tr>
-                <tr>
-                    <td><label class="control-label">ROUTE HELPER</label></td>
-                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.routeHelper" ng-disabled="true" input-hint="route helper"  uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)"/></td>
-                </tr>
-                <tr>
-                    <td><label class="control-label">VEHICLE</label></td>
-                    <td><input class="form-control" smart-input="text" ng-model="model.routeData.vehicle" ng-disabled="true" input-hint="vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" /></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="col-xs-12">
+            <table>
+                <thead>
+                    <tr ng-class="model.data.status === 'DELETED' ? 'background-danger' : 'selected'">
+                        <td class="text-center"><h4>FACTORY QUANTITY</h4></td>
+                    </tr>
+                </thead>
+            </table>
+
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">NORMAL</label></td>
+                        <td><input class="form-control text-right" ng-model="model.factoryQuantity[0]" ng-disabled="true"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">SUPER</label></td>
+                        <td><input class="form-control text-right" ng-model="model.factoryQuantity[1]" ng-disabled="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table>
+                <thead>
+                    <tr ng-class="model.data.status === 'DELETED' ? 'background-danger' : 'selected'">
+                        <td class="text-center"><h4>DIFFERENCE QUANTITY</h4></td>
+                    </tr>
+                </thead>
+            </table>
+
+            <table class="control-table">
+                <col style="width: 35%"/>
+                <col style="width: 65%"/>
+
+                <tbody>
+                    <tr>
+                        <td><label class="control-label">NORMAL</label></td>
+                        <td><input class="form-control text-right" ng-model="model.differenceQuantity[0]" ng-disabled="true"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="control-label">SUPER</label></td>
+                        <td><input class="form-control text-right" ng-model="model.differenceQuantity[1]" ng-disabled="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="fab-container">
         <a class="fab fab-default" fab-show="ui.mode ==='SELECTED' || ui.mode ==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>

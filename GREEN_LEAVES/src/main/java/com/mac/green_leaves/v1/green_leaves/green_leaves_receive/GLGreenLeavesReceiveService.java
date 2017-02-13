@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,9 @@ public class GLGreenLeavesReceiveService {
 
     @Autowired
     private GLGreenLeavesReceiveRepository greenLeavesReceiveRepository;
+
+    @Autowired
+    GLGreenLeavesReceiveDetailRepository gLGreenLeavesReceiveDetailRepository;
 
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
@@ -68,7 +72,7 @@ public class GLGreenLeavesReceiveService {
         }
 
         greenLeavesReceive = greenLeavesReceiveRepository.save(greenLeavesReceive);
-        return greenLeavesReceive.getIndexNo();
+        return greenLeavesReceive.getNumber();
     }
 
     public Object[] getTotalSuperLeavesAndNormalLeaves(Integer branch, Integer route, Date date) {
@@ -105,5 +109,17 @@ public class GLGreenLeavesReceiveService {
         TGreenLeavesReceive tGreenLeavesReceive = greenLeavesReceiveRepository.getOne(indexNo);
         tGreenLeavesReceive.setStatus("DELETED");
         greenLeavesReceiveRepository.save(tGreenLeavesReceive);
+    }
+
+    @Transactional
+    public void deleteGreenLeavesReceiveDetail(Integer indexNo) {
+        greenLeavesReceiveRepository.deleteGreenLeavesReceiveDetail(indexNo);
+        
+//        TGreenLeavesReceiveDetail greenLeavesReceiveDetail = gLGreenLeavesReceiveDetailRepository.getOne(indexNo);
+//        Integer greenLeavesReceiveIndexNo = greenLeavesReceiveDetail.getGreenLeavesReceive().getIndexNo();
+//        TGreenLeavesReceive greenLeavesReceive = greenLeavesReceiveRepository.getOne(greenLeavesReceiveIndexNo);
+//        greenLeavesReceive.getGreenLeavesReceiveDetails().remove(greenLeavesReceiveDetail);
+//        gLGreenLeavesReceiveDetailRepository.delete(greenLeavesReceiveDetail);
+//        greenLeavesReceiveRepository.save(greenLeavesReceive);
     }
 }
