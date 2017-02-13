@@ -13,9 +13,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReportViewerService {
 
     private static final String REPORT_DIR = "reports";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM dd yyyy");
 
     @Autowired
     private DataSource dataSource;
@@ -111,7 +115,7 @@ public class ReportViewerService {
         return reportParameters;
     }
 
-    public void writePdfReport(HttpServletResponse response, HashMap<String, Object> map) throws JRException, IOException, SQLException {
+    public void writePdfReport(HttpServletResponse response, HashMap<String, String> map, Integer branch) throws JRException, IOException, SQLException, ParseException {
         String action = (String) map.get("action");
 
         String reportFile = new String(Base64.getDecoder().decode(action));
@@ -124,18 +128,53 @@ public class ReportViewerService {
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.putAll(map);
 
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(compiledFile);
+        JRParameter[] jRParameters = jasperReport.getParameters();
+        for (JRParameter jRParameter : jRParameters) {
+            if (!jRParameter.isSystemDefined()) {
+                String name = jRParameter.getName();
+                Class type = jRParameter.getValueClass();
+
+                String value = map.get(name);
+                if (value != null) {
+                    System.out.println(type);
+                    System.out.println(value);
+                    System.out.println(getTypedValue(value, type));
+                    System.out.println("-----------------");
+                    params.put(name, getTypedValue(value, type));
+                }
+            }
+        }
+        params.put("CURRENT_BRANCH", branch);
+
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
 
         String reportName = jasperReport.getName();
-        
+
         response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment; filename="+reportName+".pdf");
+        response.setHeader("Content-disposition", "attachment; filename=" + reportName + ".pdf");
 
         final OutputStream outStream = response.getOutputStream();
         JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+    }
+
+    private Object getTypedValue(String value, Class type) throws ParseException {
+        if (type.equals(Integer.class)) {
+            if (!value.isEmpty()) {
+                return Integer.parseInt(value);
+            } else {
+                return null;
+            }
+        } else if (type.equals(Date.class)) {
+            if (value.length() > 15) {
+                return DATE_FORMAT.parse(value.substring(4, 15));
+            } else {
+                return null;
+            }
+        } else {
+            return value;
+        }
     }
 
     private void compileReport(String reportFile, String compiledFile) throws JRException {
