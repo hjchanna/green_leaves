@@ -8,12 +8,6 @@
                 GreenLeavesReceiveModel.prototype = {
                     data: {},
                     tempData: {},
-                    //green leaves weigh details
-                    routeData: {
-                        "routeOfficer": null,
-                        "vehicle": null,
-                        "routeHelper": null
-                    },
                     //qtys
                     totalQuantity: [],
                     factoryQuantity: [],
@@ -88,8 +82,18 @@
                         this.refreshQuantity();
                     },
                     deleteDetail: function (index) {
-                        this.data.greenLeavesReceiveDetails.splice(index, 1);
-                        this.refreshQuantity();
+                        var that = this;
+                        if (!that.data.indexNo) {
+                            that.data.greenLeavesReceiveDetails.splice(index, 1);
+                            that.refreshQuantity();
+                        } else {
+                            var greenLeavesReceiveDetails = that.data.greenLeavesReceiveDetails[index];
+                            GreenLeavesReceiveService.deleteGreenLeavesReceiveDetail(parseInt(greenLeavesReceiveDetails.indexNo))
+                                    .success(function () {
+                                        that.data.greenLeavesReceiveDetails.splice(index, 1);
+                                        that.refreshQuantity();
+                                    });
+                        }
                     },
                     load: function () {
                         var number = this.data.number;
@@ -114,7 +118,7 @@
                         if (this.data.route && this.data.date && this.data.branch) {
                             GreenLeavesReceiveService.saveReceive(JSON.stringify(this.data))
                                     .success(function (data) {
-                                        defer.resolve();
+                                        defer.resolve(data);
                                     })
                                     .error(function (data) {
                                         defer.reject();
@@ -291,26 +295,36 @@
                                 });
                         return defer.promise;
                     },
-                    //get route officer and route helper and vehicle find by branch and route and date
                     getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
-                        var defer = $q.defer();
-                        var route = this.data.route;
-                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-                        var branch = this.data.branch;
-                        var that = this.routeData;
-                        GreenLeavesReceiveService.findByBranchAndRouteAndDateGreenLeavesWeigh(branch, route, date)
-                                .success(function (data) {
-                                    console.log(data);
-                                    that.routeHelper = data.routeHelper;
-                                    that.routeOfficer = data.routeOfficer;
-                                    that.vehicle = data.vehicle;
-                                    defer.resolve();
-                                })
-                                .error(function () {
-                                    defer.reject();
-                                });
-                        return defer.promise;
+                        var that = this;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === parseInt(indexNo)) {
+                                that.data.routeHelper = value.routeHelper.indexNo;
+                                that.data.routeOfficer = value.routeOfficer.indexNo;
+                                that.data.vehicle = value.vehicle.indexNo;
+                            }
+                        });
                     }
+//                    //get route officer and route helper and vehicle find by branch and route and date
+//                    getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
+//                        var defer = $q.defer();
+//                        var route = this.data.route;
+//                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+//                        var branch = this.data.branch;
+//                        var that = this.routeData;
+//                        GreenLeavesReceiveService.findByBranchAndRouteAndDateGreenLeavesWeigh(branch, route, date)
+//                                .success(function (data) {
+//                                    console.log(data);
+//                                    that.routeHelper = data.routeHelper;
+//                                    that.routeOfficer = data.routeOfficer;
+//                                    that.vehicle = data.vehicle;
+//                                    defer.resolve();
+//                                })
+//                                .error(function () {
+//                                    defer.reject();
+//                                });
+//                        return defer.promise;
+//                    }
                 };
                 return GreenLeavesReceiveModel;
             });

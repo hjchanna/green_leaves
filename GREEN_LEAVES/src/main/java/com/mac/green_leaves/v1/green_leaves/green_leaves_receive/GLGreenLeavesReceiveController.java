@@ -60,4 +60,10 @@ public class GLGreenLeavesReceiveController {
         greenLeavesReceiveService.deleteGreenLeavesReceive(indexNo);
         return indexNo;
     }
+
+    @RequestMapping(value = "/delete-green-leaves-receive-detail/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteGreenLeavesReceiveDetail(@PathVariable Integer indexNo) {
+        greenLeavesReceiveService.deleteGreenLeavesReceiveDetail(indexNo);
+        return indexNo;
+    }
 }

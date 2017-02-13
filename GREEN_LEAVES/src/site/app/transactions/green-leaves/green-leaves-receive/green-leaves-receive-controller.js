@@ -5,7 +5,8 @@
         $scope.customerId;
 
         $scope.ui = {};
-        $scope.ui.insertProcessing = false;//Douple click duplicate bug fix
+        //Douple click duplicate bug fix
+        $scope.ui.insertProcessing = false;
 
         $scope.ui.new = function () {
             $scope.ui.mode = "EDIT";
@@ -33,11 +34,12 @@
             ConfirmPane.dangerConfirm("Delete Green Leave Receive")
                     .confirm(function () {
                         $scope.model.deleteGreenLavesReceive();
+                        $scope.ui.mode = "IDEAL";
+                        $scope.ui.type = "NORMAL";
                     })
                     .discard(function () {
                         console.log("ReJECT");
                     });
-
         };
 
         //find by receive by branch and number
@@ -71,16 +73,49 @@
 
         //save green leaves receive and receive details
         $scope.ui.save = function () {
-            if (!$scope.ui.insertProcessing) {
-                $scope.ui.insertProcessing = true;
-                $scope.model.save()
-                        .then(function () {
-                            $scope.ui.mode = "IDEAL";
-                            $scope.model.clear();
-                            $scope.ui.insertProcessing = false;
+            if (!$scope.model.data.branch) {
+                Notification.error("please select branch");
+            } else if (!$scope.model.data.route) {
+                Notification.error("please select route");
+            } else if (!$scope.model.data.date) {
+                Notification.error("please select date");
+            } else if (!$scope.model.data.routeOfficer) {
+                Notification.error("please select route officer");
+            } else if (!$scope.model.data.routeHelper) {
+                Notification.error("please select route helper");
+            } else if (!$scope.model.data.vehicle) {
+                Notification.error("please select vehicle");
+            } else if (!$scope.model.data.greenLeavesReceiveDetails.length) {
+                Notification.error("please select enter collection details");
+            } else if ($scope.model.data.branch
+                    && $scope.model.data.route
+                    && $scope.model.data.date
+                    && $scope.model.data.routeOfficer
+                    && $scope.model.data.routeHelper
+                    && $scope.model.data.vehicle) {
+                ConfirmPane.primaryConfirm("Save Green Leave Receive")
+                        .confirm(function () {
+                            if (!$scope.ui.insertProcessing) {
+                                $scope.ui.insertProcessing = true;
+                                $scope.model.save()
+                                        .then(function (data) {
+                                            optionPane.successMessage("Green Leaves Collection Weigh Save Success! Transaction Number " + data);
+                                            $scope.ui.mode = "IDEAL";
+                                            $scope.model.clear();
+                                            $scope.ui.insertProcessing = false;
+                                        });
+                            }
+                        })
+                        .discard(function () {
+                            console.log("ReJECT");
                         });
             }
         };
+
+        $scope.ui.getRouteOfficerAndRouteHelperAndVehicle = function (model) {
+            $scope.model.getRouteOfficerAndRouteHelperAndVehicle(model);
+        }
+        ;
 
         $scope.ui.discard = function () {
             $scope.ui.mode = "IDEAL";
@@ -149,13 +184,19 @@
         };
 
         $scope.ui.deleteDetail = function (index) {
-            $scope.model.deleteDetail(index);
-            $scope.ui.focus();
+            ConfirmPane.dangerConfirm("Delete Green Leave Receive")
+                    .confirm(function () {
+                        $scope.model.deleteDetail(index);
+                        $scope.ui.focus();
+                    })
+                    .discard(function () {
+                        console.log("REJECT");
+                    });
         };
 
         $scope.ui.loadFactoryQuantity = function () {
             $scope.model.loadFactoryQuantity();
-            $scope.model.getRouteOfficerAndRouteHelperAndVehicle();
+//            $scope.model.getRouteOfficerAndRouteHelperAndVehicle();
             $scope.model.findByBranchAndRouteAndDate();
         };
 
@@ -170,14 +211,14 @@
                     $scope.customerId = client.clientNumber;
                     if ($scope.model.data.route !== client.route) {
                         var clientRoute = $scope.model.routeLabel(client.route);
-                        Notification({message: 'This Client Another Route', title: clientRoute, delay: 20000});
+                        Notification({message: 'This Client Another Route', title: clientRoute});
                     }
                 }
             });
 
 
             $scope.$watch("[model.data.date,model.data.route]", function (newValue, oldValue) {
-                if ($scope.model.data.date) {
+                if ($scope.model.data.date && $scope.model.data.date) {
                     $scope.ui.loadFactoryQuantity();
                 }
             });

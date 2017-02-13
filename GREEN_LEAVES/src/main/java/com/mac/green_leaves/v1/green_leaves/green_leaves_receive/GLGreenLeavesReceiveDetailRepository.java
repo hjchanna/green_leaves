@@ -13,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Don
  */
 public interface GLGreenLeavesReceiveDetailRepository extends JpaRepository<TGreenLeavesReceiveDetail, Integer> {
-    
+
 }
