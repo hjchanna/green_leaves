@@ -53,4 +53,72 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "ON t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
             + "WHERE t_green_leaves_receive.route <> m_client.route;   ", nativeQuery = true)
     public List<Object[]> getCrossReportDetails();
+
+    @Query(value = "select\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.normal_leaves_quantity),0.0) as decimal(10,4)),\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.super_leaves_quantity),0.0) as decimal(10,4))\n"
+            + "from\n"
+            + "  t_green_leaves_receive\n"
+            + "inner join\n"
+            + "  t_green_leaves_receive_detail\n"
+            + "on\n"
+            + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
+            + "where \n"
+            + "  t_green_leaves_receive.date = :date \n"
+            + "and \n"
+            + "  t_green_leaves_receive.route is NULL or t_green_leaves_receive.route = ''\n"
+            + "and\n"
+            + "  t_green_leaves_receive.route_officer is NULL or t_green_leaves_receive.route_officer = ''\n"
+            + "and\n"
+            + "  t_green_leaves_receive.route_helper is NULL or t_green_leaves_receive.route_helper = ''", nativeQuery = true)
+    public List<Object[]> getGreenLeavesReceiveFactoryTotalToDate(@Param("date") @Temporal(TemporalType.DATE) Date date);
+
+    @Query(value = "select\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.normal_leaves_quantity),0.0) as decimal(10,4)),\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.super_leaves_quantity),0.0) as decimal(10,4))\n"
+            + "from\n"
+            + "  t_green_leaves_receive\n"
+            + "inner join\n"
+            + "  t_green_leaves_receive_detail\n"
+            + "on\n"
+            + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
+            + "where \n"
+            + "  month(t_green_leaves_receive.date) = month(:date)\n"
+            + "and \n"
+            + "  t_green_leaves_receive.route is NULL or t_green_leaves_receive.route = ''\n"
+            + "and\n"
+            + "  t_green_leaves_receive.route_officer is NULL or t_green_leaves_receive.route_officer = ''\n"
+            + "and\n"
+            + "  t_green_leaves_receive.route_helper is NULL or t_green_leaves_receive.route_helper = ''", nativeQuery = true)
+    public List<Object[]> getGreenLeavesReceiveFactoryTotalMonth(@Param("date") @Temporal(TemporalType.DATE) Date date);
+
+    @Query(value = "select\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.normal_leaves_quantity),0.0) as decimal(10,4)),\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.super_leaves_quantity),0.0) as decimal(10,4))\n"
+            + "from\n"
+            + "  t_green_leaves_receive\n"
+            + "inner join\n"
+            + "  t_green_leaves_receive_detail\n"
+            + "on\n"
+            + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
+            + "where \n"
+            + "  month(t_green_leaves_receive.date) = month(:date)\n"
+            + "and \n"
+            + "  t_green_leaves_receive.route is NOT NULL", nativeQuery = true)
+    public List<Object[]> getGreenLeavesReceiveRouteWiseTotalMonth(@Param("date") @Temporal(TemporalType.DATE) Date date);
+
+    @Query(value = "select\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.normal_leaves_quantity),0.0) as decimal(10,4)),\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.super_leaves_quantity),0.0) as decimal(10,4))\n"
+            + "from\n"
+            + "  t_green_leaves_receive\n"
+            + "inner join\n"
+            + "  t_green_leaves_receive_detail\n"
+            + "on\n"
+            + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
+            + "where \n"
+            + "  t_green_leaves_receive.date = :date \n"
+            + "and \n"
+            + "  t_green_leaves_receive.route is NOT NULL", nativeQuery = true)
+    public List<Object[]> getGreenLeavesReceiveRouteWiseTotalDaily(@Param("date") @Temporal(TemporalType.DATE) Date date);
 }

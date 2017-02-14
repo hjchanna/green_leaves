@@ -9,6 +9,8 @@ import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -202,5 +204,20 @@ public class DashboardService {
         criteria.add(Restrictions.isNotNull("route"));
         List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
         return greenLeavesReceives;
+    }
+
+    public HashMap<String, Object> getSummryData(Date date) {
+        HashMap<String, Object> summaryData = new HashMap<>();
+        
+        List<Object[]> dailyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalToDate(date);
+        List<Object[]> monthlyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalMonth(date);
+        List<Object[]> dailyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalDaily(date);
+        List<Object[]> monthlyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalMonth(date);
+        
+        summaryData.put("dailyFactory", dailyFactory.get(0));
+        summaryData.put("monthlyFactory", monthlyFactory.get(0));
+        summaryData.put("dailyRouteWise", dailyRouteWise.get(0));
+        summaryData.put("monthlyRouteWise", monthlyRouteWise.get(0));
+        return summaryData;
     }
 }

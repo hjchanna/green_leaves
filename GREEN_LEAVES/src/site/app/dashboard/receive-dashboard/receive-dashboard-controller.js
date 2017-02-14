@@ -1,35 +1,53 @@
 (function () {
     angular.module("receiveDashboardModule", []);
     angular.module("receiveDashboardModule")
-            .controller("receiveDashboardController", function ($scope, ModalDialog, GreenLeavesDashBoardModel, Notification) {
+            .controller("receiveDashboardController", function ($scope, $filter, ModalDialog, GreenLeavesDashBoardModel, Notification) {
                 $scope.model = new GreenLeavesDashBoardModel();
 
                 $scope.ui = {};
 
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
+                    $scope.ui.setDates();
                 };
+
+                $scope.ui.setDates = function () {
+                    var date = new Date();
+                    //month first date
+                    var firstDay = $filter('date')(new Date(date.getFullYear(), date.getMonth(), 1), 'yyyy-MM-dd');
+                    $scope.model.data.fromDate = firstDay;
+                    // to date
+                    var toDay = $filter('date')(new Date(), 'yyyy-MM-dd');
+                    $scope.model.data.toDate = toDay;
+                };
+
                 $scope.ui.discard = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.model.clear();
+                    $scope.ui.setDates();
                 };
 
                 $scope.ui.searchUi;
                 $scope.ui.toggleType = function (type) {
                     if (type === 'Summary') {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchUi = "Summary";
                     } else if (type === 'Receive') {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchUi = "Receive";
                     } else if (type === 'Bulk_Weigh') {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchUi = "Bulk_Weigh";
                     } else if (type === 'Supplier_Weigh') {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchUi = "Supplier_Weigh";
                     } else if (type === "Cross_Entry") {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchUi = "Cross_Entry";
                     }
                 };
@@ -38,9 +56,11 @@
                 $scope.ui.toggleReceiveType = function (type) {
                     if (type === 'Search_Receive_Fully') {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchGreenLeavesReceive = "Search_Receive_Fully";
                     } else if (type === 'Search_Receive_Client') {
                         $scope.model.clear();
+                        $scope.ui.setDates();
                         $scope.ui.searchGreenLeavesReceive = "Search_Receive_Client";
                     }
                 };
@@ -106,8 +126,8 @@
                         if ($scope.model.data.client) {
                             $scope.model.data.clientRoutes = $scope.model.getClientRoute($scope.model.data.client);
                             $scope.model.data.clientId = $scope.model.client($scope.model.data.client).clientNumber;
-                        }else{
-                          $scope.model.data.clientRoutes = "";   
+                        } else {
+                            $scope.model.data.clientRoutes = "";
                         }
                     });
                 };

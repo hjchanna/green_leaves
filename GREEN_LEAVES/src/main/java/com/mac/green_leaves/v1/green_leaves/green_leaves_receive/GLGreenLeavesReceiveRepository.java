@@ -38,7 +38,7 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
             + "	and t_green_leaves_weigh.date = :date", nativeQuery = true)
     public List<Object[]> getSuperLeavesTotalAndNormalLeaveTotal(@Param("branch") Integer branch, @Param("route") Integer route, @Param("date") @Temporal(TemporalType.DATE) Date date);
 
-    public List<TGreenLeavesReceive> findByBranchAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Date date, Integer client);
+    public List<TGreenLeavesReceive> findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(Integer branch, Date date, Integer client);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "update t_green_leaves_receive_detail set normal_leaves_quantity = :normalLeavesTotal,super_leaves_quantity = :superLeavesTotal where green_leaves_receive = :indexNo", nativeQuery = true)

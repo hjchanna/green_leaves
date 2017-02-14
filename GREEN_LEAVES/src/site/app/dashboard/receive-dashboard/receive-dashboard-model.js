@@ -22,6 +22,8 @@
             routeHelpers: [],
             //vehicle information 
             vehicles: [],
+            //green leaves daily and monthly details
+            dailyAndMonthlySummryDetails: [],
             totalGreenLevas: {
                 normalGreenLeaves: 0.0,
                 superlGreenLeaves: 0.0
@@ -639,13 +641,22 @@
             searchClientByClientNo: function (clientNumber) {
                 var client;
                 angular.forEach(this.clients, function (value) {
-                    ;
                     if (value.clientNumber === parseInt(clientNumber)) {
                         client = value;
                         return;
                     }
                 });
                 return client;
+            },
+            getDailyAndMonthlySummryDetails: function () {
+                var that = this;
+                var date = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+                console.log(date);
+                GreenLeavesDashBoardService.getDailyAndMonthlySummryDetails(date)
+                        .success(function (data) {
+                            console.log(date);
+                            that.dailyAndMonthlySummryDetails = data;
+                        });
             }
         };
         return GreenLeavesDashBoardModel;
