@@ -1,8 +1,17 @@
 @import "mixins/variables.scss";
 
+.animation-expand{
+}
+
+.animation-expand.ng-hide-remove{
+    animation: 0.5s fadeInDown;
+}
+.animation-expand.ng-hide-add{
+    animation: 0.5s fadeOutUp;
+}
+
 .animation-fade.ng-hide-remove{
     animation: 1s fadeIn;
-
 }
 .animation-fade.ng-hide-add{
     /*animation: 0.5s fadeOut;*/
@@ -31,7 +40,7 @@
 .system-line-loader.loading{
     background-image: linear-gradient(to right, $bg-hi-dark-color 0%, $primary-color 0%, $primary-color 50%, $bg-hi-dark-color 50%, $bg-hi-dark-color 100%) !important;
     background-size: 200% !important;
-    
+
     animation: Anim 2s ease infinite !important;
 }
 

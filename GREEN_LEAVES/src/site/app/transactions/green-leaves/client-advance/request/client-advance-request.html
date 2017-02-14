@@ -139,7 +139,7 @@
             </div>
 
             <div class="col-xs-12">
-                <table>
+                <table class="control-table">
                     <col style="width: 40%;"/>
                     <col style="width: 25%;"/>
                     <col style="width: 25%;"/>
@@ -153,6 +153,21 @@
                             <td>Balance</td>
                             <td class="text-right">{{ui.getClientLedgerTotal()[2] | number:2}}</td>
                             <td class="text-right">{{ui.getClientLedgerTotal()[3] | number:2}}</td>
+                        </tr>
+                        <tr class="text-bold">
+                            <td>G/L Summary</td>
+                            <td class="text-right">0.00</td>
+                            <td class="text-right">0.00</td>
+                        </tr>
+                        <tr class="text-bold">
+                            <td>G/L Rate</td>
+                            <td class="text-right"><input smart-input="decimal" class="form-control text-right"></td>
+                            <td class="text-right"><input smart-input="decimal" class="form-control text-right"></td>
+                        </tr>
+                        <tr class="text-bold">
+                            <td>G/L Summary</td>
+                            <td class="text-right">0.00</td>
+                            <td class="text-right">0.00</td>
                         </tr>
                     </tbody>
                 </table>
