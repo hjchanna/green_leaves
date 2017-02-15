@@ -1,13 +1,15 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, ClientAdvanceApproveModel, ClientAdvanceRequestService, ConfirmPane) {
+    var controller = function ($scope, ClientAdvanceApproveModel, ConfirmPane) {
         $scope.model = new ClientAdvanceApproveModel();
-        $scope.model.clientLedgerHistory = [];
-
         $scope.ui = {};
         $scope.ui.selectedDataIndex = null;
         $scope.ui.selectedDetailIndex = null;
+        $scope.ui.selectionData = {
+            client: null,
+            date: null
+        };
 
         $scope.ui.selectData = function (route) {
             $scope.model.selectData(route);
@@ -16,19 +18,8 @@
 
         $scope.ui.selectDetail = function (model) {
             $scope.ui.selectedDetailIndex = model.indexNo;
-            var client = model.client;
-            var asAtDate = model.asAtDate;
-            if (client && asAtDate) {
-                ClientAdvanceRequestService.loadClientLedgerHistory(client, asAtDate)
-                        .success(function (data) {
-                            $scope.model.clientLedgerHistory = data;
-                        })
-                        .error(function () {
-                            $scope.model.clientLedgerHistory = [];
-                        });
-            } else {
-                $scope.model.clientLedgerHistory = [];
-            }
+            $scope.ui.selectionData.client = model.client;
+            $scope.ui.selectionData.date = model.asAtDate;
         };
 
         $scope.ui.approve = function () {
@@ -36,7 +27,11 @@
                     .confirm(function () {
                         $scope.model.approve($scope.ui.selectedDetailIndex);
                         $scope.ui.selectedDetailIndex = null;
-                        $scope.model.clientLedgerHistory = [];
+                        $scope.ui.selectionData = {
+                            client: null,
+                            date: null
+                        };
+
                     })
                     .discard(function () {
                         console.log("REJECT");
@@ -48,26 +43,14 @@
                     .confirm(function () {
                         $scope.model.reject($scope.ui.selectedDetailIndex);
                         $scope.ui.selectedDetailIndex = null;
-                        $scope.model.clientLedgerHistory = [];
+                        $scope.ui.selectionData = {
+                            client: null,
+                            date: null
+                        };
                     })
                     .discard(function () {
                         console.log("REJECT");
                     });
-        };
-
-        $scope.ui.getClientLedgerTotal = function () {
-            var sum = [0, 0, 0, 0];
-            angular.forEach($scope.model.clientLedgerHistory, function (value) {
-                sum[0] = sum[0] + value[2];
-                sum[1] = sum[1] + value[3];
-            });
-            sum[2] = sum[0] - sum[1];
-            sum[3] = sum[1] - sum[0];
-
-            sum[2] = sum[2] > 0 ? sum[2] : 0.0;
-            sum[3] = sum[3] > 0 ? sum[3] : 0.0;
-
-            return sum;
         };
     };
 

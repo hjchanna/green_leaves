@@ -203,7 +203,9 @@ public class GLClientAdvanceService {
 
     List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch, Integer route) {
         return clientAdvanceRepository.findByBranchAndRouteAndStatus(branch, route, ADVANCE_REQUEST_STATUS_PENDING);
-    };
+    }
+
+    ;
 
  public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
 
@@ -232,7 +234,7 @@ public class GLClientAdvanceService {
             } else {
                 tempDate = year + "-" + month + "-" + i;
             }
-            
+
             //db date and get data mach and add new
             for (int j = 0; j < getDbData.size(); j++) {
                 if (tempDate.equals(new SimpleDateFormat("yyy-MM-dd").format(getDbData.get(j)[0]))) {
@@ -249,5 +251,13 @@ public class GLClientAdvanceService {
             throw new EntityNotFoundException("Green Leaves Client Request Not Found");
         }
         return advanceRequests.get(0);
+    }
+
+    public List<Object[]> findGreenLeavesReceiveSummary(Integer branch, Date date, Integer client) {
+        List<Object[]> advanceRequests = clientAdvanceRepository.findGreenLeavesReceiveSummary(branch, date, client);
+        if (advanceRequests.isEmpty()) {
+            throw new EntityNotFoundException("Green Leaves Client Request Not Found");
+        }
+        return advanceRequests;
     }
 }

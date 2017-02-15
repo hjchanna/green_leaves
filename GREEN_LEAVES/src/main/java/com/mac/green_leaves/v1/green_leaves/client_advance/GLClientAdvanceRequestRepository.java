@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.TemporalType;
@@ -68,6 +69,26 @@ public interface GLClientAdvanceRequestRepository extends JpaRepository<TClientA
             + "AND MONTH(t_green_leaves_receive.date) = month(:date)  \n"
             + "AND t_green_leaves_receive_detail.client = :client", nativeQuery = true)
     public List<Object[]> findGreenLeavesReceive(@Param("branch") Integer branch, @Param("route") Integer route, @Param("date") @Temporal(TemporalType.DATE) Date date, @Param("client") Integer client);
+
+    @Query(value = "select\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.normal_leaves_quantity),0.0) as decimal(10,4)),\n"
+            + "  cast(ifnull(sum(t_green_leaves_receive_detail.super_leaves_quantity),0.0) as decimal(10,4)) \n"
+            + "from\n"
+            + "  t_green_leaves_receive\n"
+            + "inner join\n"
+            + "  t_green_leaves_receive_detail\n"
+            + "on\n"
+            + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
+            + "where \n"
+            + "  month(t_green_leaves_receive.date) = month(:date)\n"
+            + "and\n"
+            + "  t_green_leaves_receive.branch = :branch\n"
+            + "and\n"
+            + "  t_green_leaves_receive_detail.client = :client\n"
+            + "and \n"
+            + "  t_green_leaves_receive.route is NOT NULL", nativeQuery = true
+    )
+    public List<Object[]> findGreenLeavesReceiveSummary(@Param("branch") Integer branch, @Param("date") @Temporal(TemporalType.DATE) Date date, @Param("client") Integer client);
 
     public List<TClientAdvanceRequest> findByBranchAndRouteAndStatus(Integer branch, Integer route, String status);
 

@@ -17,6 +17,7 @@
                             </td>
                             <td>
                                 <input class="form-control"  input-hint="transaction number" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event);" placeholder="transaction number"  ng-disabled="ui.mode === 'EDIT'">
+                                <a href="client-advance-request.html"></a>
                             </td>
                         </tr>
                     </tbody>
@@ -95,7 +96,7 @@
                     <thead class="background-dark">
                         <tr class="clickable">
                             <th>ADVANCE REQUEST SUMMARY</th>
-                            <th class="text-right"><span class="label label-default">Request -  </span>  {{model.requestTotal.requestTotal}}</th>
+                            <th class="text-right">{{model.requestTotal.requestTotal}}</th>
                             <th class="text-right">{{model.requestTotal.requestAmountTotal| number:2}}</th>
                         </tr>
                     </thead>
@@ -104,89 +105,9 @@
         </div>
     </div>
     <div class="col-xs-4 background-dark border-dark-left">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 50%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <thead>
-                        <tr>
-                            <th>DESCRIPTION</th>
-                            <th class="text-right">DEBIT</th>
-                            <th class="text-right">CREDIT</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
-                <table>
-                    <col style="width: 50%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <tbody>
-                        <tr ng-repeat="clientRowData in model.clientLedgerHistory">
-                            <td>
-                                <span class="label label-primary">{{clientRowData[0]|date:'yyyy-MM-dd'}}</span>
-                                <span>{{clientRowData[1]}}</span>
-                            </td>
-                            <td class="text-right" >{{clientRowData[2] === 0? '': clientRowData[2]|number:2}}</td>
-                            <td class="text-right" >{{clientRowData[3] === 0? '': clientRowData[3]|number:2}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-12">
-                <table class="control-table">
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <tbody>
-                        <tr class="text-bold">
-                            <td>Total</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[0] | number:2}}</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[1] | number:2}}</td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>Balance</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[2] | number:2}}</td>
-                            <td class="text-right">{{ui.getClientLedgerTotal()[3] | number:2}}</td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>G/L Summary</td>
-                            <td class="text-right">0.00</td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>G/L Rate</td>
-                            <td class="text-right"><input smart-input="decimal" class="form-control text-right"></td>
-                            <td class="text-right"><input smart-input="decimal" class="form-control text-right"></td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>G/L Summary</td>
-                            <td class="text-right">0.00</td>
-                            <td class="text-right">0.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-12"  style="margin-top: 10px; height: 170px;">
-                <canvas 
-                    id="line" 
-                    class="chart chart-line" 
-                    chart-dataset-override="datasetOverride" 
-                    chart-data="model.chartDetails.chartData" 
-                    chart-labels="model.chartDetails.chartDateList" 
-                    chart-colors="colors" 
-                    chart-series="series" 
-                    chart-options="options"
-                    style="height: 100%;">
-                </canvas>
-            </div>
-        </div>
+        <side-panel client="model.tempData.client" date="model.tempData.asAtDate">
+            
+        </side-panel>
     </div>
     <div class="fab-container">
         <!--discard-->

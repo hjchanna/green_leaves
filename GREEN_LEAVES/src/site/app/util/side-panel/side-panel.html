@@ -1,0 +1,82 @@
+<div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+    <div class="col-xs-12">
+        <table class="control-table">
+            <col style="width: 50%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <tbody>
+                <tr>
+                    <td>G/L Summary</td>
+                    <td class="text-right">{{model.greenLeavesTotalSummary.normalLeavesTotal| number:2}}</td>
+                    <td class="text-right">{{model.greenLeavesTotalSummary.superLeavesTotal| number:2}}</td>
+                </tr>
+                <tr>
+                    <td>G/L Rate</td>
+                    <td class="text-right"><label class="label label-primary">N</label><input smart-input="decimal" ng-model="model.greenLeavesValue.normalLeavesTotal" class="form-control text-right"></td>
+                    <td class="text-right"><label class="label label-success">S</label><input smart-input="decimal" ng-model="model.greenLeavesValue.superLeavesTotal" class="form-control text-right"></td>
+                </tr>
+                <tr class="text-bold background-dark">
+                    <td>G/L Value</td>
+                    <td class="text-right">{{model.greenLeavesTotalSummary.normalLeavesTotal * model.greenLeavesValue.normalLeavesTotal| number:2}}</td>
+                    <td class="text-right">{{model.greenLeavesTotalSummary.superLeavesTotal * model.greenLeavesValue.superLeavesTotal| number:2}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12">
+        <table>
+            <col style="width: 50%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <thead>
+                <tr>
+                    <th>DESCRIPTION</th>
+                    <th class="text-right">DEBIT</th>
+                    <th class="text-right">CREDIT</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 284px);" ng-show="model.clientLedgerHistory.length">
+        <table>
+            <col style="width: 50%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <tbody>
+                <tr ng-repeat="clientRowData in model.clientLedgerHistory">
+                    <td>
+                        <small>
+                            <span class="label label-primary">{{clientRowData[0]|date:'yyyy-MM-dd'}}</span>
+                            <span>{{clientRowData[1]}}</span>
+                        </small>
+                    </td>
+                    <td class="text-right" >{{clientRowData[2] === 0 ? '' : clientRowData[2]|number:2}}</td>
+                    <td class="text-right" >{{clientRowData[3] === 0 ? '' : clientRowData[3]|number:2}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="placeholder col-xs-12" style="height: calc(100% - 284px);" ng-hide="model.clientLedgerHistory.length">
+        <h1>CLIENT HISTORY NOT FOUND :(</h1>
+    </div>
+    <div class="col-xs-12">
+        <table class="control-table">
+            <col style="width: 40%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <tbody>
+                <tr class="text-bold background-dark">
+                    <td>Total</td>
+                    <td class="text-right">{{getClientLedgerTotal()[0] | number:2}}</td>
+                    <td class="text-right">{{getClientLedgerTotal()[1] | number:2}}</td>
+                </tr>
+                <tr class="text-bold background-dark">
+                    <td>Balance</td>
+                    <td class="text-right">{{getClientLedgerTotal()[2] | number:2}}</td>
+                    <td class="text-right">{{getClientLedgerTotal()[3] | number:2}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -23,7 +23,18 @@
             //vehicle information 
             vehicles: [],
             //green leaves daily and monthly details
-            dailyAndMonthlySummryDetails: [],
+            dailyAndMonthlySummryDetails: {
+                dailyNormalFactory: 0.0,
+                dailySuperFactory: 0.0,
+                monthlyNormalFactory: 0.0,
+                monthlySuperFactory: 0.0,
+                dailyNormalRoute: 0.0,
+                dailySuperRoute: 0.0,
+                monthlyNormalRoute: 0.0,
+                monthlySuperRoute: 0.0,
+                totalDaily: 0.0,
+                totalMonthly: 0.0
+            },
             totalGreenLevas: {
                 normalGreenLeaves: 0.0,
                 superlGreenLeaves: 0.0
@@ -136,6 +147,18 @@
                 this.greenLeavesBulkWeighList = [];
                 this.greenLeavesClientReceiveList = [];
                 this.crossReportDetailList = [];
+                this.dailyAndMonthlySummryDetails = {
+                    dailyNormalFactory: 0.0,
+                    dailySuperFactory: 0.0,
+                    monthlyNormalFactory: 0.0,
+                    monthlySuperFactory: 0.0,
+                    dailyNormalRoute: 0.0,
+                    dailySuperRoute: 0.0,
+                    monthlyNormalRoute: 0.0,
+                    monthlySuperRoute: 0.0,
+                    totalDaily: 0.0,
+                    totalMonthly: 0.0
+                };
             },
             greenLeavesAllSummry: function () {
                 console.log("greenLeavesAllSummry");
@@ -225,6 +248,28 @@
                 var defer = $q.defer();
                 var that = this;
                 that.data.type = type;
+
+                var date = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
+                GreenLeavesDashBoardService.getDailyAndMonthlySummryDetails(date)
+                        .success(function (data) {
+                            that.dailyAndMonthlySummryDetails.dailyNormalFactory = data.dailyFactory[0];
+                            that.dailyAndMonthlySummryDetails.dailySuperFactory = data.dailyFactory[1];
+
+                            that.dailyAndMonthlySummryDetails.monthlyNormalFactory = data.monthlyFactory[0];
+                            that.dailyAndMonthlySummryDetails.monthlySuperFactory = data.monthlyFactory[1];
+
+                            that.dailyAndMonthlySummryDetails.dailyNormalRoute = data.dailyRouteWise[0];
+                            that.dailyAndMonthlySummryDetails.dailySuperRoute = data.dailyRouteWise[1];
+
+                            that.dailyAndMonthlySummryDetails.monthlyNormalRoute = data.monthlyRouteWise[0];
+                            that.dailyAndMonthlySummryDetails.monthlySuperRoute = data.monthlyRouteWise[1];
+
+                            var totalDaily = data.dailyFactory[0] + data.dailyFactory[1] + data.dailyRouteWise[0] + data.dailyRouteWise[1];
+                            var totalMonthly = data.monthlyFactory[0] + data.monthlyFactory[1] + data.monthlyRouteWise[0] + data.monthlyRouteWise[1];
+                            that.dailyAndMonthlySummryDetails.totalDaily = totalDaily;
+                            that.dailyAndMonthlySummryDetails.totalMonthly = totalMonthly;
+                        });
+
                 GreenLeavesDashBoardService.getGreenReceiveLeavesSummary(JSON.stringify(that.data))
                         .success(function (data) {
                             that.greenLeavesReceiveList = [];
@@ -647,16 +692,6 @@
                     }
                 });
                 return client;
-            },
-            getDailyAndMonthlySummryDetails: function () {
-                var that = this;
-                var date = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
-                console.log(date);
-                GreenLeavesDashBoardService.getDailyAndMonthlySummryDetails(date)
-                        .success(function (data) {
-                            console.log(date);
-                            that.dailyAndMonthlySummryDetails = data;
-                        });
             }
         };
         return GreenLeavesDashBoardModel;

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, $filter, ConfirmPane, ClientAdvanceRequestModel, ClientAdvanceRequestService, Notification) {
+    var controller = function ($scope, $timeout, $filter, ConfirmPane, ClientAdvanceRequestModel, Notification) {
 
         $scope.model = new ClientAdvanceRequestModel();
         $scope.model.clientLedgerHistory = [];
@@ -132,21 +132,6 @@
 
         };
 
-        $scope.ui.getClientLedgerTotal = function () {
-            var sum = [0, 0, 0, 0];
-            angular.forEach($scope.model.clientLedgerHistory, function (value) {
-                sum[0] = sum[0] + value[2];
-                sum[1] = sum[1] + value[3];
-            });
-            sum[2] = sum[0] - sum[1];
-            sum[3] = sum[1] - sum[0];
-
-            sum[2] = sum[2] > 0 ? sum[2] : 0.0;
-            sum[3] = sum[3] > 0 ? sum[3] : 0.0;
-
-            return sum;
-        };
-
         $scope.ui.init = function () {
             $scope.ui.mode = "IDEAL";
             $scope.ui.type = "NORMAL";
@@ -163,7 +148,6 @@
 
             //client ledger auto refresh
             $scope.$watch('[model.tempData.client, asAtDate]', function () {
-                console.log("watch");
                 var asAtDate = $scope.asAtDate;
                 if (asAtDate === "This") {
                     var date = new Date();
@@ -174,25 +158,6 @@
                     var prev = new Date(date.getFullYear(), date.getMonth() - 1, date.getMonth());
                     var lastDay = new Date(prev.getFullYear(), prev.getMonth() + 1, 0);
                     $scope.model.tempData.asAtDate = lastDay;
-                }
-
-                if ($scope.model.tempData.client && $scope.model.tempData.asAtDate) {
-                    //green leaves history
-                    $scope.model.getGreenLeavesHistory();
-
-                    //ledger history
-                    ClientAdvanceRequestService.loadClientLedgerHistory($scope.model.tempData.client, $scope.model.tempData.asAtDate)
-                            .success(function (data) {
-                                $scope.model.clientLedgerHistory = data;
-                            })
-                            .error(function () {
-                                $scope.model.clientLedgerHistory = [];
-                            });
-                } else {
-                    console.log("AA");
-                    $scope.model.chartDetails.chartDateList = [];
-                    $scope.model.chartDetails.chartData = [[], []];
-                    $scope.model.clientLedgerHistory = [];
                 }
             });
 
@@ -205,27 +170,6 @@
                 }
             });
         };
-
-        $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
-        $scope.options = {
-            scales: {
-                yAxes: [
-                    {
-                        id: 'y-axis-1',
-                        type: 'linear',
-                        display: true,
-                        position: 'left'
-                    },
-                    {
-                        id: 'y-axis-2',
-                        type: 'linear',
-                        display: true,
-                        position: 'right'
-                    }
-                ]
-            }
-        };
-
         $scope.ui.init();
     };
 
