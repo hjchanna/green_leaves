@@ -7,8 +7,8 @@ package com.mac.green_leaves.v1.green_leaves.client_advance;
 
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
-import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class GLClientAdvanceController {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
         return clientAdvanceService.findByBranchAndRouteAndDate(branch, route, date);
     }
-    
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveAdvanceRequest(@RequestBody TClientAdvanceRequest advanceRequest) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
@@ -108,11 +108,16 @@ public class GLClientAdvanceController {
 //        return clientAdvanceService.findByBranchAndDateAndClient(branch, date, client);
 //    }
     // bootom route and year and month wise route totatal summry
-    @RequestMapping(value = "/find-client-wise-receive-history/{route}/{date}/{client}")
-    List<Object[]> findByDateAndRoute(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+    @RequestMapping(value = "/find-client-wise-receive-history/{route}/{date}/{client}", method = RequestMethod.GET)
+    public List<Object[]> findByDateAndRoute(@PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-
         return clientAdvanceService.findByBranchAndRouteDateAndClient(branch, route, date, client);
+    }
+
+    @RequestMapping(value = "/find-green-leaves-receive-summry/{date}/{client}", method = RequestMethod.GET)
+    public List<Object[]> findGreenLeavesReceiveSummary(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return clientAdvanceService.findGreenLeavesReceiveSummary(branch, date, client);
     }
 //    @RequestMapping(value = "/transaction-type")
 //    List<TransactionType> findByBranchAndDateAndClient() {

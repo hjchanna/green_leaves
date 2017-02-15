@@ -61,6 +61,11 @@
         this.getGreenLeavesByBranchAndRouteAndDateAndClient = function (route, date, client) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-client-wise-receive-history/" + route + "/" + date + "/" + client);
         };
+        
+                //get monthly and daily summry details
+        this.getGreenLeavesReceiveSummryDetails = function (date, client) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-green-leaves-receive-summry/" + new Date(date).toISOString() + "/" + client);
+        };
     };
 
     angular.module("appModule")

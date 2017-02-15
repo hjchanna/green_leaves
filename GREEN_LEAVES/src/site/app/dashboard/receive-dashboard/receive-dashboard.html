@@ -7,7 +7,7 @@
                         <tr class="selected">
                             <td ng-show="ui.searchUi === 'Bulk_Weigh'" class="text-center"><h4>GREEN LEAVES BULK WEIGH</h4></td>
                             <td ng-show="ui.searchUi === 'Supplier_Weigh'" class="text-center"><h4>GREEN LEAVES SUPPLIER WEIGH</h4></td>
-                            <td ng-show="ui.searchUi === 'Receive'" class="text-center"><h4>GREEN LEAVES RECEIVE</h4></td>
+                            <td ng-show="ui.searchUi === 'Receive'" class="text-center"><h4>GREEN LEAVES COLLECTION WEIGH</h4></td>
                             <td ng-show="ui.searchUi === 'Summary'" class="text-center"><h4>GREEN LEAVES SUMMRY</h4></td>
                             <td ng-show="ui.searchUi === 'Cross_Entry'" class="text-center"><h4>GREEN LEAVES CROSS ENTRY</h4></td>
                         </tr>
@@ -64,6 +64,7 @@
                                     <option value="null"></option>
                                     <option value="APPROVE">APPROVE</option>
                                     <option value="PENDING">PENDING</option>
+                                    <option value="DELETED">DELETE</option>
                                 </select>
                             </td>
                         </tr>
@@ -73,12 +74,50 @@
                     <input type="submit" value="SEARCH" class="btn btn-group-sm btn-primary col-lg-12" ng-click="ui.search();"/>
                 </div>
             </div>
+            <div class="col-xs-12" style="margin-top: 10px;" ng-show="ui.searchUi === 'Receive'" ng-hide="ui.searchGreenLeavesReceive === 'Search_Receive_Client'">
+                <table class="tab-content">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-right">DAY</th>
+                            <th class="text-right">MONTH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FACTORY &nbsp;<label class="label label-primary text-right">N</label></td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.dailyNormalFactory}}</td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.monthlyNormalFactory}}</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY &nbsp;<label class="label label-success">S</label></td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.dailySuperFactory}}</td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.monthlySuperFactory}}</label></td>
+                        </tr>
+                        <tr>
+                            <td>ROUTE &nbsp;<label class="label label-primary">N</label></td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.dailyNormalRoute}}</td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.monthlyNormalRoute}}</td>
+                        </tr>
+                        <tr>
+                            <td>ROUTE &nbsp;<label class="label label-success">S</label></td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.dailySuperRoute}}</td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.monthlySuperRoute}}</td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL</td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.totalDaily}}</td>
+                            <td class="text-right">{{model.dailyAndMonthlySummryDetails.totalMonthly}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <div class="col-xs-8 background-light">
         <uib-tabset>
-            <uib-tab index="1" heading="Receive" select="ui.toggleType('Receive');">
+            <uib-tab index="1" heading="COLLECTION WEIGH" select="ui.toggleType('Receive');">
                 <div ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
                     <div class="col-xs-12" style="height: 200px;"  ng-show="model.greenLeavesReceiveList.length">
                         <uib-tabset>
@@ -164,6 +203,7 @@
                                     <td>{{greenLeavesReceive.date}}</td>
                                     <td class="text-right">{{model.getTotalNormalGreenLeavesAndTotalSuperLeavse(greenLeavesReceive.indexNo).normalGreenLeaves | number:2}}</td>
                                     <td class="text-right">{{model.getTotalNormalGreenLeavesAndTotalSuperLeavse(greenLeavesReceive.indexNo).superlGreenLeaves | number:2}}</td>
+                                    <td class="text-right" ng-show="{{greenLeavesReceive.status == 'DELETED'}}"><label class="label label-danger">DELETE</label></td>
                                     <td class="text-right" ng-show="{{greenLeavesReceive.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
                                     <td class="text-right" ng-show="{{greenLeavesReceive.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
                                     <td class="text-right" style="padding-left: 5px;">
@@ -254,6 +294,7 @@
                                     <td>{{greenLeavesReceive.date}}</td>
                                     <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].normalLeavesQuantity|number:2}}</td>
                                     <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].superLeavesQuantity|number:2}}</td>
+                                    <td class="text-right" ng-show="{{greenLeavesReceive.status == 'DELETED'}}"><label class="label label-danger">DELETE</label></td>
                                     <td class="text-right" ng-show="{{greenLeavesReceive.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
                                     <td class="text-right" ng-show="{{greenLeavesReceive.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
                                     <td class="text-right" style="padding-left: 5px;">
@@ -375,6 +416,7 @@
                                 <td>{{greenLeavesBulkWeigh.date}}</td>
                                 <td class="text-right">{{greenLeavesBulkWeigh.normalNetWeight|number:2}}</td>
                                 <td class="text-right">{{greenLeavesBulkWeigh.superNetWeight|number:2}}</td>
+                                <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'DELETED'}}"><label class="label label-danger">DELETE</label></td>
                                 <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
                                 <td class="text-right" ng-show="{{greenLeavesBulkWeigh.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
                                 <td class="text-right" style="padding-left: 5px;">

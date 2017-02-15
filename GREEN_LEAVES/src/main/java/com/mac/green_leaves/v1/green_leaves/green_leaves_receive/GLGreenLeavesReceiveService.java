@@ -89,7 +89,7 @@ public class GLGreenLeavesReceiveService {
     }
 
     public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Date date, Integer client) {
-        return greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClient(branch, date, client);
+        return greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(branch, date, client);
     }
 
     @Transactional

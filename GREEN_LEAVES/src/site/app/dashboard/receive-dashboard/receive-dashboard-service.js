@@ -48,6 +48,11 @@
             return $http.post(systemConfig.apiUrl + "/api/dash-board/find-cross-report", model);
         };
 
+        //get monthly and daily summry details
+        this.getDailyAndMonthlySummryDetails = function (date) {
+            return $http.get(systemConfig.apiUrl + "/api/dash-board/summry-details/" + date);
+        };
+
     };
 
     angular.module("appModule")

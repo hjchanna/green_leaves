@@ -15,12 +15,6 @@
             clients: [],
             //client history
             clientHistory: [],
-            //greenLeavesHistory for chart
-            greenLeavesHistory: [],
-            chartDetails: {
-                "chartDateList": [],
-                "chartData": [[], []]
-            },
             //requets count
             requestTotal: {
                 requestTotal: 0.0,
@@ -221,7 +215,6 @@
             },
             //save advance request and request details
             saveClientApproveRequest: function () {
-                console.log(this.data);
                 var defer = $q.defer();
                 if (this.data.route && this.data.clientAdvanceRequestDetails.length !== 0) {
                     ClientAdvanceRequestService.saveAdvanceRequest(JSON.stringify(this.data))
@@ -233,57 +226,6 @@
                             });
                     return defer.promise;
                 }
-            },
-            //client and request as date select get client history
-            getClientHistory: function () {
-                var that = this;
-                var defer = $q.defer();
-                var date = $filter('date')(this.tempData.asAtDate, 'yyyy-MM-dd');
-                var client = parseInt(this.tempData.client);
-                ClientAdvanceRequestService.clientHistory(date, client)
-                        .success(function (data, status, headers) {
-                            //get client history 
-                            that.clientHistory = data;
-                            defer.resolve();
-                        })
-                        .error(function (data, status, headers) {
-                            defer.reject();
-                        });
-                return defer.promise;
-            },
-            getGreenLeavesHistory: function () {
-                var that = this;
-                var defer = $q.defer();
-
-                var route = this.data.route;
-                var date = $filter('date')(this.tempData.asAtDate, 'yyyy-MM-dd');
-                var client = this.tempData.client;
-
-                ClientAdvanceRequestService.getGreenLeavesByBranchAndRouteAndDateAndClient(route, date, client)
-                        .success(function (data, status, headers) {
-                            //get client history 
-                            that.greenLeavesHistory = [];
-                            that.greenLeavesHistory = data;
-                            that.getChartAllDetails();
-                            defer.resolve();
-                        })
-                        .error(function (data, status, headers) {
-                            that.greenLeavesHistory = [];
-                            defer.reject();
-                        });
-                return defer.promise;
-            },
-            getChartAllDetails: function () {
-                var that = this;
-                that.chartDetails.chartDateList = [];
-                that.chartDetails.chartData = [[],[]];
-                
-                angular.forEach(that.greenLeavesHistory, function (value, key) {
-                    that.chartDetails.chartDateList.push(value[0]);
-                    that.chartDetails.chartData[0].push(value[1]);
-                    that.chartDetails.chartData[1].push(value[2]);
-                });
-                return that.chartDetails;
             }
         };
         return ClientAdvanceRequestModel;
