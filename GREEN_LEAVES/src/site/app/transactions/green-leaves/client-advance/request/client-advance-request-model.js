@@ -13,8 +13,6 @@
             routes: [],
             //client information
             clients: [],
-            //client history
-            clientHistory: [],
             //requets count
             requestTotal: {
                 requestTotal: 0.0,
@@ -91,7 +89,6 @@
             clear: function () {
                 this.data = ClientAdvanceRequestFactory.newData();
                 this.tempData = ClientAdvanceRequestFactory.newTempData();
-                this.clientHistory = [];
             },
             //table add temp data
             addDetail: function () {
@@ -226,6 +223,17 @@
                             });
                     return defer.promise;
                 }
+            },
+            requestDuplicateCheck: function (client, date) {
+                var label;
+                console.log(this.data.clientAdvanceRequestDetails);
+                angular.forEach(this.data.clientAdvanceRequestDetails, function (value) {
+                    if (value.client === parseInt(client) && angular.equals($filter('date')(value.asAtDate, 'yyyy-MM-dd'), $filter('date')(date, 'yyyy-MM-dd'))) {
+                        label = true;
+                        return;
+                    }
+                });
+                return label;
             }
         };
         return ClientAdvanceRequestModel;

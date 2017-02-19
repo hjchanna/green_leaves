@@ -74,6 +74,10 @@
                             templateUrl: "app/transactions/green-leaves/green-leaves-receive/green-leaves-receive.html",
                             controller: "GreenLeavesReceiveController"
                         })
+                        .when("/transactions/green-leaves/client-update", {
+                            templateUrl: "app/transactions/green-leaves/client-update/client-update.html",
+                            controller: "ClientUpdateController"
+                        })
 
                         //client advance
                         .when("/transactions/green-leaves/client-advance/client-advance-request", {

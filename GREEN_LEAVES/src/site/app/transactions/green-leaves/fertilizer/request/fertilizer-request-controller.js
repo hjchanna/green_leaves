@@ -50,10 +50,17 @@
 
         //add detail to table
         $scope.ui.addDetail = function () {
-            $scope.model.addDetail()
-                    .then(function () {
-                        $scope.ui.focus();
-                    });
+            if (!$scope.model.tempData.product) {
+                Notification.error("please select product");
+            } else if (!$scope.model.tempData.qty) {
+                Notification.error("please qty");
+            } else if ($scope.model.tempData.product
+                    && $scope.model.tempData.qty) {
+                $scope.model.addDetail()
+                        .then(function () {
+                            $scope.ui.focus();
+                        });
+            }
         };
 
         $scope.ui.focus = function () {
@@ -92,12 +99,27 @@
         };
 
         $scope.ui.save = function () {
-            console.log("save controller");
-            $scope.model.save()
-                    .then(function () {
-                        $scope.ui.mode = "IDEAL";
-                        $scope.model.clear();
-                    });
+            if (!$scope.model.data.routeOfficer) {
+                Notification.error("please select route officer");
+            } else if (!$scope.model.data.date) {
+                Notification.error("please select date");
+            } else if (!$scope.model.data.client) {
+                Notification.error("please select client");
+            } else if (!$scope.model.data.type) {
+                Notification.error("please select month");
+            } else if (!$scope.model.data.tfertilizerDetailList.length) {
+                Notification.error("please select details");
+            } else if ($scope.model.data.routeOfficer
+                    && $scope.model.data.date
+                    && $scope.model.data.client
+                    && $scope.model.data.type) {
+                $scope.model.save()
+                        .then(function () {
+                            $scope.ui.mode = "IDEAL";
+                            $scope.model.clear();
+                        });
+            }
+            ;
         };
 
         $scope.ui.init = function () {

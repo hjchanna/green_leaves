@@ -34,17 +34,41 @@
                 };
 
                 $scope.ui.insertNormalDetail = function () {
-                    if (!$scope.ui.insertProcessing) {
-                        $scope.ui.insertProcessing = true;
-                        $scope.model.insertNormalDetail()
-                                .then(function () {
-                                    $scope.ui.toggleType("NORMAL");
-                                    $scope.ui.insertProcessing = false;
-                                }, function () {
-                                    $scope.ui.insertProcessing = false;
-                                });
+                    if (!$scope.model.data.branch) {
+                        Notification.error("please select branch");
+                    } else if (!$scope.model.data.route) {
+                        Notification.error("please select route");
+                    } else if (!$scope.model.data.date) {
+                        Notification.error("please select date");
+                    } else if (!$scope.model.data.routeOfficer) {
+                        Notification.error("please select route officer");
+                    } else if (!$scope.model.data.routeHelper) {
+                        Notification.error("please select route helper");
+                    } else if (!$scope.model.data.vehicle) {
+                        Notification.error("please select vehicle");
+                    } else if (!$scope.model.tempData.quantity) {
+                        Notification.error("please select quantity");
+                    } else if ($scope.model.tempData.crates
+                            + $scope.model.tempData.bags
+                            + $scope.model.tempData.polyBags <= 0) {
+                        Notification.error("please select tare count");
+                    } else if ($scope.model.data.branch
+                            && $scope.model.data.route
+                            && $scope.model.data.date
+                            && $scope.model.data.routeOfficer
+                            && $scope.model.data.routeHelper
+                            && $scope.model.data.vehicle) {
+                        if (!$scope.ui.insertProcessing) {
+                            $scope.ui.insertProcessing = true;
+                            $scope.model.insertNormalDetail()
+                                    .then(function () {
+                                        $scope.ui.toggleType("NORMAL");
+                                        $scope.ui.insertProcessing = false;
+                                    }, function () {
+                                        $scope.ui.insertProcessing = false;
+                                    });
+                        }
                     }
-
                 };
 
                 $scope.ui.insertSuperDetail = function () {
@@ -67,7 +91,7 @@
                         Notification.error("please select branch first!");
                     }
                 };
-                
+
                 $scope.ui.delete = function () {
                     ConfirmPane.dangerConfirm("Delete Green Leaves Weigh")
                             .confirm(function () {

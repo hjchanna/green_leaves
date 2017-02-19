@@ -122,71 +122,9 @@
         </div>
     </div>
     <div class="col-xs-4 background-dark border-dark-left">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
-                    <thead>
-                        <tr>
-                            <th>DESCRIPTION</th>
-                            <th class="text-right">DEBIT</th>
-                            <th class="text-right">CREDIT</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+        <side-panel client="model.data.client" date="model.data.date">
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <tbody>
-                        <tr ng-repeat="clientHistory in model.clientHistory">
-                            <td>{{clientHistory[0]}}</td>
-                            <td class="text-right" >{{clientHistory[2]|number:2}}</td>
-                            <td class="text-right" >{{clientHistory[1]|number:2}}</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
-
-                    <tbody>
-                        <tr class="text-bold">
-                            <td>Total</td>
-                            <td class="text-right">{{model.totalCreditAndDebit.totalDebit|number:2}}</td>
-                            <td class="text-right">{{model.totalCreditAndDebit.totalCradit|number:2}}</td>
-                            <td></td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>Balance</td>
-                            <td class="text-right">{{model.totalCreditAndDebit.totalDebit - model.totalCreditAndDebit.totalCradit|number:2}}</td>
-                            <td class="text-right">-</td>      
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-12" style="margin-top: 10px;height: 170px;">
-                <canvas id="line" class="chart chart-line ng-isolate-scope" chart-dataset-override="datasetOverride" chart-data="model.chartDetails.chartData" chart-labels="model.chartDetails.chartDateList" chart-colors="colors" chart-series="series" chart-options="options"></canvas>
-            </div>
-        </div>
+        </side-panel>
     </div>
 </div>
 <div class="fab-container">

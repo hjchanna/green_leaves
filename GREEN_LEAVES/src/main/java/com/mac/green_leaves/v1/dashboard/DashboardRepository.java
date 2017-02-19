@@ -64,13 +64,17 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "on\n"
             + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
             + "where \n"
-            + "  t_green_leaves_receive.date = :date \n"
+            + "  t_green_leaves_receive.date = :date\n"
             + "and \n"
-            + "  t_green_leaves_receive.route is NULL or t_green_leaves_receive.route = ''\n"
+            + "  t_green_leaves_receive.route is NULL\n"
             + "and\n"
-            + "  t_green_leaves_receive.route_officer is NULL or t_green_leaves_receive.route_officer = ''\n"
+            + "  t_green_leaves_receive.route_officer is NULL\n"
             + "and\n"
-            + "  t_green_leaves_receive.route_helper is NULL or t_green_leaves_receive.route_helper = ''", nativeQuery = true)
+            + "  t_green_leaves_receive.route_helper is NULL\n"
+            + "and\n"
+            + "  t_green_leaves_receive.vehicle is NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.status <> 'DELETED'", nativeQuery = true)
     public List<Object[]> getGreenLeavesReceiveFactoryTotalToDate(@Param("date") @Temporal(TemporalType.DATE) Date date);
 
     @Query(value = "select\n"
@@ -85,11 +89,15 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "where \n"
             + "  month(t_green_leaves_receive.date) = month(:date)\n"
             + "and \n"
-            + "  t_green_leaves_receive.route is NULL or t_green_leaves_receive.route = ''\n"
-            + "and\n"
-            + "  t_green_leaves_receive.route_officer is NULL or t_green_leaves_receive.route_officer = ''\n"
-            + "and\n"
-            + "  t_green_leaves_receive.route_helper is NULL or t_green_leaves_receive.route_helper = ''", nativeQuery = true)
+            + "  t_green_leaves_receive.route is NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.route_officer is NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.route_helper is NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.vehicle is NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.status <> 'DELETED'", nativeQuery = true)
     public List<Object[]> getGreenLeavesReceiveFactoryTotalMonth(@Param("date") @Temporal(TemporalType.DATE) Date date);
 
     @Query(value = "select\n"
@@ -104,7 +112,9 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "where \n"
             + "  month(t_green_leaves_receive.date) = month(:date)\n"
             + "and \n"
-            + "  t_green_leaves_receive.route is NOT NULL", nativeQuery = true)
+            + "  t_green_leaves_receive.route is NOT NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.status <> 'DELETED'", nativeQuery = true)
     public List<Object[]> getGreenLeavesReceiveRouteWiseTotalMonth(@Param("date") @Temporal(TemporalType.DATE) Date date);
 
     @Query(value = "select\n"
@@ -117,8 +127,10 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "on\n"
             + "  t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
             + "where \n"
-            + "  t_green_leaves_receive.date = :date \n"
+            + "  t_green_leaves_receive.date = :date\n"
             + "and \n"
-            + "  t_green_leaves_receive.route is NOT NULL", nativeQuery = true)
+            + "  t_green_leaves_receive.route is NOT NULL\n"
+            + "and \n"
+            + "  t_green_leaves_receive.status <> 'DELETED'", nativeQuery = true)
     public List<Object[]> getGreenLeavesReceiveRouteWiseTotalDaily(@Param("date") @Temporal(TemporalType.DATE) Date date);
 }
