@@ -73,6 +73,9 @@ public class TTeaIssue implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "client")
+    private Integer client;
+
     @Column(name = "tea_grade")
     private Integer teaGrade;
 
@@ -82,7 +85,7 @@ public class TTeaIssue implements Serializable {
     public TTeaIssue() {
     }
 
-    public TTeaIssue(Integer indexNo, int branch, Date date, int number, int transaction, BigDecimal price, int qty, String type, String status, Integer teaGrade, Integer routeOfficer) {
+    public TTeaIssue(Integer indexNo, int branch, Date date, int number, int transaction, BigDecimal price, int qty, String type, String status, Integer client, Integer teaGrade, Integer routeOfficer) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
@@ -92,6 +95,7 @@ public class TTeaIssue implements Serializable {
         this.qty = qty;
         this.type = type;
         this.status = status;
+        this.client = client;
         this.teaGrade = teaGrade;
         this.routeOfficer = routeOfficer;
     }
@@ -184,9 +188,16 @@ public class TTeaIssue implements Serializable {
         this.routeOfficer = routeOfficer;
     }
 
-    @Override
-    public String toString() {
-        return "TTeaIssue{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", number=" + number + ", transaction=" + transaction + ", price=" + price + ", qty=" + qty + ", type=" + type + ", status=" + status + ", teaGrade=" + teaGrade + ", routeOfficer=" + routeOfficer + '}';
+    public Integer getClient() {
+        return client;
     }
 
+    public void setClient(Integer client) {
+        this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "TTeaIssue{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", number=" + number + ", transaction=" + transaction + ", price=" + price + ", qty=" + qty + ", type=" + type + ", status=" + status + ", client=" + client + ", teaGrade=" + teaGrade + ", routeOfficer=" + routeOfficer + '}';
+    }
 }

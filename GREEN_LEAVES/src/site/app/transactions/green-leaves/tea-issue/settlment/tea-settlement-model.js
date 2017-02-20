@@ -51,15 +51,11 @@
                         var defer = $q.defer();
                         var that = this;
 
-                        var afterbal = that.getOfficerTeaGradeAmount(that.data.teaGrade) - that.getTeaGradeIssueCount(that.data.teaGrade);
-                        afterbal = afterbal - parseInt(that.data.qty);
-                        
                         if (
                                 that.data.date
                                 && that.data.client
                                 && that.data.teaGrade
-                                && parseInt(that.data.qty) > 0
-                                && afterbal >= 0) {
+                                && parseInt(that.data.qty) > 0) {
                             that.data.type = "TEA_SETTLEMENT";
 
                             that.teaIssueList.unshift(that.data);
@@ -209,6 +205,16 @@
                             }
                         });
                         return total;
+                    },
+                    requestDuplicateCheck: function (client, teaGrade) {
+                        var data;
+                        angular.forEach(this.teaIssueList, function (values) {
+                            if (values.client === parseInt(client) && values.teaGrade === parseInt(teaGrade)) {
+                                data = values;
+                                return;
+                            }
+                        });
+                        return data;
                     }
                 };
                 return TeaSettlementModel;

@@ -21,7 +21,7 @@ public interface TeaIssueRepository extends JpaRepository<TTeaIssue, Integer> {
     @Query(value = "SELECT MAX(number) FROM t_tea_issue WHERE branch=:branch", nativeQuery = true)
     public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
 
-    public TTeaIssue findByDateAndBranchAndNumberAndType(Date date, Integer branch, Integer number, String type);
+    public TTeaIssue findByDateAndBranchAndNumberAndTypeAndStatusNot(Date date, Integer branch, Integer number, String type,String status);
 
     @Query(value = "SELECT\n"
             + "	t_route_officer_tea_ledger.route_officer,\n"

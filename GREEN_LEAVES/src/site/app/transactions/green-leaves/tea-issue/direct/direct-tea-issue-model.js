@@ -54,9 +54,9 @@
                         return defer.promise;
                     },
                     addDetail: function () {
-                        console.log(this.data);
                         var defer = $q.defer();
                         var that = this;
+                        console.log(that.teaIssueList);
                         if (that.data.date && that.data.client && that.data.teaGrade && parseInt(that.data.qty) > 0) {
                             that.data.type = "DIRECT_TEA_ISSUE";
                             that.teaIssueList.push(that.data);
@@ -81,7 +81,6 @@
                         this.teaIssueList = [];
                     },
                     save: function () {
-                        console.log(this.teaIssueList);
                         var that = this;
                         var defer = $q.defer();
 
@@ -108,7 +107,6 @@
                         this.teaIssueList.splice(index, 1);
                         this.data = fertilizer;
                         this.itemTotal();
-                        console.log(this.teaIssueList[index]);
                     },
                     deleteDetail: function (index) {
                         this.teaIssueList.splice(index, 1);
@@ -185,6 +183,16 @@
                             }
                         });
                         return client;
+                    },
+                    requestDuplicateCheck: function (client, teaGrade) {
+                        var data;
+                        angular.forEach(this.teaIssueList, function (values) {
+                            if (values.client === parseInt(client) && values.teaGrade === parseInt(teaGrade)) {
+                                data = values;
+                                return;
+                            }
+                        });
+                        return data;
                     }
                 };
                 return DirectTeaIssueModel;

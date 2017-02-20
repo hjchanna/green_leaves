@@ -154,6 +154,16 @@
                             }
                         });
                         return label;
+                    },
+                    requestDuplicateCheck: function (routeOfficer, teaGrade) {
+                        var data;
+                        angular.forEach(this.teaIssueList, function (values) {
+                            if (values.routeOfficer === parseInt(routeOfficer) && values.teaGrade === parseInt(teaGrade)) {
+                                data = values;
+                                return;
+                            }
+                        });
+                        return data;
                     }
                 };
                 return OfficerTeaIssueModel;

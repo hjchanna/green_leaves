@@ -182,6 +182,16 @@
                             }
                         });
                         return client;
+                    },
+                    requestDuplicateCheck: function (product) {
+                        var data;
+                        angular.forEach(this.data.tfertilizerDetailList, function (values) {
+                            if (values.product === parseInt(product)) {
+                                data = values;
+                                return;
+                            }
+                        });
+                        return data;
                     }
                 };
                 return FertilizerRequestModel;

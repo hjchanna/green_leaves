@@ -3,7 +3,7 @@
     angular.module("teaSettlementModule", []);
     //controller
     angular.module("teaSettlementModule")
-            .controller("teaSettlementController", function ($scope, $filter, $timeout, ConfirmPane, TeaSettlementModel, Notification) {
+            .controller("teaSettlementController", function ($scope, $filter, $timeout, optionPane, ConfirmPane, TeaSettlementModel, Notification) {
                 $scope.model = new TeaSettlementModel();
                 $scope.ui = {};
 
@@ -11,7 +11,9 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
                     $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-                    $scope.ui.focus();
+                    $timeout(function () {
+                        angular.element(document.querySelectorAll("#routeOfficer"))[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.discard = function () {
@@ -49,17 +51,19 @@
                 };
 
                 $scope.ui.addDetail = function () {
-                    console.log($scope.model.data);
                     if (!$scope.model.data.routeOfficer) {
                         Notification.error("please select roote officer");
-                    } else if (!$scope.model.data.date) {
+                    } else if (!$scope.model.data.client) {
                         Notification.error("please select client");
+                    } else if (!$scope.model.data.date) {
+                        Notification.error("please select date");
                     } else if (!$scope.model.data.teaGrade) {
-                        Notification.error("please select teaGrade");
+                        Notification.error("please select tea grade");
                     } else if (!$scope.model.data.qty) {
                         Notification.error("please select qty");
                     } else if ($scope.model.data.routeOfficer
                             && $scope.model.data.date
+                            && $scope.model.data.client
                             && $scope.model.data.teaGrade
                             && $scope.model.data.qty) {
 
@@ -67,11 +71,27 @@
                         if (angular.isUndefined(confirmation)) {
                             Notification.error("this tea grade not found this route officer");
                         } else {
-                            $scope.model.addDetail()
-                                    .then(function () {
-                                        $scope.ui.focus();
-                                        $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-                                    });
+
+                            //route officer request check and insert data check
+                            var afterbal = $scope.model.getOfficerTeaGradeAmount($scope.model.data.teaGrade) - $scope.model.getTeaGradeIssueCount($scope.model.data.teaGrade);
+                            afterbal = afterbal - parseInt($scope.model.data.qty);
+                            if (afterbal >= 0) {
+
+                                //duplicate entry check
+                                var requestStatus = $scope.model.requestDuplicateCheck($scope.model.data.client, $scope.model.data.teaGrade);
+                                if (angular.isUndefined(requestStatus)) {
+                                    $scope.model.addDetail()
+                                            .then(function () {
+                                                $scope.ui.focus();
+                                                $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+                                            });
+                                } else {
+                                    Notification.error("this client - tea allrady exists!");
+                                }
+
+                            } else {
+                                Notification.error("this route officer out of tea qty");
+                            }
                         }
                     }
                 };
@@ -92,6 +112,7 @@
                                 $scope.model.save()
                                         .then(function () {
                                             $scope.ui.discard();
+                                            optionPane.successMessage("Save Tea Issue Settlement Success!");
                                         });
                             })
                             .discard(function () {

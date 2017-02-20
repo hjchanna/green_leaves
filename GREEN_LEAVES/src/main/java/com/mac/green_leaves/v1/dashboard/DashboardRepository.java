@@ -51,7 +51,7 @@ public interface DashboardRepository extends JpaRepository<TGreenLeavesWeigh, Se
             + "ON t_green_leaves_receive_detail.client = m_client.index_no\n"
             + "INNER JOIN t_green_leaves_receive\n"
             + "ON t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive\n"
-            + "WHERE t_green_leaves_receive.route <> m_client.route;   ", nativeQuery = true)
+            + "WHERE t_green_leaves_receive.route <> m_client.route;", nativeQuery = true)
     public List<Object[]> getCrossReportDetails();
 
     @Query(value = "select\n"

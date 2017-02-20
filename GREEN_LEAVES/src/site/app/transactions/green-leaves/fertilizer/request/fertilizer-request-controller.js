@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var controller = function ($scope, $filter, FertilizerRequestModel, $timeout, Notification, ConfirmPane) {
+    var controller = function ($scope, $filter, FertilizerRequestModel, $timeout, Notification, optionPane, ConfirmPane) {
         $scope.model = new FertilizerRequestModel();
         $scope.customerId;
 
@@ -66,10 +66,17 @@
                 Notification.error("please qty");
             } else if ($scope.model.tempData.product
                     && $scope.model.tempData.qty) {
-                $scope.model.addDetail()
-                        .then(function () {
-                            $scope.ui.focus();
-                        });
+
+                var requestStatus = $scope.model.requestDuplicateCheck($scope.model.tempData.product);
+                if (angular.isUndefined(requestStatus)) {
+                    $scope.model.addDetail()
+                            .then(function () {
+                                $scope.ui.focus();
+                            });
+                } else {
+                    Notification.error("this item is allrady exists!");
+                }
+
             }
         };
 
@@ -132,6 +139,7 @@
                 $scope.model.save()
                         .then(function () {
                             $scope.ui.mode = "IDEAL";
+                            optionPane.successMessage("Direct Tea Issue Save Success!");
                             $scope.model.clear();
                         });
             }

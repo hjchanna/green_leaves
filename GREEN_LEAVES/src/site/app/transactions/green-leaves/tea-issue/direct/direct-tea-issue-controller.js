@@ -1,9 +1,9 @@
 (function () {
-    //module
+//module
     angular.module("directTeaIssueModule", []);
     //controller
     angular.module("directTeaIssueModule")
-            .controller("directTeaIssueController", function ($scope, DirectTeaIssueModel, $filter, $timeout, Notification, ConfirmPane) {
+            .controller("directTeaIssueController", function ($scope, DirectTeaIssueModel, $filter, $timeout, Notification, ConfirmPane, optionPane) {
                 $scope.model = new DirectTeaIssueModel();
 
                 $scope.ui = {};
@@ -12,10 +12,9 @@
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
                     $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-
                     //focus date
                     $timeout(function () {
-                        angular.element(document.querySelectorAll("#date"))[0].focus();
+                        angular.element(document.querySelectorAll("#clientId"))[0].focus();
                     }, 10);
                 };
 
@@ -39,7 +38,6 @@
                             .discard(function () {
                                 console.log("REJECT");
                             });
-
                 };
 
                 //find client by client number
@@ -64,7 +62,7 @@
 
                 $scope.ui.focus = function () {
                     $timeout(function () {
-                        angular.element(document.querySelectorAll("#date"))[0].focus();
+                        angular.element(document.querySelectorAll("#clientId"))[0].focus();
                     }, 10);
                 };
 
@@ -73,18 +71,33 @@
                 };
 
                 $scope.ui.getPrice = function (indexNo) {
-                    console.log(indexNo);
                     $scope.model.data.price = $scope.model.teaGrade(indexNo).price;
                 };
 
                 //add detail to table
                 $scope.ui.addDetail = function () {
-                    $scope.model.addDetail()
-                            .then(function () {
-                                $scope.ui.focus();
-                                $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-                            });
-
+                    if (!$scope.model.data.client) {
+                        Notification.error("please select client");
+                    } else if (!$scope.model.data.date) {
+                        Notification.error("please select date");
+                    } else if (!$scope.model.data.teaGrade) {
+                        Notification.error("please select tea grade");
+                    } else if (!$scope.model.data.qty) {
+                        Notification.error("please select qty");
+                    } else if ($scope.model.data.client
+                            && $scope.model.data.date
+                            && $scope.model.data.teaGrade) {
+                        var requestStatus = $scope.model.requestDuplicateCheck($scope.model.data.client, $scope.model.data.teaGrade);
+                        if (angular.isUndefined(requestStatus)) {
+                            $scope.model.addDetail()
+                                    .then(function () {
+                                        $scope.ui.focus();
+                                        $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+                                    });
+                        } else {
+                            Notification.error("this client - tea grade is allrady exists!");
+                        }
+                    }
                 };
 
                 $scope.ui.editDetail = function (index) {
@@ -98,21 +111,28 @@
                 };
 
                 $scope.ui.save = function () {
-                    $scope.model.save()
-                            .then(function () {
-                                $scope.ui.discard();
-                            });
+                    if (!$scope.model.teaIssueList.length) {
+                        Notification.error("please add tea issue requests");
+                    } else if ($scope.model.teaIssueList.length) {
+                        ConfirmPane.primaryConfirm("Save Direct Tea Issue")
+                                .confirm(function () {
+                                    $scope.model.save()
+                                            .then(function () {
+                                                optionPane.successMessage("Direct Tea Issue Save Success!");
+                                                $scope.ui.discard();
+                                            });
+                                });
+                    }
                 };
 
                 $scope.ui.init = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.ui.type = "NORMAL";
-
                     $scope.$watch("[model.data.price,model.data.qty]", function (newVal, oldVal) {
                         $scope.model.data.amount = parseFloat($scope.model.data.price * $scope.model.data.qty);
                     }, true);
                 };
-                $scope.ui.init();
 
+                $scope.ui.init();
             });
 }());

@@ -26,20 +26,17 @@ public class TeaIssueService {
 
     @Autowired
     private TeaIssueRepository teaIssueRepository;
+
     @Autowired
     private TRouteOfficerTeaLedgerRepository tRouteOfficerTeaLedgerRepository;
 
-    public List<TTeaIssue> getAllIteaIssue() {
-        return teaIssueRepository.findAll();
-    }
+    private final String PENDING_STATUS = "PENDING";
+    private final String APPROVE_STATUS = "APPROVE";
+    private final String DELETE_STATUS = "DELETED";
 
     public List<TRouteOfficerTeaLedger> getAllTRouteOfficerTeaLedger() {
         return tRouteOfficerTeaLedgerRepository.findAll();
     }
-
-    private final String PENDING_STATUS = "PENDING";
-    private final String APPROVE_STATUS = "APPROVE";
-    private final String DELETED_STATUS = "DELETED";
 
     public Integer saveTeaIssue(List<TTeaIssue> teaIssues) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
@@ -53,7 +50,6 @@ public class TeaIssueService {
             teaIssue.setNumber(maxNumber + 1);
             TTeaIssue saveData = teaIssueRepository.save(teaIssue);
 
-            
             // route officer tea issue
             if (null != teaIssue.getRouteOfficer()) {
                 TRouteOfficerTeaLedger tRouteOfficerTeaLedger = new TRouteOfficerTeaLedger();
@@ -69,7 +65,7 @@ public class TeaIssueService {
         }
         return 1;
     }
-    
+
     public Integer saveTeaSettlement(List<TTeaIssue> teaIssues) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
         for (TTeaIssue teaIssue : teaIssues) {
@@ -82,7 +78,6 @@ public class TeaIssueService {
             teaIssue.setNumber(maxNumber + 1);
             TTeaIssue saveData = teaIssueRepository.save(teaIssue);
 
-            
             // route officer tea issue
             if (null != teaIssue.getRouteOfficer()) {
                 TRouteOfficerTeaLedger tRouteOfficerTeaLedger = new TRouteOfficerTeaLedger();
@@ -98,22 +93,20 @@ public class TeaIssueService {
         }
         return 1;
     }
-    
-    
 
     public TTeaIssue getTeaIssue(Date date, Integer number, String type) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return teaIssueRepository.findByDateAndBranchAndNumberAndType(date, 1, number, type);
+        return teaIssueRepository.findByDateAndBranchAndNumberAndTypeAndStatusNot(date, branch, number, type, DELETE_STATUS);
     }
 
     public void deleteTeaIssue(Integer indexNo) {
         TTeaIssue teaIssue = teaIssueRepository.getOne(indexNo);
-        teaIssue.setStatus(DELETED_STATUS);
+        teaIssue.setStatus(DELETE_STATUS);
         teaIssueRepository.save(teaIssue);
     }
 
     public List<Object[]> getPendingTeaIssueRequest(Integer routeOfficer) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return teaIssueRepository.findByBranchAndStatus(1, PENDING_STATUS,routeOfficer);
+        return teaIssueRepository.findByBranchAndStatus(branch, PENDING_STATUS, routeOfficer);
     }
 }
