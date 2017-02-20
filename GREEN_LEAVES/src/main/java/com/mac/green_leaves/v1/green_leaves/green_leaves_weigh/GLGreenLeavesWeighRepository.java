@@ -39,4 +39,6 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
     public TGreenLeavesWeigh findByBranchAndRouteAndDateAndTypeAndStatusNot(Integer branch, Integer route, Date date, String type, String ststus);
 
     public TGreenLeavesWeigh findByBranchAndDateAndClientAndTypeAndStatusNot(Integer branch, Date date, Integer client, String type, String ststus);
+
+    public List<TGreenLeavesWeigh> findByTypeAndRemarkNotNull(String supplier);
 }

@@ -52,9 +52,15 @@ public class FertilizerController {
         fertilizerService.deleteFertilizer(indexNo);
         return indexNo;
     }
-    
+
+    @RequestMapping(value = "/delete-fertilizer-detail/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteGreenLeavesReceiveDetail(@PathVariable Integer indexNo) {
+        fertilizerService.deleteFertilizerDetail(indexNo);
+        return indexNo;
+    }
+
     @RequestMapping(value = "/approve-or-reject-fertilizer/{indexNo}/{status}", method = RequestMethod.GET)
-    public Integer approveFertilizer(@PathVariable Integer indexNo,@PathVariable String status) {
+    public Integer approveFertilizer(@PathVariable Integer indexNo, @PathVariable String status) {
         fertilizerService.approveOrRejectFertilizer(indexNo, status);
         return indexNo;
     }
@@ -63,9 +69,9 @@ public class FertilizerController {
     public List<Object[]> getPendingRequestByRouteVise() {
         return fertilizerService.getPendingRequestBtROuteOfficer(1);
     }
-    
+
     @RequestMapping(value = "/pending-fertilizer/{routeOfficer}", method = RequestMethod.GET)
     public List<TFertilizer> getPendingRequest(@PathVariable Integer routeOfficer) {
-        return fertilizerService.getPendingRequestByBranchAndROuteOfficer(1,routeOfficer);
+        return fertilizerService.getPendingRequestByBranchAndROuteOfficer(1, routeOfficer);
     }
 }

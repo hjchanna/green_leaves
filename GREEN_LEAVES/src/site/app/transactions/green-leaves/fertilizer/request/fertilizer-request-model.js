@@ -18,7 +18,7 @@
                         var that = this;
                         this.data = FertilizersModelFactory.newData();
                         this.tempData = FertilizersModelFactory.newTempData();
-                        
+
                         FertilizerModelService.loadProducts()
                                 .success(function (data) {
                                     that.products = data;
@@ -77,8 +77,18 @@
                         this.itemTotal();
                     },
                     deleteDetail: function (index) {
-                        this.data.tfertilizerDetailList.splice(index, 1);
-                        this.itemTotal();
+                        var that = this;
+                        if (!that.data.indexNo) {
+                            that.data.tfertilizerDetailList.splice(index, 1);
+                            that.itemTotal();
+                        } else {
+                            var greenLeavesReceiveDetails = that.data.tfertilizerDetailList[index];
+                            FertilizerModelService.deleteFertilizerDetail(parseInt(greenLeavesReceiveDetails.indexNo))
+                                    .success(function () {
+                                        that.data.tfertilizerDetailList.splice(index, 1);
+                                        that.itemTotal();
+                                    });
+                        }
                     },
                     itemTotal: function () {
                         var itemTotal = 0.0;

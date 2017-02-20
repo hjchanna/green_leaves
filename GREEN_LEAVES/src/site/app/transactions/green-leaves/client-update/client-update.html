@@ -9,22 +9,9 @@
 
                     <tbody>
                         <tr>
-                            <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>
+                            <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.branchLable($model)"></td>
                             <td><input class="form-control" smart-input="date"  ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'"></td>
                             <td><input id="route" class="form-control" smart-input="text" input-hint="route" ng-model="model.data.route" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.findByBranchAndRouteAndDate();"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <table class="control-table">
-                    <col class="col-xs-3"/>
-                    <col class="col-xs-3"/>
-                    <col class="col-xs-3"/>
-                    <col class="col-xs-3"/>
-
-                    <tbody>
-                        <tr>
-                            <td><input class="form-control" smart-input="text" ng-model="model.data.CLIENT" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -64,7 +51,7 @@
                                 </table>
                             </div>
 
-                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 244px);" ng-show="normalLeaves.length">
+                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 193px);" ng-show="model.greenLeavesReceiveList.length">
                                 <table class="table-hover">
                                     <col style="width: 10%"/>
                                     <col style="width: 25%"/>
@@ -73,21 +60,21 @@
                                     <col style="width: 20%"/>
                                     <col />
                                     <tbody>
-                                        <tr ng-repeat="greenLeavesWeighDetail in normalLeaves = (model.data.greenLeaveWeighDetails|filter:{type:'NORMAL'});">
-                                            <td><span class="label label-primary">{{model.data.greenLeaveWeighDetails.length - $index|fixedLength:4}}</span></td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.quantity|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.bags|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.crates|number:2}}</td>
-                                            <td class="text-right">{{greenLeavesWeighDetail.polyBags|number:2}}</td>
+                                        <tr ng-repeat="greenLeavesReceive in model.greenLeavesReceiveList">
+                                            <td><span class="label label-primary">{{greenLeavesReceive.indexNo| fixedLength:5}}</span></td>
+                                            <td class="text-right">{{greenLeavesReceive.remark}}</td>
+                                            <td class="text-right">{{greenLeavesReceive.date}}</td>
+                                            <td class="text-right">{{greenLeavesReceive.normalLeavesQuantity|number:2}}</td>
+                                            <td class="text-right">{{greenLeavesReceive.superLeavesQuantity|number:2}}</td>
                                             <td class="text-center" style="padding-left: 5px;">
-                                                <button class="btn btn-danger" ng-click="ui.deleteDetail(greenLeavesWeighDetail.indexNo);" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-minus"></span></button>
+                                                <button class="btn btn-danger" ng-click="" ng-disabled="ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-minus"></span></button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div class="placeholder col-xs-12" style="height: calc(100vh - 244px);" ng-hide="normalLeaves.length">
+                            <div class="placeholder col-xs-12" style="height: calc(100vh - 193px);" ng-hide="model.greenLeavesReceiveList.length">
                                 <h1>PLEASE ADD NORMAL LEAVES TO DISPLAY :(</h1>
                             </div>
                         </uib-tab>

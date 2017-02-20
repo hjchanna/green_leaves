@@ -15,6 +15,13 @@
             $timeout(function () {
                 angular.element(document.querySelectorAll("#date"))[0].focus();
             }, 10);
+            $scope.model.data.type = "TWO-MONTH";
+        };
+
+        $scope.ui.forcusItemSelections = function () {
+            $timeout(function () {
+                angular.element(document.querySelectorAll("#item"))[0].focus();
+            }, 10);
         };
 
         //find by fertilizer by date and number
@@ -39,6 +46,9 @@
                 } else {
                     var client = $scope.model.client(searchClient.indexNo);
                     $scope.model.data.client = client.indexNo;
+                    $timeout(function () {
+                        angular.element(document.querySelectorAll("#item"))[0].focus();
+                    }, 10);
                 }
             }
         };
@@ -94,8 +104,14 @@
         };
 
         $scope.ui.deleteDetail = function (index) {
-            $scope.model.deleteDetail(index);
-            $scope.ui.focus();
+            ConfirmPane.dangerConfirm("Delete Fertilizer")
+                    .confirm(function () {
+                        $scope.model.deleteDetail(index);
+                        $scope.ui.focus();
+                    })
+                    .discard(function () {
+                        console.log("REJECT");
+                    });
         };
 
         $scope.ui.save = function () {

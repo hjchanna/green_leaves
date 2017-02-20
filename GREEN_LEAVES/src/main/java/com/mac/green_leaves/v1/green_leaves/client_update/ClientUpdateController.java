@@ -5,7 +5,9 @@
  */
 package com.mac.green_leaves.v1.green_leaves.client_update;
 
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,8 +27,12 @@ public class ClientUpdateController {
     @Autowired
     private ClientUpdateService clientUpdateService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/green-leaves-receive",method = RequestMethod.GET)
     public List<TGreenLeavesReceiveDetail> remarkGreenLeavesReceives() {
         return clientUpdateService.remarkGreenLeavesReceives();
+    }
+    @RequestMapping(value = "/green-leaves-weigh",method = RequestMethod.GET)
+    public List<TGreenLeavesWeigh> remarkGreenLeavesWeigh() {
+        return clientUpdateService.remarkGreenLeavesWeigh();
     }
 }

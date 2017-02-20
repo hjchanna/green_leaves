@@ -12,6 +12,10 @@
             branchs: [],
             //vehicle information
             vehicles: [],
+            //green leaves receive
+            greenLeavesReceiveList: [],
+            //supplier green leaves weigh
+            greenLeavesWeighList: [],
             //constructor
             constructor: function () {
                 var that = this;
@@ -23,6 +27,16 @@
                 ClientUpdateService.loadBranch()
                         .success(function (data) {
                             that.branchs = data;
+                        });
+                ClientUpdateService.loadRemarkGreenLeavesReceive()
+                        .success(function (data) {
+                            that.greenLeavesReceiveList = data;
+                            console.log(that.greenLeavesReceiveList);
+                        });
+                ClientUpdateService.loadRemarkGreenLeavesWeigh()
+                        .success(function (data) {
+                            that.greenLeavesWeighList = data;
+                            console.log(that.greenLeavesWeighList);
                         });
             },
             //clear all data
@@ -39,7 +53,7 @@
                 });
                 return label;
             },
-            bracnhLable: function (indexNo) {
+            branchLable: function (indexNo) {
                 var lable;
                 angular.forEach(this.branchs, function (value) {
                     if (value.indexNo === indexNo) {

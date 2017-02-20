@@ -12,6 +12,12 @@
         this.loadRouteOfficers = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
         };
+        this.loadRemarkGreenLeavesReceive = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-update/green-leaves-receive");
+        };
+        this.loadRemarkGreenLeavesWeigh = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-update/green-leaves-weigh");
+        };
     };
 
     angular.module("appModule")

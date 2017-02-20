@@ -7,6 +7,8 @@ package com.mac.green_leaves.v1.green_leaves.client_update;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveDetailRepository;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.GLGreenLeavesWeighRepository;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,15 @@ public class ClientUpdateService {
 
     @Autowired
     private GLGreenLeavesReceiveDetailRepository greenLeavesReceiveDetailRepository;
-    
+
+    @Autowired
+    private GLGreenLeavesWeighRepository greenLeavesWeighRepository;
+
     List<TGreenLeavesReceiveDetail> remarkGreenLeavesReceives() {
         return greenLeavesReceiveDetailRepository.findByRemarkNotNull();
+    }
+
+    List<TGreenLeavesWeigh> remarkGreenLeavesWeigh() {
+        return greenLeavesWeighRepository.findByTypeAndRemarkNotNull("SUPPLIER");
     }
 }

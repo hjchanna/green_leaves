@@ -50,4 +50,6 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
     @Modifying(clearAutomatically = true)
     @Query(value = "delete from t_green_leaves_receive_detail where index_no = :indexNo", nativeQuery = true)
     public void deleteGreenLeavesReceiveDetail(@Param("indexNo") Integer indexNo);
+
+    public List<TGreenLeavesReceive> findBygreenLeavesReceiveDetailsRemarkNotNull();
 }
