@@ -386,7 +386,6 @@
                 var that = this;
                 that.chartDetails = {};
                 angular.forEach(this.greenLeavesReceiveList, function (glr) {
-                    console.log(that.chartDetails[glr.route]);
                     angular.forEach(glr.greenLeavesReceiveDetails, function (glrd) {
                         var quantity = that.chartDetails[glr.route];
                         if (typeof quantity === 'undefined') {
@@ -415,7 +414,6 @@
                 that.chartDetails = {};
                 angular.forEach(this.greenLeavesReceiveList, function (glr) {
                     angular.forEach(glr.greenLeavesReceiveDetails, function (glrd) {
-                        console.log(that.route(glr.route).vehicle.vehicleNo);
                         var quantity = that.chartDetails[that.route(glr.route).vehicle.indexNo];
                         if (typeof quantity === 'undefined') {
                             quantity = ['', 0.0, 0.0];
