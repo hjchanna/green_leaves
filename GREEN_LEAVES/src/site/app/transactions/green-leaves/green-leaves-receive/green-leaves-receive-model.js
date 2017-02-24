@@ -83,11 +83,13 @@
                     },
                     deleteDetail: function (index) {
                         var that = this;
-                        if (!that.data.indexNo) {
+                        var greenLeavesReceiveDetails = that.data.greenLeavesReceiveDetails[index];
+                        if (!greenLeavesReceiveDetails.indexNo) {
+                            console.log("new data delete");
                             that.data.greenLeavesReceiveDetails.splice(index, 1);
                             that.refreshQuantity();
                         } else {
-                            var greenLeavesReceiveDetails = that.data.greenLeavesReceiveDetails[index];
+                            console.log("existing data delete");
                             GreenLeavesReceiveService.deleteGreenLeavesReceiveDetail(parseInt(greenLeavesReceiveDetails.indexNo))
                                     .success(function () {
                                         that.data.greenLeavesReceiveDetails.splice(index, 1);
