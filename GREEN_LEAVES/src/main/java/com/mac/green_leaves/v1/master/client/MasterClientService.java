@@ -30,18 +30,18 @@ public class MasterClientService {
 
     //save supplier
     public MClient saveSupplier(MClient client) {
-        MClient getClient = findByClientNoAndNicNumber(client.getClientNumber(), client.getNicNumber());
-        if (getClient == null) {
+//        MClient getClient = findByClientNoAndNicNumber(client.getClientNumber(), client.getNicNumber());
+//        if (getClient == null) {
             return masterClientRepository.save(client);
-        } else {
-            if (getClient.getIndexNo().equals(client.getIndexNo())) {
-                if (getClient.getClientNumber()==client.getClientNumber()) {
-                    return masterClientRepository.save(client);
-                    
-                }
-            } 
-            throw new DuplicateEntityException("client already exists");
-        }
+//        } else {
+//            if (getClient.getIndexNo().equals(client.getIndexNo())) {
+//                if (getClient.getClientNumber()==client.getClientNumber()) {
+//                    return masterClientRepository.save(client);
+//                    
+//                }
+//            } 
+//            throw new DuplicateEntityException("client already exists");
+//        }
     }
 
     public List<MClient> getAllSuppliier() {

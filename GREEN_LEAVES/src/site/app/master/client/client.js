@@ -178,7 +178,6 @@
                 $scope.validateInput = function () {
                     if ($scope.model.data.name
                             && $scope.model.data.clientNumber
-                            && $scope.model.data.nicNumber
                             && $scope.model.data.paymentMode
                             && $scope.model.data.route) {
                         return true;
