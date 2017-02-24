@@ -14,30 +14,16 @@
                     <thead class="background-dark">
                         <tr>
                             <th>
-                            </th>
-                            <th>
-                                <input id="date" style="margin-top: 5px" class="form-control" smart-input="date"  ng-model="model.data.date">
-                            </th>
-                            <th>
-                                <input class="form-control" style="margin-top: 5px" smart-input="integer" input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-                                <table>
-                    <col style="width: 35%"/>
-                    <col style="width: 35%"/>
-                    <col style="width: 35%"/>
-                    <col/>
-                    <thead class="background-dark">
-                        <tr>
-                            <th>
                                 <label>ROUTE OFFICER</label>
-                                <input class="form-control" ng-model="model.data.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + '-' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.routeOfficerLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
+                                <input id="routeOfficer" class="form-control" ng-model="model.data.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + '-' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.routeOfficerLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </th>
                             <th>
+                                <label></label>
+                                <input id="date" class="form-control" smart-input="date"  ng-model="model.data.date">
                             </th>
-                            <th class="text-right">
+                            <th>
+                                <label></label>
+                                <input class="form-control" smart-input="integer" input-hint="transaction number"  ng-model="model.data.number" ng-keypress="ui.load($event);" ng-disabled="ui.mode === 'EDIT'">
                             </th>
                         </tr>
                     </thead>
@@ -78,7 +64,7 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 260px);" ng-show="model.teaIssueList.length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 210px);" ng-show="model.teaIssueList.length">
                 <table class="table-hover">
                     <col style="width: 30%"/>
                     <col style="width: 20%"/>
@@ -101,11 +87,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100% - 260px);" ng-hide="model.teaIssueList.length">
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100% - 210px);" ng-hide="model.teaIssueList.length">
                 <h1>PLEASE ADD TEA ISSUE REQUEST :(</h1>
             </div>
             <div class="col-xs-12">
-                <table style="padding-right: 5px;">
+                <table>
                     <col style="width: 30%;"/>
                     <col style="width: 70%;"/>
                     <thead class="background-dark">

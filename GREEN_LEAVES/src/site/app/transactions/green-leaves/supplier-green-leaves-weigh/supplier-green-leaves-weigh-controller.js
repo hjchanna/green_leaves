@@ -98,17 +98,29 @@
                 };
 
                 $scope.ui.insertNormalDetail = function () {
-                    if (!$scope.ui.insertProcessing) {
-                        $scope.ui.insertProcessing = true;
-                        $scope.model.insertNormalDetail()
-                                .then(function () {
-                                    $scope.ui.toggleType("NORMAL");
-                                    $scope.ui.insertProcessing = false;
-                                }, function () {
-                                    $scope.ui.insertProcessing = false;
-                                });
+                    if (!$scope.model.data.branch) {
+                        Notification.error("please select branch");
+                    } else if (!$scope.model.data.date) {
+                        Notification.error("please select date");
+                    } else if (!$scope.model.tempData.quantity) {
+                        Notification.error("please select quantity");
+                    } else if ($scope.model.tempData.crates
+                            + $scope.model.tempData.bags
+                            + $scope.model.tempData.polyBags <= 0) {
+                        Notification.error("please select tare count");
+                    } else if ($scope.model.data.branch
+                            && $scope.model.data.date) {
+                        if (!$scope.ui.insertProcessing) {
+                            $scope.ui.insertProcessing = true;
+                            $scope.model.insertNormalDetail()
+                                    .then(function () {
+                                        $scope.ui.toggleType("NORMAL");
+                                        $scope.ui.insertProcessing = false;
+                                    }, function () {
+                                        $scope.ui.insertProcessing = false;
+                                    });
+                        }
                     }
-
                 };
 
                 $scope.ui.insertSuperDetail = function () {

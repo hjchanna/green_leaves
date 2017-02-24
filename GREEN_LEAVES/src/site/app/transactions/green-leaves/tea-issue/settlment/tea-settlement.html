@@ -143,7 +143,7 @@
                         <tr>
                             <th>
                                 <label>ROUTE OFFICER</label>
-                                <input type="text" style="margin-top: 5px" class="form-control" ng-model="model.data.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + '-' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.routeOfficerLabel($model)" typeahead-on-select="ui.searchPendingRouteOfficerRequest($model)" ng-disabled="ui.mode !== 'EDIT'">  
+                                <input id="routeOfficer" type="text" style="margin-top: 5px" class="form-control" ng-model="model.data.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + '-' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10"  typeahead-input-formatter="model.routeOfficerLabel($model)" typeahead-on-select="ui.searchPendingRouteOfficerRequest($model)" ng-disabled="ui.mode !== 'EDIT'">  
                             </th>
                         </tr>
                     </tbody>

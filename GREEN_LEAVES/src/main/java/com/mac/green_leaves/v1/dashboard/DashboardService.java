@@ -106,12 +106,12 @@ public class DashboardService {
 
         criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
         criteria.addOrder(Order.asc("date"));
+        criteria.add(Restrictions.ne("status", "DELETED"));
         List<TGreenLeavesWeigh> greenLeavesWeigh = criteria.list();
         return greenLeavesWeigh;
     }
 
     List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(greenLeavesSummry leavesSummry) {
-        System.out.println(leavesSummry.getStatus());
         if ("client".equals(leavesSummry.getType())) {
             Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
 
@@ -142,6 +142,7 @@ public class DashboardService {
             criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.asc("date"));
             criteria.add(Restrictions.isNotNull("route"));
+            criteria.add(Restrictions.ne("status", "DELETED"));
             List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
             return greenLeavesReceives;
         } else {
@@ -168,6 +169,7 @@ public class DashboardService {
             criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.asc("date"));
             criteria.add(Restrictions.isNotNull("route"));
+            criteria.add(Restrictions.ne("status", "DELETED"));
             List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
             return greenLeavesReceives;
         }
@@ -208,12 +210,12 @@ public class DashboardService {
 
     public HashMap<String, Object> getSummryData(Date date) {
         HashMap<String, Object> summaryData = new HashMap<>();
-        
+
         List<Object[]> dailyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalToDate(date);
         List<Object[]> monthlyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalMonth(date);
         List<Object[]> dailyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalDaily(date);
         List<Object[]> monthlyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalMonth(date);
-        
+
         summaryData.put("dailyFactory", dailyFactory.get(0));
         summaryData.put("monthlyFactory", monthlyFactory.get(0));
         summaryData.put("dailyRouteWise", dailyRouteWise.get(0));

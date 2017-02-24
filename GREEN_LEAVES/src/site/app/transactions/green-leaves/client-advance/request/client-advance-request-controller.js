@@ -22,11 +22,18 @@
         };
 
         $scope.ui.addRequest = function () {
-            $scope.model.addDetail()
-                    .then(function () {
-                        $scope.ui.focus();
-                        $scope.asAtDate = "This";
-                    });
+            var client = $scope.model.tempData.client;
+            var date = $scope.model.tempData.asAtDate;
+            var requestStatus = $scope.model.requestDuplicateCheck(client, date);
+            if (angular.isUndefined(requestStatus)) {
+                $scope.model.addDetail()
+                        .then(function () {
+                            $scope.ui.focus();
+                            $scope.asAtDate = "This";
+                        });
+            } else {
+                Notification.error("client and request date already exists");
+            }
         };
 
         $scope.ui.discard = function () {

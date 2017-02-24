@@ -3,7 +3,7 @@
     angular.module("officerTeaIssueModule", []);
     //controller
     angular.module("officerTeaIssueModule")
-            .controller("officerTeaIssueController", function ($scope, OfficerTeaIssueModel, $filter, $timeout, Notification, ConfirmPane) {
+            .controller("officerTeaIssueController", function ($scope, OfficerTeaIssueModel, optionPane, $filter, $timeout, Notification, ConfirmPane) {
                 $scope.model = new OfficerTeaIssueModel();
                 $scope.customerId;
 
@@ -16,7 +16,7 @@
 
                     //focus date
                     $timeout(function () {
-                        angular.element(document.querySelectorAll("#date"))[0].focus();
+                        angular.element(document.querySelectorAll("#routeOfficer"))[0].focus();
                     }, 10);
                 };
 
@@ -50,7 +50,7 @@
 
                 $scope.ui.focus = function () {
                     $timeout(function () {
-                        angular.element(document.querySelectorAll("#date"))[0].focus();
+                        angular.element(document.querySelectorAll("#routeOfficer"))[0].focus();
                     }, 10);
                 };
 
@@ -64,12 +64,28 @@
 
                 //add detail to table
                 $scope.ui.addDetail = function () {
-                    $scope.model.addDetail()
-                            .then(function () {
-                                $scope.ui.focus();
-                                $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-                            });
-
+                    if (!$scope.model.data.routeOfficer) {
+                        Notification.error("please select route officer");
+                    } else if (!$scope.model.data.date) {
+                        Notification.error("please select date");
+                    } else if (!$scope.model.data.teaGrade) {
+                        Notification.error("please select tea grade");
+                    } else if (!$scope.model.data.qty) {
+                        Notification.error("please select qty");
+                    } else if ($scope.model.data.routeOfficer
+                            && $scope.model.data.date
+                            && $scope.model.data.teaGrade) {
+                        var requestStatus = $scope.model.requestDuplicateCheck($scope.model.data.routeOfficer, $scope.model.data.teaGrade);
+                        if (angular.isUndefined(requestStatus)) {
+                            $scope.model.addDetail()
+                                    .then(function () {
+                                        $scope.ui.focus();
+                                        $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+                                    });
+                        } else {
+                            Notification.error("this route officer - tea grade is allrady exists!");
+                        }
+                    }
                 };
 
                 $scope.ui.editDetail = function (index) {
@@ -83,10 +99,18 @@
                 };
 
                 $scope.ui.save = function () {
-                    $scope.model.save()
-                            .then(function () {
-                                $scope.ui.discard();
-                            });
+                    if (!$scope.model.teaIssueList.length) {
+                        Notification.error("please add tea issue requests");
+                    } else if ($scope.model.teaIssueList.length) {
+                        ConfirmPane.primaryConfirm("Save Officer Tea Issue")
+                                .confirm(function () {
+                                    $scope.model.save()
+                                            .then(function () {
+                                                optionPane.successMessage("Officer Tea Issue Save Success!");
+                                                $scope.ui.discard();
+                                            });
+                                });
+                    }
                 };
 
                 $scope.ui.init = function () {

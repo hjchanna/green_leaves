@@ -9,6 +9,7 @@ import com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizer;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -30,7 +31,11 @@ public interface FertilizerRepository extends JpaRepository<TFertilizer, Integer
             + "GROUP BY t_fertilizer.route_officer;", nativeQuery = true)
     public List<Object[]> getPendingRequest(@Param("branch") Integer branch);
 
-    public TFertilizer findByDateAndNumber(Date date, Integer number);
+    public TFertilizer findByDateAndNumberAndStatusNot(Date date, Integer number, String status);
 
     public List<TFertilizer> findByBranchAndStatusAndRouteOfficer(Integer branch, String status, Integer routeOfficer);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "delete from t_fertilizer_detail where index_no = :indexNo", nativeQuery = true)
+    public void deleteFertilizerDetail(@Param("indexNo") Integer indexNo);
 }

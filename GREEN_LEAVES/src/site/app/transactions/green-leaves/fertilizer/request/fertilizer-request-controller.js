@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    var controller = function ($scope, $filter, FertilizerRequestModel, $timeout, Notification, ConfirmPane) {
+    var controller = function ($scope, $filter, FertilizerRequestModel, $timeout, Notification, optionPane, ConfirmPane) {
         $scope.model = new FertilizerRequestModel();
         $scope.customerId;
 
@@ -14,6 +14,13 @@
             //focus date
             $timeout(function () {
                 angular.element(document.querySelectorAll("#date"))[0].focus();
+            }, 10);
+            $scope.model.data.type = "TWO-MONTH";
+        };
+
+        $scope.ui.forcusItemSelections = function () {
+            $timeout(function () {
+                angular.element(document.querySelectorAll("#item"))[0].focus();
             }, 10);
         };
 
@@ -39,6 +46,9 @@
                 } else {
                     var client = $scope.model.client(searchClient.indexNo);
                     $scope.model.data.client = client.indexNo;
+                    $timeout(function () {
+                        angular.element(document.querySelectorAll("#item"))[0].focus();
+                    }, 10);
                 }
             }
         };
@@ -50,10 +60,24 @@
 
         //add detail to table
         $scope.ui.addDetail = function () {
-            $scope.model.addDetail()
-                    .then(function () {
-                        $scope.ui.focus();
-                    });
+            if (!$scope.model.tempData.product) {
+                Notification.error("please select product");
+            } else if (!$scope.model.tempData.qty) {
+                Notification.error("please qty");
+            } else if ($scope.model.tempData.product
+                    && $scope.model.tempData.qty) {
+
+                var requestStatus = $scope.model.requestDuplicateCheck($scope.model.tempData.product);
+                if (angular.isUndefined(requestStatus)) {
+                    $scope.model.addDetail()
+                            .then(function () {
+                                $scope.ui.focus();
+                            });
+                } else {
+                    Notification.error("this item is allrady exists!");
+                }
+
+            }
         };
 
         $scope.ui.focus = function () {
@@ -87,17 +111,39 @@
         };
 
         $scope.ui.deleteDetail = function (index) {
-            $scope.model.deleteDetail(index);
-            $scope.ui.focus();
+            ConfirmPane.dangerConfirm("Delete Fertilizer")
+                    .confirm(function () {
+                        $scope.model.deleteDetail(index);
+                        $scope.ui.focus();
+                    })
+                    .discard(function () {
+                        console.log("REJECT");
+                    });
         };
 
         $scope.ui.save = function () {
-            console.log("save controller");
-            $scope.model.save()
-                    .then(function () {
-                        $scope.ui.mode = "IDEAL";
-                        $scope.model.clear();
-                    });
+            if (!$scope.model.data.routeOfficer) {
+                Notification.error("please select route officer");
+            } else if (!$scope.model.data.date) {
+                Notification.error("please select date");
+            } else if (!$scope.model.data.client) {
+                Notification.error("please select client");
+            } else if (!$scope.model.data.type) {
+                Notification.error("please select month");
+            } else if (!$scope.model.data.tfertilizerDetailList.length) {
+                Notification.error("please select details");
+            } else if ($scope.model.data.routeOfficer
+                    && $scope.model.data.date
+                    && $scope.model.data.client
+                    && $scope.model.data.type) {
+                $scope.model.save()
+                        .then(function () {
+                            $scope.ui.mode = "IDEAL";
+                            optionPane.successMessage("Direct Tea Issue Save Success!");
+                            $scope.model.clear();
+                        });
+            }
+            ;
         };
 
         $scope.ui.init = function () {

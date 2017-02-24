@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +32,10 @@ public class GLGreenLeavesReceiveService {
 
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
+    private final String DELETE_STATUS = "DELETED";
 
     public TGreenLeavesReceive getReceive(Integer branch, Integer number) {
-        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndNumber(branch, number);
+        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndNumberAndStatusNot(branch, number, DELETE_STATUS);
 
         if (receives.isEmpty()) {
             throw new EntityNotFoundException("Green leaves receive not found for number " + number);
@@ -88,8 +88,8 @@ public class GLGreenLeavesReceiveService {
         return total;
     }
 
-    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndGreenLeavesReceiveDetailsClient(Integer branch, Date date, Integer client) {
-        return greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(branch, date, client);
+    public List<TGreenLeavesReceive> findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(Integer branch, Date date, Integer client) {
+        return greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNullAndStatusNot(branch, date, client, DELETE_STATUS);
     }
 
     @Transactional
@@ -98,7 +98,7 @@ public class GLGreenLeavesReceiveService {
     }
 
     public TGreenLeavesReceive findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndRouteAndDate(branch, route, date);
+        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndRouteAndDateAndStatusNot(branch, route, date, DELETE_STATUS);
         if (receives.isEmpty()) {
             throw new EntityNotFoundException("Green leaves receive not found");
         }
@@ -107,14 +107,14 @@ public class GLGreenLeavesReceiveService {
 
     public void deleteGreenLeavesReceive(Integer indexNo) {
         TGreenLeavesReceive tGreenLeavesReceive = greenLeavesReceiveRepository.getOne(indexNo);
-        tGreenLeavesReceive.setStatus("DELETED");
+        tGreenLeavesReceive.setStatus(DELETE_STATUS);
         greenLeavesReceiveRepository.save(tGreenLeavesReceive);
     }
 
     @Transactional
     public void deleteGreenLeavesReceiveDetail(Integer indexNo) {
         greenLeavesReceiveRepository.deleteGreenLeavesReceiveDetail(indexNo);
-        
+
 //        TGreenLeavesReceiveDetail greenLeavesReceiveDetail = gLGreenLeavesReceiveDetailRepository.getOne(indexNo);
 //        Integer greenLeavesReceiveIndexNo = greenLeavesReceiveDetail.getGreenLeavesReceive().getIndexNo();
 //        TGreenLeavesReceive greenLeavesReceive = greenLeavesReceiveRepository.getOne(greenLeavesReceiveIndexNo);

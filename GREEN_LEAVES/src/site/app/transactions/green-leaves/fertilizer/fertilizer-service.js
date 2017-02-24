@@ -28,6 +28,10 @@
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/delete-fertilizer/" + indexNo);
         };
 
+        this.deleteFertilizerDetail = function (indexNo) {
+            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/delete-fertilizer-detail/" + indexNo);
+        };
+
         //fertilizer approve
         this.getPendingRequest = function (routeOfficer) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/pending-fertilizer/" + routeOfficer);
@@ -36,7 +40,7 @@
         this.getPendingRequestByRouteVise = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/pending-route-vise-fertilizer");
         };
-        
+
         this.approveOrRejectRequest = function (indexNo, status) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/approve-or-reject-fertilizer/" + indexNo + "/" + status);
         };
