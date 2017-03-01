@@ -12,8 +12,14 @@
                     clients: [],
                     //products information
                     products: [],
-                    //routeOfficers information
+                    //route information
+                    routes: [],
+                    //route officer information
                     routeOfficers: [],
+                    //route helper information
+                    routeHelpers: [],
+                    //vehicles
+                    vehicles: [],
                     constructor: function () {
                         var that = this;
                         this.data = FertilizersModelFactory.newData();
@@ -23,15 +29,32 @@
                                 .success(function (data) {
                                     that.products = data;
                                 });
+
                         FertilizerModelService.loadClients()
                                 .success(function (data) {
                                     that.clients = data;
                                 });
-
+                                
+                        FertilizerModelService.loadRoutes()
+                                .success(function (data) {
+                                    that.routes = data;
+                                });
+                                
                         FertilizerModelService.loadRouteOfficers()
                                 .success(function (data) {
                                     that.routeOfficers = data;
                                 });
+                                
+                        FertilizerModelService.loadRouteHelpers()
+                                .success(function (data) {
+                                    that.routeHelpers = data;
+                                });
+
+                        FertilizerModelService.loadVehicles()
+                                .success(function (data) {
+                                    that.vehicles = data;
+                                });
+                                
                     },
                     clear: function () {
                         this.data = FertilizersModelFactory.newData();
@@ -99,13 +122,12 @@
                         return itemTotal;
                     },
                     save: function () {
-                        console.log("save model");
                         var that = this;
                         var defer = $q.defer();
                         this.data.amount = this.itemTotal();
                         FertilizerModelService.saveFertilizer(JSON.stringify(this.data))
                                 .success(function (data) {
-                                    defer.resolve();
+                                    defer.resolve(data);
                                     that.clear();
                                 })
                                 .error(function (data) {
@@ -141,6 +163,16 @@
                         });
                         return client;
                     },
+                    routeLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
                     clientLabel: function (indexNo) {
                         var label;
                         angular.forEach(this.clients, function (value) {
@@ -172,6 +204,28 @@
                         });
                         return label;
                     },
+                    //return label for route helpers
+                    routeHelperLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routeHelpers, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    //return label for route officer
+                    vehicleLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.vehicles, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.vehicleNo;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
                     //find customer by client number
                     searchClientByClientNo: function (clientNumber) {
                         var client;
@@ -192,6 +246,16 @@
                             }
                         });
                         return data;
+                    },
+                    getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
+                        var that = this;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === parseInt(indexNo)) {
+                                that.data.routeHelper = value.routeHelper.indexNo;
+                                that.data.routeOfficer = value.routeOfficer.indexNo;
+                                that.data.vehicle = value.vehicle.indexNo;
+                            }
+                        });
                     }
                 };
                 return FertilizerRequestModel;

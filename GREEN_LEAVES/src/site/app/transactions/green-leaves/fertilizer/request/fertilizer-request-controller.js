@@ -15,6 +15,7 @@
             $timeout(function () {
                 angular.element(document.querySelectorAll("#date"))[0].focus();
             }, 10);
+
             $scope.model.data.type = "TWO-MONTH";
         };
 
@@ -61,9 +62,9 @@
         //add detail to table
         $scope.ui.addDetail = function () {
             if (!$scope.model.tempData.product) {
-                Notification.error("please select product");
+                Notification.error("please select item!");
             } else if (!$scope.model.tempData.qty) {
-                Notification.error("please qty");
+                Notification.error("please item qty");
             } else if ($scope.model.tempData.product
                     && $scope.model.tempData.qty) {
 
@@ -74,7 +75,7 @@
                                 $scope.ui.focus();
                             });
                 } else {
-                    Notification.error("this item is allrady exists!");
+                    Notification.error("this item is allrady exists !");
                 }
 
             }
@@ -94,6 +95,9 @@
             ConfirmPane.dangerConfirm("Delete Fertilizer")
                     .confirm(function () {
                         $scope.model.deleteFertilizer();
+                        optionPane.dangerMessage("Delete Fertilizer Success!");
+                        $scope.ui.mode = "IDEAL";
+                        $scope.model.clear();
                     })
                     .discard(function () {
                         console.log("ReJECT");
@@ -111,7 +115,7 @@
         };
 
         $scope.ui.deleteDetail = function (index) {
-            ConfirmPane.dangerConfirm("Delete Fertilizer")
+            ConfirmPane.dangerConfirm("Delete Fertilizer Detail")
                     .confirm(function () {
                         $scope.model.deleteDetail(index);
                         $scope.ui.focus();
@@ -122,8 +126,14 @@
         };
 
         $scope.ui.save = function () {
-            if (!$scope.model.data.routeOfficer) {
+            if (!$scope.model.data.route) {
+                Notification.error("please select route");
+            } else if (!$scope.model.data.routeOfficer) {
                 Notification.error("please select route officer");
+            } else if (!$scope.model.data.routeHelper) {
+                Notification.error("please select route heleper");
+            } else if (!$scope.model.data.vehicle) {
+                Notification.error("please select vehicle");
             } else if (!$scope.model.data.date) {
                 Notification.error("please select date");
             } else if (!$scope.model.data.client) {
@@ -132,18 +142,31 @@
                 Notification.error("please select month");
             } else if (!$scope.model.data.tfertilizerDetailList.length) {
                 Notification.error("please select details");
-            } else if ($scope.model.data.routeOfficer
+            } else if ($scope.model.data.route
+                    && $scope.model.data.routeOfficer
+                    && $scope.model.data.routeHelper
+                    && $scope.model.data.vehicle
                     && $scope.model.data.date
                     && $scope.model.data.client
                     && $scope.model.data.type) {
-                $scope.model.save()
-                        .then(function () {
-                            $scope.ui.mode = "IDEAL";
-                            optionPane.successMessage("Direct Tea Issue Save Success!");
-                            $scope.model.clear();
+                ConfirmPane.primaryConfirm("Fertilizer Save")
+                        .confirm(function () {
+                            $scope.model.save()
+                                    .then(function (data) {
+                                        $scope.ui.mode = "IDEAL";
+                                        optionPane.successMessage("Fertilizer Save Success! Transaction Number " + data);
+                                        $scope.model.clear();
+                                    });
+                        })
+                        .discard(function () {
+                            console.log("REJECT");
                         });
             }
             ;
+        };
+
+        $scope.ui.getRouteOfficerAndRouteHelperAndVehicle = function (model) {
+            $scope.model.getRouteOfficerAndRouteHelperAndVehicle(model);
         };
 
         $scope.ui.init = function () {

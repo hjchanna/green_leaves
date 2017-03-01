@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.fertilizer;
 
 import com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizer;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,6 @@ public class FertilizerController {
     @Autowired
     private FertilizerService fertilizerService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<TFertilizer> gelAll() {
-        return fertilizerService.gelAll();
-    }
-
     @RequestMapping(value = "/{date}/{number}", method = RequestMethod.GET)
     public TFertilizer getFertilizer(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer number) {
         return fertilizerService.getFertilizer(date, number);
@@ -41,9 +37,8 @@ public class FertilizerController {
 
     @RequestMapping(value = "/save-fertilizer", method = RequestMethod.POST)
     public Integer saveFertilizer(@RequestBody TFertilizer fertilizer) {
-        fertilizer.setTransaction(1);
-        fertilizer.setBranch(1);
-        System.out.println(fertilizer);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        fertilizer.setBranch(branch);
         return fertilizerService.saveFertilizer(fertilizer);
     }
 

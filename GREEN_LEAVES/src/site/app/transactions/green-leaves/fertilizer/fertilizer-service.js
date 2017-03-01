@@ -7,6 +7,22 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
         };
 
+        this.loadRouteOfficers = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
+        };
+
+        this.loadRouteHelpers = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-helpers");
+        };
+
+        this.loadVehicles = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/vehicles");
+        };
+
+        this.loadRoutes = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
+        };
+
         this.loadProducts = function () {
             return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/product");
         };
