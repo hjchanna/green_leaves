@@ -20,8 +20,21 @@ public interface GLLoanRequestRepository extends JpaRepository<TLoanRequest, Int
     @Query(value = "select max(number) from t_loan where branch = :branch", nativeQuery = true)
     public Integer getMaxNumber(@Param("branch") Integer branch);
 
-    public List<TLoanRequest> findByBranchAndStatus(Integer branch, String LOAN_REQUEST_STATUS_PENDING);
-
-//    public List<TLoanRequest> findByBranchAndStatusAndStatus2(Integer branch, String LOAN_REQUEST_STATUS_CHECK, String LOAN_REQUEST_STATUS_PENDING);
-
+    @Query(value = "select \n"
+            + " t_loan_detail.index_no,\n"
+            + " t_loan.number,\n"
+            + " t_loan.date,\n"
+            + " t_loan_detail.client,\n"
+            + " t_loan_detail.loan_amount\n"
+            + "from \n"
+            + " t_loan\n"
+            + "inner join \n"
+            + " t_loan_detail\n"
+            + "on\n"
+            + " t_loan.index_no = t_loan_detail.loan\n"
+            + "where \n"
+            + " t_loan_detail.status = :status\n"
+            + "and \n"
+            + " t_loan.branch = :branch", nativeQuery = true)
+    public List<Object[]> findByBranchAndStatus(@Param("branch") Integer branch, @Param("status") String status);
 }

@@ -17,6 +17,10 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/pending-requests");
         };
 
+        this.findByTLoanRequestDetailByIndexNo = function (indexNo) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/find-by-loan-detail/" + indexNo);
+        };
+
         this.checkRequest = function (data) {
             return $http.post(systemConfig.apiUrl + "/api/v1/loan/loan-request/check-request-detail/", data);
         };

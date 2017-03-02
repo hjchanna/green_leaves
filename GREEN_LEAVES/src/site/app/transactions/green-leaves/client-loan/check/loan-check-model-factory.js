@@ -4,15 +4,8 @@
                 var factory = {};
                 factory.newData = function () {
                     var data = {
-                        "indexNo": null,
-                        "remark": null,
                         "client": null,
-                        "expectedLoanDate": null,
-                        "loanStartDate": null,
-                        "interestRate": null,
-                        "installmentCount": null,
-                        "installmentAmount": null,
-                        "panaltyRate": null
+                        "date": null
                     };
                     return data;
                 };

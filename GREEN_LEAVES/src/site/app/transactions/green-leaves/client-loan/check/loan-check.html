@@ -2,62 +2,8 @@
 </div>
 
 <div class="index-content-body ">
-
     <div class="col-xs-4 background-dark">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
-            <div class="col-xs-12" style="flex: 0 0 auto;">
-                <input type="text" class="search-input" placeholder="search">
-            </div>
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 60%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 30%"/>
-                    <thead>
-                        <tr>
-                            <th>REQUEST</th>
-                            <th class="text-right">#</th>
-                            <th class="text-right">AMOUNT</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="col-xs-12 smart-scroll-y" style="flex: 1 1 auto;height: calc(100% - 200px);">
-                <table class="table-hover">
-                    <col style="width: 60%"/>
-                    <col style="width: 10%"/>
-                    <col style="width: 30%"/>
-                    <tbody>
-                        <tr ng-class="ui.selectedDataIndex === request.indexNo ? 'selected' : ''" ng-repeat="request in model.PendingList|filter:search" ng-click="ui.selectData(request.indexNo);">
-                            <td>
-                                <span class="label label-success">{{request.date}}</span>
-                                <span class="label label-primary">{{request.number|fixedLength:5}}</span>
-                            </td>
-                            <td class="text-right">{{(request.loanRequestDetails|filter:{status:'PENDING'}).length}}</td>
-                            <td class="text-right">{{model.getRequestTotal(request.indexNo) | number:2}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 60%"/>
-                    <col style="width: 15%"/>
-                    <col style="width: 30%"/>
-                    <tbody>
-                        <tr class="text-bold">
-                            <td>SUMMARY</td>
-                            <td class="text-right">{{model.getRequestCount()}}</td>
-                            <th class="text-right">{{model.getRequestTotal() | number:2}}</th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xs-4 background-light">
-        <div class="row" ng-show="model.data.loanRequestDetails" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+        <div class="row" ng-show="model.pendingRequest" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
             <div class="col-xs-12" >
                 <table>
                     <col style="width: 70%;"/>
@@ -67,7 +13,6 @@
                         <tr>
                             <th>CLIENT</th>
                             <th class="text-right">AMOUNT</th>
-                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                 </table>
@@ -77,13 +22,14 @@
                 <table class="table-hover table-hover">
                     <col style="width: 70%;"/>
                     <col style="width: 30%;"/>
+                    <col />
                     <tbody>
-                        <tr ng-class="ui.selectedDetailIndex === detail.indexNo ? 'selected' : ''" ng-repeat="detail in model.data.loanRequestDetails|filter:{status:'PENDING'}" ng-click="ui.selectDetail(detail.indexNo);">
+                        <tr ng-class="ui.selectedDetailIndex === detail[0] ? 'selected' : ''" ng-repeat="detail in model.pendingRequest" ng-click="ui.selectDetail(detail);">
                             <td>
-                                <span class="label label-primary">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span>
-                                {{model.getClient(detail.client).name}}
+                                <span class="label label-primary">{{model.client(detail[3]).indexNo | fixedLength:5}}</span>
+                                {{model.client(detail[3]).name}}
                             </td>
-                            <td class="text-right">{{detail.amount|number:2}}</td>
+                            <td class="text-right">{{detail[4]|number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -97,22 +43,20 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right">{{model.data?model.getRequestCount(model.data.indexNo):0}}</td>
-                            <td class="text-right">{{model.data?model.getRequestTotal(model.data.indexNo):0 | number:2}}</td>
+                            <td class="text-right">{{model.pendingRequest.length}}</td>
+                            <td class="text-right">{{model.getRequestTotal() | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="placeholder" ng-hide="model.data.loanRequestDetails" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
-            <!--<div class="placeholder" >-->
+        <div class="placeholder" ng-hide="model.pendingRequest" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
             <h1>PLEASE SELECT LOAN REQUEST TO DISPLAY :(</h1>
-            <!--</div>-->
         </div> 
     </div>
 
-    <div class="col-xs-4 background-dark">
+    <div class="col-xs-4 background-light">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 100px);">
                 <table class="control-table">
@@ -122,24 +66,28 @@
                     <tbody>  
                         <tr>
                             <td><label class="control-label">Interest Rate</label></td>
-                            <td><input smart-input="decimal" class="form-control" ng-model="model.detail.interestRate"></td>
+                            <td><input smart-input="decimal" class="form-control" ng-model="model.tempData.interestRate"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Count</label></td>
-                            <td><input smart-input="integer" class="form-control" ng-model="model.detail.installmentCount"></td>
+                            <td><input smart-input="integer" class="form-control" ng-model="model.tempData.installmentCount"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Amount</label></td>
-                            <td><input smart-input="decimal" class="form-control" ng-model="model.detail.installmentAmount" disabled></td>
+                            <td><input smart-input="decimal" class="form-control" ng-model="model.tempData.installmentAmount" disabled></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Panalty Rate</label></td>
-                            <td><input smart-input="decimal" class="form-control"  ng-model="model.detail.panaltyRate"></td>
+                            <td><input smart-input="decimal" class="form-control"  ng-model="model.tempData.panaltyRate"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
+    <div class="col-xs-4 background-dark border-dark-left">
+        <side-panel client="model.data.client" date="model.data.date">
+        </side-panel>
     </div>
 </div>
 <div class="fab-container">

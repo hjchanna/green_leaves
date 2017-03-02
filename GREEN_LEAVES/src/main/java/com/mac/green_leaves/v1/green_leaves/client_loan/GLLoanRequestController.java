@@ -38,8 +38,13 @@ public class GLLoanRequestController {
     }
 
     @RequestMapping(value = "/pending-requests")
-    public List<TLoanRequest> getPendingLoanRequests() {
+    public List<Object[]> getPendingLoanRequests() {
         return loanRequestService.getPendingLoanRequests(BRANCH);
+    }
+
+    @RequestMapping(value = "/find-by-loan-detail/{indexNo}", method = RequestMethod.GET)
+    public TLoanRequestDetail findByTLoanRequestDetailByIndexNo(@PathVariable Integer indexNo) {
+        return loanRequestService.findByTLoanRequestDetailByIndexNo(indexNo);
     }
 
 //  check ------------------------------------------------------------------
@@ -58,9 +63,9 @@ public class GLLoanRequestController {
     public void approveLoanRequest(@PathVariable Integer indexNo) {
         loanRequestService.approveLoanRequest(indexNo);
     }
-    
+
     @RequestMapping(value = "/reject-request/{indexNo}")
-    public void rejectLoanRequest(@PathVariable Integer indexNo){
+    public void rejectLoanRequest(@PathVariable Integer indexNo) {
         loanRequestService.rejectRequest(indexNo);
     }
 
