@@ -31,6 +31,17 @@
                     }
                 };
 
+                $scope.ui.reject = function () {
+                    ConfirmPane.dangerConfirm("This Loan Is Reject!")
+                            .confirm(function () {
+                                $scope.model.reject();
+                                $scope.ui.selectedDetailIndex = null;
+                            })
+                            .discard(function () {
+                                console.log("REJECT");
+                            });
+                };
+
                 $scope.ui.init = function () {
                     $scope.model.clear();
 

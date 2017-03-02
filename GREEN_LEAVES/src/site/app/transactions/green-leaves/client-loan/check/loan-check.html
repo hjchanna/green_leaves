@@ -3,7 +3,10 @@
 
 <div class="index-content-body ">
     <div class="col-xs-4 background-dark">
-        <div class="row" ng-show="model.pendingRequest" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+            <div class="col-xs-12" style="flex: 0 0 auto;">
+                <input type="text" class="search-input" placeholder="search" ng-model="search" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)">
+            </div>
             <div class="col-xs-12" >
                 <table>
                     <col style="width: 70%;"/>
@@ -18,15 +21,15 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 78px);">
+            <div ng-show="model.pendingRequest.length" class="col-xs-12 smart-scroll-y" style="height: calc(100% - 148px);">
                 <table class="table-hover table-hover">
                     <col style="width: 70%;"/>
                     <col style="width: 30%;"/>
                     <col />
                     <tbody>
-                        <tr ng-class="ui.selectedDetailIndex === detail[0] ? 'selected' : ''" ng-repeat="detail in model.pendingRequest" ng-click="ui.selectDetail(detail);">
+                        <tr ng-class="ui.selectedDetailIndex === detail[0] ? 'selected' : ''" ng-repeat="detail in model.pendingRequest|filter:search" ng-click="ui.selectDetail(detail);">
                             <td>
-                                <span class="label label-primary">{{model.client(detail[3]).indexNo | fixedLength:5}}</span>
+                                <span class="label label-primary">{{model.client(detail[3]).clientNumber | fixedLength:5}}</span>
                                 {{model.client(detail[3]).name}}
                             </td>
                             <td class="text-right">{{detail[4]|number:2}}</td>
@@ -34,6 +37,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="placeholder" ng-hide="model.pendingRequest.length" style="height: calc(100% - 148px);padding-left: 10px;">
+                <h1>LOAN REQUEST NOT FOUND  :(</h1>
+            </div> 
 
             <div class="col-xs-12">
                 <table>
@@ -50,10 +56,6 @@
                 </table>
             </div>
         </div>
-
-        <div class="placeholder" ng-hide="model.pendingRequest" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
-            <h1>PLEASE SELECT LOAN REQUEST TO DISPLAY :(</h1>
-        </div> 
     </div>
 
     <div class="col-xs-4 background-light">
@@ -91,6 +93,6 @@
     </div>
 </div>
 <div class="fab-container">
-    <a class="fab fab-danger" fab-show="model.tempList" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
-    <a class="fab fab-lg fab-primary" fab-show="model.tempList" ng-click="ui.check();"><i class="glyphicon glyphicon-ok"></i></a>
+    <a class="fab fab-lg fab-danger" ng-show="ui.selectedDetailIndex" fab-show="model.tempList" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
+    <a class="fab fab-lg fab-primary" ng-show="ui.selectedDetailIndex" fab-show="model.tempList" ng-click="ui.check();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

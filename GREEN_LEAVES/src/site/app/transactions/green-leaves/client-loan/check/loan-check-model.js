@@ -84,6 +84,23 @@
                     return defer.promise;
                 }
             },
+            reject: function () {
+                var that = this;
+                var defer = $q.defer();
+                var data = JSON.stringify(that.tempData);
+                if (data) {
+                    LoanRequestService.rejectRequest(that.tempData.indexNo, that.tempData.agreemenetNumber)
+                            .success(function () {
+                                that.clear();
+                                defer.resolve();
+                            })
+                            .error(function () {
+                                that.clear();
+                                defer.reject();
+                            });
+                    return defer.promise;
+                }
+            },
             client: function (indexNo) {
                 var client;
                 angular.forEach(this.clients, function (value) {
@@ -93,6 +110,16 @@
                     }
                 });
                 return client;
+            },
+            clientLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.clientNumber + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
             }
         };
 
