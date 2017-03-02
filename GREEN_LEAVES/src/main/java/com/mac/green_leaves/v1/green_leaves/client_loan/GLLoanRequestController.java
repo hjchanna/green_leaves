@@ -5,8 +5,6 @@
  */
 package com.mac.green_leaves.v1.green_leaves.client_loan;
 
-import com.mac.green_leaves.v1.green_leaves.client_advance.*;
-import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
 import java.util.List;
@@ -59,14 +57,14 @@ public class GLLoanRequestController {
         return loanRequestService.getCheckLoanRequests();
     }
 
-    @RequestMapping(value = "/approve-request/{indexNo}", method = RequestMethod.POST)
-    public void approveLoanRequest(@PathVariable Integer indexNo) {
-        loanRequestService.approveLoanRequest(indexNo);
+    @RequestMapping(value = "/approve-request/{indexNo}/{agreementNumber}", method = RequestMethod.GET)
+    public void approveLoanRequest(@PathVariable Integer indexNo, @PathVariable String agreementNumber) {
+        loanRequestService.approveLoanRequest(indexNo,agreementNumber);
     }
 
-    @RequestMapping(value = "/reject-request/{indexNo}")
-    public void rejectLoanRequest(@PathVariable Integer indexNo) {
-        loanRequestService.rejectRequest(indexNo);
+    @RequestMapping(value = "/reject-request/{indexNo}/{agreementNumber}", method = RequestMethod.GET)
+    public void rejectLoanRequest(@PathVariable Integer indexNo, @PathVariable String agreementNumber) {
+        loanRequestService.rejectRequest(indexNo,agreementNumber);
     }
 
 }

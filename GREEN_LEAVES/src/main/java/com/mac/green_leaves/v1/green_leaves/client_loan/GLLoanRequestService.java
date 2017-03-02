@@ -92,16 +92,18 @@ public class GLLoanRequestService {
     }
 
     @Transactional
-    public void approveLoanRequest(Integer indexNo) {
+    public void approveLoanRequest(Integer indexNo, String agreementNumber) {
         TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_APPROVED);
+        loanRequestDetail.setAgreementNumber(agreementNumber);
         loanRequestDetailRepository.save(loanRequestDetail);
     }
 
     @Transactional
-    public void rejectRequest(Integer indexNo) {
+    public void rejectRequest(Integer indexNo, String agreementNumber) {
         TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_REJECTED);
+        loanRequestDetail.setAgreementNumber(agreementNumber);
         loanRequestDetailRepository.save(loanRequestDetail);
     }
 

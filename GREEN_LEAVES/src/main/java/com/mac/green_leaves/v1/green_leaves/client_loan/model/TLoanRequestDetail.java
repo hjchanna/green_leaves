@@ -47,7 +47,6 @@ public class TLoanRequestDetail implements Serializable {
 //    @Column(name = "expected_loan_date")
 //    @Temporal(TemporalType.DATE)
 //    private Date expectedLoanDate;
-
     @Basic(optional = false)
     @Column(name = "loan_start_date")
     @Temporal(TemporalType.DATE)
@@ -78,15 +77,17 @@ public class TLoanRequestDetail implements Serializable {
 //    @NotNull
 //    @Column(name = "remark")
 //    private String remark;
-
     @Basic(optional = false)
     @Column(name = "status")
     private String status;
 
+    @Basic(optional = false)
+    @Column(name = "agreement_number")
+    private String agreementNumber;
+
 //    @Basic(optional = false)
 //    @Column(name = "status2")
 //    private String status2;
-
     @JsonIgnore
     @JoinColumn(name = "loan", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -114,7 +115,6 @@ public class TLoanRequestDetail implements Serializable {
 //        this.status2 = status2;
 //        this.loanRequest = loanRequest;
 //    }
-
     public Integer getIndexNo() {
         return indexNo;
     }
@@ -138,7 +138,6 @@ public class TLoanRequestDetail implements Serializable {
 //    public void setExpectedLoanDate(Date expectedLoanDate) {
 //        this.expectedLoanDate = expectedLoanDate;
 //    }
-
     public Date getLoanStartDate() {
         return loanStartDate;
     }
@@ -194,7 +193,6 @@ public class TLoanRequestDetail implements Serializable {
 //    public void setRemark(String remark) {
 //        this.remark = remark;
 //    }
-
     public String getStatus() {
         return status;
     }
@@ -210,7 +208,6 @@ public class TLoanRequestDetail implements Serializable {
 //    public void setStatus2(String status2) {
 //        this.status2 = status2;
 //    }
-
     public TLoanRequest getLoanRequest() {
         return loanRequest;
     }
@@ -218,4 +215,13 @@ public class TLoanRequestDetail implements Serializable {
     public void setLoanRequest(TLoanRequest loanRequest) {
         this.loanRequest = loanRequest;
     }
+
+    public String getAgreementNumber() {
+        return agreementNumber;
+    }
+
+    public void setAgreementNumber(String agreementNumber) {
+        this.agreementNumber = agreementNumber;
+    }
+
 }

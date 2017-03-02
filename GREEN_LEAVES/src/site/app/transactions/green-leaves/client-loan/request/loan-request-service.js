@@ -31,12 +31,12 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/check-pending-requests");
         };
 
-        this.approveRequest = function (indexNo) {
-            return $http.post(systemConfig.apiUrl + "/api/v1/loan/loan-request/approve-request/" + indexNo);
+        this.approveRequest = function (indexNo, agreementNumber) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/approve-request/" + indexNo + "/" + agreementNumber);
         };
 
-        this.rejectRequest = function (indexNo) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/reject-request/" + indexNo);
+        this.rejectRequest = function (indexNo, agreementNumber) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/reject-request/" + indexNo + "/" + agreementNumber);
         };
 
         this.loadRoutes = function () {

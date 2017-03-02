@@ -82,7 +82,7 @@
             approve: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.approveRequest(that.detail.indexNo)
+                    LoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
                             .success(function () {
                                 that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details approved successfully.");
@@ -95,7 +95,7 @@
             reject: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.rejectRequest(that.detail.indexNo)
+                    LoanRequestService.rejectRequest(that.detail.indexNo, that.detail.agreementNumber)
                             .success(function () {
                                 that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details rejected successfully.");
