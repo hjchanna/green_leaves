@@ -1,19 +1,34 @@
 (function () {
     angular.module("appModule")
-            .controller("ClientLoanCheckController", function ($scope, LoanCheckModel, ConfirmPane) {
+            .controller("ClientLoanCheckController", function ($scope, LoanCheckModel, ConfirmPane, Notification) {
                 $scope.model = new LoanCheckModel();
                 $scope.ui = {};
                 $scope.ui.selectedDetailIndex = null;
 
                 $scope.ui.check = function () {
-                    ConfirmPane.primaryConfirm("This Loan Is Check!")
-                            .confirm(function () {
-                                $scope.model.checkRequest();
-                                $scope.ui.selectedDetailIndex = null;
-                            })
-                            .discard(function () {
-                                console.log("REJECT");
-                            });
+                    if (!$scope.ui.selectedDetailIndex) {
+                        Notification.error("select client loan request");
+                    } else if (!$scope.model.tempData.interestRate) {
+                        Notification.error("Interest Rate");
+                    } else if (!$scope.model.tempData.installmentCount) {
+                        Notification.error("Installment Count");
+                    } else if (!$scope.model.tempData.installmentAmount) {
+                        Notification.error("Installment Amount");
+                    } else if (!$scope.model.tempData.panaltyRate) {
+                        Notification.error("Panalty Rate");
+                    } else if ($scope.model.tempData.interestRate
+                            && $scope.model.tempData.installmentCount
+                            && $scope.model.tempData.installmentAmount
+                            && $scope.model.tempData.panaltyRate) {
+                        ConfirmPane.primaryConfirm("This Loan Is Check!")
+                                .confirm(function () {
+                                    $scope.model.checkRequest();
+                                    $scope.ui.selectedDetailIndex = null;
+                                })
+                                .discard(function () {
+                                    console.log("REJECT");
+                                });
+                    }
                 };
 
                 $scope.ui.init = function () {
