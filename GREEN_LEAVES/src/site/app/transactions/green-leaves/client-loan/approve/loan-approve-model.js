@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (LoanRequestService, LoanCheckModelFactory, optionPane) {
+    var factory = function (LoanRequestService, optionPane) {
         function LoanApproveModel() {
             this.constructor();
         }
@@ -95,7 +95,7 @@
             reject: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.rejectRequest(that.detail.indexNo, that.detail.agreementNumber)
+                    LoanRequestService.rejectRequest(that.detail.indexNo)
                             .success(function () {
                                 that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details rejected successfully.");

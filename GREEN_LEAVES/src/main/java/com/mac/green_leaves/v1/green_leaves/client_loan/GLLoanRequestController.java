@@ -7,6 +7,7 @@ package com.mac.green_leaves.v1.green_leaves.client_loan;
 
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +36,12 @@ public class GLLoanRequestController {
         return loanRequestService.saveLoanRequest(loanRequest, BRANCH);
     }
 
+    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
+    public TLoanRequest getLoanRequest(@PathVariable Integer number) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return loanRequestService.getLoanRequest(branch, number);
+    }
+
     @RequestMapping(value = "/pending-requests")
     public List<Object[]> getPendingLoanRequests() {
         return loanRequestService.getPendingLoanRequests(BRANCH);
@@ -59,12 +66,12 @@ public class GLLoanRequestController {
 
     @RequestMapping(value = "/approve-request/{indexNo}/{agreementNumber}", method = RequestMethod.GET)
     public void approveLoanRequest(@PathVariable Integer indexNo, @PathVariable String agreementNumber) {
-        loanRequestService.approveLoanRequest(indexNo,agreementNumber);
+        loanRequestService.approveLoanRequest(indexNo, agreementNumber);
     }
 
-    @RequestMapping(value = "/reject-request/{indexNo}/{agreementNumber}", method = RequestMethod.GET)
-    public void rejectLoanRequest(@PathVariable Integer indexNo, @PathVariable String agreementNumber) {
-        loanRequestService.rejectRequest(indexNo,agreementNumber);
+    @RequestMapping(value = "/reject-request/{indexNo}", method = RequestMethod.GET)
+    public void rejectLoanRequest(@PathVariable Integer indexNo) {
+        loanRequestService.rejectRequest(indexNo);
     }
 
 }

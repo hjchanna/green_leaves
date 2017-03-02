@@ -28,20 +28,30 @@
                 this.data = LoanRequestModelFactory.newData();
                 this.tempData = LoanRequestModelFactory.newTempData();
             },
+            load: function () {
+                var number = this.data.number;
+                var that = this;
+                var defer = $q.defer();
+                LoanRequestService.loadLoan(number)
+                        .success(function (data) {
+                            that.data = {};
+                            angular.extend(that.data, data);
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+                        });
+                return defer.promise;
+            },
             //table added
             insertLoanRequest: function () {
                 var defer = $q.defer();
                 var that = this;
-
-                if (
-                        that.tempData.client
+                if (that.tempData.client
                         && that.tempData.amount > 0
-                        && that.tempData.installmentCount > 0
-                        ) {
-
-                    that.data.loanRequestDetails.push(that.tempData);
+                        && that.tempData.installmentCount > 0) {
+                    that.data.loanRequestDetails.unshift(that.tempData);
                     that.tempData = LoanRequestModelFactory.newTempData();
-
                     defer.resolve();
                 } else {
                     defer.reject();
@@ -51,9 +61,7 @@
             },
             //save requests
             saveRequest: function () {
-                console.log(this.data);
                 var data = JSON.stringify(this.data);
-
                 LoanRequestService.saveLoanRequest(data)
                         .success(function (data) {
                             optionPane.successMessage("Loan request saved successfully.");
@@ -64,7 +72,7 @@
 
             },
             //return label for client
-            ClientLabel: function (indexNo) {
+            clientLabel: function (indexNo) {
                 var label;
                 angular.forEach(this.clients, function (value) {
                     if (value.indexNo === indexNo) {

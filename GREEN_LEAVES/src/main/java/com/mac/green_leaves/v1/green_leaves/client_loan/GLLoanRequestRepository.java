@@ -37,4 +37,6 @@ public interface GLLoanRequestRepository extends JpaRepository<TLoanRequest, Int
             + "and \n"
             + " t_loan.branch = :branch", nativeQuery = true)
     public List<Object[]> findByBranchAndStatus(@Param("branch") Integer branch, @Param("status") String status);
+
+    public List<TLoanRequest> findByBranchAndNumberAndStatus(Integer branch, Integer number, String status);
 }

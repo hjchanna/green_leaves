@@ -89,7 +89,7 @@
                 var defer = $q.defer();
                 var data = JSON.stringify(that.tempData);
                 if (data) {
-                    LoanRequestService.rejectRequest(that.tempData.indexNo, that.tempData.agreemenetNumber)
+                    LoanRequestService.rejectRequest(that.tempData.indexNo)
                             .success(function () {
                                 that.clear();
                                 defer.resolve();
