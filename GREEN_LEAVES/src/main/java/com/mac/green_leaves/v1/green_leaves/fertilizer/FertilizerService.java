@@ -42,12 +42,15 @@ public class FertilizerService {
     }
 
     public Integer saveFertilizer(TFertilizer fertilizer) {
-        Integer maxNumber = fertilizerRepository.getMaximumNumberByBranch(fertilizer.getBranch());
-        if (maxNumber == null) {
-            maxNumber = 0;
+        //create new transaction number
+        if (fertilizer.getIndexNo() == null) {
+            Integer maxNumber = fertilizerRepository.getMaximumNumberByBranch(fertilizer.getBranch());
+            if (maxNumber == null) {
+                maxNumber = 0;
+            }
+            fertilizer.setNumber(maxNumber + 1);
         }
-        fertilizer.setNumber(maxNumber + 1);
-
+        
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy - MM");
         fertilizer.setMonth(formatter.format(new Date()));
 
@@ -57,7 +60,7 @@ public class FertilizerService {
         }
 
         fertilizer = fertilizerRepository.save(fertilizer);
-        return fertilizer.getIndexNo();
+        return fertilizer.getNumber();
     }
 
     public TFertilizer getFertilizer(Date date, Integer number) {

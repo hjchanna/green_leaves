@@ -80,8 +80,20 @@ public class TFertilizer implements Serializable {
     private String month;
 
     @Basic(optional = false)
+    @Column(name = "route")
+    private Integer route;
+
+    @Basic(optional = false)
     @Column(name = "route_officer")
     private Integer routeOfficer;
+
+    @Basic(optional = false)
+    @Column(name = "route_helper")
+    private Integer routeHelper;
+
+    @Basic(optional = false)
+    @Column(name = "vehicle")
+    private Integer vehicle;
 
     @Basic(optional = false)
     @Column(name = "client")
@@ -98,7 +110,7 @@ public class TFertilizer implements Serializable {
     public TFertilizer() {
     }
 
-    public TFertilizer(Integer indexNo, int branch, int number, Date date, int transaction, String type, String status, String month, Integer routeOfficer, Integer client, List<TFertilizerDetail> tFertilizerDetailList) {
+    public TFertilizer(Integer indexNo, int branch, int number, Date date, int transaction, String type, String status, String month, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, Integer client, BigDecimal amount, List<TFertilizerDetail> tFertilizerDetailList) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.number = number;
@@ -107,8 +119,12 @@ public class TFertilizer implements Serializable {
         this.type = type;
         this.status = status;
         this.month = month;
+        this.route = route;
         this.routeOfficer = routeOfficer;
+        this.routeHelper = routeHelper;
+        this.vehicle = vehicle;
         this.client = client;
+        this.amount = amount;
         this.tFertilizerDetailList = tFertilizerDetailList;
     }
 
@@ -182,6 +198,30 @@ public class TFertilizer implements Serializable {
 
     public void setRouteOfficer(Integer routeOfficer) {
         this.routeOfficer = routeOfficer;
+    }
+
+    public Integer getRoute() {
+        return route;
+    }
+
+    public void setRoute(Integer route) {
+        this.route = route;
+    }
+
+    public Integer getRouteHelper() {
+        return routeHelper;
+    }
+
+    public void setRouteHelper(Integer routeHelper) {
+        this.routeHelper = routeHelper;
+    }
+
+    public Integer getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Integer vehicle) {
+        this.vehicle = vehicle;
     }
 
     public Integer getClient() {
