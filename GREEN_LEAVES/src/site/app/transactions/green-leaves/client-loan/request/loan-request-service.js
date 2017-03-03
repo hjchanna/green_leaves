@@ -11,10 +11,18 @@
             return $http.post(systemConfig.apiUrl + "/api/v1/loan/loan-request/save", data);
         };
 
+        this.loadLoan = function (number) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/" + number);
+        };
+
         //check--------------------------
 
         this.loadPendingRequest = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/pending-requests");
+        };
+
+        this.findByTLoanRequestDetailByIndexNo = function (indexNo) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/find-by-loan-detail/" + indexNo);
         };
 
         this.checkRequest = function (data) {
@@ -27,8 +35,8 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/check-pending-requests");
         };
 
-        this.approveRequest = function (indexNo) {
-            return $http.post(systemConfig.apiUrl + "/api/v1/loan/loan-request/approve-request/" + indexNo);
+        this.approveRequest = function (indexNo, agreementNumber) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/approve-request/" + indexNo + "/" + agreementNumber);
         };
 
         this.rejectRequest = function (indexNo) {
@@ -38,8 +46,6 @@
         this.loadRoutes = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
-
-
     };
 
     angular.module("appModule")

@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (LoanRequestService, LoanCheckModelFactory, optionPane) {
+    var factory = function (LoanRequestService, LoanCheckModelFactory, $q) {
         function LoanCheckModel() {
             this.constructor();
         }
@@ -7,11 +7,9 @@
         //prototype functions
         LoanCheckModel.prototype = {
             data: {},
-            //temp input
             tempData: {},
-            detail: "",
             //pending request information
-            PendingList: [],
+            pendingRequest: [],
             //client information
             clients: [],
             //constructor
@@ -21,10 +19,7 @@
                 that.tempData = LoanCheckModelFactory.newTempData();
 
                 //load pending request
-                LoanRequestService.loadPendingRequest()
-                        .success(function (data) {
-                            that.PendingList = data;
-                        });
+                this.loadPendingRequest();
 
                 //load clients
                 LoanRequestService.loadClients()
@@ -33,98 +28,98 @@
                         });
 
             },
+            //load pending loan request
+            loadPendingRequest: function () {
+                var that = this;
+                LoanRequestService.loadPendingRequest()
+                        .success(function (data) {
+                            that.pendingRequest = data;
+                        });
+            },
             //clear all data
             clear: function () {
                 var that = this;
-                that.detail = [];
+                that.data = LoanCheckModelFactory.newData();
+                that.tempData = LoanCheckModelFactory.newTempData();
+                that.loadPendingRequest();
             },
             //loan total
-            getRequestTotal: function (indexNo) {
+            getRequestTotal: function () {
                 var total = 0.0;
-
-                angular.forEach(this.PendingList, function (valueData) {
-                    if (indexNo ? valueData.indexNo === indexNo : true) {
-                        angular.forEach(valueData.loanRequestDetails, function (valueDetail) {
-                            if (valueDetail.status === 'PENDING') {
-                                total = total + valueDetail.amount;
-                            }
-                        });
-                    }
+                angular.forEach(this.pendingRequest, function (valueData) {
+                    total += valueData[4];
+                    return;
                 });
-
                 return total;
             },
-            //pending count
-            getRequestCount: function (indexNo) {
-                var count = 0;
-
-                angular.forEach(this.PendingList, function (valueData) {
-                    if (indexNo ? valueData.indexNo === indexNo : true) {
-                        angular.forEach(valueData.loanRequestDetails, function (valueDetail) {
-                            if (valueDetail.status === 'PENDING') {
-                                count = count + 1;
-                            }
-                        });
-                    }
-                });
-
-                return count;
-            },
-            selectData: function (indexNo) {
-                var that = this;
-
-                angular.forEach(this.PendingList, function (value) {
-                    if (value.indexNo === indexNo) {
-                        that.data = value;
-                        return;
-                    }
-                });
-            },
+            //select client get loan data
             selectDetail: function (indexNo) {
                 var that = this;
-
-                angular.forEach(this.data.loanRequestDetails, function (value) {
-                    if (value.indexNo === indexNo) {
-                        if (value.status === 'PENDING') {
-                            that.detail = value;
-                            return;
-                        }
-                    }
-                });
+                var defer = $q.defer();
+                LoanRequestService.findByTLoanRequestDetailByIndexNo(indexNo)
+                        .success(function (data) {
+                            that.tempData = {};
+                            that.tempData = data;
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
+                        });
+                return defer.promise;
             },
-            //get client
-            getClient: function (indexNo) {
-                var client = null;
-
+            //check request
+            checkRequest: function () {
+                var that = this;
+                var defer = $q.defer();
+                var data = JSON.stringify(that.tempData);
+                if (data) {
+                    LoanRequestService.checkRequest(data)
+                            .success(function (data) {
+                                that.clear();
+                                defer.resolve();
+                            })
+                            .error(function () {
+                                defer.reject();
+                            });
+                    return defer.promise;
+                }
+            },
+            reject: function () {
+                var that = this;
+                var defer = $q.defer();
+                var data = JSON.stringify(that.tempData);
+                if (data) {
+                    LoanRequestService.rejectRequest(that.tempData.indexNo)
+                            .success(function () {
+                                that.clear();
+                                defer.resolve();
+                            })
+                            .error(function () {
+                                that.clear();
+                                defer.reject();
+                            });
+                    return defer.promise;
+                }
+            },
+            client: function (indexNo) {
+                var client;
                 angular.forEach(this.clients, function (value) {
-                    if (value.indexNo === indexNo) {
+                    if (value.indexNo === parseInt(indexNo)) {
                         client = value;
                         return;
                     }
                 });
-
                 return client;
             },
-            checkRequest: function () {
-                var that = this;
-                var data = JSON.stringify(that.detail);
-                if (data) {
-                    LoanRequestService.checkRequest(data)
-                            .success(function (data) {
-                                console.log("AAA");
-                                for (var i = 0; i < that.data.loanRequestDetails.length; i++) {
-                                    console.log(that.data.loanRequestDetails[i].indexNo + "-"  + that.detail.indexNo);
-                                    if (that.data.loanRequestDetails[i].indexNo === that.detail.indexNo) {
-                                        that.data.loanRequestDetails.splice(i, 1);
-                                    }
-                                }
-
-                                optionPane.successMessage("loan details checked successfully.");
-                            })
-                            .error(function () {
-
-                            });
-                }
+            clientLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.clientNumber + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
             }
         };
 

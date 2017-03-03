@@ -7,6 +7,7 @@ package com.mac.green_leaves.v1.green_leaves.client_loan;
 
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
+import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class GLLoanRequestService {
     }
 
     //check------------------------
-    public List<TLoanRequest> getPendingLoanRequests(Integer branch) {
-        return loanRequestRepository.findByBranchAndStatus(branch, LOAN_REQUEST_STATUS_ACTIVE);
+    public List<Object[]> getPendingLoanRequests(Integer branch) {
+        return loanRequestRepository.findByBranchAndStatus(branch, LOAN_REQUEST_DETAIL_STATUS_PENDING);
     }
 
     @Transactional
@@ -92,9 +93,10 @@ public class GLLoanRequestService {
     }
 
     @Transactional
-    public void approveLoanRequest(Integer indexNo) {
+    public void approveLoanRequest(Integer indexNo, String agreementNumber) {
         TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_APPROVED);
+        loanRequestDetail.setAgreementNumber(agreementNumber);
         loanRequestDetailRepository.save(loanRequestDetail);
     }
 
@@ -103,6 +105,18 @@ public class GLLoanRequestService {
         TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_REJECTED);
         loanRequestDetailRepository.save(loanRequestDetail);
+    }
+
+    public TLoanRequestDetail findByTLoanRequestDetailByIndexNo(Integer indexNo) {
+        return loanRequestDetailRepository.findOne(indexNo);
+    }
+
+    TLoanRequest getLoanRequest(Integer branch, Integer number) {
+        List<TLoanRequest> receives = loanRequestRepository.findByBranchAndNumberAndStatus(branch, number, LOAN_REQUEST_DETAIL_STATUS_PENDING);
+        if (receives.isEmpty()) {
+            throw new EntityNotFoundException("Loand not found for number " + number);
+        }
+        return receives.get(0);
     }
 
 }

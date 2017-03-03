@@ -123,12 +123,38 @@ public class GLGreenLeavesWeighService {
             }
             //TODO:transaction
         }
+
+        if ("SUPPLIER".equals(greenLeavesWeigh.getType()) && greenLeavesWeigh.getClient() != null) {
+            TGreenLeavesReceive greenLeavesReceive = new TGreenLeavesReceive();
+            greenLeavesReceive.setBranch(greenLeavesWeigh.getBranch());
+            greenLeavesReceive.setDate(greenLeavesWeigh.getDate());
+
+            TGreenLeavesReceiveDetail greenLeavesReceiveDetail = new TGreenLeavesReceiveDetail();
+            greenLeavesReceiveDetail.setClient(greenLeavesWeigh.getClient());
+            greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeavesWeigh.getNormalNetWeight());
+            greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeavesWeigh.getSuperNetWeight());
+            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
+
+            List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
+            greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
+            greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
+
+            //find by brnach and route and date this green leaves receive data is allrady exist
+            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(greenLeavesWeigh.getBranch(), greenLeavesWeigh.getDate(), greenLeavesWeigh.getClient());
+            if (greenLeavesList.isEmpty()) {
+                greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
+                //update green leaves normal total leaves and super total leaves
+            } else {
+                for (TGreenLeavesReceive tGreenLeavesReceive : greenLeavesList) {
+                    greenLeavesReceiveService.updateNormalLeafAndSuperLeaf(tGreenLeavesReceive.getIndexNo(), greenLeavesWeigh.getNormalNetWeight(), greenLeavesWeigh.getSuperNetWeight());
+                }
+            }
+        }
         return greenLeavesWeighRepository.save(greenLeavesWeigh);
     }
 
     @Transactional
     public TGreenLeavesWeighDetail insertWeigh(Integer weighIndexNo, TGreenLeavesWeighDetail greenLeaveWeighDetail) {
-
         //read and set weigh
         TGreenLeavesWeigh greenLeaveWeigh = greenLeavesWeighRepository.getOne(weighIndexNo);
         if (greenLeaveWeigh == null) {
@@ -144,34 +170,6 @@ public class GLGreenLeavesWeighService {
         //validate and save weigh
 //        validateWeighSummary(greenLeaveWeigh);
         greenLeavesWeighRepository.save(validateWeighSummary(greenLeaveWeigh));
-
-        if ("SUPPLIER".equals(greenLeaveWeigh.getType()) && greenLeaveWeigh.getClient() != null) {
-            TGreenLeavesReceive greenLeavesReceive = new TGreenLeavesReceive();
-            greenLeavesReceive.setBranch(greenLeaveWeigh.getBranch());
-            greenLeavesReceive.setDate(greenLeaveWeigh.getDate());
-
-            TGreenLeavesReceiveDetail greenLeavesReceiveDetail = new TGreenLeavesReceiveDetail();
-            greenLeavesReceiveDetail.setClient(greenLeaveWeigh.getClient());
-            greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeaveWeigh.getNormalNetWeight());
-            greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeaveWeigh.getSuperNetWeight());
-            greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
-
-            List<TGreenLeavesReceiveDetail> greenLeaveReceiveDetailsList = new ArrayList<>();
-            greenLeaveReceiveDetailsList.add(greenLeavesReceiveDetail);
-            greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeaveReceiveDetailsList);
-
-            //find by brnach and route and date this green leaves receive data is allrady exist
-            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveService.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(greenLeaveWeigh.getBranch(), greenLeaveWeigh.getDate(), greenLeaveWeigh.getClient());
-            if (greenLeavesList.isEmpty()) {
-                greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
-                //update green leaves normal total leaves and super total leaves
-            } else {
-                for (TGreenLeavesReceive tGreenLeavesReceive : greenLeavesList) {
-                    greenLeavesReceiveService.updateNormalLeafAndSuperLeaf(tGreenLeavesReceive.getIndexNo(), greenLeaveWeigh.getNormalNetWeight(), greenLeaveWeigh.getSuperNetWeight());
-                }
-            }
-        }
-
         return greenLeaveWeighDetail;
     }
 

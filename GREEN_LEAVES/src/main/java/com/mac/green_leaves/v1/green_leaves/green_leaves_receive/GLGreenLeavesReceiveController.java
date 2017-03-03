@@ -46,7 +46,6 @@ public class GLGreenLeavesReceiveController {
 
     @RequestMapping(value = "/save-receive", method = RequestMethod.POST)
     public Integer saveReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {
-        System.out.println(greenLeavesReceive);
         return greenLeavesReceiveService.saveGreenLeaveReceiveDetails(greenLeavesReceive);
     }
 

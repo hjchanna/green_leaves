@@ -1,12 +1,16 @@
 (function () {
     angular.module("appModule")
-            .controller("ClientLoanApproveController", function ($scope, LoanApproveModel) {
+            .controller("ClientLoanApproveController", function ($scope, LoanApproveModel, Notification) {
                 $scope.model = new LoanApproveModel();
                 $scope.ui = {};
 
                 $scope.ui.approve = function () {
-                    $scope.model.approve();
-                    $scope.model.clear();
+                    if (!$scope.model.detail.agreementNumber) {
+                        Notification.error("select agreemenet number");
+                    } else if ($scope.model.detail.agreementNumber) {
+                        $scope.model.approve();
+                        $scope.model.clear();
+                    }
                 };
 
                 $scope.ui.reject = function () {
