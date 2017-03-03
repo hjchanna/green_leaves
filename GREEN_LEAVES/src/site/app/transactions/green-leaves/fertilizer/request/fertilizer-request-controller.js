@@ -13,7 +13,7 @@
 
             //focus date
             $timeout(function () {
-                angular.element(document.querySelectorAll("#date"))[0].focus();
+                angular.element(document.querySelectorAll("#route"))[0].focus();
             }, 10);
 
             $scope.model.data.type = "TWO-MONTH";
@@ -153,9 +153,10 @@
                         .confirm(function () {
                             $scope.model.save()
                                     .then(function (data) {
-                                        $scope.ui.mode = "IDEAL";
                                         optionPane.successMessage("Fertilizer Save Success! Transaction Number " + data);
                                         $scope.model.clear();
+                                        $scope.ui.mode = "IDEAL";
+                                        $scope.ui.type = "NORMAL";
                                     });
                         })
                         .discard(function () {

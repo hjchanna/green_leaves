@@ -34,17 +34,17 @@
                                 .success(function (data) {
                                     that.clients = data;
                                 });
-                                
+
                         FertilizerModelService.loadRoutes()
                                 .success(function (data) {
                                     that.routes = data;
                                 });
-                                
+
                         FertilizerModelService.loadRouteOfficers()
                                 .success(function (data) {
                                     that.routeOfficers = data;
                                 });
-                                
+
                         FertilizerModelService.loadRouteHelpers()
                                 .success(function (data) {
                                     that.routeHelpers = data;
@@ -54,7 +54,7 @@
                                 .success(function (data) {
                                     that.vehicles = data;
                                 });
-                                
+
                     },
                     clear: function () {
                         this.data = FertilizersModelFactory.newData();
@@ -90,7 +90,6 @@
                             this.itemTotal();
                             defer.reject();
                         }
-
                         return defer.promise;
                     },
                     editDetail: function (index) {

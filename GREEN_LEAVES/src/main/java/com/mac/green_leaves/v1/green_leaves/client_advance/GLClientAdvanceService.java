@@ -260,4 +260,10 @@ public class GLClientAdvanceService {
         }
         return advanceRequests;
     }
+
+    public void updateAdvanceRequestAmount(Integer indexNo, BigDecimal amount) {
+        TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.findOne(indexNo);
+        advanceRequestDetail.setAmount(amount);
+        clientAdvanceRequestDetailRepository.save(advanceRequestDetail);
+    }
 }

@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("ClientAdvanceApproveModel", function (ClientAdvanceRequestService) {
+            .factory("ClientAdvanceApproveModel", function (ClientAdvanceRequestService, $q) {
                 function ClientAdvanceApproveModel() {
                     this.constructor();
                 }
@@ -40,23 +40,48 @@
                     },
                     approve: function (indexNo) {
                         var that = this;
+                        var defer = $q.defer();
                         ClientAdvanceRequestService.approveRequest(indexNo)
                                 .success(function () {
                                     that.delectStatusChangeRow(indexNo);
                                 })
                                 .error(function () {
-
+                                    defer.reject();
                                 });
+                        return defer.promise;
+                    },
+                    updateAdvanceRequestAmount: function (indexNo, amount) {
+                        var that = this;
+                        var defer = $q.defer();
+                        ClientAdvanceRequestService.updateAdvanceRequestAmount(indexNo, amount)
+                                .success(function () {
+                                    var id = -1;
+                                    for (var i = 0; i < that.requestsData.length; i++) {
+                                        if (that.requestsData[i].indexNo === indexNo) {
+                                            id = i;
+                                        }
+                                    }
+                                    var reuestData = that.requestsData[id];
+                                    reuestData.amount = amount;
+                                    defer.resolve();
+                                })
+                                .error(function () {
+                                    defer.reject();
+                                });
+                        return defer.promise;
                     },
                     reject: function (indexNo) {
                         var that = this;
+                        var defer = $q.defer();
                         ClientAdvanceRequestService.rejectRequest(indexNo)
                                 .success(function () {
                                     that.delectStatusChangeRow(indexNo);
+                                    defer.resolve();
                                 })
                                 .error(function () {
-
+                                    defer.resolve();
                                 });
+                        return defer.promise;
                     },
                     delectStatusChangeRow: function (indexNo) {
                         var that = this;
@@ -69,7 +94,6 @@
                         that.requestsData.splice(id, 1);
                         that.getRequestTotal();
                         that.getRequestCount();
-                        that.getRequestDataTotal();
                         that.getRequestDataTotal();
                         that.refresh();
                     },
@@ -110,7 +134,7 @@
                     getRequestDataTotal: function () {
                         var count = 0.0;
                         angular.forEach(this.requestsData, function (values) {
-                            count = count + values.amount;
+                            count = count + parseFloat(values.amount);
                         });
                         return count;
                     },
