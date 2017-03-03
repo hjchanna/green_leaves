@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-02-14T18:01:54 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="advance" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f47bc3d3-ba12-4f69-8bdb-c090a75798bb">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="TO_DATE" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="FROM_DATE" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="CURRENT_BRANCH" class="java.lang.String"/>
+	<parameter name="ROUTE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	concat('[',lpad( m_route.index_no,5,0), '] ', m_route.name) as route_res,
+	concat(year(t_client_advance_request_detail.as_at_date), '-', ucase(monthname(t_client_advance_request_detail.as_at_date))) as month_res,
+	sum(t_client_advance_request_detail.amount) as amount_res
+from
+	t_client_advance_request
+	left join t_client_advance_request_detail on t_client_advance_request_detail.client_advance_request = t_client_advance_request.index_no
+	left join m_client on m_client.index_no = t_client_advance_request_detail.`client`
+	left join m_route on m_route.index_no = m_client.route
+where
+	t_client_advance_request.branch =  $P{CURRENT_BRANCH} 
+	and (m_route.index_no = $P{ROUTE}   or $P{ROUTE}  is null)
+	and (t_client_advance_request_detail.as_at_date >=  $P{TO_DATE}  or $P{TO_DATE}   is null)
+	and (t_client_advance_request_detail.as_at_date <=  $P{FROM_DATE}  or $P{FROM_DATE}   is null)
+	and t_client_advance_request_detail.`status` = 'APPROVED'
+group by
+	route_res, month_res
+order by
+	route_res, month_res]]>
+	</queryString>
+	<field name="route_res" class="java.lang.String"/>
+	<field name="month_res" class="java.lang.String"/>
+	<field name="amount_res" class="java.math.BigDecimal"/>
+	<variable name="indexNo" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{route_res}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{route_res}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="-20" y="0" width="595" height="30" uuid="62643ebb-3e76-4770-958d-f0fec7b99e0f"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW HOPEWELL TEA FACTORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-20" y="30" width="595" height="20" uuid="c2d6f816-1d6b-403b-9009-6e4c65dea5cb"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ADVANCE SUMMARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="52" width="79" height="20" uuid="27bdd7c3-bd89-4947-8a0b-d758ecc911c5"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="72" width="79" height="20" uuid="c8e621c1-f0d9-4a15-afd3-783e2af81bf9"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[From Date :]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement x="80" y="52" width="100" height="20" uuid="faf85e8c-9686-463b-b442-d5016f65c36c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TO_DATE}==null?"N/A":$P{TO_DATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement x="80" y="72" width="100" height="20" uuid="2f563804-5fc4-4cc7-80fd-2d38d982217c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{FROM_DATE} == null ? "N/A" : $P{FROM_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="4" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="250" height="20" uuid="de11cfca-18a7-43c5-a40d-ee1a0ef96a69"/>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Route]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="251" y="0" width="218" height="20" uuid="edca20e4-ca2e-4b0d-b239-1eaf9de80091"/>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="469" y="0" width="83" height="20" uuid="a92a0a6f-6471-4411-91a9-267833c039b2"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="250" height="20" uuid="9aeafcc1-b881-45d8-9f1c-dd7134469947"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{route_res}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="251" y="0" width="218" height="20" uuid="da69640a-8d11-468f-bab1-2f4d3eeeef61"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month_res}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="469" y="0" width="83" height="20" uuid="dfb75ab6-d44e-4992-9d29-9957eba87edf"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount_res}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="7" width="170" height="20" uuid="29651144-85dc-4cbd-a796-c1218ba21670"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd @ hh:mm:ss">
+				<reportElement mode="Transparent" x="170" y="7" width="220" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="502d4b8a-1d6d-4dcf-999a-b618d9e487d4"/>
+				<box padding="0" topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="7" width="129" height="20" uuid="668ef578-8c5c-4e13-94c8-8f8786a74934">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["page "+ $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="519" y="7" width="34" height="20" uuid="f5a5c295-f074-41c8-8f43-513434a321bb">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="39" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="15" splitType="Stretch"/>
+	</summary>
+	<noData>
+		<band height="170">
+			<staticText>
+				<reportElement x="-1" y="150" width="554" height="20" uuid="6d993d01-f7d4-4464-a8a9-484628139c8f"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="60" width="555" height="20" uuid="f0acf4eb-e477-4f34-9f37-80dad5228185"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ADVANCE SUMMARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="80" width="554" height="20" uuid="65e5b0e3-7908-4664-844a-31c4021eb171">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No records to view :(]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="100" width="554" height="20" uuid="73f8917b-72b2-408c-b6f2-cc5957bf6cc7">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[please try changing your parameters]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

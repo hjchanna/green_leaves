@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-02-14T17:38:28 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="loan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0353c35d-6cdc-45d3-863a-d5bae2452f29">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="TO_DATE" class="java.util.Date"/>
+	<parameter name="FROM_DATE" class="java.util.Date"/>
+	<parameter name="CURRENT_BRANCH" class="java.lang.String"/>
+	<parameter name="ROUTE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	concat('[', lpad(m_route.index_no,5,0), '] ', m_route.name) as route_res,
+	concat(year(t_loan_detail.loan_start_date), '-', ucase(monthname(t_loan_detail.loan_start_date))) as month_res,
+	sum(t_loan_detail.loan_amount) as amount_res
+from
+	t_loan
+	left join t_loan_detail on t_loan_detail.loan = t_loan.index_no
+	left join m_client on t_loan_detail.`client` = m_client.index_no
+	left join m_route on m_client.route = m_route.index_no
+where
+	t_loan.branch =  $P{CURRENT_BRANCH} or $P{CURRENT_BRANCH}  is null
+	and (m_route.index_no = $P{ROUTE}  or $P{ROUTE}   is null)
+	and (t_loan_detail.loan_start_date >= $P{TO_DATE} or $P{TO_DATE}  is null)
+	and (t_loan_detail.loan_start_date <=  $P{FROM_DATE}  or $P{FROM_DATE}  is null)
+group by
+	route_res, month_res
+order by
+	route_res, month_res]]>
+	</queryString>
+	<field name="route_res" class="java.lang.String"/>
+	<field name="month_res" class="java.lang.String"/>
+	<field name="amount_res" class="java.math.BigDecimal"/>
+	<variable name="indexNo" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{route_res}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{route_res}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="60" width="70" height="19" uuid="5d9d58a0-5725-4d4b-808a-2cc8986db5a8"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="554" height="30" uuid="404e2ed2-fdc1-431a-89ba-c6e6249db0e3"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW HOPEWELL TEA FACTORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="554" height="20" uuid="0617c772-03e5-48d4-8a64-358898323d5e"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[LOAN SUMMARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="70" height="20" uuid="4a513559-f363-4265-8c5a-578f77c92d2e"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[From Date]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement x="70" y="60" width="100" height="19" uuid="fd00f21d-a22d-4c64-a7bb-558a0188f04e"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TO_DATE}==null?"N/A":$P{TO_DATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement x="70" y="80" width="100" height="20" uuid="bdd0967e-1d14-40ea-9797-2f057ebb8f92"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{FROM_DATE}==null ?"N/A" :$P{FROM_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="220" height="20" uuid="7b2ea513-1574-4f09-bf51-1c95924c3cbd"/>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Route]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="230" height="20" uuid="484dc64a-5142-4db8-b99c-5770810e1729"/>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="103" height="20" uuid="f8f1ff24-2482-4cf1-b55b-5f8370799ab1"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="220" height="20" uuid="691f6abe-0e56-4fdc-b5eb-989f34d79859"/>
+				<box leftPadding="5" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{route_res}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="230" height="20" uuid="48cfd675-4e89-4a1e-892f-592974b31018"/>
+				<box leftPadding="5" rightPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month_res}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="450" y="0" width="103" height="20" uuid="56058cf6-bcf8-43b4-a174-11a74bc1eade"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount_res}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="7" width="170" height="20" uuid="d9e3ded4-b9ed-472d-854b-6f10aeaf4d5c"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd @ hh:mm:ss">
+				<reportElement mode="Transparent" x="170" y="7" width="220" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="e7e94cd0-a2dd-4a57-a8c4-0274b644dfa5"/>
+				<box padding="0" topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="7" width="129" height="20" uuid="d44fd3de-08d7-4107-9dbb-95f3861e994d">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["page "+ $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="519" y="7" width="34" height="20" uuid="4c788549-0f1c-4f58-8329-e126efde7061">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="48" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="17" splitType="Stretch"/>
+	</summary>
+</jasperReport>
