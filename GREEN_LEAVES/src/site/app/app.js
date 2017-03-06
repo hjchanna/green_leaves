@@ -147,9 +147,19 @@
                             templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
                             controller: "monthlyGreenLeavesSummryController"
                         })
-
-
-
+                        
+                        //payrool
+                        //employee advance request
+                        .when("/transactions/payroll/employee-advance/request", {
+                            templateUrl: "app/transactions/payroll/employee-advance/request/employee-advance-request.html",
+                            controller: "EmployeeAdvanceRequestController"
+                        })
+                        //employee advance approve
+                        .when("/transactions/payroll/employee-advance/approve", {
+                            templateUrl: "app/transactions/payroll/employee-advance/approve/employee-advance-approve.html",
+                            controller: "EmployeeAdvanceApproveController"
+                        })
+                        
                         //reports
                         .when("/reports/general/report-viewer", {
                             templateUrl: "app/reports/report-viewer/report-viewer.html",
