@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.fertilizer;
 
 import com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizer;
+import com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizerDetail;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.Date;
 import java.util.List;
@@ -30,9 +31,9 @@ public class FertilizerController {
     @Autowired
     private FertilizerService fertilizerService;
 
-    @RequestMapping(value = "/{date}/{number}", method = RequestMethod.GET)
-    public TFertilizer getFertilizer(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer number) {
-        return fertilizerService.getFertilizer(date, number);
+    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
+    public TFertilizer getFertilizer(@PathVariable Integer number) {
+        return fertilizerService.getFertilizer(number);
     }
 
     @RequestMapping(value = "/save-fertilizer", method = RequestMethod.POST)
@@ -42,11 +43,11 @@ public class FertilizerController {
         return fertilizerService.saveFertilizer(fertilizer);
     }
 
-    @RequestMapping(value = "/delete-fertilizer/{indexNo}", method = RequestMethod.DELETE)
-    public Integer deleteFertilizer(@PathVariable Integer indexNo) {
-        fertilizerService.deleteFertilizer(indexNo);
-        return indexNo;
-    }
+//    @RequestMapping(value = "/delete-fertilizer/{indexNo}", method = RequestMethod.DELETE)
+//    public Integer deleteFertilizer(@PathVariable Integer indexNo) {
+//        fertilizerService.deleteFertilizer(indexNo);
+//        return indexNo;
+//    }
 
     @RequestMapping(value = "/delete-fertilizer-detail/{indexNo}", method = RequestMethod.DELETE)
     public Integer deleteGreenLeavesReceiveDetail(@PathVariable Integer indexNo) {
@@ -60,13 +61,15 @@ public class FertilizerController {
         return indexNo;
     }
 
-    @RequestMapping(value = "/pending-route-vise-fertilizer", method = RequestMethod.GET)
-    public List<Object[]> getPendingRequestByRouteVise() {
-        return fertilizerService.getPendingRequestBtROuteOfficer(1);
+    @RequestMapping(value = "/pending-fertilizer-request", method = RequestMethod.GET)
+    public List<Object[]> getPendingRequest() {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return fertilizerService.getPendingFertilizerRequests(branch);
     }
 
-    @RequestMapping(value = "/pending-fertilizer/{routeOfficer}", method = RequestMethod.GET)
-    public List<TFertilizer> getPendingRequest(@PathVariable Integer routeOfficer) {
-        return fertilizerService.getPendingRequestByBranchAndROuteOfficer(1, routeOfficer);
+    @RequestMapping(value = "/pending-fertilizer-request-details/{date}", method = RequestMethod.GET)
+    public List<TFertilizerDetail> getPendingRequestDataByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return fertilizerService.getPendingRequestDataByDate(date);
     }
+
 }

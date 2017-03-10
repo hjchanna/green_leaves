@@ -2,7 +2,7 @@
     'use strict';
 
     var service = function (systemConfig, $http) {
-
+        //load master data
         this.loadClients = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
         };
@@ -24,11 +24,7 @@
         };
 
         this.loadProducts = function () {
-            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/product");
-        };
-
-        this.loadRouteOfficers = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer-item");
         };
 
         this.saveFertilizer = function (data) {
@@ -36,25 +32,25 @@
         };
 
         //find by fertilizer by branch and number
-        this.loadFertilizer = function (date, number) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/" + date + "/" + number);
+        this.loadFertilizer = function (number) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/" + number);
         };
 
-        this.deleteFertilizer = function (indexNo) {
-            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/delete-fertilizer/" + indexNo);
-        };
+//        this.deleteFertilizer = function (indexNo) {
+//            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/delete-fertilizer/" + indexNo);
+//        };
 
         this.deleteFertilizerDetail = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/delete-fertilizer-detail/" + indexNo);
         };
 
         //fertilizer approve
-        this.getPendingRequest = function (routeOfficer) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/pending-fertilizer/" + routeOfficer);
+        this.getPendingRequest = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/pending-fertilizer-request");
         };
 
-        this.getPendingRequestByRouteVise = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/pending-route-vise-fertilizer");
+        this.getSelectdRequestDetails = function (date) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/fertilizer/pending-fertilizer-request-details/" + date);
         };
 
         this.approveOrRejectRequest = function (indexNo, status) {

@@ -22,18 +22,24 @@ public interface FertilizerRepository extends JpaRepository<TFertilizer, Integer
     @Query(value = "SELECT MAX(number) FROM t_fertilizer WHERE branch=:branch", nativeQuery = true)
     public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
 
-    @Query(value = "SELECT \n"
-            + "route_officer,\n"
-            + "sum(amount),"
-            + "count(*)\n"
-            + "FROM t_fertilizer  \n"
-            + "WHERE branch = :branch and status = \"PENDING\"\n"
-            + "GROUP BY t_fertilizer.route_officer;", nativeQuery = true)
+    @Query(value = "select \n"
+            + " t_fertilizer.date,\n"
+            + " sum(t_fertilizer_detail.amount),\n"
+            + " count(*)\n"
+            + "from\n"
+            + " t_fertilizer\n"
+            + "inner join \n"
+            + " t_fertilizer_detail\n"
+            + "on \n"
+            + " t_fertilizer.index_no =  t_fertilizer_detail.fertilizer\n"
+            + "where\n"
+            + " t_fertilizer.branch = :branch and t_fertilizer_detail.status = \"PENDING\""
+            + "and"
+            + " t_fertilizer.status <> \"DELETED\""
+            + "group by t_fertilizer.date;", nativeQuery = true)
     public List<Object[]> getPendingRequest(@Param("branch") Integer branch);
 
-    public TFertilizer findByDateAndNumberAndStatusNot(Date date, Integer number, String status);
-
-    public List<TFertilizer> findByBranchAndStatusAndRouteOfficer(Integer branch, String status, Integer routeOfficer);
+    public TFertilizer findByNumberAndStatusNot(Integer number, String status);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "delete from t_fertilizer_detail where index_no = :indexNo", nativeQuery = true)
