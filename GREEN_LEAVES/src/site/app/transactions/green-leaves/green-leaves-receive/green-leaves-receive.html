@@ -3,17 +3,13 @@
         <div class="row background-dark border-dark-bottom">
             <div class="col-xs-12">
                 <table class="control-table">
-                    <col class="col-xs-3">
-                    <col class="col-xs-3">
+                    <col class="col-xs-6">
                     <col class="col-xs-3">
                     <col class="col-xs-3">
                     <tbody>
                         <tr>
                             <td>
-                                <input id="branch" class="form-control" ng-model="model.data.branch" input-hint="branch" uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)" typeahead-on-select="ui.serchWeight($model)">
-                            </td>
-                            <td>
-                                <input class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.getRouteOfficerAndRouteHelperAndVehicle($model);" ng-disabled="ui.mode !== 'EDIT'">
+                                <input id="route" class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" typeahead-on-select="ui.getRouteOfficerAndRouteHelperAndVehicle($model);" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                             <td>
                                 <input class="form-control" smart-input="date" ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'">
@@ -25,9 +21,9 @@
                     </tbody>
                 </table>
                 <table class="control-table">
-                    <col class="col-xs-5"/>
-                    <col class="col-xs-5"/>
-                    <col class="col-xs-2"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
                     <tbody>
                         <tr>
                             <td><input class="form-control" smart-input="text" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" input-hint="route officer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)"/></td>

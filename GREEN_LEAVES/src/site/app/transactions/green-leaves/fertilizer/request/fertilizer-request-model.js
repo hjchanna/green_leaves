@@ -64,9 +64,8 @@
                     load: function () {
                         var that = this;
                         var defer = $q.defer();
-                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                         var number = this.data.number;
-                        FertilizerModelService.loadFertilizer(date, number)
+                        FertilizerModelService.loadFertilizer(number)
                                 .success(function (data) {
                                     that.data = {};
                                     angular.extend(that.data, data);
@@ -81,7 +80,7 @@
                     },
                     addDetail: function () {
                         var defer = $q.defer();
-                        if (parseInt(this.tempData.product + this.tempData.qty) > 0) {
+                        if (parseInt(this.tempData.price + this.tempData.qty) > 0) {
                             this.data.tfertilizerDetailList.unshift(this.tempData);
                             this.tempData = FertilizersModelFactory.newTempData();
                             this.itemTotal();
@@ -116,14 +115,14 @@
                         var itemTotal = 0.0;
                         var that = this;
                         angular.forEach(this.data.tfertilizerDetailList, function (value) {
-                            itemTotal += parseFloat(that.product(value.product).salePrice * value.qty);
+                            itemTotal += parseFloat(that.product(value.fertlizerItem).salePrice * value.qty);
                         });
                         return itemTotal;
                     },
                     save: function () {
+                        console.log(this.data);
                         var that = this;
                         var defer = $q.defer();
-                        this.data.amount = this.itemTotal();
                         FertilizerModelService.saveFertilizer(JSON.stringify(this.data))
                                 .success(function (data) {
                                     defer.resolve(data);
@@ -135,13 +134,13 @@
                                 });
                         return defer.promise;
                     },
-                    deleteFertilizer: function () {
-                        var that = this;
-                        FertilizerModelService.deleteFertilizer(this.data.indexNo)
-                                .success(function () {
-                                    that.clear();
-                                });
-                    },
+//                    deleteFertilizer: function () {
+//                        var that = this;
+//                        FertilizerModelService.deleteFertilizer(this.data.indexNo)
+//                                .success(function () {
+//                                    that.clear();
+//                                });
+//                    },
                     client: function (indexNo) {
                         var client;
                         angular.forEach(this.clients, function (value) {
@@ -236,10 +235,10 @@
                         });
                         return client;
                     },
-                    requestDuplicateCheck: function (product) {
+                    requestDuplicateCheck: function (fertlizerItem, client) {
                         var data;
                         angular.forEach(this.data.tfertilizerDetailList, function (values) {
-                            if (values.product === parseInt(product)) {
+                            if (values.fertlizerItem === parseInt(fertlizerItem) && values.client === client) {
                                 data = values;
                                 return;
                             }

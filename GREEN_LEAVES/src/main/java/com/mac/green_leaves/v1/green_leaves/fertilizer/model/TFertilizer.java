@@ -5,16 +5,13 @@
  */
 package com.mac.green_leaves.v1.green_leaves.fertilizer.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,12 +25,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Don
+ * @author Kavish Manjitha
  */
 @Entity
 @Table(name = "t_fertilizer")
 public class TFertilizer implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -47,37 +45,9 @@ public class TFertilizer implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "number")
-    private int number;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "transaction")
-    private int transaction;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "type")
-    private String type;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "status")
-    private String status;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "month")
-    private String month;
 
     @Basic(optional = false)
     @Column(name = "route")
@@ -96,35 +66,38 @@ public class TFertilizer implements Serializable {
     private Integer vehicle;
 
     @Basic(optional = false)
-    @Column(name = "client")
-    private Integer client;
+    @NotNull
+    @Column(name = "number")
+    private int number;
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "amount")
-    private BigDecimal amount;
+    @Column(name = "transaction")
+    private int transaction;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fertilizer", fetch = FetchType.EAGER)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "status")
+
+    private String status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fertilizer")
     private List<TFertilizerDetail> tFertilizerDetailList;
 
     public TFertilizer() {
     }
 
-    public TFertilizer(Integer indexNo, int branch, int number, Date date, int transaction, String type, String status, String month, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, Integer client, BigDecimal amount, List<TFertilizerDetail> tFertilizerDetailList) {
+    public TFertilizer(Integer indexNo, int branch, Date date, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, int number, int transaction, String status, List<TFertilizerDetail> tFertilizerDetailList) {
         this.indexNo = indexNo;
         this.branch = branch;
-        this.number = number;
         this.date = date;
-        this.transaction = transaction;
-        this.type = type;
-        this.status = status;
-        this.month = month;
         this.route = route;
         this.routeOfficer = routeOfficer;
         this.routeHelper = routeHelper;
         this.vehicle = vehicle;
-        this.client = client;
-        this.amount = amount;
+        this.number = number;
+        this.transaction = transaction;
+        this.status = status;
         this.tFertilizerDetailList = tFertilizerDetailList;
     }
 
@@ -144,14 +117,6 @@ public class TFertilizer implements Serializable {
         this.branch = branch;
     }
 
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -160,36 +125,12 @@ public class TFertilizer implements Serializable {
         this.date = date;
     }
 
-    public int getTransaction() {
-        return transaction;
+    public Integer getRoute() {
+        return route;
     }
 
-    public void setTransaction(int transaction) {
-        this.transaction = transaction;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
+    public void setRoute(Integer route) {
+        this.route = route;
     }
 
     public Integer getRouteOfficer() {
@@ -198,14 +139,6 @@ public class TFertilizer implements Serializable {
 
     public void setRouteOfficer(Integer routeOfficer) {
         this.routeOfficer = routeOfficer;
-    }
-
-    public Integer getRoute() {
-        return route;
-    }
-
-    public void setRoute(Integer route) {
-        this.route = route;
     }
 
     public Integer getRouteHelper() {
@@ -224,28 +157,28 @@ public class TFertilizer implements Serializable {
         this.vehicle = vehicle;
     }
 
-    public Integer getClient() {
-        return client;
+    public int getNumber() {
+        return number;
     }
 
-    public void setClient(Integer client) {
-        this.client = client;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public int getTransaction() {
+        return transaction;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setTransaction(int transaction) {
+        this.transaction = transaction;
     }
 
-    public List<TFertilizerDetail> gettFertilizerDetailList() {
-        return tFertilizerDetailList;
+    public String getStatus() {
+        return status;
     }
 
-    public void settFertilizerDetailList(List<TFertilizerDetail> tFertilizerDetailList) {
-        this.tFertilizerDetailList = tFertilizerDetailList;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @XmlTransient
@@ -255,11 +188,6 @@ public class TFertilizer implements Serializable {
 
     public void setTFertilizerDetailList(List<TFertilizerDetail> tFertilizerDetailList) {
         this.tFertilizerDetailList = tFertilizerDetailList;
-    }
-
-    @Override
-    public String toString() {
-        return "TFertilizer{" + "indexNo=" + indexNo + ", branch=" + branch + ", number=" + number + ", date=" + date + ", transaction=" + transaction + ", type=" + type + ", status=" + status + ", month=" + month + ", routeOfficer=" + routeOfficer + ", client=" + client + ", tFertilizerDetailList=" + tFertilizerDetailList + '}';
     }
 
 }

@@ -39,10 +39,10 @@ public class GLGreenLeavesReceiveController {
         return greenLeavesReceiveService.getReceive(branch, number);
     }
 
-    @RequestMapping(value = "find-by/{branch}/{route}/{date}", method = RequestMethod.GET)
-    public TGreenLeavesReceive findByBranchAndRouteAndDate(@PathVariable Integer branch, @PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        return greenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date);
-    }
+//    @RequestMapping(value = "find-by/{branch}/{route}/{date}", method = RequestMethod.GET)
+//    public TGreenLeavesReceive findByBranchAndRouteAndDate(@PathVariable Integer branch, @PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+//        return greenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date);
+//    }
 
     @RequestMapping(value = "/save-receive", method = RequestMethod.POST)
     public Integer saveReceive(@RequestBody TGreenLeavesReceive greenLeavesReceive) {

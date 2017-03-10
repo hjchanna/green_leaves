@@ -15,7 +15,7 @@
                         "number": null,
                         "status": null,
                         "type": "SUPPLIER",
-                        "remark": null,
+                        "tempClient": null,
                         "greenLeaveWeighDetails": [
                             /*{
                              "indexNo": 0,

@@ -42,17 +42,14 @@ public class TGreenLeavesReceive implements Serializable {
     private Integer indexNo;
 
     @Basic(optional = false)
-
     @Column(name = "branch")
     private int branch;
 
     @Basic(optional = false)
-
     @Column(name = "transaction")
     private int transaction;
 
     @Basic(optional = false)
-
     @Column(name = "number")
     private int number;
 
@@ -76,6 +73,10 @@ public class TGreenLeavesReceive implements Serializable {
     @Basic(optional = false)
     @Column(name = "vehicle")
     private Integer vehicle;
+
+    @Basic(optional = false)
+    @Column(name = "type")
+    private String type;
 
     @Basic(optional = false)
     @Column(name = "status")
@@ -149,22 +150,6 @@ public class TGreenLeavesReceive implements Serializable {
         this.route = route;
     }
 
-    public List<TGreenLeavesReceiveDetail> getGreenLeavesReceiveDetails() {
-        return greenLeavesReceiveDetails;
-    }
-
-    public void setGreenLeavesReceiveDetails(List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
-        this.greenLeavesReceiveDetails = greenLeavesReceiveDetails;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Integer getRouteOfficer() {
         return routeOfficer;
     }
@@ -189,6 +174,28 @@ public class TGreenLeavesReceive implements Serializable {
         this.vehicle = vehicle;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<TGreenLeavesReceiveDetail> getGreenLeavesReceiveDetails() {
+        return greenLeavesReceiveDetails;
+    }
+
+    public void setGreenLeavesReceiveDetails(List<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails) {
+        this.greenLeavesReceiveDetails = greenLeavesReceiveDetails;
+    }
 
 }

@@ -9,7 +9,8 @@
 
                     <tbody>
                         <tr>
-                            <td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>
+                            <!--<td><input id="branch" class="form-control" smart-input="text" input-hint="branch" ng-model="model.data.branch"  uib-typeahead="branch.indexNo as (branch.indexNo + ' - ' + branch.name) for branch in model.branchs|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.bracnhLable($model)"></td>-->
+                            <td><input class="form-control" input-hint="route" ng-model="model.data.route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" disabled></td>
                             <td><input class="form-control" smart-input="date"  ng-model="model.data.date" ng-disabled="ui.mode !== 'EDIT'"></td>
                             <td><input class="form-control" smart-input="integer" ng-model="model.data.number" ng-keypress="ui.load($event)"  input-hint="transaction number"  ng-disabled="ui.mode === 'EDIT'"></td>
                         </tr>
@@ -17,21 +18,22 @@
                 </table>
 
                 <table class="control-table">
-                    <col class="col-xs-3"/>
-                    <col class="col-xs-6"/>
-                    <col class="col-xs-3"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-8"/>
+                    <col/>
+                    <!--<col class="col-xs-3"/>-->
                     <tbody>
                         <tr>
                             <td><input id="client" input-hint="client id" smart-input="integer" class="form-control" ng-model="model.data.searchClient" ng-keypress="ui.searchClient($event);" ng-disabled="ui.mode !== 'EDIT'"></td>
-                            <td ng-show="ui.existClient"><input input-hint="client" ng-keypress="ui.checkCustomer($event);" smart-input="text" class="form-control" ng-model="model.data.client"  uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'"></td>
-                            <td ng-show="ui.newClient"><input input-hint="new client" class="form-control" ng-model="model.data.remark" ng-disabled="ui.mode !== 'EDIT'" disabled="true"></td>
-                            <td><input class="form-control" input-hint="route" ng-model="model.data.route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" disabled></td>
+                            <td ng-show="ui.clientType==='CLIENT'"><input input-hint="client" ng-keypress="ui.checkCustomer($event);" smart-input="text" class="form-control" ng-model="model.data.client"  uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'"></td>
+                            <td ng-show="ui.clientType==='TEMP_CLIENT'"><input input-hint="new client" class="form-control" ng-model="model.data.tempClient" ng-disabled="ui.mode !== 'EDIT'" disabled="true"></td>
+                            <td>&nbsp;</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            
-            
+
+
             <div class="col-xs-12">        
                 <div class="row">
                     <uib-tabset active="indextab">
@@ -217,42 +219,49 @@
                             </div>
                         </uib-tab>
                         <uib-tab heading="PENDING WEIGHT" index="2" select="ui.getPendingGreenLeavesWeigh();">
-                            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 255px);" ng-show="model.pendingGreenLeavesWeigh.length">
+                            <div ng-show="model.pendingGreenLeavesWeigh.length">
                                 <div class="col-xs-12">
                                     <table>
-                                        <col style="width: 20%"/>
-                                        <col style="width: 25%"/>
+                                        <col style="width: 10%"/>
+                                        <col style="width: 15%"/>
                                         <col style="width: 45%"/>
-                                        <col style="width: 20%"/>
+                                        <col style="width: 10%"/>
+                                        <col style="width: 10%"/>
                                         <col />
                                         <thead>
                                             <tr>
-                                                <th>No</th>
+                                                <th>Number</th>
                                                 <th class="text-left">Date</th>
-                                                <th class="text-right">Client</th>
+                                                <th class="text-left">Client</th>
+                                                <th class="text-right">Normal</th>
+                                                <th class="text-right">Super</th>
                                                 <th>&nbsp;</th>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
-                                <table class="table-hover">
-                                    <col style="width: 20%"/>
-                                    <col style="width: 25%"/>
-                                    <col style="width: 45%"/>
-                                    <col style="width: 20%"/>
-                                    <col/>
-                                    <tbody>
-                                        <tr ng-repeat="greenLeavesWeight in model.pendingGreenLeavesWeigh">
-                                            <td class="text-left"><span class="label label-default">{{greenLeavesWeight.number}}</span></td>
-                                            <td class="text-left">{{greenLeavesWeight.date}}</td>
-                                            <td class="text-right" ng-show="{{greenLeavesWeight.client}}">{{model.clientLabel(greenLeavesWeight.client);}}</td>
-                                            <td class="text-right" ng-hide="{{greenLeavesWeight.client}}"><label class="label label-danger">new</label> {{greenLeavesWeight.remark}}</td>
-                                            <td class="text-center" style="padding-left: 5px;">
-                                                <a class="btn btn-primary" ng-click="ui.loadWeight(greenLeavesWeight);"><span class="glyphicon glyphicon-floppy-save"></span></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 255px); margin-top: 5px;">
+                                    <table class="table-hover">
+                                        <col style="width: 10%"/>
+                                        <col style="width: 15%"/>
+                                        <col style="width: 45%"/>
+                                        <col style="width: 10%"/>
+                                        <col style="width: 10%"/>
+                                        <col />
+                                        <tbody>
+                                            <tr ng-repeat="greenLeavesWeight in model.pendingGreenLeavesWeigh">
+                                                <td class="text-left"><span class="label label-default">{{greenLeavesWeight.number|fixedLength:5}}</span></td>
+                                                <td class="text-left">{{greenLeavesWeight.date}}</td>
+                                                <td class="text-left"><span class="label label-danger" ng-show="greenLeavesWeight.client===null">NEW</span>{{greenLeavesWeight.client!==null?model.client(greenLeavesWeight.client).name:greenLeavesWeight.tempClient}}</td>
+                                                <td class="text-right">{{greenLeavesWeight.normalNetWeight|number:2}}</td>
+                                                <td class="text-right">{{greenLeavesWeight.superNetWeight|number:2}}</td>
+                                                <td class="text-center" style="padding-left: 5px;">
+                                                    <a class="btn btn-primary" ng-click="ui.switchPendingWeight(greenLeavesWeight);"><span class="glyphicon glyphicon-download"></span></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             <div class="placeholder col-xs-12" style="height: calc(100vh - 209px); margin-top: 5px;" ng-hide="model.pendingGreenLeavesWeigh.length">
@@ -325,7 +334,7 @@
                 </table>
 
                 <label class="label-group-title">RETURN</label>
-                
+
                 <table class="control-table">
                     <col style="width: 35%"/>
                     <col style="width: 65%"/>

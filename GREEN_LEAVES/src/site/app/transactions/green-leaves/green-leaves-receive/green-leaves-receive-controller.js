@@ -13,7 +13,7 @@
             $scope.model.clear();
 
             //set default branch and current date
-            $scope.model.data.branch = $scope.model.defaultBranch().indexNo;
+            $scope.model.data.branch = $scope.model.defaultBranch();
 
             //new date subtract one day
             var newDate = new Date();
@@ -22,7 +22,7 @@
 
             //focus branch
             $timeout(function () {
-                angular.element(document.querySelectorAll("#branch"))[0].focus();
+                angular.element(document.querySelectorAll("#route"))[0].focus();
             }, 10);
         };
 
@@ -31,14 +31,11 @@
         };
 
         $scope.ui.delete = function () {
-            ConfirmPane.dangerConfirm("Delete Green Leave Receive")
+            ConfirmPane.dangerConfirm("Do you sure want to delete green leaves receive?")
                     .confirm(function () {
                         $scope.model.deleteGreenLavesReceive();
                         $scope.ui.mode = "IDEAL";
                         $scope.ui.type = "NORMAL";
-                    })
-                    .discard(function () {
-                        console.log("ReJECT");
                     });
         };
 
@@ -46,9 +43,16 @@
         $scope.ui.load = function (e) {
             var code = e ? e.keyCode || e.which : 13;
             if (code === 13) {
+                var number = $scope.model.data.number;
                 $scope.model.load()
                         .then(function () {
                             $scope.ui.mode = "SELECTED";
+                        }, function () {
+                            if (number) {
+                                Notification.error("Green leaves receive cannot be found at " + number + ".");
+                            } else {
+                                Notification.error("Please enter a valid number.");
+                            }
                         });
             }
         };
@@ -59,7 +63,7 @@
             if (code === 13) {
                 var searchClient = $scope.model.searchClientByClientNo($scope.customerId);
                 if (angular.isUndefined(searchClient)) {
-                    Notification.error("client not found!");
+                    Notification.error("Client cannot find by number. Please try by name instead.");
                     $scope.model.tempData.client = null;
                 } else {
                     var client = $scope.model.client(searchClient.indexNo);
@@ -74,40 +78,37 @@
         //save green leaves receive and receive details
         $scope.ui.save = function () {
             if (!$scope.model.data.branch) {
-                Notification.error("please select branch");
+                Notification.error("Please enter a valid branch.");
             } else if (!$scope.model.data.route) {
-                Notification.error("please select route");
+                Notification.error("Please select a valid route.");
             } else if (!$scope.model.data.date) {
-                Notification.error("please select date");
+                Notification.error("Please enter a valid date.");
             } else if (!$scope.model.data.routeOfficer) {
-                Notification.error("please select route officer");
+                Notification.error("Please select a valid route officer.");
             } else if (!$scope.model.data.routeHelper) {
-                Notification.error("please select route helper");
+                Notification.error("Please select a valid route helper.");
             } else if (!$scope.model.data.vehicle) {
-                Notification.error("please select vehicle");
+                Notification.error("Please select a valid vehicle.");
             } else if (!$scope.model.data.greenLeavesReceiveDetails.length) {
-                Notification.error("please select enter collection details");
+                Notification.error("Please enter green leaves receive data.");
             } else if ($scope.model.data.branch
                     && $scope.model.data.route
                     && $scope.model.data.date
                     && $scope.model.data.routeOfficer
                     && $scope.model.data.routeHelper
                     && $scope.model.data.vehicle) {
-                ConfirmPane.primaryConfirm("Save Green Leave Receive")
+                ConfirmPane.primaryConfirm("Do you sure want to save green leaves receive?")
                         .confirm(function () {
                             if (!$scope.ui.insertProcessing) {
                                 $scope.ui.insertProcessing = true;
                                 $scope.model.save()
                                         .then(function (data) {
-                                            optionPane.successMessage("Green Leaves Collection Weigh Save Success! Transaction Number " + data);
+                                            optionPane.successMessage("Green leaves receive saved successfully !");
                                             $scope.ui.mode = "IDEAL";
                                             $scope.model.clear();
                                             $scope.ui.insertProcessing = false;
                                         });
                             }
-                        })
-                        .discard(function () {
-                            console.log("ReJECT");
                         });
             }
         };
@@ -133,7 +134,7 @@
         $scope.ui.addDetail = function () {
             var client = $scope.model.client($scope.model.tempData.client);
             if (angular.isUndefined(client)) {
-                ConfirmPane.primaryConfirm("Client Not Found And Add New Client")
+                ConfirmPane.primaryConfirm("You have selected an invalid client. Do you want to select a temporary client instead?")
                         .confirm(function () {
                             InputPane.primaryInput("Input Client Name")
                                     .confirm(function (data) {
@@ -151,9 +152,6 @@
                                     .discard(function () {
                                         console.log("CANCEL");
                                     });
-                        })
-                        .discard(function () {
-                            console.log("REJECT");
                         });
             } else {
                 var client = $scope.model.greenLeavesClietDuplivate($scope.model.tempData.client);
@@ -169,9 +167,6 @@
                                         .then(function () {
                                             $scope.ui.focus();
                                         });
-                            })
-                            .discard(function () {
-                                console.log("REJECT");
                             });
                 }
             }
@@ -197,7 +192,7 @@
         $scope.ui.loadFactoryQuantity = function () {
             $scope.model.loadFactoryQuantity();
 //            $scope.model.getRouteOfficerAndRouteHelperAndVehicle();
-            $scope.model.findByBranchAndRouteAndDate();
+//            $scope.model.findByBranchAndRouteAndDate();
         };
 
         $scope.ui.init = function () {
@@ -211,14 +206,14 @@
                     $scope.customerId = client.clientNumber;
                     if ($scope.model.data.route !== client.route) {
                         var clientRoute = $scope.model.routeLabel(client.route);
-                        Notification({message: 'This Client Another Route', title: clientRoute});
+                        Notification.warning("This client is from an another route. (" + clientRoute + ")");
                     }
                 }
             });
 
-
-            $scope.$watch("[model.data.date,model.data.route]", function (newValue, oldValue) {
-                if ($scope.model.data.date && $scope.model.data.date) {
+            $scope.$watch("[model.data.date, model.data.route]", function (newValue, oldValue) {
+                var route = $scope.model.data.route;
+                if ($scope.model.data.date && route === parseInt(route)) {
                     $scope.ui.loadFactoryQuantity();
                 }
             });

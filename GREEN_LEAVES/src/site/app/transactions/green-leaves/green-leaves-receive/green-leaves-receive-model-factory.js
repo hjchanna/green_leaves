@@ -14,6 +14,7 @@
                         "number": null,
                         "date": null,
                         "transaction": null,
+                        "type": "BULK",
                         "status": null,
                         "greenLeavesReceiveDetails": [
 //                            {
