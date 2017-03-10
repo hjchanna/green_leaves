@@ -95,6 +95,11 @@ public class GLClientAdvanceController {
         clientAdvanceService.approveAdvanceRequestDetail(indexNo);
     }
 
+    @RequestMapping(value = "/update-request-amount/{indexNo}/{amount}")
+    public void approveAdvanceRequestDetail(@PathVariable Integer indexNo, @PathVariable BigDecimal amount) {
+        clientAdvanceService.updateAdvanceRequestAmount(indexNo, amount);
+    }
+
     @RequestMapping(value = "/reject-request-detail/{indexNo}")
     public void rejectAdvanceRequestDetail(@PathVariable Integer indexNo) {
         clientAdvanceService.rejectAdvanceRequestDetail(indexNo);

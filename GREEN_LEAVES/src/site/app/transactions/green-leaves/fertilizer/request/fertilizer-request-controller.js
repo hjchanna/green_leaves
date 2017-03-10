@@ -143,9 +143,10 @@
                         .confirm(function () {
                             $scope.model.save()
                                     .then(function (data) {
-                                        $scope.ui.mode = "IDEAL";
                                         optionPane.successMessage("Fertilizer Save Success! Transaction Number " + data);
                                         $scope.model.clear();
+                                        $scope.ui.mode = "IDEAL";
+                                        $scope.ui.type = "NORMAL";
                                     });
                         })
                         .discard(function () {

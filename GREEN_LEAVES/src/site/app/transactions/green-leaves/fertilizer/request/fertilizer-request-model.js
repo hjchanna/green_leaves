@@ -89,7 +89,6 @@
                             this.itemTotal();
                             defer.reject();
                         }
-
                         return defer.promise;
                     },
                     editDetail: function (index) {

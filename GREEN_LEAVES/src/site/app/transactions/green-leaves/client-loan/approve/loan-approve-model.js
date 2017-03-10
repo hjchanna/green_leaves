@@ -58,7 +58,6 @@
             },
             selectDetail: function (indexNo) {
                 var that = this;
-
                 angular.forEach(this.loanRequestDetails, function (value) {
                     if (value.indexNo === indexNo) {
                         that.detail = value;

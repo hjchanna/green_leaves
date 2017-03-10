@@ -52,6 +52,10 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/reject-request-detail/" + indexNo);
         };
 
+        this.updateAdvanceRequestAmount = function (indexNo, amount) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/update-request-amount/" + indexNo + "/" + amount);
+        };
+
         //client history
         this.clientHistory = function (date, client) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-client-account-transaction-history/" + date + "/" + client);
@@ -61,8 +65,8 @@
         this.getGreenLeavesByBranchAndRouteAndDateAndClient = function (route, date, client) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-client-wise-receive-history/" + route + "/" + date + "/" + client);
         };
-        
-                //get monthly and daily summry details
+
+        //get monthly and daily summry details
         this.getGreenLeavesReceiveSummryDetails = function (date, client) {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-green-leaves-receive-summry/" + new Date(date).toISOString() + "/" + client);
         };
