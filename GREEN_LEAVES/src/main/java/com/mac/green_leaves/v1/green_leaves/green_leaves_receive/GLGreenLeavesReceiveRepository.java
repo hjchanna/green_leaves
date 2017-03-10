@@ -22,10 +22,10 @@ import org.springframework.data.repository.query.Param;
  */
 public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeavesReceive, Integer> {
 
-    public List<TGreenLeavesReceive> findByBranchAndNumberAndStatusNot(Integer branch, Integer number, String status);
+    public List<TGreenLeavesReceive> findByBranchAndNumberAndTypeAndStatusNot(Integer branch, Integer number, String type, String status);
 
-    @Query(value = "SELECT MAX(number) FROM t_green_leaves_receive WHERE branch=:branch", nativeQuery = true)
-    public Integer getMaximumNumberByBranch(@Param("branch") Integer branch);
+    @Query(value = "SELECT MAX(number) FROM t_green_leaves_receive WHERE branch=:branch and type=:type", nativeQuery = true)
+    public Integer getMaximumNumberByBranchAndType(@Param("branch") Integer branch, @Param("type") String type);
 
     @Query(value = "select\n"
             + "	sum(t_green_leaves_weigh.normal_net_weight),\n"
@@ -39,17 +39,10 @@ public interface GLGreenLeavesReceiveRepository extends JpaRepository<TGreenLeav
             + " and status <> 'DELETED'", nativeQuery = true)
     public List<Object[]> getSuperLeavesTotalAndNormalLeaveTotal(@Param("branch") Integer branch, @Param("route") Integer route, @Param("date") @Temporal(TemporalType.DATE) Date date);
 
-    public List<TGreenLeavesReceive> findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNullAndStatusNot(Integer branch, Date date, Integer client,String status);
-
-    @Modifying(clearAutomatically = true)
-    @Query(value = "update t_green_leaves_receive_detail set normal_leaves_quantity = :normalLeavesTotal,super_leaves_quantity = :superLeavesTotal where green_leaves_receive = :indexNo", nativeQuery = true)
-    public Integer updateNormalLeafAndSuperLeaf(@Param("indexNo") Integer indexNo, @Param("normalLeavesTotal") BigDecimal normalLeavesTotal, @Param("superLeavesTotal") BigDecimal superLeavesTotal);
-
-    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndStatusNot(Integer branch, Integer route, Date date, String status);
+//    public List<TGreenLeavesReceive> findByBranchAndRouteAndDateAndStatusNot(Integer branch, Integer route, Date date, String status);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "delete from t_green_leaves_receive_detail where index_no = :indexNo", nativeQuery = true)
     public void deleteGreenLeavesReceiveDetail(@Param("indexNo") Integer indexNo);
 
-    public List<TGreenLeavesReceive> findBygreenLeavesReceiveDetailsRemarkNotNull();
 }

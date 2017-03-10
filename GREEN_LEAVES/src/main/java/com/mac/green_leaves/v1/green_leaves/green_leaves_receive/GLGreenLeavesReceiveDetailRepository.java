@@ -15,6 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface GLGreenLeavesReceiveDetailRepository extends JpaRepository<TGreenLeavesReceiveDetail, Integer> {
 
-    public List<TGreenLeavesReceiveDetail> findByRemarkNotNull();
+//    public List<TGreenLeavesReceiveDetail> findByTempClientNotNull();
 
 }

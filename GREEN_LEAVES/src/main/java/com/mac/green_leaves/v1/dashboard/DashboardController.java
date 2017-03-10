@@ -7,7 +7,6 @@ package com.mac.green_leaves.v1.dashboard;
 
 import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,4 +51,5 @@ public class DashboardController {
     public HashMap<String, Object> getCrossEntry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return dashboardService.getSummryData(date);
     }
+
 }

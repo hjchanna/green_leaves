@@ -13,10 +13,9 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
-import java.util.Date;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,20 +40,27 @@ public class GLGreenLeavesWeighController {
         return greenLeavesWeighService.getSummary(branch, number, type);
     }
 
-    @RequestMapping(value = "/find-weight-by/{branch}/{route}/{date}", method = RequestMethod.GET)
-    public TGreenLeavesWeigh getSummaryBranchAndRouteAndDate(@PathVariable Integer branch, @PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        return greenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date);
-    }
-
-    @RequestMapping(value = "/find-weight/{branch}/{date}/{client}", method = RequestMethod.GET)
-    public TGreenLeavesWeigh getSummaryBranchAndDateAndClient(@PathVariable Integer branch, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
-        return greenLeavesWeighService.findByBranchAndDateAndClient(branch, date, client);
+    @RequestMapping(value = "/find-pending-weigh/{type}", method = RequestMethod.GET)
+    public List<TGreenLeavesWeigh> findPendingWeighByWeighBranchAndType(@PathVariable String type) {
+        return greenLeavesWeighService.findPendingWeighByWeighBranchAndType(SecurityUtil.getCurrentUser().getBranch(), type);
     }
 
     @RequestMapping(value = "/save-weigh", method = RequestMethod.POST)
     public Integer saveSummary(@RequestBody TGreenLeavesWeigh greenLeaveWeigh) {
-        greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh);
+        greenLeaveWeigh = greenLeavesWeighService.saveSummary(greenLeaveWeigh, SecurityUtil.getCurrentUser().getBranch());
         return greenLeaveWeigh.getIndexNo();
+    }
+
+    @RequestMapping(value = "/delete-green-leaves-weigh/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteGreenLeavesReceive(@PathVariable Integer indexNo) {
+        greenLeavesWeighService.deleteGreenLeavesReceive(indexNo);
+        return indexNo;
+    }
+
+    @RequestMapping(value = "/approve-weigh/{indexNo}", method = RequestMethod.GET)
+    public Integer confirmWeigh(@PathVariable Integer indexNo) {
+        greenLeavesWeighService.approveWeigh(indexNo);
+        return indexNo;
     }
 
     @RequestMapping(value = "/insert-detail/{weighIndexNo}", method = RequestMethod.POST)
@@ -69,20 +75,13 @@ public class GLGreenLeavesWeighController {
         return indexNo;
     }
 
-    @RequestMapping(value = "/confirm-detail/{indexNo}", method = RequestMethod.GET)
-    public Integer confirmWeigh(@PathVariable Integer indexNo) {
-        greenLeavesWeighService.confirmWeigh(indexNo);
-        return indexNo;
-    }
-
-    @RequestMapping(value = "/find-by-branch/{branch}/{type}", method = RequestMethod.GET)
-    public List<TGreenLeavesWeigh> findByBranchAndType(@PathVariable Integer branch, @PathVariable String type) {
-        return greenLeavesWeighService.findByBranchAndType(branch, type);
-    }
-
-    @RequestMapping(value = "/delete-green-leaves-weigh/{indexNo}", method = RequestMethod.DELETE)
-    public Integer deleteGreenLeavesReceive(@PathVariable Integer indexNo) {
-        greenLeavesWeighService.deleteGreenLeavesReceive(indexNo);
-        return indexNo;
-    }
+//    @RequestMapping(value = "/find-weight-by/{branch}/{route}/{date}", method = RequestMethod.GET)
+//    public TGreenLeavesWeigh getSummaryBranchAndRouteAndDate(@PathVariable Integer branch, @PathVariable Integer route, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+//        return greenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date);
+//    }
+//
+//    @RequestMapping(value = "/find-weight/{branch}/{date}/{client}", method = RequestMethod.GET)
+//    public TGreenLeavesWeigh getSummaryBranchAndDateAndClient(@PathVariable Integer branch, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer client) {
+//        return greenLeavesWeighService.findByBranchAndDateAndClient(branch, date, client);
+//    }
 }

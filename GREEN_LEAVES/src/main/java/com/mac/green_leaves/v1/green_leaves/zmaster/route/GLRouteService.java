@@ -29,7 +29,7 @@ public class GLRouteService {
     @Autowired
     private GLRouteRepository routeRepository;
 
-    public List<MRoute> findAll() {
-        return routeRepository.findAll();
+    public List<MRoute> findByBranch(Integer branch) {
+        return routeRepository.findByBranch(branch);
     }
 }

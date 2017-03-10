@@ -1,26 +1,21 @@
 /*
- *  GLGreenLeavesWeighService.java
- *  
- *  @author Channa Mohan
- *     hjchanna@gmail.com
- *  
- *  Created on Oct 20, 2016, 10:56:00 AM
- *  All rights reserved.
- *  Copyrights supervision technology (pvt.) ltd.
- *  
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
+package com.mac.green_leaves.v1.green_leaves.green_leaves_supplier_weigh;
 
+import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveDetailRepository;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveRepository;
-import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveService;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.GLGreenLeavesWeighDetailRepository;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.GLGreenLeavesWeighRepository;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
+import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
+import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author Mohan
+ * @author hjcha
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class GLGreenLeavesWeighService {
+public class GLGreenLeavesSupplierWeighService {
 
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
@@ -49,10 +44,10 @@ public class GLGreenLeavesWeighService {
     private GLGreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
 
     @Autowired
-    private GLGreenLeavesReceiveService greenLeavesReceiveService;
+    private GLGreenLeavesReceiveRepository greenLeavesReceiveRepository;
 
     @Autowired
-    private GLGreenLeavesReceiveRepository greenLeavesReceiveRepository;
+    private GLGreenLeavesReceiveDetailRepository greenLeavesReceiveDetailRepository;
 
     public TGreenLeavesWeigh getSummary(Integer branch, Integer number, String type) {
         List<TGreenLeavesWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumberAndTypeAndStatusNot(branch, number, type, DELETED_STATUS);
@@ -62,6 +57,11 @@ public class GLGreenLeavesWeighService {
         }
 
         return greenLeaveWeighs.get(0);
+    }
+
+    //find by branch get pending bulk green leaves weigh
+    public List<TGreenLeavesWeigh> findPendingWeighByWeighBranchAndType(Integer branch) {
+        return greenLeavesWeighRepository.findByWeighBranchAndStatusAndType(branch, PENDING_STATUS, TYPE_SUPPLIER);
     }
 
     @Transactional
@@ -74,7 +74,7 @@ public class GLGreenLeavesWeighService {
             greenLeavesWeigh.setBranch(greenLeavesWeighRequest.getBranch());
             greenLeavesWeigh.setWeighBranch(weighBranch);
             greenLeavesWeigh.setDate(greenLeavesWeighRequest.getDate());
-            greenLeavesWeigh.setRoute(greenLeavesWeighRequest.getRoute());
+            greenLeavesWeigh.setRoute(null);//supplier weigh does not have route
             greenLeavesWeigh.setClient(greenLeavesWeighRequest.getClient());
             greenLeavesWeigh.setTempClient(greenLeavesWeighRequest.getTempClient());
             greenLeavesWeigh.setRouteOfficer(greenLeavesWeighRequest.getRouteOfficer());
@@ -122,10 +122,50 @@ public class GLGreenLeavesWeighService {
 
             greenLeavesWeighRequest.setStatus(PENDING_STATUS);
             greenLeavesWeigh = validateWeighSummary(greenLeavesWeighRequest);
+            greenLeavesWeigh.setRoute(null);
 
             //TODO:transaction
         }
 
+        //receive information
+        Integer number = greenLeavesWeigh.getNumber();
+        List<TGreenLeavesReceive> greenLeavesReceives = greenLeavesReceiveRepository.findByBranchAndNumberAndTypeAndStatusNot(weighBranch, number, TYPE_SUPPLIER, DELETED_STATUS);
+        TGreenLeavesReceive greenLeavesReceive;
+        if (greenLeavesReceives.isEmpty()) {
+            greenLeavesReceive = new TGreenLeavesReceive();
+        } else {
+            greenLeavesReceive = greenLeavesReceives.get(0);
+        }
+
+        greenLeavesReceive.setBranch(greenLeavesWeigh.getBranch());
+        greenLeavesReceive.setNumber(greenLeavesWeigh.getNumber());
+        greenLeavesReceive.setDate(greenLeavesWeigh.getDate());
+        greenLeavesReceive.setTransaction(0);
+        greenLeavesReceive.setType(TYPE_SUPPLIER);
+        greenLeavesReceive.setStatus(greenLeavesWeigh.getClient() == null ? PENDING_STATUS : APPROVE_STATUS);
+
+        TGreenLeavesReceiveDetail greenLeavesReceiveDetail;
+        if (greenLeavesReceive.getIndexNo() == null) {
+            greenLeavesReceiveDetail = new TGreenLeavesReceiveDetail();
+        } else {
+            greenLeavesReceiveDetail = greenLeavesReceive.getGreenLeavesReceiveDetails().get(0);
+        }
+
+        //receive detail
+        greenLeavesReceiveDetail.setClient(greenLeavesWeigh.getClient());
+        greenLeavesReceiveDetail.setTempClient(greenLeavesWeigh.getTempClient());
+        greenLeavesReceiveDetail.setNormalLeavesQuantity(greenLeavesWeigh.getNormalNetWeight());
+        greenLeavesReceiveDetail.setSuperLeavesQuantity(greenLeavesWeigh.getSuperNetWeight());
+        greenLeavesReceiveDetail.setGreenLeavesReceive(greenLeavesReceive);
+
+        ArrayList<TGreenLeavesReceiveDetail> greenLeavesReceiveDetails = new ArrayList<>();
+        greenLeavesReceiveDetails.add(greenLeavesReceiveDetail);
+        greenLeavesReceive.setGreenLeavesReceiveDetails(greenLeavesReceiveDetails);
+
+        //save receive detail
+        greenLeavesReceiveRepository.save(greenLeavesReceive);
+
+        //save weigh detail
         return greenLeavesWeighRepository.save(greenLeavesWeigh);
     }
 
@@ -162,7 +202,30 @@ public class GLGreenLeavesWeighService {
         greenLeavesWeighRepository.save(greenLeaveWeigh);
     }
 
-    //validations
+    //pending bulk and supplier weigh confirm status update updateStatus
+    @Transactional
+    public void approveWeigh(Integer indexNo) {
+        greenLeavesWeighRepository.updateStatus(indexNo, APPROVE_STATUS);
+    }
+
+    @Transactional
+    public void deleteGreenLeavesReceive(Integer indexNo) {
+        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.getOne(indexNo);
+        greenLeavesWeigh.setStatus(DELETED_STATUS);
+        greenLeavesWeighRepository.save(greenLeavesWeigh);
+
+        Integer number = greenLeavesWeigh.getNumber();
+        Integer weighBranch = greenLeavesWeigh.getWeighBranch();
+        List<TGreenLeavesReceive> greenLeavesReceives = greenLeavesReceiveRepository.findByBranchAndNumberAndTypeAndStatusNot(weighBranch, number, TYPE_SUPPLIER, DELETED_STATUS);
+        TGreenLeavesReceive greenLeavesReceive;
+        if (!greenLeavesReceives.isEmpty()) {
+            greenLeavesReceive = greenLeavesReceives.get(0);
+            greenLeavesReceive.setStatus(DELETED_STATUS);
+
+            greenLeavesReceiveRepository.save(greenLeavesReceive);
+        }
+    }
+
     private TGreenLeavesWeighDetail validateWeighDetail(TGreenLeavesWeighDetail greenLeaveWeighDetail) {
         //nothing to do as detail validations
         return greenLeaveWeighDetail;
@@ -248,55 +311,4 @@ public class GLGreenLeavesWeighService {
         return greenLeaveWeigh;
     }
 
-    //find by branch get pending bulk green leaves weigh
-    public List<TGreenLeavesWeigh> findPendingWeighByWeighBranchAndType(Integer branch, String type) {
-        return greenLeavesWeighRepository.findByWeighBranchAndStatusAndType(branch, PENDING_STATUS, type);
-    }
-
-    //pending bulk and supplier weigh confirm status update updateStatus
-    @Transactional
-    public void approveWeigh(Integer indexNo) {
-        greenLeavesWeighRepository.updateStatus(indexNo, APPROVE_STATUS);
-    }
-
-    //find bulk green leaves weigh
-    public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDateAndTypeAndStatusNot(branch, route, date, TYPE_BULK, DELETED_STATUS);
-        if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("bulk green leave weigh not found branch,route and date" + branch + " , " + route + " and " + date);
-        }
-        return greenLeavesWeigh;
-
-    }
-
-    //find supplier green leaves weigh
-    TGreenLeavesWeigh findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClientAndTypeAndStatusNot(branch, date, client, TYPE_SUPPLIER, DELETED_STATUS);
-        if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("supplier green leave weight not found branch,date and client" + branch + " , " + date + " and " + client);
-        }
-        return greenLeavesWeigh;
-    }
-
-    @Transactional
-    public void deleteGreenLeavesReceive(Integer indexNo) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.getOne(indexNo);
-        greenLeavesWeigh.setStatus(DELETED_STATUS);
-        greenLeavesWeighRepository.save(greenLeavesWeigh);
-
-        //green leaves receive status update
-        //TODO:transaction
-//        if ("SUPPLIER".equals(greenLeavesWeigh.getType()) && greenLeavesWeigh.getClient() != null) {
-//            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNullAndStatusNot(greenLeavesWeigh.getBranch(), greenLeavesWeigh.getDate(), greenLeavesWeigh.getClient(), DELETED_STATUS);
-//            if (greenLeavesList.isEmpty()) {
-//                throw new EntityNotFoundException("supplier green leave weight not found branch,date and client");
-//            } else {
-//                for (TGreenLeavesReceive tGreenLeavesReceive : greenLeavesList) {
-//                    tGreenLeavesReceive.setStatus(DELETED_STATUS);
-//                    greenLeavesReceiveRepository.save(tGreenLeavesReceive);
-//                    System.out.println("delete green leaves receives");
-//                }
-//            }
-//        }
-    }
 }
