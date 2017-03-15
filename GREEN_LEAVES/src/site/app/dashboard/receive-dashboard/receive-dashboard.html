@@ -9,7 +9,6 @@
                             <td ng-show="ui.searchUi === 'Supplier_Weigh'" class="text-center"><h4>GREEN LEAVES SUPPLIER WEIGH</h4></td>
                             <td ng-show="ui.searchUi === 'Receive'" class="text-center"><h4>GREEN LEAVES COLLECTION WEIGH</h4></td>
                             <td ng-show="ui.searchUi === 'Summary'" class="text-center"><h4>GREEN LEAVES SUMMRY</h4></td>
-                            <td ng-show="ui.searchUi === 'Cross_Entry'" class="text-center"><h4>GREEN LEAVES CROSS ENTRY</h4></td>
                         </tr>
                     </thead>
                 </table>
@@ -21,15 +20,15 @@
                     <col style="width: 40%"/>
                     <col style="width: 60%"/>
                     <tbody>
-                        <tr ng-show="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Cross_Entry'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
+                        <tr ng-show="ui.searchUi === 'Supplier_Weigh'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
                             <td><label class="control-label">Client ID</label></td>
                             <td><input class="form-control" ng-model="model.data.clientId" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" ng-keypress="ui.searchClient($event);"></td>
                         </tr>
-                        <tr ng-show="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Cross_Entry'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
+                        <tr ng-show="ui.searchUi === 'Supplier_Weigh'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchGreenLeavesReceive === 'Search_Receive_Fully'">
                             <td><label class="control-label">Client</label></td>
                             <td><input class="form-control" ng-model="model.data.client" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'" uib-typeahead="client.indexNo as (client.indexNo + ' - ' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.clientLabel($model)"></td>
                         </tr>
-                        <tr ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client' || ui.searchUi === 'Cross_Entry'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchUi === 'Receive'">
+                        <tr ng-show="ui.searchGreenLeavesReceive === 'Search_Receive_Client'" ng-hide="ui.searchUi === 'Bulk_Weigh' || ui.searchUi === 'Receive'">
                             <td><label class="control-label">Client Route</label></td>
                             <td><input class="form-control" ng-model="model.data.clientRoutes" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" disabled="true"></td>
                         </tr>
@@ -41,19 +40,19 @@
                             <td><label class="control-label">To Date</label></td>
                             <td><input class="form-control" smart-input="date" ng-model="model.data.toDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
-                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Cross_Entry'">
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh'">
                             <td><label class="control-label">Route</label></td>
                             <td><input class="form-control" ng-model="model.data.route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
-                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive' || ui.searchUi === 'Cross_Entry'">
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
                             <td><label class="control-label">Route Officer</label></td>
                             <td><input class="form-control" ng-model="model.data.routeOfficer" uib-typeahead="routeOfficer.indexNo as (routeOfficer.indexNo + ' - ' + routeOfficer.name) for routeOfficer in model.routeOfficers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeOfficerLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
-                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive' || ui.searchUi === 'Cross_Entry'">
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
                             <td><label class="control-label">Route Helper</label></td>
                             <td><input class="form-control" ng-model="model.data.routeHelper" uib-typeahead="routeHelper.indexNo as (routeHelper.indexNo + ' - ' + routeHelper.name) for routeHelper in model.routeHelpers|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.routeHelperLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
-                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive' || ui.searchUi === 'Cross_Entry'">
+                        <tr ng-hide="ui.searchUi === 'Supplier_Weigh' || ui.searchUi === 'Receive'">
                             <td><label class="control-label">Vehicle</label></td>
                             <td><input class="form-control" ng-model="model.data.vehicle" uib-typeahead="vehicle.indexNo as (vehicle.indexNo + ' - ' + vehicle.vehicleNo) for vehicle in model.vehicles|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.vehicleLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"></td>
                         </tr>
@@ -517,80 +516,6 @@
                     </table>
                 </div>
                 <div class="col-xs-12 placeholder animation-fade" style="height: calc(85vh - 280px);" ng-hide="model.greenLeavesBulkWeighList.length">
-                    <h1>GREEN LEAVES RECEIVE DETAIL NOT FOUND :(</h1>
-                </div>
-                <div class="col-xs-12">
-                    <table>
-                        <col style="width: 10%">
-                        <col style="width: 20%">
-                        <col style="width: 20%">
-                        <col style="width: 15%">
-                        <col style="width: 15%">
-                        <col style="width: 20%">
-                        <col style="width: 10%">
-                        <thead>
-                            <tr>
-                                <th>Total</th>
-                                <th></th>
-                                <th></th>
-                                <th class="text-right">{{model.totalGreenLevasWeighData.normalGreenLeaves|number:2}}</th>
-                                <th class="text-right">{{model.totalGreenLevasWeighData.superlGreenLeaves|number:2}}</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </uib-tab> 
-            <uib-tab index="4" heading="Cross Entry" select="ui.toggleType('Cross_Entry');"> 
-                <div class="col-xs-12">
-                    <table class="table-hover">
-                        <col style="width: 10%">
-                        <col style="width: 20%">
-                        <col style="width: 20%">
-                        <col style="width: 15%">
-                        <col style="width: 15%">
-                        <col style="width: 20%">
-                        <col style="width: 10%">
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>ROUTE</th>
-                                <th>DATE</th>
-                                <th class="text-right">NORMAL</th>
-                                <th class="text-right">SUPER</th>
-                                <th class="text-right">STATUS</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div class="col-xs-12 smart-scroll-y" style="height: calc(85vh - 77px);" ng-show="model.crossReportDetailList.length">
-                    <table class="table-hover">
-                        <col style="width: 10%">
-                        <col style="width: 30%">
-                        <col style="width: 20%">
-                        <col style="width: 15%">
-                        <col style="width: 15%">
-                        <col style="width: 20%">
-                        <col style="width: 10%">
-                        <tbody>
-                            <tr ng-repeat="greenLeavesReceive in model.crossReportDetailList">
-                                <td><span class="label label-default">{{greenLeavesReceive.number}}</span></td>
-                                <td>{{model.routeLabel(greenLeavesReceive.route)}}</td>
-                                <td>{{greenLeavesReceive.date}}</td>
-                                <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].normalLeavesQuantity|number:2}}</td>
-                                <td class="text-right">{{greenLeavesReceive.greenLeavesReceiveDetails[0].superLeavesQuantity|number:2}}</td>
-                                <td class="text-right" ng-show="{{greenLeavesReceive.status == 'PENDING'}}"><label class="label label-primary">PENDING</label></td>
-                                <td class="text-right" ng-show="{{greenLeavesReceive.status == 'APPROVE'}}"><label class="label label-success">APPROVE</label></td>
-                                <td class="text-right" style="padding-left: 5px;">
-                                    <a class="btn btn-primary" ng-click=""><span class="glyphicon glyphicon-new-window"></span></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-xs-12 placeholder animation-fade" style="height: calc(85vh - 77px);" ng-hide="model.crossReportDetailList.length">
                     <h1>GREEN LEAVES RECEIVE DETAIL NOT FOUND :(</h1>
                 </div>
                 <div class="col-xs-12">
