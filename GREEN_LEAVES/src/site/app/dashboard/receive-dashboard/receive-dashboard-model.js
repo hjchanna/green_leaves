@@ -74,7 +74,6 @@
             greenLeavesReceiveList: [],
             greenLeavesBulkWeighList: [],
             greenLeavesClientReceiveList: [],
-            crossReportDetailList: [],
             constructor: function () {
                 var that = this;
                 that.data = GreenLeavesDashBoardModelFactory.newData();
@@ -146,7 +145,6 @@
                 this.greenLeavesReceiveList = [];
                 this.greenLeavesBulkWeighList = [];
                 this.greenLeavesClientReceiveList = [];
-                this.crossReportDetailList = [];
                 this.dailyAndMonthlySummryDetails = {
                     dailyNormalFactory: 0.0,
                     dailySuperFactory: 0.0,
@@ -159,31 +157,6 @@
                     totalDaily: 0.0,
                     totalMonthly: 0.0
                 };
-            },
-            greenLeavesAllSummry: function () {
-                console.log("greenLeavesAllSummry");
-//                var defer = $q.defer();
-//                var that = this;
-//                var toDate = $filter('date')(that.data.toDate, 'yyyy-MM-dd');
-//                var fromDate = $filter('date')(that.data.fromDate, 'yyyy-MM-dd');
-//                var route = that.data.route;
-//                var routeOfficer = that.data.routeOfficer;
-//                var routeHelper = that.data.routeHelper;
-//                var vehicle = that.data.vehicle;
-//                console.log("++++++++++++++++++");
-//                console.log(that.date);
-//                GreenLeavesDashBoardService.getGreenLeavesSummary(that.data)
-//                        .success(function (data) {
-//                            that.totalSummry = {};
-//                            angular.extend(that.totalSummry, data);
-//                            defer.resolve();
-//                        })
-//                        .error(function () {
-//                            defer.reject();
-//                            that.greenLeavesBulkWeighList = [];
-//                        });
-//
-//                return defer.promise;
             },
             //------------------------------- summry details functions -------------------------------
 
@@ -333,22 +306,6 @@
                                 vehicle: [],
                                 greenLeavesQtys: [[], []]
                             };
-                            defer.reject();
-                        });
-                return defer.promise;
-            },
-            crossReportSummry: function (type) {
-                console.log("crossReportSummry");
-                var defer = $q.defer();
-                var that = this;
-                GreenLeavesDashBoardService.getCrossReportDetails(JSON.stringify(that.data))
-                        .success(function (data) {
-                            that.crossReportDetailList = [];
-                            that.crossReportDetailList = data;
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            that.crossReportDetailList = [];
                             defer.reject();
                         });
                 return defer.promise;
