@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.dashboard;
 import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,22 +35,22 @@ public class DashboardController {
 
     @RequestMapping(value = "/find-green-leave-weigh-dashboard-summary", method = RequestMethod.POST)
     public List<TGreenLeavesWeigh> getGeenLeavesWeighTotalSummary(@RequestBody greenLeavesSummry leavesSummry) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        leavesSummry.setBranch(branch);
         return dashboardService.getGeenLeavesWeighTotalSummary(leavesSummry);
     }
 
     @RequestMapping(value = "/find-green-leave-receive-dashboard-summary", method = RequestMethod.POST)
     public List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(@RequestBody greenLeavesSummry leavesSummry) {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        leavesSummry.setBranch(branch);
         return dashboardService.getGeenLeavesReceiveTotalSummary(leavesSummry);
-    }
-
-    @RequestMapping(value = "/find-cross-report", method = RequestMethod.POST)
-    public List<TGreenLeavesReceive> getCrossEntry(@RequestBody greenLeavesSummry leavesSummry) {
-        return dashboardService.getCrossEntryGreenLeavesReceive(leavesSummry);
     }
 
     @RequestMapping(value = "/summry-details/{date}", method = RequestMethod.GET)
     public HashMap<String, Object> getCrossEntry(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        return dashboardService.getSummryData(date);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return dashboardService.getSummryData(date,branch);
     }
 
 }

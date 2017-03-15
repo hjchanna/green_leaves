@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class greenLeavesSummry {
 
+    private Integer branch;
     private Date toDate;
     private Date fromDate;
     private Integer route;
@@ -26,7 +27,8 @@ public class greenLeavesSummry {
     public greenLeavesSummry() {
     }
 
-    public greenLeavesSummry(Date toDate, Date fromDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, Integer client, String type, String status) {
+    public greenLeavesSummry(Integer branch, Date toDate, Date fromDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle, Integer client, String type, String status) {
+        this.branch = branch;
         this.toDate = toDate;
         this.fromDate = fromDate;
         this.route = route;
@@ -36,6 +38,14 @@ public class greenLeavesSummry {
         this.client = client;
         this.type = type;
         this.status = status;
+    }
+
+    public Integer getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Integer branch) {
+        this.branch = branch;
     }
 
     public Date getToDate() {
@@ -86,20 +96,20 @@ public class greenLeavesSummry {
         this.vehicle = vehicle;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Integer getClient() {
         return client;
     }
 
     public void setClient(Integer client) {
         this.client = client;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
