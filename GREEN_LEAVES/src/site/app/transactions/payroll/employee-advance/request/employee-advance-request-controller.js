@@ -19,7 +19,7 @@
             }, 10);
         };
         $scope.ui.focusAmount = function () {
-            $scope.asAtDate = $filter('date')(new Date(), 'yyyy-MM');
+            $scope.asAtDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             $timeout(function () {
                 angular.element(document.querySelectorAll("#amount"))[0].focus();
             }, 10);
@@ -40,7 +40,7 @@
         $scope.ui.validateEmployee = function (event) {
             var key = event ? event.keyCode || event.which : 13;
             if (key === 13) {
-                $scope.asAtDate = $filter('date')(new Date(), 'yyyy-MM');
+                $scope.asAtDate = $filter('date')(new Date(), 'yyyy-MM-dd');
                 $scope.model.tempData.asAtDate = $scope.asAtDate;
                 $scope.model.validateEmployee($scope.tempEmployee);
                 if ($scope.model.tempData.employee) {
@@ -62,7 +62,7 @@
                         .then(function () {
                             $scope.ui.focus();
                             $scope.asAtDate = "";
-                            $scope.tempEmployee = '';
+                            $scope.tempEmployee = "";
                         });
             } else {
                 Notification.error("Employee and request month already exists");
@@ -86,7 +86,7 @@
         $scope.ui.save = function () {
             if (!$scope.model.data.date) {
                 Notification.error("please enter date!");
-            } else if ($scope.model.data.employeeAdvanceRequestDetails.length === 0) {
+            } else if ($scope.model.data.employeeAdvanceRequestDetail.length === 0) {
                 Notification.error("please enter advance employee request!");
             } else {
                 ConfirmPane.primaryConfirm("Save Green Leaves Advance Request!")

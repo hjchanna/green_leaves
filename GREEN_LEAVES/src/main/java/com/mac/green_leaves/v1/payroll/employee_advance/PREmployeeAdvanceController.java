@@ -5,12 +5,15 @@
  */
 package com.mac.green_leaves.v1.payroll.employee_advance;
 
-import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
-import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.payroll.employee_advance.model.TEmployeeAdvanceRequest;
+import com.mac.green_leaves.v1.payroll.employee_advance.model.TEmployeeAdvanceRequestDetails;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
+import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PREmployeeAdvanceController {
 
     @Autowired
-    private PREmployeeAdvanceService advanceService;
-    
+    private PREmployeeAdvanceService employeeAdvanceService;
+
     @Autowired
     private PREmployeeAdvanceRequestRepository advanceRequestRepository;
 
@@ -35,18 +38,48 @@ public class PREmployeeAdvanceController {
     public Integer saveAdvanceRequest(@RequestBody TEmployeeAdvanceRequest employeeAdvanceRequest) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
         TEmployeeAdvanceRequest findLastRow = advanceRequestRepository.findFirst1ByOrderByIndexNoDesc();
-        
-        employeeAdvanceRequest.setNumber(1);
-        if (findLastRow!=null) {
-            employeeAdvanceRequest.setNumber(findLastRow.getNumber()+1);
+
+        System.out.println(employeeAdvanceRequest.getEmployeeAdvanceRequestDetail().size()+"#######S################");
+        if (findLastRow != null) {
+            employeeAdvanceRequest.setNumber(findLastRow.getNumber() + 1);
+        } else {
+            employeeAdvanceRequest.setNumber(1);
         }
         employeeAdvanceRequest.setBranch(branch);
-        
-        Integer advanceRequestIndex = advanceService.saveAdvanceRequest(employeeAdvanceRequest);
-        
-        advanceService.saveAdvanceRequestDetails(employeeAdvanceRequest.getTEmployeeAdvanceRequestDetailsList(),advanceRequestIndex);
-        
-        
+        System.out.println("save controller");
+        employeeAdvanceService.saveAdvanceRequest(employeeAdvanceRequest);
+
         return null;
+    }
+    
+    //approve
+    @RequestMapping(value = "/pending-requests")
+    public List<Object[]> getPendingAdvanceRequests() {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return employeeAdvanceService.getPendingAdvanceRequests(branch);
+    }
+    
+    @RequestMapping(value = "/pending-requests-by-status")
+    public List<TEmployeeAdvanceRequestDetails> getPendingAdvanceRequestList() {
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return employeeAdvanceService.getPendingAdvanceRequestList(branch);
+    }
+    
+    @RequestMapping(value = "/pending-requests-by-date/{date}")
+    public List<TEmployeeAdvanceRequestDetails> getPendingAdvanceRequest(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        System.out.println("Date c");
+        System.out.println(date);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return employeeAdvanceService.getPendingAdvanceRequestList(branch,date);
+    }
+    
+    @RequestMapping(value = "/approve-request-detail/{indexNo}")
+    public void approveAdvanceRequestDetail(@PathVariable Integer indexNo) {
+        employeeAdvanceService.approveAdvanceRequestDetail(indexNo);
+    }
+    
+    @RequestMapping(value = "/reject-request-detail/{indexNo}")
+    public void rejectAdvanceRequestDetail(@PathVariable Integer indexNo) {
+        employeeAdvanceService.rejectAdvanceRequestDetail(indexNo);
     }
 }

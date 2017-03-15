@@ -29,7 +29,7 @@ public class TEmployeeAdvanceRequest implements Serializable{
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
-
+    
     @Basic(optional = false)
     @Column(name = "branch")
     private int branch;
@@ -51,8 +51,8 @@ public class TEmployeeAdvanceRequest implements Serializable{
     @Column(name = "status")
     private String status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "advanceRequest", fetch = FetchType.LAZY)
-    private List<TEmployeeAdvanceRequestDetails> tEmployeeAdvanceRequestDetailsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "advanceRequest", fetch = FetchType.EAGER)
+    private List<TEmployeeAdvanceRequestDetails> employeeAdvanceRequestDetail;
 
     public TEmployeeAdvanceRequest() {
     }
@@ -61,13 +61,14 @@ public class TEmployeeAdvanceRequest implements Serializable{
         this.indexNo = indexNo;
     }
 
-    public TEmployeeAdvanceRequest(Integer indexNo, int branch, Date date, int number, int transaction, String status) {
+    public TEmployeeAdvanceRequest(Integer indexNo, int branch, Date date, int number, int transaction, String status, List<TEmployeeAdvanceRequestDetails> employeeAdvanceRequestDetail) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
         this.number = number;
         this.transaction = transaction;
         this.status = status;
+        this.employeeAdvanceRequestDetail = employeeAdvanceRequestDetail;
     }
 
     public Integer getIndexNo() {
@@ -118,11 +119,12 @@ public class TEmployeeAdvanceRequest implements Serializable{
         this.status = status;
     }
 
-    public List<TEmployeeAdvanceRequestDetails> getTEmployeeAdvanceRequestDetailsList() {
-        return tEmployeeAdvanceRequestDetailsList;
+    public List<TEmployeeAdvanceRequestDetails> getEmployeeAdvanceRequestDetail() {
+        return employeeAdvanceRequestDetail;
     }
 
-    public void setTEmployeeAdvanceRequestDetailsList(List<TEmployeeAdvanceRequestDetails> tEmployeeAdvanceRequestDetailsList) {
-        this.tEmployeeAdvanceRequestDetailsList = tEmployeeAdvanceRequestDetailsList;
+    public void setEmployeeAdvanceRequestDetail(List<TEmployeeAdvanceRequestDetails> employeeAdvanceRequestDetail) {
+        this.employeeAdvanceRequestDetail = employeeAdvanceRequestDetail;
     }
+    
 }

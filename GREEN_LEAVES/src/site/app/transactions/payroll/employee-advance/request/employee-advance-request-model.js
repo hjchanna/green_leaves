@@ -1,11 +1,11 @@
 (function () {
     var factory = function (EmployeeAdvanceRequestService, EmployeeAdvanceRequestFactory, $q, $filter) {
-        function ClientAdvanceRequestModel() {
+        function EmployeeAdvanceRequestModel() {
             this.constructor();
         }
 
         //prototype functions
-        ClientAdvanceRequestModel.prototype = {
+        EmployeeAdvanceRequestModel.prototype = {
             data: {},
             //temp input
             tempData: {},
@@ -94,7 +94,7 @@
             , addDetail: function () {
                 var defer = $q.defer();
                 if (this.tempData.employee && this.tempData.asAtDate && this.tempData.amount) {
-                    this.data.employeeAdvanceRequestDetails.push(this.tempData);
+                    this.data.employeeAdvanceRequestDetail.push(this.tempData);
                     this.tempData = EmployeeAdvanceRequestFactory.newTempData();
                     this.refreshQuantity();
                     defer.resolve();
@@ -106,8 +106,8 @@
             },
             //table detail edit
             editDetail: function (index) {
-                var requestDetails = this.data.employeeAdvanceRequestDetails[index];
-                this.data.employeeAdvanceRequestDetails.splice(index, 1);
+                var requestDetails = this.data.employeeAdvanceRequestDetail[index];
+                this.data.employeeAdvanceRequestDetail.splice(index, 1);
                 console.log(requestDetails);
                 this.tempData = requestDetails;
                 
@@ -116,8 +116,8 @@
             //table detail delete
             ,deleteDetail: function (index) {
                 var that = this;
-//                var request = this.data.employeeAdvanceRequestDetails[parseInt(index)];
-                that.data.employeeAdvanceRequestDetails.splice(index, 1);
+//                var request = this.data.employeeAdvanceRequestDetail[parseInt(index)];
+                that.data.employeeAdvanceRequestDetail.splice(index, 1);
                     this.refreshQuantity();
 //                if (request.indexNo) {
 //                    console.log("exists request delete");
@@ -147,34 +147,25 @@
             //get total request count and total request amount
             , refreshQuantity: function () {
                 var requestAmountTotal = 0.0;
-                angular.forEach(this.data.employeeAdvanceRequestDetails, function (value) {
+                angular.forEach(this.data.employeeAdvanceRequestDetail, function (value) {
                     requestAmountTotal += parseFloat(value.amount);
                     return;
                 });
                 this.requestTotal.requestAmountTotal = requestAmountTotal;
-                this.requestTotal.requestTotal = this.data.employeeAdvanceRequestDetails.length;
+                this.requestTotal.requestTotal = this.data.employeeAdvanceRequestDetail.length;
                 return this.requestTotal;
             }
-            , employeeLabel: function (indexNo) {
+            , employeeLabel: function (index) {
                 var label;
                 angular.forEach(this.employees, function (value) {
-                    if (value.indexNo === indexNo) {
+                    if (value.indexNo === index) {
                         label = value.indexNo + ' - ' + value.name;
                         return;
                     }
                 });
                 return label;
             }
-//            client: function (indexNo) {
-//                var client;
-//                angular.forEach(this.clients, function (value) {
-//                    if (value.indexNo === parseInt(indexNo)) {
-//                        client = value;
-//                        return;
-//                    }
-//                });
-//                return client;
-//            },
+            
 //            //validation
             , validateEmployee: function (EmployeeNo) {
                 var c = null;
@@ -193,7 +184,9 @@
             //save advance request and request details
             saveEmployeeApproveRequest: function () {
                 var defer = $q.defer();
-                if (this.data.date && this.data.employeeAdvanceRequestDetails.length !== 0) {
+                if (this.data.date && this.data.employeeAdvanceRequestDetail.length !== 0) {
+                    console.log("this.data");
+                    console.log(this.data);
                     EmployeeAdvanceRequestService.saveAdvanceRequest(JSON.stringify(this.data))
                             .success(function (data) {
                                 defer.resolve();
@@ -207,7 +200,7 @@
             , requestDuplicateCheck: function (employee, date) {
                 var label;
                 console.log(2);
-                angular.forEach(this.data.employeeAdvanceRequestDetails, function (value) {
+                angular.forEach(this.data.employeeAdvanceRequestDetail, function (value) {
                     if (value.employee === parseInt(employee) && angular.equals($filter('date')(value.asAtDate, 'yyyy-MM'), $filter('date')(date, 'yyyy-MM'))) {
                         label = true;
                         return;
@@ -216,7 +209,7 @@
                 return label;
             }
         };
-        return ClientAdvanceRequestModel;
+        return EmployeeAdvanceRequestModel;
     };
     angular.module("appModule")
             .factory("EmployeeAdvanceRequestModel", factory);

@@ -30,7 +30,7 @@
                     <tbody>
                         <tr ng-class="ui.selectedDataIndex === request[0] ? 'selected' : ''" ng-repeat="request in model.requests" ng-click="ui.selectData(request[0]);">
                             <td>
-                                <span class="label label-primary">{{request[0]|fixedLength:5}}</span> {{model.getRoute(request[0]).name}}
+                                <span class="label label-primary">{{request[0]}}</span>
                             </td>
                             <td class="text-right"><span class="label label-primary">{{request[2]}}</span></td>
                             <td class="text-right">{{request[1]| number:2}}</td>
@@ -38,7 +38,7 @@
                     </tbody>
                 </table>
             </div>
-
+            
             <div class="col-xs-12">
                 <table>
                     <col style="width: 60%"/>
@@ -47,8 +47,8 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right">{{model.getRequestCount()}}</td>
-                            <th class="text-right">{{model.getRequestTotal() | number:2}}</th>
+                            <td class="text-right">{{model.getRequestCount() }}</td>
+                            <th class="text-right">{{model.getRequestTotal() | number : 2}}</th>
                         </tr>
                     </tbody>
                 </table>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="col-xs-4 background-light">
-        <div class="row" ng-show="model.requestsData.length" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+        <div class="row" ng-show="model.requestsDetails.length" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
             <div class="col-xs-12" >
                 <table>
                     <col style="width: 70%;"/>
@@ -68,7 +68,7 @@
                     <col />
                     <thead>
                         <tr>
-                            <th>CLIENT</th>
+                            <th>EMPLOYEE</th>
                             <th class="text-right">AMOUNT</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -81,12 +81,12 @@
                     <col style="width: 70%;"/>
                     <col style="width: 30%;"/>
                     <tbody>
-                        <tr ng-class="ui.selectedDetailIndex === detail.indexNo ? 'selected' : ''" ng-repeat="detail in model.requestsData" ng-click="ui.selectDetail(detail);">
+                        <tr ng-class="ui.selectedDetailIndex === detail.indexNo ? 'selected' : ''" ng-repeat="detail in model.requestsDetails" ng-click="ui.selectDetail(detail);">
                             <td>
-                                <span class="label label-primary">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span>
-                                {{model.getClient(detail.client).name}}
+                                <span class="label label-primary">{{detail.employee| fixedLength : 5}}</span>
+                                {{model.getEmployee(detail.employee).name}}
                             </td>
-                            <td class="text-right">{{detail.amount|number:2}}</td>
+                            <td class="text-right">{{detail.amount| number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -100,14 +100,14 @@
                     <tbody>
                         <tr class="text-bold">
                             <td>SUMMARY</td>
-                            <td class="text-right">{{model.requestsData.length}}</td>
+                            <td class="text-right">{{model.requestsDetails.length}}</td>
                             <td class="text-right">{{model.getRequestDataTotal() | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="placeholder" ng-hide="model.requestsData.length" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
+        <div class="placeholder" ng-hide="model.requestsDetails.length" style="height: calc(100vh - 51px); padding: 10px 0px 10px 0px;">
             <h1>PLEASE SELECT AN ADVANCE REQUEST TO DISPLAY :(</h1>
         </div>
     </div>

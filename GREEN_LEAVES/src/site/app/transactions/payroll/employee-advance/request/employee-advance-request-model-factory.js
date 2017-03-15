@@ -5,12 +5,13 @@
                 factory.newData = function () {
                     var data = {
                         "indexNo": null,
-                        "branch": 0,
+                        "branch": null,
                         "date": null,
-                        "number": 1,
-                        "transaction": 1,
+                        "number": null,
+                        "transaction": null,
                         "status": "PENDING",
-                        "employeeAdvanceRequestDetails": []
+                        "employeeAdvanceRequestDetail": [
+                        ] 
                     };
 
                     return data;

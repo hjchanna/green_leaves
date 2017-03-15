@@ -56,7 +56,7 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.employeeAdvanceRequestDetails.length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.employeeAdvanceRequestDetail.length">
                 <table class="table-hover animation-fade">
                     <col style="width: auto"/>
                     <col style="width: 30%"/>
@@ -64,7 +64,7 @@
                     <col style="width: 20%"/>
                     <col style="width: 75px"/>
                     <tbody>
-                        <tr ng-repeat="requestDetail in model.data.employeeAdvanceRequestDetails">
+                        <tr ng-repeat="requestDetail in model.data.employeeAdvanceRequestDetail">
                             <td> <span >{{requestDetail.employee | fixedLength:5}}</span>  </td>
                             <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">
                                 {{model.employeeLabel(requestDetail.employee)}}
@@ -79,7 +79,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="placeholder col-xs-12" style="height: calc(100vh - 236px);" ng-hide="model.data.employeeAdvanceRequestDetails.length">
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 236px);" ng-hide="model.data.employeeAdvanceRequestDetail.length">
                 <h1>PLEASE ADD ADVANCE REQUEST TO DISPLAY :(</h1>
             </div>
             <div class="col-xs-12">
