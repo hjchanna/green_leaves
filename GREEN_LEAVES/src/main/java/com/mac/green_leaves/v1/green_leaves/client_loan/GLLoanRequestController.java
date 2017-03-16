@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/loan/loan-request")
 public class GLLoanRequestController {
 
-    private static final int BRANCH = 1;
+    private static final int BRANCH = SecurityUtil.getCurrentUser().getBranch();
 
     @Autowired
     private GLLoanRequestService loanRequestService;
