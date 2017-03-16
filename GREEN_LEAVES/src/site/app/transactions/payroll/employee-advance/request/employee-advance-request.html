@@ -41,7 +41,7 @@
                                 <input id="employee" smart-input="text" class="form-control" ng-model="model.tempData.employee" uib-typeahead="employee as (employee.indexNo + ' - ' + employee.name) for employee in model.employees|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.employeeLabel($model)" typeahead-on-select="ui.focusAmount($event);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-left">
-                                <label>MONTH</label>
+                                <label>AS AT Date</label>
                                 <input class="form-control" ng-model="asAtDate" ng-disabled="ui.mode !== 'NEW' && ui.mode === 'EDIT'"/>
                             </th>
                             <th class="text-right">
