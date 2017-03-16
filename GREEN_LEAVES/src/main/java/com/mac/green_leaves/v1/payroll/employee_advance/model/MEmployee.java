@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.master.employee.model;
+package com.mac.green_leaves.v1.payroll.employee_advance.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Nidura Prageeth
+ * @author L T430
  */
-@Entity(name = "com.mac.green_leaves.v1.master.employee.model.MEmployee")
+@Entity(name = "com.mac.green_leaves.v1.payroll.employee_advance.model.MEmployee")
 @Table(name = "m_employee")
-public class MEmployee implements Serializable {
-
+public class MEmployee {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -78,10 +78,6 @@ public class MEmployee implements Serializable {
     private String epfNumber;
 
     public MEmployee() {
-    }
-
-    public MEmployee(Integer indexNo) {
-        this.indexNo = indexNo;
     }
 
     public MEmployee(Integer indexNo, int branch, int employeeNumber, String name, String type, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3, String epfNumber) {
@@ -194,7 +190,7 @@ public class MEmployee implements Serializable {
     public void setEpfNumber(String epfNumber) {
         this.epfNumber = epfNumber;
     }
-
-   
-
+    
+    
+    
 }
