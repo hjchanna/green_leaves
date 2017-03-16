@@ -48,8 +48,6 @@
                     });
         };
     };
-
-
     angular.module("appModule")
             .controller("EmployeeAdvanceApproveController", controller);
 }());

@@ -37,19 +37,18 @@ public class PREmployeeAdvanceService {
 
     @Autowired
     private PREmployeeAdvanceRequestDetailRepository detailRepository;
-    
-     @Autowired
+
+    @Autowired
     private GLCommonVoucherRepository voucherRepository;
 
     TEmployeeAdvanceRequest saveAdvanceRequest(TEmployeeAdvanceRequest employeeAdvanceRequest) {
-        
+
         for (TEmployeeAdvanceRequestDetails details : employeeAdvanceRequest.getEmployeeAdvanceRequestDetail()) {
             details.setAdvanceRequest(employeeAdvanceRequest);
         }
-        
         advanceRequestRepository.save(employeeAdvanceRequest);
         return employeeAdvanceRequest;
-        
+
     }
 
     List<Object[]> getPendingAdvanceRequests(Integer branch) {
@@ -72,14 +71,14 @@ public class PREmployeeAdvanceService {
 
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
         List<TEmployeeAdvanceRequestDetails> pendingRequests = getPendingAdvanceRequestList(branch, advanceRequestDetails.getAsAtDate());
-        TEmployeeAdvanceRequest advanceRequest=new TEmployeeAdvanceRequest();
+        TEmployeeAdvanceRequest advanceRequest = new TEmployeeAdvanceRequest();
         if (pendingRequests.isEmpty()) {
             advanceRequest = advanceRequestRepository.findOne(advanceRequestDetails.getAdvanceRequest().getIndexNo());
             advanceRequest.setStatus(ADVANCE_REQUEST_STATUS_APPROVED);
             advanceRequestRepository.save(advanceRequest);
         }
-        
-         //voucher entry
+
+        //voucher entry
         TVoucher voucher = new TVoucher();
         voucher.setBranch(advanceRequest.getBranch());
         voucher.setTransaction(0);//TODO:
@@ -93,6 +92,7 @@ public class PREmployeeAdvanceService {
         voucher.setStatus(VoucherStatus.ACTIVE);
         voucherRepository.save(voucher);
     }
+
     @Transactional
     void rejectAdvanceRequestDetail(Integer indexNo) {
         TEmployeeAdvanceRequestDetails advanceRequestDetails = detailRepository.findOne(indexNo);
@@ -107,5 +107,4 @@ public class PREmployeeAdvanceService {
             advanceRequestRepository.save(advanceRequest);
         }
     }
-
 }

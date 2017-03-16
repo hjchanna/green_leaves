@@ -21,69 +21,13 @@
                 var that = this;
                 that.data = EmployeeAdvanceRequestFactory.newData();
                 that.tempData = EmployeeAdvanceRequestFactory.newTempData();
-                //load default values
-//                EmployeeAdvanceRequestService.loadRoutes()
-//                        .success(function (data) {
-//                            that.routes = data;
-//                        });
+                
                 EmployeeAdvanceRequestService.loadEmployees()
                         .success(function (data) {
                             that.employees = data;
                         });
             }
-            //find by number
-//            load: function () {
-//                var that = this;
-//                var defer = $q.defer();
-//                EmployeeAdvanceRequestService.loadAdvanceRequestByNumber(this.data.number)
-//                        .success(function (data) {
-//                            that.data = {};
-//                            angular.extend(that.data, data);
-//                            that.refreshQuantity();
-//                            defer.resolve();
-//                        })
-//                        .error(function (data) {
-//                            that.data.indexNo = null;
-//                            that.data.banch = null;
-//                            that.data.date = null;
-//                            // that.data.number = null;
-//                            that.data.transaction = null;
-//                            that.data.route = null;
-//                            that.data.status = "PENDING";
-//                            that.data.clientAdvanceRequestDetails = [];
-//                            that.refreshQuantity();
-//                            defer.reject();
-//                        });
-//                return defer.promise;
-//            },
-            //find by branch nd route and date
-//            findByRouteAndDate: function () {
-//                var that = this;
-//                var defer = $q.defer();
-//                var route = this.data.route;
-//                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-//                EmployeeAdvanceRequestService.findByRouteAndDate(route, date)
-//                        .success(function (data) {
-//                            that.data = {};
-//                            angular.extend(that.data, data);
-//                            that.refreshQuantity();
-//                            defer.resolve();
-//                        })
-//                        .error(function (data) {
-//                            that.data.indexNo = null;
-//                            //that.data.banch = null;
-//                            //that.data.date = null;
-//                            that.data.number = null;
-//                            that.data.transaction = null;
-//                            //that.data.route = null;
-//                            that.data.status = "PENDING";
-//                            that.data.clientAdvanceRequestDetails = [];
-//                            that.refreshQuantity();
-//                            defer.reject();
-//                        });
-//                return defer.promise;
-//            },
-            //clear all data
+           
             ,clear: function () {
                 this.data = EmployeeAdvanceRequestFactory.newData();
                 this.tempData = EmployeeAdvanceRequestFactory.newTempData();
@@ -116,35 +60,9 @@
             //table detail delete
             ,deleteDetail: function (index) {
                 var that = this;
-//                var request = this.data.employeeAdvanceRequestDetail[parseInt(index)];
                 that.data.employeeAdvanceRequestDetail.splice(index, 1);
-                    this.refreshQuantity();
-//                if (request.indexNo) {
-//                    console.log("exists request delete");
-//                    var indexNo = parseInt(request.indexNo);
-//                    EmployeeAdvanceRequestService.deleteAdvanceRequestDetails(request)
-//                            .success(function (data) {
-//                                console.log(data);
-//                                that.refreshQuantity();
-//                            })
-//                            .error(function (data) {
-//
-//                            });
-//                } else {
-//                    console.log("new request delete");
-//                    this.data.clientAdvanceRequestDetails.splice(index, 1);
-//                }
-
-            }
-//            //delete fully client advance request and request details
-//            deleteAdvanceRequest: function () {
-//                var that = this;
-//                EmployeeAdvanceRequestService.deleteAdvancerRequest(this.data.indexNo)
-//                        .success(function (data) {
-//                            that.clear();
-//                        });
-//            },
-            //get total request count and total request amount
+                    this.refreshQuantity();              
+            }  
             , refreshQuantity: function () {
                 var requestAmountTotal = 0.0;
                 angular.forEach(this.data.employeeAdvanceRequestDetail, function (value) {

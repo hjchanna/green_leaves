@@ -39,17 +39,14 @@ public class PREmployeeAdvanceController {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
         TEmployeeAdvanceRequest findLastRow = advanceRequestRepository.findFirst1ByOrderByIndexNoDesc();
 
-        System.out.println(employeeAdvanceRequest.getEmployeeAdvanceRequestDetail().size()+"#######S################");
         if (findLastRow != null) {
             employeeAdvanceRequest.setNumber(findLastRow.getNumber() + 1);
         } else {
             employeeAdvanceRequest.setNumber(1);
         }
         employeeAdvanceRequest.setBranch(branch);
-        System.out.println("save controller");
-        employeeAdvanceService.saveAdvanceRequest(employeeAdvanceRequest);
-
-        return null;
+        TEmployeeAdvanceRequest saveAdvanceRequest = employeeAdvanceService.saveAdvanceRequest(employeeAdvanceRequest);
+        return saveAdvanceRequest.getIndexNo();
     }
     
     //approve

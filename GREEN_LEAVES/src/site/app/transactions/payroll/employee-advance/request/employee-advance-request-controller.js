@@ -95,60 +95,23 @@
                                     .then(function () {
                                         $scope.ui.mode = "IDEAL";
                                         $scope.model.clear();
-                                        $scope.asAtDate="";
-                                        $scope.tempEmployee="";
+                                        $scope.asAtDate = "";
+                                        $scope.tempEmployee = "";
                                     });
                             console.log($scope.model.data);
                         })
                         .discard(function () {
                             console.log('fail');
                         });
-
             }
         };
-
         $scope.ui.init = function () {
             $scope.ui.mode = "IDEAL";
             $scope.ui.type = "NORMAL";
-//            $scope.model.clear();
-
-//            $scope.$watch("[model.data.date,model.data.route]", function (newVal, oldVal) {
-//                if ($scope.model.data.route) {
-//                    $scope.model.findByRouteAndDate();
-//                }
-//            }, true);
-//
-//            $scope.series = ['Normal', 'Super'];
-//            $scope.colors = ['#45b7cd', '#ff6384'];
-//
-//            //client ledger auto refresh
-//            $scope.$watch('[model.tempData.client, asAtDate]', function () {
-//                var asAtDate = $scope.asAtDate;
-//                if (asAtDate === "This") {
-//                    var date = new Date();
-//                    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-//                    $scope.model.tempData.asAtDate = lastDay;
-//                } else if (asAtDate === "Previous") {
-//                    var date = new Date();
-//                    var prev = new Date(date.getFullYear(), date.getMonth() - 1, date.getMonth());
-//                    var lastDay = new Date(prev.getFullYear(), prev.getMonth() + 1, 0);
-//                    $scope.model.tempData.asAtDate = lastDay;
-//                }
-//            });
-//
-//            $scope.$watch('model.tempData.client', function () {
-//                var c = $scope.model.client($scope.model.tempData.client);
-//                if (c) {
-//                    $scope.tempClient = c.clientNumber;
-//                } else {
-//                    $scope.tempClient = null;
-//                }
-//            });
+            $scope.model.clear();
         };
         $scope.ui.init();
-
     };
-
     angular.module("appModule")
             .controller("EmployeeAdvanceRequestController", controller);
 }());

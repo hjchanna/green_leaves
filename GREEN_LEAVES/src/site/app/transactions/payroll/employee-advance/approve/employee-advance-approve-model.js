@@ -90,8 +90,6 @@
                         });
                         return employees;
                     },
-//                    
-//                    
                     getRequestTotal: function () {
                         var total = 0.0;
                         angular.forEach(this.requests, function (values) {
@@ -113,7 +111,6 @@
                         });
                         return amount;
                     },
-//                    
                     constructor: function () {
                         var that = this;
 
@@ -128,9 +125,7 @@
                                     that.requests = data;
                                 });
                     }
-
                 };
-
                 return EmployeeAdvanceApproveModel;
             });
 }());
