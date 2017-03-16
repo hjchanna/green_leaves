@@ -11,4 +11,5 @@ package com.mac.green_leaves.v1.green_leaves.zcommon.voucher;
  */
 public class VoucherLedgerTypes {
     public static final String SUPPLIER_ADVANCE = "SUPPLIER_ADVANCE";
+    public static final String EMPLOYEE_ADVANCE = "EMPLOYEE_ADVANCE";
 }
