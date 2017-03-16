@@ -19,7 +19,7 @@
             }, 10);
         };
         $scope.ui.focusAmount = function () {
-            $scope.asAtDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.asAtDate = $filter('date')($scope.model.data.date, 'yyyy-MM-dd');
             $timeout(function () {
                 angular.element(document.querySelectorAll("#amount"))[0].focus();
             }, 10);
@@ -36,11 +36,10 @@
             $scope.asAtDate = "";
             $scope.ui.new();
         };
-
         $scope.ui.validateEmployee = function (event) {
             var key = event ? event.keyCode || event.which : 13;
             if (key === 13) {
-                $scope.asAtDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+                $scope.asAtDate = $filter('date')($scope.model.data.date, 'yyyy-MM-dd');
                 $scope.model.tempData.asAtDate = $scope.asAtDate;
                 $scope.model.validateEmployee($scope.tempEmployee);
                 if ($scope.model.tempData.employee) {
@@ -75,14 +74,12 @@
 
         };
         $scope.ui.editRequest = function (index) {
+            $scope.ui.mode = "EDIT";
             $scope.model.editDetail(index);
             $scope.asAtDate = $scope.model.tempData.asAtDate;
             $scope.tempEmployee = $scope.model.tempData.employee;
-            console.log($scope.tempEmployee);
-            console.log($scope.model.tempData.employee);
             $scope.ui.focus();
         };
-
         $scope.ui.save = function () {
             if (!$scope.model.data.date) {
                 Notification.error("please enter date!");
