@@ -4,7 +4,7 @@
                 var factory = {};
                 factory.newData = function () {
                     var data = {
-                        "client": null,
+                        "employee": null,
                         "date": null
                     };
                     return data;

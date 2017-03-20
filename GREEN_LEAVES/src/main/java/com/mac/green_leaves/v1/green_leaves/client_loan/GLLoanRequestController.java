@@ -26,14 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/loan/loan-request")
 public class GLLoanRequestController {
 
-    private static final int BRANCH = SecurityUtil.getCurrentUser().getBranch();
+    private static final int BRANCH = 1;
 
     @Autowired
     private GLLoanRequestService loanRequestService;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Integer saveLoanRequest(@RequestBody TLoanRequest loanRequest) {
-        return loanRequestService.saveLoanRequest(loanRequest, BRANCH);
+         Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return loanRequestService.saveLoanRequest(loanRequest, branch);
     }
 
     @RequestMapping(value = "/{number}", method = RequestMethod.GET)
@@ -44,7 +45,8 @@ public class GLLoanRequestController {
 
     @RequestMapping(value = "/pending-requests")
     public List<Object[]> getPendingLoanRequests() {
-        return loanRequestService.getPendingLoanRequests(BRANCH);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        return loanRequestService.getPendingLoanRequests(branch);
     }
 
     @RequestMapping(value = "/find-by-loan-detail/{indexNo}", method = RequestMethod.GET)

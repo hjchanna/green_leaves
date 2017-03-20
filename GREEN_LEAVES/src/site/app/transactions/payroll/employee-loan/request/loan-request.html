@@ -36,11 +36,11 @@
                         <tr>
                             <th>
                                 <label>EMP NO.</label>
-                                <input id="client-number"   smart-input="integer" class="form-control text-right" ng-model="model.tempClientNo" ng-keypress="ui.validateClient($event);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="client-number"   smart-input="integer" class="form-control text-right" ng-model="model.tempEmployeeNo" ng-keypress="ui.validateEmployee($event);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-left">
                                 <label>EMPLOYEE</label>
-                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="employee" smart-input="text" class="form-control" ng-model="model.tempData.employee" uib-typeahead="employee.indexNo as (employee.employeeNumber + '-' + employee.name) for employee in model.employees|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.employeeLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>AMOUNT</label>
@@ -60,7 +60,8 @@
 
             <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.loanRequestDetails.length">
                 <table class="table-hover animation-fade">
-                    <col style="width: 50%"/>
+                    <col style="width: 15%"/>
+                    <col style="width: 35%"/>
                     <col style="width: 20%"/>
                     <col style="width: 20%"/>
                     <col style="width: auto"/>
@@ -68,7 +69,10 @@
                     <tbody>
                         <tr ng-repeat="requestDetail in model.data.loanRequestDetails">
                             <td>
-                                <span class="label label-default">{{requestDetail.client|fixedLength:5}}</span>{{ui.getClient(requestDetail.client).name}}
+                                <span class="label label-default">{{requestDetail.employee|fixedLength:5}}</span>
+                            </td>
+                            <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">
+                                {{ui.getEmployee(requestDetail.employee).name}}
                             </td>
                             <td class="text-right">{{requestDetail.amount|number:2}}</td>
                             <td class="text-right">{{requestDetail.installmentCount}}</td>

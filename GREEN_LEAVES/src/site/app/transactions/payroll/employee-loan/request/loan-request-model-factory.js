@@ -13,7 +13,7 @@
 //                            {
 //                                "indexNo": null,
 //                                "remark": null,
-//                                "client": null,
+//                                "employee": null,
 //                                "expectedLoanDate": null,
 //                                "amount": null,
 //                                "interestRate": 0.0,
@@ -29,7 +29,7 @@
                     var tempData = {
                         "indexNo": null,
                         "remark": null,
-                        "client": null,
+                        "employee": null,
                         "expectedLoanDate": null,
                         "amount": null
                     };
