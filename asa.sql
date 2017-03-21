@@ -11,7 +11,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for green_leaves
-DROP DATABASE IF EXISTS `green_leaves`;
 CREATE DATABASE IF NOT EXISTS `green_leaves` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `green_leaves`;
 
@@ -8452,6 +8451,23 @@ REPLACE INTO `m_employee` (`index_no`, `employee_number`, `branch`, `name`, `typ
 /*!40000 ALTER TABLE `m_employee` ENABLE KEYS */;
 
 
+-- Dumping structure for table green_leaves.m_fertilizer_item
+CREATE TABLE IF NOT EXISTS `m_fertilizer_item` (
+  `index_no` int(10) NOT NULL AUTO_INCREMENT,
+  `item_no` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `branch` int(10) NOT NULL,
+  `instalment_count` int(10) NOT NULL,
+  `cost_price` decimal(10,4) DEFAULT NULL,
+  `sale_price` decimal(10,4) NOT NULL,
+  PRIMARY KEY (`index_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table green_leaves.m_fertilizer_item: ~0 rows (approximately)
+/*!40000 ALTER TABLE `m_fertilizer_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `m_fertilizer_item` ENABLE KEYS */;
+
+
 -- Dumping structure for table green_leaves.m_item_department
 CREATE TABLE IF NOT EXISTS `m_item_department` (
   `index_no` int(10) NOT NULL AUTO_INCREMENT,
@@ -9057,7 +9073,7 @@ CREATE TABLE IF NOT EXISTS `t_employee_advance_request` (
   PRIMARY KEY (`index_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
--- Dumping data for table green_leaves.t_employee_advance_request: ~11 rows (approximately)
+-- Dumping data for table green_leaves.t_employee_advance_request: ~9 rows (approximately)
 /*!40000 ALTER TABLE `t_employee_advance_request` DISABLE KEYS */;
 REPLACE INTO `t_employee_advance_request` (`index_no`, `branch`, `date`, `number`, `transaction`, `status`) VALUES
 	(19, 1, '2017-03-18', 12, 1, 'PENDING'),
@@ -9115,6 +9131,60 @@ REPLACE INTO `t_employee_advance_request_details` (`index_no`, `advance_request`
 	(20, 36, 12, '2017-03-16', 4000.0000, 'APPROVED'),
 	(21, 36, 32, '2017-03-16', 5000.0000, 'APPROVED');
 /*!40000 ALTER TABLE `t_employee_advance_request_details` ENABLE KEYS */;
+
+
+-- Dumping structure for table green_leaves.t_employee_loan
+CREATE TABLE IF NOT EXISTS `t_employee_loan` (
+  `index_no` int(10) NOT NULL AUTO_INCREMENT,
+  `branch` int(10) NOT NULL,
+  `date` date NOT NULL,
+  `transaction` int(10) DEFAULT NULL,
+  `number` int(10) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  PRIMARY KEY (`index_no`),
+  KEY `fk_t_employee_loan_m_branch1_idx` (`branch`),
+  CONSTRAINT `fk_t_employee_loan_m_branch1` FOREIGN KEY (`branch`) REFERENCES `m_branch` (`index_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table green_leaves.t_employee_loan: ~3 rows (approximately)
+/*!40000 ALTER TABLE `t_employee_loan` DISABLE KEYS */;
+REPLACE INTO `t_employee_loan` (`index_no`, `branch`, `date`, `transaction`, `number`, `status`) VALUES
+	(11, 1, '2017-03-21', 0, 1, 'ACTIVE'),
+	(12, 1, '2017-03-21', 0, 2, 'ACTIVE'),
+	(13, 1, '2017-03-21', 0, 3, 'ACTIVE');
+/*!40000 ALTER TABLE `t_employee_loan` ENABLE KEYS */;
+
+
+-- Dumping structure for table green_leaves.t_employee_loan_detail
+CREATE TABLE IF NOT EXISTS `t_employee_loan_detail` (
+  `index_no` int(10) NOT NULL AUTO_INCREMENT,
+  `employee_loan` int(10) NOT NULL,
+  `employee` int(10) NOT NULL,
+  `loan_start_date` date DEFAULT NULL,
+  `loan_amount` decimal(10,4) NOT NULL,
+  `interest_rate` decimal(10,4) NOT NULL,
+  `installment_count` int(10) NOT NULL,
+  `installment_amount` decimal(10,4) DEFAULT NULL,
+  `panalty_rate` decimal(10,4) NOT NULL,
+  `agreement_number` decimal(10,4) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  PRIMARY KEY (`index_no`),
+  KEY `fk_t_employee_loan_has_m_employee_m_employee1_idx` (`employee`),
+  KEY `fk_t_employee_loan_has_m_employee_t_employee_loan1_idx` (`employee_loan`),
+  CONSTRAINT `fk_t_employee_loan_has_m_employee_m_employee1` FOREIGN KEY (`employee`) REFERENCES `m_employee` (`index_no`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_t_employee_loan_has_m_employee_t_employee_loan1` FOREIGN KEY (`employee_loan`) REFERENCES `t_employee_loan` (`index_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table green_leaves.t_employee_loan_detail: ~6 rows (approximately)
+/*!40000 ALTER TABLE `t_employee_loan_detail` DISABLE KEYS */;
+REPLACE INTO `t_employee_loan_detail` (`index_no`, `employee_loan`, `employee`, `loan_start_date`, `loan_amount`, `interest_rate`, `installment_count`, `installment_amount`, `panalty_rate`, `agreement_number`, `status`) VALUES
+	(14, 11, 60, NULL, 600000.0000, 60.0000, 60, 31696.9107, 60.0000, 60.0000, 'PENDING'),
+	(15, 11, 50, NULL, 500000.0000, 50.0000, 50, 23943.2171, 50.0000, 50.0000, 'PENDING'),
+	(16, 12, 20, '2017-03-21', 20000.0000, 27.0000, 10, 2255.7537, 27.0000, 45.0000, 'PENDING'),
+	(17, 12, 10, '2017-03-21', 10000.0000, 27.0000, 10, 1127.8768, 27.0000, 10.0000, 'CHECKED'),
+	(18, 13, 30, '2017-03-21', 60000.0000, 34.0000, 43, 2431.2631, 34.0000, 90.0000, 'CHECKED'),
+	(19, 13, 41, NULL, 50000.0000, 23.0000, 34, 2014.9993, 42.0000, 0.0000, 'CHECKED');
+/*!40000 ALTER TABLE `t_employee_loan_detail` ENABLE KEYS */;
 
 
 -- Dumping structure for table green_leaves.t_fertilizer
@@ -15209,7 +15279,7 @@ CREATE TABLE IF NOT EXISTS `t_voucher` (
   CONSTRAINT `fk_t_voucher_r_transaction_type1` FOREIGN KEY (`transaction_type`) REFERENCES `r_transaction_type` (`index_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Dumping data for table green_leaves.t_voucher: ~12 rows (approximately)
+-- Dumping data for table green_leaves.t_voucher: ~11 rows (approximately)
 /*!40000 ALTER TABLE `t_voucher` DISABLE KEYS */;
 REPLACE INTO `t_voucher` (`index_no`, `branch`, `transaction`, `transaction_type`, `date`, `client`, `employee`, `description`, `amount`, `payment_type`, `leger_type`, `status`) VALUES
 	(1, 0, 0, 2, '2017-03-15', NULL, 54, 'Employee advance', 3000.0000, 'CASH', 'EMPLOYEE_ADVANCE', 'ACTIVE'),
