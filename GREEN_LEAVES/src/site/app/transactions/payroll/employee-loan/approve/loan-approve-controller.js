@@ -12,21 +12,19 @@
                         $scope.model.clear();
                     }
                 };
-//
-//                $scope.ui.reject = function () {
-//                    $scope.model.reject();
-//                };
-//
+                $scope.ui.reject = function () {
+                    $scope.model.reject();
+                };
+                
                 $scope.ui.init = function () {
                     $scope.model.clear();
                 };
                 
-//
                 $scope.ui.selectDetail = function (indexNo) {
                     $scope.model.selectDetail(indexNo);
                     $scope.ui.selectedDetailIndex = indexNo;
                 };
-//
+                
                 $scope.ui.init();
 
             });

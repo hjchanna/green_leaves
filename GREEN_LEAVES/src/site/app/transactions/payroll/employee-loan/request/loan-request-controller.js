@@ -4,7 +4,6 @@
                 $scope.model = new EmployeeLoanRequestModel();
                 $scope.model.tempEmployeeNo = null;
                 $scope.ui = {};
-//
                 $scope.ui.new = function () {
                     $scope.ui.mode = "EDIT";
                     $scope.model.clear();
@@ -15,20 +14,12 @@
                         document.querySelectorAll("#date")[0].focus();
                     }, 10);
                 };
-//
-//                $scope.ui.edit = function () {
-//                    $scope.ui.mode = "EDIT";
-//
-//                    $timeout(function () {
-//                        document.querySelectorAll("#number")[0].focus();
-//                    }, 10);
-//                };
-//
+
                 $scope.ui.discard = function () {
                     $scope.ui.mode = "IDEAL";
                     $scope.model.clear();
                 };
-//
+
                 $scope.ui.validateEmployee = function (event) {
                     var key = event ? event.keyCode || event.which : 13;
                     if (key === 13) {
@@ -93,20 +84,8 @@
                 $scope.ui.editRequest = function (indexNo) {
                     $scope.model.editDetail(indexNo);
                 };
-//
-//                $scope.ui.load = function (e) {
-//                    var code = e ? e.keyCode || e.which : 13;
-//                    if (code === 13) {
-//                        $scope.model.load()
-//                                .then(function () {
-//                                    $scope.ui.mode = "SELECTED";
-//                                });
-//                    }
-//                };
-//
+
                 $scope.ui.save = function () {
-                    console.log('data');
-                    console.log($scope.model.data);
                     
                     if (!$scope.model.data.date) {
                         Notification.error("select date");

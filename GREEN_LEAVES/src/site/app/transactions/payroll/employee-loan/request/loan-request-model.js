@@ -17,34 +17,19 @@
                 that.data = LoanRequestModelFactory.newData();
                 that.tempData = LoanRequestModelFactory.newTempData();
 
-//                load clients
+//                load employee
                 LoanRequestService.loadEmployee()
                         .success(function (data) {
-                            console.log(data);
                             that.employees = data;
                         });
             },
 
-//            //clear all data
+            //clear all data
             clear: function () {
                 this.data = LoanRequestModelFactory.newData();
                 this.tempData = LoanRequestModelFactory.newTempData();
             },
-//            load: function () {
-//                var number = this.data.number;
-//                var that = this;
-//                var defer = $q.defer();
-//                LoanRequestService.loadLoan(number)
-//                        .success(function (data) {
-//                            that.data = {};
-//                            angular.extend(that.data, data);
-//                            defer.resolve();
-//                        })
-//                        .error(function () {
-//                            defer.reject();
-//                        });
-//                return defer.promise;
-//            },
+
             //table added
             insertLoanRequest: function () {
                 var defer = $q.defer();
@@ -69,11 +54,10 @@
                 this.data.loanRequestDetails.splice(indexNo, 1);
                 this.tempData = requestDetail;
             },
-           
+
             //save requests
             saveRequest: function () {
                 var data = JSON.stringify(this.data);
-                console.log(data);
                 LoanRequestService.saveLoanRequest(data)
                         .success(function (data) {
                             optionPane.successMessage("Loan request saved successfully.");
@@ -93,11 +77,8 @@
                     }
                 });
 
-                console.log(label);
-                console.log("label");
                 return label;
             }
-//
         };
 
         return LoanRequestModel;

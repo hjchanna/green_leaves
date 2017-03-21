@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("EmployeeLoanCheckController", function ($scope,LoanCheckModel, ConfirmPane, Notification) {
+            .controller("EmployeeLoanCheckController", function ($scope, LoanCheckModel, ConfirmPane, Notification) {
                 $scope.model = new LoanCheckModel();
                 $scope.ui = {};
                 $scope.ui.selectedDetailIndex = null;
@@ -46,10 +46,9 @@
                     $scope.model.data.employee = model[3];
                     $scope.model.data.date = model[2];
                     $scope.model.selectDetail(model[0]);
-                    console.log($scope.model.tempData);
                     $scope.ui.selectedDetailIndex = model[0];
                 };
-//
+
                 $scope.ui.init = function () {
                     $scope.model.clear();
 
@@ -70,8 +69,6 @@
 
                     });
                 };
-//
-//
                 $scope.ui.init();
             });
 }());

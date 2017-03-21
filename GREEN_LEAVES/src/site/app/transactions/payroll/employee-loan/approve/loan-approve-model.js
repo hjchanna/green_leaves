@@ -14,7 +14,6 @@
                 //load pending request
                 LoanRequestService.loadcheckPendingRequest()
                         .success(function (data) {
-                            console.log(data);
                             that.loanRequestDetails = data;
                         });
 
@@ -44,7 +43,7 @@
 
                 return total;
             },
-            
+
             getRequestCount: function (indexNo) {
                 var count = 0;
 
@@ -85,7 +84,10 @@
                 if (that.detail) {
                     LoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
                             .success(function () {
-                                that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
+                                LoanRequestService.loadcheckPendingRequest()
+                                        .success(function (data) {
+                                            that.loanRequestDetails = data;
+                                        });
                                 optionPane.successMessage("loan details approved successfully.");
                             })
                             .error(function () {
@@ -93,22 +95,23 @@
                             });
                 }
             },
-//            reject: function () {
-//                var that = this;
-//                if (that.detail) {
-//                    LoanRequestService.rejectRequest(that.detail.indexNo)
-//                            .success(function () {
-//                                that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
-//                                optionPane.successMessage("loan details rejected successfully.");
-//                            })
-//                            .error(function () {
-//
-//                            });
-//                }
-//
-//            }
-        };
+            reject: function () {
+                var that = this;
+                if (that.detail) {
+                    LoanRequestService.rejectRequest(that.detail.indexNo)
+                            .success(function () {
+                                LoanRequestService.loadcheckPendingRequest()
+                                        .success(function (data) {
+                                            that.loanRequestDetails = data;
+                                        });
+                                optionPane.successMessage("loan details rejected successfully.");
+                            })
+                            .error(function () {
 
+                            });
+                }
+            }
+        }
         return LoanApproveModel;
     };
 

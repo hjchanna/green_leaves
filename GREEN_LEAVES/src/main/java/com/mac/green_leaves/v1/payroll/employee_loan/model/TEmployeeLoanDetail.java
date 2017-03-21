@@ -6,7 +6,6 @@
 package com.mac.green_leaves.v1.payroll.employee_loan.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -31,7 +30,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "t_employee_loan_detail")
 public class TEmployeeLoanDetail implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -76,7 +75,7 @@ public class TEmployeeLoanDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "status")
     private String status;
-    
+
     @JsonIgnore
     @JoinColumn(name = "employee_loan", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -84,20 +83,20 @@ public class TEmployeeLoanDetail implements Serializable {
 
     public TEmployeeLoanDetail() {
     }
-    
-//    public TEmployeeLoanDetail(Integer indexNo, int employee, Date loanStartDate, BigDecimal interestRate, int installmentCount, BigDecimal installmentAmount, BigDecimal panaltyRate, BigDecimal amount, String status, String agreementNumber, TEmployeeLoan loanRequest) {
-//        this.indexNo = indexNo;
-//        this.employee = employee;
-//        this.loanStartDate = loanStartDate;
-//        this.interestRate = interestRate;
-//        this.installmentCount = installmentCount;
-//        this.installmentAmount = installmentAmount;
-//        this.panaltyRate = panaltyRate;
-//        this.amount = amount;
-//        this.status = status;
-//        this.agreementNumber = agreementNumber;
-//        this.employeeLoan = loanRequest;
-//    }
+
+    public TEmployeeLoanDetail(Integer indexNo, int employee, Date loanStartDate, BigDecimal amount, BigDecimal interestRate, int installmentCount, BigDecimal installmentAmount, BigDecimal panaltyRate, String agreementNumber, String status, TEmployeeLoan employeeLoan) {
+        this.indexNo = indexNo;
+        this.employee = employee;
+        this.loanStartDate = loanStartDate;
+        this.amount = amount;
+        this.interestRate = interestRate;
+        this.installmentCount = installmentCount;
+        this.installmentAmount = installmentAmount;
+        this.panaltyRate = panaltyRate;
+        this.agreementNumber = agreementNumber;
+        this.status = status;
+        this.employeeLoan = employeeLoan;
+    }
 
     public TEmployeeLoan getLoanRequest() {
         return employeeLoan;
@@ -186,7 +185,4 @@ public class TEmployeeLoanDetail implements Serializable {
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
     }
-    
-    
-
 }

@@ -10,6 +10,7 @@ import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -61,13 +62,13 @@ public class TEmployeeLoan implements Serializable{
     @Column(name = "number")
     private int number;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeLoan", fetch = FetchType.EAGER, orphanRemoval = true)
-    private Collection<TEmployeeLoanDetail> loanRequestDetails; 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeLoan", fetch = FetchType.EAGER)
+    private List<TEmployeeLoanDetail> loanRequestDetails; 
 
     public TEmployeeLoan() {
     }
 
-    public TEmployeeLoan(Integer indexNo, int branch, Date date, int transaction, String status, int number, Collection<TEmployeeLoanDetail> loanRequestDetails) {
+    public TEmployeeLoan(Integer indexNo, int branch, Date date, int transaction, String status, int number, List<TEmployeeLoanDetail> loanRequestDetails) {
         this.indexNo = indexNo;
         this.branch = branch;
         this.date = date;
@@ -129,7 +130,7 @@ public class TEmployeeLoan implements Serializable{
         return loanRequestDetails;
     }
 
-    public void setLoanRequestDetails(Collection<TEmployeeLoanDetail> loanRequestDetails) {
+    public void setLoanRequestDetails(List<TEmployeeLoanDetail> loanRequestDetails) {
         this.loanRequestDetails = loanRequestDetails;
     }
  

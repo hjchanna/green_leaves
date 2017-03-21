@@ -10,7 +10,7 @@
             tempData: {},
             //pending request information
             pendingRequest: [],
-            //client information
+            //employee information
             employees: [],
             //constructor
             constructor: function () {
@@ -57,15 +57,11 @@
             },
 //            //select employee get loan data
             selectDetail: function (indexNo) {
-                console.log(indexNo);
                 var that = this;
                 var defer = $q.defer();
                 LoanRequestService.findByTLoanRequestDetailByIndexNo(indexNo)
                         .success(function (data) {
                             that.tempData = {};
-                    
-                            console.log("data "+indexNo);
-                            console.log(data);
                             that.tempData = data;
                             defer.resolve();
                         })
@@ -99,8 +95,6 @@
                     LoanRequestService.rejectRequest(that.tempData.indexNo)
                             .success(function () {
                                 that.clear();
-                        console.log('reject');
-                        console.log(that.tempData.indexNo);
                                 defer.resolve();
                             })
                             .error(function () {
@@ -122,17 +116,7 @@
                 });
 
                 return employee;
-            },
-//            clientLabel: function (indexNo) {
-//                var label;
-//                angular.forEach(this.clients, function (value) {
-//                    if (value.indexNo === indexNo) {
-//                        label = value.clientNumber + "-" + value.name;
-//                        return;
-//                    }
-//                });
-//                return label;
-//            }
+            }
         };
 
         return LoanCheckModel;

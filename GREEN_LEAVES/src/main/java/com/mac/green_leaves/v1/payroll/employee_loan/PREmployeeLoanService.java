@@ -8,6 +8,7 @@ package com.mac.green_leaves.v1.payroll.employee_loan;
 import com.mac.green_leaves.v1.payroll.employee_loan.model.TEmployeeLoan;
 import com.mac.green_leaves.v1.payroll.employee_loan.model.TEmployeeLoanDetail;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class PREmployeeLoanService {
+
     public static final String LOAN_REQUEST_STATUS_ACTIVE = "ACTIVE";
     //
     public static final String LOAN_REQUEST_DETAIL_STATUS_PENDING = "PENDING";
@@ -31,10 +33,10 @@ public class PREmployeeLoanService {
 
     @Autowired
     private PREmployeeLoanDetailRepository detailRepository;
-//
+
     @Autowired
     private PREmployeeLoanRepository employeeLoanRepository;
-//
+
     @Transactional
     public Integer saveLoanRequest(TEmployeeLoan loanRequest, Integer branch) {
 
@@ -60,13 +62,14 @@ public class PREmployeeLoanService {
         loanRequest = employeeLoanRepository.save(loanRequest);
         return loanRequest.getIndexNo();
     }
-//
-//    //check------------------------
+
+//    check------------------------
+
     public List<Object[]> getPendingLoanRequests(Integer branch) {
         return employeeLoanRepository.findByBranchAndStatus(branch, LOAN_REQUEST_DETAIL_STATUS_PENDING);
     }
-//
-//    @Transactional
+
+    @Transactional
     public void checkLoanRequestDetail(TEmployeeLoanDetail loanRequestDetail) {
         TEmployeeLoanDetail requestDetail = findByTLoanRequestDetailByIndexNo(loanRequestDetail.getIndexNo());
 
@@ -85,36 +88,35 @@ public class PREmployeeLoanService {
 
         detailRepository.save(requestDetail);
     }
-//
-//    //approve----------------------------------------------
+    
+//    approve----------------------------------------------
+
     public List<TEmployeeLoanDetail> getCheckLoanRequests() {
         return detailRepository.findByStatus(LOAN_REQUEST_DETAIL_STATUS_CHECKED);
     }
-//
+
     @Transactional
     public void approveLoanRequest(Integer indexNo, String agreementNumber) {
-        TEmployeeLoanDetail loanRequestDetail = findByTLoanRequestDetailByIndexNo(indexNo);
+        TEmployeeLoanDetail loanRequestDetail = detailRepository.findOne(indexNo);
+        loanRequestDetail.getLoanRequest().setLoanRequestDetails(null);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_APPROVED);
+        loanRequestDetail.setLoanStartDate(new Date());
         loanRequestDetail.setAgreementNumber(agreementNumber);
         detailRepository.save(loanRequestDetail);
     }
-//
+
     @Transactional
     public void rejectRequest(Integer indexNo) {
         TEmployeeLoanDetail loanRequestDetail = findByTLoanRequestDetailByIndexNo(indexNo);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_REJECTED);
         detailRepository.save(loanRequestDetail);
+        
     }
-//
+
     public TEmployeeLoanDetail findByTLoanRequestDetailByIndexNo(Integer indexNo) {
-        return detailRepository.findOne(indexNo);
+        TEmployeeLoanDetail detailModel = detailRepository.findOne(indexNo);
+        detailModel.getLoanRequest().setLoanRequestDetails(null);
+        return detailModel;
     }
-//
-//    TLoanRequest getLoanRequest(Integer branch, Integer number) {
-//        List<TLoanRequest> receives = loanRequestRepository.findByBranchAndNumberAndStatus(branch, number, LOAN_REQUEST_DETAIL_STATUS_PENDING);
-//        if (receives.isEmpty()) {
-//            throw new EntityNotFoundException("Loand not found for number " + number);
-//        }
-//        return receives.get(0);
-//    }
+
 }
