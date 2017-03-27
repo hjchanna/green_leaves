@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-03-22T13:44:37 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LeafCollectionSummary" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="7551a70e-e8e2-4105-9afc-1e248206b66f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="AS_AT_DATE" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select
+	concat('[',lpad(m_route.index_no,5,0),'] ',m_route.name) as route,
+	
+	@normal_factory_quantity_at_date:=ifnull((
+		select 
+			sum(t_green_leaves_weigh_detail.quantity)
+		from
+			t_green_leaves_weigh
+			left join t_green_leaves_weigh_detail on t_green_leaves_weigh.index_no = t_green_leaves_weigh_detail.green_leaves_weigh
+		where
+			t_green_leaves_weigh.route = m_route.index_no
+			and (t_green_leaves_weigh.`status` = 'APPROVE' or t_green_leaves_weigh.`status` = 'PENDING')
+			and t_green_leaves_weigh_detail.`type` = 'NORMAL'
+			and t_green_leaves_weigh.date =  $P{AS_AT_DATE} 
+	), 0.0000) as normal_factory_quantity_at_date,
+	
+	@normal_collection_quantity_at_date:=ifnull((
+		select
+			sum(t_green_leaves_receive_detail.normal_leaves_quantity)
+		from
+			t_green_leaves_receive
+			left join t_green_leaves_receive_detail on t_green_leaves_receive_detail.green_leaves_receive = t_green_leaves_receive.index_no
+		where
+			t_green_leaves_receive.route = m_route.index_no
+			and (t_green_leaves_receive.status = 'APPROVE' or t_green_leaves_receive.status = 'PENDING')
+			and t_green_leaves_receive.date =  $P{AS_AT_DATE} 
+	), 0.0000) as normal_collection_quantity_at_date,
+	
+	cast(@normal_factory_quantity_at_date - @normal_collection_quantity_at_date as decimal(10,4)) as normal_difference_at_date,
+
+
+	@normal_factory_quantity_to_date:=ifnull((
+		select 
+			sum(t_green_leaves_weigh_detail.quantity)
+		from
+			t_green_leaves_weigh
+			left join t_green_leaves_weigh_detail on t_green_leaves_weigh.index_no = t_green_leaves_weigh_detail.green_leaves_weigh
+		where
+			t_green_leaves_weigh.route = m_route.index_no
+			and (t_green_leaves_weigh.`status` = 'APPROVE' or t_green_leaves_weigh.`status` = 'PENDING')
+			and t_green_leaves_weigh_detail.`type` = 'NORMAL'
+			and t_green_leaves_weigh.date between date_format( $P{AS_AT_DATE} , '%Y-%m-01') and  $P{AS_AT_DATE} 
+	), 0.0000) as normal_factory_quantity_to_date,
+	
+	@normal_collection_quantity_to_date:=ifnull((
+		select
+			sum(t_green_leaves_receive_detail.normal_leaves_quantity)
+		from
+			t_green_leaves_receive
+			left join t_green_leaves_receive_detail on t_green_leaves_receive_detail.green_leaves_receive = t_green_leaves_receive.index_no
+		where
+			t_green_leaves_receive.route = m_route.index_no
+			and (t_green_leaves_receive.status = 'APPROVE' or t_green_leaves_receive.status = 'PENDING')
+			and t_green_leaves_receive.date between  date_format( $P{AS_AT_DATE} , '%Y-%m-01') and  $P{AS_AT_DATE} 
+	), 0.0000) as normal_collection_quantity_to_date,
+	
+	cast(@normal_factory_quantity_to_date - @normal_collection_quantity_to_date as decimal(10,4)) as normal_difference_to_date
+from
+	m_route
+order by
+	m_route.name]]>
+	</queryString>
+	<field name="route" class="java.lang.String"/>
+	<field name="normal_factory_quantity_at_date" class="java.math.BigDecimal"/>
+	<field name="normal_collection_quantity_at_date" class="java.math.BigDecimal"/>
+	<field name="normal_difference_at_date" class="java.math.BigDecimal"/>
+	<field name="normal_factory_quantity_to_date" class="java.math.BigDecimal"/>
+	<field name="normal_collection_quantity_to_date" class="java.math.BigDecimal"/>
+	<field name="normal_difference_to_date" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="555" height="20" uuid="89028e04-69fd-4ad5-8418-e593936d58c5"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[LEAF COLLECTION SUMMARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="30" uuid="f7c5471a-a910-4e79-b429-0530f1cfdaf9"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEW HOPEWELL TEA FACTORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="51" width="89" height="20" uuid="bdbaa92c-11b7-4047-bd44-c1b2ff80e951"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AS AT DATE]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="89" y="51" width="100" height="20" uuid="36547afb-0440-48d6-9412-b76278a09c86"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{AS_AT_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="115" height="40" uuid="e85bc598-c39a-4ef9-9b32-a501a021fca8"/>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Route]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="20" width="70" height="20" uuid="1ea8feb2-164b-4edd-a7ba-00fa558a805e"/>
+				<box leftPadding="0" rightPadding="5">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="20" width="80" height="20" uuid="04915211-8191-4052-8128-0e8dae79e44e"/>
+				<box leftPadding="0" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COLLECTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="265" y="20" width="70" height="20" uuid="eda1fe75-e08a-4042-8e61-3a4e0a37024f"/>
+				<box leftPadding="0" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIFF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="115" y="0" width="220" height="20" uuid="20531afc-6a1b-449e-9dde-8d7f95368973">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AS AT DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="0" width="220" height="20" uuid="060f4d5f-17d9-43f6-a5e3-05246b510624">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TO DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="20" width="70" height="20" uuid="0626198f-3462-4385-ad1c-ca900a3da9ef"/>
+				<box leftPadding="0" rightPadding="5">
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="20" width="80" height="20" uuid="fc03db66-376c-433d-b8ab-4d9a6d7efe5c"/>
+				<box leftPadding="0" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COLLECTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="485" y="20" width="70" height="20" uuid="24364b6a-d9f1-4e08-811c-3b3b561664f1"/>
+				<box leftPadding="0" rightPadding="5">
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIFF]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="115" height="20" uuid="929b63c3-40a8-4bd3-a01b-8b96dd1c0bc9"/>
+				<box leftPadding="5">
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{route}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="115" y="0" width="70" height="20" uuid="3b2ec59f-98bb-436b-b1a5-c96275685d6a"/>
+				<box rightPadding="5">
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal_factory_quantity_at_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="185" y="0" width="80" height="20" uuid="1661ab68-d8c6-4489-8759-6dbdefb53e44"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal_collection_quantity_at_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="265" y="0" width="70" height="20" uuid="f06bb805-bb58-4912-8b55-d0224e89f8b8"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal_difference_at_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="335" y="0" width="70" height="20" uuid="5b7d26ad-45af-46d8-869f-294962d2d229"/>
+				<box rightPadding="5">
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal_factory_quantity_to_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="405" y="0" width="80" height="20" uuid="065a98b0-ddeb-4d9d-a26f-e1eed51ece84"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal_collection_quantity_to_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="485" y="0" width="70" height="20" uuid="5f0b8a38-91f1-412a-9e1a-fcfa69c1aec1"/>
+				<box rightPadding="5">
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{normal_difference_to_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="2" uuid="26804244-b3f7-4c5f-b2b4-9ae7fddf5abf"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="5" width="170" height="20" uuid="58852da9-b57c-4f1d-8d27-22ef70378ae2"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="391" y="5" width="129" height="20" uuid="511a3e85-0f43-4ad6-9346-cb6dff893865">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["page "+ $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="520" y="5" width="34" height="20" uuid="730123c0-9fcf-42ab-b7ff-8300bab19ab2">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="171" y="5" width="220" height="20" uuid="b1e8e5c2-78cd-4d39-b950-599d81ebca92"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+	<noData>
+		<band height="170">
+			<staticText>
+				<reportElement x="-1" y="150" width="554" height="20" uuid="34fb1000-fdb9-46e6-8bea-38e8c1b57da9"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="100" width="554" height="20" uuid="86deb13c-24df-4bb8-9434-deb2d778b323">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[please try changing your parameters]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="80" width="554" height="20" uuid="bc5bd6d3-b0f9-4fd5-ab7a-dcccb47c7884">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No records to view :(]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="60" width="555" height="20" uuid="1ae04029-50a7-4829-b7fb-329733327550"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[LEAF COLLECTION SUMMARY]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
