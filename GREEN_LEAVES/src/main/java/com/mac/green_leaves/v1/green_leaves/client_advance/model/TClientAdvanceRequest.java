@@ -72,7 +72,7 @@ public class TClientAdvanceRequest implements Serializable {
     private String status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientAdvanceRequest", fetch = FetchType.EAGER)
-    private List<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
+    private Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails;
 
     public TClientAdvanceRequest() {
     }
@@ -146,11 +146,11 @@ public class TClientAdvanceRequest implements Serializable {
         this.status = status;
     }
 
-    public List<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
+    public Set<TClientAdvanceRequestDetail> getClientAdvanceRequestDetails() {
         return clientAdvanceRequestDetails;
     }
 
-    public void setClientAdvanceRequestDetails(List<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
+    public void setClientAdvanceRequestDetails(Set<TClientAdvanceRequestDetail> clientAdvanceRequestDetails) {
         this.clientAdvanceRequestDetails = clientAdvanceRequestDetails;
     }
 

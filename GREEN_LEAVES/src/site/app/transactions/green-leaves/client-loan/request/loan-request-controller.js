@@ -13,7 +13,7 @@
                     //set current date
                     $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
                     $timeout(function () {
-                        document.querySelectorAll("#number")[0].focus();
+                        document.querySelectorAll("#clientNumber")[0].focus();
                     }, 10);
                 };
 
@@ -21,7 +21,7 @@
                     $scope.ui.mode = "EDIT";
 
                     $timeout(function () {
-                        document.querySelectorAll("#number")[0].focus();
+                        document.querySelectorAll("#clientNumber")[0].focus();
                     }, 10);
                 };
 

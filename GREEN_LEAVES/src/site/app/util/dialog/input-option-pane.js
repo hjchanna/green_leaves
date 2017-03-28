@@ -3,7 +3,7 @@
             .service("InputPane", function ($uibModal, $q, Notification) {
                 var defer;
 
-                var ctrl = function (type, title) {
+                var ctrl = function (type, title, inputType) {
                     function Controller(modalInstance, $timeout) {
                         //modal instance
                         this.modalInstance = modalInstance;
@@ -11,6 +11,14 @@
 
                         this.type = type;
                         this.title = title;
+                        this.inputType = inputType;
+
+
+                        console.log(this.inputType);
+                        if (!this.inputType) {
+                            this.inputType = "text";
+                        }
+                        console.log(this.inputType);
 
                         //class and icon
                         switch (type) {
@@ -50,7 +58,7 @@
                     return ['$uibModalInstance', '$timeout', Controller];
                 };
 
-                this.confirm = function (optionType, title) {
+                this.confirm = function (optionType, title, type) {
                     defer = $q.defer();
 
                     $uibModal.open({
@@ -59,7 +67,7 @@
                         ariaLabelledBy: 'modal-title',
                         ariaDescribedBy: 'modal-body',
                         templateUrl: './app/util/dialog/input-option-pane.html',
-                        controller: ctrl(optionType, title),
+                        controller: ctrl(optionType, title, type),
                         controllerAs: '$ctrl',
                         size: 'md'
                     });
@@ -76,12 +84,12 @@
                     };
                 };
 
-                this.primaryInput = function (title) {
-                    return this.confirm('primary', title);
+                this.primaryInput = function (title, type) {
+                    return this.confirm('primary', title, type);
                 };
 
-                this.defaultInput = function (title) {
-                    return this.confirm('default', title);
+                this.defaultInput = function (title, type) {
+                    return this.confirm('default', title, type);
                 };
 
             });
