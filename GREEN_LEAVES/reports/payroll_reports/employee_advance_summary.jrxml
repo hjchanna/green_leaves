@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-27T16:46:00 -->
+<!-- 2017-03-28T10:17:19 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="green_leaves.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -9,6 +9,7 @@
 	<parameter name="FROM_DATE" class="java.util.Date"/>
 	<parameter name="TO_DATE" class="java.util.Date"/>
 	<parameter name="EMPLOYEE" class="java.lang.Integer"/>
+	<parameter name="STATUS" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select
 	concat('[', lpad(m_employee.employee_number, 5, 0), '] ', m_employee.name) as employee,
@@ -22,7 +23,8 @@ from
 	left join m_employee on m_employee.index_no = t_employee_advance_request_details.employee
 where
 	t_employee_advance_request.date between   $P{FROM_DATE}   and   $P{TO_DATE}
-	and (  $P{EMPLOYEE}  is null or m_employee.index_no=   $P{EMPLOYEE} )
+	and (  $P{EMPLOYEE}  is null or m_employee.index_no =  $P{EMPLOYEE} ) and
+	( $P{STATUS}  is null or t_employee_advance_request_details.status =  $P{STATUS} )
 group by 
 	t_employee_advance_request_details.advance_request, t_employee_advance_request_details.employee
 order by
@@ -120,7 +122,7 @@ order by
 	<title>
 		<band height="103" splitType="Stretch">
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="-20" y="0" width="595" height="30" uuid="a9f73f3a-ec28-414a-ad25-52c85681e0e5"/>
+				<reportElement positionType="FixRelativeToBottom" x="140" y="0" width="290" height="30" uuid="a9f73f3a-ec28-414a-ad25-52c85681e0e5"/>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="18" isBold="true"/>
@@ -128,12 +130,12 @@ order by
 				<text><![CDATA[NEW HOPEWELL TEA FACTORY]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-20" y="30" width="595" height="20" uuid="d199f371-5f76-48ed-b6fa-6ae29cf236c0"/>
+				<reportElement x="170" y="30" width="230" height="20" uuid="d199f371-5f76-48ed-b6fa-6ae29cf236c0"/>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[EMPLOYEE LOAN]]></text>
+				<text><![CDATA[EMPLOYEE ADVANCE SUMMARY]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="50" width="79" height="20" uuid="fd79e680-5f69-4523-b819-aa788cd1f832"/>
@@ -287,7 +289,7 @@ order by
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[EMPLOYEE LOAN]]></text>
+				<text><![CDATA[EMPLOYEE ADVANCE SUMMARY]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="80" width="554" height="20" uuid="f01b0e1b-5337-4980-9cbf-56d2e8243d0f">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-22T13:44:37 -->
+<!-- 2017-03-27T17:50:51 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LeafCollectionSummary" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="7551a70e-e8e2-4105-9afc-1e248206b66f">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
@@ -13,7 +13,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<parameter name="AS_AT_DATE" class="java.util.Date">
+	<parameter name="FROM_DATE" class="java.util.Date">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<queryString language="SQL">
@@ -30,7 +30,7 @@
 			t_green_leaves_weigh.route = m_route.index_no
 			and (t_green_leaves_weigh.`status` = 'APPROVE' or t_green_leaves_weigh.`status` = 'PENDING')
 			and t_green_leaves_weigh_detail.`type` = 'NORMAL'
-			and t_green_leaves_weigh.date =  $P{AS_AT_DATE} 
+			and t_green_leaves_weigh.date =  $P{FROM_DATE} 
 	), 0.0000) as normal_factory_quantity_at_date,
 	
 	@normal_collection_quantity_at_date:=ifnull((
@@ -42,7 +42,7 @@
 		where
 			t_green_leaves_receive.route = m_route.index_no
 			and (t_green_leaves_receive.status = 'APPROVE' or t_green_leaves_receive.status = 'PENDING')
-			and t_green_leaves_receive.date =  $P{AS_AT_DATE} 
+			and t_green_leaves_receive.date =  $P{FROM_DATE} 
 	), 0.0000) as normal_collection_quantity_at_date,
 	
 	cast(@normal_factory_quantity_at_date - @normal_collection_quantity_at_date as decimal(10,4)) as normal_difference_at_date,
@@ -58,7 +58,7 @@
 			t_green_leaves_weigh.route = m_route.index_no
 			and (t_green_leaves_weigh.`status` = 'APPROVE' or t_green_leaves_weigh.`status` = 'PENDING')
 			and t_green_leaves_weigh_detail.`type` = 'NORMAL'
-			and t_green_leaves_weigh.date between date_format( $P{AS_AT_DATE} , '%Y-%m-01') and  $P{AS_AT_DATE} 
+			and t_green_leaves_weigh.date between date_format( $P{FROM_DATE} , '%Y-%m-01') and  $P{FROM_DATE} 
 	), 0.0000) as normal_factory_quantity_to_date,
 	
 	@normal_collection_quantity_to_date:=ifnull((
@@ -70,7 +70,7 @@
 		where
 			t_green_leaves_receive.route = m_route.index_no
 			and (t_green_leaves_receive.status = 'APPROVE' or t_green_leaves_receive.status = 'PENDING')
-			and t_green_leaves_receive.date between  date_format( $P{AS_AT_DATE} , '%Y-%m-01') and  $P{AS_AT_DATE} 
+			and t_green_leaves_receive.date between  date_format( $P{FROM_DATE} , '%Y-%m-01') and  $P{FROM_DATE} 
 	), 0.0000) as normal_collection_quantity_to_date,
 	
 	cast(@normal_factory_quantity_to_date - @normal_collection_quantity_to_date as decimal(10,4)) as normal_difference_to_date
@@ -120,7 +120,7 @@ order by
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{AS_AT_DATE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{FROM_DATE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

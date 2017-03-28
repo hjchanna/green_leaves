@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-02T00:28:21 -->
+<!-- 2017-03-27T17:50:51 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<queryString>
 		<![CDATA[]]>
@@ -32,7 +32,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[To Date :]]></text>
+				<text><![CDATA[From Date :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="72" width="79" height="20" uuid="8f59d75c-da56-4a0e-a22b-d3943314489d"/>
@@ -40,7 +40,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[From Date :]]></text>
+				<text><![CDATA[To Date :]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -50,34 +50,14 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="1" y="0" width="250" height="20" uuid="032ad04c-9d4c-4526-8951-c5aa6f40a9a3"/>
+				<reportElement x="1" y="0" width="553" height="20" uuid="032ad04c-9d4c-4526-8951-c5aa6f40a9a3"/>
 				<box leftPadding="5">
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Column 1]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="251" y="0" width="218" height="20" uuid="452b52a0-e8a5-43b3-93e9-7d186aedd9bd"/>
-				<box leftPadding="5">
-					<bottomPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Column 2]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="469" y="0" width="83" height="20" uuid="520645f0-bc2c-4a8c-af2a-841714a79d39"/>
-				<box rightPadding="5">
-					<bottomPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Column 3]]></text>
+				<text><![CDATA[Date]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -85,7 +65,7 @@
 		<band height="36" splitType="Stretch"/>
 	</detail>
 	<columnFooter>
-		<band height="31" splitType="Stretch">
+		<band height="37" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="5" width="170" height="20" uuid="6f3bfe81-59f1-4093-bf0e-d76888c5f4d0"/>
 				<box leftPadding="5"/>
@@ -94,15 +74,6 @@
 				</textElement>
 				<text><![CDATA[software by supervision technology (pvt) ltd.]]></text>
 			</staticText>
-			<textField pattern="yyyy-MM-dd @ hh:mm:ss">
-				<reportElement mode="Transparent" x="170" y="5" width="220" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="2030bfc8-a37c-4948-a988-a0b5b8a11ce7"/>
-				<box padding="0" topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
-					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="390" y="5" width="129" height="20" uuid="3a6b0597-1ed0-4638-9ff4-7cd98d69f6a3">
 					<property name="local_mesure_unitheight" value="pixel"/>
@@ -120,6 +91,11 @@
 				<box rightPadding="5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="172" y="5" width="218" height="20" uuid="4b2a16d8-d83f-4261-ac28-0cb983bdfa3a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
