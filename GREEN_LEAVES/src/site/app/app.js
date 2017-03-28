@@ -33,7 +33,9 @@
 
         "directTeaIssueModule",
         "officerTeaIssueModule",
-        "teaSettlementModule"
+        "teaSettlementModule",
+        
+        "employeeTeaIssueModule"
     ]);
 
     //constants
@@ -158,6 +160,11 @@
                         .when("/transactions/payroll/employee-advance/approve", {
                             templateUrl: "app/transactions/payroll/employee-advance/approve/employee-advance-approve.html",
                             controller: "EmployeeAdvanceApproveController"
+                        })
+                        //Employee Tea Issue
+                        .when("/transactions/payroll/employee-tea-issue", {
+                            templateUrl: "app/transactions/payroll/employee-tea-issue/employee-tea-issue.html",
+                            controller: "employeeTeaIssueController"
                         })
                         
                         //reports
