@@ -83,6 +83,14 @@
                                         <td><label class="control-label">VEHICLE</label></td>
                                         <td><input class="form-control" id="vehicle" ng-model="model.currentReport.parameterValues.VEHICLE" ></td>
                                     </tr>
+                                    <tr ng-show="ui.isParameterAvailable('EMPLOYEE')">
+                                        <td><label class="control-label">EMPLOYEE</label></td>
+                                        <td><input class="form-control" id="employee" ng-model="model.currentReport.parameterValues.EMPLOYEE" ></td>
+                                    </tr>
+                                    <tr ng-show="ui.isParameterAvailable('STATUS')">
+                                        <td><label class="control-label">STATUS</label></td>
+                                        <td><input class="form-control" id="status" ng-model="model.currentReport.parameterValues.STATUS" ></td>
+                                    </tr>
                                 </tbody>                 
                             </table>
 
