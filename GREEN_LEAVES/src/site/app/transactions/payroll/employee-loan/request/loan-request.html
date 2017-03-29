@@ -1,0 +1,129 @@
+<div class="index-content-header"></div>
+<div class="index-content-body">
+    <div class="col-xs-8 background-light">
+        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
+            <div class="col-xs-12 background-dark border-dark-bottom" style="flex: 0 0 auto; ">
+                <table class="control-table">
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-4"/>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <input id="date" class="form-control" smart-input="date" input-hint="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                            <td>
+                                <input class="form-control" input-hint="number" ng-model="model.data.number" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12" style="flex: 0 0 auto;">
+                <table class="control-table">
+                    <col style="width: 15%"/>
+                    <col style="width: 35%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: auto"/>
+
+                    <thead class="background-dark">
+                        <tr>
+                            <th>
+                                <label>EMP NO.</label>
+                                <input id="client-number"   smart-input="integer" class="form-control text-right" ng-model="model.tempEmployeeNo" ng-keypress="ui.validateEmployee($event);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-left">
+                                <label>EMPLOYEE</label>
+                                <input id="employee" smart-input="text" class="form-control" ng-model="model.tempData.employee" uib-typeahead="employee.indexNo as (employee.employeeNumber + '-' + employee.name) for employee in model.employees|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.employeeLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-right">
+                                <label>AMOUNT</label>
+                                <input id="amount" smart-input="decimal" class="form-control text-right" ng-model="model.tempData.amount" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-right">
+                                <label>INSTALLMENT</label>
+                                <input smart-input="integer" class="form-control text-right" ng-model="model.tempData.installmentCount" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                            </th>
+                            <th class="text-right" style="vertical-align: bottom; padding-bottom: 5px; padding-right: 10px;">
+                                <button class="btn btn-default" ng-click="ui.insertLoanRequest();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-plus"></span></button>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 234px);" ng-show="model.data.loanRequestDetails.length">
+                <table class="table-hover animation-fade">
+                    <col style="width: 15%"/>
+                    <col style="width: 35%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: auto"/>
+
+                    <tbody>
+                        <tr ng-repeat="requestDetail in model.data.loanRequestDetails">
+                            <td>
+                                <span class="label label-default">{{requestDetail.employee|fixedLength:5}}</span>
+                            </td>
+                            <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">
+                                {{ui.getEmployee(requestDetail.employee).name}}
+                            </td>
+                            <td class="text-right">{{requestDetail.amount|number:2}}</td>
+                            <td class="text-right">{{requestDetail.installmentCount}}</td>
+                            <td class="text-right">
+                                <a class="btn btn-default" ng-click="ui.editRequest($index);"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-danger" ng-click="ui.deleteRequest($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="placeholder col-xs-12" style="height: calc(100vh - 234px);" ng-hide="model.data.loanRequestDetails.length">
+                <h1>PLEASE ADD LOAN REQUEST TO DISPLAY :(</h1>
+            </div>
+            <div class="col-xs-12">
+                <table>
+                    <col style="width: 50%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: auto"/>
+                    <thead class="background-dark">
+                        <tr class="clickable">
+                            <th>LOAN REQUEST SUMMARY</th>
+                            <th class="text-right">{{ui.requestSummary() | number:2}}</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4 background-dark border-dark-left">
+        <side-panel client="model.tempData.client" date="model.data.date">
+        </side-panel>
+    </div>
+    <div class="fab-container">
+        <!--discard-->
+        <a class="fab fab-default" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'" ng-click="ui.discard();"><i class="glyphicon glyphicon-remove"></i></a>
+        <!--load-->
+        <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
+        <!--clear-->
+        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
+        <!--delete-->
+        <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
+        <!--edit-->
+        <a class="fab fab-success" fab-show="ui.mode === 'SELECTED'" ng-click="ui.edit();"><i class="glyphicon glyphicon-edit"></i></a>
+
+        <!--new-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'IDEAL' || ui.mode === 'SELECTED'"  ng-click="ui.new();"><i class="glyphicon glyphicon-plus"></i></a>
+        <!--save-->
+        <a class="fab fab-lg fab-primary" fab-show="ui.mode === 'NEW' || ui.mode==='EDIT'"  ng-click="ui.save();"><i class="glyphicon glyphicon-ok"></i></a>
+    </div>
+</div>

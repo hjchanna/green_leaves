@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.green_leaves.client_loan;
+package com.mac.green_leaves.v1.payroll.employee_loan;
 
-import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
-import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
+import com.mac.green_leaves.v1.payroll.employee_loan.model.TEmployeeLoan;
+import com.mac.green_leaves.v1.payroll.employee_loan.model.TEmployeeLoanDetail;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +19,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author Mohan
+ * @author L T430
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/loan/loan-request")
-public class GLLoanRequestController {
-
-    private static final int BRANCH = 1;
+@RequestMapping("/api/v1/employee-loan/loan-request")
+public class PREmployeeLoanController {
 
     @Autowired
-    private GLLoanRequestService loanRequestService;
+    private PREmployeeLoanService loanRequestService;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Integer saveLoanRequest(@RequestBody TLoanRequest loanRequest) {
-         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return loanRequestService.saveLoanRequest(loanRequest, branch);
-    }
-
-    @RequestMapping(value = "/{number}", method = RequestMethod.GET)
-    public TLoanRequest getLoanRequest(@PathVariable Integer number) {
+    public Integer saveLoanRequest(@RequestBody TEmployeeLoan loanRequest) {
         Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return loanRequestService.getLoanRequest(branch, number);
+        return loanRequestService.saveLoanRequest(loanRequest, branch);
     }
 
     @RequestMapping(value = "/pending-requests")
@@ -50,20 +42,27 @@ public class GLLoanRequestController {
     }
 
     @RequestMapping(value = "/find-by-loan-detail/{indexNo}", method = RequestMethod.GET)
-    public TLoanRequestDetail findByTLoanRequestDetailByIndexNo(@PathVariable Integer indexNo) {
-        return loanRequestService.findByTLoanRequestDetailByIndexNo(indexNo);
+    public TEmployeeLoanDetail findByTLoanRequestDetailByIndexNo(@PathVariable Integer indexNo) {
+        TEmployeeLoanDetail detailModel = loanRequestService.findByTLoanRequestDetailByIndexNo(indexNo);
+        detailModel.setLoanRequest(null);
+        return detailModel;
     }
-
 //  check ------------------------------------------------------------------
+
     @RequestMapping(value = "/check-request-detail", method = RequestMethod.POST)
-    public void checkLoanRequestDetail(@RequestBody TLoanRequestDetail loanRequestDetail) {
-        loanRequestService.checkLoanRequestDetail(loanRequestDetail);
+    public void checkLoanRequestDetail(@RequestBody TEmployeeLoanDetail loanDetail) {
+        loanRequestService.checkLoanRequestDetail(loanDetail);
     }
 
-    // approve-----------------------------------------------------------------
+//     approve-----------------------------------------------------------------
+
     @RequestMapping(value = "/check-pending-requests")
-    public List<TLoanRequestDetail> getCheckLoanRequests() {
-        return loanRequestService.getCheckLoanRequests();
+    public List<TEmployeeLoanDetail> getCheckLoanRequests() {
+        List<TEmployeeLoanDetail> detailList = loanRequestService.getCheckLoanRequests();
+        for (TEmployeeLoanDetail detailModel : detailList) {
+            detailModel.getLoanRequest().setLoanRequestDetails(null);
+        }
+        return detailList;
     }
 
     @RequestMapping(value = "/approve-request/{indexNo}/{agreementNumber}", method = RequestMethod.GET)

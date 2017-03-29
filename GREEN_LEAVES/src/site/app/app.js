@@ -149,15 +149,34 @@
                         })
                         
                         //payrool
-                        //employee advance request
+                        
+                        //employee advance
+                        //request
                         .when("/transactions/payroll/employee-advance/request", {
                             templateUrl: "app/transactions/payroll/employee-advance/request/employee-advance-request.html",
                             controller: "EmployeeAdvanceRequestController"
                         })
-                        //employee advance approve
+                        //approve
                         .when("/transactions/payroll/employee-advance/approve", {
                             templateUrl: "app/transactions/payroll/employee-advance/approve/employee-advance-approve.html",
                             controller: "EmployeeAdvanceApproveController"
+                        })
+                        
+                        //employee loan
+                        //request
+                         .when("/transactions/payroll/employee-loan/request", {
+                            templateUrl: "app/transactions/payroll/employee-loan/request/loan-request.html",
+                            controller: "EmployeeLoanRequestController"
+                        })
+                        //check
+                        .when("/transactions/payroll/employee-loan/check", {
+                            templateUrl: "app/transactions/payroll/employee-loan/check/loan-check.html",
+                            controller: "EmployeeLoanCheckController"
+                        })
+                        //approve
+                        .when("/transactions/payroll/employee-loan/approve", {
+                            templateUrl: "app/transactions/payroll/employee-loan/approve/loan-approve.html",
+                            controller: "EmployeeLoanApproveController"
                         })
                         
                         //reports
