@@ -42,37 +42,6 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a class="menu-header">VOUCHER AND FINAL PAYMENT</a>
-                            <ul>
-                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-payment">Voucher</a></li>
-                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/price-setting">Price Settings</a></li>
-                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/final-payemnt">Final Payment</a></li>
-                            </ul>
-                        </li>
-
-                        <li> 
-                            <a class="menu-header">EMPLOYEE LOAN</a>
-                            <ul>
-                                <li><a href="#/transactions/payroll/employee-loan/request">Employee Loan Request</a></li>
-                                <li><a href="#/transactions/payroll/employee-loan/check">Employee Loan Check</a></li>
-                                <li><a href="#/transactions/payroll/employee-loan/approve">Employee Loan Approve</a></li>
-                            </ul>
-                        </li>
-                        
-                        <li> 
-                            <a class="menu-header">REPORT VIEWER</a>
-                            <ul>
-                                <li><a href="#/reports/general/report-viewer">Report Viewer</a></li>
-                            </ul>
-                        </li>
-                        <li> 
-                            <a class="menu-header">EMPLOYEE ADVANCE</a>
-                            <ul>
-                                <li><a href="#/transactions/payroll/employee-advance/request">Employee Advance Request</a></li>
-                                <li><a href="#/transactions/payroll/employee-advance/approve">Employee Advance Approve</a></li>
-                            </ul>
-                        </li>
 
                         <li>
                             <a class="menu-header">DEDUCTION</a>
@@ -88,6 +57,42 @@
                                 <li><a href="#/transactions/green-leaves/client-advance/client-advance-request">Client Advance request</a></li>
                                 <li><a href="#/transactions/green-leaves/client-advance/client-advance-approve">Client Advance approve</a></li>
 
+                            </ul>
+                        </li>
+                        
+                        <li>
+                            <a class="menu-header">VOUCHER AND FINAL PAYMENT</a>
+                            <ul>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/green-leaves-payment">Voucher</a></li>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/price-setting">Price Settings</a></li>
+                                <li><a href="#/transactions/green-leaves/green-leaves-weigh/final-payemnt">Final Payment</a></li>
+                            </ul>
+                        </li>
+
+
+
+                        <li> 
+                            <a class="menu-header">REPORT VIEWER</a>
+                            <ul>
+                                <li><a href="#/reports/general/report-viewer">Report Viewer</a></li>
+                            </ul>
+                        </li>
+
+                        <li> 
+                            <a class="menu-header">EMPLOYEE ADVANCE</a>
+                            <ul>
+                                <li><a href="#/transactions/payroll/employee-advance/request">Employee Advance Request</a></li>
+                                <li><a href="#/transactions/payroll/employee-advance/approve">Employee Advance Approve</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li> 
+                            <a class="menu-header">EMPLOYEE LOAN</a>
+                            <ul>
+                                <li><a href="#/transactions/payroll/employee-loan/request">Employee Loan Request</a></li>
+                                <li><a href="#/transactions/payroll/employee-loan/check">Employee Loan Check</a></li>
+                                <li><a href="#/transactions/payroll/employee-loan/approve">Employee Loan Approve</a></li>
                             </ul>
                         </li>
 
@@ -204,17 +209,17 @@
         <!-- endinject -->
 
         <script type="text/javascript">
-                    document.addEventListener("DOMContentLoaded", function (event) {
+            document.addEventListener("DOMContentLoaded", function (event) {
 
-                        setTimeout(function () {
-                            var element = document.getElementById("page-loading");
-                            element.className += " exit";
+                setTimeout(function () {
+                    var element = document.getElementById("page-loading");
+                    element.className += " exit";
 
-                            setTimeout(function () {
-                                element.parentNode.removeChild(element);
-                            }, 250);
-                        }, 1000);
-                    });
+                    setTimeout(function () {
+                        element.parentNode.removeChild(element);
+                    }, 250);
+                }, 1000);
+            });
         </script>
     </body>
 </html>
