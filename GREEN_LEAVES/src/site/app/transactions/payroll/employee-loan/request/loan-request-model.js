@@ -1,5 +1,5 @@
 (function () {
-    var factory = function ($q, ClientLoanRequestService, LoanRequestModelFactory, optionPane) {
+    var factory = function ($q, LoanRequestService, LoanRequestModelFactory, optionPane) {
         function LoanRequestModel() {
             this.constructor();
         }
@@ -10,48 +10,31 @@
             //temp input
             tempData: {},
             //client information
-            clients: [],
+            employees: [],
             //constructor
             constructor: function () {
                 var that = this;
                 that.data = LoanRequestModelFactory.newData();
                 that.tempData = LoanRequestModelFactory.newTempData();
 
-                //load clients
-                
-                console.log('client start');
-                ClientLoanRequestService.loadClients()
+//                load employee
+                LoanRequestService.loadEmployee()
                         .success(function (data) {
-                            console.log('client');
-                            console.log(data);
-                            that.clients = data;
+                            that.employees = data;
                         });
             },
+
             //clear all data
             clear: function () {
                 this.data = LoanRequestModelFactory.newData();
                 this.tempData = LoanRequestModelFactory.newTempData();
             },
-            load: function () {
-                var number = this.data.number;
-                var that = this;
-                var defer = $q.defer();
-                ClientLoanRequestService.loadLoan(number)
-                        .success(function (data) {
-                            that.data = {};
-                            angular.extend(that.data, data);
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            defer.reject();
-                        });
-                return defer.promise;
-            },
+
             //table added
             insertLoanRequest: function () {
                 var defer = $q.defer();
                 var that = this;
-                if (that.tempData.client
+                if (that.tempData.employee
                         && that.tempData.amount > 0
                         && that.tempData.installmentCount > 0) {
                     that.data.loanRequestDetails.unshift(that.tempData);
@@ -60,13 +43,22 @@
                 } else {
                     defer.reject();
                 }
-
                 return defer.promise;
             },
+            deleteDetail: function (indexNo) {
+                var that = this;
+                that.data.loanRequestDetails.splice(indexNo, 1);
+            },
+            editDetail: function (indexNo) {
+                var requestDetail = this.data.loanRequestDetails[indexNo];
+                this.data.loanRequestDetails.splice(indexNo, 1);
+                this.tempData = requestDetail;
+            },
+
             //save requests
             saveRequest: function () {
                 var data = JSON.stringify(this.data);
-                ClientLoanRequestService.saveLoanRequest(data)
+                LoanRequestService.saveLoanRequest(data)
                         .success(function (data) {
                             optionPane.successMessage("Loan request saved successfully.");
                         })
@@ -76,22 +68,22 @@
 
             },
             //return label for client
-            clientLabel: function (indexNo) {
+            employeeLabel: function (indexNo) {
                 var label;
-                angular.forEach(this.clients, function (value) {
+                angular.forEach(this.employees, function (value) {
                     if (value.indexNo === indexNo) {
                         label = value.indexNo + "-" + value.name;
                         return;
                     }
                 });
+
                 return label;
             }
-
         };
 
         return LoanRequestModel;
     };
 
     angular.module("appModule")
-            .factory("LoanRequestModel", factory);
+            .factory("EmployeeLoanRequestModel", factory);
 }());
