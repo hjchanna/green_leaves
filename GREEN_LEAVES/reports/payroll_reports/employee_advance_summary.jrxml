@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-28T14:10:48 -->
+<!-- 2017-03-28T18:20:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="green_leaves.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -10,6 +10,7 @@
 	<parameter name="TO_DATE" class="java.util.Date"/>
 	<parameter name="EMPLOYEE" class="java.lang.Integer"/>
 	<parameter name="STATUS" class="java.lang.String"/>
+	<parameter name="CURRENT_BRANCH" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select
 	concat('[', lpad(m_employee.employee_number, 5, 0), '] ', m_employee.name) as employee,
@@ -23,8 +24,9 @@ from
 	left join m_employee on m_employee.index_no = t_employee_advance_request_details.employee
 where
 	t_employee_advance_request.date between   $P{FROM_DATE}   and   $P{TO_DATE}
-	and (  $P{EMPLOYEE}  is null or m_employee.index_no =  $P{EMPLOYEE} ) and
-	( $P{STATUS}  is null or t_employee_advance_request_details.status =  $P{STATUS} )
+	and (  $P{EMPLOYEE}  is null or m_employee.index_no =  $P{EMPLOYEE} )
+	and ( $P{STATUS}  is null or t_employee_advance_request_details.status =  $P{STATUS} )
+	and t_employee_advance_request.branch= $P{CURRENT_BRANCH} 
 group by 
 	t_employee_advance_request_details.advance_request, t_employee_advance_request_details.employee
 order by

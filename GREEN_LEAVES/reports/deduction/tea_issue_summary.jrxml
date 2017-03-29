@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-23T17:25:57 -->
+<!-- 2017-03-28T17:54:08 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -12,13 +12,16 @@
 		<defaultValueExpression><![CDATA[new Date(117, 11, 31)]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ROUTE" class="java.lang.Integer"/>
+	<parameter name="STATUS" class="java.lang.String"/>
+	<parameter name="CURRENT_BRANCH" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select
 	concat('[', lpad(m_route.index_no, 5, 0), '] ', m_route.name) as route,
 	concat('[', lpad(m_tea_grade.index_no, 5, 0), '] ', m_tea_grade.name) as tea_grade,
 	sum(t_tea_issue.qty) as quantity,
 	group_concat(distinct format(t_tea_issue.price, 2) separator ' -OR- ') as prices,
-	sum(t_tea_issue.price * t_tea_issue.qty) as value
+	sum(t_tea_issue.price * t_tea_issue.qty) as value,
+	 t_tea_issue.status as status
 from
 	t_tea_issue
 	left join m_tea_grade on m_tea_grade.index_no = t_tea_issue.tea_grade
@@ -28,6 +31,8 @@ where
 	t_tea_issue.`type` = 'DIRECT_TEA_ISSUE'
 	and t_tea_issue.date between  $P{FROM_DATE}  and  $P{TO_DATE} 
 	and ( $P{ROUTE}  is null or m_route.index_no=  $P{ROUTE} )
+	and ( $P{STATUS} is null or  t_tea_issue.status =  $P{STATUS}  )
+	and t_tea_issue.branch= $P{CURRENT_BRANCH} 
 group by 
 	m_client.route, t_tea_issue.tea_grade
 order by
@@ -38,6 +43,7 @@ order by
 	<field name="quantity" class="java.math.BigDecimal"/>
 	<field name="prices" class="java.lang.String"/>
 	<field name="value" class="java.math.BigDecimal"/>
+	<field name="status" class="java.lang.String"/>
 	<variable name="value1" class="java.math.BigDecimal" resetType="Group" resetGroup="ROUTE_GROUP" calculation="Sum">
 		<variableExpression><![CDATA[$F{value}]]></variableExpression>
 	</variable>
@@ -64,7 +70,7 @@ order by
 					<textFieldExpression><![CDATA[$F{route}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="149" y="24" width="100" height="20" uuid="7704c709-9ce8-4c92-adc3-7b220aae03fd">
+					<reportElement x="70" y="24" width="130" height="20" uuid="7704c709-9ce8-4c92-adc3-7b220aae03fd">
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
@@ -77,7 +83,7 @@ order by
 					<text><![CDATA[Tea Grade]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="250" y="24" width="98" height="20" uuid="a1c15844-973f-4caa-ac18-71e54c0055a7"/>
+					<reportElement x="270" y="24" width="78" height="20" uuid="a1c15844-973f-4caa-ac18-71e54c0055a7"/>
 					<box rightPadding="5">
 						<bottomPen lineWidth="0.5"/>
 					</box>
@@ -90,7 +96,7 @@ order by
 					<reportElement x="348" y="24" width="103" height="20" uuid="51e925a6-0d57-40ae-afe1-f9040ff4cad9"/>
 					<box rightPadding="5">
 						<topPen lineWidth="0.0"/>
-						<bottomPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="12" isBold="false"/>
@@ -106,6 +112,18 @@ order by
 						<font size="12" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Value]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="24" width="70" height="20" uuid="99bbadd3-81b7-464f-8380-dd610a5e2cd4">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Status]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -142,7 +160,7 @@ order by
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="93" splitType="Stretch">
+		<band height="125" splitType="Stretch">
 			<staticText>
 				<reportElement positionType="FixRelativeToBottom" x="-20" y="0" width="595" height="30" uuid="a9f73f3a-ec28-414a-ad25-52c85681e0e5"/>
 				<box leftPadding="5"/>
@@ -192,6 +210,21 @@ order by
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{TO_DATE}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="1" y="92" width="79" height="20" uuid="5aa9236d-1a76-4df8-9e7e-4d6ec52d0ecd">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="82" y="92" width="138" height="20" uuid="0caaed7d-d1ec-44cc-bcf3-df7c41301dd0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{STATUS}==null?"All Status":$P{STATUS}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -215,9 +248,9 @@ order by
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="32" splitType="Stretch">
 			<textField>
-				<reportElement x="148" y="0" width="102" height="20" uuid="dc26a52f-ad48-45dd-985f-f324b61bd843">
+				<reportElement x="70" y="0" width="130" height="20" uuid="dc26a52f-ad48-45dd-985f-f324b61bd843">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -225,7 +258,7 @@ order by
 				<textFieldExpression><![CDATA[$F{tea_grade}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0">
-				<reportElement x="250" y="0" width="98" height="20" uuid="354f40d0-9fd8-4162-b062-eff0a71b2d65">
+				<reportElement x="270" y="0" width="78" height="20" uuid="354f40d0-9fd8-4162-b062-eff0a71b2d65">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box rightPadding="5"/>
@@ -243,6 +276,14 @@ order by
 				<box rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="70" height="20" uuid="615ae788-8d3e-4720-b081-10ce995a3a6a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
