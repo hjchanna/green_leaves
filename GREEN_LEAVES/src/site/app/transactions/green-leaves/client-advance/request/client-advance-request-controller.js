@@ -32,7 +32,7 @@
                             $scope.asAtDate = "This";
                         });
             } else {
-                Notification.error("client and request date already exists");
+                Notification.error("The selected client already have an advance request on current date.");
             }
         };
 
@@ -51,17 +51,19 @@
             var date = new Date();
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
             if (angular.equals(lastDay, asAtDate)) {
-                $scope.asAtDate = "This";
+                $scope.asAtDate = "CURRENT";
             } else {
-                $scope.asAtDate = "Previous";
+                $scope.asAtDate = "PREVIOUS";
             }
             $scope.ui.focus();
         };
 
         $scope.ui.deleteRequest = function (index) {
-            console.log("delete");
-            $scope.model.deleteDetail(index);
-            $scope.ui.focus();
+            ConfirmPane.dangerConfirm("Do you sure want to delete advance request detail?")
+                    .confirm(function () {
+                        $scope.model.deleteDetail(index);
+                        $scope.ui.focus();
+                    });
         };
 
         $scope.ui.validateClient = function (event) {
@@ -74,7 +76,7 @@
                         angular.element(document.querySelectorAll("#amount"))[0].focus();
                     }, 10);
                 } else {
-                    Notification.error("client not found!");
+                    Notification.error("Client cannot find by number. Please try by name instead.");
                     $timeout(function () {
                         angular.element(document.querySelectorAll("#client"))[0].focus();
                     }, 10);
@@ -96,22 +98,19 @@
 
         $scope.ui.save = function () {
             if (!$scope.model.data.route) {
-                Notification.error("please select route!");
+                Notification.error("Please select a valid route.");
             } else if (!$scope.model.data.date) {
-                Notification.error("please enter date!");
+                Notification.error("Please enter a valid date.");
             } else if ($scope.model.data.clientAdvanceRequestDetails.length === 0) {
-                Notification.error("please enter addvance client request!");
+                Notification.error("Please add one advance request at least.");
             } else if ($scope.model.data.date && $scope.model.data.route) {
-                ConfirmPane.primaryConfirm("Save Green Leaves Advance Request!")
+                ConfirmPane.primaryConfirm("Do you sure want to save advance request?")
                         .confirm(function () {
                             $scope.model.saveClientApproveRequest()
                                     .then(function () {
                                         $scope.ui.mode = "IDEAL";
                                         $scope.model.clear();
                                     });
-                        })
-                        .discard(function () {
-                            console.log("ReJECT");
                         });
 
             }
@@ -129,12 +128,9 @@
         };
 
         $scope.ui.delete = function () {
-            ConfirmPane.dangerConfirm("Delete Client Advance Request")
+            ConfirmPane.dangerConfirm("Do you sure want to delete advance request?")
                     .confirm(function () {
                         $scope.model.deleteAdvanceRequest();
-                    })
-                    .discard(function () {
-                        console.log("ReJECT");
                     });
 
         };
@@ -156,13 +152,13 @@
             //client ledger auto refresh
             $scope.$watch('[model.tempData.client, asAtDate]', function () {
                 var asAtDate = $scope.asAtDate;
-                if (asAtDate === "This") {
+                if (asAtDate === "CURRENT") {
                     var date = new Date();
                     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
                     $scope.model.tempData.asAtDate = lastDay;
-                } else if (asAtDate === "Previous") {
+                } else if (asAtDate === "PREVIOUS") {
                     var date = new Date();
-                    var prev = new Date(date.getFullYear(), date.getMonth() - 1, date.getMonth());
+                    var prev = new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
                     var lastDay = new Date(prev.getFullYear(), prev.getMonth() + 1, 0);
                     $scope.model.tempData.asAtDate = lastDay;
                 }
@@ -172,6 +168,11 @@
                 var c = $scope.model.client($scope.model.tempData.client);
                 if (c) {
                     $scope.tempClient = c.clientNumber;
+
+                    if ($scope.model.data.route !== c.route) {
+                        var clientRoute = $scope.model.routeLabel(c.route);
+                        Notification.warning("This client is from an another route. (" + clientRoute + ")");
+                    }
                 } else {
                     $scope.tempClient = null;
                 }

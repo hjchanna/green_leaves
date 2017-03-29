@@ -8,15 +8,12 @@ package com.mac.green_leaves.v1.green_leaves.client_advance;
 import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequest;
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
-import com.mac.green_leaves.v1.green_leaves.client_advance.model.TransactionType;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerSettlementTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.ClientLedgerStatus;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.GLCommonClientLedgerRepository;
 import com.mac.green_leaves.v1.green_leaves.zcommon.client_ledger.model.TClientLedger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.GLCommonVoucherRepository;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherLedgerTypes;
 import com.mac.green_leaves.v1.green_leaves.zcommon.voucher.VoucherPaymentTypes;
@@ -26,7 +23,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,6 +39,7 @@ public class GLClientAdvanceService {
     public static final String ADVANCE_REQUEST_STATUS_PENDING = "PENDING";
     public static final String ADVANCE_REQUEST_STATUS_APPROVED = "APPROVED";
     public static final String ADVANCE_REQUEST_STATUS_REJECTED = "REJECTED";
+    public static final String ADVANCE_REQUEST_STATUS_DELETED = "DELETED";
 
     @Autowired
     private GLClientAdvanceRequestRepository clientAdvanceRepository;
@@ -97,6 +94,7 @@ public class GLClientAdvanceService {
         }
 
         clientAdvanceRequest.setBranch(branch);
+        clientAdvanceRequest.setStatus(ADVANCE_REQUEST_STATUS_PENDING);
         clientAdvanceRequest = clientAdvanceRepository.save(clientAdvanceRequest);
         return clientAdvanceRequest.getIndexNo();
     }
@@ -122,16 +120,15 @@ public class GLClientAdvanceService {
 //    }
     @Transactional
     public void deleteAdvanceRequestDetail(Integer indexNo) {
-        TClientAdvanceRequestDetail clientAdvanceRequestDetail = clientAdvanceRequestDetailRepository.getOne(indexNo);
-        TClientAdvanceRequest tClientAdvanceRequest = clientAdvanceRequestDetail.getClientAdvanceRequest();
-
-        System.out.println("one detai delete");
-        clientAdvanceRequestDetailRepository.delete(indexNo);
-
-        //TClientAdvanceRequestDetail is emplty delete tClientAdvanceRequest
-        if (tClientAdvanceRequest.getClientAdvanceRequestDetails().isEmpty()) {
-            System.out.println("full detail delete");
-            clientAdvanceRepository.delete(tClientAdvanceRequest);
+        TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.getOne(indexNo);
+        TClientAdvanceRequest advanceRequest = advanceRequestDetail.getClientAdvanceRequest();
+        
+        advanceRequest.getClientAdvanceRequestDetails().remove(advanceRequestDetail);
+        clientAdvanceRequestDetailRepository.delete(advanceRequestDetail);
+        
+        if (advanceRequest.getClientAdvanceRequestDetails().isEmpty()) {
+            advanceRequest.setStatus(ADVANCE_REQUEST_STATUS_DELETED);
+            clientAdvanceRepository.save(advanceRequest);
         }
     }
 

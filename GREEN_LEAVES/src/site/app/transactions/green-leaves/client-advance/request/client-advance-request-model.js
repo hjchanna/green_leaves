@@ -116,16 +116,12 @@
                 var that = this;
                 var indexNo = this.data.clientAdvanceRequestDetails[parseInt(index)];
                 if (indexNo.indexNo) {
-                    console.log("exists request delete");
                     var indexNo = parseInt(indexNo.indexNo);
                     ClientAdvanceRequestService.deleteAdvanceRequestDetails(indexNo)
                             .success(function (data) {
                                 console.log(data);
                                 that.data.clientAdvanceRequestDetails.splice(index, 1);
                                 that.refreshQuantity();
-                            })
-                            .error(function (data) {
-
                             });
                 } else {
                     console.log("new request delete");

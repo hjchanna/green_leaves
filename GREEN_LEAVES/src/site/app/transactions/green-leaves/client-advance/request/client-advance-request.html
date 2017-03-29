@@ -47,8 +47,8 @@
                             <th class="text-left">
                                 <label>MONTH</label>
                                 <select class="form-control" ng-model="asAtDate" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
-                                    <option value="This" selected="selected">CURRENT</option>
-                                    <option value="Previous">PREVIOUS</option>
+                                    <option value="CURRENT" selected="selected">CURRENT</option>
+                                    <option value="PREVIOUS">PREVIOUS</option>
                                 </select>
                             </th>
                             <th class="text-right">
@@ -75,11 +75,11 @@
                                 <span class="label" ng-class="model.client(requestDetail.client).route === model.data.route ? 'label-default' : 'label-danger'">{{model.client(requestDetail.client).clientNumber | fixedLength:5}}</span>{{model.client(requestDetail.client).name}}
                                 <span class="text-default">({{model.route(model.client(requestDetail.client).route).name}})</span>
                             </td>
-                            <td class="text-right">{{requestDetail.asAtDate| date:'yy-MMMM'}}</td>
+                            <td class="text-right">{{requestDetail.asAtDate| date:'yyyy-MMMM'|uppercase}}</td>
                             <td class="text-right">{{requestDetail.amount|number:2}}</td>
                             <td class="text-right">
-                                <a class="btn btn-default" ng-click="ui.editRequest($index);"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a class="btn btn-danger" ng-click="ui.deleteRequest($index);"><span class="glyphicon glyphicon-trash"></span></a>
+                                <button class="btn btn-default" ng-click="ui.editRequest($index);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-edit"></span></button>
+                                <button class="btn btn-danger" ng-click="ui.deleteRequest($index);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>
                         </tr>
                     </tbody>
@@ -90,14 +90,16 @@
             </div>
             <div class="col-xs-12">
                 <table>
-                    <col style="width: 55%"/>
-                    <col style="width: 20%"/>
+                    <col style="width: auto"/>
                     <col style="width: 25%"/>
+                    <col style="width: 20%"/>
+                    <col style="width: 75px"/>
                     <thead class="background-dark">
                         <tr class="clickable">
-                            <th>ADVANCE REQUEST SUMMARY</th>
-                            <th class="text-right">{{model.requestTotal.requestTotal}}</th>
+                            <th>ADVANCE REQUEST SUMMARY ({{model.requestTotal.requestTotal}})</th>
+                            <th class="text-right">&nbsp;</th>
                             <th class="text-right">{{model.requestTotal.requestAmountTotal| number:2}}</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                 </table>
@@ -115,7 +117,7 @@
         <!--load-->
         <a class="fab fab-warning" fab-show="ui.mode === 'IDEAL'" ng-click="ui.load();"><i class="glyphicon glyphicon-download-alt"></i></a>
         <!--clear-->
-        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.clear();"><i class="glyphicon glyphicon-erase"></i></a>
+        <a class="fab fab-warning" fab-show="ui.mode === 'SELECTED'" ng-click="ui.discard();"><i class="glyphicon glyphicon-erase"></i></a>
         <!--delete-->
         <a class="fab fab-danger" fab-show="ui.mode === 'SELECTED'" ng-click="ui.delete();"><i class="glyphicon glyphicon-trash"></i></a>
         <!--edit-->
