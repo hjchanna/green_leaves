@@ -49,5 +49,5 @@
     };
 
     angular.module("appModule")
-            .service("LoanRequestService", service);
+            .service("ClientLoanRequestService", service);
 }());

@@ -1,5 +1,5 @@
 (function () {
-    var factory = function ($q, LoanRequestService, LoanRequestModelFactory, optionPane) {
+    var factory = function ($q, ClientLoanRequestService, LoanRequestModelFactory, optionPane) {
         function LoanRequestModel() {
             this.constructor();
         }
@@ -18,8 +18,12 @@
                 that.tempData = LoanRequestModelFactory.newTempData();
 
                 //load clients
-                LoanRequestService.loadClients()
+                
+                console.log('client start');
+                ClientLoanRequestService.loadClients()
                         .success(function (data) {
+                            console.log('client');
+                            console.log(data);
                             that.clients = data;
                         });
             },
@@ -32,7 +36,7 @@
                 var number = this.data.number;
                 var that = this;
                 var defer = $q.defer();
-                LoanRequestService.loadLoan(number)
+                ClientLoanRequestService.loadLoan(number)
                         .success(function (data) {
                             that.data = {};
                             angular.extend(that.data, data);
@@ -62,7 +66,7 @@
             //save requests
             saveRequest: function () {
                 var data = JSON.stringify(this.data);
-                LoanRequestService.saveLoanRequest(data)
+                ClientLoanRequestService.saveLoanRequest(data)
                         .success(function (data) {
                             optionPane.successMessage("Loan request saved successfully.");
                         })
