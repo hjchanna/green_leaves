@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-29T17:55:09 -->
+<!-- 2017-03-30T17:39:28 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -17,32 +17,58 @@
 	</parameter>
 	<parameter name="ROUTE" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select
+		<![CDATA[SELECT
 	t_green_leaves_receive.index_no,
-	concat('[', lpad(receive_route.index_no,5,0), '] ', receive_route.name) as rec_route ,
+	concat('[', lpad(receive_route.index_no,5,0), '] ', receive_route.name) as rec_route,
 	concat('[', lpad(m_client.index_no,5,0), '] ', m_client.name) as client,
 	sum(t_green_leaves_receive_detail.normal_leaves_quantity) as normal_quantity,
 	sum(t_green_leaves_receive_detail.super_leaves_quantity) as super_quantity,
 	concat('[', lpad(registered_route.index_no,5,0), '] ', registered_route.name) as reg_route,
-	m_vehicle.vehicle_no
-from
+	COALESCE(m_vehicle.vehicle_no,"- - -") as vehicle_no
+	
+FROM
 	t_green_leaves_receive_detail
 	left join t_green_leaves_receive on t_green_leaves_receive.index_no = t_green_leaves_receive_detail.green_leaves_receive
 	left join m_client on m_client.index_no = t_green_leaves_receive_detail.`client`
 	left join m_route receive_route on receive_route.index_no = t_green_leaves_receive.route
 	left join m_route registered_route on registered_route.index_no = m_client.route
 	left join m_vehicle on m_vehicle.index_no = t_green_leaves_receive.vehicle
-where
-	t_green_leaves_receive.branch =  $P{CURRENT BRANCH} 
+WHERE
+	t_green_leaves_receive.branch =   $P{CURRENT BRANCH} 
 	and (t_green_leaves_receive.`status` = 'APPROVE' or t_green_leaves_receive.`status` = 'PENDING')
-	and t_green_leaves_receive.date between  $P{FROM_DATE}   and  $P{TO_DATE}
-	and (t_green_leaves_receive.route =  $P{ROUTE}  or  $P{ROUTE}  is null)
+	and t_green_leaves_receive.date between   $P{FROM_DATE}   and  $P{TO_DATE} 
+	and (t_green_leaves_receive.route =   $P{ROUTE} or $P{ROUTE} is null)
 group by
 	m_client.index_no
+
+UNION all
+
+SELECT
+	'-1' as index_no,
+	concat('[', lpad(receive_route.index_no,5,0), '] ', receive_route.name) as rec_route,
+	concat('[', lpad(m_employee.index_no,5,0), '] ', m_employee.name) as client,
+	SUM(t_green_leaves_weigh.normal_net_weight) as normal_quantity,
+	SUM(t_green_leaves_weigh.super_net_weight) as super_quantity,
+	concat('[', lpad(receive_route.index_no,5,0), '] ', receive_route.name) as rec_route,
+	"- - -" as vehicle_no 
+FROM
+	t_green_leaves_weigh
+	left join m_route receive_route on receive_route.index_no = t_green_leaves_weigh.route
+	left join m_employee on m_employee.index_no = t_green_leaves_weigh.route_officer
+WHERE
+	t_green_leaves_weigh.branch =  $P{CURRENT BRANCH} 
+	and (t_green_leaves_weigh.status = 'APPROVE' or t_green_leaves_weigh.status = 'PENDING')
+	and t_green_leaves_weigh.date between  $P{FROM_DATE}  and   $P{TO_DATE} 
+	and (t_green_leaves_weigh.route =  $P{ROUTE}  or   $P{ROUTE} is null)
+group by
+	receive_route.index_no	
+
 order by
-	rec_route]]>
+		rec_route,index_no desc
+	
+]]>
 	</queryString>
-	<field name="index_no" class="java.lang.Integer"/>
+	<field name="index_no" class="java.lang.String"/>
 	<field name="rec_route" class="java.lang.String"/>
 	<field name="client" class="java.lang.String"/>
 	<field name="normal_quantity" class="java.math.BigDecimal"/>
@@ -70,7 +96,7 @@ order by
 			<band/>
 		</groupHeader>
 		<groupFooter>
-			<band height="18">
+			<band height="4">
 				<staticText>
 					<reportElement x="0" y="0" width="555" height="2" uuid="0542969d-4029-44b6-ae30-276ef0e71f7a"/>
 					<box>
@@ -86,7 +112,7 @@ order by
 		<groupHeader>
 			<band height="50">
 				<staticText>
-					<reportElement x="46" y="24" width="169" height="20" uuid="452b52a0-e8a5-43b3-93e9-7d186aedd9bd"/>
+					<reportElement x="10" y="24" width="230" height="20" uuid="452b52a0-e8a5-43b3-93e9-7d186aedd9bd"/>
 					<box leftPadding="5" rightPadding="0">
 						<bottomPen lineWidth="1.0"/>
 					</box>
@@ -96,7 +122,7 @@ order by
 					<text><![CDATA[Client]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="418" y="24" width="72" height="20" uuid="33b83847-069b-4263-8b05-efeb299c8913">
+					<reportElement x="430" y="24" width="62" height="20" uuid="33b83847-069b-4263-8b05-efeb299c8913">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<box rightPadding="5">
@@ -108,7 +134,7 @@ order by
 					<text><![CDATA[Normal]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="490" y="24" width="65" height="20" uuid="8a72d19e-cd16-46bb-9db4-52799e11808d">
+					<reportElement x="492" y="24" width="63" height="20" uuid="8a72d19e-cd16-46bb-9db4-52799e11808d">
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
 					<box rightPadding="10">
@@ -120,7 +146,7 @@ order by
 					<text><![CDATA[Super]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="215" y="24" width="138" height="20" uuid="a91c90d1-0afe-4a5a-954a-c8e42bcc6ce4"/>
+					<reportElement x="240" y="24" width="130" height="20" uuid="a91c90d1-0afe-4a5a-954a-c8e42bcc6ce4"/>
 					<box leftPadding="20" rightPadding="0">
 						<bottomPen lineWidth="1.0"/>
 					</box>
@@ -130,7 +156,7 @@ order by
 					<text><![CDATA[Registered Route]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="354" y="24" width="64" height="20" uuid="520645f0-bc2c-4a8c-af2a-841714a79d39"/>
+					<reportElement x="370" y="24" width="60" height="20" uuid="520645f0-bc2c-4a8c-af2a-841714a79d39"/>
 					<box leftPadding="0" rightPadding="0">
 						<bottomPen lineWidth="1.0"/>
 					</box>
@@ -154,7 +180,7 @@ order by
 		<groupFooter>
 			<band height="28">
 				<textField pattern="#,##0.00">
-					<reportElement x="420" y="2" width="72" height="20" uuid="4b5ec116-30e1-4e2a-b89a-48494a886a8e">
+					<reportElement x="430" y="2" width="62" height="20" uuid="4b5ec116-30e1-4e2a-b89a-48494a886a8e">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					</reportElement>
@@ -162,16 +188,20 @@ order by
 						<topPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$V{normal_quantity2}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.00">
-					<reportElement x="492" y="2" width="62" height="20" uuid="1680694b-d842-4241-a5f6-686bea66c01e"/>
+					<reportElement x="492" y="2" width="63" height="20" uuid="1680694b-d842-4241-a5f6-686bea66c01e"/>
 					<box rightPadding="5">
 						<topPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$V{super_quantity2}]]></textFieldExpression>
 				</textField>
 				<staticText>
@@ -189,7 +219,7 @@ order by
 					<text><![CDATA[Sub Total for Route  ]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="230" y="2" width="190" height="20" uuid="b25ab40a-d4a8-4e02-9a8e-64dbe6e88f51"/>
+					<reportElement x="230" y="2" width="200" height="20" uuid="b25ab40a-d4a8-4e02-9a8e-64dbe6e88f51"/>
 					<box>
 						<topPen lineWidth="1.0"/>
 						<bottomPen lineWidth="1.0" lineStyle="Double"/>
@@ -298,7 +328,8 @@ order by
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="24" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField pattern="#,##0.00">
 				<reportElement x="492" y="0" width="63" height="20" uuid="9582bd68-e9fe-47f0-be92-a047e3c7a194">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -308,28 +339,28 @@ order by
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{super_quantity}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{index_no}.equals("-1")?$V{super_quantity2}.doubleValue()-$F{super_quantity}.doubleValue():$F{super_quantity}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="420" y="0" width="72" height="20" uuid="29b13e47-e690-4235-b231-df8e0206dd25">
+				<reportElement x="430" y="0" width="62" height="20" uuid="29b13e47-e690-4235-b231-df8e0206dd25">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{normal_quantity}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{index_no}.equals("-1")?$V{normal_quantity2}.doubleValue()-$F{normal_quantity}.doubleValue():$F{normal_quantity}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="46" y="0" width="169" height="20" uuid="cb13685e-177a-40ff-9732-96a16cf44615"/>
+				<reportElement x="10" y="0" width="230" height="20" uuid="cb13685e-177a-40ff-9732-96a16cf44615"/>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{client}!=null?$F{client}:"-UNREGISTERED-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{index_no}.equals("-1")?"FACTORY NUMBRR - "+$F{client}:$F{client}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="215" y="0" width="139" height="20" uuid="aea66f03-deab-4126-879d-86022ba7c476">
+				<reportElement x="240" y="0" width="130" height="20" uuid="aea66f03-deab-4126-879d-86022ba7c476">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box leftPadding="20"/>
@@ -339,19 +370,19 @@ order by
 				<textFieldExpression><![CDATA[$F{reg_route}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="354" y="0" width="66" height="20" uuid="baefd4f1-310c-4035-8fbc-f102069ab568">
+				<reportElement x="370" y="0" width="60" height="20" uuid="baefd4f1-310c-4035-8fbc-f102069ab568">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box leftPadding="0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{vehicle_no}!=null?$F{vehicle_no}:"- - -"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{vehicle_no}==null?"- - -":$F{vehicle_no}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="19" splitType="Stretch"/>
+		<band height="4" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="34" splitType="Stretch">
@@ -373,7 +404,7 @@ order by
 				<textFieldExpression><![CDATA["page "+ $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="519" y="3" width="34" height="20" uuid="c5d18a9d-6a19-48e6-97f2-147da53cd893">
+				<reportElement x="519" y="3" width="36" height="20" uuid="c5d18a9d-6a19-48e6-97f2-147da53cd893">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -389,16 +420,18 @@ order by
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="37" splitType="Stretch">
+		<band height="121" splitType="Stretch">
 			<textField pattern="#,##0.00">
-				<reportElement x="420" y="6" width="72" height="20" uuid="29ebc279-191c-4e43-ac3e-1d6194718625">
+				<reportElement x="400" y="6" width="92" height="20" uuid="29ebc279-191c-4e43-ac3e-1d6194718625">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box rightPadding="5">
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0" lineStyle="Double"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{normal_quantity1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
@@ -407,11 +440,13 @@ order by
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0" lineStyle="Double"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{super_quantity1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="230" y="6" width="190" height="20" uuid="217cc8da-f882-40fc-9cee-7d20ade2cf3d"/>
+				<reportElement x="230" y="6" width="170" height="20" uuid="217cc8da-f882-40fc-9cee-7d20ade2cf3d"/>
 				<box leftPadding="10">
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0" lineStyle="Double"/>
@@ -420,6 +455,30 @@ order by
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Collection Quantity :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="80" width="140" height="20" uuid="aa982a59-5e16-413d-a8fa-cb64864e665e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Officer Sign]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="80" width="140" height="20" uuid="808c4ac7-4248-4fcc-8af4-498ea54dc6e0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Collector Sign]]></text>
 			</staticText>
 		</band>
 	</summary>
