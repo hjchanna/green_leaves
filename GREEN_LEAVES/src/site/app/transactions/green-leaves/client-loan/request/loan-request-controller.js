@@ -87,7 +87,7 @@
                             && $scope.model.tempData.installmentCount) {
                         $scope.model.insertLoanRequest()
                                 .then(function () {
-                                    angular.element(document.querySelectorAll("#client-number"))[0].focus();
+                                    angular.element(document.querySelectorAll("#clientNumber"))[0].focus();
                                 });
                     }
                 };
@@ -105,6 +105,13 @@
                                 });
                     }
                 };
+                
+                $scope.ui.editRequest=function(index){
+                    $scope.model.editRequest(index);
+                };
+                $scope.ui.deleteRequest=function(index){
+                    $scope.model.deleteRequest(index);
+                };
 
                 $scope.ui.save = function () {
                     if (!$scope.model.data.date) {
@@ -119,7 +126,7 @@
                                     $scope.model.clear();
                                 })
                                 .discard(function () {
-                                    console.log("ReJECT");
+                                    console.log("REJECT");
                                 });
                     }
                 };

@@ -1,7 +1,7 @@
 (function () {
     angular.module("appModule")
-            .controller("ClientLoanCheckController", function ($scope, LoanCheckModel, ConfirmPane, Notification) {
-                $scope.model = new LoanCheckModel();
+            .controller("ClientLoanCheckController", function ($scope, $timeout, ClientLoanCheckModel, ConfirmPane, Notification) {
+                $scope.model = new ClientLoanCheckModel();
                 $scope.ui = {};
                 $scope.ui.selectedDetailIndex = null;
 
@@ -29,6 +29,9 @@
                                     console.log("REJECT");
                                 });
                     }
+                    $timeout(function () {
+                        document.querySelectorAll("#rate")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.reject = function () {
@@ -40,6 +43,9 @@
                             .discard(function () {
                                 console.log("REJECT");
                             });
+                    $timeout(function () {
+                        document.querySelectorAll("#rate")[0].focus();
+                    }, 10);
                 };
 
                 $scope.ui.init = function () {
@@ -68,6 +74,18 @@
                     $scope.model.data.date = model[2];
                     $scope.model.selectDetail(model[0]);
                     $scope.ui.selectedDetailIndex = model[0];
+
+                    $timeout(function () {
+                        document.querySelectorAll("#interestRate")[0].focus();
+                    }, 10);
+
+                };
+
+                $scope.ui.beforeCheck = function () {
+                    var key = event ? event.keyCode || event.which : 13;
+                    if (key === 13) {
+                        $scope.ui.check();
+                    }
                 };
 
                 $scope.ui.init();
