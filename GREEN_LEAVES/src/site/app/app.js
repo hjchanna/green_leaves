@@ -42,7 +42,7 @@
                 apiUrl:
                         location.hostname === 'localhost'
                         ? "http://localhost:8080"
-                        : location.protocol + "//" + location.hostname
+                        : location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : "")
             });
     //constants
 
@@ -132,7 +132,7 @@
                             templateUrl: "app/transactions/green-leaves/green-leaves-payment/green-leaves-payment.html",
                             controller: "GreenLeavesPaymentController"
                         })
-                        
+
                         //price setting and final paymant
                         .when("/transactions/green-leaves/green-leaves-weigh/price-setting", {
                             templateUrl: "app/transactions/green-leaves/price-setting/price-setting.html",
@@ -142,14 +142,14 @@
                             templateUrl: "app/transactions/green-leaves/final-payment/final-payment.html",
                             controller: "FinalPaymentController"
                         })
-                        
+
                         .when("/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry", {
                             templateUrl: "app/transactions/green-leaves/monthly-green-leaves-summry/monthly-green-leaves-summry.html",
                             controller: "monthlyGreenLeavesSummryController"
                         })
-                        
+
                         //payrool
-                        
+
                         //employee advance
                         //request
                         .when("/transactions/payroll/employee-advance/request", {
@@ -161,10 +161,10 @@
                             templateUrl: "app/transactions/payroll/employee-advance/approve/employee-advance-approve.html",
                             controller: "EmployeeAdvanceApproveController"
                         })
-                        
+
                         //employee loan
                         //request
-                         .when("/transactions/payroll/employee-loan/request", {
+                        .when("/transactions/payroll/employee-loan/request", {
                             templateUrl: "app/transactions/payroll/employee-loan/request/loan-request.html",
                             controller: "EmployeeLoanRequestController"
                         })
@@ -178,7 +178,7 @@
                             templateUrl: "app/transactions/payroll/employee-loan/approve/loan-approve.html",
                             controller: "EmployeeLoanApproveController"
                         })
-                        
+
                         //reports
                         .when("/reports/general/report-viewer", {
                             templateUrl: "app/reports/report-viewer/report-viewer.html",
