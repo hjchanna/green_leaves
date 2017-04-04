@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-27T18:16:41 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LeafCollectionSummary" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="7551a70e-e8e2-4105-9afc-1e248206b66f">
+<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
+<!-- 2017-04-04T17:08:42 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="collection_summary_report" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="7551a70e-e8e2-4105-9afc-1e248206b66f">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -13,6 +12,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="green_leaves"/>
 	<parameter name="TO_DATE" class="java.util.Date">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
@@ -90,15 +90,7 @@ order by
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="85" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="30" width="555" height="20" uuid="89028e04-69fd-4ad5-8418-e593936d58c5"/>
-				<box leftPadding="5"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
-				</textElement>
-				<text><![CDATA[LEAF COLLECTION SUMMARY]]></text>
-			</staticText>
+		<band height="30" splitType="Stretch">
 			<staticText>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="30" uuid="f7c5471a-a910-4e79-b429-0530f1cfdaf9"/>
 				<box leftPadding="5"/>
@@ -107,25 +99,39 @@ order by
 				</textElement>
 				<text><![CDATA[NEW HOPEWELL TEA FACTORY]]></text>
 			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="51" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="0" y="51" width="89" height="20" uuid="bdbaa92c-11b7-4047-bd44-c1b2ff80e951"/>
-				<box leftPadding="5"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
+				<reportElement x="181" y="0" width="200" height="20" uuid="89028e04-69fd-4ad5-8418-e593936d58c5"/>
+				<box leftPadding="5">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[AS AT DATE]]></text>
+				<text><![CDATA[LEAF COLLECTION SUMMARY]]></text>
 			</staticText>
 			<textField pattern="yyyy-MM-dd">
-				<reportElement x="89" y="51" width="100" height="20" uuid="36547afb-0440-48d6-9412-b76278a09c86"/>
+				<reportElement x="89" y="25" width="191" height="20" uuid="36547afb-0440-48d6-9412-b76278a09c86"/>
+				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TO_DATE}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="25" width="89" height="20" uuid="bdbaa92c-11b7-4047-bd44-c1b2ff80e951"/>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AS AT DATE :]]></text>
+			</staticText>
 		</band>
-	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="40" splitType="Stretch">
@@ -172,7 +178,7 @@ order by
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[DIFF]]></text>
+				<text><![CDATA[#####]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="115" y="0" width="220" height="20" uuid="20531afc-6a1b-449e-9dde-8d7f95368973">
@@ -234,7 +240,7 @@ order by
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[DIFF]]></text>
+				<text><![CDATA[#####]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -345,7 +351,7 @@ order by
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField pattern="MMMMM dd, yyyy">
+			<textField pattern="yyyy-MM-dd @ HH:mm:ss">
 				<reportElement x="171" y="5" width="220" height="20" uuid="b1e8e5c2-78cd-4d39-b950-599d81ebca92"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
