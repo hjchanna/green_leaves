@@ -7,21 +7,23 @@
                     var data = {
                         "indexNo": null,
                         "branch": null,
-                        "number": null,
                         "date": null,
-                        "month": null,
+                        "route": null,
                         "routeOfficer": null,
-                        "type": null,
+                        "routeHelper": null,
+                        "vehicle": null,
+                        "number": null,
                         "transaction": null,
                         "status": "PENDING",
-                        "client": null,
-                        "amount": null,
                         "tfertilizerDetailList": [
 //                            {
 //                                "indexNo": null,
+//                                "client": null,
+//                                "fertlizerItem": null,
 //                                "qty": null,
-//                                "status": "PENDING",
-//                                "product": null
+//                                "amount": null,
+//                                "instalmentCount": null,
+//                                "status": "PENDING"
 //                            }
                         ]
                     };
@@ -31,8 +33,11 @@
                 factory.newTempData = function () {
                     var tempData = {
                         "indexNo": null,
-                        "product": null,
+                        "client": null,
+                        "fertlizerItem": null,
                         "qty": null,
+                        "amount": null,
+                        "instalmentCount": null,
                         "status": "PENDING"
                     };
 

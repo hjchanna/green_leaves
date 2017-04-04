@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (GreenLeavesWeighService, GreenLeavesWeighModelFactory, $q, $filter) {
+    var factory = function (SecurityService, GreenLeavesWeighService, GreenLeavesWeighModelFactory, $q, $filter) {
         function GreenLeavesWeighModel() {
             this.constructor();
         }
@@ -10,6 +10,8 @@
             data: {},
             //temp input
             tempData: {},
+            //current branch
+            currentBranch: null,
             //route information
             routes: [],
             //branch information
@@ -27,26 +29,14 @@
                 var that = this;
                 that.data = GreenLeavesWeighModelFactory.newData();
                 that.tempData = GreenLeavesWeighModelFactory.newTempData();
-                //load default values
-                GreenLeavesWeighService.loadRoutes()
+
+                //get current branch through ping request
+                SecurityService.ping()
                         .success(function (data) {
-                            that.routes = data;
+                            that.currentBranch = data.branch;
                         });
 
-                GreenLeavesWeighService.loadRouteOfficers()
-                        .success(function (data) {
-                            that.routeOfficers = data;
-                        });
-
-                GreenLeavesWeighService.loadRouteHelpers()
-                        .success(function (data) {
-                            that.routeHelpers = data;
-                        });
-
-                GreenLeavesWeighService.loadVehicles()
-                        .success(function (data) {
-                            that.vehicles = data;
-                        });
+                //load branch information
                 GreenLeavesWeighService.loadBranch()
                         .success(function (data) {
                             that.branchs = data;
@@ -56,9 +46,32 @@
             clear: function () {
                 this.data = GreenLeavesWeighModelFactory.newData();
                 this.tempData = GreenLeavesWeighModelFactory.newTempData();
-                this.pendingGreenLeavesWeigh = [];
+                this.data.branch = this.getCurrentBranch();
             },
-            //load from server
+            //load 3rd party collections for branch
+            loadBranchInfromation: function (branch) {
+                var that = this;
+                GreenLeavesWeighService.loadRoutes(branch)
+                        .success(function (data) {
+                            that.routes = data;
+                        });
+
+                GreenLeavesWeighService.loadRouteOfficers(branch)
+                        .success(function (data) {
+                            that.routeOfficers = data;
+                        });
+
+                GreenLeavesWeighService.loadRouteHelpers(branch)
+                        .success(function (data) {
+                            that.routeHelpers = data;
+                        });
+
+                GreenLeavesWeighService.loadVehicles(branch)
+                        .success(function (data) {
+                            that.vehicles = data;
+                        });
+            },
+            //load from server by number and branch
             load: function () {
                 var defer = $q.defer();
 
@@ -66,59 +79,69 @@
                 var number = this.data.number;
                 var branch = this.data.branch;
                 var type = "BULK";
-                GreenLeavesWeighService.loadWeigh(branch, number, type)
-                        .success(function (data) {
-                            that.data = {};
-                            angular.extend(that.data, data);
 
+                if (number && branch && type) {
+                    GreenLeavesWeighService.loadWeigh(branch, number, type)
+                            .success(function (data) {
+                                that.data = {};
+                                angular.extend(that.data, data);
+
+                                defer.resolve();
+                            })
+                            .error(function () {
+                                that.clear();
+                                defer.reject();
+                            });
+                } else {
+                    defer.reject();
+                }
+
+                return defer.promise;
+            },
+
+            //load peding weigh from the server
+            loadPendingWeigh: function () {
+                var defer = $q.defer();
+                var that = this;
+                var type = "BULK";
+                GreenLeavesWeighService.loadPendingWeigh(type)
+                        .success(function (data) {
+                            that.pendingGreenLeavesWeigh = data;
                             defer.resolve();
                         })
                         .error(function () {
                             defer.reject();
-                            //reset
-                            that.data.indexNo = null;
-                            //that.data.branch = null;
-                            that.data.route = null;
-                            that.data.date = null;
-                            that.data.client = null;
-                            that.data.routeOfficer = null;
-                            that.data.routeHelper = null;
-                            that.data.vehicle = null;
-                            //that.data.number = null;
-                            that.data.status = null;
-                            that.data.type = "BULK";
-                            that.data.remark = null;
+                        });
+            },
 
-                            //normal leaves summary
-                            that.data.normalTotalWeight = 0.0;
-                            that.data.normalTareCalculated = 0.0;
-                            that.data.normalTareDeduction = 0.0;
-                            that.data.normalGeneralDeductionPercent = 0.0;
-                            that.data.normalGeneralDeduction = 0.0;
-                            that.data.normalWaterDeduction = 0.0;
-                            that.data.normalCoarseLeaves = 0.0;
-                            that.data.normalBoiledLeaves = 0.0;
-                            that.data.normalNetWeight = 0.0;
-                            //normal tare summary
-                            that.data.normalCrates = 0;
-                            that.data.normalBags = 0;
-                            that.data.normalPolyBags = 0;
-                            //super leaves summary
-                            that.data.superTotalWeight = 0.0;
-                            that.data.superTareCalculated = 0.0;
-                            that.data.superTareDeduction = 0.0;
-                            that.data.superGeneralDeductionPercent = 0.0;
-                            that.data.superGeneralDeduction = 0.0;
-                            that.data.superWaterDeduction = 0.0;
-                            that.data.superCoarseLeaves = 0.0;
-                            that.data.superBoiledLeaves = 0.0;
-                            that.data.superNetWeight = 0.0;
-                            //super tare summary
-                            that.data.superCrates = 0;
-                            that.data.superBags = 0;
-                            that.data.superPolyBags = 0;
-
-                            that.data.greenLeaveWeighDetails = [];
+            //switch weight - basically used to switch to selected pending weight
+            switchWeight: function (greenLeavesWeight) {
+                this.data = {};
+                angular.extend(this.data, greenLeavesWeight);
+            },
+            //save weight 
+            saveWeight: function () {
+                var that = this;
+                var defer = $q.defer();
+                GreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
+                        .success(function (data) {
+                            defer.resolve();
+                        })
+                        .error(function (data) {
+                            defer.reject();
+                        });
+            },
+            //delete green leaves weigh 
+            deleteGreenLavesWeigh: function () {
+                var defer = $q.defer();
+                var that = this;
+                GreenLeavesWeighService.deleteGreenLeavesWeigh(this.data.indexNo)
+                        .success(function () {
+                            that.clear();
+                            defer.resolve();
+                        })
+                        .error(function () {
+                            defer.reject();
                         });
 
                 return defer.promise;
@@ -136,6 +159,7 @@
                 return this.checkSummaryAndInsertDetail();
             },
             deleteDetail: function (indexNo) {
+                var defer = $q.defer();
                 var that = this;
                 GreenLeavesWeighService.deleteDetail(indexNo)
                         .success(function () {
@@ -148,19 +172,15 @@
 
                             that.data.greenLeaveWeighDetails.splice(id, 1);
                             that.validate();
-                        });
-            },
-            saveWeight: function () {
-                var that = this;
-                var defer = $q.defer();
-                GreenLeavesWeighService.saveWeigh(JSON.stringify(that.data))
-                        .success(function (data) {
                             defer.resolve();
                         })
-                        .error(function (data) {
+                        .error(function () {
                             defer.reject();
                         });
+
+                return defer.promise;
             },
+            //check summary already saved, if not save it and save the detail
             checkSummaryAndInsertDetail: function () {
                 var that = this;
                 var defer = $q.defer();
@@ -174,6 +194,8 @@
                                 that.insertDetail()
                                         .then(function () {
                                             defer.resolve();
+                                        }, function () {
+                                            defer.reject();
                                         });
                             })
                             .error(function (data) {
@@ -183,6 +205,8 @@
                     this.insertDetail()
                             .then(function () {
                                 defer.resolve();
+                            }, function () {
+                                defer.reject();
                             });
                 }
 
@@ -293,14 +317,19 @@
                 this.data.superBags = superBags;
                 this.data.superPolyBags = superPolyBags;
             },
-            //delete green leaves weigh 
-            deleteGreenLavesWeigh: function () {
-                var that = this;
-                GreenLeavesWeighService.deleteGreenLeavesWeigh(this.data.indexNo)
-                        .success(function () {
-                            that.clear();
-                        });
+
+            //get route for indexNo
+            route: function (indexNo) {
+                var route;
+                angular.forEach(this.routes, function (value) {
+                    if (value.indexNo === parseInt(indexNo)) {
+                        route = value;
+                        return;
+                    }
+                });
+                return route;
             },
+
             //return label for route
             routeLabel: function (indexNo) {
                 var label;
@@ -312,6 +341,8 @@
                 });
                 return label;
             },
+
+            //return branch label for indexNO
             bracnhLable: function (indexNo) {
                 var lable;
                 angular.forEach(this.branchs, function (value) {
@@ -322,6 +353,7 @@
                 });
                 return lable;
             },
+
             //return label for route officer
             routeOfficerLabel: function (indexNo) {
                 var label;
@@ -355,29 +387,6 @@
                 });
                 return label;
             },
-            getPendingWeigh: function (branch) {
-                var defer = $q.defer();
-                var that = this;
-                var type = "BULK";
-                GreenLeavesWeighService.loadWeighByBranchAndType(branch, type)
-                        .success(function (data) {
-                            angular.extend(that.pendingGreenLeavesWeigh, data);
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            defer.reject();
-                        });
-            },
-            route: function (indexNo) {
-                var route;
-                angular.forEach(this.routes, function (value) {
-                    if (value.indexNo === parseInt(indexNo)) {
-                        route = value;
-                        return;
-                    }
-                });
-                return route;
-            },
             getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
                 var that = this.data;
                 angular.forEach(this.routes, function (value) {
@@ -388,12 +397,12 @@
                     }
                 });
             },
-            defaultBranch: function () {
-                return this.branchs[0];
+            getCurrentBranch: function () {
+                return this.currentBranch;
             },
-            confirmWeight: function (indexNo) {
+            approveWeight: function (indexNo) {
                 var that = this;
-                GreenLeavesWeighService.confirmWeigh(indexNo)
+                GreenLeavesWeighService.approveWeigh(indexNo)
                         .success(function () {
                             var id = -1;
                             for (var i = 0; i < that.data.greenLeaveWeighDetails.length; i++) {
@@ -404,64 +413,64 @@
                             that.pendingGreenLeavesWeigh.splice(id, 1);
                             that.clear();
                         });
-            },
-            findByBranchAndRouteAndDate: function () {
-                var defer = $q.defer();
-
-                var that = this;
-                var route = this.data.route;
-                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-                var branch = this.data.branch;
-
-                GreenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date)
-                        .success(function (data) {
-                            that.data = GreenLeavesWeighModelFactory.newData();
-                            angular.extend(that.data, data);
-                            defer.resolve();
-                        })
-                        .error(function () {
-                            defer.reject();
-                            that.data.indexNo = null;
-                            that.data.number = null;
-                            that.data.status = null;
-
-                            that.data.client = null;
-                            that.data.type = "BULK";
-
-                            //normal leaves summary
-                            that.data.normalTotalWeight = 0.0;
-                            that.data.normalTareCalculated = 0.0;
-                            that.data.normalTareDeduction = 0.0;
-                            that.data.normalGeneralDeductionPercent = 0.0;
-                            that.data.normalGeneralDeduction = 0.0;
-                            that.data.normalWaterDeduction = 0.0;
-                            that.data.normalCoarseLeaves = 0.0;
-                            that.data.normalBoiledLeaves = 0.0;
-                            that.data.normalNetWeight = 0.0;
-                            //normal tare summary
-                            that.data.normalCrates = 0;
-                            that.data.normalBags = 0;
-                            that.data.normalPolyBags = 0;
-                            //super leaves summary
-                            that.data.superTotalWeight = 0.0;
-                            that.data.superTareCalculated = 0.0;
-                            that.data.superTareDeduction = 0.0;
-                            that.data.superGeneralDeductionPercent = 0.0;
-                            that.data.superGeneralDeduction = 0.0;
-                            that.data.superWaterDeduction = 0.0;
-                            that.data.superCoarseLeaves = 0.0;
-                            that.data.superBoiledLeaves = 0.0;
-                            that.data.superNetWeight = 0.0;
-                            //super tare summary
-                            that.data.superCrates = 0;
-                            that.data.superBags = 0;
-                            that.data.superPolyBags = 0;
-
-                            that.data.greenLeaveWeighDetails = [];
-                        });
-
-                return defer.promise;
-            }
+            }/*,
+             findByBranchAndRouteAndDate: function () {
+             var defer = $q.defer();
+             
+             var that = this;
+             var route = this.data.route;
+             var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+             var branch = this.data.branch;
+             
+             GreenLeavesWeighService.findByBranchAndRouteAndDate(branch, route, date)
+             .success(function (data) {
+             that.data = GreenLeavesWeighModelFactory.newData();
+             angular.extend(that.data, data);
+             defer.resolve();
+             })
+             .error(function () {
+             defer.reject();
+             that.data.indexNo = null;
+             that.data.number = null;
+             that.data.status = null;
+             
+             that.data.client = null;
+             that.data.type = "BULK";
+             
+             //normal leaves summary
+             that.data.normalTotalWeight = 0.0;
+             that.data.normalTareCalculated = 0.0;
+             that.data.normalTareDeduction = 0.0;
+             that.data.normalGeneralDeductionPercent = 0.0;
+             that.data.normalGeneralDeduction = 0.0;
+             that.data.normalWaterDeduction = 0.0;
+             that.data.normalCoarseLeaves = 0.0;
+             that.data.normalBoiledLeaves = 0.0;
+             that.data.normalNetWeight = 0.0;
+             //normal tare summary
+             that.data.normalCrates = 0;
+             that.data.normalBags = 0;
+             that.data.normalPolyBags = 0;
+             //super leaves summary
+             that.data.superTotalWeight = 0.0;
+             that.data.superTareCalculated = 0.0;
+             that.data.superTareDeduction = 0.0;
+             that.data.superGeneralDeductionPercent = 0.0;
+             that.data.superGeneralDeduction = 0.0;
+             that.data.superWaterDeduction = 0.0;
+             that.data.superCoarseLeaves = 0.0;
+             that.data.superBoiledLeaves = 0.0;
+             that.data.superNetWeight = 0.0;
+             //super tare summary
+             that.data.superCrates = 0;
+             that.data.superBags = 0;
+             that.data.superPolyBags = 0;
+             
+             that.data.greenLeaveWeighDetails = [];
+             });
+             
+             return defer.promise;
+             }*/
         };
 
         return GreenLeavesWeighModel;

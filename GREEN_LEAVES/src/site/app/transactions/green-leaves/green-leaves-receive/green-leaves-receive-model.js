@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .factory("GreenLeavesReceiveModel", function (GreenLeavesReceiveService, GreenLeavesReceiveModelFactory, $q, $filter) {
+            .factory("GreenLeavesReceiveModel", function (SecurityService, GreenLeavesReceiveService, GreenLeavesReceiveModelFactory, $q, $filter) {
                 function GreenLeavesReceiveModel() {
                     this.constructor();
                 }
@@ -8,6 +8,7 @@
                 GreenLeavesReceiveModel.prototype = {
                     data: {},
                     tempData: {},
+                    currentBranch: null,
                     //qtys
                     totalQuantity: [],
                     factoryQuantity: [],
@@ -26,6 +27,12 @@
                     vehicles: [],
                     constructor: function () {
                         var that = this;
+
+                        SecurityService.ping()
+                                .success(function (data) {
+                                    that.currentBranch = data.branch;
+                                });
+
                         GreenLeavesReceiveService.loadRoutes()
                                 .success(function (data) {
                                     that.routes = data;
@@ -99,7 +106,7 @@
                     },
                     load: function () {
                         var number = this.data.number;
-                        var branch = this.data.branch;
+                        var branch = this.currentBranch;
                         var that = this;
                         var defer = $q.defer();
                         GreenLeavesReceiveService.loadReceive(branch, number)
@@ -270,33 +277,33 @@
                     },
                     //deafault branch
                     defaultBranch: function () {
-                        return this.branchs[0];
+                        return this.currentBranch;
                     },
-                    // find existing green leaves by branch and route and date
-                    findByBranchAndRouteAndDate: function () {
-                        var that = this;
-                        var defer = $q.defer();
-                        var route = this.data.route;
-                        var branch = this.data.branch;
-                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-                        GreenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date)
-                                .success(function (data) {
-                                    that.data = {};
-                                    angular.extend(that.data, data);
-                                    that.refreshQuantity();
-                                    defer.resolve();
-                                })
-                                .error(function () {
-                                    that.refreshQuantity();
-                                    defer.reject();
-                                    that.data.indexNo = null;
-                                    that.data.number = null;
-                                    that.data.transaction = null;
-                                    that.data.status = null;
-                                    that.data.greenLeavesReceiveDetails = [];
-                                });
-                        return defer.promise;
-                    },
+//                    // find existing green leaves by branch and route and date
+//                    findByBranchAndRouteAndDate: function () {
+//                        var that = this;
+//                        var defer = $q.defer();
+//                        var route = this.data.route;
+//                        var branch = this.data.branch;
+//                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+//                        GreenLeavesReceiveService.findByBranchAndRouteAndDate(branch, route, date)
+//                                .success(function (data) {
+//                                    that.data = {};
+//                                    angular.extend(that.data, data);
+//                                    that.refreshQuantity();
+//                                    defer.resolve();
+//                                })
+//                                .error(function () {
+//                                    that.refreshQuantity();
+//                                    defer.reject();
+//                                    that.data.indexNo = null;
+//                                    that.data.number = null;
+//                                    that.data.transaction = null;
+//                                    that.data.status = null;
+//                                    that.data.greenLeavesReceiveDetails = [];
+//                                });
+//                        return defer.promise;
+//                    },
                     getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
                         var that = this;
                         angular.forEach(this.routes, function (value) {

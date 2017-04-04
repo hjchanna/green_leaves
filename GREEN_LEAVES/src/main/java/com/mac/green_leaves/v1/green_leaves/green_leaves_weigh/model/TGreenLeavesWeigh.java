@@ -46,6 +46,11 @@ public class TGreenLeavesWeigh implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Column(name = "weigh_branch")
+    private int weighBranch;
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -201,19 +206,19 @@ public class TGreenLeavesWeigh implements Serializable {
     private Integer client;
 
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "status")
-    private String status;
+    @Column(name = "temp_client")
+    private String tempClient;
 
     @Basic(optional = false)
     @Column(name = "type")
     private String type;
 
     @Basic(optional = false)
-    @Column(name = "remark")
-    private String remark;
+    @NotNull
+    @Column(name = "status")
+    private String status;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "greenLeavesWeigh", fetch = FetchType.EAGER)
     private Set<TGreenLeavesWeighDetail> greenLeaveWeighDetails;
 
     public TGreenLeavesWeigh() {
@@ -273,6 +278,14 @@ public class TGreenLeavesWeigh implements Serializable {
 
     public void setBranch(int branch) {
         this.branch = branch;
+    }
+
+    public int getWeighBranch() {
+        return weighBranch;
+    }
+
+    public void setWeighBranch(int weighBranch) {
+        this.weighBranch = weighBranch;
     }
 
     public Date getDate() {
@@ -555,16 +568,16 @@ public class TGreenLeavesWeigh implements Serializable {
         this.greenLeaveWeighDetails = greenLeaveWeighDetails;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getTempClient() {
+        return tempClient;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setTempClient(String tempClient) {
+        this.tempClient = tempClient;
     }
 
     @Override
     public String toString() {
-        return "TGreenLeavesWeigh{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", transaction=" + transaction + ", number=" + number + ", normalTotalWeight=" + normalTotalWeight + ", normalTareCalculated=" + normalTareCalculated + ", normalTareDeduction=" + normalTareDeduction + ", normalGeneralDeductionPercent=" + normalGeneralDeductionPercent + ", normalGeneralDeduction=" + normalGeneralDeduction + ", normalWaterDeduction=" + normalWaterDeduction + ", normalCoarseLeaves=" + normalCoarseLeaves + ", normalBoiledLeaves=" + normalBoiledLeaves + ", normalNetWeight=" + normalNetWeight + ", normalCrates=" + normalCrates + ", normalBags=" + normalBags + ", normalPolyBags=" + normalPolyBags + ", superTotalWeight=" + superTotalWeight + ", superTareCalculated=" + superTareCalculated + ", superTareDeduction=" + superTareDeduction + ", superGeneralDeductionPercent=" + superGeneralDeductionPercent + ", superGeneralDeduction=" + superGeneralDeduction + ", superWaterDeduction=" + superWaterDeduction + ", superCoarseLeaves=" + superCoarseLeaves + ", superBoiledLeaves=" + superBoiledLeaves + ", superNetWeight=" + superNetWeight + ", superCrates=" + superCrates + ", superBags=" + superBags + ", superPolyBags=" + superPolyBags + ", route=" + route + ", routeOfficer=" + routeOfficer + ", routeHelper=" + routeHelper + ", vehicle=" + vehicle + ", client=" + client + ", status=" + status + ", type=" + type + ", remark=" + remark + '}';
+        return "TGreenLeavesWeigh{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", transaction=" + transaction + ", number=" + number + ", normalTotalWeight=" + normalTotalWeight + ", normalTareCalculated=" + normalTareCalculated + ", normalTareDeduction=" + normalTareDeduction + ", normalGeneralDeductionPercent=" + normalGeneralDeductionPercent + ", normalGeneralDeduction=" + normalGeneralDeduction + ", normalWaterDeduction=" + normalWaterDeduction + ", normalCoarseLeaves=" + normalCoarseLeaves + ", normalBoiledLeaves=" + normalBoiledLeaves + ", normalNetWeight=" + normalNetWeight + ", normalCrates=" + normalCrates + ", normalBags=" + normalBags + ", normalPolyBags=" + normalPolyBags + ", superTotalWeight=" + superTotalWeight + ", superTareCalculated=" + superTareCalculated + ", superTareDeduction=" + superTareDeduction + ", superGeneralDeductionPercent=" + superGeneralDeductionPercent + ", superGeneralDeduction=" + superGeneralDeduction + ", superWaterDeduction=" + superWaterDeduction + ", superCoarseLeaves=" + superCoarseLeaves + ", superBoiledLeaves=" + superBoiledLeaves + ", superNetWeight=" + superNetWeight + ", superCrates=" + superCrates + ", superBags=" + superBags + ", superPolyBags=" + superPolyBags + ", route=" + route + ", routeOfficer=" + routeOfficer + ", routeHelper=" + routeHelper + ", vehicle=" + vehicle + ", client=" + client + ", status=" + status + ", type=" + type + ", remark=" + tempClient + '}';
     }
 }

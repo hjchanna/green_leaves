@@ -4,7 +4,9 @@
             {{$ctrl.title}}
         </div>
         <div class="option-pane-input">
-            <input class="form-control input-lg" type="text" ng-model="data.inputText" ng-keypress="ui.keyEvent($event);"/>
+            <input smart-input="{{$ctrl.inputType}}" class="form-control input-lg" ng-model="data.inputText" ng-keypress="ui.keyEvent($event);"/>
+        
+            {{$ctrl.inputType}}
         </div>
     </div>
     <div class="option-pane-footer">

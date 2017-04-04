@@ -45,10 +45,6 @@
                         $scope.model.clear();
                         $scope.ui.setDates();
                         $scope.ui.searchUi = "Supplier_Weigh";
-                    } else if (type === "Cross_Entry") {
-                        $scope.model.clear();
-                        $scope.ui.setDates();
-                        $scope.ui.searchUi = "Cross_Entry";
                     }
                 };
 
@@ -73,7 +69,7 @@
                         if (angular.isUndefined(searchClient)) {
                             $scope.model.data.client = null;
                             $scope.model.data.clientRoutes = null;
-                            Notification.error("client not found!");
+                            Notification.error("Client cannot find by number. Please try by name instead.");
                         } else {
                             $scope.model.data.client = searchClient.indexNo;
                         }
@@ -93,9 +89,6 @@
                         $scope.model.getGreenLeavesWeighSummry('BULK');
                     } else if ($scope.ui.searchUi === 'Supplier_Weigh') {
                         $scope.model.getGreenLeavesWeighSummry('SUPPLIER');
-                    } else if ($scope.ui.searchUi === 'Cross_Entry') {
-                        console.log("Cross_Entry");
-                        $scope.model.crossReportSummry();
                     }
                 };
 

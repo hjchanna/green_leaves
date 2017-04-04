@@ -21,7 +21,7 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 78px);">
+            <div ng-show="model.loanRequestDetails.length" class="col-xs-12 smart-scroll-y" style="height: calc(100% - 78px);">
                 <table class="table-hover table-hover">
                     <col style="width: 40%;"/>
                     <col style="width: 20%;"/>
@@ -34,12 +34,15 @@
                                 {{model.getClient(detail.client).name}}
                             </td>
                             <td class="text-right">{{detail.amount|number:2}}</td>
-                             <td class="text-right">{{detail.installmentCount|fixedLength:2}}</td>
+                            <td class="text-right">{{detail.installmentCount|fixedLength:2}}</td>
                             <td class="text-right">{{detail.interestRate|number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div class="col-xs-12 placeholder" ng-hide="model.loanRequestDetails.length" style="height: calc(100% - 85px);">
+                <h1>LOAN REQUEST NOT FOUND  :(</h1>
+            </div> 
 
             <div class="col-xs-12">
                 <table>
@@ -67,6 +70,10 @@
 
                     <tbody>  
                         <tr>
+                            <td><label class="control-label">Agreement Number</label></td>
+                            <td><input class="form-control" ng-model="model.detail.agreementNumber"></td>
+                        </tr>
+                        <tr>
                             <td><label class="control-label">Interest Rate</label></td>
                             <td><input smart-input="decimal" class="form-control" ng-model="model.detail.interestRate" disabled></td>
                         </tr>
@@ -89,6 +96,6 @@
     </div>
 </div>
 <div class="fab-container">
-    <a class="fab fab-danger" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
+    <a class="fab fab-lg fab-danger" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
     <a class="fab fab-lg fab-primary" ng-click="ui.approve();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

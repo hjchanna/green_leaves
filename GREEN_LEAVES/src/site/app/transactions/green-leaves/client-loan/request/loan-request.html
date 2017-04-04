@@ -11,13 +11,13 @@
                     <tbody>
                         <tr>
                             <td>
-                                <!--<input id="client" smart-input="text" class="form-control" input-hint="route" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.ClientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">-->
+                                &nbsp;
                             </td>
                             <td>
-                                <input class="form-control" smart-input="date" input-hint="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="date" class="form-control" smart-input="date" input-hint="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                             <td>
-                                <input id="number" class="form-control" input-hint="number" ng-model="model.data.number" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input class="form-control" input-hint="number" ng-model="model.data.number" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </td>
                         </tr>
                     </tbody>
@@ -37,11 +37,11 @@
                         <tr>
                             <th>
                                 <label>CLIENT NO.</label>
-                                <input id="client-number"   smart-input="integer" class="form-control text-right" ng-model="model.tempClientNo" ng-keypress="ui.validateClient($event);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="clientNumber"   smart-input="integer" class="form-control text-right" ng-model="model.tempClientNo" ng-keypress="ui.validateClient($event);" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-left">
                                 <label>CLIENT</label>
-                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.ClientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <input id="client" smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.indexNo + '-' + client.name) for client in model.clients|filter:$viewValue|limitTo:10" typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                             </th>
                             <th class="text-right">
                                 <label>AMOUNT</label>
@@ -103,76 +103,8 @@
         </div>
     </div>
     <div class="col-xs-4 background-dark border-dark-left">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
-                    <thead>
-                        <tr>
-                            <th>DESCRIPTION</th>
-                            <th class="text-right">DEBIT</th>
-                            <th class="text-right">CREDIT</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 305px);">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <tbody>
-                        <tr ng-repeat="clientRowData in getClientDetails(null)">
-                            <td>{{clientRowData.discription}}</td>
-                            <td class="text-right" >{{clientRowData.debit == 0? '-': clientRowData.debit}}</td>
-                            <td class="text-right" >{{clientRowData.credit == 0? '-': '- ('+clientRowData.credit+')'}}</td>
-                            <td><a class="btn btn-primary"><span class="glyphicon glyphicon-paste"></span></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-12">
-                <table>
-                    <col style="width: 40%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 25%;"/>
-                    <col style="width: 15%;"/>
-                    <col />
-
-                    <tbody>
-                        <tr class="text-bold">
-                            <td>Total</td>
-                            <td class="text-right">{{getTotalDebit()}}</td>
-                            <td class="text-right">{{getTotalCredit()}}</td>
-                            <td></td>
-                        </tr>
-                        <tr class="text-bold">
-                            <td>Balance</td>
-                            <td class="text-right">{{getCreditBlance()}}</td>
-                            <td class="text-right">-</td>      
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-12"  style="margin-top: 10px; height: 170px;">
-                <canvas id="base" class="chart-bar"
-                        data-chart-data="data" 
-                        data-chart-labels="labels" 
-                        data-chart-colors="colors"
-                        data-chart-dataset-override="datasetOverride">
-                </canvas>
-            </div>
-        </div>
+        <side-panel client="model.tempData.client" date="model.data.date">
+        </side-panel>
     </div>
     <div class="fab-container">
         <!--discard-->

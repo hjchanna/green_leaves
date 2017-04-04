@@ -5,6 +5,9 @@
     <class>com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue</class>
     <class>com.mac.green_leaves.v1.master.tea_grade.model.MTeaGrade</class>
     <class>com.mac.green_leaves.v1.green_leaves.tea_issue.model.TRouteOfficerTeaLedger</class>
+    <class>com.mac.green_leaves.v1.master.fertilizer_item.model.MFertilizerItem</class>
+    <class>com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizerDetail</class>
+    <class>com.mac.green_leaves.v1.green_leaves.fertilizer.model.TFertilizer</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/green_leaves?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

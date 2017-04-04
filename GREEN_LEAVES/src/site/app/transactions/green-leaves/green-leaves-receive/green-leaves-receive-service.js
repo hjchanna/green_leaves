@@ -43,9 +43,9 @@
         };
 
         //find existing receive brancha and route and date
-        this.findByBranchAndRouteAndDate = function (branch, route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/find-by/" + branch + "/" + route + "/" + date);
-        };
+//        this.findByBranchAndRouteAndDate = function (branch, route, date) {
+//            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/green-leaves-receive/find-by/" + branch + "/" + route + "/" + date);
+//        };
 
 //        //get route officer and route helper and vehicle find by branch and route and date
 //        this.findByBranchAndRouteAndDateGreenLeavesWeigh = function (branch, route, date) {

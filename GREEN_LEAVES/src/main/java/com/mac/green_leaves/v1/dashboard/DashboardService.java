@@ -37,32 +37,15 @@ public class DashboardService {
 
     @PersistenceContext
     protected EntityManager entityManager;
-
-//    public HashMap<String, Object> getGeenLeavesTotalSummary(Date fromDate, Date toDate, Integer route, Integer routeOfficer, Integer routeHelper, Integer vehicle) {
-//        HashMap<String, Object> getTotalSummaryMap = new HashMap<>();
-//        List<Object[]> getTotalList = dashboardRepository.getBulkGreenLeavesWeighTotal(fromDate, toDate, route, routeOfficer, routeHelper, vehicle);
-//        Object total[] = getTotalList.get(0);
-//        getTotalSummaryMap.put("totalNormalWeigh", 0.0);
-//        getTotalSummaryMap.put("totalSuperWeigh", 0.0);
-//        getTotalSummaryMap.put("totalNormalReceive", 0.0);
-//        getTotalSummaryMap.put("totalSuperReceive", 0.0);
-//        getTotalSummaryMap.put("bulkWeighNormalTotal", total[0]);
-//        getTotalSummaryMap.put("bulkWeighSuperTotal", total[1]);
-//        getTotalSummaryMap.put("bulkReceiveNormalTotal", 0.0);
-//        getTotalSummaryMap.put("bulkReceiveSuperTotal", 0.0);
-//        getTotalSummaryMap.put("supplierWeighNormalTotal", 0.0);
-//        getTotalSummaryMap.put("supplierWeighSuperTotal", 0.0);
-//        getTotalSummaryMap.put("supplierReceiveSuperTotal", 0.0);
-//        getTotalSummaryMap.put("supplierReceiveNormalTotal", 0.0);
-//        return getTotalSummaryMap;
-//    }
-    public TGreenLeavesWeigh getGreenLeavesWeighSummryByIndexNo(Integer indexNo) {
-        return dashboardRepository.findOne(indexNo);
-    }
-
+    
+    // green leaves supplier weigh and factory weigh
     List<TGreenLeavesWeigh> getGeenLeavesWeighTotalSummary(greenLeavesSummry leavesSummry) {
         Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesWeigh.class);
         criteria.add(Restrictions.eq("type", leavesSummry.getType()));
+
+        if (leavesSummry.getBranch() != null) {
+            criteria.add(Restrictions.eq("branch", leavesSummry.getBranch()));
+        }
 
         if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
             criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
@@ -111,9 +94,14 @@ public class DashboardService {
         return greenLeavesWeigh;
     }
 
+    //green leaves receive - route / factory (client )
     List<TGreenLeavesReceive> getGeenLeavesReceiveTotalSummary(greenLeavesSummry leavesSummry) {
         if ("client".equals(leavesSummry.getType())) {
             Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
+
+            if (leavesSummry.getBranch() != null) {
+                criteria.add(Restrictions.eq("branch", leavesSummry.getBranch()));
+            }
 
             if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
                 criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
@@ -141,12 +129,18 @@ public class DashboardService {
 
             criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.asc("date"));
-            criteria.add(Restrictions.isNotNull("route"));
+            //get only bulk receive
+            criteria.add(Restrictions.eq("type", "BULK"));
             criteria.add(Restrictions.ne("status", "DELETED"));
             List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
             return greenLeavesReceives;
+            
         } else {
             Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
+
+            if (leavesSummry.getBranch() != null) {
+                criteria.add(Restrictions.eq("branch", leavesSummry.getBranch()));
+            }
 
             if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
                 criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
@@ -168,53 +162,21 @@ public class DashboardService {
 
             criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
             criteria.addOrder(Order.asc("date"));
-            criteria.add(Restrictions.isNotNull("route"));
+            //get only bulk receive
+            criteria.add(Restrictions.eq("type", "BULK"));
             criteria.add(Restrictions.ne("status", "DELETED"));
             List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
             return greenLeavesReceives;
         }
     }
 
-//    List<Object[]> getCrossEntry() {
-//        System.out.println(dashboardRepository.getCrossReportDetails().size());
-//        return dashboardRepository.getCrossReportDetails();
-//    }
-    List<TGreenLeavesReceive> getCrossEntryGreenLeavesReceive(greenLeavesSummry leavesSummry) {
-        Criteria criteria = entityManager.unwrap(Session.class).createCriteria(TGreenLeavesReceive.class);
-
-        if (leavesSummry.getClient() != null) {
-            criteria.createAlias("greenLeavesReceiveDetails", "glrd");
-            criteria.add(Restrictions.eq("glrd.client", leavesSummry.getClient()));
-        }
-
-        if (leavesSummry.getFromDate() != null && leavesSummry.getToDate() != null) {
-            criteria.add(Restrictions.between("date", leavesSummry.getFromDate(), leavesSummry.getToDate()));
-        }
-
-        if (leavesSummry.getClient() == null && leavesSummry.getRoute() == null && leavesSummry.getFromDate() == null && leavesSummry.getToDate() == null) {
-            throw new EntityNotFoundException("green leaves receive not found");
-        }
-
-        if (!"null".equals(leavesSummry.getStatus())) {
-            if (leavesSummry.getStatus() != null) {
-                criteria.add(Restrictions.eq("status", leavesSummry.getStatus()));
-            }
-        }
-
-        criteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
-        criteria.addOrder(Order.asc("date"));
-        criteria.add(Restrictions.isNotNull("route"));
-        List<TGreenLeavesReceive> greenLeavesReceives = criteria.list();
-        return greenLeavesReceives;
-    }
-
-    public HashMap<String, Object> getSummryData(Date date) {
+    public HashMap<String, Object> getSummryData(Date date, Integer branch) {
         HashMap<String, Object> summaryData = new HashMap<>();
 
-        List<Object[]> dailyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalToDate(date);
-        List<Object[]> monthlyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalMonth(date);
-        List<Object[]> dailyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalDaily(date);
-        List<Object[]> monthlyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalMonth(date);
+        List<Object[]> dailyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalToDate(date, branch);
+        List<Object[]> monthlyFactory = dashboardRepository.getGreenLeavesReceiveFactoryTotalMonth(date, branch);
+        List<Object[]> dailyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalDaily(date, branch);
+        List<Object[]> monthlyRouteWise = dashboardRepository.getGreenLeavesReceiveRouteWiseTotalMonth(date, branch);
 
         summaryData.put("dailyFactory", dailyFactory.get(0));
         summaryData.put("monthlyFactory", monthlyFactory.get(0));

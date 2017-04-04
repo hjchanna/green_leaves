@@ -83,7 +83,7 @@
                     <tbody>
                         <tr ng-class="ui.selectedDetailIndex === detail.indexNo ? 'selected' : ''" ng-repeat="detail in model.requestsData" ng-click="ui.selectDetail(detail);">
                             <td>
-                                <span class="label label-primary">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span>
+                                <span class="label" ng-class="ui.selectedDataIndex===model.getClient(detail.client).route?'label-primary':'label-danger'">{{model.getClient(detail.client).indexNo | fixedLength:5}}</span>
                                 {{model.getClient(detail.client).name}}
                             </td>
                             <td class="text-right">{{detail.amount|number:2}}</td>
@@ -118,6 +118,7 @@
     </div>
 </div>
 <div class="fab-container">
+    <a class="fab fab-warning" fab-show="ui.selectedDetailIndex" ng-click="ui.editAmount();"><i class="glyphicon glyphicon-edit"></i></a>
     <a class="fab fab-danger" fab-show="ui.selectedDetailIndex" ng-click="ui.reject();"><i class="glyphicon glyphicon-remove"></i></a>
     <a class="fab fab-lg fab-primary" fab-show="ui.selectedDetailIndex" ng-click="ui.approve();"><i class="glyphicon glyphicon-ok"></i></a>
 </div>

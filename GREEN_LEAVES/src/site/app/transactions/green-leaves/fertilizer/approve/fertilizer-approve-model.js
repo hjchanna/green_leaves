@@ -12,14 +12,17 @@
                     products: [],
                     //routeOfficers information
                     routeOfficers: [],
-                    //pending fertilizer information
-                    pendingFertilizerRequestByRouteVise: [],
-                    pendingFertilizerRequest: [],
+                    //fertilizer items
                     fertilizerItems: [],
-                    total: {
-                        "allRouteOfficerAmount": 0.0,
-                        "selectedRouteOfficer": 0.0,
-                        "selectedFertilizer": 0.0
+                    //pending fertilizer information
+                    pendingFertilizerRequest: [],
+                    //get pending requests
+                    pendingRequestDetails: [],
+                    requestItems: [],
+                    totals: {
+                        allRequest: 0,
+                        allAmount: 0.0,
+                        selectAmount: 0.0
                     },
                     constructor: function () {
                         var that = this;
@@ -27,67 +30,62 @@
                                 .success(function (data) {
                                     that.products = data;
                                 });
+
                         FertilizerModelService.loadClients()
                                 .success(function (data) {
                                     that.clients = data;
                                 });
 
-                        FertilizerModelService.loadRouteOfficers()
-                                .success(function (data) {
-                                    that.routeOfficers = data;
-                                });
+                        that.getPendingRequest();
 
-                        that.getPendingData();
                     },
-                    getPendingData: function () {
+                    getPendingRequest: function () {
                         var that = this;
-                        FertilizerModelService.getPendingRequestByRouteVise()
-                                .success(function (data) {
-                                    that.pendingFertilizerRequestByRouteVise = data;
-                                    that.getTotal();
-                                });
-                    },
-                    getTotal: function () {
-                        var that = this;
-                        this.total = {
-                            "allRouteOfficerAmount": 0.0,
-                            "selectedRouteOfficer": 0.0,
-                            "selectedFertilizer": 0.0
-                        };
-                        angular.forEach(that.pendingFertilizerRequestByRouteVise, function (value) {
-                            that.total.allRouteOfficerAmount += value[1];
-                        });
-
-                        angular.forEach(that.pendingFertilizerRequest, function (value) {
-                            that.total.selectedRouteOfficer += value.amount;
-                        });
-                        angular.forEach(that.fertilizerItems, function (value) {
-                            that.total.selectedFertilizer += that.product(value.product).salePrice * value.qty;
-                        });
-                    },
-                    clear: function () {
-                        this.pendingFertilizerRequestByRouteVise = [];
-                        this.pendingFertilizerRequest = [];
-                        this.fertilizerItems = [];
-                        this.total = {
-                            "allRouteOfficerAmount": 0.0,
-                            "selectedRouteOfficer": 0.0,
-                            "selectedFertilizer": 0.0
-                        };
-                    },
-                    refreshTable: function (index) {
-                        this.fertilizerItems = [];
-                        this.pendingFertilizerRequest.splice(index, 1);
-                        this.getPendingData();
-                        this.getTotal();
-                    },
-                    selectClientData: function (routeOfficer) {
-                        var that = this;
-                        FertilizerModelService.getPendingRequest(routeOfficer)
+                        FertilizerModelService.getPendingRequest()
                                 .success(function (data) {
                                     that.pendingFertilizerRequest = data;
-                                    that.getTotal();
+                                    that.getPendingAllRequestTotal();
                                 });
+                    },
+                    getSelectdRequestDetails: function (date) {
+                        var that = this;
+                        FertilizerModelService.getSelectdRequestDetails(date)
+                                .success(function (data) {
+                                    that.pendingRequestDetails = data;
+                                    that.getSelectPendingRequestTotal();
+                                });
+                    },
+                    getSelectdRequestItems: function (data) {
+                        this.requestItems = [];
+                        this.requestItems.push(data);
+                    },
+                    getPendingAllRequestTotal: function () {
+                        var that = this;
+                        that.totals.allRequest = 0;
+                        that.totals.allAmount = 0.0;
+                        angular.forEach(this.pendingFertilizerRequest, function (values) {
+                            that.totals.allRequest += parseInt(values[2]);
+                            that.totals.allAmount += parseFloat(values[1]);
+                        });
+                        return that.totals;
+                    },
+                    getSelectPendingRequestTotal: function () {
+                        var that = this;
+                        that.totals.selectAmount = 0.0;
+                        angular.forEach(this.pendingRequestDetails, function (values) {
+                            that.totals.selectAmount += parseFloat(values.amount);
+                        });
+                        return that.totals;
+                    },
+                    clear: function () {
+                        this.getPendingRequest();
+                        this.pendingRequestDetails = [];
+                        this.requestItems = [];
+                        this.totals = {
+                            allRequest: 0,
+                            allAmount: 0.0,
+                            selectAmount: 0.0
+                        };
                     },
                     approve: function (indexNo, $index) {
                         var that = this;
@@ -105,17 +103,11 @@
                                     that.refreshTable($index);
                                 });
                     },
-                    getItemData: function (indexNo) {
-                        var that = this;
-                        that.fertilizerItems = [];
-                        angular.forEach(this.pendingFertilizerRequest, function (value) {
-                            if (value.indexNo === parseInt(indexNo)) {
-                                that.fertilizerItems = value.tfertilizerDetailList;
-                                return;
-                            }
-                        });
-                        that.getTotal();
-                        return that.fertilizerItems;
+                    refreshTable: function ($index) {
+                        this.pendingRequestDetails.splice($index, 1);
+                        this.getPendingRequest();
+                        this.getSelectPendingRequestTotal();
+                        this.requestItems = [];
                     },
                     client: function (indexNo) {
                         var client;
@@ -128,24 +120,15 @@
                         return client;
                     },
                     product: function (indexNo) {
-                        var client;
+                        var product;
                         angular.forEach(this.products, function (value) {
                             if (value.indexNo === parseInt(indexNo)) {
-                                client = value;
+                                product = value;
                                 return;
                             }
                         });
-                        return client;
-                    },
-                    routeOfficer: function (indexNo) {
-                        var client;
-                        angular.forEach(this.routeOfficers, function (value) {
-                            if (value.indexNo === parseInt(indexNo)) {
-                                client = value;
-                                return;
-                            }
-                        });
-                        return client;
+                        console.log(product);
+                        return product;
                     }
                 };
                 return FertilizerApproveModel;

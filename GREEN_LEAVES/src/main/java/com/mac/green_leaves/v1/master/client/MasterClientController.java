@@ -35,7 +35,8 @@ public class MasterClientController {
 
     @RequestMapping(value = "/save-client", method = RequestMethod.POST)
     public MClient saveSupplier(@RequestBody MClient client) {
-        client.setBranch(1);
+        Integer branch = SecurityUtil.getCurrentUser().getBranch();
+        client.setBranch(branch);
         return clientService.saveSupplier(client);
     }
 

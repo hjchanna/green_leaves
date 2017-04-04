@@ -8,7 +8,6 @@ package com.mac.green_leaves.v1.green_leaves.green_leaves_receive;
 import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,12 @@ public class GLGreenLeavesReceiveService {
     private final String PENDING_STATUS = "PENDING";
     private final String APPROVE_STATUS = "APPROVE";
     private final String DELETE_STATUS = "DELETED";
+    //
+    private final String BULK_TYPE = "BULK";
+    private final String SUPPLIER_TYPE = "SUPPLIER";
 
     public TGreenLeavesReceive getReceive(Integer branch, Integer number) {
-        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndNumberAndStatusNot(branch, number, DELETE_STATUS);
+        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndNumberAndTypeAndStatusNot(branch, number, BULK_TYPE, DELETE_STATUS);
 
         if (receives.isEmpty()) {
             throw new EntityNotFoundException("Green leaves receive not found for number " + number);
@@ -47,7 +49,7 @@ public class GLGreenLeavesReceiveService {
     @Transactional
     public Integer saveGreenLeaveReceiveDetails(TGreenLeavesReceive greenLeavesReceive) {
         if (greenLeavesReceive.getIndexNo() == null) {
-            Integer maxNumber = greenLeavesReceiveRepository.getMaximumNumberByBranch(greenLeavesReceive.getBranch());
+            Integer maxNumber = greenLeavesReceiveRepository.getMaximumNumberByBranchAndType(greenLeavesReceive.getBranch(), BULK_TYPE);
             if (maxNumber == null) {
                 maxNumber = 0;
             }
@@ -88,22 +90,13 @@ public class GLGreenLeavesReceiveService {
         return total;
     }
 
-    public List<TGreenLeavesReceive> findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNull(Integer branch, Date date, Integer client) {
-        return greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNullAndStatusNot(branch, date, client, DELETE_STATUS);
-    }
-
-    @Transactional
-    public Integer updateNormalLeafAndSuperLeaf(Integer indexNo, BigDecimal normalLeavesTotal, BigDecimal superLeavesTotal) {
-        return greenLeavesReceiveRepository.updateNormalLeafAndSuperLeaf(indexNo, normalLeavesTotal, superLeavesTotal);
-    }
-
-    public TGreenLeavesReceive findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndRouteAndDateAndStatusNot(branch, route, date, DELETE_STATUS);
-        if (receives.isEmpty()) {
-            throw new EntityNotFoundException("Green leaves receive not found");
-        }
-        return receives.get(0);
-    }
+//    public TGreenLeavesReceive findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
+//        List<TGreenLeavesReceive> receives = greenLeavesReceiveRepository.findByBranchAndRouteAndDateAndStatusNot(branch, route, date, DELETE_STATUS);
+//        if (receives.isEmpty()) {
+//            throw new EntityNotFoundException("Green leaves receive not found");
+//        }
+//        return receives.get(0);
+//    }
 
     public void deleteGreenLeavesReceive(Integer indexNo) {
         TGreenLeavesReceive tGreenLeavesReceive = greenLeavesReceiveRepository.getOne(indexNo);

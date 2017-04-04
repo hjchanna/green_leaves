@@ -12,8 +12,14 @@
                     clients: [],
                     //products information
                     products: [],
-                    //routeOfficers information
+                    //route information
+                    routes: [],
+                    //route officer information
                     routeOfficers: [],
+                    //route helper information
+                    routeHelpers: [],
+                    //vehicles
+                    vehicles: [],
                     constructor: function () {
                         var that = this;
                         this.data = FertilizersModelFactory.newData();
@@ -23,15 +29,32 @@
                                 .success(function (data) {
                                     that.products = data;
                                 });
+
                         FertilizerModelService.loadClients()
                                 .success(function (data) {
                                     that.clients = data;
+                                });
+
+                        FertilizerModelService.loadRoutes()
+                                .success(function (data) {
+                                    that.routes = data;
                                 });
 
                         FertilizerModelService.loadRouteOfficers()
                                 .success(function (data) {
                                     that.routeOfficers = data;
                                 });
+
+                        FertilizerModelService.loadRouteHelpers()
+                                .success(function (data) {
+                                    that.routeHelpers = data;
+                                });
+
+                        FertilizerModelService.loadVehicles()
+                                .success(function (data) {
+                                    that.vehicles = data;
+                                });
+
                     },
                     clear: function () {
                         this.data = FertilizersModelFactory.newData();
@@ -41,9 +64,8 @@
                     load: function () {
                         var that = this;
                         var defer = $q.defer();
-                        var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
                         var number = this.data.number;
-                        FertilizerModelService.loadFertilizer(date, number)
+                        FertilizerModelService.loadFertilizer(number)
                                 .success(function (data) {
                                     that.data = {};
                                     angular.extend(that.data, data);
@@ -58,7 +80,7 @@
                     },
                     addDetail: function () {
                         var defer = $q.defer();
-                        if (parseInt(this.tempData.product + this.tempData.qty) > 0) {
+                        if (parseInt(this.tempData.price + this.tempData.qty) > 0) {
                             this.data.tfertilizerDetailList.unshift(this.tempData);
                             this.tempData = FertilizersModelFactory.newTempData();
                             this.itemTotal();
@@ -67,7 +89,6 @@
                             this.itemTotal();
                             defer.reject();
                         }
-
                         return defer.promise;
                     },
                     editDetail: function (index) {
@@ -94,18 +115,17 @@
                         var itemTotal = 0.0;
                         var that = this;
                         angular.forEach(this.data.tfertilizerDetailList, function (value) {
-                            itemTotal += parseFloat(that.product(value.product).salePrice * value.qty);
+                            itemTotal += parseFloat(that.product(value.fertlizerItem).salePrice * value.qty);
                         });
                         return itemTotal;
                     },
                     save: function () {
-                        console.log("save model");
+                        console.log(this.data);
                         var that = this;
                         var defer = $q.defer();
-                        this.data.amount = this.itemTotal();
                         FertilizerModelService.saveFertilizer(JSON.stringify(this.data))
                                 .success(function (data) {
-                                    defer.resolve();
+                                    defer.resolve(data);
                                     that.clear();
                                 })
                                 .error(function (data) {
@@ -114,13 +134,13 @@
                                 });
                         return defer.promise;
                     },
-                    deleteFertilizer: function () {
-                        var that = this;
-                        FertilizerModelService.deleteFertilizer(this.data.indexNo)
-                                .success(function () {
-                                    that.clear();
-                                });
-                    },
+//                    deleteFertilizer: function () {
+//                        var that = this;
+//                        FertilizerModelService.deleteFertilizer(this.data.indexNo)
+//                                .success(function () {
+//                                    that.clear();
+//                                });
+//                    },
                     client: function (indexNo) {
                         var client;
                         angular.forEach(this.clients, function (value) {
@@ -140,6 +160,16 @@
                             }
                         });
                         return client;
+                    },
+                    routeLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
                     },
                     clientLabel: function (indexNo) {
                         var label;
@@ -172,6 +202,28 @@
                         });
                         return label;
                     },
+                    //return label for route helpers
+                    routeHelperLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.routeHelpers, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.name;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
+                    //return label for route officer
+                    vehicleLabel: function (indexNo) {
+                        var label;
+                        angular.forEach(this.vehicles, function (value) {
+                            if (value.indexNo === indexNo) {
+                                label = value.indexNo + "-" + value.vehicleNo;
+                                return;
+                            }
+                        });
+                        return label;
+                    },
                     //find customer by client number
                     searchClientByClientNo: function (clientNumber) {
                         var client;
@@ -183,15 +235,25 @@
                         });
                         return client;
                     },
-                    requestDuplicateCheck: function (product) {
+                    requestDuplicateCheck: function (fertlizerItem, client) {
                         var data;
                         angular.forEach(this.data.tfertilizerDetailList, function (values) {
-                            if (values.product === parseInt(product)) {
+                            if (values.fertlizerItem === parseInt(fertlizerItem) && values.client === client) {
                                 data = values;
                                 return;
                             }
                         });
                         return data;
+                    },
+                    getRouteOfficerAndRouteHelperAndVehicle: function (indexNo) {
+                        var that = this;
+                        angular.forEach(this.routes, function (value) {
+                            if (value.indexNo === parseInt(indexNo)) {
+                                that.data.routeHelper = value.routeHelper.indexNo;
+                                that.data.routeOfficer = value.routeOfficer.indexNo;
+                                that.data.vehicle = value.vehicle.indexNo;
+                            }
+                        });
                     }
                 };
                 return FertilizerRequestModel;
