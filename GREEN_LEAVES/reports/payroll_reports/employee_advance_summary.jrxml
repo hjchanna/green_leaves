@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-28T10:17:19 -->
+<!-- 2017-03-28T18:20:41 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="green_leaves.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -10,6 +10,7 @@
 	<parameter name="TO_DATE" class="java.util.Date"/>
 	<parameter name="EMPLOYEE" class="java.lang.Integer"/>
 	<parameter name="STATUS" class="java.lang.String"/>
+	<parameter name="CURRENT_BRANCH" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select
 	concat('[', lpad(m_employee.employee_number, 5, 0), '] ', m_employee.name) as employee,
@@ -23,8 +24,9 @@ from
 	left join m_employee on m_employee.index_no = t_employee_advance_request_details.employee
 where
 	t_employee_advance_request.date between   $P{FROM_DATE}   and   $P{TO_DATE}
-	and (  $P{EMPLOYEE}  is null or m_employee.index_no =  $P{EMPLOYEE} ) and
-	( $P{STATUS}  is null or t_employee_advance_request_details.status =  $P{STATUS} )
+	and (  $P{EMPLOYEE}  is null or m_employee.index_no =  $P{EMPLOYEE} )
+	and ( $P{STATUS}  is null or t_employee_advance_request_details.status =  $P{STATUS} )
+	and t_employee_advance_request.branch= $P{CURRENT_BRANCH} 
 group by 
 	t_employee_advance_request_details.advance_request, t_employee_advance_request_details.employee
 order by
@@ -98,7 +100,7 @@ order by
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="20">
+			<band height="31">
 				<textField pattern="#,##0.00">
 					<reportElement x="470" y="0" width="84" height="20" uuid="a4888618-5961-45b5-b125-1b77d9dc3307">
 						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -112,6 +114,33 @@ order by
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$V{amount1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="90" y="0" width="300" height="20" uuid="45e1fbfa-3bf6-493f-aa79-1a36600c3033">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Sub Total for Date  ]]></text>
+				</staticText>
+				<textField pattern="yyyy-MM-dd">
+					<reportElement x="390" y="0" width="80" height="20" uuid="e2623ba0-0570-4479-a609-687bc7b78b5b">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>

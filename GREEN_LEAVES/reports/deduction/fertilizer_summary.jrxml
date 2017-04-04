@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-23T17:25:57 -->
+<!-- 2017-03-28T17:49:56 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca755803-5a55-47b5-a73f-4a0ca4642689">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -11,13 +11,16 @@
 		<defaultValueExpression><![CDATA[new Date(117, 0, 1);]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ROUTE" class="java.lang.Integer"/>
+	<parameter name="STATUS" class="java.lang.String"/>
+	<parameter name="CURRENT_BRANCH" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select
 	concat('[', lpad(m_route.index_no,5,0), '] ', m_route.name) as route , 
 	concat('[', lpad(m_fertilizer_item.item_no,5,0), '] ', m_fertilizer_item.name) as fertilizert ,
 	sum(t_fertilizer_detail.qty) as qty,
 	sum(t_fertilizer_detail.amount)/sum(t_fertilizer_detail.qty) as sales_price,
-	sum(t_fertilizer_detail.amount) as value
+	sum(t_fertilizer_detail.amount) as value,
+	t_fertilizer_detail.status as status
 from
 	t_fertilizer,
 	t_fertilizer_detail,
@@ -30,7 +33,9 @@ where
 	m_client.index_no=t_fertilizer_detail.`client` and
 	m_route.index_no=t_fertilizer.route and
 	t_fertilizer.date between  $P{FROM_DATE}  and  $P{TO_DATE}  and
-	( $P{ROUTE} is null or t_fertilizer.route =  $P{ROUTE} )
+	( $P{ROUTE} is null or t_fertilizer.route =  $P{ROUTE} ) and
+	( $P{STATUS} is null or t_fertilizer_detail.status =  $P{STATUS}  )and
+	t_fertilizer.branch= $P{CURRENT_BRANCH} 
 group by t_fertilizer_detail.fertilizer_item,m_route.index_no
 order by m_route.index_no,m_fertilizer_item.index_no]]>
 	</queryString>
@@ -39,6 +44,7 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 	<field name="qty" class="java.math.BigDecimal"/>
 	<field name="sales_price" class="java.math.BigDecimal"/>
 	<field name="value" class="java.math.BigDecimal"/>
+	<field name="status" class="java.lang.String"/>
 	<variable name="value1" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{value}]]></variableExpression>
 	</variable>
@@ -57,16 +63,19 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 	<group name="ROUTE_GROUP">
 		<groupExpression><![CDATA[$F{route}]]></groupExpression>
 		<groupHeader>
-			<band height="52">
+			<band height="55">
 				<textField>
-					<reportElement x="0" y="5" width="180" height="20" uuid="8f20de1a-d59c-4519-9b69-3643791356f8">
+					<reportElement x="0" y="3" width="180" height="20" uuid="8f20de1a-d59c-4519-9b69-3643791356f8">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
 					<box leftPadding="5"/>
 					<textFieldExpression><![CDATA[$F{route}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="80" y="27" width="189" height="20" uuid="032ad04c-9d4c-4526-8951-c5aa6f40a9a3"/>
+					<reportElement x="80" y="27" width="130" height="20" uuid="032ad04c-9d4c-4526-8951-c5aa6f40a9a3">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
 					<box leftPadding="5">
 						<bottomPen lineWidth="1.0"/>
 					</box>
@@ -77,7 +86,7 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="269" y="27" width="100" height="20" uuid="452b52a0-e8a5-43b3-93e9-7d186aedd9bd"/>
+					<reportElement x="290" y="27" width="79" height="20" uuid="452b52a0-e8a5-43b3-93e9-7d186aedd9bd"/>
 					<box leftPadding="0" rightPadding="5">
 						<bottomPen lineWidth="1.0"/>
 					</box>
@@ -107,6 +116,16 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Unit Price]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="210" y="27" width="80" height="20" uuid="a7c8546a-ba9c-435f-a1a9-25cbf3f9b2e0"/>
+					<box>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[status]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -142,7 +161,7 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="100" splitType="Stretch">
+		<band height="120" splitType="Stretch">
 			<staticText>
 				<reportElement positionType="FixRelativeToBottom" x="-20" y="0" width="595" height="30" uuid="a9f73f3a-ec28-414a-ad25-52c85681e0e5"/>
 				<box leftPadding="5"/>
@@ -195,6 +214,22 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{TO_DATE}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="90" width="79" height="20" uuid="41251e74-bd7c-4c50-ad87-f4dceb02ee3b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="84" y="90" width="101" height="20" uuid="617d834b-9dfd-4060-857d-8adc5c6e0d73"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{STATUS}==null?"All Status":$P{STATUS}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -218,9 +253,9 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="26" splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<textField>
-				<reportElement x="81" y="2" width="188" height="20" uuid="b639e396-7f56-4cd5-94f0-a1d94e152169">
+				<reportElement x="81" y="2" width="129" height="20" uuid="b639e396-7f56-4cd5-94f0-a1d94e152169">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -229,7 +264,7 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 				<textFieldExpression><![CDATA[$F{fertilizert}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="269" y="2" width="100" height="20" uuid="ae10777f-8e79-4702-b2df-c85ab7ec37a6"/>
+				<reportElement x="290" y="2" width="79" height="20" uuid="ae10777f-8e79-4702-b2df-c85ab7ec37a6"/>
 				<box rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
@@ -245,6 +280,11 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 				<box rightPadding="5"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="2" width="80" height="20" uuid="f1755eeb-1116-4247-b7c7-b1a7601d4e62"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -288,7 +328,7 @@ order by m_route.index_no,m_fertilizer_item.index_no]]>
 	</pageFooter>
 	<summary>
 		<band height="21" splitType="Stretch">
-			<textField>
+			<textField pattern="#,##0">
 				<reportElement x="300" y="1" width="69" height="20" uuid="5f0d5c83-250b-4b43-9fdb-57e88ef9e3c5"/>
 				<box rightPadding="5">
 					<topPen lineWidth="0.5"/>
