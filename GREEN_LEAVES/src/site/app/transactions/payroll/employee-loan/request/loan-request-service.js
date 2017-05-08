@@ -40,5 +40,5 @@
     };
 
     angular.module("appModule")
-            .service("LoanRequestService", service);
+            .service("EmployeeLoanRequestService", service);
 }());

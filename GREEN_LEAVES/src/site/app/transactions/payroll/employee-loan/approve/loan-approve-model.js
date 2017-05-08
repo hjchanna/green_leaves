@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (LoanRequestService, optionPane) {
+    var factory = function (EmployeeLoanRequestService, optionPane) {
         function LoanApproveModel() {
             this.constructor();
         }
@@ -12,13 +12,13 @@
                 var that = this;
 
                 //load pending request
-                LoanRequestService.loadcheckPendingRequest()
+                EmployeeLoanRequestService.loadcheckPendingRequest()
                         .success(function (data) {
                             that.loanRequestDetails = data;
                         });
 
                 //load clients
-                LoanRequestService.loadEmployee()
+                EmployeeLoanRequestService.loadEmployee()
                         .success(function (data) {
                             that.employees = data;
                         });
@@ -82,9 +82,9 @@
             approve: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
+                    EmployeeLoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
                             .success(function () {
-                                LoanRequestService.loadcheckPendingRequest()
+                                EmployeeLoanRequestService.loadcheckPendingRequest()
                                         .success(function (data) {
                                             that.loanRequestDetails = data;
                                         });
@@ -98,9 +98,9 @@
             reject: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.rejectRequest(that.detail.indexNo)
+                    EmployeeLoanRequestService.rejectRequest(that.detail.indexNo)
                             .success(function () {
-                                LoanRequestService.loadcheckPendingRequest()
+                                EmployeeLoanRequestService.loadcheckPendingRequest()
                                         .success(function (data) {
                                             that.loanRequestDetails = data;
                                         });

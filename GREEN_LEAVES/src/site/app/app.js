@@ -257,10 +257,19 @@
                             templateUrl: "app/reports/green-leaves-weigh/green-leaves-weigh.html",
                             controller: "GreenLeavesWeighReportController"
                         })
+
+                        //dashboards
                         .when("/dashboard/dashboard", {
                             templateUrl: "app/dashboard/receive-dashboard/receive-dashboard.html",
                             controller: "receiveDashboardController"
                         })
+
+                        .when("/dashboard/receive-dashboard-2", {
+                            templateUrl: "app/dashboard/receive-dashboard-2/receive-dashboard-2.html",
+                            controller: "ReceiveDashboard2Controller"
+                        })
+
+
 
                         .otherwise({
                             redirectTo: "/"

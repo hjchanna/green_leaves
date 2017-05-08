@@ -10,7 +10,9 @@
                     $scope.model.clear();
                     //set current date
                     //TODO:get date from the server
-                    $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+                    var newDate = new Date();
+                    newDate.setDate(newDate.getDate() - 1);
+                    $scope.model.data.date = $filter('date')(newDate, 'yyyy-MM-dd');
                     //switch to the branch
                     $timeout(function () {
                         document.querySelectorAll("#branch")[0].focus();
@@ -211,6 +213,15 @@
                             $scope.model.loadBranchInfromation(newVal);
                         }
                     });
+                    $scope.$watch("[model.data.date, model.data.route]", function () {
+                        if ($scope.model.data.date && $scope.model.data.route) {
+                            $scope.model.findByRouteAndDate($scope.model.data.route, $scope.model.data.date)
+                                    .then(function (data) {
+                                        console.log(data);
+                                    });
+                        }
+                    });
+
 //                    $scope.$watch("model.data.date", function (newVal, oldVal) {
 //                        $scope.model.findByBranchAndRouteAndDate();
 //                    }, true);

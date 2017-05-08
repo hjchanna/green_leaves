@@ -29,6 +29,8 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
 
     public List<TGreenLeavesWeigh> findByWeighBranchAndStatusAndType(Integer weighBranch, String status, String type);
 
+    public List<TGreenLeavesWeigh> findByWeighBranchAndRouteAndDate(Integer weighBranch, Integer route, Date date);
+
     @Query(value = "SELECT MAX(number) FROM t_green_leaves_weigh WHERE branch=:branch and type=:type", nativeQuery = true)
     public Integer getMaximumNumberByBranchAndType(@Param("branch") Integer branch, @Param("type") String type);
 
@@ -36,9 +38,8 @@ public interface GLGreenLeavesWeighRepository extends JpaRepository<TGreenLeaves
     @Query(value = "update t_green_leaves_weigh set status = :status where index_no = :indexNo", nativeQuery = true)
     public Integer updateStatus(@Param("indexNo") Integer indexNo, @Param("status") String status);
 
-    public TGreenLeavesWeigh findByBranchAndRouteAndDateAndTypeAndStatusNot(Integer branch, Integer route, Date date, String type, String ststus);
+//    public TGreenLeavesWeigh findByBranchAndRouteAndDateAndTypeAndStatusNot(Integer branch, Integer route, Date date, String type, String ststus);
+//
+//    public TGreenLeavesWeigh findByBranchAndDateAndClientAndTypeAndStatusNot(Integer branch, Date date, Integer client, String type, String ststus);
 
-    public TGreenLeavesWeigh findByBranchAndDateAndClientAndTypeAndStatusNot(Integer branch, Date date, Integer client, String type, String ststus);
-
-//    public List<TGreenLeavesWeigh> findByTypeAndTempClientNotNull(String supplier);
 }

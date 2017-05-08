@@ -11,11 +11,7 @@
  */
 package com.mac.green_leaves.v1.green_leaves.green_leaves_weigh;
 
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveRepository;
 import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.GLGreenLeavesReceiveService;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
-import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceiveDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeighDetail;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import java.math.BigDecimal;
@@ -47,12 +43,6 @@ public class GLGreenLeavesWeighService {
 
     @Autowired
     private GLGreenLeavesWeighDetailRepository greenLeavesWeighDetailRepository;
-
-    @Autowired
-    private GLGreenLeavesReceiveService greenLeavesReceiveService;
-
-    @Autowired
-    private GLGreenLeavesReceiveRepository greenLeavesReceiveRepository;
 
     public TGreenLeavesWeigh getSummary(Integer branch, Integer number, String type) {
         List<TGreenLeavesWeigh> greenLeaveWeighs = greenLeavesWeighRepository.findByBranchAndNumberAndTypeAndStatusNot(branch, number, type, DELETED_STATUS);
@@ -253,29 +243,21 @@ public class GLGreenLeavesWeighService {
         return greenLeavesWeighRepository.findByWeighBranchAndStatusAndType(branch, PENDING_STATUS, type);
     }
 
+    public List<Integer> findByRouteAndDate(Integer branch, Integer route, Date date) {
+        List<Integer> numbers = new ArrayList<>();
+
+        List<TGreenLeavesWeigh> weighs = greenLeavesWeighRepository.findByWeighBranchAndRouteAndDate(branch, route, date);
+        for (TGreenLeavesWeigh weigh : weighs) {
+            numbers.add(weigh.getNumber());
+        }
+
+        return numbers;
+    }
+
     //pending bulk and supplier weigh confirm status update updateStatus
     @Transactional
     public void approveWeigh(Integer indexNo) {
         greenLeavesWeighRepository.updateStatus(indexNo, APPROVE_STATUS);
-    }
-
-    //find bulk green leaves weigh
-    public TGreenLeavesWeigh findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndRouteAndDateAndTypeAndStatusNot(branch, route, date, TYPE_BULK, DELETED_STATUS);
-        if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("bulk green leave weigh not found branch,route and date" + branch + " , " + route + " and " + date);
-        }
-        return greenLeavesWeigh;
-
-    }
-
-    //find supplier green leaves weigh
-    TGreenLeavesWeigh findByBranchAndDateAndClient(Integer branch, Date date, Integer client) {
-        TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.findByBranchAndDateAndClientAndTypeAndStatusNot(branch, date, client, TYPE_SUPPLIER, DELETED_STATUS);
-        if (greenLeavesWeigh == null) {
-            throw new EntityNotFoundException("supplier green leave weight not found branch,date and client" + branch + " , " + date + " and " + client);
-        }
-        return greenLeavesWeigh;
     }
 
     @Transactional
@@ -283,20 +265,5 @@ public class GLGreenLeavesWeighService {
         TGreenLeavesWeigh greenLeavesWeigh = greenLeavesWeighRepository.getOne(indexNo);
         greenLeavesWeigh.setStatus(DELETED_STATUS);
         greenLeavesWeighRepository.save(greenLeavesWeigh);
-
-        //green leaves receive status update
-        //TODO:transaction
-//        if ("SUPPLIER".equals(greenLeavesWeigh.getType()) && greenLeavesWeigh.getClient() != null) {
-//            List<TGreenLeavesReceive> greenLeavesList = greenLeavesReceiveRepository.findByBranchAndDateAndGreenLeavesReceiveDetailsClientAndRouteIsNullAndStatusNot(greenLeavesWeigh.getBranch(), greenLeavesWeigh.getDate(), greenLeavesWeigh.getClient(), DELETED_STATUS);
-//            if (greenLeavesList.isEmpty()) {
-//                throw new EntityNotFoundException("supplier green leave weight not found branch,date and client");
-//            } else {
-//                for (TGreenLeavesReceive tGreenLeavesReceive : greenLeavesList) {
-//                    tGreenLeavesReceive.setStatus(DELETED_STATUS);
-//                    greenLeavesReceiveRepository.save(tGreenLeavesReceive);
-//                    System.out.println("delete green leaves receives");
-//                }
-//            }
-//        }
     }
 }

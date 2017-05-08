@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var controller = function ($scope, $timeout, $filter, ConfirmPane, ClientAdvanceRequestModel, Notification) {
+    var controller = function ($scope, $timeout, $filter, ConfirmPane, optionPane, ClientAdvanceRequestModel, Notification) {
 
         $scope.model = new ClientAdvanceRequestModel();
         $scope.model.clientLedgerHistory = [];
@@ -18,7 +18,7 @@
             $timeout(function () {
                 document.querySelectorAll("#route")[0].focus();
             }, 10);
-            $scope.asAtDate = "This";
+            $scope.asAtDate = "CURRENT";
         };
 
         $scope.ui.addRequest = function () {
@@ -29,7 +29,7 @@
                 $scope.model.addDetail()
                         .then(function () {
                             $scope.ui.focus();
-                            $scope.asAtDate = "This";
+                            $scope.asAtDate = "CURRENT";
                         });
             } else {
                 Notification.error("The selected client already have an advance request on current date.");
@@ -137,17 +137,7 @@
 
         $scope.ui.init = function () {
             $scope.ui.mode = "IDEAL";
-            $scope.ui.type = "NORMAL";
             $scope.model.clear();
-
-            $scope.$watch("[model.data.date,model.data.route]", function (newVal, oldVal) {
-                if ($scope.model.data.route) {
-                    $scope.model.findByRouteAndDate();
-                }
-            }, true);
-
-            $scope.series = ['Normal', 'Super'];
-            $scope.colors = ['#45b7cd', '#ff6384'];
 
             //client ledger auto refresh
             $scope.$watch('[model.tempData.client, asAtDate]', function () {
@@ -155,15 +145,18 @@
                 if (asAtDate === "CURRENT") {
                     var date = new Date();
                     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-                    $scope.model.tempData.asAtDate = lastDay;
+                    $scope.model.tempData.asAtDate = $filter('date')(lastDay, 'yyyy-MM-dd');//lastDay;
                 } else if (asAtDate === "PREVIOUS") {
                     var date = new Date();
                     var prev = new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
                     var lastDay = new Date(prev.getFullYear(), prev.getMonth() + 1, 0);
-                    $scope.model.tempData.asAtDate = lastDay;
+                    $scope.model.tempData.asAtDate = $filter('date')(lastDay, 'yyyy-MM-dd');//lastDay;
                 }
+                
+                console.log($scope.model.tempData.asAtDate);
             });
 
+            //client route checkup
             $scope.$watch('model.tempData.client', function () {
                 var c = $scope.model.client($scope.model.tempData.client);
                 if (c) {
@@ -171,7 +164,7 @@
 
                     if ($scope.model.data.route !== c.route) {
                         var clientRoute = $scope.model.routeLabel(c.route);
-                        Notification.warning("This client is from an another route. (" + clientRoute + ")");
+                        optionPane.warningMessage("This client is from an another route. (" + clientRoute + ")");
                     }
                 } else {
                     $scope.tempClient = null;

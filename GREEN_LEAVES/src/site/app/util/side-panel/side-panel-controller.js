@@ -3,7 +3,7 @@
             .controller("sidePanelController", function ($scope, sidePanelService) {
                 $scope.model = {};
                 $scope.model.clientLedgerHistory = [];
-                $scope.model.clientHistory = [];
+
                 $scope.model.greenLeavesTotalSummary = {
                     "normalLeavesTotal": 0.0,
                     "superLeavesTotal": 0.0
@@ -15,8 +15,13 @@
                         sum[0] = sum[0] + value[2];
                         sum[1] = sum[1] + value[3];
                     });
-                    sum[2] = sum[0] - sum[1];
-                    sum[3] = sum[1] - sum[0];
+
+                    var normalGLValue = $scope.model.greenLeavesTotalSummary.normalLeavesTotal * $scope.model.greenLeavesValue.normalLeavesTotal;
+                    var superGLValue = $scope.model.greenLeavesTotalSummary.superLeavesTotal * $scope.model.greenLeavesValue.superLeavesTotal;
+                    var glValue = normalGLValue + superGLValue;
+
+                    sum[2] = sum[0] - sum[1] + glValue;
+                    sum[3] = sum[1] - sum[0] - glValue;
 
                     sum[2] = sum[2] > 0 ? sum[2] : 0.0;
                     sum[3] = sum[3] > 0 ? sum[3] : 0.0;
@@ -25,10 +30,7 @@
                 };
 
                 $scope.init = function () {
-                    $scope.$watch("client", function () {
-                        console.log("Client changed: " + $scope.client);
-                        console.log("Client changed: " + $scope.date);
-
+                    $scope.$watch("[client, date]", function () {
                         var client = $scope.client;
                         var date = $scope.date;
                         if (client && date) {
@@ -42,16 +44,7 @@
                                         $scope.model.clientLedgerHistory = [];
                                     });
 
-                            sidePanelService.clientHistory(date, client)
-                                    .success(function (data, status, headers) {
-                                        //get client history 
-                                        $scope.model.clientHistory = data;
-                                    })
-                                    .error(function (data, status, headers) {
-                                        $scope.model.clientHistory = [];
-                                    });
-
-                            sidePanelService.getGreenLeavesReceiveSummryDetails(date, client)
+                            sidePanelService.loadReceiveSummary(date, client)
                                     .success(function (data, status, headers) {
                                         //green leaves receive total summry
                                         $scope.model.greenLeavesTotalSummary.normalLeavesTotal = data[0][0];
@@ -69,7 +62,6 @@
                                     });
                         } else {
                             $scope.model.clientLedgerHistory = [];
-                            $scope.model.clientHistory = [];
                             $scope.model.greenLeavesTotalSummary = {
                                 "normalLeavesTotal": 0.0,
                                 "superLeavesTotal": 0.0

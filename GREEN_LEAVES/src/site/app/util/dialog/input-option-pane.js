@@ -4,7 +4,7 @@
                 var defer;
 
                 var ctrl = function (type, title, inputType) {
-                    function Controller(modalInstance, $timeout) {
+                    function Controller(modalInstance, $scope, $timeout) {
                         //modal instance
                         this.modalInstance = modalInstance;
                         this.timeout = $timeout;
@@ -12,13 +12,11 @@
                         this.type = type;
                         this.title = title;
                         this.inputType = inputType;
+                        this.inputValue = null;
 
-
-                        console.log(this.inputType);
                         if (!this.inputType) {
                             this.inputType = "text";
                         }
-                        console.log(this.inputType);
 
                         //class and icon
                         switch (type) {
@@ -33,10 +31,12 @@
                                 this.title = typeof this.title === 'undefined' ? 'Note' : this.title;
                                 break;
                         }
-                    }
-                    Controller.prototype = {
-                        confirm: function (data) {
+
+                        this.confirm = function (data) {
+                            console.log(this.inputValue);
                             var scope = this;
+                            console.log(data);
+                            console.log($scope.input);
                             this.timeout(function () {
                                 if (angular.isUndefined(data)) {
                                     Notification.error("please input text");
@@ -45,17 +45,40 @@
                                     defer.resolve(data);
                                 }
                             }, 250);
-                        },
-                        discard: function () {
+                        };
+
+                        this.discard = function () {
                             var scope = this;
                             this.timeout(function () {
                                 scope.modalInstance.close();
                                 defer.reject();
                             }, 250);
                         }
-                    };
+                    }
+//                    Controller.prototype = {
+//                        confirm: function (data) {
+//                            var scope = this;
+//                            console.log(data);
+//                            console.log($scope.input);
+//                            this.timeout(function () {
+//                                if (angular.isUndefined(data)) {
+//                                    Notification.error("please input text");
+//                                } else {
+//                                    scope.modalInstance.close();
+//                                    defer.resolve(data);
+//                                }
+//                            }, 250);
+//                        },
+//                        discard: function () {
+//                            var scope = this;
+//                            this.timeout(function () {
+//                                scope.modalInstance.close();
+//                                defer.reject();
+//                            }, 250);
+//                        }
+//                    };
 
-                    return ['$uibModalInstance', '$timeout', Controller];
+                    return ['$uibModalInstance', '$scope', '$timeout', Controller];
                 };
 
                 this.confirm = function (optionType, title, type) {

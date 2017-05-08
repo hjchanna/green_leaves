@@ -20,9 +20,9 @@
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/" + number);
         };
 
-        this.findByRouteAndDate = function (route, date) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-by/" + route + "/" + date);
-        };
+//        this.findByRouteAndDate = function (route, date) {
+//            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-by/" + route + "/" + date);
+//        };
 
         this.saveAdvanceRequest = function (data) {
             return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/save", data);
@@ -68,7 +68,9 @@
 
         //get monthly and daily summry details
         this.getGreenLeavesReceiveSummryDetails = function (date, client) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-green-leaves-receive-summry/" + new Date(date).toISOString() + "/" + client);
+            console.log(date);
+            console.log("---------------------------------")
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/client-advance/find-green-leaves-receive-summry/" + date + "/" + client);
         };
     };
 

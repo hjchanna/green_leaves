@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.dashboard;
+package com.mac.green_leaves.v1.dashboard.receive_dashboard;
 
-import com.mac.green_leaves.v1.dashboard.model.greenLeavesSummry;
+import com.mac.green_leaves.v1.dashboard.receive_dashboard.model.greenLeavesSummry;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_receive.model.TGreenLeavesReceive;
 import com.mac.green_leaves.v1.green_leaves.green_leaves_weigh.model.TGreenLeavesWeigh;
 import com.mac.green_leaves.v1.zexception.EntityNotFoundException;

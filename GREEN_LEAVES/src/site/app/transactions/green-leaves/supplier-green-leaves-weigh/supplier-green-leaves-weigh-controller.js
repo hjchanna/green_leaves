@@ -11,7 +11,9 @@
                     $scope.model.clear();
 
                     //set current date
-                    $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+                    var newDate = new Date();
+                    newDate.setDate(newDate.getDate() - 1);
+                    $scope.model.data.date = $filter('date')(newDate, 'yyyy-MM-dd');
 
                     //set default branch
                     $scope.model.data.branch = $scope.model.defaultBranch();

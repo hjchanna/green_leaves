@@ -59,32 +59,32 @@
                 return defer.promise;
             },
             //find by branch nd route and date
-            findByRouteAndDate: function () {
-                var that = this;
-                var defer = $q.defer();
-                var route = this.data.route;
-                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
-                ClientAdvanceRequestService.findByRouteAndDate(route, date)
-                        .success(function (data) {
-                            that.data = {};
-                            angular.extend(that.data, data);
-                            that.refreshQuantity();
-                            defer.resolve();
-                        })
-                        .error(function (data) {
-                            that.data.indexNo = null;
-                            //that.data.banch = null;
-                            //that.data.date = null;
-                            that.data.number = null;
-                            that.data.transaction = null;
-                            //that.data.route = null;
-                            that.data.status = "PENDING";
-                            that.data.clientAdvanceRequestDetails = [];
-                            that.refreshQuantity();
-                            defer.reject();
-                        });
-                return defer.promise;
-            },
+//            findByRouteAndDate: function () {
+//                var that = this;
+//                var defer = $q.defer();
+//                var route = this.data.route;
+//                var date = $filter('date')(this.data.date, 'yyyy-MM-dd');
+//                ClientAdvanceRequestService.findByRouteAndDate(route, date)
+//                        .success(function (data) {
+//                            that.data = {};
+//                            angular.extend(that.data, data);
+//                            that.refreshQuantity();
+//                            defer.resolve();
+//                        })
+//                        .error(function (data) {
+//                            that.data.indexNo = null;
+//                            //that.data.banch = null;
+//                            //that.data.date = null;
+//                            that.data.number = null;
+//                            that.data.transaction = null;
+//                            //that.data.route = null;
+//                            that.data.status = "PENDING";
+//                            that.data.clientAdvanceRequestDetails = [];
+//                            that.refreshQuantity();
+//                            defer.reject();
+//                        });
+//                return defer.promise;
+//            },
             //clear all data
             clear: function () {
                 this.data = ClientAdvanceRequestFactory.newData();

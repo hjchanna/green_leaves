@@ -56,20 +56,6 @@ public class GLClientAdvanceService {
     @Autowired
     private GLCommonVoucherRepository voucherRepository;
 
-    //common
-    public List<Object[]> clientLedgerHistory(Integer client, Date asAtDate, Integer branch) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(asAtDate);
-
-        c.set(Calendar.DATE, c.getActualMinimum(Calendar.DATE));
-        Date fromDate = c.getTime();
-
-        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
-        Date toDate = c.getTime();
-
-        return clientAdvanceRepository.clientLedgerHistory(client, fromDate, toDate, branch);
-    }
-
     //request
     public TClientAdvanceRequest getAdvanceRequestByNumber(Integer number, Integer branch) {
         List<TClientAdvanceRequest> clientAdvanceRequests = clientAdvanceRepository.findByNumberAndBranch(number, branch);
@@ -122,10 +108,10 @@ public class GLClientAdvanceService {
     public void deleteAdvanceRequestDetail(Integer indexNo) {
         TClientAdvanceRequestDetail advanceRequestDetail = clientAdvanceRequestDetailRepository.getOne(indexNo);
         TClientAdvanceRequest advanceRequest = advanceRequestDetail.getClientAdvanceRequest();
-        
+
         advanceRequest.getClientAdvanceRequestDetails().remove(advanceRequestDetail);
         clientAdvanceRequestDetailRepository.delete(advanceRequestDetail);
-        
+
         if (advanceRequest.getClientAdvanceRequestDetails().isEmpty()) {
             advanceRequest.setStatus(ADVANCE_REQUEST_STATUS_DELETED);
             clientAdvanceRepository.save(advanceRequest);
@@ -200,62 +186,6 @@ public class GLClientAdvanceService {
 
     List<TClientAdvanceRequest> getPendingAdvanceRequests(Integer branch, Integer route) {
         return clientAdvanceRepository.findByBranchAndRouteAndStatus(branch, route, ADVANCE_REQUEST_STATUS_PENDING);
-    }
-
-    ;
-
- public List<Object[]> findByBranchAndRouteDateAndClient(Integer branch, Integer route, Date date, Integer client) {
-
-        String year = new SimpleDateFormat("yyy").format(date);
-        String month = new SimpleDateFormat("MM").format(date);
-
-        //get month days count
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int monthMaxDays = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        //get db data 
-        List<Object[]> getDbData = clientAdvanceRepository.findGreenLeavesReceive(branch, route, date, client);
-
-        //return chart data
-        List<Object[]> chartData = new ArrayList<>();
-        for (int i = 0; i <= monthMaxDays; i++) {
-            chartData.add(new Object[]{i, 0, 0});
-        }
-
-        //get monthly dates
-        for (int i = 1; i <= monthMaxDays; i++) {
-            String tempDate = "";
-            if (i < 10) {
-                tempDate = year + "-" + month + "-0" + i;
-            } else {
-                tempDate = year + "-" + month + "-" + i;
-            }
-
-            //db date and get data mach and add new
-            for (int j = 0; j < getDbData.size(); j++) {
-                if (tempDate.equals(new SimpleDateFormat("yyy-MM-dd").format(getDbData.get(j)[0]))) {
-                    chartData.set(i, new Object[]{i, getDbData.get(j)[1], getDbData.get(j)[2]});
-                }
-            }
-        }
-        return chartData;
-    }
-
-    public TClientAdvanceRequest findByBranchAndRouteAndDate(Integer branch, Integer route, Date date) {
-        List<TClientAdvanceRequest> advanceRequests = clientAdvanceRepository.findByBranchAndRouteAndDate(branch, route, date);
-        if (advanceRequests.isEmpty()) {
-            throw new EntityNotFoundException("Green Leaves Client Request Not Found");
-        }
-        return advanceRequests.get(0);
-    }
-
-    public List<Object[]> findGreenLeavesReceiveSummary(Integer branch, Date date, Integer client) {
-        List<Object[]> advanceRequests = clientAdvanceRepository.findGreenLeavesReceiveSummary(branch, date, client);
-        if (advanceRequests.isEmpty()) {
-            throw new EntityNotFoundException("Green Leaves Client Request Not Found");
-        }
-        return advanceRequests;
     }
 
     public void updateAdvanceRequestAmount(Integer indexNo, BigDecimal amount) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mac.green_leaves.v1.dashboard.model;
+package com.mac.green_leaves.v1.dashboard.receive_dashboard.model;
 
 import java.util.Date;
 

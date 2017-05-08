@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (LoanRequestService, optionPane) {
+    var factory = function (ClientLoanRequestService, optionPane) {
         function LoanApproveModel() {
             this.constructor();
         }
@@ -12,13 +12,13 @@
                 var that = this;
 
                 //load pending request
-                LoanRequestService.loadcheckPendingRequest()
+                ClientLoanRequestService.loadcheckPendingRequest()
                         .success(function (data) {
                             that.loanRequestDetails = data;
                         });
 
                 //load clients
-                LoanRequestService.loadClients()
+                ClientLoanRequestService.loadClients()
                         .success(function (data) {
                             that.clients = data;
                         });
@@ -81,7 +81,7 @@
             approve: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
+                    ClientLoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
                             .success(function () {
                                 that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details approved successfully.");
@@ -94,7 +94,7 @@
             reject: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.rejectRequest(that.detail.indexNo)
+                    ClientLoanRequestService.rejectRequest(that.detail.indexNo)
                             .success(function () {
                                 that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
                                 optionPane.successMessage("loan details rejected successfully.");

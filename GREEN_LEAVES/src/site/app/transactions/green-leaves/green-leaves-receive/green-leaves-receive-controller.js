@@ -206,7 +206,7 @@
                     $scope.customerId = client.clientNumber;
                     if ($scope.model.data.route !== client.route) {
                         var clientRoute = $scope.model.routeLabel(client.route);
-                        Notification.warning("This client is from an another route. (" + clientRoute + ")");
+                        optionPane.warningMessage("This client is from an another route. (" + clientRoute + ")");
                     }
                 }
             });

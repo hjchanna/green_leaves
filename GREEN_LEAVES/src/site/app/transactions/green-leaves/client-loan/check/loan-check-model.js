@@ -1,11 +1,11 @@
 (function () {
-    var factory = function (LoanRequestService, LoanCheckModelFactory, $q) {
-        function LoanCheckModel() {
+    var factory = function (ClientLoanRequestService, ClientLoanCheckModelFactory, $q) {
+        function ClientLoanCheckModel() {
             this.constructor();
         }
 
         //prototype functions
-        LoanCheckModel.prototype = {
+        ClientLoanCheckModel.prototype = {
             data: {},
             tempData: {},
             //pending request information
@@ -15,14 +15,14 @@
             //constructor
             constructor: function () {
                 var that = this;
-                that.data = LoanCheckModelFactory.newData();
-                that.tempData = LoanCheckModelFactory.newTempData();
+                that.data = ClientLoanCheckModelFactory.newData();
+                that.tempData = ClientLoanCheckModelFactory.newTempData();
 
                 //load pending request
                 this.loadPendingRequest();
 
                 //load clients
-                LoanRequestService.loadClients()
+                ClientLoanRequestService.loadClients()
                         .success(function (data) {
                             that.clients = data;
                         });
@@ -31,16 +31,17 @@
             //load pending loan request
             loadPendingRequest: function () {
                 var that = this;
-                LoanRequestService.loadPendingRequest()
+                ClientLoanRequestService.loadPendingRequest()
                         .success(function (data) {
                             that.pendingRequest = data;
                         });
+                        console.log("L");
             },
             //clear all data
             clear: function () {
                 var that = this;
-                that.data = LoanCheckModelFactory.newData();
-                that.tempData = LoanCheckModelFactory.newTempData();
+                that.data = ClientLoanCheckModelFactory.newData();
+                that.tempData = ClientLoanCheckModelFactory.newTempData();
                 that.loadPendingRequest();
             },
             //loan total
@@ -56,7 +57,7 @@
             selectDetail: function (indexNo) {
                 var that = this;
                 var defer = $q.defer();
-                LoanRequestService.findByTLoanRequestDetailByIndexNo(indexNo)
+                ClientLoanRequestService.findByTLoanRequestDetailByIndexNo(indexNo)
                         .success(function (data) {
                             that.tempData = {};
                             that.tempData = data;
@@ -73,7 +74,7 @@
                 var defer = $q.defer();
                 var data = JSON.stringify(that.tempData);
                 if (data) {
-                    LoanRequestService.checkRequest(data)
+                    ClientLoanRequestService.checkRequest(data)
                             .success(function (data) {
                                 that.clear();
                                 defer.resolve();
@@ -89,7 +90,7 @@
                 var defer = $q.defer();
                 var data = JSON.stringify(that.tempData);
                 if (data) {
-                    LoanRequestService.rejectRequest(that.tempData.indexNo)
+                    ClientLoanRequestService.rejectRequest(that.tempData.indexNo)
                             .success(function () {
                                 that.clear();
                                 defer.resolve();
@@ -123,9 +124,9 @@
             }
         };
 
-        return LoanCheckModel;
+        return ClientLoanCheckModel;
     };
 
     angular.module("appModule")
-            .factory("LoanCheckModel", factory);
+            .factory("ClientLoanCheckModel", factory);
 }());

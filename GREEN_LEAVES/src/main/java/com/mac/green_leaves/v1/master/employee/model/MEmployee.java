@@ -34,10 +34,10 @@ public class MEmployee implements Serializable {
     @Column(name = "branch")
     private int branch;
     
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = "employee_number")
-    private int employeeNumber;
+//    @NotNull
+//    @Basic(optional = false)
+//    @Column(name = "employee_number")
+//    private int employeeNumber;
 
     @NotNull
     @Basic(optional = false)
@@ -73,9 +73,9 @@ public class MEmployee implements Serializable {
     @Column(name = "address_line3")
     private String addressLine3;
     
-    @Basic(optional = false)
-    @Column(name = "epf_number")
-    private String epfNumber;
+//    @Basic(optional = false)
+//    @Column(name = "epf_number")
+//    private String epfNumber;
 
     public MEmployee() {
     }
@@ -84,20 +84,20 @@ public class MEmployee implements Serializable {
         this.indexNo = indexNo;
     }
 
-    public MEmployee(Integer indexNo, int branch, int employeeNumber, String name, String type, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3, String epfNumber) {
-        this.indexNo = indexNo;
-        this.branch = branch;
-        this.employeeNumber = employeeNumber;
-        this.name = name;
-        this.type = type;
-        this.nicNumber = nicNumber;
-        this.mobileNumber = mobileNumber;
-        this.telephoneNumber = telephoneNumber;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.addressLine3 = addressLine3;
-        this.epfNumber = epfNumber;
-    }
+//    public MEmployee(Integer indexNo, int branch, int employeeNumber, String name, String type, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3, String epfNumber) {
+//        this.indexNo = indexNo;
+//        this.branch = branch;
+//        this.employeeNumber = employeeNumber;
+//        this.name = name;
+//        this.type = type;
+//        this.nicNumber = nicNumber;
+//        this.mobileNumber = mobileNumber;
+//        this.telephoneNumber = telephoneNumber;
+//        this.addressLine1 = addressLine1;
+//        this.addressLine2 = addressLine2;
+//        this.addressLine3 = addressLine3;
+//        this.epfNumber = epfNumber;
+//    }
 
     public Integer getIndexNo() {
         return indexNo;
@@ -115,13 +115,13 @@ public class MEmployee implements Serializable {
         this.branch = branch;
     }
 
-    public int getEmployeeNumber() {
-        return employeeNumber;
-    }
-
-    public void setEmployeeNumber(int employeeNumber) {
-        this.employeeNumber = employeeNumber;
-    }
+//    public int getEmployeeNumber() {
+//        return employeeNumber;
+//    }
+//
+//    public void setEmployeeNumber(int employeeNumber) {
+//        this.employeeNumber = employeeNumber;
+//    }
 
     public String getName() {
         return name;
@@ -187,13 +187,13 @@ public class MEmployee implements Serializable {
         this.addressLine3 = addressLine3;
     }
 
-    public String getEpfNumber() {
-        return epfNumber;
-    }
-
-    public void setEpfNumber(String epfNumber) {
-        this.epfNumber = epfNumber;
-    }
+//    public String getEpfNumber() {
+//        return epfNumber;
+//    }
+//
+//    public void setEpfNumber(String epfNumber) {
+//        this.epfNumber = epfNumber;
+//    }
 
    
 

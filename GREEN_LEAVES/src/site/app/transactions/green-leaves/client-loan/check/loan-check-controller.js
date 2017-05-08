@@ -1,7 +1,7 @@
 (function () {
     angular.module("appModule")
-            .controller("ClientLoanCheckController", function ($scope, LoanCheckModel, ConfirmPane, Notification) {
-                $scope.model = new LoanCheckModel();
+            .controller("ClientLoanCheckController", function ($scope, ClientLoanCheckModel, ConfirmPane, Notification) {
+                $scope.model = new ClientLoanCheckModel();
                 $scope.ui = {};
                 $scope.ui.selectedDetailIndex = null;
 

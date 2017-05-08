@@ -1,0 +1,295 @@
+<div class="index-content-body">
+    <div class="col-xs-4 background-dark border-right" style="height: calc(100vh - 51px); display: flex; flex-flow: column;">
+        <div class="row">
+
+            <div class="col-xs-12">
+                <table class="control-table">
+                    <col class="col-xs-4"/>
+                    <col class="col-xs-8"/>
+
+                    <thead>
+                        <tr>
+                            <th>FROM DATE</th>
+                            <th><input class="form-control" smart-input="date" ng-model="model.fromDate"/></th>
+                        </tr>
+                        <tr>
+                            <th>TO DATE</th>
+                            <th><input class="form-control" smart-input="date" ng-model="model.toDate" /></th>
+                        </tr>
+                        <tr>
+                            <th>ROUTE</th>
+                            <th><input class="form-control" ng-model="model.route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="ui.routeLabel($model)"/></th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <button class="btn btn-primary btn-block" ng-click="ui.applyFilters();">APPLY FILTERS</button>
+            </div>
+
+            <div class="col-xs-12 placeholder" style="margin-top: 5px; padding: 0; height: calc(100vh - 246px);" ng-show="false">
+                <h1>PLEASE FILTER TO DISPLAY SUMMARY</h1>
+            </div>
+
+            <div class="smart-scroll-y col-xs-12" style="margin-top: 5px; margin-right: -5px; height: calc(100vh - 241px);" ng-show="false">
+                <table>
+                    <col style="width: 40%;"/>
+                    <col class="text-right" style="width: 30%;"/>
+                    <col class="text-right" style="width: 30%;"/>
+
+                    <thead>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>DAY</td>
+                            <td>MONTH</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td>FACTORY</td>
+                            <td>0.0</td>
+                            <td>0.0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-8 background-light">
+        <div class="row">
+            <!--chart-->
+            <div class="placeholder col-xs-12" style="margin-top: 5px; height: 200px;" ng-hide="model.data.receiveDetails.length">
+                <h1>PLEASE FILTER TO DISPLAY CHART</h1>
+            </div>
+
+            <div class="col-xs-12" style="margin-top: 5px; height: 200px;" ng-show="model.data.receiveDetails.length">
+                <canvas 
+                    id="line" 
+                    class="chart chart-line" 
+                    chart-dataset-override="datasetOverride" 
+                    chart-data="chart.data" 
+                    chart-labels="chart.labels" 
+                    chart-colors="chart.colors" 
+                    chart-series="chart.series" 
+                    chart-options="chart.options"
+                    style="height: 100%;">
+                </canvas>
+            </div>
+            <!--end chart-->
+
+
+            <!--start information-->
+            <div class="placeholder col-xs-12" style="margin-top: 5px; height: calc(100vh - 265px);" ng-hide="model.data.receiveDetails.length">
+                <h1>PLEASE FILTER TO DISPLAY INFORMATION</h1>
+            </div>
+
+            <div class="col-xs-12" ng-show="model.data.receiveDetails.length">
+                <table>
+                    <col style="width: 28%"/>
+                    <col style="width: 24%"/>
+                    <col style="width: 24%"/>
+                    <col style="width: 24%"/>
+
+                    <tbody>
+                        <tr>
+                            <th>ROUTE</th>
+                            <th  class="text-right" >
+                                <div>FACTORY</div>
+                            </th>
+                            <th class="text-right" >
+                                <div>COLLECTION</div>
+                            </th>
+                            <th class="text-right" >
+                                <div>DIFFERENCE</div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="smart-scroll-y col-xs-12" style="height: calc(100vh - 300px); margin-top: -5px;" ng-show="model.data.receiveDetails.length">
+                <table class="table-hover">
+                    <col style="width: 28%"/>
+                    <col style="width: 24%"/>
+                    <col style="width: 24%"/>
+                    <col style="width: 24%"/>
+
+                    <tbody>
+                        <tr style="line-height: 24px;" ng-repeat="receiveDetail in model.data.receiveDetails|filter:{routeIndexNo:model.route}:true" ng-click="ui.selectReceiveDetail(receiveDetail.routeIndexNo)" ng-class="receiveDetail.routeIndexNo===model.selectedReceiveDetail?'selected':''">
+                            <td>
+                                <span class="label label-primary">{{receiveDetail.routeIndexNo}}</span>
+                                {{receiveDetail.routeName}}
+                            </td>
+                            <!--factory-->
+                            <td>
+                                <div class="col-xs-4">
+                                    <span class="label label-default label-full-width">N</span>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    {{receiveDetail.factoryNormal|number:2}}
+                                </div>
+                                <div class="col-xs-4">
+                                    <span class="label label-success label-full-width">S</span>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    {{receiveDetail.factorySuper|number:2}}
+                                </div>
+                            </td>
+                            <!--collection-->
+                            <td>
+                                <div class="col-xs-4">
+                                    <span class="label label-default label-full-width">N</span>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    {{receiveDetail.collectionNormal|number:2}}
+                                </div>
+                                <div class="col-xs-4">
+                                    <span class="label label-success label-full-width">S</span>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    {{receiveDetail.collectionSuper|number:2}}
+                                </div>
+                            </td>
+                            <!--diff-->
+                            <td>
+                                <div class="col-xs-4">
+                                    <span class="label label-default label-full-width">N</span>
+                                </div>
+                                <div class="col-xs-8 text-right" ng-class="(receiveDetail.factoryNormal - receiveDetail.collectionNormal)>=0?'text-success':'text-danger'">
+                                    {{(receiveDetail.factoryNormal - receiveDetail.collectionNormal)|number:2}}
+                                </div>
+                                <div class="col-xs-4">
+                                    <span class="label label-success label-full-width">S</span>
+                                </div>
+                                <div class="col-xs-8 text-right" ng-class="(receiveDetail.factorySuper - receiveDetail.collectionSuper)>=0?'text-success':'text-danger'">
+                                    {{(receiveDetail.factorySuper - receiveDetail.collectionSuper)|number:2}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end information-->
+
+
+        </div>
+    </div>
+</div>

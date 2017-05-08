@@ -1,11 +1,11 @@
 (function () {
-    var factory = function (LoanRequestService, LoanCheckModelFactory, $q) {
-        function LoanCheckModel() {
+    var factory = function (EmployeeLoanRequestService, LoanCheckModelFactory, $q) {
+        function EmployeeLoanCheckModel() {
             this.constructor();
         }
 
         //prototype functions
-        LoanCheckModel.prototype = {
+        EmployeeLoanCheckModel.prototype = {
             data: {},
             tempData: {},
             //pending request information
@@ -25,7 +25,7 @@
 
 
                 //load clients
-                LoanRequestService.loadEmployee()
+                EmployeeLoanRequestService.loadEmployee()
                         .success(function (data) {
                             that.employees = data;
                         });
@@ -34,7 +34,7 @@
             //load pending loan request
             loadPendingRequest: function () {
                 var that = this;
-                LoanRequestService.loadPendingRequest()
+                EmployeeLoanRequestService.loadPendingRequest()
                         .success(function (data) {
                             that.pendingRequest = data;
                         });
@@ -59,7 +59,7 @@
             selectDetail: function (indexNo) {
                 var that = this;
                 var defer = $q.defer();
-                LoanRequestService.findByTLoanRequestDetailByIndexNo(indexNo)
+                EmployeeLoanRequestService.findByTLoanRequestDetailByIndexNo(indexNo)
                         .success(function (data) {
                             that.tempData = {};
                             that.tempData = data;
@@ -76,7 +76,7 @@
                 var defer = $q.defer();
                 var data = JSON.stringify(that.tempData);
                 if (data) {
-                    LoanRequestService.checkRequest(data)
+                    EmployeeLoanRequestService.checkRequest(data)
                             .success(function (data) {
                                 that.clear();
                                 defer.resolve();
@@ -92,7 +92,7 @@
                 var defer = $q.defer();
                 var data = JSON.stringify(that.tempData);
                 if (data) {
-                    LoanRequestService.rejectRequest(that.tempData.indexNo)
+                    EmployeeLoanRequestService.rejectRequest(that.tempData.indexNo)
                             .success(function () {
                                 that.clear();
                                 defer.resolve();
@@ -119,9 +119,9 @@
             }
         };
 
-        return LoanCheckModel;
+        return EmployeeLoanCheckModel;
     };
 
     angular.module("appModule")
-            .factory("LoanCheckModel", factory);
+            .factory("EmployeeLoanCheckModel", factory);
 }());
