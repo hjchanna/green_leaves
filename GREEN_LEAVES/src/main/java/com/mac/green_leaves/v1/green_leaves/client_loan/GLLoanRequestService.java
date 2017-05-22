@@ -9,6 +9,7 @@ import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequest;
 import com.mac.green_leaves.v1.green_leaves.client_loan.model.TLoanRequestDetail;
 import com.mac.green_leaves.v1.zexception.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,7 @@ public class GLLoanRequestService {
         TLoanRequestDetail loanRequestDetail = loanRequestDetailRepository.findOne(indexNo);
         loanRequestDetail.setStatus(LOAN_REQUEST_DETAIL_STATUS_APPROVED);
         loanRequestDetail.setAgreementNumber(agreementNumber);
+        loanRequestDetail.setLoanStartDate(new Date());
         loanRequestDetailRepository.save(loanRequestDetail);
     }
 
@@ -114,7 +116,7 @@ public class GLLoanRequestService {
     TLoanRequest getLoanRequest(Integer branch, Integer number) {
         List<TLoanRequest> receives = loanRequestRepository.findByBranchAndNumberAndStatus(branch, number, LOAN_REQUEST_DETAIL_STATUS_PENDING);
         if (receives.isEmpty()) {
-            throw new EntityNotFoundException("Loand not found for number " + number);
+            throw new EntityNotFoundException("Loan not found for number " + number);
         }
         return receives.get(0);
     }

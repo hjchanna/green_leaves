@@ -23,13 +23,16 @@
 
             <div ng-show="model.pendingRequest.length" class="col-xs-12 smart-scroll-y" style="height: calc(100% - 148px);">
                 <table class="table-hover table-hover">
-                    <col style="width: 70%;"/>
+                    <col style="width: 14%;"/>
+                    <col style="width: 56%;"/>
                     <col style="width: 30%;"/>
                     <col />
                     <tbody>
                         <tr ng-class="ui.selectedDetailIndex === detail[0] ? 'selected' : ''" ng-repeat="detail in model.pendingRequest|filter:search" ng-click="ui.selectDetail(detail);">
                             <td>
                                 <span class="label label-primary">{{model.client(detail[3]).clientNumber | fixedLength:5}}</span>
+                            </td>
+                            <td style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">
                                 {{model.client(detail[3]).name}}
                             </td>
                             <td class="text-right">{{detail[4]|number:2}}</td>
@@ -68,7 +71,7 @@
                     <tbody>  
                         <tr>
                             <td><label class="control-label">Interest Rate</label></td>
-                            <td><input smart-input="decimal" class="form-control" ng-model="model.tempData.interestRate"></td>
+                            <td><input id="interestRate" smart-input="decimal" class="form-control" ng-model="model.tempData.interestRate"></td>
                         </tr>
                         <tr>
                             <td><label class="control-label">Installment Count</label></td>
@@ -80,7 +83,7 @@
                         </tr>
                         <tr>
                             <td><label class="control-label">Panalty Rate</label></td>
-                            <td><input smart-input="decimal" class="form-control"  ng-model="model.tempData.panaltyRate"></td>
+                            <td><input smart-input="decimal" class="form-control"  ng-model="model.tempData.panaltyRate" ng-keypress="ui.beforeCheck();" ></td>
                         </tr>
                     </tbody>
                 </table>

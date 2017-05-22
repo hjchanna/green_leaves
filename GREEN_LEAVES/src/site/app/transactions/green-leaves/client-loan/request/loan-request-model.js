@@ -18,12 +18,9 @@
                 that.tempData = LoanRequestModelFactory.newTempData();
 
                 //load clients
-                
-                console.log('client start');
+
                 ClientLoanRequestService.loadClients()
                         .success(function (data) {
-                            console.log('client');
-                            console.log(data);
                             that.clients = data;
                         });
             },
@@ -80,13 +77,22 @@
                 var label;
                 angular.forEach(this.clients, function (value) {
                     if (value.indexNo === indexNo) {
-                        label = value.indexNo + "-" + value.name;
+                        label = value.clientNumber + "-" + value.name;
                         return;
                     }
                 });
                 return label;
+            },
+            //edit Request
+            editRequest: function (index) {
+                var requestDetail = this.data.loanRequestDetails[index];
+                this.data.loanRequestDetails.splice(index, 1);
+                this.tempData = requestDetail;
+            },
+            //delete Request
+            deleteRequest: function (index) {
+                this.data.loanRequestDetails.splice(index, 1);
             }
-
         };
 
         return LoanRequestModel;

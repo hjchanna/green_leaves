@@ -1,5 +1,5 @@
 (function () {
-    var factory = function (LoanRequestService, optionPane) {
+    var factory = function (ClientLoanRequestService, optionPane) {
         function LoanApproveModel() {
             this.constructor();
         }
@@ -7,21 +7,22 @@
         //prototype functions
         LoanApproveModel.prototype = {
             detail: null,
+            placeIndex: -1,
             //constructor
             constructor: function () {
                 var that = this;
 
                 //load pending request
-                LoanRequestService.loadcheckPendingRequest()
+                ClientLoanRequestService.loadcheckPendingRequest()
                         .success(function (data) {
                             that.loanRequestDetails = data;
                         });
 
-                //load clients
-                LoanRequestService.loadClients()
+                //load client
+                ClientLoanRequestService.loadClients()
                         .success(function (data) {
-                            that.clients = data;
-                        });
+                            that.clients = data
+                        })
 
             },
             //clear all data
@@ -31,8 +32,7 @@
             },
             //loan total
             getRequestTotal: function (indexNo) {
-                var total = 0.0;
-
+                var total = 0.0
                 angular.forEach(this.loanRequestDetails, function (valueData) {
                     if (indexNo ? valueData.indexNo === indexNo : true) {
                         if (valueData.status === 'CHECKED') {
@@ -44,8 +44,7 @@
                 return total;
             },
             getRequestCount: function (indexNo) {
-                var count = 0;
-
+                var count = 0
                 angular.forEach(this.loanRequestDetails, function (valueData) {
                     if (indexNo ? valueData.indexNo === indexNo : true) {
                         if (valueData.status === 'CHECKED') {
@@ -81,26 +80,35 @@
             approve: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
+                    ClientLoanRequestService.approveRequest(that.detail.indexNo, that.detail.agreementNumber)
                             .success(function () {
-                                that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
-                                optionPane.successMessage("loan details approved successfully.");
+                                ClientLoanRequestService.loadcheckPendingRequest()
+                                        .success(function (data) {
+                                            that.loanRequestDetails = data;
+                                        });
+
+
+                                optionPane.successMessage("Loan Detail Approved Successfully.");
                             })
                             .error(function () {
-
+                                optionPane.errorMessage("Loan Detail Approved Failed.");
                             });
                 }
             },
             reject: function () {
                 var that = this;
                 if (that.detail) {
-                    LoanRequestService.rejectRequest(that.detail.indexNo)
+                    ClientLoanRequestService.rejectRequest(that.detail.indexNo)
                             .success(function () {
-                                that.loanRequestDetails.splice(that.loanRequestDetails.indexOf(that.detail), 1);
-                                optionPane.successMessage("loan details rejected successfully.");
+                                ClientLoanRequestService.loadcheckPendingRequest()
+                                        .success(function (data) {
+                                            that.loanRequestDetails = data;
+                                        });
+
+                                optionPane.successMessage("Loan Detail Rejected Successfully.");
                             })
                             .error(function () {
-
+                                optionPane.errorMessage("Loan Detail Rejected Failed.")
                             });
                 }
 
@@ -111,5 +119,5 @@
     };
 
     angular.module("appModule")
-            .factory("LoanApproveModel", factory);
+            .factory("ClientLoanApproveModel", factory);
 }());
