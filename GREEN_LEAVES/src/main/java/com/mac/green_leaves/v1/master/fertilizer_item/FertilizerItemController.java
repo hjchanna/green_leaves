@@ -5,28 +5,15 @@
  */
 package com.mac.green_leaves.v1.master.fertilizer_item;
 
+import com.mac.green_leaves.v1.master.MasterControllerProxy;
 import com.mac.green_leaves.v1.master.fertilizer_item.model.MFertilizerItem;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Kavish Manjitha
+ * @author hjcha
  */
-@CrossOrigin
-@RestController
-@RequestMapping("/api/v1/green-leaves/fertilizer-item")
-public class FertilizerItemController {
-
-    @Autowired
-    private FertilizerItemService fertilizerService;
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<MFertilizerItem> getAllList() {
-        return fertilizerService.getAllList();
-    }
+@Component("fertilizer-item-controller")
+public class FertilizerItemController extends MasterControllerProxy<MFertilizerItem> {
+    
 }

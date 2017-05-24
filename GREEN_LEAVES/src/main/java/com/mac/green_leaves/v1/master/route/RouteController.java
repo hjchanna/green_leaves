@@ -5,43 +5,15 @@
  */
 package com.mac.green_leaves.v1.master.route;
 
+import com.mac.green_leaves.v1.master.MasterControllerProxy;
 import com.mac.green_leaves.v1.master.route.model.MRoute;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Nidura Prageeth
+ * @author hjcha
  */
-@CrossOrigin
-@RestController
-@RequestMapping("/api/green-leaves/master/routes")
-public class RouteController {
-    @Autowired
-    private RouteService routeService;
-    
-    @RequestMapping (method = RequestMethod.GET)
-    public List<MRoute> findAll() {
-        return routeService.findAll();
-    }
+@Component("route-controller")
+public class RouteController extends MasterControllerProxy<MRoute> {
 
-    @RequestMapping(value = "/save-route", method = RequestMethod.POST)
-    public MRoute saveRoute(@RequestBody MRoute mRoute) {
-        mRoute.setBranch(1);
-        return routeService.saveRoute(mRoute);
-    }
-
-    @RequestMapping(value = "/delete-route/{indexNo}", method = RequestMethod.DELETE)
-    public Integer deleteRoute(@PathVariable Integer indexNo) {
-        routeService.deleteRoute(indexNo);
-        return indexNo;
-    }
-    
-    
 }

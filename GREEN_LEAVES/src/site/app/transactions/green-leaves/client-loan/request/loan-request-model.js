@@ -11,6 +11,8 @@
             tempData: {},
             //client information
             clients: [],
+            //
+            routes: [],
             //constructor
             constructor: function () {
                 var that = this;
@@ -18,13 +20,15 @@
                 that.tempData = LoanRequestModelFactory.newTempData();
 
                 //load clients
-                
-                console.log('client start');
                 ClientLoanRequestService.loadClients()
                         .success(function (data) {
-                            console.log('client');
-                            console.log(data);
                             that.clients = data;
+                        });
+
+                //load routes        
+                ClientLoanRequestService.loadRoutes()
+                        .success(function (data) {
+                            that.routes = data;
                         });
             },
             //clear all data
@@ -79,6 +83,16 @@
             clientLabel: function (indexNo) {
                 var label;
                 angular.forEach(this.clients, function (value) {
+                    if (value.indexNo === indexNo) {
+                        label = value.clientNumber + "-" + value.name;
+                        return;
+                    }
+                });
+                return label;
+            },
+            routeLabel: function (indexNo) {
+                var label;
+                angular.forEach(this.routes, function (value) {
                     if (value.indexNo === indexNo) {
                         label = value.indexNo + "-" + value.name;
                         return;

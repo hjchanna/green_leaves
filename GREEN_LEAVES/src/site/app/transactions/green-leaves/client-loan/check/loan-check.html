@@ -2,7 +2,7 @@
 </div>
 
 <div class="index-content-body ">
-    <div class="col-xs-4 background-dark">
+    <div class="col-xs-4 background-dark border-dark-right">
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
             <div class="col-xs-12" style="flex: 0 0 auto;">
                 <input type="text" class="search-input" placeholder="search" ng-model="search" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10"  typeahead-input-formatter="model.clientLabel($model)">

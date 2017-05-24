@@ -5,8 +5,8 @@
  */
 package com.mac.green_leaves.v1.green_leaves.tea_issue;
 
-import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TRouteOfficerTeaLedger;
 import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,24 +30,14 @@ public class TeaIssueController {
     @Autowired
     private TeaIssueService teaIssueService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<TRouteOfficerTeaLedger> getTeaIssue() {
-        return teaIssueService.getAllTRouteOfficerTeaLedger();
-    }
-
-    @RequestMapping(value = "/{date}/{number}/{type}", method = RequestMethod.GET)
-    public TTeaIssue getTeaIssue(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Integer number, @PathVariable String type) {
-        return teaIssueService.getTeaIssue(date, number, type);
+    @RequestMapping(value = "/{number}/{type}", method = RequestMethod.GET)
+    public TTeaIssue findByNumberAndType(@PathVariable("number") Integer number, @PathVariable("type") String type) {
+        return teaIssueService.findTeaIssueByNumberAndType(number, type, SecurityUtil.getCurrentUser().getBranch());
     }
 
     @RequestMapping(value = "/save-tea-issue", method = RequestMethod.POST)
-    public Integer saveTeaIssue(@RequestBody List<TTeaIssue> teaIssues) {
-        return teaIssueService.saveTeaIssue(teaIssues);
-    }
-    
-    @RequestMapping(value = "/save-tea-settlement", method = RequestMethod.POST)
-    public Integer saveTeaSettlement(@RequestBody List<TTeaIssue> teaIssues) {
-        return teaIssueService.saveTeaSettlement(teaIssues);
+    public Integer saveTeaIssue(@RequestBody TTeaIssue teaIssue) {
+        return teaIssueService.saveTeaIssue(teaIssue, SecurityUtil.getCurrentUser().getBranch());
     }
 
     @RequestMapping(value = "/delete-tea-issue/{indexNo}", method = RequestMethod.DELETE)
@@ -56,8 +46,15 @@ public class TeaIssueController {
         return indexNo;
     }
 
-    @RequestMapping(value = "/pending-tea-issue/{routeOfficer}", method = RequestMethod.GET)
-    public List<Object[]> getPendingRequestByType(@PathVariable Integer routeOfficer) {
-        return teaIssueService.getPendingTeaIssueRequest(routeOfficer);
+    @RequestMapping(value = "/delete-tea-issue-detail/{indexNo}", method = RequestMethod.DELETE)
+    public Integer deleteTeaIssueDetail(@PathVariable Integer indexNo) {
+        teaIssueService.deleteTeaIssueDetail(indexNo);
+        return indexNo;
     }
+
+    @RequestMapping(value = "/officer-tea-ledger-summary/{officer}/{date}", method = RequestMethod.GET)
+    public List<Object[]> findOfficerTeaLedgerSummary(@PathVariable("officer") Integer officer, @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        return teaIssueService.findTeaLedgerSummary(SecurityUtil.getCurrentUser().getBranch(), officer, date);
+    }
+
 }

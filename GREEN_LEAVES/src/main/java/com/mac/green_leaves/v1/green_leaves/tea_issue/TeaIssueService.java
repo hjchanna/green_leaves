@@ -5,10 +5,11 @@
  */
 package com.mac.green_leaves.v1.green_leaves.tea_issue;
 
-import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TRouteOfficerTeaLedger;
 import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssue;
-import com.mac.green_leaves.v1.zutil.SecurityUtil;
+import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssueDetail;
+import com.mac.green_leaves.v1.green_leaves.tea_issue.model.TTeaIssueLedger;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,85 +29,111 @@ public class TeaIssueService {
     private TeaIssueRepository teaIssueRepository;
 
     @Autowired
-    private TRouteOfficerTeaLedgerRepository tRouteOfficerTeaLedgerRepository;
+    private TeaIssueDetailRepository teaIssueDetailRepository;
 
-    private final String PENDING_STATUS = "PENDING";
-    private final String APPROVE_STATUS = "APPROVE";
-    private final String DELETE_STATUS = "DELETED";
+    @Autowired
+    private TeaIssueLedgerRepository teaIssueLedgerRepository;
 
-    public List<TRouteOfficerTeaLedger> getAllTRouteOfficerTeaLedger() {
-        return tRouteOfficerTeaLedgerRepository.findAll();
+    private final String TYPE_DIRECT_TEA_ISSUE = "DIRECT_TEA_ISSUE";
+    private final String TYPE_OFFICER_TEA_ISSUE = "OFFICER_TEA_ISSUE";
+    private final String TYPE_TEA_ISSUE_SETTLEMENT = "TEA_ISSUE_SETTLEMENT";
+    //
+    private final String STATUS_PENDING = "PENDING";
+    private final String STATUS_APPROVE = "APPROVE";
+    private final String STATUS_DELETE = "DELETED";
+
+    public TTeaIssue findTeaIssueByNumberAndType(Integer number, String type, Integer branch) {
+        return teaIssueRepository.findByNumberAndTypeAndBranchAndStatusNot(number, type, branch, STATUS_DELETE);
     }
 
-    public Integer saveTeaIssue(List<TTeaIssue> teaIssues) {
-        Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        for (TTeaIssue teaIssue : teaIssues) {
-            teaIssue.setBranch(branch);
-            teaIssue.setStatus(PENDING_STATUS);
-            Integer maxNumber = teaIssueRepository.getMaximumNumberByBranch(teaIssue.getBranch());
+    @Transactional
+    public Integer saveTeaIssue(TTeaIssue teaIssue, Integer branch) {
+        if (teaIssue.getIndexNo() == null) {
+            Integer maxNumber = teaIssueRepository.getMaximumNumberByBranchAndType(branch, teaIssue.getType());
             if (maxNumber == null) {
                 maxNumber = 0;
             }
             teaIssue.setNumber(maxNumber + 1);
-            TTeaIssue saveData = teaIssueRepository.save(teaIssue);
+        }
 
-            // route officer tea issue
-            if (null != teaIssue.getRouteOfficer()) {
-                TRouteOfficerTeaLedger tRouteOfficerTeaLedger = new TRouteOfficerTeaLedger();
-                tRouteOfficerTeaLedger.setBranch(teaIssue.getBranch());
-                tRouteOfficerTeaLedger.setDate(teaIssue.getDate());
-                tRouteOfficerTeaLedger.setInQty(new BigDecimal(teaIssue.getQty()));
-                tRouteOfficerTeaLedger.setOutQty(BigDecimal.ZERO);
-                tRouteOfficerTeaLedger.setRouteOfficer(teaIssue.getRouteOfficer());
-                tRouteOfficerTeaLedger.setTeaGrade(teaIssue.getTeaGrade());
-                tRouteOfficerTeaLedger.setTeaIssue(saveData.getIndexNo());
-                tRouteOfficerTeaLedgerRepository.save(tRouteOfficerTeaLedger);
+        teaIssue.setBranch(branch);
+        teaIssue.setStatus(STATUS_APPROVE);
+
+        for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
+            teaIssueDetail.setTeaIssue(teaIssue);
+        }
+
+        teaIssue = teaIssueRepository.save(teaIssue);
+
+        if (teaIssue.getType().equals(TYPE_OFFICER_TEA_ISSUE)) {
+            teaIssueLedgerRepository.deleteByTeaIssue(teaIssue.getIndexNo());
+            
+            for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
+                TTeaIssueLedger teaIssueLedger = new TTeaIssueLedger();
+                teaIssueLedger.setBranch(branch);
+                teaIssueLedger.setDate(teaIssue.getDate());
+                teaIssueLedger.setTeaIssue(teaIssue.getIndexNo());
+                teaIssueLedger.setRouteOfficer(teaIssueDetail.getRouteOfficer());
+                teaIssueLedger.setTeaIssueItem(teaIssueDetail.getTeaIssueItem());
+                teaIssueLedger.setInQty(teaIssueDetail.getQuantity());
+                teaIssueLedger.setOutQty(BigDecimal.ZERO);
+
+                teaIssueLedgerRepository.save(teaIssueLedger);
             }
         }
-        return 1;
-    }
+        
+        if (teaIssue.getType().equals(TYPE_TEA_ISSUE_SETTLEMENT)) {
+            teaIssueLedgerRepository.deleteByTeaIssue(teaIssue.getIndexNo());
+            
+            for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
+                TTeaIssueLedger teaIssueLedger = new TTeaIssueLedger();
+                teaIssueLedger.setBranch(branch);
+                teaIssueLedger.setDate(teaIssue.getDate());
+                teaIssueLedger.setTeaIssue(teaIssue.getIndexNo());
+                teaIssueLedger.setRouteOfficer(teaIssueDetail.getRouteOfficer());
+                teaIssueLedger.setTeaIssueItem(teaIssueDetail.getTeaIssueItem());
+                teaIssueLedger.setInQty(BigDecimal.ZERO);
+                teaIssueLedger.setOutQty(teaIssueDetail.getQuantity());
 
-    public Integer saveTeaSettlement(List<TTeaIssue> teaIssues) {
-        Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        for (TTeaIssue teaIssue : teaIssues) {
-            teaIssue.setBranch(branch);
-            teaIssue.setStatus(PENDING_STATUS);
-            Integer maxNumber = teaIssueRepository.getMaximumNumberByBranch(teaIssue.getBranch());
-            if (maxNumber == null) {
-                maxNumber = 0;
-            }
-            teaIssue.setNumber(maxNumber + 1);
-            TTeaIssue saveData = teaIssueRepository.save(teaIssue);
-
-            // route officer tea issue
-            if (null != teaIssue.getRouteOfficer()) {
-                TRouteOfficerTeaLedger tRouteOfficerTeaLedger = new TRouteOfficerTeaLedger();
-                tRouteOfficerTeaLedger.setBranch(teaIssue.getBranch());
-                tRouteOfficerTeaLedger.setDate(teaIssue.getDate());
-                tRouteOfficerTeaLedger.setInQty(BigDecimal.ZERO);
-                tRouteOfficerTeaLedger.setOutQty(new BigDecimal(teaIssue.getQty()));
-                tRouteOfficerTeaLedger.setRouteOfficer(teaIssue.getRouteOfficer());
-                tRouteOfficerTeaLedger.setTeaGrade(teaIssue.getTeaGrade());
-                tRouteOfficerTeaLedger.setTeaIssue(saveData.getIndexNo());
-                tRouteOfficerTeaLedgerRepository.save(tRouteOfficerTeaLedger);
+                teaIssueLedgerRepository.save(teaIssueLedger);
             }
         }
-        return 1;
+
+        return teaIssue.getIndexNo();
     }
 
-    public TTeaIssue getTeaIssue(Date date, Integer number, String type) {
-        Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return teaIssueRepository.findByDateAndBranchAndNumberAndTypeAndStatusNot(date, branch, number, type, DELETE_STATUS);
-    }
-
-    public void deleteTeaIssue(Integer indexNo) {
-        TTeaIssue teaIssue = teaIssueRepository.getOne(indexNo);
-        teaIssue.setStatus(DELETE_STATUS);
+    @Transactional
+    public Integer deleteTeaIssue(Integer indexNo) {
+        TTeaIssue teaIssue = teaIssueRepository.findOne(indexNo);
+        teaIssue.setStatus(STATUS_DELETE);
         teaIssueRepository.save(teaIssue);
+
+        return teaIssue.getIndexNo();
     }
 
-    public List<Object[]> getPendingTeaIssueRequest(Integer routeOfficer) {
-        Integer branch = SecurityUtil.getCurrentUser().getBranch();
-        return teaIssueRepository.findByBranchAndStatus(branch, PENDING_STATUS, routeOfficer);
+    @Transactional
+    public Integer deleteTeaIssueDetail(Integer indexNo) {
+        TTeaIssueDetail teaIssueDetail = teaIssueDetailRepository.findOne(indexNo);
+        teaIssueDetail.getTeaIssue().getTeaIssueDetails().remove(teaIssueDetail);
+
+        teaIssueRepository.save(teaIssueDetail.getTeaIssue());
+        return indexNo;
     }
+    
+    public List<Object[]> findTeaLedgerSummary(Integer branch, Integer officer, Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DATE));
+        date = calendar.getTime();
+        
+        List<Object[]> data = teaIssueLedgerRepository.findTeaLedgerSummary(branch, officer, date);;
+        
+        //remove if bf balance is zero
+        if (((BigDecimal) data.get(0)[2]).equals(BigDecimal.ZERO) && ((BigDecimal) data.get(0)[3]).equals(BigDecimal.ZERO)){
+            data.remove(0);
+        }
+        
+        return data;
+    }
+    
 }

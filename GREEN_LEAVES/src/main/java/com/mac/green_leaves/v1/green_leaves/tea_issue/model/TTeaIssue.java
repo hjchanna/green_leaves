@@ -8,12 +8,16 @@ package com.mac.green_leaves.v1.green_leaves.tea_issue.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Don
+ * @author hjcha
  */
 @Entity
 @Table(name = "t_tea_issue")
@@ -57,13 +61,8 @@ public class TTeaIssue implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "qty")
-    private int qty;
+    @Column(name = "route")
+    private int route;
 
     @Size(max = 25)
     @Column(name = "type")
@@ -73,31 +72,10 @@ public class TTeaIssue implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "client")
-    private Integer client;
-
-    @Column(name = "tea_grade")
-    private Integer teaGrade;
-
-    @Column(name = "route_officer")
-    private Integer routeOfficer;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teaIssue", fetch = FetchType.EAGER)
+    private Set<TTeaIssueDetail> teaIssueDetails;
 
     public TTeaIssue() {
-    }
-
-    public TTeaIssue(Integer indexNo, int branch, Date date, int number, int transaction, BigDecimal price, int qty, String type, String status, Integer client, Integer teaGrade, Integer routeOfficer) {
-        this.indexNo = indexNo;
-        this.branch = branch;
-        this.date = date;
-        this.number = number;
-        this.transaction = transaction;
-        this.price = price;
-        this.qty = qty;
-        this.type = type;
-        this.status = status;
-        this.client = client;
-        this.teaGrade = teaGrade;
-        this.routeOfficer = routeOfficer;
     }
 
     public Integer getIndexNo() {
@@ -140,20 +118,12 @@ public class TTeaIssue implements Serializable {
         this.transaction = transaction;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public int getRoute() {
+        return route;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void setQty(int qty) {
-        this.qty = qty;
+    public void setRoute(int route) {
+        this.route = route;
     }
 
     public String getType() {
@@ -172,32 +142,12 @@ public class TTeaIssue implements Serializable {
         this.status = status;
     }
 
-    public Integer getTeaGrade() {
-        return teaGrade;
+    public Set<TTeaIssueDetail> getTeaIssueDetails() {
+        return teaIssueDetails;
     }
 
-    public void setTeaGrade(Integer teaGrade) {
-        this.teaGrade = teaGrade;
+    public void setTeaIssueDetails(Set<TTeaIssueDetail> teaIssueDetails) {
+        this.teaIssueDetails = teaIssueDetails;
     }
 
-    public Integer getRouteOfficer() {
-        return routeOfficer;
-    }
-
-    public void setRouteOfficer(Integer routeOfficer) {
-        this.routeOfficer = routeOfficer;
-    }
-
-    public Integer getClient() {
-        return client;
-    }
-
-    public void setClient(Integer client) {
-        this.client = client;
-    }
-
-    @Override
-    public String toString() {
-        return "TTeaIssue{" + "indexNo=" + indexNo + ", branch=" + branch + ", date=" + date + ", number=" + number + ", transaction=" + transaction + ", price=" + price + ", qty=" + qty + ", type=" + type + ", status=" + status + ", client=" + client + ", teaGrade=" + teaGrade + ", routeOfficer=" + routeOfficer + '}';
-    }
 }

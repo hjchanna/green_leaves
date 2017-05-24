@@ -3,21 +3,32 @@
             .factory("TeaIssueModelFactory", function () {
                 var factory = {};
 
-                factory.newData = function () {
+                factory.newTeaIssue = function () {
                     var data = {
                         "indexNo": null,
                         "branch": null,
-                        "number": null,
                         "date": null,
+                        "number": null,
                         "transaction": null,
-                        "routeOfficer": null,
-                        "client": null,
-                        "price": 0.00,
-                        "qty": null,
+                        "route": null,
                         "type": null,
                         "status": "PENDING",
-                        "teaGrade":null
+                        "teaIssueDetails": []
                     };
+                    return data;
+                };
+
+                factory.newTeaIssueDetail = function () {
+                    var data = {
+                        "indexNo": null,
+                        "client": null,
+                        "routeOfficer": null,
+                        "teaIssueItem": null,
+                        "unitPrice": null,
+                        "quantity": null,
+                        "value": null
+                    };
+
                     return data;
                 };
 

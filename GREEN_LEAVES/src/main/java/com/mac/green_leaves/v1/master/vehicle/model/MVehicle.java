@@ -5,29 +5,24 @@
  */
 package com.mac.green_leaves.v1.master.vehicle.model;
 
-import com.mac.green_leaves.v1.master.employee.model.MEmployee;
-import com.mac.green_leaves.v1.master.vehicle_owner.model.MVehicleOwner;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Nidura Prageeth
+ * @author hjcha
  */
-@Entity(name = "com.mac.green_leaves.v1.master.vehicle.MVehicle")
+@Entity(name = "com.mac.green_leaves.v1.master.vehicle.model.MVehicle")
 @Table(name = "m_vehicle")
-public class MVehicle implements Serializable {
-
+public class MVehicle implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -36,57 +31,48 @@ public class MVehicle implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "vehicle_no")
-    private String vehicleNo;
-
-    @Basic(optional = false)
-    @Column(name = "engine_no")
-    private String engineNo;
-
-    @Basic(optional = false)
-    @Column(name = "chassis_no")
-    private String chassisNo;
-
-    @Basic(optional = false)
-    @Column(name = "make")
-    private String make;
-
-    @Basic(optional = false)
-    @Column(name = "model")
-    private String model;
-
+    @Column(name = "branch")
+    private int branch;
+    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "branch")
-    private Integer branch;
-
+    @Column(name = "vehicle_no")
+    private String vehicleNo;
+    
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "engine_no")
+    private String engineNo;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "chassis_no")
+    private String chassisNo;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "make")
+    private String make;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "model")
+    private String model;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "vehicle_owner")
+    private int vehicleOwner;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "driver")
+    private int driver;
+    
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "type")
     private String type;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "vehicle_owner")
-    private MVehicleOwner vehicleOwner;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "driver")
-    private MEmployee driver;
-
-    public MVehicle() {
-    }
-
-    public MVehicle(Integer indexNo, String vehicleNo, String engineNo, String chassisNo, String make, String model, Integer branch, String type, MVehicleOwner vehicleOwner, MEmployee driver) {
-        this.indexNo = indexNo;
-        this.vehicleNo = vehicleNo;
-        this.engineNo = engineNo;
-        this.chassisNo = chassisNo;
-        this.make = make;
-        this.model = model;
-        this.branch = branch;
-        this.type = type;
-        this.vehicleOwner = vehicleOwner;
-        this.driver = driver;
-    }
 
     public Integer getIndexNo() {
         return indexNo;
@@ -94,6 +80,14 @@ public class MVehicle implements Serializable {
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
+    }
+
+    public int getBranch() {
+        return branch;
+    }
+
+    public void setBranch(int branch) {
+        this.branch = branch;
     }
 
     public String getVehicleNo() {
@@ -136,6 +130,22 @@ public class MVehicle implements Serializable {
         this.model = model;
     }
 
+    public int getVehicleOwner() {
+        return vehicleOwner;
+    }
+
+    public void setVehicleOwner(int vehicleOwner) {
+        this.vehicleOwner = vehicleOwner;
+    }
+
+    public int getDriver() {
+        return driver;
+    }
+
+    public void setDriver(int driver) {
+        this.driver = driver;
+    }
+
     public String getType() {
         return type;
     }
@@ -143,52 +153,6 @@ public class MVehicle implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-
-    public MVehicleOwner getVehicleOwner() {
-        return vehicleOwner;
-    }
-
-    public void setVehicleOwner(MVehicleOwner vehicleOwner) {
-        this.vehicleOwner = vehicleOwner;
-    }
-
-    public MEmployee getDriver() {
-        return driver;
-    }
-
-    public void setDriver(MEmployee driver) {
-        this.driver = driver;
-    }
-
-    public Integer getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Integer branch) {
-        this.branch = branch;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof MVehicle)) {
-            return false;
-        }
-        MVehicle other = (MVehicle) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mac.gl.master.model.vehicle.MVehicle[ indexNo=" + indexNo + " ]";
-    }
+    
+    
 }

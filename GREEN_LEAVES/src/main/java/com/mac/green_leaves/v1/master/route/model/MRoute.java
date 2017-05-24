@@ -5,9 +5,10 @@
  */
 package com.mac.green_leaves.v1.master.route.model;
 
-import com.mac.green_leaves.v1.master.employee.model.MEmployee;
-import com.mac.green_leaves.v1.master.vehicle.model.MVehicle;
+import com.mac.green_leaves.v1.green_leaves.zmaster.employee.model.MEmployee;
+import com.mac.green_leaves.v1.green_leaves.zmaster.vehicle.model.MVehicle;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,11 +23,11 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Nidura Prageeth
+ * @author hjcha
  */
-@Entity(name = "com.mac.green_leaves.v1.master.employee.model.MRoute")
+@Entity(name = "com.mac.green_leaves.v1.master.route.model.MRoute")
 @Table(name = "m_route")
-public class MRoute implements Serializable {
+public class MRoute implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,53 +35,40 @@ public class MRoute implements Serializable {
     @Column(name = "index_no")
     private Integer indexNo;
 
-    @NotNull
     @Basic(optional = false)
+    @NotNull
     @Column(name = "branch")
     private int branch;
 
-    @NotNull
     @Basic(optional = false)
+    @NotNull
     @Column(name = "name")
     private String name;
 
+    @Basic(optional = false)
     @NotNull
-    @Basic(optional = true)
     @JoinColumn(name = "vehicle")
     @ManyToOne(fetch = FetchType.EAGER)
     private MVehicle vehicle;
 
+    @Basic(optional = false)
     @NotNull
-    @Basic(optional = true)
     @JoinColumn(name = "route_officer")
     @ManyToOne(fetch = FetchType.EAGER)
     private MEmployee routeOfficer;
 
+    @Basic(optional = false)
     @NotNull
-    @Basic(optional = true)
     @JoinColumn(name = "route_helper")
     @ManyToOne(fetch = FetchType.EAGER)
     private MEmployee routeHelper;
 
     @Basic(optional = false)
+    @NotNull
     @Column(name = "transport_deduction_rate")
-    private double tdRate;
+    private BigDecimal transportDeductionRate;
 
     public MRoute() {
-    }
-
-    public MRoute(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-    public MRoute(Integer indexNo, int branch, String name, MVehicle vehicle, MEmployee routeOfficer, MEmployee routeHelper, double tdRate) {
-        this.indexNo = indexNo;
-        this.branch = branch;
-        this.name = name;
-        this.vehicle = vehicle;
-        this.routeOfficer = routeOfficer;
-        this.routeHelper = routeHelper;
-        this.tdRate = tdRate;
     }
 
     public Integer getIndexNo() {
@@ -131,14 +119,12 @@ public class MRoute implements Serializable {
         this.routeHelper = routeHelper;
     }
 
-    public double getTdRate() {
-        return tdRate;
+    public BigDecimal getTransportDeductionRate() {
+        return transportDeductionRate;
     }
 
-    public void setTdRate(double tdRate) {
-        this.tdRate = tdRate;
+    public void setTransportDeductionRate(BigDecimal transportDeductionRate) {
+        this.transportDeductionRate = transportDeductionRate;
     }
-    
-    
 
 }

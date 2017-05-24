@@ -1,7 +1,7 @@
 (function () {
     angular.module("appModule")
-            .controller("EmployeeLoanApproveController", function ($scope,LoanApproveModel, Notification) {
-                $scope.model = new LoanApproveModel();
+            .controller("EmployeeLoanApproveController", function ($scope,EmployeeLoanApproveModel, Notification) {
+                $scope.model = new EmployeeLoanApproveModel();
                 $scope.ui = {};
                 
                 $scope.ui.approve = function () {

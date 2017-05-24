@@ -4,14 +4,14 @@
         <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 52px);">
             <div class="col-xs-12 background-dark border-dark-bottom" style="flex: 0 0 auto; ">
                 <table class="control-table">
-                    <col class="col-xs-4"/>
-                    <col class="col-xs-4"/>
-                    <col class="col-xs-4"/>
+                    <col class="col-xs-6"/>
+                    <col class="col-xs-3"/>
+                    <col class="col-xs-3"/>
 
                     <tbody>
                         <tr>
                             <td>
-                                &nbsp;
+                                <input id="route" class="form-control" ng-model="model.data.route" input-hint="route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'">
                             </td>
                             <td>
                                 <input id="date" class="form-control" smart-input="date" input-hint="date" ng-model="model.data.date"  ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">

@@ -14,14 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nidura Prageeth
+ * @author hjcha
  */
 @Entity(name = "com.mac.green_leaves.v1.master.employee.model.MEmployee")
 @Table(name = "m_employee")
-public class MEmployee implements Serializable {
+public class MEmployee implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,75 +30,61 @@ public class MEmployee implements Serializable {
     @Column(name = "index_no")
     private Integer indexNo;
 
-    @NotNull
     @Basic(optional = false)
+    @NotNull
     @Column(name = "branch")
     private int branch;
-    
-//    @NotNull
-//    @Basic(optional = false)
-//    @Column(name = "employee_number")
-//    private int employeeNumber;
 
-    @NotNull
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
 
-    @NotNull
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "type")
     private String type;
 
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "nic_number")
-    private String nicNumber;
-
+    private String nicNo;
+    
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "mobile_number")
-    private String mobileNumber;
-
+    private String mobileNo;
+    
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "telephone_number")
-    private String telephoneNumber;
-
+    private String telephoneNo;
+    
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
     @Column(name = "address_line1")
     private String addressLine1;
-
+    
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "address_line2")
     private String addressLine2;
-
+    
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "address_line3")
     private String addressLine3;
-    
-//    @Basic(optional = false)
-//    @Column(name = "epf_number")
-//    private String epfNumber;
 
     public MEmployee() {
     }
-
-    public MEmployee(Integer indexNo) {
-        this.indexNo = indexNo;
-    }
-
-//    public MEmployee(Integer indexNo, int branch, int employeeNumber, String name, String type, String nicNumber, String mobileNumber, String telephoneNumber, String addressLine1, String addressLine2, String addressLine3, String epfNumber) {
-//        this.indexNo = indexNo;
-//        this.branch = branch;
-//        this.employeeNumber = employeeNumber;
-//        this.name = name;
-//        this.type = type;
-//        this.nicNumber = nicNumber;
-//        this.mobileNumber = mobileNumber;
-//        this.telephoneNumber = telephoneNumber;
-//        this.addressLine1 = addressLine1;
-//        this.addressLine2 = addressLine2;
-//        this.addressLine3 = addressLine3;
-//        this.epfNumber = epfNumber;
-//    }
 
     public Integer getIndexNo() {
         return indexNo;
@@ -115,14 +102,6 @@ public class MEmployee implements Serializable {
         this.branch = branch;
     }
 
-//    public int getEmployeeNumber() {
-//        return employeeNumber;
-//    }
-//
-//    public void setEmployeeNumber(int employeeNumber) {
-//        this.employeeNumber = employeeNumber;
-//    }
-
     public String getName() {
         return name;
     }
@@ -139,28 +118,28 @@ public class MEmployee implements Serializable {
         this.type = type;
     }
 
-    public String getNicNumber() {
-        return nicNumber;
+    public String getNicNo() {
+        return nicNo;
     }
 
-    public void setNicNumber(String nicNumber) {
-        this.nicNumber = nicNumber;
+    public void setNicNo(String nicNo) {
+        this.nicNo = nicNo;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public String getMobileNo() {
+        return mobileNo;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getTelephoneNo() {
+        return telephoneNo;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setTelephoneNo(String telephoneNo) {
+        this.telephoneNo = telephoneNo;
     }
 
     public String getAddressLine1() {
@@ -186,15 +165,5 @@ public class MEmployee implements Serializable {
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
     }
-
-//    public String getEpfNumber() {
-//        return epfNumber;
-//    }
-//
-//    public void setEpfNumber(String epfNumber) {
-//        this.epfNumber = epfNumber;
-//    }
-
-   
-
+ 
 }

@@ -11,7 +11,7 @@
             $scope.model.clear();
             $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 
-            //focus date
+            //focus route
             $timeout(function () {
                 angular.element(document.querySelectorAll("#route"))[0].focus();
             }, 10);

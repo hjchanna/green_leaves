@@ -9,10 +9,8 @@ import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceR
 import com.mac.green_leaves.v1.green_leaves.client_advance.model.TClientAdvanceRequestDetail;
 import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

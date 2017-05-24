@@ -43,6 +43,11 @@ public class TLoanRequest implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @Column(name = "route")
+    private int route;
+
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -54,10 +59,6 @@ public class TLoanRequest implements Serializable {
     @Basic(optional = false)
     @Column(name = "status")
     private String status;
-    
-//    @Basic(optional = false)
-//    @Column(name = "status2")
-//    private String status2;
 
     @Basic(optional = false)
     @NotNull
@@ -74,17 +75,6 @@ public class TLoanRequest implements Serializable {
         this.indexNo = indexNo;
     }
 
-//    public TLoanRequest(Integer indexNo, int branch, Date date, int transaction, String status, String status2, int number, Collection<TLoanRequestDetail> loanRequestDetails) {
-//        this.indexNo = indexNo;
-//        this.branch = branch;
-//        this.date = date;
-//        this.transaction = transaction;
-//        this.status = status;
-//        this.status2 = status2;
-//        this.number = number;
-//        this.loanRequestDetails = loanRequestDetails;
-//    }
-
     public Integer getIndexNo() {
         return indexNo;
     }
@@ -99,6 +89,14 @@ public class TLoanRequest implements Serializable {
 
     public void setBranch(int branch) {
         this.branch = branch;
+    }
+
+    public int getRoute() {
+        return route;
+    }
+
+    public void setRoute(int route) {
+        this.route = route;
     }
 
     public Date getDate() {
@@ -125,14 +123,6 @@ public class TLoanRequest implements Serializable {
         this.status = status;
     }
 
-//    public String getStatus2() {
-//        return status2;
-//    }
-//
-//    public void setStatus2(String status2) {
-//        this.status2 = status2;
-//    }
-
     public int getNumber() {
         return number;
     }
@@ -148,7 +138,5 @@ public class TLoanRequest implements Serializable {
     public void setLoanRequestDetails(Collection<TLoanRequestDetail> loanRequestDetails) {
         this.loanRequestDetails = loanRequestDetails;
     }
-
-    
 
 }

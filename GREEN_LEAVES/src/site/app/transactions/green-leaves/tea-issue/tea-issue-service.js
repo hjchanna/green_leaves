@@ -3,39 +3,41 @@
 
     var service = function (systemConfig, $http) {
 
-        this.loadClients = function () {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
+        this.loadRoutes = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/routes");
         };
 
-        this.loadTeaGrade = function () {
-            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/tea-grade");
+        this.loadClients = function () {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/clients");
         };
 
         this.loadRouteOfficers = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/master/route-officers");
         };
 
-        this.saveTeaIssue = function (data) {
-            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/save-tea-issue", data);
-        };
-        this.saveSettlemnt = function (data) {
-            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/save-tea-settlement", data);
+        this.loadTeaIssueItems = function () {
+            return $http.get(systemConfig.apiUrl + "/api/green-leaves/master/tea-issue-item");
         };
 
-        //find by teaIssue by branch and number
-        this.loadTeaIssue = function (date, number, type) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/" + date + "/" + number + "/" + type);
+
+
+
+
+        this.loadTeaIssue = function (number, type) {
+            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/" + number + "/" + type);
+        };
+
+        this.saveTeaIssue = function (data) {
+            return $http.post(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/save-tea-issue", data);
         };
 
         this.deleteTeaIssue = function (indexNo) {
             return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/delete-tea-issue/" + indexNo);
         };
 
-        //tea issue settlement
-        this.getPendingTeaIssueRequest = function (routeOfficer) {
-            return $http.get(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/pending-tea-issue/" + routeOfficer);
+        this.deleteTeaIssueDetail = function (indexNo) {
+            return $http.delete(systemConfig.apiUrl + "/api/v1/green-leaves/tea-issue/delete-tea-issue-detail/" + indexNo);
         };
-
     };
 
     angular.module("appModule")

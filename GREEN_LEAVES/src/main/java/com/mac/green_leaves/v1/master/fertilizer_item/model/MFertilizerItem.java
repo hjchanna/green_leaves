@@ -19,59 +19,47 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Kavish Manjitha
+ * @author hjcha
  */
-@Entity
+@Entity(name = "com.mac.green_leaves.v1.master.fertilizer_item.model.MFertilizeItem")
 @Table(name = "m_fertilizer_item")
 public class MFertilizerItem implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "item_no")
     private int itemNo;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "branch")
     private int branch;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "instalment_count")
     private int instalmentCount;
-    
+
+    @Basic(optional = false)
     @Column(name = "cost_price")
     private BigDecimal costPrice;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "sale_price")
     private BigDecimal salePrice;
-
-    public MFertilizerItem() {
-    }
-
-    public MFertilizerItem(Integer indexNo, int itemNo, String name, int branch, int instalmentCount, BigDecimal salePrice) {
-        this.indexNo = indexNo;
-        this.itemNo = itemNo;
-        this.name = name;
-        this.branch = branch;
-        this.instalmentCount = instalmentCount;
-        this.salePrice = salePrice;
-    }
 
     public Integer getIndexNo() {
         return indexNo;
@@ -128,5 +116,5 @@ public class MFertilizerItem implements Serializable {
     public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
-    
+
 }

@@ -29,11 +29,11 @@
         "receiveDashboardModule",
 
         "sidePanelModule",
-        "teaGradeModule",
+        "teaGradeModule"
 
-        "directTeaIssueModule",
-        "officerTeaIssueModule",
-        "teaSettlementModule"
+//        "directTeaIssueModule",
+//        "officerTeaIssueModule",
+//        "teaSettlementModule"
     ]);
 
     //constants
@@ -115,16 +115,16 @@
 
                         //tea
                         .when("/transactions/green-leaves/direct-tea-issue", {
-                            templateUrl: "app/transactions/green-leaves/tea-issue/direct/direct-tea-issue.html",
-                            controller: "directTeaIssueController"
+                            templateUrl: "app/transactions/green-leaves/tea-issue/direct-tea-issue/direct-tea-issue.html",
+                            controller: "DirectTeaIssueController"
                         })
                         .when("/transactions/green-leaves/officer-tea-issue", {
-                            templateUrl: "app/transactions/green-leaves/tea-issue/officer/officer-tea-issue.html",
-                            controller: "officerTeaIssueController"
+                            templateUrl: "app/transactions/green-leaves/tea-issue/officer-tea-issue/officer-tea-issue.html",
+                            controller: "OfficerTeaIssueController"
                         })
-                        .when("/transactions/green-leaves/tea-settlment", {
-                            templateUrl: "app/transactions/green-leaves/tea-issue/settlment/tea-settlement.html",
-                            controller: "teaSettlementController"
+                        .when("/transactions/green-leaves/tea-issue-settlement", {
+                            templateUrl: "app/transactions/green-leaves/tea-issue/tea-issue-settlement/tea-issue-settlement.html",
+                            controller: "TeaIssueSettlementController"
                         })
 
                         //voucher
@@ -186,6 +186,11 @@
                         })
 
                         //master
+                        .when("/master/:controller", {
+                            templateUrl: "app/master/master.html",
+                            controller: "MasterController"
+                        })
+                        
                         .when("/master/client/manage-client", {
                             templateUrl: "app/master/client/client.html",
                             controller: "clientController"

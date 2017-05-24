@@ -1,11 +1,11 @@
 (function () {
     var factory = function (ClientLoanRequestService, optionPane) {
-        function LoanApproveModel() {
+        function ClientLoanApproveModel() {
             this.constructor();
         }
 
         //prototype functions
-        LoanApproveModel.prototype = {
+        ClientLoanApproveModel.prototype = {
             detail: null,
             //constructor
             constructor: function () {
@@ -107,9 +107,9 @@
             }
         };
 
-        return LoanApproveModel;
+        return ClientLoanApproveModel;
     };
 
     angular.module("appModule")
-            .factory("LoanApproveModel", factory);
+            .factory("ClientLoanApproveModel", factory);
 }());

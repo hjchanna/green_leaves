@@ -18,7 +18,7 @@
 
 .smart-scroll-x::-webkit-scrollbar-thumb, .smart-scroll-y::-webkit-scrollbar-thumb {
     background-color: $scrollbar-thumb-color;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
 }
 
 .background-ultra-dark.smart-scroll-x::-webkit-scrollbar-thumb, .background-ultra-dark.smart-scroll-y::-webkit-scrollbar-thumb {

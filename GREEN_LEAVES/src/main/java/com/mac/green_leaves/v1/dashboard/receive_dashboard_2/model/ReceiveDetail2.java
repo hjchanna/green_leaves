@@ -26,16 +26,11 @@ import javax.persistence.SqlResultSetMapping;
                     targetClass = ReceiveDetail2.class,
                     columns = {
                         @ColumnResult(name = "route_index_no")
-                        ,
-                        @ColumnResult(name = "route_name")
-                        ,
-                        @ColumnResult(name = "factory_normal")
-                        ,
-                        @ColumnResult(name = "factory_super")
-                        ,
-                        @ColumnResult(name = "collection_normal")
-                        ,
-                        @ColumnResult(name = "collection_super")
+                        ,@ColumnResult(name = "route_name")
+                        ,@ColumnResult(name = "factory_normal")
+                        ,@ColumnResult(name = "factory_super")
+                        ,@ColumnResult(name = "collection_normal")
+                        ,@ColumnResult(name = "collection_super")
                     }
             )
         }

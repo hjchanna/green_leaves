@@ -1,0 +1,53 @@
+<div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 51px);">
+    <div class="col-xs-12">
+        <table>
+            <col style="width: 50%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th class="text-right">IN</th>
+                    <th class="text-right">OUT</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 125px);" ng-show="model.officerTeaLedgerHistory.length">
+        <table>
+            <col style="width: 50%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <tbody>
+                <tr ng-repeat="officerRowData in model.officerTeaLedgerHistory">
+                    <td>{{officerRowData[0]|date:'yyyy-MM-dd'}}</td>
+                    <td class="text-right" >{{officerRowData[2] === 0 ? '' : officerRowData[2]|number:2}}</td>
+                    <td class="text-right" >{{officerRowData[3] === 0 ? '' : officerRowData[3]|number:2}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="placeholder col-xs-12" style="height: calc(100% - 125px);" ng-hide="model.officerTeaLedgerHistory.length">
+        <h1>OFFICER TEA ISSUE HISTORY NOT FOUND :(</h1>
+    </div>
+    <div class="col-xs-12">
+        <table class="control-table">
+            <col style="width: 40%;"/>
+            <col style="width: 25%;"/>
+            <col style="width: 25%;"/>
+            <tbody>
+                <tr class="text-bold background-dark">
+                    <td>Total</td>
+                    <td class="text-right">{{getOfficerTeaLedgerTotal()[0] | number:2}}</td>
+                    <td class="text-right">{{getOfficerTeaLedgerTotal()[1] | number:2}}</td>
+                </tr>
+                <tr class="text-bold background-dark">
+                    <td>Balance</td>
+                    <td class="text-right">{{getOfficerTeaLedgerTotal()[2] | number:2}}</td>
+                    <td class="text-right">{{getOfficerTeaLedgerTotal()[3] | number:2}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

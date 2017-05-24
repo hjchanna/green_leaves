@@ -5,6 +5,8 @@
                 factory.newData = function () {
                     var data = {
                         "indexNo": null,
+                        "branch": 0,
+                        "route": null,
                         "date": null,
                         "transaction": 0,
                         "number": 0,

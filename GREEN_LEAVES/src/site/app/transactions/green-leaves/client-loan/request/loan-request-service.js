@@ -19,7 +19,6 @@
 
         this.loadPendingRequest = function () {
             return $http.get(systemConfig.apiUrl + "/api/v1/loan/loan-request/pending-requests");
-            console.log("ASDLH");
         };
 
         this.findByTLoanRequestDetailByIndexNo = function (indexNo) {

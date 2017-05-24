@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("ClientLoanRequestController", function ($scope, $timeout, $filter, Notification, LoanRequestModel, ConfirmPane) {
+            .controller("ClientLoanRequestController", function ($scope, $timeout, $filter, Notification, LoanRequestModel, ConfirmPane, optionPane) {
                 $scope.model = new LoanRequestModel();
                 $scope.model.tempClientNo = null;
 
@@ -13,7 +13,7 @@
                     //set current date
                     $scope.model.data.date = $filter('date')(new Date(), 'yyyy-MM-dd');
                     $timeout(function () {
-                        document.querySelectorAll("#clientNumber")[0].focus();
+                        document.querySelectorAll("#route")[0].focus();
                     }, 10);
                 };
 
@@ -87,7 +87,7 @@
                             && $scope.model.tempData.installmentCount) {
                         $scope.model.insertLoanRequest()
                                 .then(function () {
-                                    angular.element(document.querySelectorAll("#client-number"))[0].focus();
+                                    angular.element(document.querySelectorAll("#clientNumber"))[0].focus();
                                 });
                     }
                 };
@@ -117,9 +117,6 @@
                                     $scope.ui.mode = "IDEAL";
                                     $scope.model.saveRequest();
                                     $scope.model.clear();
-                                })
-                                .discard(function () {
-                                    console.log("ReJECT");
                                 });
                     }
                 };
@@ -129,10 +126,15 @@
                     $scope.model.clear();
 
                     $scope.$watch("model.tempData.client", function () {
-                        var c = $scope.ui.getClient($scope.model.tempData.client);
+                        var client = $scope.ui.getClient($scope.model.tempData.client);
 
-                        if (c) {
-                            $scope.model.tempClientNo = c.clientNumber;
+                        if (client) {
+                            $scope.model.tempClientNo = client.clientNumber;
+                            
+                            if ($scope.model.data.route !== client.route) {
+                                var clientRoute = $scope.model.routeLabel(client.route);
+                                optionPane.warningMessage("This client is from an another route. (" + clientRoute + ")");
+                            }
                         } else {
                             $scope.model.tempClientNo = null;
                         }

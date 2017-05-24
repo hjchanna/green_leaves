@@ -3,7 +3,7 @@
 
 <div class="index-content-body">
     <div class="col-xs-8 background-light">
-        <div class="row" style="display: flex; flex-flow: column; height: calc(100vh - 58px);">
+        <div class="row" style="display: flex; flex-flow: column;">
             <div class="col-xs-12 background-dark border-dark-bottom" style="flex: 0 0 auto;">
                 <table class="control-table">
                     <col class="col-xs-4"/>
@@ -35,10 +35,13 @@
                         </tr>
                     </thead>
                 </table>
+            </div>
+
+            <div class="col-xs-12 ">
                 <table class="control-table">
-                    <col  class="col-xs-2"/>
-                    <col  class="col-xs-5"/>
-                    <col  class="col-xs-3"/>
+                    <col class="col-xs-2"/>
+                    <col class="col-xs-6"/>
+                    <col class="col-xs-4"/>
                     <thead class="background-dark">
                         <tr>
                             <th>
@@ -49,43 +52,41 @@
                                 <label>CLIENT</label>
                                 <input smart-input="text" class="form-control" ng-model="model.tempData.client" uib-typeahead="client.indexNo as (client.clientNumber + '-' + client.name) for client in model.clients|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.clientLabel($model)" ng-disabled="ui.mode !== 'EDIT'" typeahead-on-select="ui.forcusItemSelections()">
                             </th>
-                            <th class="text-right">
-                                <label>Instalment Count</label><br>
-                                <input smart-input="text" class="form-control text-right" ng-model="model.tempData.instalmentCount" ng-disabled="true">
+                            <th>
+                                <label>ITEM</label>
+                                <input id="item" type="text" ng-model="model.tempData.fertlizerItem" uib-typeahead="product.indexNo as (product.productNo + ' - ' + product.name) for product in model.products|filter:$viewValue|limitTo:10" class="form-control" typeahead-input-formatter="model.productLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                         </tr>
                     </thead>
                 </table>
-            </div>
-            
-            <div class="col-xs-12 " style="flex: 0 0 auto;height: 80px;">
+
                 <table class="control-table">
-                    <col style="width: 30%"/>
-                    <col style="width: 20%"/>
-                    <col style="width: 20%"/>
-                    <col style="width: 20%"/>
-                    <!--<col style="width: 15%"/>-->
-                    <col style="width: auto;"/>
+                    <col class="col-xs-2"/>
+                    <col class="col-xs-3"/>
+                    <col class="col-xs-3"/>
+                    <col class="col-xs-3"/>
+                    <col class="col-xs-1"/>
+                    
                     <thead class="background-dark">
                         <tr>
                             <th>
-                                <label>ITEM</label>
-                                <input id="item" type="text" ng-model="model.tempData.fertlizerItem" uib-typeahead="product.indexNo as (product.productNo + ' - ' + product.name) for product in model.products|filter:$viewValue|limitTo:10" class="form-control" typeahead-input-formatter="model.productLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <label>QUANTITY</label>
+                                <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>PRICE</label>
                                 <input smart-input="decimal" ng-model="model.tempData.price" class="form-control" ng-disabled="true"/>
                             </th>
                             <th>
-                                <label>QTY</label>
-                                <input smart-input="integer" ng-model="model.tempData.qty" class="form-control" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
-                            </th>
-                            <th>
                                 <label>VALUE</label>
                                 <input smart-input="decimal" ng-model="model.tempData.amount" class="form-control" ng-disabled="true"/>
                             </th>
                             <th class="text-right">
-                                <button style="margin-top: 20px;" type="button" class="btn btn-primary" ng-click="ui.addDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
+                                <label>INSTALLMENTS</label><br>
+                                <input smart-input="text" class="form-control text-right" ng-model="model.tempData.instalmentCount" ng-disabled="true">
+                            </th>
+                            <th class="text-right" style="vertical-align: bottom; padding-bottom: 5px;">
+                                <button  type="button" class="btn btn-primary" ng-click="ui.addDetail();" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
                             </th>
@@ -93,32 +94,28 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100% - 309px);" ng-show="model.data.tfertilizerDetailList.length">
+            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 370px);" ng-show="model.data.tfertilizerDetailList.length">
                 <table class="table-hover">
                     <col style="width: 30%"/>
                     <col style="width: 30%"/>
                     <col style="width: 10%"/>
                     <col style="width: 15%"/>
                     <col style="width: 15%"/>
-                    <col/>
                     <tbody >                       
-                        <tr style="height: 40px" ng-repeat="detail in model.data.tfertilizerDetailList">
+                        <tr ng-repeat="detail in model.data.tfertilizerDetailList">
                             <td class="text-left"><label class="label label-default">{{model.client(detail.client).clientNumber}}</label>{{model.client(detail.client).name}}</td>
                             <td class="text-left"><label class="label label-default">{{model.product(detail.fertlizerItem).itemNo}}</label>{{model.product(detail.fertlizerItem).name}}</td>
                             <td class="text-right">{{detail.qty}}</td>
                             <td class="text-right">{{model.product(detail.fertlizerItem).salePrice * detail.qty | number:2}}</td>
-                            <td ng-hide="detail.status === 'APPROVE' || detail.status === 'REJECT'">
-                                <a class="btn btn-default" ng-click="ui.editDetail($index);"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-danger"  ng-click="ui.deleteDetail($index);"><span class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                            <td>
-                                <label ng-show="detail.status === 'APPROVE'" class="label label-success">APPROVE</label>
-                                <label ng-show="detail.status === 'REJECT'" class="label label-danger">REJECT</label>
+                            <td class="text-right">
+                                <button class="btn btn-default" ng-click="ui.editDetail($index);" ng-disabled="detail.status === 'APPROVE' || detail.status === 'REJECT'"><span class="glyphicon glyphicon-edit"></span></button>
+                                <button class="btn btn-danger"  ng-click="ui.deleteDetail($index);" ng-disabled="detail.status === 'APPROVE' || detail.status === 'REJECT'"><span class="glyphicon glyphicon-trash"></span></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100% - 309px);" ng-hide="model.data.tfertilizerDetailList.length">
+            <div class="placeholder col-xs-12 animation-fade" style="height: calc(100vh - 370px);" ng-hide="model.data.tfertilizerDetailList.length">
                 <h1>PLEASE ADD FERTILIZER REQUEST ITEMS :)</h1>
             </div>
             <div class="col-xs-12">
