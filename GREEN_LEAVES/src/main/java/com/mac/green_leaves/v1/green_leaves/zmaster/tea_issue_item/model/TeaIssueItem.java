@@ -31,6 +31,11 @@ public class TeaIssueItem implements Serializable {
     @Column(name = "index_no")
     private Integer indexNo;
 
+    @Basic
+    @NotNull
+    @Column(name = "branch")
+    private int branch;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
@@ -55,6 +60,14 @@ public class TeaIssueItem implements Serializable {
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
+    }
+
+    public int getBranch() {
+        return branch;
+    }
+
+    public void setBranch(int branch) {
+        this.branch = branch;
     }
 
     public String getName() {

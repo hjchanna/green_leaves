@@ -36,7 +36,8 @@ public class SYEnvironmentController {
             SystemUser user = (SystemUser) principal;
 
             pingRespond.setBranch(user.getBranch());
-            pingRespond.setUser(user.getUsername());
+            pingRespond.setUser(user.getNickName());
+            pingRespond.setBranchName(user.getBranchName());
         }
 
         return pingRespond;

@@ -6,11 +6,13 @@
 package com.mac.green_leaves.v1.green_leaves.zmaster.tea_issue_item;
 
 import com.mac.green_leaves.v1.green_leaves.zmaster.tea_issue_item.model.TeaIssueItem;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author Kelum
  */
-public interface TeaIssueItemRepository extends JpaRepository<TeaIssueItem, Integer>{
+public interface TeaIssueItemRepository extends JpaRepository<TeaIssueItem, Integer> {
 
+    public List<TeaIssueItem> findByBranch(Integer branch);
 }

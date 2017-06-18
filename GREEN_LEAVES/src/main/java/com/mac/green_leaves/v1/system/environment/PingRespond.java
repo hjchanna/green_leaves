@@ -16,6 +16,7 @@ public class PingRespond {
     private Date date;
     private String user;
     private Integer branch;
+    private String branchName;
 
     public PingRespond() {
     }
@@ -42,6 +43,14 @@ public class PingRespond {
 
     public void setBranch(Integer branch) {
         this.branch = branch;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
 }

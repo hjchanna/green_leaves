@@ -21,8 +21,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity(name = "com.mac.green_leaves.v1.master.vehicle.model.MVehicle")
 @Table(name = "m_vehicle")
-public class MVehicle implements Serializable{
-    
+public class MVehicle implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -33,46 +33,21 @@ public class MVehicle implements Serializable{
     @NotNull
     @Column(name = "branch")
     private int branch;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "vehicle_no")
     private String vehicleNo;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "engine_no")
     private String engineNo;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "chassis_no")
     private String chassisNo;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "make")
-    private String make;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "model")
-    private String model;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "vehicle_owner")
-    private int vehicleOwner;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "driver")
-    private int driver;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "type")
-    private String type;
 
     public Integer getIndexNo() {
         return indexNo;
@@ -114,45 +89,4 @@ public class MVehicle implements Serializable{
         this.chassisNo = chassisNo;
     }
 
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public int getVehicleOwner() {
-        return vehicleOwner;
-    }
-
-    public void setVehicleOwner(int vehicleOwner) {
-        this.vehicleOwner = vehicleOwner;
-    }
-
-    public int getDriver() {
-        return driver;
-    }
-
-    public void setDriver(int driver) {
-        this.driver = driver;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    
 }

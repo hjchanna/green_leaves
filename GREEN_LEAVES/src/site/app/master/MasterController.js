@@ -1,6 +1,6 @@
 (function () {
     angular.module("appModule")
-            .controller("MasterController", function ($scope, $routeParams, MasterService) {
+            .controller("MasterController", function ($scope, $routeParams, MasterService, optionPane) {
                 $scope.model = {};
                 $scope.model.totalItems = 8000;
                 $scope.model.currentPage = 1;
@@ -8,7 +8,7 @@
                 $scope.model.itemsPerPage = 100;
 
                 $scope.model.controller = null;
-                $scope.model.keyword = null;
+                $scope.model.keyword = "";
                 $scope.model.data = {};
                 $scope.model.list = [];
 
@@ -61,11 +61,35 @@
                 };
 
                 $scope.ui.save = function () {
+                    MasterService.save($scope.model.controller, $scope.model.data)
+                            .success(function (data) {
+                                optionPane.successMessage("Saved successfully !!!");
+                                //set index no
+                                $scope.model.data.indexNo = data;
 
+                                $scope.model.list.push($scope.model.data);
+                                $scope.ui.discard();
+                            })
+                            .error(function () {
+                                optionPane.dangerMessage("Saved failed !!!");
+                            });
                 };
 
                 $scope.ui.discard = function () {
                     $scope.ui.mode = "IDEAL";
+                    $scope.model.data = {};
+                };
+
+                //labels
+                $scope.model.routeLabel = function (indexNo) {
+                    var label;
+                    angular.forEach($scope.model.routes, function (value) {
+                        if (value.indexNo === indexNo) {
+                            label = value.indexNo + "-" + value.name;
+                            return;
+                        }
+                    });
+                    return label;
                 };
 
                 $scope.ui.init = function () {
@@ -73,9 +97,42 @@
                     $scope.ui.load();
 
                     $scope.$watch("[model.currentPage, model.keyword]", function () {
-                        console.log("AA");
                         $scope.ui.load();
                     });
+
+                    //load routes
+                    if ($scope.model.controller === 'client-controller') {
+                        MasterService.loadRoutes()
+                                .success(function (data) {
+                                    $scope.model.routes = data;
+                                })
+                                .error(function () {
+                                    $scope.model.routes = [];
+                                });
+                    }
+
+                    //load employees (route officers and route helpers)
+                    if ($scope.model.controller === 'route-controller') {
+                        MasterService.loadEmployees()
+                                .success(function (data) {
+                                    $scope.model.employees = data;
+                                })
+                                .error(function () {
+                                    $scope.model.employees = [];
+                                });
+                    }
+
+
+                    //load vehicles
+                    if ($scope.model.controller === 'route-controller') {
+                        MasterService.loadVehicles()
+                                .success(function (data) {
+                                    $scope.model.vehicles = data;
+                                })
+                                .error(function () {
+                                    $scope.model.vehicles = [];
+                                });
+                    }
                 };
                 $scope.ui.init();
             });

@@ -43,17 +43,6 @@ public class MVehicle implements Serializable {
     @Column(name = "vehicle_no")
     private String vehicleNo;
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "type")
-    private String type;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "driver")
-    private int driver;
-
     public MVehicle() {
     }
 
@@ -83,22 +72,6 @@ public class MVehicle implements Serializable {
 
     public void setVehicleNo(String vehicleNo) {
         this.vehicleNo = vehicleNo;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getDriver() {
-        return driver;
-    }
-
-    public void setDriver(int driver) {
-        this.driver = driver;
     }
 
     @Override

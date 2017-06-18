@@ -32,6 +32,8 @@
                 $scope.init = function () {
                     $scope.$watch("[client, date]", function () {
                         var client = $scope.client;
+                        client = isNaN(client) ? null : client;//client number should be a number
+
                         var date = $scope.date;
                         if (client && date) {
                             //ledger history

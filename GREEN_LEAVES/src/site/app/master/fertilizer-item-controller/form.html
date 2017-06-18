@@ -1,0 +1,27 @@
+<table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+        <tr>
+            <td><label class="control-label">ITEM NO</label></td>
+            <td><input class="form-control" ng-model="model.data.itemNo" ng-disabled="ui.mode !== 'EDIT'" ></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">NAME</label></td>
+            <td><input class="form-control" ng-model="model.data.name" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">INSTALLMENTS</label></td>
+            <td><input smart-input='integer' class="form-control" ng-model="model.data.instalmentCount" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">COST PRICE</label></td>
+            <td><input smart-input='decimal' class="form-control" ng-model="model.data.costPrice" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">SALES PRICE</label></td>
+            <td><input smart-input='decimal' class="form-control" ng-model="model.data.salePrice" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+    </tbody>
+</table>

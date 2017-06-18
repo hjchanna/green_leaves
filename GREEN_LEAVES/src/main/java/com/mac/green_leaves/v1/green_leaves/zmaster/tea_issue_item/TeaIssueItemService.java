@@ -22,8 +22,8 @@ public class TeaIssueItemService {
     @Autowired
     private TeaIssueItemRepository teaGradeRepository;
 
-    public List<TeaIssueItem> findAll() {
-        return teaGradeRepository.findAll();
+    public List<TeaIssueItem> findAll(Integer branch) {
+        return teaGradeRepository.findByBranch(branch);
     }
 
 //    public TeaIssueItem findByName(String name) {

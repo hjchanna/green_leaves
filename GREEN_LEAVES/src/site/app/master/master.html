@@ -2,58 +2,21 @@
     <div class="background-dark col-xs-4 border-dark-right">
         <div class="smart-scroll-y" style="height: calc(100vh - 51px);">
 
-            <table class="control-table">
-                <col style="width: 35%"/>
-                <col style="width: 65%"/>
+            <!--start content table-->
+            <div ng-include src="'app/master/' + model.controller + '/form.html'">
 
-                <tbody>
-                    <tr>
-                        <td><label class="control-label">NAME</label></td>
-                        <td><input class="form-control" id="route" ng-model="model.data.name" ng-disabled="ui.mode !== 'EDIT'" ></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">VEHICLE</label></td>
-                        <td><input class="form-control" ng-model="model.data.vehicle" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="vehicle as (vehicle.vehicleNo) for vehicle in model.vehicleList|filter:{vehicleNo:$viewValue}|limitTo:10"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">OFFICER</label></td>
-                        <td><input class="form-control" ng-model="model.data.routeOfficer" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="routeOfficer as (routeOfficer.indexNo+ '-' +routeOfficer.name) for routeOfficer in model.employees|filter:{name:$viewValue}| filter : {type : 'ROUTE_OFFICER'} |limitTo:10"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">HELPER</label></td>
-                        <td><input class="form-control" ng-model="model.data.routeHelper" ng-disabled="ui.mode !== 'EDIT'" uib-typeahead="routeHelper as (routeHelper.indexNo+ '-' +routeHelper.name) for routeHelper in model.employees|filter:{name:$viewValue}| filter : {type : 'ROUTE_HELPER'}|limitTo:10"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="control-label">T/D RATE</label></td>
-                        <td><input smart-input="decimal" class="form-control text-right" ng-model="model.data.transportDeductionRate" ng-disabled="ui.mode !== 'EDIT'"></td>
-                    </tr>
-
-                </tbody>
-            </table>
+            </div>
+            <!--end content table-->
 
         </div>
     </div>
 
     <div class="background-light col-xs-8">
         <div class="row">
-            <div class="col-xs-12">
-                <table>
-                    <tr>
-                        <th>INDEX NO</th>
-                        <th>NAME</th>
-                        <th>TRANSPORT DEDUCTION</th>
-                    </tr>
-                </table>
+            <div ng-include src="'app/master/' + model.controller + '/list.html'">
+
             </div>
-            <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 150px);">
-                <table class="table-hover">
-                    <tr ng-repeat="data in model.list" ng-click="ui.select(data);" ng-class="model.data.indexNo===data.indexNo?'selected':''">
-                        <td><label class="label label-default">{{data.indexNo|fixedLength:5}}</label></td>
-                        <td>{{data.name}}</td>
-                        <td>{{data.transportDeductionRate|number:2}}</td>
-                    </tr>
-                </table>
-            </div>
+
             <div class="col-xs-12 background-dark border-dark-top">
                 <div class="row" style="margin: 12px 0 12px 0">
                     <div ng-class="model.totalItems>model.itemsPerPage?'col-xs-4':'col-xs-6'">

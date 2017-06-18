@@ -5,6 +5,7 @@
  */
 package com.mac.green_leaves.v1.security;
 
+import com.mac.green_leaves.v1.security.model.MBranch;
 import com.mac.green_leaves.v1.security.model.MUser;
 import com.mac.green_leaves.v1.security.model.MUserRole;
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class SEUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SEUserRepository userRepository;
+    
+    @Autowired
+    private SEBranchRepository branchRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,13 +53,17 @@ public class SEUserDetailsServiceImpl implements UserDetailsService {
         for (MUserRole userRole : user.getUserRoles()) {
             authorities.add(new SimpleGrantedAuthority(String.valueOf(userRole.getIndexNo())));
         }
+        
+        MBranch branch = branchRepository.findOne(user.getBranch());
 
         //user
         SystemUser securityUser = new SystemUser(
                 user.getIndexNo(),
+                user.getName(),
                 user.getUsername(),
                 user.getPassword(),
                 user.getBranch(),
+                branch.getName(),
                 authorities);
 
         return securityUser;

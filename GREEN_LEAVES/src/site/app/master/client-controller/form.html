@@ -1,0 +1,39 @@
+<table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+        <tr>
+            <td><label class="control-label">NAME</label></td>
+            <td><input class="form-control" ng-model="model.data.name" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">ROUTE</label></td>
+            <td><input class="form-control" ng-model="model.data.route" uib-typeahead="route.indexNo as (route.indexNo + ' - ' + route.name) for route in model.routes|filter:{name:$viewValue}|limitTo:10" typeahead-input-formatter="model.routeLabel($model)" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">CLIENT NO.</label></td>
+            <td><input class="form-control" ng-model="model.data.clientNumber" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">NIC</label></td>
+            <td><input class="form-control" ng-model="model.data.nicNumber" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">MOBILE</label></td>
+            <td><input class="form-control" ng-model="model.data.mobileNo" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">ADDRESS</label></td>
+            <td><input class="form-control" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">&nbsp;</label></td>
+            <td><input class="form-control" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">&nbsp;</label></td>
+            <td><input class="form-control" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+    </tbody>
+</table>

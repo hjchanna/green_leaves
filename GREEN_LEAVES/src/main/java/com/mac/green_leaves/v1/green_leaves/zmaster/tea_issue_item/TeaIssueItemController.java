@@ -6,6 +6,7 @@
 package com.mac.green_leaves.v1.green_leaves.zmaster.tea_issue_item;
 
 import com.mac.green_leaves.v1.green_leaves.zmaster.tea_issue_item.model.TeaIssueItem;
+import com.mac.green_leaves.v1.zutil.SecurityUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +29,7 @@ public class TeaIssueItemController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<TeaIssueItem> findAll() {
-        return teaGradeService.findAll();
+        return teaGradeService.findAll(SecurityUtil.getCurrentUser().getBranch());
     }
 
     @RequestMapping(value = "/save-teagrade", method = RequestMethod.POST)

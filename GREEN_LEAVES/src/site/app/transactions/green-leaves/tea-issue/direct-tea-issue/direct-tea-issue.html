@@ -43,7 +43,7 @@
                             </th>
                             <th>
                                 <label>TEA ITEM</label>
-                                <input type="text" ng-model="model.tempData.teaIssueItem" uib-typeahead="teaIssueItem.indexNo as (teaIssueItem.indexNo + ' - ' + teaIssueItem.name) for teaIssueItem in model.teaIssueItems|filter:$viewValue|limitTo:10" class="form-control" typeahead-input-formatter="model.teaIssueItemLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
+                                <input type="text" ng-model="model.tempData.teaIssueItem" uib-typeahead="teaIssueItem.indexNo as (teaIssueItem.indexNo + ' - ' + teaIssueItem.name) for teaIssueItem in model.teaIssueItems|filter:{name:$viewValue}|limitTo:10" class="form-control" typeahead-input-formatter="model.teaIssueItemLabel($model)" ng-disabled="ui.mode !== 'NEW' && ui.mode !== 'EDIT'"/>
                             </th>
                             <th>
                                 <label>QUANTITY</label>

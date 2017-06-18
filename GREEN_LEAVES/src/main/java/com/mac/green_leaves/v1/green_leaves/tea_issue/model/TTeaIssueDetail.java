@@ -34,34 +34,34 @@ public class TTeaIssueDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "index_no")
     private Integer indexNo;
- 
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "unit_price")
     private BigDecimal unitPrice;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "quantity")
     private BigDecimal quantity;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "value")
     private BigDecimal value;
-    
+
     @Column(name = "client")
     private Integer client;
-    
+
     @Column(name = "route_officer")
     private Integer routeOfficer;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "tea_issue_item")
     private int teaIssueItem;
-    
+
     @JsonIgnore
     @JoinColumn(name = "tea_issue", referencedColumnName = "index_no")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -144,26 +144,6 @@ public class TTeaIssueDetail implements Serializable {
 
     public void setTeaIssue(TTeaIssue teaIssue) {
         this.teaIssue = teaIssue;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (indexNo != null ? indexNo.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TTeaIssueDetail)) {
-            return false;
-        }
-        TTeaIssueDetail other = (TTeaIssueDetail) object;
-        if ((this.indexNo == null && other.indexNo != null) || (this.indexNo != null && !this.indexNo.equals(other.indexNo))) {
-            return false;
-        }
-        return true;
     }
 
     @Override

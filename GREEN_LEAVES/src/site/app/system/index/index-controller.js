@@ -1,7 +1,19 @@
 (function () {
     angular.module("appModule")
-            .controller("IndexController", function ($scope, $rootScope, $location, SecurityService) {
+            .controller("IndexController", function ($scope, $rootScope, $cookies, $timeout, $location, SecurityService) {
                 $scope.hamburgerOpen = false;
+
+                $rootScope.httpLoaders = 0;
+
+                $rootScope.addHttpRequest = function () {
+                    $rootScope.httpLoaders = $rootScope.httpLoaders + 1;
+                };
+
+                $rootScope.removeHttpRequest = function () {
+                    $timeout(function () {
+                        $rootScope.httpLoaders = $rootScope.httpLoaders - 1;
+                    }, 1000);
+                };
 
                 //route loading
                 $rootScope.$watch("layout.loading", function () {
@@ -58,6 +70,23 @@
                             });
                 };
 
+                $scope.routeChange = function ($event) {
+                    var text = $event.srcElement.text;
+
+                    $cookies.put("current-route", text);
+                };
+
+                $scope.getCurrentRoute = function () {
+                    return $cookies.get("current-route");
+                };
+
+                $scope.getBranchName = function () {
+                    return $cookies.get("branch-name");
+                };
+
+                $scope.getUserName = function () {
+                    return $cookies.get("nick-name");
+                };
 
             });
 }());

@@ -53,6 +53,7 @@ public class MFertilizerItem implements Serializable {
     private int instalmentCount;
 
     @Basic(optional = false)
+    @NotNull
     @Column(name = "cost_price")
     private BigDecimal costPrice;
 

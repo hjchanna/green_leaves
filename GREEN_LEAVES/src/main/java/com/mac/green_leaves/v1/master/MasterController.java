@@ -75,7 +75,7 @@ public class MasterController {
     public int save(@PathVariable("controller") String controller, @RequestBody String model) {
         MasterControllerProxy masterController = (MasterControllerProxy) beanFactory.getBean(controller);
         if (masterController != null) {
-            return masterController.save(model);
+            return masterController.save(model, SecurityUtil.getCurrentUser().getBranch());
         }
 
         return -1;

@@ -1,0 +1,46 @@
+<table class="control-table">
+    <col style="width: 35%"/>
+    <col style="width: 65%"/>
+
+    <tbody>
+        <tr>
+            <td><label class="control-label">NAME</label></td>
+            <td><input class="form-control" ng-model="model.data.name" ng-disabled="ui.mode !== 'EDIT'" ></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">NIC NO</label></td>
+            <td><input class="form-control" ng-model="model.data.nicNumber" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">ADDRESS</label></td>
+            <td><input class="form-control" ng-model="model.data.addressLine1" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">&nbsp;</label></td>
+            <td><input class="form-control" ng-model="model.data.addressLine2" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">&nbsp;</label></td>
+            <td><input class="form-control" ng-model="model.data.addressLine3" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">MOBILE</label></td>
+            <td><input class="form-control" ng-model="model.data.mobileNumber" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">TELEPHONE</label></td>
+            <td><input class="form-control" ng-model="model.data.telephoneNumber" ng-disabled="ui.mode !== 'EDIT'"></td>
+        </tr>
+        <tr>
+            <td><label class="control-label">TYPE</label></td>
+            <td>
+                <select class="form-control" ng-model="model.data.type">
+                    <option value="OTHER">OTHER</option>
+                    <option value="ROUTE_OFFICER">ROUTE OFFICER</option>
+                    <option value="ROUTE_HELPER">ROUTE HELPER</option>
+                    <option value="DRIVER">DRIVER</option>
+                </select>
+            </td>
+        </tr>
+    </tbody>
+</table>

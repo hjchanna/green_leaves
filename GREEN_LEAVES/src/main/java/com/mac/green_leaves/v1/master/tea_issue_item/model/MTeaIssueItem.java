@@ -32,6 +32,7 @@ public class MTeaIssueItem implements Serializable {
     private Integer indexNo;
 
     @Basic
+    @NotNull
     @Column(name = "branch")
     private int branch;
 
@@ -59,6 +60,14 @@ public class MTeaIssueItem implements Serializable {
 
     public void setIndexNo(Integer indexNo) {
         this.indexNo = indexNo;
+    }
+
+    public int getBranch() {
+        return branch;
+    }
+
+    public void setBranch(int branch) {
+        this.branch = branch;
     }
 
     public String getName() {

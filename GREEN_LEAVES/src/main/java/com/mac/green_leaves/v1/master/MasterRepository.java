@@ -84,7 +84,12 @@ public class MasterRepository<Model> {
 
     public int save(Model model) {
         Session session = getSession();
-        return (Integer) session.save(model);
+        return (Integer) session.merge(model);
+    }
+
+    public void update(Model model) {
+        Session session = getSession();
+        session.update(model);
     }
 
     public int delete(Integer indexNo, Class modelClass) {

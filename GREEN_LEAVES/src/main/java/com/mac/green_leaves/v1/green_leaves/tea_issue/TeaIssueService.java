@@ -65,39 +65,8 @@ public class TeaIssueService {
 
         teaIssue = teaIssueRepository.save(teaIssue);
 
-        if (teaIssue.getType().equals(TYPE_OFFICER_TEA_ISSUE)) {
-            teaIssueLedgerRepository.deleteByTeaIssue(teaIssue.getIndexNo());
-            
-            for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
-                TTeaIssueLedger teaIssueLedger = new TTeaIssueLedger();
-                teaIssueLedger.setBranch(branch);
-                teaIssueLedger.setDate(teaIssue.getDate());
-                teaIssueLedger.setTeaIssue(teaIssue.getIndexNo());
-                teaIssueLedger.setRouteOfficer(teaIssueDetail.getRouteOfficer());
-                teaIssueLedger.setTeaIssueItem(teaIssueDetail.getTeaIssueItem());
-                teaIssueLedger.setInQty(teaIssueDetail.getQuantity());
-                teaIssueLedger.setOutQty(BigDecimal.ZERO);
-
-                teaIssueLedgerRepository.save(teaIssueLedger);
-            }
-        }
-        
-        if (teaIssue.getType().equals(TYPE_TEA_ISSUE_SETTLEMENT)) {
-            teaIssueLedgerRepository.deleteByTeaIssue(teaIssue.getIndexNo());
-            
-            for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
-                TTeaIssueLedger teaIssueLedger = new TTeaIssueLedger();
-                teaIssueLedger.setBranch(branch);
-                teaIssueLedger.setDate(teaIssue.getDate());
-                teaIssueLedger.setTeaIssue(teaIssue.getIndexNo());
-                teaIssueLedger.setRouteOfficer(teaIssueDetail.getRouteOfficer());
-                teaIssueLedger.setTeaIssueItem(teaIssueDetail.getTeaIssueItem());
-                teaIssueLedger.setInQty(BigDecimal.ZERO);
-                teaIssueLedger.setOutQty(teaIssueDetail.getQuantity());
-
-                teaIssueLedgerRepository.save(teaIssueLedger);
-            }
-        }
+        //update officer tea issue ledger
+        updateOfficerLedger(teaIssue, branch);
 
         return teaIssue.getIndexNo();
     }
@@ -114,26 +83,74 @@ public class TeaIssueService {
     @Transactional
     public Integer deleteTeaIssueDetail(Integer indexNo) {
         TTeaIssueDetail teaIssueDetail = teaIssueDetailRepository.findOne(indexNo);
-        teaIssueDetail.getTeaIssue().getTeaIssueDetails().remove(teaIssueDetail);
 
+        TTeaIssue teaIssue = teaIssueDetail.getTeaIssue();
+        teaIssue.getTeaIssueDetails().remove(teaIssueDetail);
+
+        teaIssueDetailRepository.delete(teaIssueDetail);
         teaIssueRepository.save(teaIssueDetail.getTeaIssue());
+
+        //update officer tea issue ledger
+        updateOfficerLedger(teaIssue, teaIssue.getBranch());
+
         return indexNo;
     }
-    
+
     public List<Object[]> findTeaLedgerSummary(Integer branch, Integer officer, Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DATE));
         date = calendar.getTime();
-        
+
         List<Object[]> data = teaIssueLedgerRepository.findTeaLedgerSummary(branch, officer, date);;
-        
+
         //remove if bf balance is zero
-        if (((BigDecimal) data.get(0)[2]).equals(BigDecimal.ZERO) && ((BigDecimal) data.get(0)[3]).equals(BigDecimal.ZERO)){
+        if (((BigDecimal) data.get(0)[2]).equals(BigDecimal.ZERO) && ((BigDecimal) data.get(0)[3]).equals(BigDecimal.ZERO)) {
             data.remove(0);
         }
-        
+
         return data;
     }
+
+    private void updateOfficerLedger(TTeaIssue teaIssue, Integer branch) {
+        if (teaIssue.getType().equals(TYPE_OFFICER_TEA_ISSUE)) {
+            teaIssueLedgerRepository.deleteByTeaIssue(teaIssue.getIndexNo());
+
+            for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
+                TTeaIssueLedger teaIssueLedger = new TTeaIssueLedger();
+                teaIssueLedger.setBranch(branch);
+                teaIssueLedger.setDate(teaIssue.getDate());
+                teaIssueLedger.setTeaIssue(teaIssue.getIndexNo());
+                teaIssueLedger.setRouteOfficer(teaIssueDetail.getRouteOfficer());
+                teaIssueLedger.setTeaIssueItem(teaIssueDetail.getTeaIssueItem());
+                teaIssueLedger.setInQty(teaIssueDetail.getQuantity());
+                teaIssueLedger.setOutQty(BigDecimal.ZERO);
+
+                teaIssueLedgerRepository.save(teaIssueLedger);
+            }
+        }
+
+        if (teaIssue.getType().equals(TYPE_TEA_ISSUE_SETTLEMENT)) {
+            teaIssueLedgerRepository.deleteByTeaIssue(teaIssue.getIndexNo());
+
+            for (TTeaIssueDetail teaIssueDetail : teaIssue.getTeaIssueDetails()) {
+                TTeaIssueLedger teaIssueLedger = new TTeaIssueLedger();
+                teaIssueLedger.setBranch(branch);
+                teaIssueLedger.setDate(teaIssue.getDate());
+                teaIssueLedger.setTeaIssue(teaIssue.getIndexNo());
+                teaIssueLedger.setRouteOfficer(teaIssueDetail.getRouteOfficer());
+                teaIssueLedger.setTeaIssueItem(teaIssueDetail.getTeaIssueItem());
+                teaIssueLedger.setInQty(BigDecimal.ZERO);
+                teaIssueLedger.setOutQty(teaIssueDetail.getQuantity());
+
+                teaIssueLedgerRepository.save(teaIssueLedger);
+            }
+        }
+    }
     
+    private void updateClientLedger() {
+        
+    }
+    
+
 }

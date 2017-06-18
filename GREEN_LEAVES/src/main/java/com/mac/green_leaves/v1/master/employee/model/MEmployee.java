@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
  */
 @Entity(name = "com.mac.green_leaves.v1.master.employee.model.MEmployee")
 @Table(name = "m_employee")
-public class MEmployee implements Serializable{
+public class MEmployee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,45 +43,45 @@ public class MEmployee implements Serializable{
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "type")
-    private String type;
-
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 25)
     @Column(name = "nic_number")
-    private String nicNo;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "mobile_number")
-    private String mobileNo;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "telephone_number")
-    private String telephoneNo;
-    
+    private String nicNumber;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
     @Column(name = "address_line1")
     private String addressLine1;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "address_line2")
     private String addressLine2;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "address_line3")
     private String addressLine3;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "mobile_number")
+    private String mobileNumber;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Column(name = "telephone_number")
+    private String telephoneNumber;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "type")
+    private String type;
 
     public MEmployee() {
     }
@@ -110,36 +110,12 @@ public class MEmployee implements Serializable{
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getNicNumber() {
+        return nicNumber;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getNicNo() {
-        return nicNo;
-    }
-
-    public void setNicNo(String nicNo) {
-        this.nicNo = nicNo;
-    }
-
-    public String getMobileNo() {
-        return mobileNo;
-    }
-
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
-    }
-
-    public String getTelephoneNo() {
-        return telephoneNo;
-    }
-
-    public void setTelephoneNo(String telephoneNo) {
-        this.telephoneNo = telephoneNo;
+    public void setNicNumber(String nicNumber) {
+        this.nicNumber = nicNumber;
     }
 
     public String getAddressLine1() {
@@ -165,5 +141,29 @@ public class MEmployee implements Serializable{
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
     }
- 
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

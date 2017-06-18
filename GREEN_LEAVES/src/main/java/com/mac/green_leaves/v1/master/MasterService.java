@@ -29,11 +29,15 @@ public class MasterService<Model> {
     public int totalItems(String keyword, Integer branch, Class modelClass) {
         return masterRepository.totalItems(keyword, branch, modelClass);
     }
-    
-    
+
     @Transactional
     public int save(Model model) {
         return masterRepository.save(model);
+    }
+
+    @Transactional
+    public void update(Model model) {
+        masterRepository.update(model);
     }
 
     @Transactional

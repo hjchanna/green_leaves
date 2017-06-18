@@ -1,0 +1,18 @@
+<div>
+    <div class="col-xs-12">
+        <table>
+            <tr>
+                <th>CLIENT</th>
+                <th>ROUTE</th>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-12 smart-scroll-y" style="height: calc(100vh - 150px);">
+        <table class="table-hover">
+            <tr ng-repeat="data in model.list|filter:model.keyword" ng-click="ui.select(data);" ng-class="model.data.indexNo===data.indexNo?'selected':''">
+                <td><label class="label label-default">{{data.clientNumber|fixedLength:5}}</label> {{data.name}}</td>
+                <td>{{model.routeLabel(data.route)}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
